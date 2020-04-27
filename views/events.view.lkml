@@ -101,6 +101,12 @@ view: events {
     sql: ${TABLE}.ltv ;;
   }
 
+  dimension: ltv_tier {
+    type: tier
+    tiers: [0,1,10,100]
+    sql: ${ltv} ;;
+  }
+
   dimension: payer {
     type: yesno
     sql: ${TABLE}.payer ;;

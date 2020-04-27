@@ -98,12 +98,17 @@ view: events {
 
   dimension: ltv {
     type: number
+    description: "total spend over the player's lifetime"
+    label: "lifetime spend"
     sql: ${TABLE}.ltv ;;
   }
 
   dimension: ltv_tier {
     type: tier
     tiers: [0,1,10,100]
+    style: integer
+    label: "lifetime spend tier"
+    description: "spender bucket"
     sql: ${ltv} ;;
   }
 

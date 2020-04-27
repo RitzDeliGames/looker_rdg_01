@@ -100,7 +100,7 @@ view: events {
     type: number
     description: "total spend over the player's lifetime at the time of the event"
     label: "lifetime spend"
-    sql: ${TABLE}.ltv ;;
+    sql: ${TABLE}.ltv / 100 ;;
   }
 
   dimension: ltv_tier {

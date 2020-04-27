@@ -203,6 +203,6 @@ view: events {
   measure: max_ltv {
     type: max
     sql: ${ltv} ;;
-    value_format: "usd"
+    value_format_name: usd
   }
 }

@@ -10,7 +10,6 @@ datagroup: rdg_default_datagroup {
 
 persist_with: rdg_default_datagroup
 
-# explore: events {}
+explore: events {}
 
 # explore: round_events {}
-

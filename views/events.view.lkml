@@ -199,4 +199,9 @@ view: events {
     type: count
     drill_fields: [event_name]
   }
+
+  measure: unique_payers {
+    type: count_distinct
+    drill_fields: [event_name]
+  }
 }

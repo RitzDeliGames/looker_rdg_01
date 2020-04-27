@@ -98,7 +98,7 @@ view: events {
 
   dimension: ltv {
     type: number
-    description: "total spend over the player's lifetime"
+    description: "total spend over the player's lifetime at the time of the event"
     label: "lifetime spend"
     sql: ${TABLE}.ltv ;;
   }
@@ -200,8 +200,9 @@ view: events {
     drill_fields: [event_name]
   }
 
-  measure: unique_payers {
-    type: count_distinct
-    drill_fields: [event_name]
+  measure: max_ltv {
+    type: max
+    sql: ${ltv} ;;
+    value_format: "usd"
   }
 }

@@ -1,4 +1,4 @@
-view: events {
+view: round_end_events {
   sql_table_name: `eraser-blast.game_data.events`
     ;;
 
@@ -202,6 +202,7 @@ view: events {
 
   measure: max_ltv {
     type: max
+    label: "total lifetime spend"
     sql: ${ltv} ;;
     value_format_name: usd
   }

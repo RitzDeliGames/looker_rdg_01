@@ -11,7 +11,3 @@ datagroup: rdg_default_datagroup {
 persist_with: rdg_default_datagroup
 
 explore: events {}
-
-explore: round_end {
-  sql_always_where: event_name = 'round_end' ;;
-}

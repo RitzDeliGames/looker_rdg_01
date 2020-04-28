@@ -1,4 +1,4 @@
-view: round_end_events {
+view: events {
   sql_table_name: `eraser-blast.game_data.events`
     ;;
 

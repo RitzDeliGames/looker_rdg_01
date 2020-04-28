@@ -15,5 +15,3 @@ explore: events {}
 explore: round_end {
   sql_always_where: event_name = 'round_end' ;;
 }
-
-# explore: round_events {}

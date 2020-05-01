@@ -16,7 +16,7 @@ explore: round_end {
   sql_always_where:
     event_name = "round_end"
     AND JSON_EXTRACT(${extra_json},'$.team_slot_0') IS NOT NULL
-    AND user_type != "unit_test";;#internal_
+    AND user_type NOT IN ("unit_test","internal_editor")
 }
 
 explore: transaction {

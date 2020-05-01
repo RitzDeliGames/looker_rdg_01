@@ -15,3 +15,7 @@ explore: events {}
 explore: round_end {
   sql_always_where: event_name = "round_end" ;;
 }
+
+explore: transaction {
+  sql_always_where: event_name = "transaction" ;;
+}

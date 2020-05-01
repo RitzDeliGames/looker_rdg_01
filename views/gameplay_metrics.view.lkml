@@ -1,6 +1,6 @@
 include: "events.view"
 
-view: round_end {
+view: gameplay_metrics {
   extends: [events]
 
   dimension: eraser {

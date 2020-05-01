@@ -15,7 +15,7 @@ explore: events {
     user_type NOT IN ('internal_editor', 'unit_test');;
 }
 
-explore: round_end {
+explore: gameplay_metrics {
   sql_always_where:
     event_name = "round_end"
     AND JSON_EXTRACT(${extra_json},'$.team_slot_0') IS NOT NULL

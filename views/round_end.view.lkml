@@ -45,12 +45,84 @@ view: round_end {
     sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},'$.xp_earned'),'"','') as NUMERIC) ;;
   }
 
+  ##### MEASURES #####
+
   measure: total_coins_earned {
     type: sum
     label: "total coins earned"
     description: "sum of coins earned in a single round"
     sql: ${coins_earned} ;;
   }
+
+  measure: 1_min_boxplot {
+    group_label: "BoxPlot"
+    #required_fields: [skill_used.character_skill_used]
+    type: min
+    sql: CASE
+      WHEN  {% parameter boxplot_type %} = "coins earned"
+      THEN ${coins_earned}
+      WHEN  {% parameter boxplot_type %} = "points scored"
+      THEN ${score_earned}
+      WHEN  {% parameter boxplot_type %} = "xp earned"
+      THEN ${xp_earned}
+    END  ;;
+  }
+
+  measure: 5_max_boxplot {
+    group_label: "BoxPlot"
+    type: max
+    sql: CASE
+      WHEN  {% parameter boxplot_type %} = "coins earned"
+      THEN ${coins_earned}
+      WHEN  {% parameter boxplot_type %} = "points scored"
+      THEN ${score_earned}
+      WHEN  {% parameter boxplot_type %} = "xp earned"
+      THEN ${xp_earned}
+    END  ;;
+  }
+
+  measure: 3_median_boxplot {
+    group_label: "BoxPlot"
+    type: median
+    sql: CASE
+      WHEN  {% parameter boxplot_type %} = "coins earned"
+      THEN ${coins_earned}
+      WHEN  {% parameter boxplot_type %} = "points scored"
+      THEN ${score_earned}
+      WHEN  {% parameter boxplot_type %} = "xp earned"
+      THEN ${xp_earned}
+    END  ;;
+  }
+
+  measure: 2_25th_boxplot {
+    group_label: "BoxPlot"
+    type: percentile
+    percentile: 25
+    sql: CASE
+      WHEN  {% parameter boxplot_type %} = "coins earned"
+      THEN ${coins_earned}
+      WHEN  {% parameter boxplot_type %} = "points scored"
+      THEN ${score_earned}
+      WHEN  {% parameter boxplot_type %} = "xp earned"
+      THEN ${xp_earned}
+    END  ;;
+  }
+
+  measure: 4_75th_boxplot {
+    group_label: "BoxPlot"
+    type: percentile
+    percentile: 75
+    sql: CASE
+      WHEN  {% parameter boxplot_type %} = "coins earned"
+      THEN ${coins_earned}
+      WHEN  {% parameter boxplot_type %} = "points scored"
+      THEN ${score_earned}
+      WHEN  {% parameter boxplot_type %} = "xp earned"
+      THEN ${xp_earned}
+    END  ;;
+  }
+
+  ##### PARAMETERS #####
 
   parameter: boxplot_type {
     type: string

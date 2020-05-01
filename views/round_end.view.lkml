@@ -49,6 +49,10 @@ view: round_end {
     hidden: yes
   }
 
+  dimension: event_name {
+    hidden: yes
+  }
+
   ##### MEASURES #####
 
   measure: total_coins_earned {

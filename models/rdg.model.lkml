@@ -18,9 +18,9 @@ explore: events {
 explore: round_end {
   sql_always_where:
     event_name = "round_end"
-    AND JSON_EXTRACT(${extra_json},'$.team_slot_0') IS NOT NULL
+    AND JSON_EXTRACT(${extra_json},'$.team_slot_0') IS NOT NULL;;
 }
 
 explore: transaction {
-  sql_always_where: event_name = "transaction" ;;
+  sql_always_where: event_name = 'transaction' ;;
 }

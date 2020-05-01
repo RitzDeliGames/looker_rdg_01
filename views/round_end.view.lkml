@@ -45,6 +45,10 @@ view: round_end {
     sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},'$.xp_earned'),'"','') as NUMERIC) ;;
   }
 
+  dimension: ltv {
+    hidden: yes
+  }
+
   ##### MEASURES #####
 
   measure: total_coins_earned {

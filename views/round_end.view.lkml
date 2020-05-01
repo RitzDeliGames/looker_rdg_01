@@ -55,8 +55,8 @@ view: round_end {
   }
 
   measure: 1_min_boxplot {
-    group_label: "BoxPlot"
-    #required_fields: [skill_used.character_skill_used]
+    group_label: "bloxplot"
+    label: "min"
     type: min
     sql: CASE
       WHEN  {% parameter boxplot_type %} = "coins earned"
@@ -69,7 +69,8 @@ view: round_end {
   }
 
   measure: 5_max_boxplot {
-    group_label: "BoxPlot"
+    group_label: "bloxplot"
+    label: "max"
     type: max
     sql: CASE
       WHEN  {% parameter boxplot_type %} = "coins earned"
@@ -82,7 +83,8 @@ view: round_end {
   }
 
   measure: 3_median_boxplot {
-    group_label: "BoxPlot"
+    group_label: "bloxplot"
+    label: "median"
     type: median
     sql: CASE
       WHEN  {% parameter boxplot_type %} = "coins earned"
@@ -95,7 +97,8 @@ view: round_end {
   }
 
   measure: 2_25th_boxplot {
-    group_label: "BoxPlot"
+    group_label: "bloxplot"
+    label: "inner quartile"
     type: percentile
     percentile: 25
     sql: CASE
@@ -109,7 +112,8 @@ view: round_end {
   }
 
   measure: 4_75th_boxplot {
-    group_label: "BoxPlot"
+    group_label: "bloxplot"
+    label: "outer quartile"
     type: percentile
     percentile: 75
     sql: CASE

@@ -52,4 +52,20 @@ view: round_end {
     sql: ${coins_earned} ;;
   }
 
+  parameter: boxplot_type {
+    type: string
+    allowed_value: {
+      label: "coins earned"
+      value: "coins earned"
+    }
+    allowed_value: {
+      label: "points scored"
+      value: "points scored"
+    }
+    allowed_value: {
+      label: "xp earned"
+      value: "xp earned"
+    }
+  }
+
 }

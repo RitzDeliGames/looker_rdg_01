@@ -64,6 +64,7 @@ view: events {
 
   dimension: extra_json {
     type: string
+    hidden: yes
     sql: ${TABLE}.extra_json ;;
   }
 

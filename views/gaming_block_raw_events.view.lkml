@@ -27,6 +27,18 @@ view: gaming_block_raw_events {
     sql: 'campaign_1' ;;
   }
 
+#UPDATE
+  dimension: install_cost {
+    type: number
+    sql: 1.2 ;;
+  }
+
+#UPDATE
+  dimension: install_source {
+    type: string
+    sql: 'facebook' ;;
+  }
+
 #UPDATE - USING EVENTS VIEW
   #dimension: country {
     #type: string
@@ -83,11 +95,11 @@ view: gaming_block_raw_events {
   }
 
   #UPDATE - USING EVENTS VIEW
-  dimension: event_name {
-    type: string
+  #dimension: event_name {
+    #type: string
     #sql: 'kill_player' ;;
-    sql: ${TABLE}.event_name ;;
-  }
+    #sql: ${TABLE}.event_name ;;
+  #}
 
   #UPDATE - USING EVENTS VIEW
   #dimension: game_name {
@@ -107,18 +119,6 @@ view: gaming_block_raw_events {
   #  type: number
   #  sql: 0.5 ;; #PULL OUT TRANSACTION SQL
   #}
-
-#UPDATE
-  dimension: install_cost {
-    type: number
-    sql: 1.2 ;;
-  }
-
-#UPDATE
-  dimension: install_source {
-    type: string
-    sql: 'facebook' ;;
-  }
 
   #UPDATE - USING EVENTS VIEW
   #dimension: user_id {

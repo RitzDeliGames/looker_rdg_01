@@ -133,15 +133,28 @@ view: events {
 
 ###
 
-  dimension: coins {
+###PLAYER INVENTORY DIMENSIONS###
+  dimension: coins { #we can probably drop this if everything is packed into currencies
     type: number
     sql: ${TABLE}.coins ;;
   }
 
-  dimension: currencies {
+  dimension: gems {#we can probably drop this if everything is packed into currencies
+    type: number
+    sql: ${TABLE}.gems ;;
+  }
+
+  dimension: tickets {
+    type: string
+    sql: ${TABLE}.tickets ;;
+  }
+
+  dimension: currencies {#this requires unpacking
     type: string
     sql: ${TABLE}.currencies ;;
   }
+
+###
 
   dimension: current_card {
     type: string
@@ -157,11 +170,6 @@ view: events {
     type: string
     hidden: yes
     sql: ${TABLE}.extra_json ;;
-  }
-
-  dimension: gems {
-    type: number
-    sql: ${TABLE}.gems ;;
   }
 
   dimension_group: last_payment {
@@ -207,11 +215,6 @@ view: events {
   dimension: session_id {
     type: string
     sql: ${TABLE}.session_id ;;
-  }
-
-  dimension: tickets {
-    type: string
-    sql: ${TABLE}.tickets ;;
   }
 
   dimension_group: timestamp {

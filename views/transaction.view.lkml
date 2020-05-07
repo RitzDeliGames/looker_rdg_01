@@ -17,4 +17,11 @@ view: transaction {
     sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},'$."transaction_purchase_amount"'),'"','') as NUMERIC);;
   }
 
+  dimension: iap_revenue {
+    type: number
+    label: "iap revenue"
+    description: "real money transactions as reported by Big Query"
+    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},'$."transaction_purchase_amount"'),'"','') as NUMERIC) WHERE REPLACE(JSON_EXTRACT(extra_json,"$.transaction_purchase_currency"),'"','') = "CURRENCY_01";;
+  }
+
 }

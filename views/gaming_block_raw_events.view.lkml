@@ -1,5 +1,10 @@
+include: "events.view"
+
 view: gaming_block_raw_events {
-  sql_table_name: eraser-blast.game_data.events;;
+  extends: [events]
+
+#view: gaming_block_raw_events {
+#  sql_table_name: eraser-blast.game_data.events;;
 
 #UPDATE - WHAT DOES THIS REPRESENT?
   dimension: unique_event_id {

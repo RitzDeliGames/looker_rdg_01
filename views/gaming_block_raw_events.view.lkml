@@ -61,11 +61,11 @@ view: gaming_block_raw_events {
     #sql: ${TABLE}.platform ;;
   #}
 
-#UPDATE - WHAT DOES THIS REPRESENT?
-  dimension: device_platform {
-    type: string
-    sql: ${TABLE}.device_platform ;;
-  }
+#UPDATE - USING EVENTS VIEW
+  #dimension: device_platform {
+    #type: string
+    #sql: ${TABLE}.device_platform ;;
+  #}
 
   dimension_group: event {
     type: time

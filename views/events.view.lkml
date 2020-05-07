@@ -73,6 +73,8 @@ view: events {
     sql: ${TABLE}.gems ;;
   }
 
+###DEVICE DIMENSIONS
+
   dimension: device_model {
     type: string
     sql: ${TABLE}.hardware ;;
@@ -83,6 +85,26 @@ view: events {
     sql: ${TABLE}.platform ;;
   }
 
+  #UPDATE - WHAT DOES THIS REPRESENT? Web vs Mobile? or mobile platforms
+  #UPDATE - NEEDS TO BE DERIVED BY THE DB
+  dimension: device_platform {
+    type: string
+    sql: 'iOS' ;;
+  }
+
+  #UPDATE - NEEDS TO BE DERIVED BY THE DB
+  dimension: device_brand {
+    type: string
+    sql: 'Apple' ;;
+  }
+
+  #UPDATE - NEEDS TO BE DERIVED BY THE DB
+  dimension: device_language {
+    type: string
+    sql: 'English' ;;
+  }
+
+###
   dimension_group: last_payment {
     type: time
     timeframes: [

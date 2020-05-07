@@ -2,9 +2,75 @@ view: events {
   sql_table_name: `eraser-blast.game_data.events`
     ;;
 
+###ID DIMENSIONS###
+
+  dimension: device_id {
+    type: string
+    sql: ${TABLE}.device_id ;;
+  }
+
+  dimension: user_id {
+    type: string
+    sql: ${TABLE}.user_id ;;
+  }
+
+  dimension: social_id {
+    type: string
+    sql: ${TABLE}.social_id ;;
+  }
+
+  dimension: rdg_id {
+    type: string
+    sql: ${TABLE}.rdg_id ;;
+  }
+
+###
+
+###DEVICE DIMENSIONS###
+
+  dimension: device_model {
+    type: string
+    sql: ${TABLE}.hardware ;;
+  }
+
+  dimension: device_os_version {
+    type: string
+    sql: ${TABLE}.platform ;;
+  }
+
+  #UPDATE - WHAT DOES THIS REPRESENT? Web vs Mobile? or mobile platforms
+  #UPDATE - NEEDS TO BE DERIVED BY THE DB
+  dimension: device_platform {
+    type: string
+    sql: 'iOS' ;;
+  }
+
+  #UPDATE - NEEDS TO BE DERIVED BY THE DB
+  dimension: device_brand {
+    type: string
+    sql: 'Apple' ;;
+  }
+
+  #UPDATE - NEEDS TO BE DERIVED BY THE DB
+  dimension: device_language {
+    type: string
+    sql: 'English' ;;
+  }
+
   dimension: battery_level {
     type: string
     sql: ${TABLE}.battery_level ;;
+  }
+
+###
+
+
+###GEO DIMENSIONS###
+
+  dimension: country {
+    type: string
+    map_layer_name: countries
+    sql: ${TABLE}.country ;;
   }
 
   dimension: city {
@@ -12,11 +78,13 @@ view: events {
     sql: ${TABLE}.city ;;
   }
 
-  dimension: country {
+  dimension: region {
     type: string
-    map_layer_name: countries
-    sql: ${TABLE}.country ;;
+    sql: ${TABLE}.region ;;
   }
+
+###
+
 
   dimension: coins {
     type: number
@@ -52,11 +120,6 @@ view: events {
     sql: ${TABLE}.current_card ;;
   }
 
-  dimension: device_id {
-    type: string
-    sql: ${TABLE}.device_id ;;
-  }
-
   dimension: event_name {
     type: string
     sql: ${TABLE}.event_name ;;
@@ -73,38 +136,6 @@ view: events {
     sql: ${TABLE}.gems ;;
   }
 
-###DEVICE DIMENSIONS
-
-  dimension: device_model {
-    type: string
-    sql: ${TABLE}.hardware ;;
-  }
-
-  dimension: device_os_version {
-    type: string
-    sql: ${TABLE}.platform ;;
-  }
-
-  #UPDATE - WHAT DOES THIS REPRESENT? Web vs Mobile? or mobile platforms
-  #UPDATE - NEEDS TO BE DERIVED BY THE DB
-  dimension: device_platform {
-    type: string
-    sql: 'iOS' ;;
-  }
-
-  #UPDATE - NEEDS TO BE DERIVED BY THE DB
-  dimension: device_brand {
-    type: string
-    sql: 'Apple' ;;
-  }
-
-  #UPDATE - NEEDS TO BE DERIVED BY THE DB
-  dimension: device_language {
-    type: string
-    sql: 'English' ;;
-  }
-
-###
   dimension_group: last_payment {
     type: time
     timeframes: [
@@ -150,24 +181,9 @@ view: events {
     sql: ${TABLE}.player_xp_level ;;
   }
 
-  dimension: rdg_id {
-    type: string
-    sql: ${TABLE}.rdg_id ;;
-  }
-
-  dimension: region {
-    type: string
-    sql: ${TABLE}.region ;;
-  }
-
   dimension: session_id {
     type: string
     sql: ${TABLE}.session_id ;;
-  }
-
-  dimension: social_id {
-    type: string
-    sql: ${TABLE}.social_id ;;
   }
 
   dimension: tickets {
@@ -203,10 +219,6 @@ view: events {
     sql: ${TABLE}.timestamp_insert ;;
   }
 
-  dimension: user_id {
-    type: string
-    sql: ${TABLE}.user_id ;;
-  }
 
   dimension: user_type {
     type: string

@@ -35,17 +35,17 @@ view: gaming_block_raw_events {
     #sql: ${TABLE}.country ;;
   #}
 
-#UPDATE
-  dimension: device_brand {
-    type: string
-    sql: 'Apple' ;;
-  }
+#UPDATE - USING EVENTS VIEW
+  #dimension: device_brand {
+    #type: string
+    #sql: 'Apple' ;;
+  #}
 
-#UPDATE
-  dimension: device_language {
-    type: string
-    sql: 'English' ;;
-  }
+#UPDATE - USING EVENTS VIEW
+  #dimension: device_language {
+    #type: string
+    #sql: 'English' ;;
+  #}
 
 #UPDATE - USING EVENTS VIEW
   #dimension: device_model {

@@ -248,7 +248,7 @@ view: events {
   dimension: unique_event_id {#is this correct? brought over from the gaming block
     primary_key: yes
     type: string
-    sql: ${TABLE}.timestamp ;;
+    sql: ${TABLE}.timestamp_insert ;;
   }
 
   dimension_group: event {#is this correct? brought over from the gaming block...can we use the client or big query timestamps instead?

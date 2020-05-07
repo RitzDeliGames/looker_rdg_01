@@ -2,6 +2,8 @@ view: events {
   sql_table_name: `eraser-blast.game_data.events`
     ;;
 
+###DIMENSIONS###
+
 ###GAME DIMENSIONS###
 
   dimension: game_name {
@@ -131,9 +133,50 @@ view: events {
     sql: ${TABLE}.consecutive_days ;;
   }
 
+  dimension: player_xp_level {
+    type: number
+    sql: ${TABLE}.player_xp_level ;;
+  }
+
+  dimension: ltv {
+    type: number
+    description: "total spend over the player's lifetime at the time of the event"
+    label: "lifetime spend"
+    sql: ${TABLE}.ltv / 100 ;;
+  }
+
+  dimension: ltv_tier {
+    type: tier
+    tiers: [0,1,10,100]
+    style: integer
+    label: "lifetime spend tier"
+    description: "spender bucket"
+    sql: ${ltv} ;;
+  }
+
+  dimension_group: last_payment {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.last_payment ;;
+  }
+
 ###
 
 ###PLAYER INVENTORY DIMENSIONS###
+
+  dimension: lives {
+    type: number
+    sql: ${TABLE}.lives ;;
+  }
+
   dimension: coins { #we can probably drop this if everything is packed into currencies
     type: number
     sql: ${TABLE}.coins ;;
@@ -156,10 +199,7 @@ view: events {
 
 ###
 
-  dimension: current_card {
-    type: string
-    sql: ${TABLE}.current_card ;;
-  }
+###SCHEMA DIMENSIONS###
 
   dimension: event_name {
     type: string
@@ -170,51 +210,6 @@ view: events {
     type: string
     hidden: yes
     sql: ${TABLE}.extra_json ;;
-  }
-
-  dimension_group: last_payment {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.last_payment ;;
-  }
-
-  dimension: lives {
-    type: number
-    sql: ${TABLE}.lives ;;
-  }
-
-  dimension: ltv {
-    type: number
-    description: "total spend over the player's lifetime at the time of the event"
-    label: "lifetime spend"
-    sql: ${TABLE}.ltv / 100 ;;
-  }
-
-  dimension: ltv_tier {
-    type: tier
-    tiers: [0,1,10,100]
-    style: integer
-    label: "lifetime spend tier"
-    description: "spender bucket"
-    sql: ${ltv} ;;
-  }
-
-  dimension: player_xp_level {
-    type: number
-    sql: ${TABLE}.player_xp_level ;;
-  }
-
-  dimension: session_id {
-    type: string
-    sql: ${TABLE}.session_id ;;
   }
 
   dimension_group: timestamp {
@@ -245,7 +240,44 @@ view: events {
     sql: ${TABLE}.timestamp_insert ;;
   }
 
+  dimension: session_id {
+    type: string
+    sql: ${TABLE}.session_id ;;
+  }
 
+  dimension: unique_event_id {#is this correct? brought over from the gaming block
+    primary_key: yes
+    type: string
+    sql: ${TABLE}.timestamp ;;
+  }
+
+  dimension_group: event {#is this correct? brought over from the gaming block...can we use the client or big query timestamps instead?
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: CURRENT_TIMESTAMP() ;;
+  }
+
+###
+
+###BINGO CARD DIMENSIONS###
+
+  dimension: current_card {
+    type: string
+    sql: ${TABLE}.current_card ;;
+  }
+
+###
+
+
+###MEASURES###
   measure: count {
     type: count
     drill_fields: [event_name]

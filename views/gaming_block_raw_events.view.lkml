@@ -8,12 +8,12 @@ view: gaming_block_raw_events {
 #view: gaming_block_raw_events {
 #  sql_table_name: eraser-blast.game_data.events;;
 
-#UPDATE - WHAT DOES THIS REPRESENT?
-  dimension: unique_event_id {
-    primary_key: yes
-    type: string
-    sql: 'abcdefg' ;;
-  }
+#UPDATE - USING EVENTS VIEW BT DOUBLE CHECK TO MAKE SURE IT IS CORRECT
+  #dimension: unique_event_id {
+   # primary_key: yes
+    #type: string
+    #sql: 'abcdefg' ;;
+  #}
 
 #LEAVE HARDCODED TO 0 UNTIL WE HAVE AD REVENUE
   dimension: ad_revenue {
@@ -79,20 +79,20 @@ view: gaming_block_raw_events {
     #sql: ${TABLE}.device_platform ;;
   #}
 
-#WHAT IS THIS????
-  dimension_group: event {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: CURRENT_TIMESTAMP() ;;
-  }
+#UPDATE - USING EVENTS VIEW...DOUBLE CHECK TO MAKE SURE IT IS CORRECT
+  #dimension_group: event {
+    #type: time
+    #timeframes: [
+      #raw,
+      #time,
+      #date,
+      #week,
+      #month,
+      #quarter,
+      #year
+    #]
+    #sql: CURRENT_TIMESTAMP() ;;
+  #}
 
   #UPDATE - USING EVENTS VIEW
   #dimension: event_name {
@@ -144,6 +144,6 @@ view: gaming_block_raw_events {
 
   measure: count {
     type: count
-    drill_fields: [events.game_name, campaign_name, event_name]
+    drill_fields: [events.game_name, campaign_name, events.event_name]
   }
 }

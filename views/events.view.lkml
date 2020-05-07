@@ -2,6 +2,20 @@ view: events {
   sql_table_name: `eraser-blast.game_data.events`
     ;;
 
+###GAME DIMENSIONS###
+
+  dimension: game_name {
+    type: string
+    sql: "ERASER BLAST" ;;
+  }
+
+  dimension: game_version {
+    type: string
+    sql: ${TABLE}.version ;;
+  }
+
+###
+
 ###ID DIMENSIONS###
 
   dimension: device_id {
@@ -85,19 +99,16 @@ view: events {
 
 ###
 
+###PLAYER DIMENSIONS###
 
-  dimension: coins {
-    type: number
-    sql: ${TABLE}.coins ;;
+  dimension: user_type {
+    type: string
+    sql: ${TABLE}.user_type ;;
   }
 
-  dimension: consecutive_days {
-    type: number
-    sql: ${TABLE}.consecutive_days ;;
-  }
-
-  dimension_group: created {
+  dimension_group: user_first_seen {
     type: time
+    group_label: "install date"
     timeframes: [
       raw,
       time,
@@ -108,6 +119,23 @@ view: events {
       year
     ]
     sql: ${TABLE}.created_at ;;
+  }
+
+  dimension: payer {
+    type: yesno
+    sql: ${TABLE}.payer ;;
+  }
+
+  dimension: consecutive_days {
+    type: number
+    sql: ${TABLE}.consecutive_days ;;
+  }
+
+###
+
+  dimension: coins {
+    type: number
+    sql: ${TABLE}.coins ;;
   }
 
   dimension: currencies {
@@ -171,11 +199,6 @@ view: events {
     sql: ${ltv} ;;
   }
 
-  dimension: payer {
-    type: yesno
-    sql: ${TABLE}.payer ;;
-  }
-
   dimension: player_xp_level {
     type: number
     sql: ${TABLE}.player_xp_level ;;
@@ -219,16 +242,6 @@ view: events {
     sql: ${TABLE}.timestamp_insert ;;
   }
 
-
-  dimension: user_type {
-    type: string
-    sql: ${TABLE}.user_type ;;
-  }
-
-  dimension: version {
-    type: string
-    sql: ${TABLE}.version ;;
-  }
 
   measure: count {
     type: count

@@ -67,6 +67,7 @@ view: gaming_block_raw_events {
     #sql: ${TABLE}.device_platform ;;
   #}
 
+#WHAT IS THIS????
   dimension_group: event {
     type: time
     timeframes: [
@@ -81,24 +82,27 @@ view: gaming_block_raw_events {
     sql: CURRENT_TIMESTAMP() ;;
   }
 
+  #UPDATE - USING EVENTS VIEW
   dimension: event_name {
     type: string
     #sql: 'kill_player' ;;
     sql: ${TABLE}.event_name ;;
   }
 
-  dimension: game_name {
-    type: string
-    sql: "ERASER BLAST" ;;
-  }
+  #UPDATE - USING EVENTS VIEW
+  #dimension: game_name {
+    #type: string
+    #sql: "ERASER BLAST" ;;
+  #}
 
-  dimension: game_version {
-    type: string
+  #UPDATE - USING EVENTS VIEW
+  #dimension: game_version {
+    #type: string
     #sql: '11' ;;
-    sql: ${TABLE}.version ;;
-  }
+    #sql: ${TABLE}.version ;;
+  #}
 
-#UPDATE - MOVED TO THE THE TRANSACTION VIEW
+#UPDATE - USING THE TRANSACTION VIEW
   #dimension: iap_revenue {
   #  type: number
   #  sql: 0.5 ;; #PULL OUT TRANSACTION SQL
@@ -116,29 +120,30 @@ view: gaming_block_raw_events {
     sql: 'facebook' ;;
   }
 
-  dimension: user_id {
-    type: string
-    sql: ${TABLE}.user_id ;;
-  }
+  #UPDATE - USING EVENTS VIEW
+  #dimension: user_id {
+    #type: string
+    #sql: ${TABLE}.user_id ;;
+  #}
 
-  dimension_group: user_first_seen {
+  #dimension_group: user_first_seen {
     #you might need to calculate this!
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+    #type: time
+    #timeframes: [
+      #raw,
+      #time,
+      #date,
+      #week,
+      #month,
+      #quarter,
+      #year
+    #]
     #sql: CURRENT_TIMESTAMP() ;;
-    sql:  ${TABLE}.created_at ;;
-  }
+    #sql:  ${TABLE}.created_at ;;
+  #}
 
   measure: count {
     type: count
-    drill_fields: [game_name, campaign_name, event_name]
+    drill_fields: [events.game_name, campaign_name, event_name]
   }
 }

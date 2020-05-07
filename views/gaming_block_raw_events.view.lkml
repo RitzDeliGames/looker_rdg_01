@@ -93,18 +93,10 @@ view: gaming_block_raw_events {
   }
 
 #UPDATE
-  dimension: iap_revenue {
-    type: number
-    sql: 0.5 ;; #PULL OUT TRANSACTION SQL
-  }
-
-#SELECT *,
-#CAST(REPLACE(JSON_EXTRACT(extra_json,"$.transaction_purchase_currency"),'"','') AS INT64) AS transaction_currency
-#FROM `eraser-blast.game_data.events`
-#WHERE event_name = "transaction"
-#AND user_type IN ("internal","external")
-#AND REPLACE(JSON_EXTRACT(extra_json,"$.transaction_purchase_currency"),'"','') = "CURRENCY_01"
-#ORDER BY timestamp DESC
+  #dimension: iap_revenue {
+  #  type: number
+  #  sql: 0.5 ;; #PULL OUT TRANSACTION SQL
+  #}
 
 #UPDATE
   dimension: install_cost {

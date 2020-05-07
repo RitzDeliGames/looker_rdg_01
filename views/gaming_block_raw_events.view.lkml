@@ -1,7 +1,8 @@
 include: "events.view"
+include: "transactions.view"
 
 view: gaming_block_raw_events {
-  extends: [events]
+  extends: [events, transactions]
 
 #view: gaming_block_raw_events {
 #  sql_table_name: eraser-blast.game_data.events;;

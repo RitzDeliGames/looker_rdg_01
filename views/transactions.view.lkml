@@ -1,6 +1,6 @@
 include: "events.view"
 
-view: transaction {
+view: transactions {
   extends: [events]
 
   dimension: transaction_currency {

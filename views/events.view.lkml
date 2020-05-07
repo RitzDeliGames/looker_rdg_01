@@ -12,6 +12,12 @@ view: events {
     sql: ${TABLE}.city ;;
   }
 
+  dimension: country {
+    type: string
+    map_layer_name: countries
+    sql: ${TABLE}.country ;;
+  }
+
   dimension: coins {
     type: number
     sql: ${TABLE}.coins ;;
@@ -20,12 +26,6 @@ view: events {
   dimension: consecutive_days {
     type: number
     sql: ${TABLE}.consecutive_days ;;
-  }
-
-  dimension: country {
-    type: string
-    map_layer_name: countries
-    sql: ${TABLE}.country ;;
   }
 
   dimension_group: created {
@@ -73,9 +73,14 @@ view: events {
     sql: ${TABLE}.gems ;;
   }
 
-  dimension: hardware {
+  dimension: device_model {
     type: string
     sql: ${TABLE}.hardware ;;
+  }
+
+  dimension: device_os_version {
+    type: string
+    sql: ${TABLE}.platform ;;
   }
 
   dimension_group: last_payment {
@@ -116,11 +121,6 @@ view: events {
   dimension: payer {
     type: yesno
     sql: ${TABLE}.payer ;;
-  }
-
-  dimension: platform {
-    type: string
-    sql: ${TABLE}.platform ;;
   }
 
   dimension: player_xp_level {

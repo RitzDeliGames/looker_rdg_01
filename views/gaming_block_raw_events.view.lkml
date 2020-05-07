@@ -4,6 +4,7 @@ include: "transactions.view"
 view: gaming_block_raw_events {
   extends: [events, transactions]
 
+#UPDATE - COMMENTED OUT B/C EXTENDING EVENTS AND TRANSACTIONS VIEWS
 #view: gaming_block_raw_events {
 #  sql_table_name: eraser-blast.game_data.events;;
 
@@ -14,47 +15,52 @@ view: gaming_block_raw_events {
     sql: 'abcdefg' ;;
   }
 
-#DELETE UNTIL WE HAVE AD REVENUE
+#LEAVE HARDCODED TO 0 UNTIL WE HAVE AD REVENUE
   dimension: ad_revenue {
     type: number
     sql: '0.0' ;;
   }
 
-#UPDATE
+#LEAVE HARDCODED TO 'campaign_1' UNTIL WE HAVE AD ANALYTICS SET UP
   dimension: campaign_name {
     type: string
     sql: 'campaign_1' ;;
   }
 
-  dimension: country {
-    type: string
-    map_layer_name: countries
+#UPDATE - USING EVENTS VIEW
+  #dimension: country {
+    #type: string
+    #map_layer_name: countries
     #sql: 'USA' ;;
-    sql: ${TABLE}.country ;;
-  }
+    #sql: ${TABLE}.country ;;
+  #}
 
 #UPDATE
   dimension: device_brand {
     type: string
-    sql: ${TABLE}.device_brand ;;
+    sql: 'Apple' ;;
   }
+
 #UPDATE
   dimension: device_language {
     type: string
-    sql: ${TABLE}.device_language ;;
+    sql: 'English' ;;
   }
 
-  dimension: device_model {
-    type: string
+#UPDATE - USING EVENTS VIEW
+  #dimension: device_model {
+    #type: string
     #sql: ${TABLE}.device_model ;;
-    sql: ${TABLE}.hardware ;;
-  }
+    #sql: ${TABLE}.hardware ;;
+  #}
 
-  dimension: device_os_version {
-    type: string
+#UPDATE - USING EVENTS VIEW
+  #dimension: device_os_version {
+    #type: string
     #sql: ${TABLE}.device_os_version ;;
-    sql: ${TABLE}.platform ;;
-  }
+    #sql: ${TABLE}.platform ;;
+  #}
+
 #UPDATE - WHAT DOES THIS REPRESENT?
   dimension: device_platform {
     type: string
@@ -92,7 +98,7 @@ view: gaming_block_raw_events {
     sql: ${TABLE}.version ;;
   }
 
-#UPDATE
+#UPDATE - MOVED TO THE THE TRANSACTION VIEW
   #dimension: iap_revenue {
   #  type: number
   #  sql: 0.5 ;; #PULL OUT TRANSACTION SQL

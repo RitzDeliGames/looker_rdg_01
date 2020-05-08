@@ -45,12 +45,16 @@ explore: transactions {
 explore: gaming_block_events {
   persist_with: events_raw
 
-  always_filter: {
-    filters: {
-      field: event_date
-      value: "last 7 days"
-    }
-  }
+  sql_always_where:
+    user_type NOT IN ("internal_editor", "unit_test");;
+
+
+  #always_filter: {
+    #filters: {
+      #field: event_date
+      #value: "last 7 days"
+    #}
+  #}
 
   join: gaming_block_session_facts {
     relationship: many_to_one
@@ -73,6 +77,10 @@ explore: gaming_block_events {
 explore: gaming_block_funnel_explorer {
   description: "Player Session Funnels"
   persist_for: "24 hours"
+
+  sql_always_where:
+    user_type NOT IN ("internal_editor", "unit_test");;
+
 
   always_filter: {
     filters: {
@@ -104,6 +112,11 @@ explore: gaming_block_funnel_explorer {
 explore: gaming_block_session_facts {
   label: "Sessions and Users"
   description: "Use this to look at a compressed view of Users and Sessions (without event level data)"
+
+  sql_always_where:
+    user_type NOT IN ("internal_editor", "unit_test");;
+
+
   join: gaming_block_user_facts {
     relationship: many_to_one
     sql_on: ${gaming_block_session_facts.user_id} = ${gaming_block_user_facts.user_id} ;;

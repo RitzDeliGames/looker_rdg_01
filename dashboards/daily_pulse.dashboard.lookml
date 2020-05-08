@@ -1159,7 +1159,7 @@
   - name: Game
     title: Game
     type: field_filter
-    default_value: Eraser Blast
+    default_value: ERASER BLAST
     allow_multiple_values: true
     required: false
     model: rdg

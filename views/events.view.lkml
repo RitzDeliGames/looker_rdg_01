@@ -262,7 +262,7 @@ view: events {
       quarter,
       year
     ]
-    sql: CURRENT_TIMESTAMP() ;;
+    sql: ${TABLE}.timestamp ;;
   }
 
 ###

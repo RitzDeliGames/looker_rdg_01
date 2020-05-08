@@ -46,7 +46,7 @@ explore: gaming_block_events {
   persist_with: events_raw
 
   sql_always_where:
-    user_type NOT IN ("internal_editor", "unit_test","ugs");;
+    user_type NOT IN ("internal_editor", "unit_test","ugs","bot");;
 
   #always_filter: {
     #filters: {
@@ -78,7 +78,7 @@ explore: gaming_block_funnel_explorer {
   persist_for: "24 hours"
 
   sql_always_where:
-    user_type NOT IN ("internal_editor", "unit_test","ugs");;
+    user_type NOT IN ("internal_editor", "unit_test","ugs","bot");;
 
 
   always_filter: {
@@ -113,7 +113,7 @@ explore: gaming_block_session_facts {
   description: "Use this to look at a compressed view of Users and Sessions (without event level data)"
 
   sql_always_where:
-    user_type NOT IN ("internal_editor", "unit_test","ugs");;
+    user_type NOT IN ("internal_editor", "unit_test","ugs","bot");;
 
 
   join: gaming_block_user_facts {

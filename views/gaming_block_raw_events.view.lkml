@@ -27,13 +27,13 @@ view: gaming_block_raw_events {
     sql: 'campaign_1' ;;
   }
 
-#UPDATE
+#LEAVE HARDCODED TO '1.2' UNTIL WE HAVE AD ANALYTICS SET UP
   dimension: install_cost {
     type: number
     sql: 1.2 ;;
   }
 
-#UPDATE
+#LEAVE HARDCODED TO 'facebook' UNTIL WE HAVE AD ANALYTICS SET UP
   dimension: install_source {
     type: string
     sql: 'facebook' ;;

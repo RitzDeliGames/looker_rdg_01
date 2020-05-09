@@ -1,6 +1,5 @@
 view: events {
-  sql_table_name: `eraser-blast.game_data.events`
-    ;;
+  sql_table_name: `eraser-blast.game_data.events`;;
 
 ###DIMENSIONS###
 

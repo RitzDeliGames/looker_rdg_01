@@ -14,7 +14,7 @@ view: transactions {
     type: number
     label: "transaction price"
     description: "the price of the IAP"
-    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},'$."transaction_purchase_amount"'),'"','') as NUMERIC);;
+    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},'$.transaction_purchase_amount'),'"','') as NUMERIC);;
   }
 
   dimension: iap_revenue {

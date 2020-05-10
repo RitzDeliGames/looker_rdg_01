@@ -36,7 +36,7 @@ explore: gameplay_metrics {
 
 explore: transactions {
   sql_always_where: event_name = "transaction"
-    AND user_type NOT IN ("unit_test");;
+    AND user_type NOT IN ("internal_editor", "unit_test");;
 }
 
 

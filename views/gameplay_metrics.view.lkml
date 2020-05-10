@@ -58,7 +58,14 @@ view: gameplay_metrics {
   measure: total_coins_earned {
     type: sum
     label: "total coins earned"
-    description: "sum of coins earned in a single round"
+    description: "sum of coins across the selected time dimension"
+    sql: ${coins_earned} ;;
+  }
+
+  measure: total_xp_earned {
+    type: sum
+    label: "total xp earned"
+    description: "sum of xp earned across the selected time dimension"
     sql: ${coins_earned} ;;
   }
 

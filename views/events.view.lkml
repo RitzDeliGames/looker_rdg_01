@@ -57,7 +57,12 @@ view: events {
   #UPDATE - NEEDS TO BE DERIVED BY THE DB
   dimension: device_platform {
     type: string
-    sql: 'iOS' ;;
+    sql: CASE
+          WHEN platform LIKE "%iOS%" THEN "Apple"
+          WHEN platform LIKE "%Android%" THEN "Google Play"
+        END ;;
+    #gameplay_metrics.platform LIKE '%Android%'
+    #gameplay_metrics.platform LIKE '%iOS%'
   }
 
   #UPDATE - NEEDS TO BE DERIVED BY THE DB

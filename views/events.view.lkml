@@ -43,7 +43,7 @@ view: events {
 
 ###DEVICE DIMENSIONS###
 
-  dimension: device_brand {
+  dimension: device_brand {#SHOULD WEB TRAFFIC GRAB PC OR BROWSER?
     type: string
     description: "the device manufacturer"
     sql:CASE

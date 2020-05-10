@@ -66,7 +66,14 @@ view: gameplay_metrics {
     type: sum
     label: "cumulative xp earned"
     description: "sum of xp earned across the selected time dimension"
-    sql: ${coins_earned} ;;
+    sql: ${xp_earned} ;;
+  }
+
+  measure: total_points_scored {
+    type: sum
+    label: "cumulative points scored"
+    description: "sum of xp earned across the selected time dimension"
+    sql: ${score_earned} ;;
   }
 
   measure: 1_min_boxplot {

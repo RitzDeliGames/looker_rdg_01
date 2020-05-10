@@ -315,4 +315,23 @@ view: events {
     sql: ${ltv} ;;
     value_format_name: usd
   }
+
+  measure: min_battery_level  {
+    type: min
+    label: "min battery level"
+    sql: ${battery_level} ;;
+  }
+
+  measure: max_battery_level  {
+    type: max
+    label: "max battery level"
+    sql: ${battery_level} ;;
+  }
+
+  measure: avg_battery_level  {
+    type: average
+    label: "avg battery level"
+    sql: ${battery_level} ;;
+  }
+
 }

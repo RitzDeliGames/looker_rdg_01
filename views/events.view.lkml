@@ -100,7 +100,7 @@ view: events {
   }
 
   dimension: battery_level {
-    type: string
+    type: number
     sql: ${TABLE}.battery_level ;;
   }
 

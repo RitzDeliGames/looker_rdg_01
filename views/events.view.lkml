@@ -43,6 +43,18 @@ view: events {
 
 ###DEVICE DIMENSIONS###
 
+  dimension: device_brand {
+    type: string
+    description: "the device manufacturer"
+    sql: CASE
+          WHEN platform LIKE "%iPhone%" THEN "Apple"
+          WHEN platform LIKE "%iPad%" THEN "Apple"
+          WHEN platform LIKE "%Pixel%" THEN "Google"
+          WHEN platform LIKE "%samsung%" THEN "Samsung"
+          WHEN platform LIKE "%LGE%" THEN "LGE"
+        END ;;
+  }
+
   dimension: device_model {
     type: string
     sql: ${TABLE}.hardware ;;
@@ -53,22 +65,12 @@ view: events {
     sql: ${TABLE}.platform ;;
   }
 
-  #UPDATE - WHAT DOES THIS REPRESENT? Web vs Mobile? or mobile platforms
-  #UPDATE - NEEDS TO BE DERIVED BY THE DB
   dimension: device_platform {
     type: string
     sql: CASE
           WHEN platform LIKE "%iOS%" THEN "Apple"
-          WHEN platform LIKE "%Android%" THEN "Google Play"
+          WHEN platform LIKE "%Android%" THEN "Google"
         END ;;
-    #gameplay_metrics.platform LIKE '%Android%'
-    #gameplay_metrics.platform LIKE '%iOS%'
-  }
-
-  #UPDATE - NEEDS TO BE DERIVED BY THE DB
-  dimension: device_brand {
-    type: string
-    sql: 'Apple' ;;
   }
 
   #UPDATE - NEEDS TO BE DERIVED BY THE DB

@@ -21,18 +21,76 @@ datagroup: events_raw {
   named_value_format: large_usd { value_format: "[>=1000000]\"$\"0.00,,\"M\";[>=1000]\"$\"0.00,\"K\";\"$\"0.00" }
   named_value_format: large_number { value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0" }
 
-##########GAMEPLAY EXPLORES##########
+##########EXPLORES##########
+
 explore: events {
   sql_always_where:
     user_type NOT IN ("internal_editor", "unit_test");;
 }
 
-explore: gameplay_metrics {
-  sql_always_where:
-    event_name = "round_end"
-    AND JSON_EXTRACT(${extra_json},"$.team_slot_0") IS NOT NULL
-    AND user_type NOT IN ("internal_editor", "unit_test");;
+explore: skill_used {
+  sql_always_where: event_name = 'round_end'
+    AND JSON_EXTRACT(extra_json, '$.team_slot_0') IS NOT NULL
+    AND ${eraser_skill_level} IS NOT NULL ;;
 }
+
+explore: chains_matches {
+  view_name: chains_matches_root
+  join: all_chains {
+    fields: [all_chains.all_chains]
+    relationship: one_to_one
+    from: chains_matches_root
+    sql: , UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.all_chains'))) as all_chains
+      ;;
+  }
+}
+
+explore: bubbles_d_n_p {
+  view_name: bubbles_dropped_popped
+  join: bubble_normal {
+    fields: [bubble_normal.bubble_normal]
+    relationship: one_to_many
+    from: bubbles_dropped_popped
+    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_normal'))) AS bubble_normal
+      ;;
+  }
+  join: bubble_coins {
+    fields: [bubble_coins.bubble_coins]
+    relationship: one_to_many
+    from: bubbles_dropped_popped
+    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_coins'))) AS bubble_coins
+      ;;
+  }
+  join: bubble_xp {
+    fields: [bubble_xp.bubble_xp]
+    relationship: one_to_many
+    from: bubbles_dropped_popped
+    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_xp'))) AS bubble_xp
+      ;;
+  }
+  join: bubble_time {
+    fields: [bubble_time.bubble_time]
+    relationship: one_to_many
+    from: bubbles_dropped_popped
+    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_time'))) AS bubble_time
+      ;;
+  }
+  join: bubble_score {
+    fields: [bubble_score.bubble_score]
+    relationship: one_to_many
+    from: bubbles_dropped_popped
+    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_score'))) AS bubble_score
+      ;;
+  }
+}
+
+explore: large_and_popped {}
+
+explore: round_length_query {}
+
+explore: fever_count_query {}
+
+explore: histogram_values_query {}
 
 explore: transactions {
   sql_always_where: event_name = "transaction"

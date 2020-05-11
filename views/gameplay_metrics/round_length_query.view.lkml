@@ -1,0 +1,135 @@
+view: round_length_query {
+  derived_table: {
+    sql: SELECT extra_json,
+FROM events
+WHERE event_name = 'round_end'
+AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
+ ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [detail*]
+  }
+
+  dimension: extra_json {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.extra_json ;;
+  }
+
+  dimension: round_x_axis {
+    type: string
+    sql: CASE WHEN ${TABLE}.extra_json IS NOT NULL THEN 'x'
+      END ;;
+  }
+
+  dimension: round_id {
+    type: string
+    sql: JSON_Value(extra_json,'$.round_id') ;;
+  }
+
+  dimension: team_slot_0 {
+    hidden: yes
+    type: string
+    sql: JSON_Value(extra_json,'$.team_slot_0') ;;
+  }
+
+  dimension: team_slot_skill_0 {
+    type: string
+    sql: JSON_Value(extra_json,'$.team_slot_skill_0') ;;
+  }
+
+  dimension: team_slot_level_0 {
+    type: string
+    sql: JSON_Value(extra_json,'$.team_slot_level_0') ;;
+  }
+
+  dimension: round_length {
+    type: number
+    sql: CAST(JSON_Value(extra_json,'$.round_length') AS NUMERIC) ;;
+  }
+
+  dimension: round_length_num {
+    type: number
+    sql: CAST(JSON_Value(extra_json,'$.round_length') AS NUMERIC) / 1000 ;;
+  }
+
+  dimension: character {
+    type: string
+    sql: JSON_EXTRACT(${extra_json},'$.team_slot_0');;
+  }
+
+# Round Length Boxplot
+
+  parameter: boxplot_rounds {
+    type: string
+    allowed_value: {
+      label: "round length"
+      value: "round length"
+    }
+  }
+
+
+  measure: 1_min_boxplot {
+    group_label: "BoxPlot"
+    type: min
+    sql: CASE
+      WHEN  {% parameter boxplot_rounds %} = 'round length'
+      THEN ${round_length_num}
+    END  ;;
+  }
+
+  measure: 5_max_boxplot {
+    group_label: "BoxPlot"
+    type: max
+    sql: CASE
+      WHEN  {% parameter boxplot_rounds %} = 'round length'
+      THEN ${round_length_num}
+    END  ;;
+  }
+
+  measure: 3_median_boxplot {
+    group_label: "BoxPlot"
+    type: median
+    sql: CASE
+      WHEN  {% parameter boxplot_rounds %} = 'round length'
+      THEN ${round_length_num}
+    END  ;;
+  }
+
+  measure: 2_25th_boxplot {
+    group_label: "BoxPlot"
+    type: percentile
+    percentile: 25
+    sql: CASE
+      WHEN  {% parameter boxplot_rounds %} = 'round length'
+      THEN ${round_length_num}
+    END  ;;
+  }
+
+  measure: 4_75th_boxplot {
+    group_label: "BoxPlot"
+    type: percentile
+    percentile: 75
+    sql: CASE
+      WHEN  {% parameter boxplot_rounds %} = 'round length'
+      THEN ${round_length_num}
+    END  ;;
+  }
+
+
+  set: detail {
+    fields: [
+      extra_json,
+      round_id,
+      team_slot_0,
+      team_slot_skill_0,
+      team_slot_level_0,
+      round_length,
+      round_length_num,
+      round_x_axis,
+      character,
+    ]
+  }
+}

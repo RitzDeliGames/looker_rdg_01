@@ -127,6 +127,30 @@ view: events {
 
 ###
 
+###UA DIMENSIONS###
+
+#LEAVE HARDCODED TO 'facebook' UNTIL WE HAVE AD ANALYTICS SET UP
+  dimension: install_source {
+    label: "install source"
+    description: "paid vs organic install source"
+    type: string
+    sql: 'facebook' ;;
+  }
+
+#LEAVE HARDCODED TO '0.1' UNTIL WE HAVE AD ANALYTICS SET UP
+  dimension: install_cost {
+    type: number
+    sql: 0.1 ;;
+  }
+
+#LEAVE HARDCODED TO 'campaign_1' UNTIL WE HAVE AD ANALYTICS SET UP
+  dimension: campaign_name {
+    type: string
+    sql: 'campaign_1' ;;
+  }
+
+###
+
 ###PLAYER DIMENSIONS###
 
   dimension: user_type {
@@ -147,26 +171,6 @@ view: events {
       year
     ]
     sql: ${TABLE}.created_at ;;
-  }
-
-  #LEAVE HARDCODED TO 'facebook' UNTIL WE HAVE AD ANALYTICS SET UP
-  dimension: install_source {
-    label: "install source"
-    description: "paid vs organic install source"
-    type: string
-    sql: 'facebook' ;;
-  }
-
-#LEAVE HARDCODED TO '0.1' UNTIL WE HAVE AD ANALYTICS SET UP
-  dimension: install_cost {
-    type: number
-    sql: 0.1 ;;
-  }
-
-#LEAVE HARDCODED TO 'campaign_1' UNTIL WE HAVE AD ANALYTICS SET UP
-  dimension: campaign_name {
-    type: string
-    sql: 'campaign_1' ;;
   }
 
   dimension: payer {

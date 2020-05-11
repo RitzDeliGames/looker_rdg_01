@@ -144,6 +144,6 @@ view: gaming_block_raw_events {
 
   measure: count {
     type: count
-    drill_fields: [events.game_name, campaign_name, events.event_name]
+    drill_fields: [events.game_name, events.campaign_name, events.event_name]
   }
 }

@@ -218,29 +218,54 @@ view: events {
 
 ###PLAYER INVENTORY DIMENSIONS###
 
+  dimension: gems {
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_02'),'"','') as NUMERIC);;
+  }
+
+  dimension: coins {
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_03'),'"','') as NUMERIC);;
+  }
+
   dimension: lives {
     type: number
-    sql: ${TABLE}.lives ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_04'),'"','') as NUMERIC);;
   }
 
-  dimension: coins { #we can probably drop this if everything is packed into currencies
+  dimension: box_002_tickets {
     type: number
-    sql: ${TABLE}.coins ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_002'),'"','') as NUMERIC);;
   }
 
-  dimension: gems {#we can probably drop this if everything is packed into currencies
+  dimension: box_007_tickets {
     type: number
-    sql: ${TABLE}.gems ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_007'),'"','') as NUMERIC);;
   }
 
-  dimension: tickets {
-    type: string
-    sql: ${TABLE}.tickets ;;
+  dimension: score_tickets {
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.SCORE'),'"','') as NUMERIC);;
   }
 
-  dimension: currencies {#this requires unpacking
-    type: string
-    sql: ${TABLE}.currencies ;;
+  dimension: bubble_tickets {
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.BUBBLE'),'"','') as NUMERIC);;
+  }
+
+  dimension: time_tickets {
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.TIME'),'"','') as NUMERIC);;
+  }
+
+  dimension: five_to_four_tickets {
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.FIVE_TO_FOUR'),'"','') as NUMERIC);;
+  }
+
+  dimension: exp_tickets {
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.EXP'),'"','') as NUMERIC);;
   }
 
 ###

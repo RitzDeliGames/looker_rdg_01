@@ -223,60 +223,70 @@ view: events {
 ###PLAYER INVENTORY DIMENSIONS###
 
   dimension: gems {
+    group_label: "currencies"
     label: "gems"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_02'),'"','') as NUMERIC);;
   }
 
   dimension: coins {
+    group_label: "currencies"
     label: "coins"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_03'),'"','') as NUMERIC);;
   }
 
   dimension: lives {
+    group_label: "currencies"
     label: "lives"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_04'),'"','') as NUMERIC);;
   }
 
   dimension: box_002_tickets {
+    group_label: "box tickets"
     label: "super fun box tickets"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_002'),'"','') as NUMERIC);;
   }
 
   dimension: box_007_tickets {
+    group_label: "box tickets"
     label: "house pet box tickets"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_007'),'"','') as NUMERIC);;
   }
 
   dimension: score_tickets {
+    group_label: "boosts"
     label: "score boosts"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.SCORE'),'"','') as NUMERIC);;
   }
 
   dimension: bubble_tickets {
+    group_label: "boosts"
     label: "bubble boosts"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.BUBBLE'),'"','') as NUMERIC);;
   }
 
   dimension: time_tickets {
+    group_label: "boosts"
     label: "time boosts"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.TIME'),'"','') as NUMERIC);;
   }
 
   dimension: five_to_four_tickets {
+    group_label: "boosts"
     label: "5-to-4 boosts"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.FIVE_TO_FOUR'),'"','') as NUMERIC);;
   }
 
   dimension: exp_tickets {
+    group_label: "boosts"
     label: "xp boosts"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.EXP'),'"','') as NUMERIC);;

@@ -4,40 +4,40 @@ include: "transactions.view"
 view: gaming_block_raw_events {
   extends: [events, transactions]
 
+#LEAVE HARDCODED TO 0 UNTIL WE HAVE AD REVENUE
+  dimension: ad_revenue {
+    type: number
+    sql:0 ;;
+  }
+
+#UPDATE - USING EVENTS VIEW
+  #dimension: campaign_name {
+    #type: string
+    #sql: 'campaign_1' ;;
+  #}
+
+#UPDATE - USING EVENTS VIEW
+  #dimension: install_cost {
+    #type: number
+    #sql: 0.1 ;;
+  #}
+
+#UPDATE - USING EVENTS VIEW
+  #dimension: install_source {
+    #type: string
+    #sql: 'facebook' ;;
+  #}
+
 #UPDATE - COMMENTED OUT B/C EXTENDING EVENTS AND TRANSACTIONS VIEWS
 #view: gaming_block_raw_events {
 #  sql_table_name: eraser-blast.game_data.events;;
 
-#UPDATE - USING EVENTS VIEW BT DOUBLE CHECK TO MAKE SURE IT IS CORRECT
+#UPDATE - USING EVENTS VIEW
   #dimension: unique_event_id {
    # primary_key: yes
     #type: string
     #sql: 'abcdefg' ;;
   #}
-
-#LEAVE HARDCODED TO 0 UNTIL WE HAVE AD REVENUE
-  dimension: ad_revenue {
-    type: number
-    sql: '0.0' ;;
-  }
-
-#LEAVE HARDCODED TO 'campaign_1' UNTIL WE HAVE AD ANALYTICS SET UP
-  dimension: campaign_name {
-    type: string
-    sql: 'campaign_1' ;;
-  }
-
-#LEAVE HARDCODED TO '1.2' UNTIL WE HAVE AD ANALYTICS SET UP
-  dimension: install_cost {
-    type: number
-    sql: 1.2 ;;
-  }
-
-#LEAVE HARDCODED TO 'facebook' UNTIL WE HAVE AD ANALYTICS SET UP
-  dimension: install_source {
-    type: string
-    sql: 'facebook' ;;
-  }
 
 #UPDATE - USING EVENTS VIEW
   #dimension: country {

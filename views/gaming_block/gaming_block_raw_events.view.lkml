@@ -1,5 +1,5 @@
-include: "events.view"
-include: "transactions.view"
+include: "/views/**/events.view"
+include: "/views/**/transactions.view"
 
 view: gaming_block_raw_events {
   extends: [events, transactions]

@@ -219,51 +219,61 @@ view: events {
 ###PLAYER INVENTORY DIMENSIONS###
 
   dimension: gems {
+    label: "gems"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_02'),'"','') as NUMERIC);;
   }
 
   dimension: coins {
+    label: "coins"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_03'),'"','') as NUMERIC);;
   }
 
   dimension: lives {
+    label: "lives"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_04'),'"','') as NUMERIC);;
   }
 
   dimension: box_002_tickets {
+    label: "super fun box tickets"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_002'),'"','') as NUMERIC);;
   }
 
   dimension: box_007_tickets {
+    label: "house pet box tickets"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_007'),'"','') as NUMERIC);;
   }
 
   dimension: score_tickets {
+    label: "score boosts"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.SCORE'),'"','') as NUMERIC);;
   }
 
   dimension: bubble_tickets {
+    label: "bubble boosts"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.BUBBLE'),'"','') as NUMERIC);;
   }
 
   dimension: time_tickets {
+    label: "time boosts"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.TIME'),'"','') as NUMERIC);;
   }
 
   dimension: five_to_four_tickets {
+    label: "5-to-4 boosts"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.FIVE_TO_FOUR'),'"','') as NUMERIC);;
   }
 
   dimension: exp_tickets {
+    label: "xp boosts"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.EXP'),'"','') as NUMERIC);;
   }

@@ -93,9 +93,9 @@ explore: fever_count_query {}
 
 explore: frame_count_hist_query {}
 
-explore: transactions {
+explore: iap_query {
   sql_always_where: event_name = "transaction"
-    AND user_type NOT IN ("internal_editor", "unit_test");;
+    AND  user_type = "external";;
 }
 
 
@@ -105,7 +105,7 @@ explore: gaming_block_events {
   persist_with: events_raw
 
   sql_always_where:
-    user_type NOT IN ("internal_editor", "unit_test","ugs","bot");;
+    user_type = "external";;
 
   #always_filter: {
     #filters: {
@@ -137,7 +137,7 @@ explore: gaming_block_funnel_explorer {
   persist_for: "24 hours"
 
   sql_always_where:
-    user_type NOT IN ("internal_editor", "unit_test","ugs","bot");;
+    user_type = "external";;
 
 
   always_filter: {

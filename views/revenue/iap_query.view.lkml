@@ -1,6 +1,6 @@
 include: "/views/**/events.view"
 
-view: transactions {
+view: iap_query {
   extends: [events]
 
   dimension: iap_revenue {

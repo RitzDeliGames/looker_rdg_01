@@ -92,7 +92,7 @@ explore: fever_count_query {}
 
 explore: histogram_values_query {}
 
-explore: transactions {
+explore: iap_query {
   sql_always_where: event_name = "transaction"
     AND  user_type = "external";;
 }

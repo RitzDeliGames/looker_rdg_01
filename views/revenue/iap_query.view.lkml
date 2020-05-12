@@ -7,12 +7,7 @@ view: iap_query {
     type: number
     label: "iap revenue"
     description: "the price of the IAP"
-    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},'$.transaction_purchase_amount'),'"','') as NUMERIC) / 100;;
-  }
-
-  measure: iap_sum {
-    type: sum
-    sql: ${iap_revenue} ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},'$.transaction_purchase_amount'),'"','') as NUMERIC);;
   }
 
 }

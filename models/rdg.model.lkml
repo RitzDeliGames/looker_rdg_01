@@ -94,8 +94,7 @@ explore: histogram_values_query {}
 
 explore: transactions {
   sql_always_where: event_name = "transaction"
-    AND user_type NOT IN ("internal_editor", "unit_test","internal")
-    AND JSON_EXTRACT(extra_json,"$.transaction_id") IS NOT NULL;;
+    AND user_type NOT IN ("internal_editor", "unit_test");;
 }
 
 

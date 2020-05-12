@@ -1,8 +1,8 @@
 include: "/views/**/events.view"
-include: "/views/**/transactions.view"
+include: "/views/**/iap_query.view"
 
 view: gaming_block_raw_events {
-  extends: [events, transactions]
+  extends: [events, iap_query]
 
 #LEAVE HARDCODED TO 0 UNTIL WE HAVE AD REVENUE
   dimension: ad_revenue {

@@ -11,8 +11,8 @@ view: events {
   }
 
   dimension: game_version {
-    type: string
-    sql: ${TABLE}.version ;;
+    type: number
+    sql: CAST(${TABLE}.version AS NUMERIC);;
   }
 
 ###

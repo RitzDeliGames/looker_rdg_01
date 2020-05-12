@@ -94,9 +94,15 @@ explore: histogram_values_query {}
 
 explore: iap_query {
   sql_always_where: event_name = "transaction"
-    AND  user_type = "external";;
+    AND user_type NOT IN ("internal_editor", "unit_test")
+    AND ${game_version} > 1212;;
 }
 
+explore: transactions_query {
+  sql_always_where: event_name = "transaction"
+    AND user_type NOT IN ("internal_editor", "unit_test")
+    AND ${game_version} > 1212;;
+}
 
 ##########GAMING BLOCK EXPLORES##########
 

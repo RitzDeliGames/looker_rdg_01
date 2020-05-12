@@ -40,8 +40,9 @@ explore: chains_matches {
     fields: [all_chains.all_chains]
     relationship: one_to_one
     from: chains_matches_root
-    sql: , UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.all_chains'))) as all_chains
+    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.all_chains'))) as all_chains
       ;;
+
   }
 }
 
@@ -90,7 +91,7 @@ explore: round_length_query {}
 
 explore: fever_count_query {}
 
-explore: histogram_values_query {}
+explore: frame_count_hist_query {}
 
 explore: transactions {
   sql_always_where: event_name = "transaction"

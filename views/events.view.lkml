@@ -49,7 +49,7 @@ view: events {
 ###DEVICE DIMENSIONS###
 
   dimension: device_brand {#SHOULD WEB TRAFFIC GRAB PC OR BROWSER?
-    group_label: "device and os dimensions"
+    group_label: "device & os dimensions"
     type: string
     description: "the device manufacturer"
     sql:CASE
@@ -64,13 +64,13 @@ view: events {
   }
 
   dimension: device_model {
-    group_label: "device and os dimensions"
+    group_label: "device & os dimensions"
     type: string
     sql: ${TABLE}.hardware ;;
   }
 
   dimension: device_os_version {
-    group_label: "device and os dimensions"
+    group_label: "device & os dimensions"
     type: string
     label: "device OS (major)"
     sql:CASE
@@ -87,14 +87,14 @@ view: events {
   }
 
   dimension: device_os_version_minor {
-    group_label: "device and os dimensions"
+    group_label: "device & os dimensions"
     type: string
     label: "device OS (minor)"
     sql: ${TABLE}.platform ;;
   }
 
   dimension: device_platform {
-    group_label: "device and os dimensions"
+    group_label: "device & os dimensions"
     type: string
     sql: CASE
           WHEN ${TABLE}.platform LIKE "%iOS%" THEN "Apple"
@@ -105,13 +105,13 @@ view: events {
 
   #UPDATE - NEEDS TO BE DERIVED BY THE DB
   dimension: device_language {
-    group_label: "device and os dimensions"
+    group_label: "device & os dimensions"
     type: string
     sql: 'English' ;;
   }
 
   dimension: battery_level {
-    group_label: "device and os dimensions"
+    group_label: "device & os dimensions"
     type: number
     sql: ${TABLE}.battery_level ;;
   }

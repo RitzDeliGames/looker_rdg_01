@@ -21,12 +21,14 @@ datagroup: events_raw {
   named_value_format: large_usd { value_format: "[>=1000000]\"$\"0.00,,\"M\";[>=1000]\"$\"0.00,\"K\";\"$\"0.00" }
   named_value_format: large_number { value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0" }
 
-##########EXPLORES##########
+##########GENERAL EXPLORES##########
 
 explore: events {
   sql_always_where:
     user_type NOT IN ("internal_editor", "unit_test");;
 }
+
+##########GAMEPLAY EXPLORES##########
 
 explore: skill_used {
   sql_always_where: event_name = 'round_end'
@@ -90,7 +92,11 @@ explore: round_length_query {}
 
 explore: fever_count_query {}
 
+##########TECHNICAL EXPLORES##########
+
 explore: histogram_values_query {}
+
+##########IAP EXPLORES##########
 
 explore: iap_query {
   sql_always_where: event_name = "transaction"

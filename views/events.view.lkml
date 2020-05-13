@@ -7,6 +7,7 @@ view: events {
 
   dimension: game_name {
     type: string
+    hidden: yes
     sql: "ERASER BLAST" ;;
   }
 
@@ -20,21 +21,25 @@ view: events {
 ###PLAYER ID DIMENSIONS###
 
   dimension: device_id {
+    group_label: "id dimensions"
     type: string
     sql: ${TABLE}.device_id ;;
   }
 
   dimension: user_id {
+    group_label: "id dimensions"
     type: string
     sql: ${TABLE}.user_id ;;
   }
 
   dimension: social_id {
+    group_label: "id dimensions"
     type: string
     sql: ${TABLE}.social_id ;;
   }
 
   dimension: rdg_id {
+    group_label: "id dimensions"
     type: string
     sql: ${TABLE}.rdg_id ;;
   }
@@ -44,6 +49,7 @@ view: events {
 ###DEVICE DIMENSIONS###
 
   dimension: device_brand {#SHOULD WEB TRAFFIC GRAB PC OR BROWSER?
+    group_label: "device and os dimensions"
     type: string
     description: "the device manufacturer"
     sql:CASE
@@ -58,11 +64,13 @@ view: events {
   }
 
   dimension: device_model {
+    group_label: "device and os dimensions"
     type: string
     sql: ${TABLE}.hardware ;;
   }
 
   dimension: device_os_version {
+    group_label: "device and os dimensions"
     type: string
     label: "device OS (major)"
     sql:CASE
@@ -79,12 +87,14 @@ view: events {
   }
 
   dimension: device_os_version_minor {
+    group_label: "device and os dimensions"
     type: string
     label: "device OS (minor)"
     sql: ${TABLE}.platform ;;
   }
 
   dimension: device_platform {
+    group_label: "device and os dimensions"
     type: string
     sql: CASE
           WHEN ${TABLE}.platform LIKE "%iOS%" THEN "Apple"
@@ -95,11 +105,13 @@ view: events {
 
   #UPDATE - NEEDS TO BE DERIVED BY THE DB
   dimension: device_language {
+    group_label: "device and os dimensions"
     type: string
     sql: 'English' ;;
   }
 
   dimension: battery_level {
+    group_label: "device and os dimensions"
     type: number
     sql: ${TABLE}.battery_level ;;
   }
@@ -110,17 +122,20 @@ view: events {
 ###GEO DIMENSIONS###
 
   dimension: country {
+    group_label: "geo dimensions"
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
   }
 
   dimension: city {
+    group_label: "geo dimensions"
     type: string
     sql: ${TABLE}.city ;;
   }
 
   dimension: region {
+    group_label: "geo dimensions"
     type: string
     sql: ${TABLE}.region ;;
   }

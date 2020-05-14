@@ -1,7 +1,10 @@
-include: "gaming_block_raw_events.view.lkml"
-view: gaming_block_events {
-  extends: [gaming_block_raw_events]
+include: "/views/**/events.view"
+include: "/views/**/iap_query.view"
+include: "/views/**/ad_query.view"
 
+#include: "gaming_block_raw_events.view.lkml"
+view: gaming_block_events {
+  extends: [events,iap_query,ad_query]
 
 # Drill Selector
   parameter: drill_by {

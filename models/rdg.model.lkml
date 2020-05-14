@@ -21,12 +21,14 @@ datagroup: events_raw {
   named_value_format: large_usd { value_format: "[>=1000000]\"$\"0.00,,\"M\";[>=1000]\"$\"0.00,\"K\";\"$\"0.00" }
   named_value_format: large_number { value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0" }
 
-##########EXPLORES##########
+##########GENERAL EXPLORES##########
 
 explore: events {
   sql_always_where:
     user_type NOT IN ("internal_editor", "unit_test");;
 }
+
+##########GAMEPLAY EXPLORES##########
 
 explore: skill_used {
   sql_always_where: event_name = 'round_end'
@@ -150,11 +152,23 @@ explore: fever_count_query {}
 
 explore: frame_count_hist_query {}
 
+##########TECHNICAL EXPLORES##########
+
+
+##########IAP EXPLORES##########
+
 explore: iap_query {
   sql_always_where: event_name = "transaction"
-    AND  user_type = "external";;
+    AND JSON_EXTRACT(extra_json,"$.transaction_id") IS NOT NULL
+    AND user_type NOT IN ("internal_editor", "unit_test")
+    AND ${game_version} > 1212;;
 }
 
+explore: transactions_query {
+  sql_always_where: event_name = "transaction"
+    AND user_type NOT IN ("internal_editor", "unit_test")
+    AND ${game_version} > 1212;;
+}
 
 ##########GAMING BLOCK EXPLORES##########
 
@@ -162,7 +176,8 @@ explore: gaming_block_events {
   persist_with: events_raw
 
   sql_always_where:
-    user_type = "external";;
+    user_type = "external"
+    AND ${game_version} > 1212;;
 
   #always_filter: {
     #filters: {

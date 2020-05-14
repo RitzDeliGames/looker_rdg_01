@@ -150,10 +150,9 @@ explore: round_length_query {}
 
 explore: fever_count_query {}
 
+##########TECHNICAL EXPLORES#########
+
 explore: frame_count_hist_query {}
-
-##########TECHNICAL EXPLORES##########
-
 
 ##########IAP EXPLORES##########
 

@@ -85,7 +85,64 @@ explore: bubbles_d_n_p {
   }
 }
 
-explore: large_and_popped {}
+explore: hist_frame_vals {
+  view_name: test_histogram
+  join: frame_time_histogram {
+    fields: [frame_time_histogram.frame_time_histogram]
+    from: test_histogram
+    relationship: one_to_one
+    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json,'$.frame_time_histogram_values'))) AS frame_time_histogram WITH OFFSET
+      ;;
+  }
+  join: frame_count {
+    fields: [frame_count.frame_count]
+    from: test_histogram
+    relationship: one_to_one
+    sql: SUM(CAST(frame_time_histogram AS INT64))
+      ;;
+  }
+  join: ms_per_frame {
+    fields: [ms_per_frame.ms_per_frame]
+    from: test_histogram
+    relationship: one_to_one
+    sql: SUM(CAST(frame_time_histogram AS INT64))
+         OFFSET AS ms_per_frame
+         GROUP BY ms_per_frame
+         ORDER BY ms_per_frame ASC
+    ;;
+  }
+}
+
+#CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, {{ test_large_and_popped.character._parameter_value | concat: test_large_and_popped.large_._parameter_value }}))) AS large
+# CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, {% test_large_and_popped.character %}))) AS large_popped
+
+explore: TEST_dropped_popped {
+  view_name: test_large_and_popped
+  join: large {
+    fields: [large.large]
+    from: test_large_and_popped
+    relationship: one_to_one
+      sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large
+      ;;
+  }
+  join: large_popped {
+    fields: [large_popped.large_popped]
+    from: test_large_and_popped
+    relationship: one_to_one
+    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large_popped
+      ;;
+  }
+}
+
+##########################################
+
+explore: test_histogram {}
+
+# explore: test_large_and_popped {}
+#
+# explore: test_large_n_dropped_query {}
+
+##########################################
 
 explore: round_length_query {}
 

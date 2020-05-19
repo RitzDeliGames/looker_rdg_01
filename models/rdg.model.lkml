@@ -28,6 +28,26 @@ explore: events {
     user_type NOT IN ("internal_editor", "unit_test");;
 }
 
+
+##########BINGO CARDS##########
+
+
+explore: bingo_cards_query {}
+
+
+# explore: len_card_st_completed {
+#   view_name: bingo_cards_query
+#   join: len {
+#     fields: [len.len]
+#     relationship: one_to_one
+#     from: bingo_cards_query
+#     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT(extra_json, '$.card_state_completed'))) AS len
+#       ;;
+#   }
+# }
+
+
+
 ##########GAMEPLAY EXPLORES##########
 
 explore: skill_used {
@@ -115,10 +135,8 @@ explore: hist_frame_vals {
   }
 }
 
-#CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, {{ test_large_and_popped.character._parameter_value | concat: test_large_and_popped.large_._parameter_value }}))) AS large
-# CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, {% test_large_and_popped.character %}))) AS large_popped
 
-explore: TEST_dropped_popped {
+explore: dropped_popped {
   view_name: test_large_and_popped
   join: large {
     fields: [large.large]
@@ -136,25 +154,23 @@ explore: TEST_dropped_popped {
   }
 }
 
-##########################################
+explore: round_length_query {}
 
-explore: test_histogram {}
+explore: fever_count_query {}
+
+##########################################
 
 # explore: test_large_and_popped {}
 #
 # explore: test_large_n_dropped_query {}
 
-##########################################
+##########TECHNICAL EXPLORES##############
 
-explore: round_length_query {}
-
-explore: fever_count_query {}
-
-##########TECHNICAL EXPLORES#########
+explore: test_histogram {}
 
 explore: frame_count_hist_query {}
 
-##########IAP EXPLORES##########
+##########IAP EXPLORES####################
 
 explore: iap_query {
   sql_always_where: event_name = "transaction"

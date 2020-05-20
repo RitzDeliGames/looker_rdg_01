@@ -9,7 +9,8 @@ view: skill_used {
       FROM
         events
         CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.{% parameter character %}_skill_used'))) AS character_skill_used
-    WHERE JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
+    WHERE event_name = 'round_end'
+    AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     ;;
   }
 

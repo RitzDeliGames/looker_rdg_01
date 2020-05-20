@@ -51,9 +51,9 @@ explore: bingo_cards_query {}
 ##########GAMEPLAY EXPLORES##########
 
 explore: skill_used {
-  sql_always_where: event_name = 'round_end'
-    AND JSON_EXTRACT(extra_json, '$.team_slot_0') IS NOT NULL
-    AND ${eraser_skill_level} IS NOT NULL ;;
+#   sql_always_where: event_name = 'round_end'
+#     AND JSON_EXTRACT(extra_json, '$.team_slot_0') IS NOT NULL
+#     AND ${eraser_skill_level} IS NOT NULL ;;
 }
 
 explore: chains_matches {

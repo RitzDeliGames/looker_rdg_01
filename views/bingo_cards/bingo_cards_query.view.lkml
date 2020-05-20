@@ -125,7 +125,7 @@ view: bingo_cards_query {
 
   dimension: length_progress {
     type: number
-    sql:  ARRAY_LENGTH(${card_state_completed}) ;;
+    sql:  ARRAY_LENGTH(${card_state_progress}) ;;
   }
 
 
@@ -180,7 +180,7 @@ view: bingo_cards_query {
 
   measure: length_avg_state {
     type: average
-    sql: ${card_state} ;;
+    sql: ${length_card_state} ;;
   }
 
   measure: count {

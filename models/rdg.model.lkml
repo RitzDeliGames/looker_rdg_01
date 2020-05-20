@@ -32,28 +32,24 @@ explore: events {
 ##########BINGO CARDS##########
 
 
-explore: bingo_cards_query {}
-
-
-# explore: len_card_st_completed {
-#   view_name: bingo_cards_query
-#   join: len {
-#     fields: [len.len]
-#     relationship: one_to_one
-#     from: bingo_cards_query
-#     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT(extra_json, '$.card_state_completed'))) AS len
-#       ;;
-#   }
-# }
+explore: bingo_cards_main {}
 
 
 
 ##########GAMEPLAY EXPLORES##########
 
+explore: coins_xp_score {
+  sql_always_where: event_name = "round_end"
+  AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
+  AND user_type NOT IN ("internal_editor", "unit_test")
+  ;;
+}
+
+
 explore: skill_used {
-#   sql_always_where: event_name = 'round_end'
-#     AND JSON_EXTRACT(extra_json, '$.team_slot_0') IS NOT NULL
-#     AND ${eraser_skill_level} IS NOT NULL ;;
+#    sql_always_where: event_name = 'round_end'
+#      AND JSON_EXTRACT(extra_json, '$.team_slot_0') IS NOT NULL
+#      AND ${eraser_skill_level} IS NOT NULL ;;
 }
 
 explore: chains_matches {
@@ -106,6 +102,7 @@ explore: bubbles_d_n_p {
       ;;
   }
 }
+
 
 explore: hist_frame_vals {
   view_name: test_histogram

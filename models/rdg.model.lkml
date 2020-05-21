@@ -28,6 +28,10 @@ explore: events {
     user_type NOT IN ("internal_editor", "unit_test");;
 }
 
+explore: fue_funnel {
+  sql_always_where:
+  user_type NOT IN ("internal_editor", "unit_test","bots","ugs");;
+}
 
 ##########BINGO CARDS##########
 
@@ -47,7 +51,6 @@ explore: A_coins_xp_score_query {
   AND user_type NOT IN ("internal_editor", "unit_test")
   ;;
 }
-
 
 explore: skill_used {
 #    sql_always_where: event_name = 'round_end'
@@ -106,7 +109,6 @@ explore: bubbles_d_n_p {
   }
 }
 
-
 explore: hist_frame_vals {
   view_name: test_histogram
   join: frame_time_histogram {
@@ -134,7 +136,6 @@ explore: hist_frame_vals {
     ;;
   }
 }
-
 
 explore: dropped_popped {
   view_name: test_large_and_popped

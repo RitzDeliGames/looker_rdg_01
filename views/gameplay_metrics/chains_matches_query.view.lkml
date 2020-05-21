@@ -1,4 +1,4 @@
-view: chains_matches_root {
+view: chains_matches_query {
   derived_table: {
     sql: SELECT extra_json,
                 user_type,
@@ -22,6 +22,11 @@ view: chains_matches_root {
   dimension: extra_json {
     type: string
     sql: ${TABLE}.extra_json ;;
+  }
+
+  dimension: eraser {
+    type: string
+    sql: JSON_EXTRACT_SCALAR(${extra_json},'$.team_slot_0') ;;
   }
 
   dimension: user_type {
@@ -67,7 +72,7 @@ view: chains_matches_root {
   }
 
 
-##################################
+  #####################_BOXPLOTS_#####################
 
 
   parameter: boxplot_ {
@@ -88,6 +93,19 @@ view: chains_matches_root {
 
 
   measure: 1_min_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Total Chains"
+      url: "{{ link }}&sorts=chains_matches_query.total_chains+desc"
+    }
+    link: {
+      label: "Drill and sort by Chains per Second"
+      url: "{{ link }}&sorts=chains_matches_query.chains_per_second+desc"
+    }
+    link: {
+      label: "Drill and sort by All Chains"
+      url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
+    }
     group_label: "BoxPlot"
     type: min
     sql: CASE
@@ -101,6 +119,19 @@ view: chains_matches_root {
   }
 
   measure: 5_max_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Total Chains"
+      url: "{{ link }}&sorts=chains_matches_query.total_chains+desc"
+    }
+    link: {
+      label: "Drill and sort by Chains per Second"
+      url: "{{ link }}&sorts=chains_matches_query.chains_per_second+desc"
+    }
+    link: {
+      label: "Drill and sort by All Chains"
+      url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
+    }
     group_label: "BoxPlot"
     type: max
     sql: CASE
@@ -114,6 +145,19 @@ view: chains_matches_root {
   }
 
   measure: 3_median_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Total Chains"
+      url: "{{ link }}&sorts=chains_matches_query.total_chains+desc"
+    }
+    link: {
+      label: "Drill and sort by Chains per Second"
+      url: "{{ link }}&sorts=chains_matches_query.chains_per_second+desc"
+    }
+    link: {
+      label: "Drill and sort by All Chains"
+      url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
+    }
     group_label: "BoxPlot"
     type: median
     sql: CASE
@@ -127,6 +171,19 @@ view: chains_matches_root {
   }
 
   measure: 2_25th_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Total Chains"
+      url: "{{ link }}&sorts=chains_matches_query.total_chains+desc"
+    }
+    link: {
+      label: "Drill and sort by Chains per Second"
+      url: "{{ link }}&sorts=chains_matches_query.chains_per_second+desc"
+    }
+    link: {
+      label: "Drill and sort by All Chains"
+      url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
+    }
     group_label: "BoxPlot"
     type: percentile
     percentile: 25
@@ -141,6 +198,19 @@ view: chains_matches_root {
   }
 
   measure: 4_75th_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Total Chains"
+      url: "{{ link }}&sorts=chains_matches_query.total_chains+desc"
+    }
+    link: {
+      label: "Drill and sort by Chains per Second"
+      url: "{{ link }}&sorts=chains_matches_query.chains_per_second+desc"
+    }
+    link: {
+      label: "Drill and sort by All Chains"
+      url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
+    }
     group_label: "BoxPlot"
     type: percentile
     percentile: 75
@@ -155,15 +225,16 @@ view: chains_matches_root {
   }
 
 
-#############
+###############
 
   set: detail {
-    fields: [platform,
+    fields: [eraser,
       user_type,
-      round_length,
       total_chains,
       chains_per_second,
-      all_chains
+      all_chains.all_chains,
+      platform,
+      round_length
     ]
   }
 }

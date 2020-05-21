@@ -1,6 +1,7 @@
-view: coins_xp_score {
+view: A_coins_xp_score_query {
 
   sql_table_name: eraser-blast.game_data.events ;;
+
 
   # Dimensions
 
@@ -181,27 +182,7 @@ view: coins_xp_score {
     sql: ${TABLE}.player_xp_level ;;
   }
 
-# CHAINS AND MATCHES DIMENSIONS
 
-#   dimension: round_length {
-#     type: number
-#     sql: CAST(JSON_Value(${extra_json},'$.round_length') AS NUMERIC) / 1000  ;;
-#   }
-#
-#   dimension: total_chains {
-#     type: number
-#     sql: CAST(JSON_Value(extra_json,'$.total_chains') AS NUMERIC)  ;;
-#   }
-#
-#   dimension: chains_per_second {
-#     type: number
-#     sql: 1.0*${round_length} / NULLIF(${total_chains},0) ;;
-#   }
-#
-#   dimension: all_chains {
-#     type: number
-#     sql: all_chains ;;
-#   }
 
 # MEASURES
 
@@ -266,6 +247,19 @@ view: coins_xp_score {
   }
 
   measure: 1_min_boxplot {
+    drill_fields: [coins_earned, xp_earned, score_earned, player_xp, eraser, eraser_skill_level, user_details*]
+    link: {
+      label: "Drill and sort by coins earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.coins_earned+desc"
+    }
+    link: {
+      label: "Drill and sort by XP earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.xp_earned+desc"
+    }
+    link: {
+      label: "Drill and sort by score earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.score_earned+desc"
+    }
     group_label: "BoxPlot"
     #required_fields: [skill_used.character_skill_used]
     type: min
@@ -282,6 +276,19 @@ view: coins_xp_score {
   }
 
   measure: 5_max_boxplot {
+    drill_fields: [coins_earned, xp_earned, score_earned, player_xp, eraser, eraser_skill_level, user_details*]
+    link: {
+      label: "Drill and sort by coins earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.coins_earned+desc"
+    }
+    link: {
+      label: "Drill and sort by XP earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.xp_earned+desc"
+    }
+    link: {
+      label: "Drill and sort by score earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.score_earned+desc"
+    }
     group_label: "BoxPlot"
     type: max
     sql: CASE
@@ -295,6 +302,19 @@ view: coins_xp_score {
   }
 
   measure: 3_median_boxplot {
+    drill_fields: [coins_earned, xp_earned, score_earned, player_xp, eraser, eraser_skill_level, user_details*]
+    link: {
+      label: "Drill and sort by coins earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.coins_earned+desc"
+    }
+    link: {
+      label: "Drill and sort by XP earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.xp_earned+desc"
+    }
+    link: {
+      label: "Drill and sort by score earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.score_earned+desc"
+    }
     group_label: "BoxPlot"
     type: median
     sql: CASE
@@ -308,6 +328,19 @@ view: coins_xp_score {
   }
 
   measure: 2_25th_boxplot {
+    drill_fields: [coins_earned, xp_earned, score_earned, player_xp, eraser, eraser_skill_level, user_details*]
+    link: {
+      label: "Drill and sort by coins earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.coins_earned+desc"
+    }
+    link: {
+      label: "Drill and sort by XP earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.xp_earned+desc"
+    }
+    link: {
+      label: "Drill and sort by score earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.score_earned+desc"
+    }
     group_label: "BoxPlot"
     type: percentile
     percentile: 25
@@ -322,6 +355,19 @@ view: coins_xp_score {
   }
 
   measure: 4_75th_boxplot {
+    drill_fields: [coins_earned, xp_earned, score_earned, player_xp, eraser, eraser_skill_level, user_details*]
+    link: {
+      label: "Drill and sort by coins earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.coins_earned+desc"
+    }
+    link: {
+      label: "Drill and sort by XP earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.xp_earned+desc"
+    }
+    link: {
+      label: "Drill and sort by score earned"
+      url: "{{ link }}&sorts=A_coins_xp_score_query.score_earned+desc"
+    }
     group_label: "BoxPlot"
     type: percentile
     percentile: 75
@@ -335,91 +381,7 @@ view: coins_xp_score {
     END  ;;
   }
 
-#
-#   parameter: boxplot_CM {
-#     type: string
-#     allowed_value: {
-#       label: "total chains"
-#       value: "total chains"
-#     }
-#     allowed_value: {
-#       label: "chains per second"
-#       value: "chains per second"
-#     }
-#     allowed_value: {
-#       label: "all chains"
-#       value: "all chains"
-#     }
-#   }
-#
-# # Boxplots CHAINS AND MATCHES #
-#
-#   measure: CM_1_min_boxplot {
-#     group_label: "BoxPlot"
-#     type: min
-#     sql: CASE
-#       WHEN  {% parameter boxplot_CM %} = 'total chains'
-#       THEN ${total_chains}
-#       WHEN  {% parameter boxplot_CM %} = 'chains per second'
-#       THEN ${chains_per_second}
-#       WHEN  {% parameter boxplot_CM %} = 'all chains'
-#       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
-#     END  ;;
-#   }
-#
-#   measure: CM_5_max_boxplot_CM {
-#     group_label: "BoxPlot"
-#     type: max
-#     sql: CASE
-#       WHEN  {% parameter boxplot_CM %} = 'total chains'
-#       THEN ${total_chains}
-#       WHEN  {% parameter boxplot_CM %} = 'chains per second'
-#       THEN ${chains_per_second}
-#       WHEN  {% parameter boxplot_CM %} = 'all chains'
-#       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
-#     END  ;;
-#   }
-#
-#   measure: CM_3_median_boxplot_CM {
-#     group_label: "BoxPlot"
-#     type: median
-#     sql: CASE
-#       WHEN  {% parameter boxplot_CM %} = 'total chains'
-#       THEN ${total_chains}
-#       WHEN  {% parameter boxplot_CM %} = 'chains per second'
-#       THEN ${chains_per_second}
-#       WHEN  {% parameter boxplot_CM %} = 'all chains'
-#       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
-#     END  ;;
-#   }
-#
-#   measure: CM_2_25th_boxplot_CM {
-#     group_label: "BoxPlot"
-#     type: percentile
-#     percentile: 25
-#     sql: CASE
-#       WHEN  {% parameter boxplot_CM %} = 'total chains'
-#       THEN ${total_chains}
-#       WHEN  {% parameter boxplot_CM %} = 'chains per second'
-#       THEN ${chains_per_second}
-#       WHEN  {% parameter boxplot_CM %} = 'all chains'
-#       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
-#     END  ;;
-#   }
-#
-#   measure: CM_4_75th_boxplot_CM {
-#     group_label: "BoxPlot"
-#     type: percentile
-#     percentile: 75
-#     sql: CASE
-#       WHEN  {% parameter boxplot_CM %} = 'total chains'
-#       THEN ${total_chains}
-#       WHEN  {% parameter boxplot_CM %} = 'chains per second'
-#       THEN ${chains_per_second}
-#       WHEN  {% parameter boxplot_CM %} = 'all chains'
-#       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
-#     END  ;;
-#   }
+
 
 
 ################################
@@ -458,6 +420,10 @@ view: coins_xp_score {
   # }
 
 ####################################
+
+  #drill_fields: [coins_earned, xp_earned, player_xp, score_earned, eraser, eraser_skill_level, user_details*]
+
+
 
 
   set: user_details {

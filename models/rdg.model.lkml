@@ -38,7 +38,10 @@ explore: bingo_cards_main {}
 
 ##########GAMEPLAY EXPLORES##########
 
-explore: coins_xp_score {
+
+# COINS; XP & SCORE EARNED QUERY:
+
+explore: A_coins_xp_score_query {
   sql_always_where: event_name = "round_end"
   AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
   AND user_type NOT IN ("internal_editor", "unit_test")
@@ -52,12 +55,12 @@ explore: skill_used {
 #      AND ${eraser_skill_level} IS NOT NULL ;;
 }
 
-explore: chains_matches {
-  view_name: chains_matches_root
+explore: chains_matches_query_ii {
+  view_name: chains_matches_query
   join: all_chains {
     fields: [all_chains.all_chains]
-    relationship: one_to_one
-    from: chains_matches_root
+    relationship: many_to_one
+    from: chains_matches_query
     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.all_chains'))) as all_chains
       ;;
 

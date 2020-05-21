@@ -1,6 +1,6 @@
 view: round_length_query {
   derived_table: {
-    sql: SELECT extra_json,
+    sql: SELECT extra_json, user_type
 FROM events
 WHERE event_name = 'round_end'
 AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
@@ -60,6 +60,11 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     sql: JSON_EXTRACT(${extra_json},'$.team_slot_0');;
   }
 
+  dimension: user_type {
+    type: string
+    sql: ${TABLE}.user_type ;;
+  }
+
 # Round Length Boxplot
 
   parameter: boxplot_rounds {
@@ -72,6 +77,11 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 
 
   measure: 1_min_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Round Length"
+      url: "{{ link }}&sorts=round_length_query.round_length_num+desc"
+    }
     group_label: "BoxPlot"
     type: min
     sql: CASE
@@ -81,6 +91,11 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
   }
 
   measure: 5_max_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Round Length"
+      url: "{{ link }}&sorts=round_length_query.round_length_num+desc"
+    }
     group_label: "BoxPlot"
     type: max
     sql: CASE
@@ -90,6 +105,11 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
   }
 
   measure: 3_median_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Round Length"
+      url: "{{ link }}&sorts=round_length_query.round_length_num+desc"
+    }
     group_label: "BoxPlot"
     type: median
     sql: CASE
@@ -99,6 +119,11 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
   }
 
   measure: 2_25th_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Round Length"
+      url: "{{ link }}&sorts=round_length_query.round_length_num+desc"
+    }
     group_label: "BoxPlot"
     type: percentile
     percentile: 25
@@ -109,6 +134,11 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
   }
 
   measure: 4_75th_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Round Length"
+      url: "{{ link }}&sorts=round_length_query.round_length_num+desc"
+    }
     group_label: "BoxPlot"
     type: percentile
     percentile: 75
@@ -121,15 +151,14 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 
   set: detail {
     fields: [
-      extra_json,
+      user_type,
+      character,
+      round_length_num,
+      round_length,
       round_id,
       team_slot_0,
       team_slot_skill_0,
-      team_slot_level_0,
-      round_length,
-      round_length_num,
-      round_x_axis,
-      character,
+      team_slot_level_0
     ]
   }
 }

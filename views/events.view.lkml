@@ -418,4 +418,9 @@ view: events {
     sql: ${battery_level} ;;
   }
 
+  measure: first_date {
+    type:  date
+    sql: MIN(${event_raw}) ;;
+  }
+
 }

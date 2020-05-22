@@ -1,4 +1,4 @@
-view: frame_count_hist_query {
+view: _008_frame_count_histogram {
   derived_table: {
     sql: SELECT
         SUM(cast(frame_time_histogram AS INT64)) AS frame_count,

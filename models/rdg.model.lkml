@@ -125,6 +125,10 @@ explore: _006_round_length {}
 explore: _007_fever_count {}
 
 
+# FRAME COUNT HISTOGRAM VALUES:
+
+explore: _008_frame_count_histogram {}
+
 ###############################
 
 # explore: hist_frame_vals {
@@ -183,8 +187,6 @@ explore: _007_fever_count {}
 # explore: test_large_n_dropped_query {}
 
 # explore: test_histogram {}
-
-# explore: frame_count_hist_query {}
 
 
 ##########IAP EXPLORES####################

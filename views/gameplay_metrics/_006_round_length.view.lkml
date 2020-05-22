@@ -1,4 +1,4 @@
-view: round_length_query {
+view: _006_round_length {
   derived_table: {
     sql: SELECT extra_json, user_type
 FROM events

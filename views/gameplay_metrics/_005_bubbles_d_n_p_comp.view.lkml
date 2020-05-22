@@ -1,4 +1,4 @@
-view: bubbles_dropped_popped {
+view: _005_bubbles_d_n_p_comp {
   derived_table: {
     sql: SELECT extra_json,
        user_type

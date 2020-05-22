@@ -1,4 +1,4 @@
-view: skill_used {
+view: _002_skill_used {
   derived_table: {
     sql: SELECT
         timestamp_insert,

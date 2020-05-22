@@ -1,4 +1,4 @@
-view: fever_count_query {
+view: _007_fever_count {
   derived_table: {
     sql: SELECT extra_json, user_type
       FROM events

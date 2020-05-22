@@ -1,4 +1,4 @@
-view: chains_matches_query {
+view: _003_chains_matches_comp {
   derived_table: {
     sql: SELECT extra_json,
                 user_type,
@@ -104,6 +104,7 @@ view: chains_matches_query {
     }
     link: {
       label: "Drill and sort by All Chains"
+      # the use can't see "All chains sorted". Needs better implementation
       url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
     }
     group_label: "BoxPlot"
@@ -130,6 +131,7 @@ view: chains_matches_query {
     }
     link: {
       label: "Drill and sort by All Chains"
+      # the use can't see "All chains sorted". Needs better implementation
       url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
     }
     group_label: "BoxPlot"
@@ -156,6 +158,7 @@ view: chains_matches_query {
     }
     link: {
       label: "Drill and sort by All Chains"
+      # the use can't see "All chains sorted". Needs better implementation
       url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
     }
     group_label: "BoxPlot"
@@ -182,6 +185,7 @@ view: chains_matches_query {
     }
     link: {
       label: "Drill and sort by All Chains"
+      # the use can't see "All chains sorted". Needs better implementation
       url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
     }
     group_label: "BoxPlot"
@@ -209,6 +213,7 @@ view: chains_matches_query {
     }
     link: {
       label: "Drill and sort by All Chains"
+      # the use can't see "All chains sorted". Needs better implementation
       url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
     }
     group_label: "BoxPlot"

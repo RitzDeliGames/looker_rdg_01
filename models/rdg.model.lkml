@@ -43,67 +43,72 @@ explore: bingo_cards_main {}
 ##########GAMEPLAY EXPLORES##########
 
 
-# COINS; XP & SCORE EARNED QUERY:
+# COINS; XP & SCORE EARNED EXPLORE:
 
-explore: A_coins_xp_score_query {
+explore: _001_coins_xp_score_query {
   sql_always_where: event_name = "round_end"
   AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
   AND user_type NOT IN ("internal_editor", "unit_test")
   ;;
 }
 
-explore: skill_used {
+
+# SKILL USED EXPLORE:
+
+explore: _002_skill_used {
 #    sql_always_where: event_name = 'round_end'
 #      AND JSON_EXTRACT(extra_json, '$.team_slot_0') IS NOT NULL
 #      AND ${eraser_skill_level} IS NOT NULL ;;
 }
 
-explore: chains_matches_query_ii {
-  view_name: chains_matches_query
+
+
+explore: _003_chains_matches {
+  view_name: _003_chains_matches_comp
   join: all_chains {
     fields: [all_chains.all_chains]
     relationship: many_to_one
-    from: chains_matches_query
+    from: _003_chains_matches_comp
     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.all_chains'))) as all_chains
       ;;
 
   }
 }
 
-explore: bubbles_d_n_p {
-  view_name: bubbles_dropped_popped
+explore: _005_bubbles_dropped_popped {
+  view_name: _005_bubbles_d_n_p_comp
   join: bubble_normal {
     fields: [bubble_normal.bubble_normal]
     relationship: one_to_many
-    from: bubbles_dropped_popped
+    from: _005_bubbles_d_n_p_comp
     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_normal'))) AS bubble_normal
       ;;
   }
   join: bubble_coins {
     fields: [bubble_coins.bubble_coins]
     relationship: one_to_many
-    from: bubbles_dropped_popped
+    from: _005_bubbles_d_n_p_comp
     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_coins'))) AS bubble_coins
       ;;
   }
   join: bubble_xp {
     fields: [bubble_xp.bubble_xp]
     relationship: one_to_many
-    from: bubbles_dropped_popped
+    from: _005_bubbles_d_n_p_comp
     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_xp'))) AS bubble_xp
       ;;
   }
   join: bubble_time {
     fields: [bubble_time.bubble_time]
     relationship: one_to_many
-    from: bubbles_dropped_popped
+    from: _005_bubbles_d_n_p_comp
     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_time'))) AS bubble_time
       ;;
   }
   join: bubble_score {
     fields: [bubble_score.bubble_score]
     relationship: one_to_many
-    from: bubbles_dropped_popped
+    from: _005_bubbles_d_n_p_comp
     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_score'))) AS bubble_score
       ;;
   }
@@ -155,9 +160,9 @@ explore: dropped_popped {
   }
 }
 
-explore: round_length_query {}
+explore: _006_round_length {}
 
-explore: fever_count_query {}
+explore: _007_fever_count {}
 
 ##########################################
 

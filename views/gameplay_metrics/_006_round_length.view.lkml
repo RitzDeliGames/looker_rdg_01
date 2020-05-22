@@ -80,7 +80,7 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Round Length"
-      url: "{{ link }}&sorts=round_length_query.round_length_num+desc"
+      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
     }
     group_label: "BoxPlot"
     type: min
@@ -94,7 +94,7 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Round Length"
-      url: "{{ link }}&sorts=round_length_query.round_length_num+desc"
+      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
     }
     group_label: "BoxPlot"
     type: max
@@ -108,7 +108,7 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Round Length"
-      url: "{{ link }}&sorts=round_length_query.round_length_num+desc"
+      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
     }
     group_label: "BoxPlot"
     type: median
@@ -122,7 +122,7 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Round Length"
-      url: "{{ link }}&sorts=round_length_query.round_length_num+desc"
+      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
     }
     group_label: "BoxPlot"
     type: percentile
@@ -137,7 +137,7 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Round Length"
-      url: "{{ link }}&sorts=round_length_query.round_length_num+desc"
+      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
     }
     group_label: "BoxPlot"
     type: percentile

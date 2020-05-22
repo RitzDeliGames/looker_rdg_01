@@ -13,6 +13,7 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     drill_fields: [detail*]
   }
 
+
   dimension: extra_json {
     hidden: yes
     type: string
@@ -96,6 +97,27 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 # Bubbles Boxplots
 
   measure: 1_min_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by -bubble normal-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_normal+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble coins-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_coins+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble XP-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_xp+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble time-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_time+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble score-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_score+desc"
+    }
     group_label: "BoxPlot"
     type: min
     sql: CASE
@@ -109,12 +131,33 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       THEN CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC)
       WHEN  {% parameter boxplot_ %} = 'bubble score'
       THEN CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
-      WHEN  {% parameter boxplot_ %} = 'bubble boost'
-      THEN ${bubble_boost}
+      --WHEN  {% parameter boxplot_ %} = 'bubble boost'
+      --THEN ${bubble_boost}
     END  ;;
   }
 
   measure: 5_max_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by -bubble normal-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_normal+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble coins-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_coins+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble XP-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_xp+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble time-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_time+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble score-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_score+desc"
+    }
     group_label: "BoxPlot"
     type: max
     sql: CASE
@@ -128,12 +171,33 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       THEN CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC)
       WHEN  {% parameter boxplot_ %} = 'bubble score'
       THEN CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
-      WHEN  {% parameter boxplot_ %} = 'bubble boost'
-      THEN ${bubble_boost}
+      --WHEN  {% parameter boxplot_ %} = 'bubble boost'
+      --THEN ${bubble_boost}
     END  ;;
   }
 
   measure: 3_median_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by -bubble normal-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_normal+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble coins-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_coins+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble XP-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_xp+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble time-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_time+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble score-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_score+desc"
+    }
     group_label: "BoxPlot"
     type: median
     sql: CASE
@@ -147,12 +211,33 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       THEN CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC)
       WHEN  {% parameter boxplot_ %} = 'bubble score'
       THEN CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
-      WHEN  {% parameter boxplot_ %} = 'bubble boost'
-      THEN ${bubble_boost}
+      --WHEN  {% parameter boxplot_ %} = 'bubble boost'
+      --THEN ${bubble_boost}
     END  ;;
   }
 
   measure: 2_25th_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by -bubble normal-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_normal+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble coins-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_coins+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble XP-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_xp+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble time-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_time+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble score-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_score+desc"
+    }
     group_label: "BoxPlot"
     type: percentile
     percentile: 25
@@ -167,12 +252,33 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       THEN CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC)
       WHEN  {% parameter boxplot_ %} = 'bubble score'
       THEN CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
-      WHEN  {% parameter boxplot_ %} = 'bubble boost'
-      THEN ${bubble_boost}
+      --WHEN  {% parameter boxplot_ %} = 'bubble boost'
+      --THEN ${bubble_boost}
     END  ;;
   }
 
   measure: 4_75th_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by -bubble normal-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_normal+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble coins-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_coins+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble XP-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_xp+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble time-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_time+desc"
+    }
+    link: {
+      label: "Drill and sort by -bubble score-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_score+desc"
+    }
     group_label: "BoxPlot"
     type: percentile
     percentile: 75
@@ -187,18 +293,20 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       THEN CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC)
       WHEN  {% parameter boxplot_ %} = 'bubble score'
       THEN CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
-      WHEN  {% parameter boxplot_ %} = 'bubble boost'
-      THEN ${bubble_boost}
+      --WHEN  {% parameter boxplot_ %} = 'bubble boost'
+      --THEN ${bubble_boost}
     END  ;;
   }
 
 
   set: detail {
     fields: [
-      extra_json,
       user_type,
+      bubble_normal.bubble_normal,
+      bubble_coins.bubble_coins,
+      bubble_xp.bubble_xp,
+      bubble_score.bubble_score,
       bubbles_x_axis,
-      bubble_boost
     ]
   }
 }

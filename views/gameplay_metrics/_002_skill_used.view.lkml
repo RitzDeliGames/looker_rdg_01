@@ -21,8 +21,8 @@ view: _002_skill_used {
   parameter: character {
     type: unquoted
     default_value: "character_01"
-    suggest_explore: events
-    suggest_dimension: events.eraser
+    suggest_explore: _001_coins_xp_score
+    suggest_dimension: _001_coins_xp_score.eraser
   }
 
 
@@ -101,35 +101,66 @@ view: _002_skill_used {
 
 
   measure: total_skill_used {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Total Skill Used"
+      url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+    }
     type: sum
     sql: ${character_skill_used} ;;
   }
 
   measure: 1_min_skill_used {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Total Skill Used"
+      url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+    }
     group_label: "boxplot"
     type: min
     sql: ${character_skill_used} ;;
   }
 
   measure: 5_max_skill_used {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Total Skill Used"
+      url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+    }
     group_label: "boxplot"
     type: max
     sql: ${character_skill_used} ;;
   }
 
   measure: 3_median_skill_used {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Total Skill Used"
+      url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+    }
     group_label: "boxplot"
     type: median
     sql: ${character_skill_used} ;;
   }
 
   measure: 2_25_skill_used {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Total Skill Used"
+      url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+    }
     group_label: "boxplot"
     type: percentile
     percentile: 25
     sql: ${character_skill_used} ;;
   }
+
   measure: 4_75_skill_used {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Total Skill Used"
+      url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+    }
     group_label: "boxplot"
     type: percentile
     percentile: 75
@@ -140,8 +171,9 @@ view: _002_skill_used {
   dimension: user_type {
     type: string
     sql: ${TABLE}.user_type ;;
-
   }
+
+
 
   set: detail {
     fields: [timestamp_insert_time,

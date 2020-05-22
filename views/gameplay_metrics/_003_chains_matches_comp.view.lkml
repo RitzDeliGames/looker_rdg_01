@@ -96,16 +96,16 @@ view: _003_chains_matches_comp {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Total Chains"
-      url: "{{ link }}&sorts=chains_matches_query.total_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
     }
     link: {
       label: "Drill and sort by Chains per Second"
-      url: "{{ link }}&sorts=chains_matches_query.chains_per_second+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_per_second+desc"
     }
     link: {
       label: "Drill and sort by All Chains"
       # the use can't see "All chains sorted". Needs better implementation
-      url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.all_chains+desc"
     }
     group_label: "BoxPlot"
     type: min
@@ -123,16 +123,16 @@ view: _003_chains_matches_comp {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Total Chains"
-      url: "{{ link }}&sorts=chains_matches_query.total_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
     }
     link: {
       label: "Drill and sort by Chains per Second"
-      url: "{{ link }}&sorts=chains_matches_query.chains_per_second+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_per_second+desc"
     }
     link: {
       label: "Drill and sort by All Chains"
       # the use can't see "All chains sorted". Needs better implementation
-      url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.all_chains+desc"
     }
     group_label: "BoxPlot"
     type: max
@@ -150,16 +150,16 @@ view: _003_chains_matches_comp {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Total Chains"
-      url: "{{ link }}&sorts=chains_matches_query.total_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
     }
     link: {
       label: "Drill and sort by Chains per Second"
-      url: "{{ link }}&sorts=chains_matches_query.chains_per_second+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_per_second+desc"
     }
     link: {
       label: "Drill and sort by All Chains"
       # the use can't see "All chains sorted". Needs better implementation
-      url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.all_chains+desc"
     }
     group_label: "BoxPlot"
     type: median
@@ -177,16 +177,16 @@ view: _003_chains_matches_comp {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Total Chains"
-      url: "{{ link }}&sorts=chains_matches_query.total_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
     }
     link: {
       label: "Drill and sort by Chains per Second"
-      url: "{{ link }}&sorts=chains_matches_query.chains_per_second+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_per_second+desc"
     }
     link: {
       label: "Drill and sort by All Chains"
       # the use can't see "All chains sorted". Needs better implementation
-      url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.all_chains+desc"
     }
     group_label: "BoxPlot"
     type: percentile
@@ -205,16 +205,16 @@ view: _003_chains_matches_comp {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Total Chains"
-      url: "{{ link }}&sorts=chains_matches_query.total_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
     }
     link: {
       label: "Drill and sort by Chains per Second"
-      url: "{{ link }}&sorts=chains_matches_query.chains_per_second+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_per_second+desc"
     }
     link: {
       label: "Drill and sort by All Chains"
       # the use can't see "All chains sorted". Needs better implementation
-      url: "{{ link }}&sorts=chains_matches_query.all_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.all_chains+desc"
     }
     group_label: "BoxPlot"
     type: percentile

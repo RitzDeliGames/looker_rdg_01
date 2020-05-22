@@ -61,7 +61,7 @@ view: _007_fever_count {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Fever Count"
-      url: "{{ link }}&sorts=fever_count_query.fever_count+desc"
+      url: "{{ link }}&sorts=_007_fever_count.fever_count+desc"
     }
     group_label: "BoxPlot"
     type: min
@@ -75,7 +75,7 @@ view: _007_fever_count {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Fever Count"
-      url: "{{ link }}&sorts=fever_count_query.fever_count+desc"
+      url: "{{ link }}&sorts=_007_fever_count.fever_count+desc"
     }
     group_label: "BoxPlot"
     type: max
@@ -89,7 +89,7 @@ view: _007_fever_count {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Fever Count"
-      url: "{{ link }}&sorts=fever_count_query.fever_count+desc"
+      url: "{{ link }}&sorts=_007_fever_count.fever_count+desc"
     }
     group_label: "BoxPlot"
     type: median
@@ -103,7 +103,7 @@ view: _007_fever_count {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Fever Count"
-      url: "{{ link }}&sorts=fever_count_query.fever_count+desc"
+      url: "{{ link }}&sorts=_007_fever_count.fever_count+desc"
     }
     group_label: "BoxPlot"
     type: percentile
@@ -118,7 +118,7 @@ view: _007_fever_count {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by Fever Count"
-      url: "{{ link }}&sorts=fever_count_query.fever_count+desc"
+      url: "{{ link }}&sorts=_007_fever_count.fever_count+desc"
     }
     group_label: "BoxPlot"
     type: percentile

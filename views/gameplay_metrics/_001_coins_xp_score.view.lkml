@@ -243,21 +243,20 @@ view: _001_coins_xp_score {
   }
 
   measure: 1_min_boxplot {
-    drill_fields: [coins_earned, xp_earned, score_earned, player_xp, eraser, eraser_skill_level, user_details*]
+    drill_fields: [eraser, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
     link: {
       label: "Drill and sort by coins earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.coins_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
     }
     link: {
       label: "Drill and sort by XP earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.xp_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
     }
     link: {
       label: "Drill and sort by score earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.score_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
     }
     group_label: "BoxPlot"
-    #required_fields: [skill_used.character_skill_used]
     type: min
     sql: CASE
       WHEN  {% parameter boxplot_type %} = 'Coins'
@@ -266,24 +265,23 @@ view: _001_coins_xp_score {
       THEN ${score_earned}
       WHEN  {% parameter boxplot_type %} = 'XP Earned'
       THEN ${xp_earned}
-      --WHEN  {% parameter boxplot_type %} = 'Character Skill Used'
-      --THEN skill_used.character_skill_used
+
     END  ;;
   }
 
   measure: 5_max_boxplot {
-    drill_fields: [coins_earned, xp_earned, score_earned, player_xp, eraser, eraser_skill_level, user_details*]
+    drill_fields: [eraser, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
     link: {
       label: "Drill and sort by coins earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.coins_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
     }
     link: {
       label: "Drill and sort by XP earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.xp_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
     }
     link: {
       label: "Drill and sort by score earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.score_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
     }
     group_label: "BoxPlot"
     type: max
@@ -298,18 +296,18 @@ view: _001_coins_xp_score {
   }
 
   measure: 3_median_boxplot {
-    drill_fields: [coins_earned, xp_earned, score_earned, player_xp, eraser, eraser_skill_level, user_details*]
+    drill_fields: [eraser, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
     link: {
       label: "Drill and sort by coins earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.coins_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
     }
     link: {
       label: "Drill and sort by XP earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.xp_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
     }
     link: {
       label: "Drill and sort by score earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.score_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
     }
     group_label: "BoxPlot"
     type: median
@@ -324,18 +322,18 @@ view: _001_coins_xp_score {
   }
 
   measure: 2_25th_boxplot {
-    drill_fields: [coins_earned, xp_earned, score_earned, player_xp, eraser, eraser_skill_level, user_details*]
+    drill_fields: [eraser, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
     link: {
       label: "Drill and sort by coins earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.coins_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
     }
     link: {
       label: "Drill and sort by XP earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.xp_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
     }
     link: {
       label: "Drill and sort by score earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.score_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
     }
     group_label: "BoxPlot"
     type: percentile
@@ -351,18 +349,18 @@ view: _001_coins_xp_score {
   }
 
   measure: 4_75th_boxplot {
-    drill_fields: [coins_earned, xp_earned, score_earned, player_xp, eraser, eraser_skill_level, user_details*]
+    drill_fields: [eraser, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
     link: {
       label: "Drill and sort by coins earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.coins_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
     }
     link: {
       label: "Drill and sort by XP earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.xp_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
     }
     link: {
       label: "Drill and sort by score earned"
-      url: "{{ link }}&sorts=A_coins_xp_score_query.score_earned+desc"
+      url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
     }
     group_label: "BoxPlot"
     type: percentile

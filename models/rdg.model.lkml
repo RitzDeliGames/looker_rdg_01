@@ -36,14 +36,14 @@ explore: fue_funnel {
 ##########BINGO CARDS##########
 
 
-explore: bingo_cards_main {}
+explore: _000_bingo_cards {}
 
 
 
 ##########GAMEPLAY EXPLORES##########
 
 
-# COINS; XP & SCORE EARNED EXPLORE:
+# COINS, XP & SCORE EARNED EXPLORE:
 
 explore: _001_coins_xp_score {
   sql_always_where: event_name = "round_end"
@@ -51,7 +51,6 @@ explore: _001_coins_xp_score {
   AND user_type NOT IN ("internal_editor", "unit_test")
   ;;
 }
-
 
 # SKILL USED EXPLORE:
 
@@ -62,6 +61,7 @@ explore: _002_skill_used {
 }
 
 
+# CHAINS AND MATCHES MADE:
 
 explore: _003_chains_matches {
   view_name: _003_chains_matches_comp
@@ -114,67 +114,78 @@ explore: _005_bubbles_dropped_popped {
   }
 }
 
-explore: hist_frame_vals {
-  view_name: test_histogram
-  join: frame_time_histogram {
-    fields: [frame_time_histogram.frame_time_histogram]
-    from: test_histogram
-    relationship: one_to_one
-    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json,'$.frame_time_histogram_values'))) AS frame_time_histogram WITH OFFSET
-      ;;
-  }
-  join: frame_count {
-    fields: [frame_count.frame_count]
-    from: test_histogram
-    relationship: one_to_one
-    sql: SUM(CAST(frame_time_histogram AS INT64))
-      ;;
-  }
-  join: ms_per_frame {
-    fields: [ms_per_frame.ms_per_frame]
-    from: test_histogram
-    relationship: one_to_one
-    sql: SUM(CAST(frame_time_histogram AS INT64))
-         OFFSET AS ms_per_frame
-         GROUP BY ms_per_frame
-         ORDER BY ms_per_frame ASC
-    ;;
-  }
-}
 
-explore: dropped_popped {
-  view_name: test_large_and_popped
-  join: large {
-    fields: [large.large]
-    from: test_large_and_popped
-    relationship: one_to_one
-      sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large
-      ;;
-  }
-  join: large_popped {
-    fields: [large_popped.large_popped]
-    from: test_large_and_popped
-    relationship: one_to_one
-    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large_popped
-      ;;
-  }
-}
+# ROUND LENGTH:
 
 explore: _006_round_length {}
 
+
+# FEVER COUNT:
+
 explore: _007_fever_count {}
 
-##########################################
 
-# explore: test_large_and_popped {}
+###############################
+
+# explore: hist_frame_vals {
+#   view_name: test_histogram
+#   join: frame_time_histogram {
+#     fields: [frame_time_histogram.frame_time_histogram]
+#     from: test_histogram
+#     relationship: one_to_one
+#     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json,'$.frame_time_histogram_values'))) AS frame_time_histogram WITH OFFSET
+#       ;;
+#   }
+#   join: frame_count {
+#     fields: [frame_count.frame_count]
+#     from: test_histogram
+#     relationship: one_to_one
+#     sql: SUM(CAST(frame_time_histogram AS INT64))
+#       ;;
+#   }
+#   join: ms_per_frame {
+#     fields: [ms_per_frame.ms_per_frame]
+#     from: test_histogram
+#     relationship: one_to_one
+#     sql: SUM(CAST(frame_time_histogram AS INT64))
+#          OFFSET AS ms_per_frame
+#          GROUP BY ms_per_frame
+#          ORDER BY ms_per_frame ASC
+#     ;;
+#   }
+# }
 #
-# explore: test_large_n_dropped_query {}
+# explore: dropped_popped {
+#   view_name: test_large_and_popped
+#   join: large {
+#     fields: [large.large]
+#     from: test_large_and_popped
+#     relationship: one_to_one
+#       sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large
+#       ;;
+#   }
+#   join: large_popped {
+#     fields: [large_popped.large_popped]
+#     from: test_large_and_popped
+#     relationship: one_to_one
+#     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large_popped
+#       ;;
+#   }
+# }
+
+
 
 ##########TECHNICAL EXPLORES##############
 
-explore: test_histogram {}
 
-explore: frame_count_hist_query {}
+# explore: test_large_and_popped {}
+
+# explore: test_large_n_dropped_query {}
+
+# explore: test_histogram {}
+
+# explore: frame_count_hist_query {}
+
 
 ##########IAP EXPLORES####################
 

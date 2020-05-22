@@ -1,4 +1,4 @@
-view: bingo_cards_main {
+view: _000_bingo_cards {
   derived_table: {
     sql: SELECT extra_json,
                 user_type,

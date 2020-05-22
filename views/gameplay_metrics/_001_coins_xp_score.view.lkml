@@ -240,10 +240,6 @@ view: _001_coins_xp_score {
       label: "XP Earned"
       value: "XP Earned"
     }
-    # allowed_value: {
-    #   label: "Character Skill Used"
-    #   value: "Character Skill Used"
-    # }
   }
 
   measure: 1_min_boxplot {
@@ -420,11 +416,6 @@ view: _001_coins_xp_score {
   # }
 
 ####################################
-
-  #drill_fields: [coins_earned, xp_earned, player_xp, score_earned, eraser, eraser_skill_level, user_details*]
-
-
-
 
   set: user_details {
     fields: [user_id,

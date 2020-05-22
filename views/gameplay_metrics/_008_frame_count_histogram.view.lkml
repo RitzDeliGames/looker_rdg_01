@@ -29,6 +29,7 @@ view: _008_frame_count_histogram {
     sql: ${TABLE}.ms_per_frame ;;
   }
 
+
   set: detail {
     fields: [frame_count, ms_per_frame]
   }

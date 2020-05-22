@@ -209,6 +209,11 @@ view: _000_bingo_cards {
   }
 
   measure: 1_min_boxplot {
+    drill_fields: [user_type, rounds]
+    link: {
+      label: "Drill and sort by Round"
+      url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
+    }
     group_label: "BoxPlot"
     type: min
     sql: CASE
@@ -218,6 +223,11 @@ view: _000_bingo_cards {
   }
 
   measure: 5_max_boxplot {
+    drill_fields: [user_type, rounds]
+    link: {
+      label: "Drill and sort by Round"
+      url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
+    }
     group_label: "BoxPlot"
     type: max
     sql: CASE
@@ -227,6 +237,11 @@ view: _000_bingo_cards {
   }
 
   measure: 3_median_boxplot {
+    drill_fields: [user_type, rounds]
+    link: {
+      label: "Drill and sort by Round"
+      url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
+    }
     group_label: "BoxPlot"
     type: median
     sql: CASE
@@ -236,6 +251,11 @@ view: _000_bingo_cards {
   }
 
   measure: 2_25th_boxplot {
+    drill_fields: [user_type, rounds]
+    link: {
+      label: "Drill and sort by Round"
+      url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
+    }
     group_label: "BoxPlot"
     type: percentile
     percentile: 25
@@ -246,6 +266,11 @@ view: _000_bingo_cards {
   }
 
   measure: 4_75th_boxplot {
+    drill_fields: [user_type, rounds]
+    link: {
+      label: "Drill and sort by Round"
+      url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
+    }
     group_label: "BoxPlot"
     type: percentile
     percentile: 75

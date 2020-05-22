@@ -111,7 +111,7 @@ view: _002_skill_used {
   }
 
   measure: 1_min_skill_used {
-    drill_fields: [detail*]
+    drill_fields: [character, user_type, detail*]
     link: {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
@@ -122,7 +122,7 @@ view: _002_skill_used {
   }
 
   measure: 5_max_skill_used {
-    drill_fields: [detail*]
+    drill_fields: [character, user_type, detail*]
     link: {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
@@ -133,7 +133,7 @@ view: _002_skill_used {
   }
 
   measure: 3_median_skill_used {
-    drill_fields: [detail*]
+    drill_fields: [character, user_type, detail*]
     link: {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
@@ -144,7 +144,7 @@ view: _002_skill_used {
   }
 
   measure: 2_25_skill_used {
-    drill_fields: [detail*]
+    drill_fields: [character, user_type, detail*]
     link: {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
@@ -156,7 +156,7 @@ view: _002_skill_used {
   }
 
   measure: 4_75_skill_used {
-    drill_fields: [detail*]
+    drill_fields: [character, user_type, detail*]
     link: {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
@@ -176,12 +176,11 @@ view: _002_skill_used {
 
 
   set: detail {
-    fields: [timestamp_insert_time,
+    fields: [
       user_type,
       character_skill_used,
       eraser,
-      extra_json,
-      character]
+      character,]
   }
 
 }

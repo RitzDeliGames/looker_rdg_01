@@ -45,7 +45,7 @@ explore: bingo_cards_main {}
 
 # COINS; XP & SCORE EARNED EXPLORE:
 
-explore: _001_coins_xp_score_query {
+explore: _001_coins_xp_score {
   sql_always_where: event_name = "round_end"
   AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
   AND user_type NOT IN ("internal_editor", "unit_test")

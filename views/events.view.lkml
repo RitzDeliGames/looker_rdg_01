@@ -151,18 +151,21 @@ view: events {
     description: "paid vs organic install source"
     type: string
     sql: 'facebook' ;;
+    hidden: yes
   }
 
 #LEAVE HARDCODED TO '0.1' UNTIL WE HAVE AD ANALYTICS SET UP
   dimension: install_cost {
     type: number
     sql: 0.1 ;;
+    hidden: yes
   }
 
 #LEAVE HARDCODED TO 'campaign_1' UNTIL WE HAVE AD ANALYTICS SET UP
   dimension: campaign_name {
     type: string
     sql: 'campaign_1' ;;
+    hidden: yes
   }
 
 ###

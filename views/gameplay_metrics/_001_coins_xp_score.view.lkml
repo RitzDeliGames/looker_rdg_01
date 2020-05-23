@@ -63,7 +63,7 @@ view: _001_coins_xp_score {
   }
 
   dimension: eraser_skill_level {
-    type: number
+    type: string
     sql: REPLACE(JSON_EXTRACT(${extra_json},
       '$.team_slot_skill_0'),'"','') ;;
   }

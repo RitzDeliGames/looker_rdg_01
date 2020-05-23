@@ -33,6 +33,22 @@ view: events {
     sql: ${TABLE}.user_id ;;
   }
 
+  dimension: player_id {
+    group_label: "id dimensions"
+    label: "player id"
+    type: string
+    sql: ${TABLE}.user_id ;;
+  }
+
+  dimension: tester_name {
+    group_label: "id names"
+    label: "tester name"
+    type: string
+    sql: CASE
+          WHEN ${TABLE}.user_id LIKE "anon-431ff9ad-d91c-43e1-9c7d-26a651f686b4" THEN "Robert Einspruch"
+        END ;;
+  }
+
   dimension: social_id {
     group_label: "id dimensions"
     type: string

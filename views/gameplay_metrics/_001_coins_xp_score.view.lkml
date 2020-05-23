@@ -1,4 +1,7 @@
+include: "/views/**/events.view"
+
 view: _001_coins_xp_score {
+  extends: [events]
 
   sql_table_name: eraser-blast.game_data.events ;;
 

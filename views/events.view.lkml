@@ -13,6 +13,7 @@ view: events {
 
   dimension: game_version {
     type: number
+    value_format: "###0"
     sql: CAST(${TABLE}.version AS NUMERIC);;
   }
 

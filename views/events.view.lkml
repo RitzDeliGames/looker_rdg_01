@@ -22,27 +22,28 @@ view: events {
 ###PLAYER ID DIMENSIONS###
 
   dimension: device_id {
-    group_label: "id dimensions"
+    group_label: "Player ID Dimensions"
     type: string
     sql: ${TABLE}.device_id ;;
   }
 
-  dimension: user_id {
-    group_label: "id dimensions"
+  dimension: player_id {
+    group_label: "Player ID Dimensions"
+    label: "Player ID"
     type: string
     sql: ${TABLE}.user_id ;;
   }
 
-  dimension: player_id {
-    group_label: "id dimensions"
-    label: "player id"
+  dimension: user_id {
+    group_label: "Player ID Dimensions"
+    label: "Player Username"
     type: string
     sql: ${TABLE}.user_id ;;
   }
 
   dimension: tester_name {
-    group_label: "id names"
-    label: "tester name"
+    group_label: "Player ID Dimensions"
+    label: "Player Real Name"
     type: string
     sql: CASE
           WHEN ${TABLE}.user_id LIKE "anon-431ff9ad-d91c-43e1-9c7d-26a651f686b4" THEN "Robert Einspruch"
@@ -50,13 +51,13 @@ view: events {
   }
 
   dimension: social_id {
-    group_label: "id dimensions"
+    group_label: "Player ID Dimensions"
     type: string
     sql: ${TABLE}.social_id ;;
   }
 
   dimension: rdg_id {
-    group_label: "id dimensions"
+    group_label: "Player ID Dimensions"
     type: string
     sql: ${TABLE}.rdg_id ;;
   }

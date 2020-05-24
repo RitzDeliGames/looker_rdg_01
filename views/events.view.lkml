@@ -13,6 +13,7 @@ view: events {
 
   dimension: game_version {
     type: number
+    value_format: "###0"
     sql: CAST(${TABLE}.version AS NUMERIC);;
   }
 
@@ -21,25 +22,42 @@ view: events {
 ###PLAYER ID DIMENSIONS###
 
   dimension: device_id {
-    group_label: "id dimensions"
+    group_label: "Player ID Dimensions"
     type: string
     sql: ${TABLE}.device_id ;;
   }
 
-  dimension: user_id {
-    group_label: "id dimensions"
+  dimension: player_id {
+    group_label: "Player ID Dimensions"
+    label: "Player ID"
     type: string
     sql: ${TABLE}.user_id ;;
   }
 
+  dimension: user_id {
+    group_label: "Player ID Dimensions"
+    label: "Player Username"
+    type: string
+    sql: ${TABLE}.user_id ;;
+  }
+
+  dimension: tester_name {
+    group_label: "Player ID Dimensions"
+    label: "Player Real Name"
+    type: string
+    sql: CASE
+          WHEN ${TABLE}.user_id LIKE "anon-431ff9ad-d91c-43e1-9c7d-26a651f686b4" THEN "Robert Einspruch"
+        END ;;
+  }
+
   dimension: social_id {
-    group_label: "id dimensions"
+    group_label: "Player ID Dimensions"
     type: string
     sql: ${TABLE}.social_id ;;
   }
 
   dimension: rdg_id {
-    group_label: "id dimensions"
+    group_label: "Player ID Dimensions"
     type: string
     sql: ${TABLE}.rdg_id ;;
   }
@@ -150,18 +168,21 @@ view: events {
     description: "paid vs organic install source"
     type: string
     sql: 'facebook' ;;
+    hidden: yes
   }
 
 #LEAVE HARDCODED TO '0.1' UNTIL WE HAVE AD ANALYTICS SET UP
   dimension: install_cost {
     type: number
     sql: 0.1 ;;
+    hidden: yes
   }
 
 #LEAVE HARDCODED TO 'campaign_1' UNTIL WE HAVE AD ANALYTICS SET UP
   dimension: campaign_name {
     type: string
     sql: 'campaign_1' ;;
+    hidden: yes
   }
 
 ###

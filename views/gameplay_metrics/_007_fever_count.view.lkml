@@ -1,4 +1,8 @@
+include: "/views/**/events.view"
+
 view: _007_fever_count {
+  extends: [events]
+
   derived_table: {
     sql: SELECT extra_json, user_type
       FROM events

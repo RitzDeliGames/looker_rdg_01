@@ -15,7 +15,7 @@ view: _001_coins_xp_score {
 
   dimension: primary_key {
     type: string
-    sql:  CONCAT(${eraser},${extra_json}) ;;
+    sql:  CONCAT(${character},${extra_json}) ;;
   }
 
   dimension_group: created {
@@ -60,7 +60,7 @@ view: _001_coins_xp_score {
   }
 
 #Remove ""
-  dimension: eraser {
+  dimension: character {
     type: string
     sql: JSON_EXTRACT_SCALAR(${extra_json},'$.team_slot_0') ;;
   }
@@ -246,7 +246,7 @@ view: _001_coins_xp_score {
   }
 
   measure: 1_min_boxplot {
-    drill_fields: [eraser, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
+    drill_fields: [character, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
     link: {
       label: "Drill and sort by coins earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
@@ -273,7 +273,7 @@ view: _001_coins_xp_score {
   }
 
   measure: 5_max_boxplot {
-    drill_fields: [eraser, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
+    drill_fields: [character, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
     link: {
       label: "Drill and sort by coins earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
@@ -299,7 +299,7 @@ view: _001_coins_xp_score {
   }
 
   measure: 3_median_boxplot {
-    drill_fields: [eraser, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
+    drill_fields: [character, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
     link: {
       label: "Drill and sort by coins earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
@@ -325,7 +325,7 @@ view: _001_coins_xp_score {
   }
 
   measure: 2_25th_boxplot {
-    drill_fields: [eraser, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
+    drill_fields: [character, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
     link: {
       label: "Drill and sort by coins earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
@@ -352,7 +352,7 @@ view: _001_coins_xp_score {
   }
 
   measure: 4_75th_boxplot {
-    drill_fields: [eraser, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
+    drill_fields: [character, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
     link: {
       label: "Drill and sort by coins earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"

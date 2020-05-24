@@ -92,6 +92,11 @@ view: _000_bingo_cards {
     sql: JSON_Value(extra_json, '$.sessions');;
   }
 
+  dimension: test {
+    type: string
+    sql: JSON_EXTRACT(extra_json, '$.card_state_completed')  = '[1,15,11]';;
+  }
+
 
   #_CARD_STATE_###############################################
 
@@ -143,7 +148,7 @@ view: _000_bingo_cards {
 
   dimension: length_completed {
     type: number
-    sql:  ARRAY_LENGTH(${card_state_completed}) ;;
+    sql: ARRAY_LENGTH(${card_state_completed}) ;;
   }
 
   #############################################################

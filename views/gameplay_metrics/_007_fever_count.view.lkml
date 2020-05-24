@@ -19,12 +19,12 @@ view: _007_fever_count {
     sql: ${TABLE}.extra_json ;;
   }
 
-  dimension: team_slot_skill_0 {
+  dimension: character_skill {
     type: string
     sql: JSON_Value(extra_json,'$.team_slot_skill_0') ;;
   }
 
-  dimension: team_slot_level_0 {
+  dimension: character_level {
     type: string
     sql: JSON_Value(extra_json,'$.team_slot_level_0') ;;
   }
@@ -133,8 +133,8 @@ view: _007_fever_count {
     fields: [user_type,
       character,
       fever_count,
-      team_slot_skill_0,
-      team_slot_level_0
+      character_skill,
+      character_level
       ]
   }
 }

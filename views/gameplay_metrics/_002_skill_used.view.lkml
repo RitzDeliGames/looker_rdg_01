@@ -22,7 +22,7 @@ view: _002_skill_used {
     type: unquoted
     default_value: "character_01"
     suggest_explore: _001_coins_xp_score
-    suggest_dimension: _001_coins_xp_score.eraser
+    suggest_dimension: _001_coins_xp_score.character
   }
 
 
@@ -40,11 +40,12 @@ view: _002_skill_used {
 
   dimension: primary_key {
     type: string
-    sql:  CONCAT(${eraser},${extra_json}) ;;
+    sql:  CONCAT(${character_comp},${extra_json}) ;;
   }
 
-  dimension: eraser {
-    hidden: yes
+  dimension: character_comp {
+    description: "This dimension is used to construct the primary key and tables in the view's explore"
+    hidden: no
     type: string
     sql: JSON_EXTRACT(${extra_json},'$.team_slot_0');;
   }
@@ -65,17 +66,17 @@ view: _002_skill_used {
 
   dimension: character_skill_used {
     type: number
-    sql: CAST(if(character_skill_used = '' ,'0',character_skill_used) AS NUMERIC);;
+    sql: CAST(if(character_skill_used = '' ,'0', character_skill_used) AS NUMERIC);;
   }
 
 
-  dimension: eraser_skill_level {
+  dimension: character_skill {
     type: number
     sql: REPLACE(JSON_EXTRACT(${extra_json},
       '$.team_slot_skill_0'),'"','') ;;
   }
 
-  dimension: eraser_xp_level {
+  dimension: character_level {
     type: number
     sql: REPLACE(JSON_EXTRACT(${extra_json},
       '$.team_slot_level_0'),'"','') ;;
@@ -111,7 +112,7 @@ view: _002_skill_used {
   }
 
   measure: 1_min_skill_used {
-    drill_fields: [character, user_type, detail*]
+    drill_fields: [detail*]
     link: {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
@@ -122,7 +123,7 @@ view: _002_skill_used {
   }
 
   measure: 5_max_skill_used {
-    drill_fields: [character, user_type, detail*]
+    drill_fields: [detail*]
     link: {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
@@ -133,7 +134,7 @@ view: _002_skill_used {
   }
 
   measure: 3_median_skill_used {
-    drill_fields: [character, user_type, detail*]
+    drill_fields: [detail*]
     link: {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
@@ -144,7 +145,7 @@ view: _002_skill_used {
   }
 
   measure: 2_25_skill_used {
-    drill_fields: [character, user_type, detail*]
+    drill_fields: [detail*]
     link: {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
@@ -156,7 +157,7 @@ view: _002_skill_used {
   }
 
   measure: 4_75_skill_used {
-    drill_fields: [character, user_type, detail*]
+    drill_fields: [detail*]
     link: {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
@@ -176,11 +177,11 @@ view: _002_skill_used {
 
 
   set: detail {
-    fields: [
+    fields: [character_comp,
       user_type,
       character_skill_used,
-      eraser,
-      character,]
+      character_skill,
+      character_level]
   }
 
 }

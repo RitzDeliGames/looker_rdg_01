@@ -35,12 +35,12 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     sql: JSON_Value(extra_json,'$.team_slot_0') ;;
   }
 
-  dimension: team_slot_skill_0 {
+  dimension: character_skill {
     type: string
     sql: JSON_Value(extra_json,'$.team_slot_skill_0') ;;
   }
 
-  dimension: team_slot_level_0 {
+  dimension: character_level {
     type: string
     sql: JSON_Value(extra_json,'$.team_slot_level_0') ;;
   }
@@ -157,8 +157,8 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       round_length,
       round_id,
       team_slot_0,
-      team_slot_skill_0,
-      team_slot_level_0
+      character_skill,
+      character_level
     ]
   }
 }

@@ -13,6 +13,18 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     drill_fields: [detail*]
   }
 
+  dimension: primary_key {
+    hidden: yes
+    type: string
+    sql:  CONCAT(${character},${extra_json}) ;;
+  }
+
+  dimension: character {
+    hidden: yes
+    type: string
+    sql: JSON_EXTRACT_SCALAR(${extra_json},'$.team_slot_0') ;;
+  }
+
 
   dimension: extra_json {
     hidden: yes
@@ -293,6 +305,7 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       bubble_xp.bubble_xp,
       bubble_score.bubble_score,
       bubbles_x_axis,
+      character
     ]
   }
 }

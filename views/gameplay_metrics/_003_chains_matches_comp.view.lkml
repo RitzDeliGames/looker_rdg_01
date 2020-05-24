@@ -24,7 +24,7 @@ view: _003_chains_matches_comp {
     sql: ${TABLE}.extra_json ;;
   }
 
-  dimension: eraser {
+  dimension: character {
     type: string
     sql: JSON_EXTRACT_SCALAR(${extra_json},'$.team_slot_0') ;;
   }
@@ -233,7 +233,7 @@ view: _003_chains_matches_comp {
 ###############
 
   set: detail {
-    fields: [eraser,
+    fields: [character,
       user_type,
       total_chains,
       chains_per_second,

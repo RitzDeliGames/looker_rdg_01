@@ -21,7 +21,10 @@ view: _003_chains_matches_comp {
 
   dimension: extra_json {
     type: string
-    sql: ${TABLE}.extra_json ;;
+    hidden: yes
+    suggest_explore: events
+    suggest_dimension: events.extra_json
+#     sql: ${TABLE}.extra_json ;;
   }
 
   dimension: character {
@@ -31,7 +34,9 @@ view: _003_chains_matches_comp {
 
   dimension: user_type {
     type: string
-    sql: ${TABLE}.user_type ;;
+    suggest_explore: events
+    suggest_dimension: events.user_type
+#     sql: ${TABLE}.user_type ;;
   }
 
   dimension: platform {

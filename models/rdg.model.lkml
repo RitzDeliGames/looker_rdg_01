@@ -55,9 +55,10 @@ explore: _001_coins_xp_score {
 # SKILL USED EXPLORE:
 
 explore: _002_skill_used {
-#    sql_always_where: event_name = 'round_end'
-#      AND JSON_EXTRACT(extra_json, '$.team_slot_0') IS NOT NULL
-#      AND ${eraser_skill_level} IS NOT NULL ;;
+#   sql_always_where: event_name = "round_end"
+#   AND JSON_EXTRACT(extra_json, "$.team_slot_0") IS NOT NULL
+#   AND ${character_skill} IS NOT NULL
+#   ;;
 }
 
 

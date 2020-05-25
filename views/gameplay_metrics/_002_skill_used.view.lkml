@@ -35,11 +35,15 @@ view: _002_skill_used {
 
   dimension: extra_json {
     type: string
-    sql: ${TABLE}.extra_json ;;
+    hidden: yes
+    suggest_explore: events
+    suggest_dimension: events.extra_json
+#     sql: ${TABLE}.extra_json ;;
   }
 
   dimension: primary_key {
     type: string
+    hidden: yes
     sql:  CONCAT(${character_comp},${extra_json}) ;;
   }
 
@@ -61,6 +65,7 @@ view: _002_skill_used {
 
   dimension_group: timestamp_insert {
     type: time
+    hidden: yes
     sql: ${TABLE}.timestamp_insert ;;
   }
 
@@ -171,10 +176,10 @@ view: _002_skill_used {
 
   dimension: user_type {
     type: string
-    sql: ${TABLE}.user_type ;;
+    suggest_explore: events
+    suggest_dimension: events.user_type
+#     sql: ${TABLE}.user_type ;;
   }
-
-
 
   set: detail {
     fields: [character_comp,

@@ -33,9 +33,11 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
   }
 
   dimension: extra_json {
-    hidden: yes
     type: string
-    sql: ${TABLE}.extra_json ;;
+    hidden: yes
+    suggest_explore: events
+    suggest_dimension: events.extra_json
+#     sql: ${TABLE}.extra_json ;;
   }
 
   dimension: hardware {

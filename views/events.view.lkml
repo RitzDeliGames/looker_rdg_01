@@ -190,6 +190,7 @@ view: events {
 ###PLAYER DIMENSIONS###
 
   dimension: user_type {
+    hidden: no
     type: string
     sql: ${TABLE}.user_type ;;
   }
@@ -339,7 +340,7 @@ view: events {
 
   dimension: extra_json {
     type: string
-    hidden: yes
+    hidden: no
     sql: ${TABLE}.extra_json ;;
   }
 

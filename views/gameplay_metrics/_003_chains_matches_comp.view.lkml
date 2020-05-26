@@ -1,4 +1,7 @@
+include: "/views/**/events.view"
+
 view: _003_chains_matches_comp {
+  extends: [events]
   derived_table: {
     sql: SELECT extra_json,
                 user_type,
@@ -24,7 +27,7 @@ view: _003_chains_matches_comp {
     hidden: yes
     suggest_explore: events
     suggest_dimension: events.extra_json
-#     sql: ${TABLE}.extra_json ;;
+    sql: ${TABLE}.extra_json ;;
   }
 
   dimension: character {
@@ -32,12 +35,12 @@ view: _003_chains_matches_comp {
     sql: JSON_EXTRACT_SCALAR(${extra_json},'$.team_slot_0') ;;
   }
 
-  dimension: user_type {
-    type: string
-    suggest_explore: events
-    suggest_dimension: events.user_type
+#   dimension: user_type {
+#     type: string
+#     suggest_explore: events
+#     suggest_dimension: events.user_type
 #     sql: ${TABLE}.user_type ;;
-  }
+#   }
 
   dimension: platform {
     type: string
@@ -244,7 +247,7 @@ view: _003_chains_matches_comp {
       chains_per_second,
       all_chains.all_chains,
       platform,
-      round_length
+      round_length,
     ]
   }
 }

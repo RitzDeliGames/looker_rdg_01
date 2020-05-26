@@ -32,9 +32,6 @@ view: _001_coins_xp_score {
     sql: ${TABLE}.created_at ;;
   }
 
-  # dimension: all_chains {
-  #   sql: JSON_Value(extra_json,'$.all_chains') ;;
-  # }
 
 # Time at level
 #   dimension_group: time_at_level {
@@ -54,13 +51,14 @@ view: _001_coins_xp_score {
   }
 
 
-  dimension: extra_json {
-    type: string
-    hidden: yes
-    suggest_explore: events
-    suggest_dimension: events.extra_json
+#   dimension: extra_json {
+#     type: string
+#     hidden: yes
+#     suggest_explore: events
+#     suggest_dimension: events.extra_json
 #     sql: ${TABLE}.extra_json ;;
-  }
+#   }
+
 
 #Remove ""
   dimension: character {
@@ -173,12 +171,12 @@ view: _001_coins_xp_score {
     drill_fields: [user_details*]
   }
 
-  dimension: user_type {
-    type: string
-    suggest_explore: events
-    suggest_dimension: events.user_type
-#     sql: ${TABLE}.user_type ;;
-  }
+#   dimension: user_type {
+#     type: string
+#     suggest_explore: events
+#     suggest_dimension: events.user_type
+# #     sql: ${TABLE}.user_type ;;
+#   }
 
   dimension: version {
     type: string

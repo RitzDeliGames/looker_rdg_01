@@ -118,7 +118,12 @@ explore: _005_bubbles_dropped_popped {
 
 # ROUND LENGTH:
 
-explore: _006_round_length {}
+explore: _006_round_length {
+  sql_always_where: event_name = "round_end"
+  AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
+  AND user_type NOT IN ("internal_editor", "unit_test")
+  ;;
+}
 
 
 # FEVER COUNT:

@@ -1,4 +1,7 @@
+include: "/views/**/events.view"
+
 view: _005_bubbles_d_n_p_comp {
+  extends: [events]
   derived_table: {
     sql: SELECT extra_json,
        user_type
@@ -54,11 +57,6 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     type: number
     sql: bubble_normal ;;
   }
-
-#   dimension: bubble_boost {
-#     type: number
-#     sql: CAST(JSON_Value(extra_json,'$.bubble_boost') AS NUMERIC)  ;;
-#   }
 
   dimension: bubble_coins {
     type: number
@@ -303,13 +301,12 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 
   set: detail {
     fields: [
+      character,
       user_type,
       bubble_normal.bubble_normal,
       bubble_coins.bubble_coins,
       bubble_xp.bubble_xp,
       bubble_score.bubble_score,
-      bubbles_x_axis,
-      character
-    ]
+      ]
   }
 }

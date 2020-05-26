@@ -1,4 +1,8 @@
+include: "/views/**/events.view"
+
+
 view: _002_skill_used {
+  extends: [events]
   derived_table: {
     sql: SELECT
         timestamp_insert,
@@ -174,12 +178,12 @@ view: _002_skill_used {
   }
 
 
-  dimension: user_type {
-    type: string
-    suggest_explore: events
-    suggest_dimension: events.user_type
-#     sql: ${TABLE}.user_type ;;
-  }
+#   dimension: user_type {
+#     type: string
+#     suggest_explore: events
+#     suggest_dimension: events.user_type
+# #     sql: ${TABLE}.user_type ;;
+#   }
 
   set: detail {
     fields: [character_comp,

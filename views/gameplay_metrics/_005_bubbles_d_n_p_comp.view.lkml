@@ -4,7 +4,8 @@ view: _005_bubbles_d_n_p_comp {
   extends: [events]
   derived_table: {
     sql: SELECT extra_json,
-       user_type
+       user_type,
+       timestamp_insert
 FROM events
 WHERE event_name = 'round_end'
 AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
@@ -20,6 +21,12 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     hidden: yes
     type: string
     sql:  CONCAT(${character},${extra_json}) ;;
+  }
+
+  dimension_group: timestamp_insert {
+    type: time
+    hidden: yes
+    sql: ${TABLE}.timestamp_insert ;;
   }
 
   dimension: character {
@@ -53,6 +60,7 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 
 # Bubbles Dimensions:
 
+
   dimension: bubble_normal {
     type: number
     sql: bubble_normal ;;
@@ -60,7 +68,7 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 
   dimension: bubble_coins {
     type: number
-    sql: bubble_coins ;;
+    sql: bubble_coins;;
   }
 
   dimension: bubble_xp {
@@ -77,6 +85,17 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     type: number
     sql: bubble_score ;;
   }
+
+ dimension: total_bubbles {
+   type:  number
+   sql: (CAST(if(${bubble_normal.bubble_normal} = '' , '0', ${bubble_normal.bubble_normal}) AS NUMERIC)) +
+        (CAST(if(${bubble_coins.bubble_coins} = '' , '0', ${bubble_coins.bubble_coins}) AS NUMERIC)) +
+        (CAST(if(${bubble_xp.bubble_xp} = '' , '0', ${bubble_xp.bubble_xp}) AS NUMERIC)) +
+        (CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC)) +
+        (CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC))
+  ;;
+ }
+
 
 
   parameter: boxplot_ {
@@ -101,6 +120,11 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       label: "bubble score"
       value: "bubble score"
     }
+    allowed_value: {
+      label: "All bubbles"
+      value: "All bubbles"
+    }
+
   }
 
 
@@ -128,6 +152,10 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       label: "Drill and sort by -bubble score-"
       url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_score+desc"
     }
+    link: {
+      label: "Drill and sort by -Total Bubbles-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.total_bubbles+desc"
+    }
     group_label: "BoxPlot"
     type: min
     sql: CASE
@@ -141,6 +169,12 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       THEN CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC)
       WHEN  {% parameter boxplot_ %} = 'bubble score'
       THEN CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
+      WHEN  {% parameter boxplot_ %} = 'All bubbles'
+      THEN  CAST(if(${bubble_normal.bubble_normal} = '' , '0', ${bubble_normal.bubble_normal}) AS NUMERIC) +
+        CAST(if(${bubble_coins.bubble_coins} = '' , '0', ${bubble_coins.bubble_coins}) AS NUMERIC) +
+        CAST(if(${bubble_xp.bubble_xp} = '' , '0', ${bubble_xp.bubble_xp}) AS NUMERIC) +
+        CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC) +
+        CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
     END  ;;
   }
 
@@ -166,6 +200,10 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       label: "Drill and sort by -bubble score-"
       url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_score+desc"
     }
+    link: {
+      label: "Drill and sort by -Total Bubbles-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.total_bubbles+desc"
+    }
     group_label: "BoxPlot"
     type: max
     sql: CASE
@@ -179,6 +217,12 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       THEN CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC)
       WHEN  {% parameter boxplot_ %} = 'bubble score'
       THEN CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
+      WHEN  {% parameter boxplot_ %} = 'All bubbles'
+      THEN  CAST(if(${bubble_normal.bubble_normal} = '' , '0', ${bubble_normal.bubble_normal}) AS NUMERIC) +
+        CAST(if(${bubble_coins.bubble_coins} = '' , '0', ${bubble_coins.bubble_coins}) AS NUMERIC) +
+        CAST(if(${bubble_xp.bubble_xp} = '' , '0', ${bubble_xp.bubble_xp}) AS NUMERIC) +
+        CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC) +
+        CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
     END  ;;
   }
 
@@ -204,6 +248,10 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       label: "Drill and sort by -bubble score-"
       url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_score+desc"
     }
+    link: {
+      label: "Drill and sort by -Total Bubbles-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.total_bubbles+desc"
+    }
     group_label: "BoxPlot"
     type: median
     sql: CASE
@@ -217,6 +265,12 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       THEN CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC)
       WHEN  {% parameter boxplot_ %} = 'bubble score'
       THEN CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
+      WHEN  {% parameter boxplot_ %} = 'All bubbles'
+      THEN  CAST(if(${bubble_normal.bubble_normal} = '' , '0', ${bubble_normal.bubble_normal}) AS NUMERIC) +
+        CAST(if(${bubble_coins.bubble_coins} = '' , '0', ${bubble_coins.bubble_coins}) AS NUMERIC) +
+        CAST(if(${bubble_xp.bubble_xp} = '' , '0', ${bubble_xp.bubble_xp}) AS NUMERIC) +
+        CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC) +
+        CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
     END  ;;
   }
 
@@ -242,6 +296,10 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       label: "Drill and sort by -bubble score-"
       url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_score+desc"
     }
+    link: {
+      label: "Drill and sort by -Total Bubbles-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.total_bubbles+desc"
+    }
     group_label: "BoxPlot"
     type: percentile
     percentile: 25
@@ -256,6 +314,12 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       THEN CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC)
       WHEN  {% parameter boxplot_ %} = 'bubble score'
       THEN CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
+      WHEN  {% parameter boxplot_ %} = 'All bubbles'
+      THEN  CAST(if(${bubble_normal.bubble_normal} = '' , '0', ${bubble_normal.bubble_normal}) AS NUMERIC) +
+        CAST(if(${bubble_coins.bubble_coins} = '' , '0', ${bubble_coins.bubble_coins}) AS NUMERIC) +
+        CAST(if(${bubble_xp.bubble_xp} = '' , '0', ${bubble_xp.bubble_xp}) AS NUMERIC) +
+        CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC) +
+        CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
     END  ;;
   }
 
@@ -281,6 +345,10 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       label: "Drill and sort by -bubble score-"
       url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.bubble_score+desc"
     }
+    link: {
+      label: "Drill and sort by -Total Bubbles-"
+      url: "{{ link }}&sorts=_005_bubbles_d_n_p_comp.total_bubbles+desc"
+    }
     group_label: "BoxPlot"
     type: percentile
     percentile: 75
@@ -295,6 +363,12 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       THEN CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC)
       WHEN  {% parameter boxplot_ %} = 'bubble score'
       THEN CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
+      WHEN  {% parameter boxplot_ %} = 'All bubbles'
+      THEN  CAST(if(${bubble_normal.bubble_normal} = '' , '0', ${bubble_normal.bubble_normal}) AS NUMERIC) +
+        CAST(if(${bubble_coins.bubble_coins} = '' , '0', ${bubble_coins.bubble_coins}) AS NUMERIC) +
+        CAST(if(${bubble_xp.bubble_xp} = '' , '0', ${bubble_xp.bubble_xp}) AS NUMERIC) +
+        CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC) +
+        CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
     END  ;;
   }
 
@@ -307,6 +381,8 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       bubble_coins.bubble_coins,
       bubble_xp.bubble_xp,
       bubble_score.bubble_score,
+      bubble_time.bubble_time,
+      total_bubbles
       ]
   }
 }

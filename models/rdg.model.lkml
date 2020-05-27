@@ -52,6 +52,7 @@ explore: _001_coins_xp_score {
   ;;
 }
 
+
 # SKILL USED EXPLORE:
 
 explore: _002_skill_used {
@@ -68,47 +69,49 @@ explore: _003_chains_matches {
   view_name: _003_chains_matches_comp
   join: all_chains {
     fields: [all_chains.all_chains]
-    relationship: many_to_one
+    relationship: one_to_one
     from: _003_chains_matches_comp
     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.all_chains'))) as all_chains
       ;;
-
   }
 }
+
+
+# BUBBLES:
 
 explore: _005_bubbles_dropped_popped {
   view_name: _005_bubbles_d_n_p_comp
   join: bubble_normal {
     fields: [bubble_normal.bubble_normal]
-    relationship: many_to_one
+    relationship: one_to_many
     from: _005_bubbles_d_n_p_comp
     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_normal'))) AS bubble_normal
       ;;
   }
   join: bubble_coins {
     fields: [bubble_coins.bubble_coins]
-    relationship: many_to_one
+    relationship: one_to_many
     from: _005_bubbles_d_n_p_comp
     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_coins'))) AS bubble_coins
       ;;
   }
   join: bubble_xp {
     fields: [bubble_xp.bubble_xp]
-    relationship: many_to_one
+    relationship: one_to_many
     from: _005_bubbles_d_n_p_comp
     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_xp'))) AS bubble_xp
       ;;
   }
   join: bubble_time {
     fields: [bubble_time.bubble_time]
-    relationship: many_to_one
+    relationship: one_to_many
     from: _005_bubbles_d_n_p_comp
     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_time'))) AS bubble_time
       ;;
   }
   join: bubble_score {
     fields: [bubble_score.bubble_score]
-    relationship: many_to_one
+    relationship: one_to_many
     from: _005_bubbles_d_n_p_comp
     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.bubble_score'))) AS bubble_score
       ;;
@@ -165,23 +168,30 @@ explore: _008_frame_count_histogram {}
 #   }
 # }
 #
-# explore: dropped_popped {
-#   view_name: test_large_and_popped
-#   join: large {
+
+
+###
+
+explore: dropped_popped {
+  view_name: test_large_and_popped
+  join: large {
 #     fields: [large.large]
-#     from: test_large_and_popped
-#     relationship: one_to_one
-#       sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large
-#       ;;
-#   }
-#   join: large_popped {
+    from: test_large_and_popped
+    relationship: one_to_one
+      sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large
+      ;;
+  }
+  join: large_popped {
 #     fields: [large_popped.large_popped]
-#     from: test_large_and_popped
-#     relationship: one_to_one
-#     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large_popped
-#       ;;
-#   }
-# }
+    from: test_large_and_popped
+    relationship: one_to_one
+    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large_popped
+      ;;
+  }
+}
+
+
+
 
 
 

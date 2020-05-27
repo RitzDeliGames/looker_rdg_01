@@ -66,7 +66,7 @@ view: events {
 
 ###DEVICE DIMENSIONS###
 
-  dimension: device_brand {#SHOULD WEB TRAFFIC GRAB PC OR BROWSER?
+  dimension: device_brand {#SHOULD WEB TRAFFIC GRAB PC OR BROWSER? sug: "pc_browser"}
     group_label: "device & os dimensions"
     type: string
     description: "the device manufacturer"
@@ -340,7 +340,7 @@ view: events {
 
   dimension: extra_json {
     type: string
-    hidden: no
+    hidden: yes
     sql: ${TABLE}.extra_json ;;
   }
 

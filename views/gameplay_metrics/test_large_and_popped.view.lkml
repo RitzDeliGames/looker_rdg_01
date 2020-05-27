@@ -64,13 +64,15 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 
   dimension: eraser {
     type: string
-    sql: JSON_Value(${extra_json},'$.team_slot_0');;
+    sql: JSON_EXTRACT(${extra_json},'$.team_slot_0');;
   }
 
 
   dimension: test {
+#     sql: concat(character._parameter_value, boxplot_large_n_p._parameter_value) ;;
     sql: {{ character._parameter_value | append: boxplot_large_n_p._parameter_value }} ;;
   }
+
 
   parameter: character {
 #     allowed_value: {
@@ -81,22 +83,11 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 #       label: "character_01"
 #       value: "${character_01}_large_popped}"
 #     }
-#     type: unquoted
+    type: unquoted
     default_value: "character_01"
-    suggest_explore: test_large_and_popped
-    suggest_dimension: eraser
+    suggest_explore: _001_coins_xp_score
+    suggest_dimension: _001_coins_xp_score.character
   }
-
- parameter: large_ {
-    allowed_value: {
-      label: "dropped"
-      value: "dropped"
-    }
-    allowed_value: {
-      label: "popped"
-      value: "popped"
-    }
- }
 
 
   dimension: platform_type {
@@ -110,7 +101,7 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 
 
   parameter: boxplot_large_n_p {
-    type: string
+    type: unquoted
     allowed_value: {
       label: "_large"
       value: "_large"
@@ -124,72 +115,84 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 
   # BOXPLOTS
 
+#       WHEN  {%  parameter boxplot_large_n_p %} = _large
+#       THEN CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
+#       WHEN  {% parameter boxplot_large_n_p %} = _large_popped
+#       THEN CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
+
+
   measure: 1_min_boxplot {
     group_label: "BoxPlot"
     type: min
-    sql: CASE
-      WHEN  {% parameter boxplot_large_n_p %} = '_large'
-      THEN CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
-      WHEN  {% parameter boxplot_large_n_p %} = '_large_popped'
-      THEN CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
-    END  ;;
+    sql:
+      {% if boxplot_large_n_p._parameter_value == '_large' %}
+      CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
+      {% elsif boxplot_large_n_p._parameter_value == '_large_popped' %}
+      CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
+      {% endif %}
+      ;;
   }
 
   measure: 5_max_boxplot {
     group_label: "BoxPlot"
     type: max
-    sql: CASE
-      WHEN  {% parameter boxplot_large_n_p %} = '_large'
-      THEN CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
-      WHEN  {% parameter boxplot_large_n_p %} = '_large_popped'
-      THEN CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
-    END  ;;
+    sql:
+      {% if boxplot_large_n_p._parameter_value == '_large' %}
+      CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
+      {% elsif boxplot_large_n_p._parameter_value == '_large_popped' %}
+      CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
+      {% endif %}
+      ;;
   }
 
   measure: 3_median_boxplot {
     group_label: "BoxPlot"
     type: median
-    sql: CASE
-      WHEN  {% parameter boxplot_large_n_p %} = '_large'
-      THEN CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
-      WHEN  {% parameter boxplot_large_n_p %} = '_large_popped'
-      THEN CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
-    END  ;;
+    sql:
+      {% if boxplot_large_n_p._parameter_value == '_large' %}
+      CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
+      {% elsif boxplot_large_n_p._parameter_value == '_large_popped' %}
+      CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
+      {% endif %}
+      ;;
   }
 
   measure: 2_25th_boxplot {
     group_label: "BoxPlot"
     type: percentile
     percentile: 25
-    sql: CASE
-      WHEN  {% parameter boxplot_large_n_p %} = '_large'
-      THEN CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
-      WHEN  {% parameter boxplot_large_n_p %} = '_large_popped'
-      THEN CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
-    END  ;;
+    sql:
+      {% if boxplot_large_n_p._parameter_value == '_large' %}
+      CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
+      {% elsif boxplot_large_n_p._parameter_value == '_large_popped' %}
+      CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
+      {% endif %}
+      ;;
   }
 
   measure: 4_75th_boxplot {
     group_label: "BoxPlot"
     type: percentile
     percentile: 75
-    sql: CASE
-      WHEN  {% parameter boxplot_large_n_p %} = 'large'
-      THEN CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
-      WHEN  {% parameter boxplot_large_n_p %} = 'large_popped'
-      THEN CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
-    END  ;;
+    sql:
+      {% if boxplot_large_n_p._parameter_value == '_large' %}
+      CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
+      {% elsif boxplot_large_n_p._parameter_value == '_large_popped' %}
+      CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
+      {% endif %}
+      ;;
   }
 
   measure: sum {
     group_label: "BoxPlot"
     type: sum
-    sql: CASE
-      WHEN  {% parameter boxplot_large_n_p %} = '_large'
-      THEN ${large}
-      WHEN  {% parameter boxplot_large_n_p %} = '_large_popped'
-      THEN CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
-    END  ;;
+    sql:
+      {% if boxplot_large_n_p._parameter_value == '_large' %}
+      CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
+      {% elsif boxplot_large_n_p._parameter_value == '_large_popped' %}
+      CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
+      {% endif %}
+      ;;
   }
 
 
@@ -206,7 +209,6 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       large_popped,
       platform_type,
       round_x_axis,
-      eraser,
       test
     ]
   }

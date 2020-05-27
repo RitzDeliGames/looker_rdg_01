@@ -69,7 +69,7 @@ explore: _003_chains_matches {
   view_name: _003_chains_matches_comp
   join: all_chains {
     fields: [all_chains.all_chains]
-    relationship: one_to_one
+    relationship: many_to_one
     from: _003_chains_matches_comp
     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.all_chains'))) as all_chains
       ;;

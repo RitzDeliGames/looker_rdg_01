@@ -377,11 +377,11 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     fields: [
       character,
       user_type,
-      bubble_normal.bubble_normal,
-      bubble_coins.bubble_coins,
-      bubble_xp.bubble_xp,
-      bubble_score.bubble_score,
-      bubble_time.bubble_time,
+      bubble_normal,
+      bubble_coins,
+      bubble_xp,
+      bubble_score,
+      bubble_time,
       total_bubbles
       ]
   }

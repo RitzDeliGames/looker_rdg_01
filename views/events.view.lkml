@@ -125,7 +125,7 @@ view: events {
   dimension: device_language {
     group_label: "device & os dimensions"
     type: string
-    sql: 'English' ;;
+    sql: REPLACE(JSON_EXTRACT(${TABLE}.language, "$.SystemLanguage"),'"','') ;;
   }
 
   dimension: battery_level {

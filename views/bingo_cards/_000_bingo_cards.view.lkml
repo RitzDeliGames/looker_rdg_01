@@ -167,12 +167,12 @@ view: _000_bingo_cards {
 
   dimension: node_id_binary {
     type: yesno
-    sql: node_id LIKE '%"node\\_end\\_time"%' ;;
+    sql: ${node_id} LIKE '%"node\\_end\\_time"%' ;;
   }
 
   dimension: rounds_nodes {
     type: number
-    sql: JSON_Value(node_id, '$.rounds') ;;
+    sql: JSON_EXTRACT(${node_id}, '$.rounds') ;;
   }
 
 

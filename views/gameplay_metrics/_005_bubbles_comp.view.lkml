@@ -1,6 +1,6 @@
 include: "/views/**/events.view"
 
-view: _005_bubbles_d_n_p_comp {
+view: _005_bubbles_comp {
   extends: [events]
   derived_table: {
     sql: SELECT extra_json,

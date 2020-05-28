@@ -1,4 +1,4 @@
-view: test_large_n_dropped_query {
+ view: test_large_n_dropped_query {
   derived_table: {
     sql: SELECT *
       FROM

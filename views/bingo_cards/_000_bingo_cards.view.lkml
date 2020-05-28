@@ -16,6 +16,7 @@ view: _000_bingo_cards {
   }
 
 
+
   #_DIMENSIONS_MANY_TYPES_#####################################
 
   dimension: extra_json {
@@ -158,6 +159,29 @@ view: _000_bingo_cards {
 
   #############################################################
 
+
+  dimension: node_id {
+    type: string
+    sql: node_id ;;
+  }
+
+  dimension: node_id_binary {
+    type: yesno
+    sql: node_id LIKE '%"node\\_end\\_time"%' ;;
+  }
+
+  dimension: rounds_nodes {
+    type: number
+    sql: JSON_Value(node_id, '$.rounds') ;;
+  }
+
+
+# (CAST(JSON_EXTRACT(node_id, '$.rounds') AS NUMERIC))
+
+
+  #########################################################
+
+
 #   dimension: len {
 #     type: string
 #     sql: len
@@ -210,12 +234,10 @@ view: _000_bingo_cards {
       value: "rounds"
     }
 
-#     allowed_value: {
-#       label: "all chains"
-#       value: "all chains"
-#     }
-#   }
-#
+    allowed_value: {
+      label: "rounds per node completed"
+      value: "rounds per node completed"
+    }
   }
 
   measure: 1_min_boxplot {
@@ -229,6 +251,8 @@ view: _000_bingo_cards {
     sql: CASE
       WHEN  {% parameter boxplot_bc %} = 'rounds'
       THEN ${rounds}
+      WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
+      THEN ${rounds_nodes}
     END  ;;
   }
 
@@ -243,6 +267,8 @@ view: _000_bingo_cards {
     sql: CASE
       WHEN  {% parameter boxplot_bc %} = 'rounds'
       THEN ${rounds}
+      WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
+      THEN ${rounds_nodes}
     END  ;;
   }
 
@@ -257,6 +283,8 @@ view: _000_bingo_cards {
     sql: CASE
       WHEN  {% parameter boxplot_bc %} = 'rounds'
       THEN ${rounds}
+      WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
+      THEN ${rounds_nodes}
     END  ;;
   }
 
@@ -272,6 +300,8 @@ view: _000_bingo_cards {
     sql: CASE
       WHEN  {% parameter boxplot_bc %} = 'rounds'
       THEN ${rounds}
+      WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
+      THEN ${rounds_nodes}
     END  ;;
   }
 
@@ -287,6 +317,8 @@ view: _000_bingo_cards {
     sql: CASE
       WHEN  {% parameter boxplot_bc %} = 'rounds'
       THEN ${rounds}
+      WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
+      THEN ${rounds_nodes}
     END  ;;
   }
 
@@ -313,7 +345,11 @@ view: _000_bingo_cards {
              card_state_progress_str,
 
              platform_type,
-             card_end_time
+             card_end_time,
+
+             node_id.node_id,
+             node_id_binary,
+             rounds_nodes
             ]
   }
 }

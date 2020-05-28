@@ -62,26 +62,31 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 
 
   dimension: bubble_normal {
+    hidden: yes
     type: number
     sql: bubble_normal ;;
   }
 
   dimension: bubble_coins {
+    hidden: yes
     type: number
     sql: bubble_coins;;
   }
 
   dimension: bubble_xp {
+    hidden: yes
     type: number
     sql: bubble_xp ;;
   }
 
   dimension: bubble_time {
+    hidden: yes
     type: number
     sql: bubble_time ;;
   }
 
   dimension: bubble_score {
+    hidden: yes
     type: number
     sql: bubble_score ;;
   }

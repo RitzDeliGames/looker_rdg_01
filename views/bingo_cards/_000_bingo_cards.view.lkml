@@ -101,11 +101,55 @@ view: _000_bingo_cards {
     sql: JSON_Value(extra_json, '$.sessions');;
   }
 
-  dimension: test {
+  dimension: player_bingo_card_walk {
     type: string
-    sql: JSON_EXTRACT(extra_json, '$.card_state_completed')  = '[1,15,11]';;
+    sql: CASE
+          WHEN  ${card_state_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
+          '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
+          THEN 'column'
+          WHEN ${card_state_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
+          '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
+          THEN 'row'
+          WHEN ${card_state_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
+          THEN 'diagonal'
+          ELSE 'random walk'
+        END
+        ;;
   }
 
+#   dimension: test_card_progress {
+#     type: string
+#     sql: CASE
+#           WHEN  ${card_state_progress_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
+#           '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
+#           THEN 'column'
+#           WHEN ${card_state_progress_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
+#           '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
+#           THEN 'row'
+#           WHEN ${card_state_progress_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
+#           THEN 'diagonal'
+#           END
+#           ;;
+#   }
+#
+#   dimension: test_card_comple {
+#     type: string
+#     sql: CASE
+#           WHEN  ${card_state_completed_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
+#           '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
+#           THEN 'column'
+#           WHEN ${card_state_completed_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
+#           '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
+#           THEN 'row'
+#           WHEN ${card_state_completed_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
+#           THEN 'diagonal'
+#           END
+#           ;;
+#   }
+
+
+
+#     sql: JSON_EXTRACT(extra_json, '$.card_state_completed')  = '[1,15,11]';;
 
   #_CARD_STATE_###############################################
 
@@ -168,7 +212,7 @@ view: _000_bingo_cards {
     sql: ${TABLE}.node_data ;;
   }
 
-  dimension: node_id_binary {
+  dimension: is_node_ended {
     type: yesno
     sql:  ${node_data} LIKE '%"node\\_end\\_time"%' ;;
   }
@@ -247,10 +291,14 @@ view: _000_bingo_cards {
   }
 
   measure: 1_min_boxplot {
-    drill_fields: [user_type, rounds]
+    drill_fields: [detail*]
     link: {
       label: "Drill and sort by Round"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
+    }
+    link: {
+      label: "Drill and sort by Rounds per Node"
+      url: "{{ link }}&sorts=_000_bingo_cards.rounds_nodes+desc"
     }
     group_label: "BoxPlot"
     type: min
@@ -265,10 +313,14 @@ view: _000_bingo_cards {
 
 
   measure: 5_max_boxplot {
-    drill_fields: [user_type, rounds]
+    drill_fields: [detail*]
     link: {
       label: "Drill and sort by Round"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
+    }
+    link: {
+      label: "Drill and sort by Rounds per Node"
+      url: "{{ link }}&sorts=_000_bingo_cards.rounds_nodes+desc"
     }
     group_label: "BoxPlot"
     type: max
@@ -281,10 +333,14 @@ view: _000_bingo_cards {
   }
 
   measure: 3_median_boxplot {
-    drill_fields: [user_type, rounds]
+    drill_fields: [detail*]
     link: {
       label: "Drill and sort by Round"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
+    }
+    link: {
+      label: "Drill and sort by Rounds per Node"
+      url: "{{ link }}&sorts=_000_bingo_cards.rounds_nodes+desc"
     }
     group_label: "BoxPlot"
     type: median
@@ -297,10 +353,14 @@ view: _000_bingo_cards {
   }
 
   measure: 2_25th_boxplot {
-    drill_fields: [user_type, rounds]
+    drill_fields: [detail*]
     link: {
       label: "Drill and sort by Round"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
+    }
+    link: {
+      label: "Drill and sort by Rounds per Node"
+      url: "{{ link }}&sorts=_000_bingo_cards.rounds_nodes+desc"
     }
     group_label: "BoxPlot"
     type: percentile
@@ -314,10 +374,14 @@ view: _000_bingo_cards {
   }
 
   measure: 4_75th_boxplot {
-    drill_fields: [user_type, rounds]
+    drill_fields: [detail*]
     link: {
       label: "Drill and sort by Round"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
+    }
+    link: {
+      label: "Drill and sort by Rounds per Node"
+      url: "{{ link }}&sorts=_000_bingo_cards.rounds_nodes+desc"
     }
     group_label: "BoxPlot"
     type: percentile
@@ -332,8 +396,7 @@ view: _000_bingo_cards {
 
 
   set: detail {
-    fields: [extra_json,
-             user_type,
+    fields: [user_type,
              hardware,
              platform,
              version,
@@ -343,7 +406,6 @@ view: _000_bingo_cards {
              round_id,
              rounds,
              sessions,
-             card_state,
 
              length_completed,
              card_state_completed_str,
@@ -356,7 +418,8 @@ view: _000_bingo_cards {
 
              node_data,
              rounds_nodes,
-             node_id
+             node_id,
+             player_bingo_card_walk
             ]
   }
 }

@@ -62,31 +62,31 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 
 
   dimension: bubble_normal {
-    hidden: yes
+#     hidden: yes
     type: number
     sql: bubble_normal ;;
   }
 
   dimension: bubble_coins {
-    hidden: yes
+#     hidden: yes
     type: number
     sql: bubble_coins;;
   }
 
   dimension: bubble_xp {
-    hidden: yes
+#     hidden: yes
     type: number
     sql: bubble_xp ;;
   }
 
   dimension: bubble_time {
-    hidden: yes
+#     hidden: yes
     type: number
     sql: bubble_time ;;
   }
 
   dimension: bubble_score {
-    hidden: yes
+#     hidden: yes
     type: number
     sql: bubble_score ;;
   }
@@ -101,7 +101,25 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
   ;;
  }
 
+ dimension: All_bubbles {
+   type: number
+   sql: CONCAT(CAST(if(${bubble_normal.bubble_normal} = '' , '0', ${bubble_normal.bubble_normal}) AS NUMERIC),
+  CAST(if(${bubble_coins.bubble_coins} = '' , '0', ${bubble_coins.bubble_coins}) AS NUMERIC),
+  CAST(if(${bubble_xp.bubble_xp} = '' , '0', ${bubble_xp.bubble_xp}) AS NUMERIC),
+  CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC),
+  CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC))
+  ;;
+ }
 
+#   dimension: all_bubs_test {
+#     type: string
+#     sql: CASE WHEN ${bubble_normal.bubble_normal} IS NOT NULL THEN 'normal'
+#     WHEN ${bubble_coins.bubble_coins} IS NOT NULL THEN 'coins'
+#     WHEN ${bubble_xp.bubble_xp} IS NOT NULL THEN 'xp'
+#     WHEN ${bubble_time.bubble_time} IS NOT NULL THEN 'time'
+#     WHEN ${bubble_score.bubble_score} IS NOT NULL THEN 'score'
+#       END ;;
+#   }
 
   parameter: boxplot_ {
     type: string
@@ -132,6 +150,11 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 
   }
 
+# CAST(if(${bubble_normal.bubble_normal} = '' , '0', ${bubble_normal.bubble_normal}) AS NUMERIC) +
+#         CAST(if(${bubble_coins.bubble_coins} = '' , '0', ${bubble_coins.bubble_coins}) AS NUMERIC) +
+#         CAST(if(${bubble_xp.bubble_xp} = '' , '0', ${bubble_xp.bubble_xp}) AS NUMERIC) +
+#         CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC) +
+#         CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
 
 # Bubbles Boxplots
 
@@ -175,7 +198,7 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       WHEN  {% parameter boxplot_ %} = 'bubble score'
       THEN CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
       WHEN  {% parameter boxplot_ %} = 'All bubbles'
-      THEN  CAST(if(${bubble_normal.bubble_normal} = '' , '0', ${bubble_normal.bubble_normal}) AS NUMERIC) +
+      THEN CAST(if(${bubble_normal.bubble_normal} = '' , '0', ${bubble_normal.bubble_normal}) AS NUMERIC) +
         CAST(if(${bubble_coins.bubble_coins} = '' , '0', ${bubble_coins.bubble_coins}) AS NUMERIC) +
         CAST(if(${bubble_xp.bubble_xp} = '' , '0', ${bubble_xp.bubble_xp}) AS NUMERIC) +
         CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC) +

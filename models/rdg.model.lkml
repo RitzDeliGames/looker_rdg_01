@@ -38,16 +38,6 @@ explore: fue_funnel {
 
 explore: _000_bingo_cards {}
 
-explore: _000_b_c {
-  view_name: _000_bingo_cards
-  join: node_id {
-    fields: [node_id.node_id]
-    relationship: many_to_one
-    from: _000_bingo_cards
-    sql: CROSS JOIN UNNEST(JSON_EXTRACT_ARRAY(extra_json, '$.node_data')) as node_id
-      ;;
-  }
-}
 
 
 ##########GAMEPLAY EXPLORES##########

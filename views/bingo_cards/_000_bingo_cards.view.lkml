@@ -7,14 +7,17 @@ view: _000_bingo_cards {
                 version,
                 user_id,
                 current_card,
+                node_data,
+                JSON_EXTRACT(node_data, '$.rounds') AS rounds_nodes,
+                JSON_EXTRACT(node_data, '$.node_id') AS node_id,
                 JSON_EXTRACT_ARRAY(extra_json, '$.card_state_completed') AS card_state_completed,
                 JSON_EXTRACT_ARRAY(extra_json, '$.card_state_progress') AS card_state_progress,
                 JSON_EXTRACT_ARRAY(extra_json, '$.card_state') AS card_state
       FROM events
+      CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.node_data')) as node_data
       WHERE event_name = 'cards'
        ;;
   }
-
 
 
   #_DIMENSIONS_MANY_TYPES_#####################################
@@ -73,10 +76,10 @@ view: _000_bingo_cards {
     sql: JSON_Value(extra_json, '$.card_id');;
   }
 
-  dimension: node_data {
-     type: string
-    sql: JSON_EXTRACT(extra_json, '$.node_data');;
-  }
+#   dimension: node_data {
+#      type: string
+#     sql: JSON_EXTRACT(extra_json, '$.node_data');;
+#   }
 
   dimension: round_id {
     type: string
@@ -160,23 +163,26 @@ view: _000_bingo_cards {
   #############################################################
 
 
-  dimension: node_id {
+  dimension: node_data {
     type: string
-    sql: node_id ;;
+    sql: ${TABLE}.node_data ;;
   }
 
   dimension: node_id_binary {
     type: yesno
-    sql: ${node_id} LIKE '%"node\\_end\\_time"%' ;;
+    sql:  ${node_data} LIKE '%"node\\_end\\_time"%' ;;
   }
 
   dimension: rounds_nodes {
     type: number
-    sql: JSON_EXTRACT(${node_id}, '$.rounds') ;;
+    sql: ${TABLE}.rounds_nodes ;;
   }
 
+  dimension: node_id {
+    type: number
+    sql: ${TABLE}.node_id ;;
+  }
 
-# (CAST(JSON_EXTRACT(node_id, '$.rounds') AS NUMERIC))
 
 
   #########################################################
@@ -252,9 +258,11 @@ view: _000_bingo_cards {
       WHEN  {% parameter boxplot_bc %} = 'rounds'
       THEN ${rounds}
       WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
-      THEN ${rounds_nodes}
+      THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
     END  ;;
   }
+
+
 
   measure: 5_max_boxplot {
     drill_fields: [user_type, rounds]
@@ -268,7 +276,7 @@ view: _000_bingo_cards {
       WHEN  {% parameter boxplot_bc %} = 'rounds'
       THEN ${rounds}
       WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
-      THEN ${rounds_nodes}
+      THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
     END  ;;
   }
 
@@ -284,7 +292,7 @@ view: _000_bingo_cards {
       WHEN  {% parameter boxplot_bc %} = 'rounds'
       THEN ${rounds}
       WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
-      THEN ${rounds_nodes}
+      THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
     END  ;;
   }
 
@@ -301,7 +309,7 @@ view: _000_bingo_cards {
       WHEN  {% parameter boxplot_bc %} = 'rounds'
       THEN ${rounds}
       WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
-      THEN ${rounds_nodes}
+      THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
     END  ;;
   }
 
@@ -318,7 +326,7 @@ view: _000_bingo_cards {
       WHEN  {% parameter boxplot_bc %} = 'rounds'
       THEN ${rounds}
       WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
-      THEN ${rounds_nodes}
+      THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
     END  ;;
   }
 
@@ -332,7 +340,6 @@ view: _000_bingo_cards {
              user_id,
              current_card,
              card_id,
-             node_data,
              round_id,
              rounds,
              sessions,
@@ -347,9 +354,9 @@ view: _000_bingo_cards {
              platform_type,
              card_end_time,
 
-             node_id.node_id,
-             node_id_binary,
-             rounds_nodes
+             node_data,
+             rounds_nodes,
+             node_id
             ]
   }
 }

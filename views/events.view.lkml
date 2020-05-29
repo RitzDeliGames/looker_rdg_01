@@ -424,18 +424,21 @@ view: events {
 
   measure: min_battery_level  {
     type: min
+    hidden: yes
     label: "min battery level"
     sql: ${battery_level} ;;
   }
 
   measure: max_battery_level  {
     type: max
+    hidden: yes
     label: "max battery level"
     sql: ${battery_level} ;;
   }
 
   measure: avg_battery_level  {
     type: average
+    hidden: yes
     label: "avg battery level"
     sql: ${battery_level} ;;
   }

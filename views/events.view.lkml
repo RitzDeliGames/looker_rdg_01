@@ -448,4 +448,9 @@ view: events {
     sql: MIN(${event_raw}) ;;
   }
 
+  measure: first_time {
+    type: date_time
+    sql: min(${timestamp_raw}) ;;
+  }
+
 }

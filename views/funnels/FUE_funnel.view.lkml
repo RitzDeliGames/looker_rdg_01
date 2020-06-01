@@ -8,17 +8,6 @@ view: fue_funnel {
     type: count_distinct
     sql: ${user_id} ;;
   }
-#   parameter: FUE_step_ID {
-#     allowed_value: {
-#       label: "FIRST_PLAY"
-#       value: "FIRST_PLAY"
-#     }
-#
-#     allowed_value: {
-#       label: "BINGO_CARD_INTRO"
-#       value: "BINGO_CARD_INTRO"
-#     }
-#   }
 
   dimension: fue_step {
     type: string
@@ -48,7 +37,6 @@ view: fue_funnel {
   }
 }
 
-explore: funnel_steps {}
 view: funnel_steps {
   derived_table: {
     sql:

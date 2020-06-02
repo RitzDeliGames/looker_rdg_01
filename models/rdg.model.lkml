@@ -29,8 +29,8 @@ explore: events {
 }
 
 explore: fue_funnel {
-  sql_always_where:
-  user_type NOT IN ("internal_editor", "unit_test","bots","ugs");;
+ sql_always_where:
+ user_type NOT IN ("internal_editor", "unit_test","bots","ugs");;
 }
 
 ##########BINGO CARDS##########

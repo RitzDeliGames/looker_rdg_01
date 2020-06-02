@@ -46,7 +46,8 @@ view: events {
     label: "Player Real Name"
     type: string
     sql: CASE
-          WHEN ${TABLE}.user_id LIKE "anon-431ff9ad-d91c-43e1-9c7d-26a651f686b4" THEN "Robert Einspruch"
+          WHEN ${TABLE}.user_id LIKE "anon-431ff9ad-d91c-43e1-9c7d-26a651f686b4" THEN "Robert Einspruch iPhone 11"
+          WHEN ${TABLE}.user_id LIKE "anon-a92949b7-e902-45b0-9e1d-addb6cc46b80" THEN "Robert Einspruch iPhone 8"
         END ;;
   }
 
@@ -446,6 +447,11 @@ view: events {
   measure: first_date {
     type:  date
     sql: MIN(${event_raw}) ;;
+  }
+
+  measure: first_time {
+    type: date_time
+    sql: min(${timestamp_raw}) ;;
   }
 
 }

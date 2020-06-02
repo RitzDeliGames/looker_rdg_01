@@ -79,7 +79,15 @@ explore: _003_chains_matches {
 
 # BUBBLES:
 
+explore: bubble_types {
+
+}
+
 explore: _005_bubbles {
+#   join: bubble_types {
+#     sql_on: ${_005_bubbles_comp.primary_key}   ;;
+#   }
+
   view_name: _005_bubbles_comp
   join: bubble_normal {
     fields: [bubble_normal.bubble_normal]

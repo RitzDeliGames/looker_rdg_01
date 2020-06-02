@@ -30,6 +30,12 @@ view: _000_bingo_cards {
 #     sql: ${TABLE}.extra_json ;;
   }
 
+  dimension: primary_key {
+    type: string
+    sql:  CONCAT(${card_id},${extra_json}) ;;
+  }
+
+
   dimension: user_type {
     type: string
     suggest_explore: events
@@ -117,39 +123,39 @@ view: _000_bingo_cards {
         ;;
   }
 
-#   dimension: test_card_progress {
-#     type: string
-#     sql: CASE
-#           WHEN  ${card_state_progress_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
-#           '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
-#           THEN 'column'
-#           WHEN ${card_state_progress_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
-#           '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
-#           THEN 'row'
-#           WHEN ${card_state_progress_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
-#           THEN 'diagonal'
-#           END
-#           ;;
-#   }
-#
-#   dimension: test_card_comple {
-#     type: string
-#     sql: CASE
-#           WHEN  ${card_state_completed_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
-#           '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
-#           THEN 'column'
-#           WHEN ${card_state_completed_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
-#           '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
-#           THEN 'row'
-#           WHEN ${card_state_completed_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
-#           THEN 'diagonal'
-#           END
-#           ;;
-#   }
+  dimension: test_card_progress {
+    type: string
+    sql: CASE
+          WHEN  ${card_state_progress_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
+          '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
+          THEN 'column'
+          WHEN ${card_state_progress_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
+          '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
+          THEN 'row'
+          WHEN ${card_state_progress_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
+          THEN 'diagonal'
+          ELSE 'random walk'
+          END
+          ;;
+  }
+
+  dimension: test_card_completed {
+    type: string
+    sql: CASE
+          WHEN  ${card_state_completed_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
+          '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
+          THEN 'column'
+          WHEN ${card_state_completed_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
+          '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
+          THEN 'row'
+          WHEN ${card_state_completed_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
+          THEN 'diagonal'
+          ELSE 'random walk'
+          END
+          ;;
+  }
 
 
-
-#     sql: JSON_EXTRACT(extra_json, '$.card_state_completed')  = '[1,15,11]';;
 
   #_CARD_STATE_###############################################
 

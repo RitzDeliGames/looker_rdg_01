@@ -1,7 +1,7 @@
 view: _008_frame_count_histogram {
   derived_table: {
     sql: SELECT
-        SUM(cast(frame_time_histogram AS INT64)) AS frame_count,
+        SUM(CAST(frame_time_histogram AS INT64)) AS frame_count,
         OFFSET AS ms_per_frame
       FROM
         `eraser-blast.game_data.events`

@@ -59,7 +59,7 @@ view: _007_fever_count {
   parameter: boxplot_fever {
     type: string
     allowed_value: {
-      label: "Fever"
+      label: "Fever Count"
       value: "Fever"
     }
   }

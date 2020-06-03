@@ -5,6 +5,7 @@ view: _002_skill_used {
   extends: [events]
   derived_table: {
     sql: SELECT
+        REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','') as character,
         timestamp_insert,
         created_at,
         character_skill_used,
@@ -24,7 +25,7 @@ view: _002_skill_used {
 
   parameter: character {
     type: unquoted
-    default_value: "character_01"
+    default_value: "character_001"
     suggest_explore: _001_coins_xp_score
     suggest_dimension: _001_coins_xp_score.character
   }
@@ -36,6 +37,11 @@ view: _002_skill_used {
   #  default_value: "01"
   #}
 
+  dimension: eraser {
+    type: string
+    sql: ${TABLE}.character ;;
+
+  }
 
   dimension: extra_json {
     type: string
@@ -77,7 +83,6 @@ view: _002_skill_used {
     type: number
     sql: CAST(if(character_skill_used = '' ,'0', character_skill_used) AS NUMERIC);;
   }
-
 
   dimension: character_skill {
     type: number

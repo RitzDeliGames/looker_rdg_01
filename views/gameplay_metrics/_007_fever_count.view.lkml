@@ -53,6 +53,12 @@ view: _007_fever_count {
 #     sql: ${TABLE}.user_type ;;
   }
 
+  dimension: player_xp_level {
+    type: string
+    suggest_explore: events
+    suggest_dimension: events.player_xp_level
+  }
+
 
 # FEVER COUNT BOXPLOT
 

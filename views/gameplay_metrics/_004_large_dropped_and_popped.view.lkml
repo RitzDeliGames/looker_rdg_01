@@ -1,11 +1,13 @@
-view: _004_large_d_n_p_comp {
+view: _004_large_dropped_and_popped {
   derived_table: {
     sql: SELECT user_type,
       extra_json,
       hardware,
       platform,
-      JSON_Value(extra_json,'$.total_large_popped') AS total_large_popped,
-      JSON_Value(extra_json,'$.total_large_dropped') AS total_large_dropped
+      JSON_EXTRACT(extra_json, '$.{% parameter character %}_large') AS large,
+      JSON_EXTRACT(extra_json, '$.{% parameter character %}_large_popped') AS large_popped,
+      JSON_EXTRACT(extra_json,'$.total_large_popped') AS total_large_popped,
+      JSON_EXTRACT(extra_json,'$.total_large_dropped') AS total_large_dropped
 FROM events
 WHERE event_name = 'round_end'
 AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
@@ -55,38 +57,36 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
   }
 
   dimension: large {
-    hidden: yes
-    type: string
-    sql: large ;;
+#     type: number
+    sql: ${TABLE}.large ;;
   }
 
   dimension: large_popped {
-    hidden: yes
-    type: string
-    sql: large_popped ;;
+#     type: string
+    sql: ${TABLE}.large_popped ;;
   }
 
   dimension: total_large_dropped {
-    type: string
+    type: number
     sql: ${TABLE}.total_large_dropped ;;
-#     sql: JSON_Value(${extra_json},'$.total_large_dropped') ;;
   }
 
   dimension: total_large_popped {
-    type: string
-    sql: ${TABLE}.total_large_popped ;;
-#     sql: JSON_Value(${extra_json},'$.total_large_popped') ;;
+    type: number
+    sql: ${TABLE}.total_large_popped  ;;
   }
+
+
 
   dimension: character_ {
     type: string
     sql: JSON_EXTRACT(${extra_json},'$.team_slot_0') ;;
   }
 
-  dimension: test {
-#     sql: concat(character._parameter_value, boxplot_large_n_p._parameter_value) ;;
-    sql: {{ character._parameter_value | append: boxplot_large_n_p._parameter_value }} ;;
-  }
+#   dimension: test {
+# #     sql: concat(character._parameter_value, boxplot_large_n_p._parameter_value) ;;
+#     sql: {{ character._parameter_value | append: boxplot_large_n_p._parameter_value }} ;;
+#   }
 
 
   parameter: character {
@@ -100,8 +100,8 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 #     }
     type: unquoted
     default_value: "character_01"
-    suggest_explore: events
-    suggest_dimension: events.character
+    suggest_explore: _001_coins_xp_score
+    suggest_dimension: _001_coins_xp_score.character
   }
 
 
@@ -118,12 +118,12 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
   parameter: boxplot_large_n_p {
     type: unquoted
     allowed_value: {
-      label: "_large"
-      value: "_large"
+      label: "large"
+      value: "large"
     }
     allowed_value: {
-      label: "_large_popped"
-      value: "_large_popped"
+      label: "large_popped"
+      value: "large_popped"
     }
     allowed_value: {
       label: "total_large_dropped"
@@ -142,10 +142,10 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     group_label: "BoxPlot"
     type: min
     sql: CASE
-      WHEN {% parameter boxplot_large_n_p %} = '_large'
-      THEN CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
-      WHEN {% parameter boxplot_large_n_p %} = '_large_popped'
-      THEN CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large'
+      THEN CAST(if(${large} = '' , '0', ${large}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large_popped'
+      THEN CAST(if(${large_popped} = '' , '0', ${large_popped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_dropped'
       THEN CAST(if(${total_large_dropped} = '' , '0', ${total_large_dropped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_popped'
@@ -154,15 +154,14 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
   }
 
 
-
   measure: 5_max_boxplot {
     group_label: "BoxPlot"
     type: max
     sql: CASE
-      WHEN {% parameter boxplot_large_n_p %} = '_large'
-      THEN CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
-      WHEN {% parameter boxplot_large_n_p %} = '_large_popped'
-      THEN CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large'
+      THEN CAST(if(${large} = '' , '0', ${large}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large_popped'
+      THEN CAST(if(${large_popped} = '' , '0', ${large_popped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_dropped'
       THEN CAST(if(${total_large_dropped} = '' , '0', ${total_large_dropped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_popped'
@@ -174,10 +173,10 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     group_label: "BoxPlot"
     type: median
     sql: CASE
-      WHEN {% parameter boxplot_large_n_p %} = '_large'
-      THEN CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
-      WHEN {% parameter boxplot_large_n_p %} = '_large_popped'
-      THEN CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large'
+      THEN CAST(if(${large} = '' , '0', ${large}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large_popped'
+      THEN CAST(if(${large_popped} = '' , '0', ${large_popped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_dropped'
       THEN CAST(if(${total_large_dropped} = '' , '0', ${total_large_dropped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_popped'
@@ -190,10 +189,10 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     type: percentile
     percentile: 25
     sql: CASE
-      WHEN {% parameter boxplot_large_n_p %} = '_large'
-      THEN CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
-      WHEN {% parameter boxplot_large_n_p %} = '_large_popped'
-      THEN CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large'
+      THEN CAST(if(${large} = '' , '0', ${large}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large_popped'
+      THEN CAST(if(${large_popped} = '' , '0', ${large_popped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_dropped'
       THEN CAST(if(${total_large_dropped} = '' , '0', ${total_large_dropped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_popped'
@@ -206,10 +205,10 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     type: percentile
     percentile: 75
     sql: CASE
-      WHEN {% parameter boxplot_large_n_p %} = '_large'
-      THEN CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
-      WHEN {% parameter boxplot_large_n_p %} = '_large_popped'
-      THEN CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large'
+      THEN CAST(if(${large} = '' , '0', ${large}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large_popped'
+      THEN CAST(if(${large_popped} = '' , '0', ${large_popped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_dropped'
       THEN CAST(if(${total_large_dropped} = '' , '0', ${total_large_dropped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_popped'
@@ -221,10 +220,10 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     group_label: "BoxPlot"
     type: sum
     sql: CASE
-      WHEN {% parameter boxplot_large_n_p %} = '_large'
-      THEN CAST(if(${large.large} = '' , '0', ${large.large}) AS NUMERIC)
-      WHEN {% parameter boxplot_large_n_p %} = '_large_popped'
-      THEN CAST(if(${large_popped.large_popped} = '' , '0', ${large_popped.large_popped}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large'
+      THEN CAST(if(${large} = '' , '0', ${large}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large_popped'
+      THEN CAST(if(${large_popped} = '' , '0', ${large_popped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_dropped'
       THEN CAST(if(${total_large_dropped} = '' , '0', ${total_large_dropped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_popped'
@@ -241,11 +240,10 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       extra_json,
       hardware,
       platform,
-      character,
-      large,
-      large_popped,
       platform_type,
       round_x_axis,
+      large,
+      large_popped,
       total_large_dropped,
       total_large_popped
     ]

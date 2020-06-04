@@ -79,25 +79,25 @@ explore: _003_chains_matches {
 
 # Large
 
-explore: _004_large_dropped_and_popped {
-  view_name: _004_large_d_n_p_comp
-  join: large {
-    fields: [large.large]
-    from: _004_large_d_n_p_comp
-    relationship: many_to_many
-    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large
-      ;;
-  }
-  join: large_popped {
-    fields: [large_popped.large_popped]
-    from: _004_large_d_n_p_comp
-    relationship: many_to_many
-    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large_popped
-      ;;
-  }
-}
+# explore: _004_large_dropped_and_popped {
+#   view_name: _004_large_d_n_p_comp
+#   join: large {
+#     fields: [large.large]
+#     from: _004_large_d_n_p_comp
+#     relationship: many_to_many
+#     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large
+#       ;;
+#   }
+#   join: large_popped {
+#     fields: [large_popped.large_popped]
+#     from: _004_large_d_n_p_comp
+#     relationship: many_to_many
+#     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large_popped
+#       ;;
+#   }
+# }
 
-# explore: _004_large_dropped_and_popped {}
+explore: _004_large_dropped_and_popped {}
 
 
 

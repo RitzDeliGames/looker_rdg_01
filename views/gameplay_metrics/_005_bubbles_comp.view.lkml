@@ -5,7 +5,8 @@ view: _005_bubbles_comp {
   derived_table: {
     sql: SELECT extra_json,
        user_type,
-       timestamp_insert
+       timestamp_insert,
+       JSON_EXTRACT(extra_json,'$.team_slot_0') AS character
 FROM events
 WHERE event_name = 'round_end'
 AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
@@ -29,19 +30,23 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     sql: ${TABLE}.timestamp_insert ;;
   }
 
-  dimension: character {
-    hidden: yes
-    type: string
-    sql: JSON_EXTRACT_SCALAR(${extra_json},'$.team_slot_0') ;;
-  }
+#   dimension: character {
+#     hidden: no
+#     type: string
+#     sql: JSON_EXTRACT(${extra_json},'$.team_slot_0') ;;
+#   }
 
+  dimension: character {
+    type: string
+    sql: ${TABLE}.character ;;
+  }
 
   dimension: extra_json {
     type: string
-    hidden: yes
-    suggest_explore: events
-    suggest_dimension: events.extra_json
-#     sql: ${TABLE}.extra_json ;;
+#     hidden: yes
+#     suggest_explore: events
+#     suggest_dimension: events.extra_json
+    sql: ${TABLE}.extra_json ;;
   }
 
   dimension: bubbles_x_axis {

@@ -77,16 +77,38 @@ explore: _003_chains_matches {
 }
 
 
-# BUBBLES:
+# Large
 
-explore: bubble_types {
-
+explore: _004_large_dropped_and_popped {
+  view_name: _004_large_d_n_p_comp
+  join: large {
+    fields: [large.large]
+    from: _004_large_d_n_p_comp
+    relationship: many_to_many
+    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large
+      ;;
+  }
+  join: large_popped {
+    fields: [large_popped.large_popped]
+    from: _004_large_d_n_p_comp
+    relationship: many_to_many
+    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large_popped
+      ;;
+  }
 }
 
+# explore: _004_large_dropped_and_popped {}
+
+
+
+# BUBBLES:
+
+
 explore: _005_bubbles {
-#   join: bubble_types {
-#     sql_on: ${_005_bubbles_comp.primary_key}   ;;
-#   }
+  join: bubble_types {
+    relationship: one_to_one
+    sql_on: ${_005_bubbles_comp.primary_key} = ${bubble_types.primary_key}  ;;
+  }
 
   view_name: _005_bubbles_comp
   join: bubble_normal {
@@ -126,6 +148,10 @@ explore: _005_bubbles {
   }
 }
 
+explore: bubble_types {}
+
+
+
 
 # ROUND LENGTH:
 
@@ -146,7 +172,7 @@ explore: _007_fever_count {}
 
 explore: _008_frame_count_histogram {}
 
-###############################
+
 
 # explore: hist_frame_vals {
 #   view_name: test_histogram
@@ -178,42 +204,16 @@ explore: _008_frame_count_histogram {}
 #
 
 
-###
-
-explore: dropped_popped {
-  view_name: test_large_and_popped
-  join: large {
-#     fields: [large.large]
-    from: test_large_and_popped
-    relationship: one_to_one
-      sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large
-      ;;
-  }
-  join: large_popped {
-#     fields: [large_popped.large_popped]
-    from: test_large_and_popped
-    relationship: one_to_one
-    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large_popped
-      ;;
-  }
-}
-
-
-
-
 
 
 ##########TECHNICAL EXPLORES##############
 
 
-# explore: test_large_and_popped {}
-
-# explore: test_large_n_dropped_query {}
-
 # explore: test_histogram {}
 
 
 ##########IAP EXPLORES####################
+
 
 explore: iap_query {
   sql_always_where: event_name = "transaction"

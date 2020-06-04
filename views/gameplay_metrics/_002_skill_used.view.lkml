@@ -7,7 +7,6 @@ view: _002_skill_used {
     sql: SELECT
         REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','') as character,
         timestamp_insert,
-        version,
         created_at,
         character_skill_used,
         extra_json,

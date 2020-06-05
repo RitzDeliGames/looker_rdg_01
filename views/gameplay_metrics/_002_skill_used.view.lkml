@@ -5,12 +5,13 @@ view: _002_skill_used {
   extends: [events]
   derived_table: {
     sql: SELECT
-        REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','') as character,
         timestamp_insert,
         created_at,
-        character_skill_used,
         extra_json,
-        user_type
+        user_type,
+        player_xp_level,
+        payer,
+        character_skill_used
       FROM
         events
         CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.{% parameter character %}_skill_used'))) AS character_skill_used
@@ -26,8 +27,8 @@ view: _002_skill_used {
   parameter: character {
     type: unquoted
     default_value: "character_001"
-    suggest_explore: _001_coins_xp_score
-    suggest_dimension: _001_coins_xp_score.character
+    suggest_explore: _002_skill_used
+    suggest_dimension: _002_skill_used.character_dimension
   }
 
 
@@ -37,32 +38,18 @@ view: _002_skill_used {
   #  default_value: "01"
   #}
 
-  dimension: eraser {
+  dimension: character_dimension {
     type: string
-    sql: ${TABLE}.character ;;
-
+    sql: REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','');;
   }
 
-  dimension: extra_json {
-    type: string
-    hidden: yes
-    suggest_explore: events
-    suggest_dimension: events.extra_json
-#     sql: ${TABLE}.extra_json ;;
-  }
 
   dimension: primary_key {
     type: string
     hidden: yes
-    sql:  CONCAT(${character_comp},${extra_json}) ;;
+    sql:  CONCAT(${character_dimension},${extra_json}) ;;
   }
 
-  dimension: character_comp {
-    description: "This dimension is used to construct the primary key and tables in the view's explore"
-    hidden: no
-    type: string
-    sql: JSON_EXTRACT(${extra_json},'$.team_slot_0');;
-  }
 
 
   #################
@@ -191,7 +178,7 @@ view: _002_skill_used {
 #   }
 
   set: detail {
-    fields: [character_comp,
+    fields: [character_dimension,
       user_type,
       character_skill_used,
       character_skill,

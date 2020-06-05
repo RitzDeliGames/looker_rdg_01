@@ -2,16 +2,7 @@ include: "/views/**/events.view"
 
 view: _003_chains_matches_comp {
   extends: [events]
-  derived_table: {
-    sql: SELECT extra_json,
-                user_type,
-                platform,
-                timestamp_insert
-      FROM events
-      WHERE event_name = 'round_end'
-      AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
-       ;;
-  }
+
 
   measure: count {
     type: count
@@ -24,31 +15,11 @@ view: _003_chains_matches_comp {
   }
 
 
-  dimension: extra_json {
-    type: string
-    hidden: yes
-    suggest_explore: events
-    suggest_dimension: events.extra_json
-    sql: ${TABLE}.extra_json ;;
-  }
-
   dimension: character {
     type: string
     sql: JSON_EXTRACT_SCALAR(${extra_json},'$.team_slot_0') ;;
   }
 
-#   dimension: user_type {
-#     type: string
-#     suggest_explore: events
-#     suggest_dimension: events.user_type
-#     sql: ${TABLE}.user_type ;;
-#   }
-
-  dimension_group: timestamp_insert {
-    type: time
-    hidden: yes
-    sql: ${TABLE}.timestamp_insert ;;
-  }
 
   dimension: platform {
     type: string
@@ -246,6 +217,7 @@ view: _003_chains_matches_comp {
   set: detail {
     fields: [character,
       user_type,
+      player_xp_level,
       platform,
       chain_length,
       chains_per_second,

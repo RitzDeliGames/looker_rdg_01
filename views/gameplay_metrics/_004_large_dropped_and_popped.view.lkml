@@ -21,18 +21,18 @@ view: _004_large_dropped_and_popped {
     sql:  CONCAT(${character_dimension},${extra_json}) ;;
   }
 
-  dimension: user_type {
-    type: string
-    sql: ${TABLE}.user_type ;;
-  }
-
-  dimension: extra_json {
-    type: string
-    hidden: yes
-    suggest_explore: events
-    suggest_dimension: events.extra_json
-#     sql: ${TABLE}.extra_json ;;
-  }
+#   dimension: user_type {
+#     type: string
+#     sql: ${TABLE}.user_type ;;
+#   }
+#
+#   dimension: extra_json {
+#     type: string
+#     hidden: yes
+#     suggest_explore: events
+#     suggest_dimension: events.extra_json
+# #     sql: ${TABLE}.extra_json ;;
+#   }
 
   dimension: hardware {
     hidden: yes
@@ -46,7 +46,7 @@ view: _004_large_dropped_and_popped {
     sql: ${TABLE}.platform ;;
   }
 
-  dimension: large {
+  dimension: large_dropped {
     type: string
   sql: JSON_EXTRACT(extra_json, '$.{% parameter character %}_large') ;;
 }
@@ -107,8 +107,8 @@ dimension: platform_type {
 parameter: boxplot_large_n_p {
   type: string
   allowed_value: {
-    label: "large"
-    value: "large"
+    label: "large_dropped"
+    value: "large_dropped"
   }
   allowed_value: {
     label: "large_popped"
@@ -127,12 +127,30 @@ parameter: boxplot_large_n_p {
 
 # BOXPLOTS
 
+
 measure: 1_min_boxplot {
+  drill_fields: [detail*]
+  link: {
+    label: "Drill and sort by Large Dropped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.large_dropped+desc"
+  }
+  link: {
+    label: "Drill and sort by Large Popped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.large_popped+desc"
+  }
+  link: {
+    label: "Drill and sort by Total Large Dropped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.total_large_dropped+desc"
+  }
+  link: {
+    label: "Drill and sort by Total Large Popped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.total_large_popped+desc"
+  }
   group_label: "BoxPlot"
   type: min
   sql: CASE
-      WHEN {% parameter boxplot_large_n_p %} = 'large'
-      THEN CAST(if(${large} = '' , '0', ${large}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large_dropped'
+      THEN CAST(if(${large_dropped} = '' , '0', ${large_dropped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'large_popped'
       THEN CAST(if(${large_popped} = '' , '0', ${large_popped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_dropped'
@@ -144,11 +162,28 @@ measure: 1_min_boxplot {
 
 
 measure: 5_max_boxplot {
+  drill_fields: [detail*]
+  link: {
+    label: "Drill and sort by Large Dropped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.large_dropped+desc"
+  }
+  link: {
+    label: "Drill and sort by Large Popped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.large_popped+desc"
+  }
+  link: {
+    label: "Drill and sort by Total Large Dropped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.total_large_dropped+desc"
+  }
+  link: {
+    label: "Drill and sort by Total Large Popped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.total_large_popped+desc"
+  }
   group_label: "BoxPlot"
   type: max
   sql: CASE
-      WHEN {% parameter boxplot_large_n_p %} = 'large'
-      THEN CAST(if(${large} = '' , '0', ${large}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large_dropped'
+      THEN CAST(if(${large_dropped} = '' , '0', ${large_dropped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'large_popped'
       THEN CAST(if(${large_popped} = '' , '0', ${large_popped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_dropped'
@@ -159,11 +194,28 @@ measure: 5_max_boxplot {
 }
 
 measure: 3_median_boxplot {
+  drill_fields: [detail*]
+  link: {
+    label: "Drill and sort by Large Dropped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.large_dropped+desc"
+  }
+  link: {
+    label: "Drill and sort by Large Popped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.large_popped+desc"
+  }
+  link: {
+    label: "Drill and sort by Total Large Dropped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.total_large_dropped+desc"
+  }
+  link: {
+    label: "Drill and sort by Total Large Popped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.total_large_popped+desc"
+  }
   group_label: "BoxPlot"
   type: median
   sql: CASE
-      WHEN {% parameter boxplot_large_n_p %} = 'large'
-      THEN CAST(if(${large} = '' , '0', ${large}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large_dropped'
+      THEN CAST(if(${large_dropped} = '' , '0', ${large_dropped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'large_popped'
       THEN CAST(if(${large_popped} = '' , '0', ${large_popped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_dropped'
@@ -174,12 +226,29 @@ measure: 3_median_boxplot {
 }
 
 measure: 2_25th_boxplot {
+  drill_fields: [detail*]
+  link: {
+    label: "Drill and sort by Large Dropped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.large_dropped+desc"
+  }
+  link: {
+    label: "Drill and sort by Large Popped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.large_popped+desc"
+  }
+  link: {
+    label: "Drill and sort by Total Large Dropped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.total_large_dropped+desc"
+  }
+  link: {
+    label: "Drill and sort by Total Large Popped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.total_large_popped+desc"
+  }
   group_label: "BoxPlot"
   type: percentile
   percentile: 25
   sql: CASE
-      WHEN {% parameter boxplot_large_n_p %} = 'large'
-      THEN CAST(if(${large} = '' , '0', ${large}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large_dropped'
+      THEN CAST(if(${large_dropped} = '' , '0', ${large_dropped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'large_popped'
       THEN CAST(if(${large_popped} = '' , '0', ${large_popped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_dropped'
@@ -190,12 +259,29 @@ measure: 2_25th_boxplot {
 }
 
 measure: 4_75th_boxplot {
+  drill_fields: [detail*]
+  link: {
+    label: "Drill and sort by Large Dropped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.large_dropped+desc"
+  }
+  link: {
+    label: "Drill and sort by Large Popped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.large_popped+desc"
+  }
+  link: {
+    label: "Drill and sort by Total Large Dropped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.total_large_dropped+desc"
+  }
+  link: {
+    label: "Drill and sort by Total Large Popped"
+    url: "{{ link }}&sorts=_004_large_dropped_and_popped.total_large_popped+desc"
+  }
   group_label: "BoxPlot"
   type: percentile
   percentile: 75
   sql: CASE
-      WHEN {% parameter boxplot_large_n_p %} = 'large'
-      THEN CAST(if(${large} = '' , '0', ${large}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large_dropped'
+      THEN CAST(if(${large_dropped} = '' , '0', ${large_dropped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'large_popped'
       THEN CAST(if(${large_popped} = '' , '0', ${large_popped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_dropped'
@@ -209,8 +295,8 @@ measure: sum {
   group_label: "BoxPlot"
   type: sum
   sql: CASE
-      WHEN {% parameter boxplot_large_n_p %} = 'large'
-      THEN CAST(if(${large} = '' , '0', ${large}) AS NUMERIC)
+      WHEN {% parameter boxplot_large_n_p %} = 'large_dropped'
+      THEN CAST(if(${large_dropped} = '' , '0', ${large_dropped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'large_popped'
       THEN CAST(if(${large_popped} = '' , '0', ${large_popped}) AS NUMERIC)
       WHEN {% parameter boxplot_large_n_p %} = 'total_large_dropped'
@@ -231,7 +317,7 @@ set: detail {
     platform,
     platform_type,
     round_x_axis,
-    large,
+    large_dropped,
     large_popped,
     total_large_dropped,
     total_large_popped

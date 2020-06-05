@@ -40,7 +40,7 @@ view: _002_skill_used {
 
   dimension: character_dimension {
     type: string
-    sql: REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','');;
+    sql: REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','') ;;
   }
 
 

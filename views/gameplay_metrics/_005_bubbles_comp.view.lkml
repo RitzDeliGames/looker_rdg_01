@@ -5,12 +5,14 @@ view: _005_bubbles_comp {
   derived_table: {
     sql: SELECT extra_json,
        user_type,
-       timestamp_insert
+       timestamp_insert,
+       JSON_EXTRACT(extra_json,'$.team_slot_0') AS character
 FROM events
 WHERE event_name = 'round_end'
 AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
  ;;
   }
+
 
   measure: count {
     type: count
@@ -29,19 +31,23 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     sql: ${TABLE}.timestamp_insert ;;
   }
 
-  dimension: character {
-    hidden: yes
-    type: string
-    sql: JSON_EXTRACT_SCALAR(${extra_json},'$.team_slot_0') ;;
-  }
+#   dimension: character {
+#     hidden: no
+#     type: string
+#     sql: JSON_EXTRACT(${extra_json},'$.team_slot_0') ;;
+#   }
 
+  dimension: character {
+    type: string
+    sql: ${TABLE}.character ;;
+  }
 
   dimension: extra_json {
     type: string
-    hidden: yes
-    suggest_explore: events
-    suggest_dimension: events.extra_json
-#     sql: ${TABLE}.extra_json ;;
+#     hidden: yes
+#     suggest_explore: events
+#     suggest_dimension: events.extra_json
+    sql: ${TABLE}.extra_json ;;
   }
 
   dimension: bubbles_x_axis {
@@ -101,39 +107,6 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
   ;;
  }
 
-#   sql: CONCAT(CAST(if(${bubble_normal.bubble_normal} = '' , '0', ${bubble_normal.bubble_normal}) AS NUMERIC),
-#   CAST(if(${bubble_coins.bubble_coins} = '' , '0', ${bubble_coins.bubble_coins}) AS NUMERIC),
-#   CAST(if(${bubble_xp.bubble_xp} = '' , '0', ${bubble_xp.bubble_xp}) AS NUMERIC),
-#   CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC),
-#   CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC))
-
-
-
-  dimension: All_bubbles_num {  # This code stacks all the values of a type of bubble on top of another, creating just one column
-    type: number
-    sql: CONCAT(${bubble_normal.bubble_normal},
-                ${bubble_coins.bubble_coins},
-                ${bubble_xp.bubble_xp},
-                ${bubble_time.bubble_time},
-                ${bubble_score.bubble_score})
-  ;;
-  }
-
-
-
-  dimension: bubble_type {
-    type: string
-    label_from_parameter: boxplot_
-    sql: CASE
-          WHEN  ${bubble_normal.bubble_normal} IS NOT NULL THEN 'bubble normal'
-          WHEN  ${bubble_coins.bubble_coins} IS NOT NULL THEN 'bubble_coins'
-          WHEN  ${bubble_xp.bubble_xp} IS NOT NULL THEN 'bubble_xp'
-          WHEN  ${bubble_time.bubble_time} IS NOT NULL THEN 'bubble_time'
-          WHEN  ${bubble_score.bubble_score} IS NOT NULL THEN 'bubble_score'
-          ELSE 'N/A'
-        END
-        ;;
-  }
 
 
 

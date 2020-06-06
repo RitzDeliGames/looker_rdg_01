@@ -3,26 +3,9 @@ include: "/views/**/events.view"
 view: _007_fever_count {
   extends: [events]
 
-  derived_table: {
-    sql: SELECT extra_json, user_type
-      FROM events
-      WHERE event_name = 'round_end'
-      AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
-       ;;
-  }
-
-
   measure: count {
     type: count
     drill_fields: [detail*]
-  }
-
-  dimension: extra_json {
-    type: string
-    hidden: yes
-    suggest_explore: events
-    suggest_dimension: events.extra_json
-#     sql: ${TABLE}.extra_json ;;
   }
 
   dimension: character_skill {
@@ -46,12 +29,6 @@ view: _007_fever_count {
     sql: JSON_EXTRACT(${extra_json},'$.team_slot_0');;
   }
 
-  dimension: user_type {
-    type: string
-    suggest_explore: events
-    suggest_dimension: events.user_type
-#     sql: ${TABLE}.user_type ;;
-  }
 
 
 # FEVER COUNT BOXPLOT
@@ -59,7 +36,7 @@ view: _007_fever_count {
   parameter: boxplot_fever {
     type: string
     allowed_value: {
-      label: "Fever"
+      label: "Fever Count"
       value: "Fever"
     }
   }

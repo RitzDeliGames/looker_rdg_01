@@ -14,7 +14,7 @@ view: events {
   dimension: game_version {
     type: number
     value_format: "###0"
-    sql: CAST(${TABLE}.version AS NUMERIC);;
+    sql: ${TABLE}.version;;
   }
 
 ###
@@ -444,14 +444,25 @@ view: events {
     sql: ${battery_level} ;;
   }
 
-  measure: first_date {
-    type:  date
-    sql: MIN(${event_raw}) ;;
-  }
-
   measure: first_time {
     type: date_time
     sql: min(${timestamp_raw}) ;;
+  }
+
+  measure: last_time {
+    type: date_time
+    sql: MAX(${timestamp_raw}) ;;
+  }
+
+  measure: tenure {
+    type: number
+    sql: TIMESTAMP_DIFF(MAX(${timestamp_raw}), min(${timestamp_raw}), HOUR)
+ ;;
+  }
+
+  measure: count_unique_person_id {
+    type: count_distinct
+    sql: ${player_id} ;;
   }
 
 }

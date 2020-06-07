@@ -100,7 +100,7 @@ explore: _004_large_dropped_and_popped {}
 explore: _005_bubbles {
   join: bubble_types {
     relationship: one_to_one
-    sql_on: ${_005_bubbles_comp.primary_key} = ${bubble_types.primary_key}  ;;
+    sql_on: ${_005_bubbles_comp.character} = ${bubble_types.character}  ;;
   }
 
   view_name: _005_bubbles_comp

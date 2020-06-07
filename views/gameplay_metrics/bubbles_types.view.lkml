@@ -11,28 +11,14 @@ view: bubble_types {
     UNION ALL SELECT *
     FROM ${bubble_xp.SQL_TABLE_NAME}
     ;;
-#     extra_json,
-#     JSON_EXTRACT(extra_json, '$.team_slot_0') AS character
-#     FROM events
-#     ;;
+  }
+  dimension: value {
+    type: number
   }
   dimension: label {}
-
-  dimension: value {}
-
-  dimension: extra_json {
-    type: string
-    sql: ${TABLE}.extra_json ;;
-  }
-
   dimension: character {
     type: string
     sql:  ${TABLE}.character ;;
-    }
-
-  dimension: primary_key {
-    type: string
-    sql:  CONCAT(${character},${extra_json}) ;;
   }
 
   set: details {
@@ -43,46 +29,22 @@ view: bubble_types {
 
 # Bubble Coinds Value-Number transformation
 
-explore: bubble_coins {}
-
 view: bubble_coins {
-    derived_table: {
-      explore_source: _005_bubbles {
-        column: value { field: bubble_coins.bubble_coins }
-#         column: extra_json {
-#           field: bubble_types.extra_json
-#         }
-        derived_column: label {
-          sql: 'bubble_coins' ;;
-        }
+  derived_table: {
+    explore_source: _005_bubbles {
+      column: value { field: bubble_coins.bubble_coins }
+      column: character { field: _005_bubbles_comp.character }
+      derived_column: label {
+        sql: 'bubble_coins' ;;
       }
     }
-    dimension: value {
-      type: number
-    }
-    dimension: label {}
-
-  dimension: extra_json {
-    type: string
-    sql: ${TABLE}.extra_json ;;
   }
-
-  dimension: character {
-    type: string
-    sql:  ${TABLE}.character ;;
+  dimension: value{
+    type: number
   }
-
-    dimension: primary_key {
-      type: string
-      sql:  CONCAT(${character},${extra_json}) ;;
-    }
-
-    set: details {
-      fields: [character]
-    }
-  }
-
-
+  dimension: character {}
+  dimension: label {}
+}
 
 # Bubble Normal Value-Number transformation
 
@@ -90,6 +52,7 @@ view: bubble_normal {
   derived_table: {
     explore_source: _005_bubbles {
       column: value { field: bubble_normal.bubble_normal }
+      column: character { field: _005_bubbles_comp.character }
       derived_column: label {
         sql: 'bubble_normal' ;;
       }
@@ -99,27 +62,14 @@ view: bubble_normal {
     type: number
   }
   dimension: label {}
-
-  dimension: extra_json {
-    type: string
-    sql: ${TABLE}.extra_json ;;
-  }
-
   dimension: character {
     type: string
     sql:  ${TABLE}.character ;;
   }
-
-  dimension: primary_key {
-    type: string
-    sql:  CONCAT(${character},${extra_json}) ;;
-  }
-
   set: details {
     fields: [character]
   }
 }
-
 
 # Bubble Score Value-Number transformation
 
@@ -127,6 +77,7 @@ view: bubble_score {
   derived_table: {
     explore_source: _005_bubbles {
       column: value { field: bubble_score.bubble_score }
+      column: character { field: _005_bubbles_comp.character }
       derived_column: label {
         sql: 'bubble_score' ;;
       }
@@ -136,27 +87,14 @@ view: bubble_score {
     type: number
   }
   dimension: label {}
-
-  dimension: extra_json {
-    type: string
-    sql: ${TABLE}.extra_json ;;
-  }
-
   dimension: character {
     type: string
     sql:  ${TABLE}.character ;;
   }
-
-  dimension: primary_key {
-    type: string
-    sql:  CONCAT(${character},${extra_json}) ;;
-  }
-
   set: details {
     fields: [character]
   }
 }
-
 
 # Bubble Time Value-Number transformation
 
@@ -164,6 +102,7 @@ view: bubble_time {
   derived_table: {
     explore_source: _005_bubbles {
       column: value { field: bubble_time.bubble_time }
+      column: character { field: _005_bubbles_comp.character }
       derived_column: label {
         sql: 'bubble_time' ;;
       }
@@ -173,27 +112,14 @@ view: bubble_time {
     type: number
   }
   dimension: label {}
-
-  dimension: extra_json {
-    type: string
-    sql: ${TABLE}.extra_json ;;
-  }
-
   dimension: character {
     type: string
     sql:  ${TABLE}.character ;;
   }
-
-  dimension: primary_key {
-    type: string
-    sql:  CONCAT(${character},${extra_json}) ;;
-  }
-
   set: details {
     fields: [character]
   }
 }
-
 
 # Bubble XP Value-Number transformation
 
@@ -201,6 +127,7 @@ view: bubble_xp {
   derived_table: {
     explore_source: _005_bubbles {
       column: value { field: bubble_xp.bubble_xp }
+      column: character { field: _005_bubbles_comp.character }
       derived_column: label {
         sql: 'bubble_xp' ;;
       }
@@ -210,22 +137,10 @@ view: bubble_xp {
     type: number
   }
   dimension: label {}
-
-  dimension: extra_json {
-    type: string
-    sql: ${TABLE}.extra_json ;;
-  }
-
   dimension: character {
     type: string
     sql:  ${TABLE}.character ;;
   }
-
-  dimension: primary_key {
-    type: string
-    sql:  CONCAT(${character},${extra_json}) ;;
-  }
-
   set: details {
     fields: [character]
   }

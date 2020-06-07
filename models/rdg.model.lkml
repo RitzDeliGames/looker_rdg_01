@@ -36,7 +36,18 @@ explore: fue_funnel {
 ##########BINGO CARDS##########
 
 
-explore: _000_bingo_cards {}
+explore: _000_bingo_cards {
+  sql_always_where: event_name = "cards" ;;
+  view_name: _000_bingo_cards_comp
+  join: node_data {
+    fields: [node_data.node_data]
+    relationship: many_to_one
+    from: _000_bingo_cards_comp
+    sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.node_data')) as node_data
+    ;;
+  }
+}
+
 
 
 
@@ -63,7 +74,7 @@ explore: _002_skill_used {
 }
 
 
-# CHAINS AND MATCHES MADE:
+# CHAINS & MATCHES MADE EXPLORE:
 
 explore: _003_chains_matches {
   view_name: _003_chains_matches_comp
@@ -77,25 +88,7 @@ explore: _003_chains_matches {
 }
 
 
-# Large
-
-# explore: _004_large_dropped_and_popped {
-#   view_name: _004_large_d_n_p_comp
-#   join: large {
-#     fields: [large.large]
-#     from: _004_large_d_n_p_comp
-#     relationship: many_to_many
-#     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large
-#       ;;
-#   }
-#   join: large_popped {
-#     fields: [large_popped.large_popped]
-#     from: _004_large_d_n_p_comp
-#     relationship: many_to_many
-#     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.${test}'))) AS large_popped
-#       ;;
-#   }
-# }
+# LARGE DROPPED & POPPED EXPLORE:
 
 explore: _004_large_dropped_and_popped {}
 
@@ -152,13 +145,12 @@ explore: bubble_types {}
 
 
 
-
-# ROUND LENGTH:
+# ROUND LENGTH EXPLORE:
 
 explore: _006_round_length {}
 
 
-# FEVER COUNT:
+# FEVER COUNT EXPLORE:
 
 explore: _007_fever_count {}
 

@@ -85,7 +85,31 @@ view: events {
   dimension: device_model {
     group_label: "device & os dimensions"
     type: string
-    sql: ${TABLE}.hardware ;;
+    sql:CASE
+          WHEN ${TABLE}.hardware = "iPhone7,1" THEN "iPhone 6 Plus"
+          WHEN ${TABLE}.hardware = "iPhone7,2" THEN "iPhone 6"
+          WHEN ${TABLE}.hardware = "iPhone8,1" THEN "iPhone 6s"
+          WHEN ${TABLE}.hardware = "iPhone8,2" THEN "iPhone 6s Plus"
+          WHEN ${TABLE}.hardware = "iPhone8,4" THEN "iPhone SE GSM"
+          WHEN ${TABLE}.hardware = "iPhone9,1" THEN "iPhone 7"
+          WHEN ${TABLE}.hardware = "iPhone9,2" THEN "iPhone 7 Plus"
+          WHEN ${TABLE}.hardware = "iPhone9,3" THEN "iPhone 7"
+          WHEN ${TABLE}.hardware = "iPhone9,4" THEN "iPhone 7 Plus"
+          WHEN ${TABLE}.hardware = "iPhone10,1" THEN "iPhone 8"
+          WHEN ${TABLE}.hardware = "iPhone10,2" THEN "iPhone 8 Plus"
+          WHEN ${TABLE}.hardware = "iPhone10,3" THEN "iPhone X Global"
+          WHEN ${TABLE}.hardware = "iPhone10,4" THEN "iPhone 8"
+          WHEN ${TABLE}.hardware = "iPhone10,5" THEN "iPhone 8 Plus"
+          WHEN ${TABLE}.hardware = "iPhone10,6" THEN "iPhone X GSM"
+          WHEN ${TABLE}.hardware = "iPhone11,2" THEN "iPhone XS"
+          WHEN ${TABLE}.hardware = "iPhone11,4" THEN "iPhone XS Max"
+          WHEN ${TABLE}.hardware = "iPhone11,6" THEN "iPhone XS Max Global"
+          WHEN ${TABLE}.hardware = "iPhone11,8" THEN "iPhone XR"
+          WHEN ${TABLE}.hardware = "iPhone12,1" THEN "iPhone 11"
+          WHEN ${TABLE}.hardware = "iPhone12,3" THEN "iPhone 11 Pro"
+          WHEN ${TABLE}.hardware = "iPhone12,5" THEN "iPhone 11 Pro Max"
+          WHEN ${TABLE}.hardware = "iPhone12,8" THEN "iPhone SE 2nd Gen"
+        END ;;
   }
 
   dimension: device_os_version {

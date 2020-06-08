@@ -132,6 +132,7 @@ view: events {
           WHEN ${TABLE}.hardware = "samsung SM-N975U" THEN "Samsung Galaxy Note10+"
           WHEN ${TABLE}.hardware = "samsung SM-N975U1" THEN "Samsung Galaxy Note10+"
           WHEN ${TABLE}.hardware = "samsung SM-T560NU" THEN "Samsung Galaxy Tab 9.6"
+          WHEN ${TABLE}.hardware = "motorola Moto G (5) Plus" THEN "Motorola Moto G5 Plus"
           ELSE ${TABLE}.hardware
         END ;;
   }

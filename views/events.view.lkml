@@ -121,11 +121,16 @@ view: events {
           WHEN ${TABLE}.hardware = "samsung SM-M305F" THEN "Samsung Galaxy M30"
           WHEN ${TABLE}.hardware = "samsung SM-G950F" THEN "Samsung Galaxy S8"
           WHEN ${TABLE}.hardware = "samsung SM-G950U" THEN "Samsung Galaxy S8"
+          WHEN ${TABLE}.hardware = "samsung SM-G955U" THEN "Samsung Galaxy S8+"
+          WHEN ${TABLE}.hardware = "samsung SM-G960U1" THEN "Samsung Galaxy S9"
+          WHEN ${TABLE}.hardware = "samsung SM-G965U" THEN "Samsung Galaxy S9+"
           WHEN ${TABLE}.hardware = "samsung SM-G960U" THEN "Samsung Galaxy S9"
           WHEN ${TABLE}.hardware = "samsung SM-G973U" THEN "Samsung Galaxy S10"
+          WHEN ${TABLE}.hardware = "samsung SM-G970U" THEN "Samsung Galaxy S10"
           WHEN ${TABLE}.hardware = "samsung SM-G986U" THEN "Samsung Galaxy S20+"
           WHEN ${TABLE}.hardware = "samsung SM-J400M" THEN "Samsung Galaxy J4"
           WHEN ${TABLE}.hardware = "samsung SM-N975U" THEN "Samsung Galaxy Note10+"
+          WHEN ${TABLE}.hardware = "samsung SM-N975U1" THEN "Samsung Galaxy Note10+"
           WHEN ${TABLE}.hardware = "samsung SM-T560NU" THEN "Samsung Galaxy Tab 9.6"
           ELSE ${TABLE}.hardware
         END ;;

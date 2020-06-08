@@ -1,34 +1,19 @@
-view: _000_bingo_cards {
-  derived_table: {
-    sql: SELECT extra_json,
-                user_type,
-                hardware,
-                platform,
-                version,
-                user_id,
-                current_card,
-                node_data,
-                JSON_EXTRACT(node_data, '$.rounds') AS rounds_nodes,
-                JSON_EXTRACT(node_data, '$.node_id') AS node_id,
-                JSON_EXTRACT_ARRAY(extra_json, '$.card_state_completed') AS card_state_completed,
-                JSON_EXTRACT_ARRAY(extra_json, '$.card_state_progress') AS card_state_progress,
-                JSON_EXTRACT_ARRAY(extra_json, '$.card_state') AS card_state
-      FROM events
-      CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.node_data')) as node_data
-      WHERE event_name = 'cards'
-       ;;
-  }
+include: "/views/**/events.view"
+
+
+view: _000_bingo_cards_comp {
+
+  extends: [events]
 
 
   #_DIMENSIONS_MANY_TYPES_#####################################
 
-  dimension: extra_json {
-    type: string
-    hidden: no
-    suggest_explore: events
-    suggest_dimension: events.extra_json
-#     sql: ${TABLE}.extra_json ;;
-  }
+#   dimension: extra_json {
+#     type: string
+#     hidden: yes
+#     suggest_explore: events
+#     suggest_dimension: events.extra_json
+#   }
 
   dimension: primary_key {
     type: string
@@ -36,12 +21,11 @@ view: _000_bingo_cards {
   }
 
 
-  dimension: user_type {
-    type: string
-    suggest_explore: events
-    suggest_dimension: events.user_type
-#     sql: ${TABLE}.user_type ;;
-  }
+#   dimension: user_type {
+#     type: string
+#     suggest_explore: events
+#     suggest_dimension: events.user_type
+#   }
 
   dimension: hardware {
     type: string
@@ -62,9 +46,9 @@ view: _000_bingo_cards {
       END ;;
   }
 
-  dimension: version {
-    type: string
-    sql: ${TABLE}.version ;;
+  dimension: game_version_alt {
+    type: number
+    sql: CAST(${TABLE}.version AS NUMERIC) ;;
   }
 
   dimension: user_id {
@@ -107,6 +91,7 @@ view: _000_bingo_cards {
     sql: JSON_Value(extra_json, '$.sessions');;
   }
 
+
   dimension: player_bingo_card_walk {
     type: string
     sql: CASE
@@ -123,45 +108,48 @@ view: _000_bingo_cards {
         ;;
   }
 
-  dimension: test_card_progress {
-    type: string
-    sql: CASE
-          WHEN  ${card_state_progress_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
-          '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
-          THEN 'column'
-          WHEN ${card_state_progress_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
-          '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
-          THEN 'row'
-          WHEN ${card_state_progress_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
-          THEN 'diagonal'
-          ELSE 'random walk'
-          END
-          ;;
-  }
-
-  dimension: test_card_completed {
-    type: string
-    sql: CASE
-          WHEN  ${card_state_completed_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
-          '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
-          THEN 'column'
-          WHEN ${card_state_completed_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
-          '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
-          THEN 'row'
-          WHEN ${card_state_completed_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
-          THEN 'diagonal'
-          ELSE 'random walk'
-          END
-          ;;
-  }
+#   dimension: test_card_progress {
+#     type: string
+#     sql: CASE
+#           WHEN  ${card_state_progress_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
+#           '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
+#           THEN 'column'
+#           WHEN ${card_state_progress_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
+#           '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
+#           THEN 'row'
+#           WHEN ${card_state_progress_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
+#           THEN 'diagonal'
+#           ELSE 'random walk'
+#           END
+#           ;;
+#   }
+#
+#   dimension: test_card_completed {
+#     type: string
+#     sql: CASE
+#           WHEN  ${card_state_completed_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
+#           '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
+#           THEN 'column'
+#           WHEN ${card_state_completed_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
+#           '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
+#           THEN 'row'
+#           WHEN ${card_state_completed_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
+#           THEN 'diagonal'
+#           ELSE 'random walk'
+#           END
+#           ;;
+#   }
 
 
 
   #_CARD_STATE_###############################################
 
+
+
   dimension: card_state {
+    hidden: yes
     type: string
-    sql: ${TABLE}.card_state;;
+    sql: JSON_EXTRACT_ARRAY(extra_json, '$.card_state') ;;
   }
 
   dimension: card_state_str {
@@ -178,8 +166,9 @@ view: _000_bingo_cards {
   #_CARD_STATE_PROGRESS_######################################
 
   dimension: card_state_progress {
+    hidden: yes
     type: string
-    sql: ${TABLE}.card_state_progress ;;
+    sql: JSON_EXTRACT_ARRAY(extra_json, '$.card_state_progress')  ;;
   }
 
   dimension: card_state_progress_str {
@@ -196,8 +185,9 @@ view: _000_bingo_cards {
   #_CARD_STATE_COMPLETED_######################################
 
   dimension: card_state_completed {
+    hidden: yes
     type: string
-    sql: ${TABLE}.card_state_completed ;;
+    sql: JSON_EXTRACT_ARRAY(extra_json, '$.card_state_completed') ;;
   }
 
   dimension: card_state_completed_str {
@@ -215,7 +205,7 @@ view: _000_bingo_cards {
 
   dimension: node_data {
     type: string
-    sql: ${TABLE}.node_data ;;
+    sql: node_data ;;
   }
 
   dimension: is_node_ended {
@@ -225,12 +215,12 @@ view: _000_bingo_cards {
 
   dimension: rounds_nodes {
     type: number
-    sql: ${TABLE}.rounds_nodes ;;
+    sql: JSON_EXTRACT(${node_data.node_data}, '$.rounds') ;;
   }
 
   dimension: node_id {
     type: number
-    sql: ${TABLE}.node_id ;;
+    sql: JSON_EXTRACT(${node_data.node_data}, '$.node_id') ;;
   }
 
 
@@ -279,11 +269,10 @@ view: _000_bingo_cards {
   }
 
 
+  #########################FOR DESCRIPTIVE STATISTICS VISUALIZATION#########################
 
-  #########################_BOXPLOT_#########################
 
-
-  parameter: boxplot_bc {
+  parameter: descriptive_stats_bc {
     type: string
     allowed_value: {
       label: "rounds"
@@ -291,111 +280,111 @@ view: _000_bingo_cards {
     }
 
     allowed_value: {
-      label: "rounds per node completed"
-      value: "rounds per node completed"
+      label: "rounds per node id"
+      value: "rounds per node id"
     }
   }
 
-  measure: 1_min_boxplot {
+  measure: 1_min_ {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by Round"
+      label: "Drill and sort by Rounds"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
     }
     link: {
       label: "Drill and sort by Rounds per Node"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds_nodes+desc"
     }
-    group_label: "BoxPlot"
+    group_label: "descriptive Statistics Measures"
     type: min
     sql: CASE
-      WHEN  {% parameter boxplot_bc %} = 'rounds'
+      WHEN  {% parameter descriptive_stats_bc %} = "rounds"
       THEN ${rounds}
-      WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
+      WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
     END  ;;
   }
 
 
 
-  measure: 5_max_boxplot {
+  measure: 5_max_ {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by Round"
+      label: "Drill and sort by Rounds"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
     }
     link: {
       label: "Drill and sort by Rounds per Node"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds_nodes+desc"
     }
-    group_label: "BoxPlot"
+    group_label: "descriptive Statistics Measures"
     type: max
     sql: CASE
-      WHEN  {% parameter boxplot_bc %} = 'rounds'
+      WHEN  {% parameter descriptive_stats_bc %} = "rounds"
       THEN ${rounds}
-      WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
+      WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
     END  ;;
   }
 
-  measure: 3_median_boxplot {
+  measure: 3_median_ {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by Round"
+      label: "Drill and sort by Rounds"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
     }
     link: {
       label: "Drill and sort by Rounds per Node"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds_nodes+desc"
     }
-    group_label: "BoxPlot"
+    group_label: "descriptive Statistics Measures"
     type: median
     sql: CASE
-      WHEN  {% parameter boxplot_bc %} = 'rounds'
+      WHEN  {% parameter descriptive_stats_bc %} = "rounds"
       THEN ${rounds}
-      WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
+      WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
     END  ;;
   }
 
-  measure: 2_25th_boxplot {
+  measure: 2_25th_ {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by Round"
+      label: "Drill and sort by Rounds"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
     }
     link: {
       label: "Drill and sort by Rounds per Node"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds_nodes+desc"
     }
-    group_label: "BoxPlot"
+    group_label: "descriptive Statistics Measures"
     type: percentile
     percentile: 25
     sql: CASE
-      WHEN  {% parameter boxplot_bc %} = 'rounds'
+      WHEN  {% parameter descriptive_stats_bc %} = "rounds"
       THEN ${rounds}
-      WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
+      WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
     END  ;;
   }
 
-  measure: 4_75th_boxplot {
+  measure: 4_75th_ {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by Round"
+      label: "Drill and sort by Rounds"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds+desc"
     }
     link: {
       label: "Drill and sort by Rounds per Node"
       url: "{{ link }}&sorts=_000_bingo_cards.rounds_nodes+desc"
     }
-    group_label: "BoxPlot"
+    group_label: "descriptive Statistics Measures"
     type: percentile
     percentile: 75
     sql: CASE
-      WHEN  {% parameter boxplot_bc %} = 'rounds'
+      WHEN  {% parameter descriptive_stats_bc %} = "rounds"
       THEN ${rounds}
-      WHEN  {% parameter boxplot_bc %} = 'rounds per node completed'
+      WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
     END  ;;
   }
@@ -405,7 +394,7 @@ view: _000_bingo_cards {
     fields: [user_type,
              hardware,
              platform,
-             version,
+             game_version,
              user_id,
              current_card,
              card_id,
@@ -422,7 +411,7 @@ view: _000_bingo_cards {
              platform_type,
              card_end_time,
 
-             node_data,
+             node_data.node_data,
              rounds_nodes,
              node_id,
              player_bingo_card_walk

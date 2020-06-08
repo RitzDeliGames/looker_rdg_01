@@ -452,7 +452,7 @@ view: events {
 
 ###
 
-###EVENT DIMENSIONS###
+###ROUND START / END DIMENSIONS###
 
   dimension: round_id {
     group_label: "Round End"
@@ -482,6 +482,13 @@ view: events {
     type: count
     drill_fields: [event_name]
   }
+
+  measure: avg_round_count {
+    label: "Avg. Round Count"
+    type: average
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
+  }
+
 
   measure: max_ltv {
     type: max

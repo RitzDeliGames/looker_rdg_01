@@ -77,6 +77,10 @@ explore: _002_skill_used {
 # CHAINS & MATCHES MADE EXPLORE:
 
 explore: _003_chains_matches {
+  sql_always_where: event_name = "round_end"
+  AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
+  AND user_type NOT IN ("internal_editor", "unit_test")
+  ;;
   view_name: _003_chains_matches_comp
   join: all_chains {
     fields: [all_chains.all_chains]
@@ -90,7 +94,12 @@ explore: _003_chains_matches {
 
 # LARGE DROPPED & POPPED EXPLORE:
 
-explore: _004_large_dropped_and_popped {}
+explore: _004_large_dropped_and_popped {
+  sql_always_where: event_name = "round_end"
+  AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
+  AND user_type NOT IN ("internal_editor", "unit_test")
+  ;;
+}
 
 
 
@@ -98,6 +107,10 @@ explore: _004_large_dropped_and_popped {}
 
 
 explore: _005_bubbles {
+  sql_always_where: event_name = "round_end"
+  AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
+  AND user_type NOT IN ("internal_editor", "unit_test")
+  ;;
   join: bubble_types {
     relationship: one_to_one
     sql_on: ${_005_bubbles_comp.character} = ${bubble_types.character}  ;;
@@ -141,18 +154,29 @@ explore: _005_bubbles {
   }
 }
 
+
 explore: bubble_types {}
 
 
 
 # ROUND LENGTH EXPLORE:
 
-explore: _006_round_length {}
+explore: _006_round_length {
+  sql_always_where: event_name = "round_end"
+  AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
+  AND user_type NOT IN ("internal_editor", "unit_test")
+  ;;
+}
 
 
 # FEVER COUNT EXPLORE:
 
-explore: _007_fever_count {}
+explore: _007_fever_count {
+  sql_always_where: event_name = "round_end"
+  AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
+  AND user_type NOT IN ("internal_editor", "unit_test")
+  ;;
+}
 
 
 # FRAME COUNT HISTOGRAM VALUES:
@@ -190,13 +214,6 @@ explore: _008_frame_count_histogram {}
 # }
 #
 
-
-
-
-##########TECHNICAL EXPLORES##############
-
-
-# explore: test_histogram {}
 
 
 ##########IAP EXPLORES####################

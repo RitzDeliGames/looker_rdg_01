@@ -2,16 +2,6 @@ include: "/views/**/events.view"
 
 view: _005_bubbles_comp {
   extends: [events]
-  derived_table: {
-    sql: SELECT extra_json,
-       user_type,
-       timestamp_insert,
-       JSON_EXTRACT(extra_json,'$.team_slot_0') AS character
-FROM events
-WHERE event_name = 'round_end'
-AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
- ;;
-  }
 
 
   measure: count {
@@ -39,7 +29,7 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 
   dimension: character {
     type: string
-    sql: ${TABLE}.character ;;
+    sql: JSON_EXTRACT(extra_json,'$.team_slot_0') ;;
   }
 
   dimension: extra_json {
@@ -68,31 +58,31 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
 
 
   dimension: bubble_normal {
-#     hidden: yes
+    hidden: yes
     type: number
     sql: bubble_normal ;;
   }
 
   dimension: bubble_coins {
-#     hidden: yes
+    hidden: yes
     type: number
     sql: bubble_coins;;
   }
 
   dimension: bubble_xp {
-#     hidden: yes
+    hidden: yes
     type: number
     sql: bubble_xp ;;
   }
 
   dimension: bubble_time {
-#     hidden: yes
+    hidden: yes
     type: number
     sql: bubble_time ;;
   }
 
   dimension: bubble_score {
-#     hidden: yes
+    hidden: yes
     type: number
     sql: bubble_score ;;
   }
@@ -136,7 +126,6 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       label: "All bubbles"
       value: "All bubbles"
     }
-
   }
 
 # CAST(if(${bubble_normal.bubble_normal} = '' , '0', ${bubble_normal.bubble_normal}) AS NUMERIC) +

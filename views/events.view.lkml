@@ -49,6 +49,7 @@ view: events {
           WHEN ${TABLE}.user_id LIKE "anon-431ff9ad-d91c-43e1-9c7d-26a651f686b4" THEN "Robert Einspruch iPhone 11"
           WHEN ${TABLE}.user_id LIKE "anon-a92949b7-e902-45b0-9e1d-addb6cc46b80" THEN "Robert Einspruch iPhone 8"
           WHEN ${TABLE}.user_id LIKE "anon-5c17fbfe-414a-4ced-a4af-1387aa5d32f2" THEN "Robert Einspruch iPhone 6"
+          WHEN ${TABLE}.user_id LIKE "anon-4DB773A6-FC02-47E3-9454-56653DD6A311" THEN "Robert Einspruch iPhone 6"
         END ;;
   }
 
@@ -191,20 +192,20 @@ view: events {
 ###GEO DIMENSIONS###
 
   dimension: country {
-    group_label: "geo dimensions"
+    group_label: "Geo Dimensions"
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
   }
 
   dimension: city {
-    group_label: "geo dimensions"
+    group_label: "Geo Dimensions"
     type: string
     sql: ${TABLE}.city ;;
   }
 
   dimension: region {
-    group_label: "geo dimensions"
+    group_label: "Geo Dimensions"
     type: string
     sql: ${TABLE}.region ;;
   }

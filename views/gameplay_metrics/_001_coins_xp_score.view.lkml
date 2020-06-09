@@ -5,7 +5,6 @@ view: _001_coins_xp_score {
 
   sql_table_name: eraser-blast.game_data.events ;;
 
-
 ###DIMENSIONS###
 
   dimension: coins_earned {

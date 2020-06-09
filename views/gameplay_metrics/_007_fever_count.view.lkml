@@ -26,7 +26,7 @@ view: _007_fever_count {
 
   dimension: character {
     type: string
-    sql: JSON_EXTRACT(${extra_json},'$.team_slot_0');;
+    sql: REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','') ;;
   }
 
 
@@ -116,10 +116,11 @@ view: _007_fever_count {
 
   set: detail {
     fields: [user_type,
-      character,
-      fever_count,
-      character_skill,
-      character_level
-      ]
+             player_xp_level,
+             character,
+             fever_count,
+             character_skill,
+             character_level
+            ]
   }
 }

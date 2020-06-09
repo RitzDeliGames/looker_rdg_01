@@ -51,25 +51,25 @@ view: _004_large_dropped_and_popped {
   sql: JSON_EXTRACT(extra_json, '$.{% parameter character %}_large') ;;
 }
 
-dimension: large_popped {
+  dimension: large_popped {
+      type: string
+  sql: JSON_EXTRACT(extra_json, '$.{% parameter character %}_large_popped') ;;
+  }
+
+  dimension: total_large_dropped {
     type: string
-sql: JSON_EXTRACT(extra_json, '$.{% parameter character %}_large_popped') ;;
-}
+    sql:  JSON_EXTRACT(extra_json,'$.total_large_dropped') ;;
+  }
 
-dimension: total_large_dropped {
-  type: string
-  sql:  JSON_EXTRACT(extra_json,'$.total_large_dropped') ;;
-}
+  dimension: total_large_popped {
+    type: string
+    sql: JSON_EXTRACT(extra_json,'$.total_large_popped') ;;
+  }
 
-dimension: total_large_popped {
-  type: string
-  sql: JSON_EXTRACT(extra_json,'$.total_large_popped') ;;
-}
-
-dimension: character_dimension {
-  type: string
-  sql: REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','') ;;
-}
+  dimension: character_dimension {
+    type: string
+    sql: REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','') ;;
+  }
 
 #   dimension: test {
 # #     sql: concat(character._parameter_value, boxplot_large_n_p._parameter_value) ;;
@@ -77,52 +77,44 @@ dimension: character_dimension {
 #   }
 
 
-parameter: character {
-#     allowed_value: {
-#       label: "character_01"
-#       value: "${character_01}_large}"
-#    }
-#     allowed_value: {
-#       label: "character_01"
-#       value: "${character_01}_large_popped}"
-#     }
-type: unquoted
-default_value: "character_01"
-suggest_explore: _004_large_dropped_and_popped
-suggest_dimension: _004_large_dropped_and_popped.character_dimension
-}
+  parameter: character {
+    type: unquoted
+    default_value: "character_01"
+    suggest_explore: _004_large_dropped_and_popped
+    suggest_dimension: _004_large_dropped_and_popped.character_dimension
+    }
 
 
-dimension: platform_type {
-  type: string
-  sql: CASE
-      WHEN ${TABLE}.platform LIKE '%Android%' THEN 'mobile'
-      WHEN ${TABLE}.platform LIKE '%iOS%' THEN 'mobile'
-      ELSE 'desktop (web)'
-      END ;;
-}
-
-
-
-parameter: boxplot_large_n_p {
-  type: string
-  allowed_value: {
-    label: "large_dropped"
-    value: "large_dropped"
+  dimension: platform_type {
+    type: string
+    sql: CASE
+        WHEN ${TABLE}.platform LIKE '%Android%' THEN 'mobile'
+        WHEN ${TABLE}.platform LIKE '%iOS%' THEN 'mobile'
+        ELSE 'desktop (web)'
+        END ;;
   }
-  allowed_value: {
-    label: "large_popped"
-    value: "large_popped"
+
+
+
+  parameter: boxplot_large_n_p {
+    type: string
+    allowed_value: {
+      label: "large_dropped"
+      value: "large_dropped"
+    }
+    allowed_value: {
+      label: "large_popped"
+      value: "large_popped"
+    }
+    allowed_value: {
+      label: "total_large_dropped"
+      value: "total_large_dropped"
+    }
+    allowed_value: {
+      label: "total_large_popped"
+      value: "total_large_popped"
+    }
   }
-  allowed_value: {
-    label: "total_large_dropped"
-    value: "total_large_dropped"
-  }
-  allowed_value: {
-    label: "total_large_popped"
-    value: "total_large_popped"
-  }
-}
 
 
 # BOXPLOTS
@@ -312,7 +304,7 @@ measure: sum {
 set: detail {
   fields: [
     user_type,
-    extra_json,
+    player_xp_level,
     hardware,
     platform,
     platform_type,

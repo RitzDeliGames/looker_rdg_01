@@ -21,23 +21,9 @@ view: _005_bubbles_comp {
     sql: ${TABLE}.timestamp_insert ;;
   }
 
-#   dimension: character {
-#     hidden: no
-#     type: string
-#     sql: JSON_EXTRACT(${extra_json},'$.team_slot_0') ;;
-#   }
-
   dimension: character {
     type: string
-    sql: JSON_EXTRACT(extra_json,'$.team_slot_0') ;;
-  }
-
-  dimension: extra_json {
-    type: string
-#     hidden: yes
-#     suggest_explore: events
-#     suggest_dimension: events.extra_json
-    sql: ${TABLE}.extra_json ;;
+    sql: REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','')  ;;
   }
 
   dimension: bubbles_x_axis {
@@ -46,12 +32,6 @@ view: _005_bubbles_comp {
       END ;;
   }
 
-  dimension: user_type {
-    type: string
-    suggest_explore: events
-    suggest_dimension: events.user_type
-#     sql: ${TABLE}.user_type ;;
-  }
 
 
 # Bubbles Dimensions:
@@ -98,8 +78,6 @@ view: _005_bubbles_comp {
  }
 
 
-
-
   parameter: boxplot_ {
     type: string
     allowed_value: {
@@ -128,11 +106,7 @@ view: _005_bubbles_comp {
     }
   }
 
-# CAST(if(${bubble_normal.bubble_normal} = '' , '0', ${bubble_normal.bubble_normal}) AS NUMERIC) +
-#         CAST(if(${bubble_coins.bubble_coins} = '' , '0', ${bubble_coins.bubble_coins}) AS NUMERIC) +
-#         CAST(if(${bubble_xp.bubble_xp} = '' , '0', ${bubble_xp.bubble_xp}) AS NUMERIC) +
-#         CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC) +
-#         CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
+
 
 # Bubbles Boxplots
 
@@ -363,6 +337,7 @@ view: _005_bubbles_comp {
     fields: [
       character,
       user_type,
+      player_xp_level,
       bubble_normal,
       bubble_coins,
       bubble_xp,

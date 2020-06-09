@@ -155,8 +155,6 @@ explore: _005_bubbles {
 }
 
 
-explore: bubble_types {}
-
 
 
 # ROUND LENGTH EXPLORE:

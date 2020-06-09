@@ -71,6 +71,11 @@ view: _002_skill_used {
     sql: CAST(if(character_skill_used = '' ,'0', character_skill_used) AS NUMERIC);;
   }
 
+  dimension: player_xp_level {
+    type: number
+    sql: ${TABLE}.player_xp_level ;;
+  }
+
   dimension: character_skill {
     type: number
     sql: REPLACE(JSON_EXTRACT(${extra_json},

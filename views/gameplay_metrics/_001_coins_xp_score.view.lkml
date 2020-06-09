@@ -61,12 +61,6 @@ view: _001_coins_xp_score {
       '$.xp_earned'),'"','') as NUMERIC) ;;
   }
 
-  dimension: round_id {
-    type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},
-      '$.round_id'),'"','') as NUMERIC) ;;
-  }
-
 ###MEASURES###
   measure: count {
     type: count
@@ -105,7 +99,7 @@ view: _001_coins_xp_score {
       label: "Drill and sort by score earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
     }
-    group_label: "BoxPlot"
+    group_label: "BoxPlot Measures"
     type: min
     sql: CASE
       WHEN  {% parameter boxplot_type %} = 'Coins'
@@ -132,7 +126,7 @@ view: _001_coins_xp_score {
       label: "Drill and sort by score earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
     }
-    group_label: "BoxPlot"
+    group_label: "BoxPlot Measures"
     type: max
     sql: CASE
       WHEN  {% parameter boxplot_type %} = 'Coins'

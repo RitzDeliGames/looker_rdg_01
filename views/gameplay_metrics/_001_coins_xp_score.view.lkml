@@ -6,12 +6,7 @@ view: _001_coins_xp_score {
   sql_table_name: eraser-blast.game_data.events ;;
 
 
-  # Dimensions
-
-  dimension: primary_key {
-    type: string
-    sql:  CONCAT(${character_used} ,${extra_json}) ;;
-  }
+###DIMENSIONS###
 
   dimension: coins_earned {
     type: number
@@ -32,6 +27,7 @@ view: _001_coins_xp_score {
   }
 
 ###MEASURES###
+
   measure: count {
     type: count
     drill_fields: [event_name]

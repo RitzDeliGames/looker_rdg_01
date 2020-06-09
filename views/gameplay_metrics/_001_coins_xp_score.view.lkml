@@ -8,14 +8,9 @@ view: _001_coins_xp_score {
 
   # Dimensions
 
-  dimension: battery_level {
-    type: string
-    sql: ${TABLE}.battery_level ;;
-  }
-
   dimension: primary_key {
     type: string
-    sql:  CONCAT(${character},${extra_json}) ;;
+    sql:  CONCAT(${character_used} ,${extra_json}) ;;
   }
 
   dimension_group: created {
@@ -33,12 +28,6 @@ view: _001_coins_xp_score {
   }
 
 
-# Time at level
-#   dimension_group: time_at_level {
-#     type: duration
-#     sql_start:  ;;
-#   }
-
 
   dimension: days_from_install {
     type: number
@@ -51,32 +40,8 @@ view: _001_coins_xp_score {
   }
 
 
-#   dimension: extra_json {
-#     type: string
-#     hidden: yes
-#     suggest_explore: events
-#     suggest_dimension: events.extra_json
-#     sql: ${TABLE}.extra_json ;;
-#   }
-
 
 #Remove ""
-  dimension: character {
-    type: string
-    sql: JSON_EXTRACT_SCALAR(${extra_json},'$.team_slot_0') ;;
-  }
-
-  dimension: eraser_skill_level {
-    type: string
-    sql: REPLACE(JSON_EXTRACT(${extra_json},
-      '$.team_slot_skill_0'),'"','') ;;
-  }
-
-  dimension: eraser_xp_level {
-    type: number
-    sql: REPLACE(JSON_EXTRACT(${extra_json},
-      '$.team_slot_level_0'),'"','') ;;
-  }
 
   dimension: coins_earned {
     type: number
@@ -100,34 +65,6 @@ view: _001_coins_xp_score {
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},
       '$.round_id'),'"','') as NUMERIC) ;;
-  }
-
-  dimension: payer_status {
-    type: yesno
-    sql: ${TABLE}.payer ;;
-  }
-
-  dimension: lifetime_spend {
-    type: number
-    sql: ${TABLE}.ltv ;;
-  }
-
-  dimension: coin_balance {
-    type: number
-    sql: ${TABLE}.coins  ;;
-  }
-
-  dimension: hardware {
-    type: string
-    sql: ${TABLE}.hardware ;;
-  }
-
-  dimension: platform {
-    type: string
-    sql: CASE WHEN ${TABLE}.platform LIKE '%Android%' THEN 'mobile'
-          WHEN ${TABLE}.platform LIKE '%iOS%' THEN 'mobile'
-          ELSE 'Desktop (Web)'
-          END ;;
   }
 
   dimension: session_id {
@@ -165,72 +102,14 @@ view: _001_coins_xp_score {
     sql: ${TABLE}.timestamp_insert ;;
   }
 
-  dimension: user_id {
-    type: string
-    sql: ${TABLE}.user_id ;;
-    drill_fields: [user_details*]
-  }
 
-#   dimension: user_type {
-#     type: string
-#     suggest_explore: events
-#     suggest_dimension: events.user_type
-# #     sql: ${TABLE}.user_type ;;
-#   }
-
-  dimension: version {
-    type: string
-    sql:${TABLE}.version ;;
-  }
-
-  dimension: player_xp {
-    type: number
-    sql: ${TABLE}.player_xp_level ;;
-  }
-
-
-
-# MEASURES
-
-  measure: total_coins_earned {
-    type: sum
-    sql: ${coins_earned} ;;
-  }
-  measure: max_coin_balance {
-    type: max
-    sql: ${coin_balance} ;;
-  }
-
-  measure: average_coin_balance {
-    type: average
-    sql: ${coin_balance} ;;
-    value_format_name: decimal_2
-  }
-
-  measure: top_5 {
-    type: percentile
-    percentile: 95
-    sql: ${coin_balance} ;;
-  }
-
+###MEASURES###
   measure: count {
     type: count
     drill_fields: [event_name]
   }
 
-  measure: number_of_unique_users {
-    type: count_distinct
-    sql: ${user_id} ;;
-    drill_fields: [user_details*]
-  }
-
-# measure: last_updated_date {
-#   type: date
-#   sql: MAX(${created_raw}) ;;
-#   }
-
-
-# Boxplots COINS, SCORE & XP_EARNED #
+###BOXPLOT MEASURES###
 
   parameter: boxplot_type {
     type: string
@@ -249,7 +128,7 @@ view: _001_coins_xp_score {
   }
 
   measure: 1_min_boxplot {
-    drill_fields: [character, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
+    drill_fields: [user_details*]
     link: {
       label: "Drill and sort by coins earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
@@ -276,7 +155,7 @@ view: _001_coins_xp_score {
   }
 
   measure: 5_max_boxplot {
-    drill_fields: [character, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
+    drill_fields: [user_details*]
     link: {
       label: "Drill and sort by coins earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
@@ -302,7 +181,7 @@ view: _001_coins_xp_score {
   }
 
   measure: 3_median_boxplot {
-    drill_fields: [character, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
+   drill_fields: [user_details*]
     link: {
       label: "Drill and sort by coins earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
@@ -315,7 +194,7 @@ view: _001_coins_xp_score {
       label: "Drill and sort by score earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
     }
-    group_label: "BoxPlot"
+    group_label: "BoxPlot Measures"
     type: median
     sql: CASE
       WHEN  {% parameter boxplot_type %} = 'Coins'
@@ -328,7 +207,7 @@ view: _001_coins_xp_score {
   }
 
   measure: 2_25th_boxplot {
-    drill_fields: [character, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
+    drill_fields: [user_details*]
     link: {
       label: "Drill and sort by coins earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
@@ -341,7 +220,7 @@ view: _001_coins_xp_score {
       label: "Drill and sort by score earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
     }
-    group_label: "BoxPlot"
+    group_label: "BoxPlot Measures"
     type: percentile
     percentile: 25
     sql: CASE
@@ -355,7 +234,7 @@ view: _001_coins_xp_score {
   }
 
   measure: 4_75th_boxplot {
-    drill_fields: [character, coins_earned, xp_earned, score_earned, player_xp, eraser_skill_level, user_details*]
+    drill_fields: [user_details*]
     link: {
       label: "Drill and sort by coins earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
@@ -368,7 +247,7 @@ view: _001_coins_xp_score {
       label: "Drill and sort by score earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
     }
-    group_label: "BoxPlot"
+    group_label: "BoxPlot Measures"
     type: percentile
     percentile: 75
     sql: CASE
@@ -381,51 +260,7 @@ view: _001_coins_xp_score {
     END  ;;
   }
 
-
-
-
-################################
-# EXAMPLE # (ERASE WHEN DONE)
-
-  # measure: min_coins_earned {
-  #   group_label: "BoxPlot Coins"
-  #   type: min
-  #   sql: ${coins_earned} ;;
-  # }
-
-  # measure: max_coins_earned {
-  #   group_label: "BoxPlot Coins"
-  #   type: max
-  #   sql: ${coins_earned} ;;
-  # }
-
-  # measure: median_coins_earned {
-  #   group_label: "BoxPlot Coins"
-  #   type: median
-  #   sql: ${coins_earned} ;;
-  # }
-
-  # measure: 25th_coins_earned {
-  #   group_label: "BoxPlot Coins"
-  #   type: percentile
-  #   percentile: 25
-  #   sql: ${coins_earned} ;;
-  # }
-
-  # measure: 75th_coins_earned {
-  # group_label: "BoxPlot Coins"
-  # type: percentile
-  #   percentile: 75
-  #   sql: ${coins_earned} ;;
-  # }
-
-####################################
-
   set: user_details {
-    fields: [user_id,
-      platform,
-      user_type,
-      version
-    ]
+    fields: [user_id]
   }
 }

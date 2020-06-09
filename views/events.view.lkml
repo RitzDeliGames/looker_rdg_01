@@ -476,9 +476,16 @@ view: events {
     sql: REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_0'),'"','');;
   }
 
-  dimension: character_used_level {
+  dimension: character_used_skill {
     group_label: "Round End"
-    label: "Character Level"
+    label: "Character XP Level"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_skill_0'),'"','') AS NUMERIC);;
+  }
+
+  dimension: character_used_xp {
+    group_label: "Round End"
+    label: "Character Skill Level"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_level_0'),'"','') AS NUMERIC);;
   }
@@ -496,7 +503,6 @@ view: events {
     type: average
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
   }
-
 
   measure: max_ltv {
     type: max

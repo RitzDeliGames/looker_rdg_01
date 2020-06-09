@@ -48,6 +48,7 @@ view: events {
     sql: CASE
           WHEN ${TABLE}.user_id LIKE "anon-431ff9ad-d91c-43e1-9c7d-26a651f686b4" THEN "Robert Einspruch iPhone 11"
           WHEN ${TABLE}.user_id LIKE "anon-a92949b7-e902-45b0-9e1d-addb6cc46b80" THEN "Robert Einspruch iPhone 8"
+          WHEN ${TABLE}.user_id LIKE "anon-5c17fbfe-414a-4ced-a4af-1387aa5d32f2" THEN "Robert Einspruch iPhone 6"
         END ;;
   }
 
@@ -85,7 +86,56 @@ view: events {
   dimension: device_model {
     group_label: "device & os dimensions"
     type: string
-    sql: ${TABLE}.hardware ;;
+    sql:CASE
+          WHEN ${TABLE}.hardware = "iPhone6,2" THEN "iPhone 5s Global"
+          WHEN ${TABLE}.hardware = "iPhone7,1" THEN "iPhone 6 Plus"
+          WHEN ${TABLE}.hardware = "iPhone7,2" THEN "iPhone 6"
+          WHEN ${TABLE}.hardware = "iPhone8,1" THEN "iPhone 6s"
+          WHEN ${TABLE}.hardware = "iPhone8,2" THEN "iPhone 6s Plus"
+          WHEN ${TABLE}.hardware = "iPhone8,4" THEN "iPhone SE GSM"
+          WHEN ${TABLE}.hardware = "iPhone9,1" THEN "iPhone 7"
+          WHEN ${TABLE}.hardware = "iPhone9,2" THEN "iPhone 7 Plus"
+          WHEN ${TABLE}.hardware = "iPhone9,3" THEN "iPhone 7"
+          WHEN ${TABLE}.hardware = "iPhone9,4" THEN "iPhone 7 Plus"
+          WHEN ${TABLE}.hardware = "iPhone10,1" THEN "iPhone 8"
+          WHEN ${TABLE}.hardware = "iPhone10,2" THEN "iPhone 8 Plus"
+          WHEN ${TABLE}.hardware = "iPhone10,3" THEN "iPhone X Global"
+          WHEN ${TABLE}.hardware = "iPhone10,4" THEN "iPhone 8"
+          WHEN ${TABLE}.hardware = "iPhone10,5" THEN "iPhone 8 Plus"
+          WHEN ${TABLE}.hardware = "iPhone10,6" THEN "iPhone X GSM"
+          WHEN ${TABLE}.hardware = "iPhone11,2" THEN "iPhone XS"
+          WHEN ${TABLE}.hardware = "iPhone11,4" THEN "iPhone XS Max"
+          WHEN ${TABLE}.hardware = "iPhone11,6" THEN "iPhone XS Max Global"
+          WHEN ${TABLE}.hardware = "iPhone11,8" THEN "iPhone XR"
+          WHEN ${TABLE}.hardware = "iPhone12,1" THEN "iPhone 11"
+          WHEN ${TABLE}.hardware = "iPhone12,3" THEN "iPhone 11 Pro"
+          WHEN ${TABLE}.hardware = "iPhone12,5" THEN "iPhone 11 Pro Max"
+          WHEN ${TABLE}.hardware = "iPhone12,8" THEN "iPhone SE - 2nd Gen"
+          WHEN ${TABLE}.hardware = "iPad4,1" THEN "iPad Air - 1st Gen"
+          WHEN ${TABLE}.hardware = "iPad5,3" THEN "iPad Air - 2nd Gen"
+          WHEN ${TABLE}.hardware = "iPad6,3" THEN "iPad Pro - 9.7"
+          WHEN ${TABLE}.hardware = "iPad6,7" THEN "iPad Pro - 12.9"
+          WHEN ${TABLE}.hardware = "iPad7,5" THEN "iPad - 6th Gen"
+          WHEN ${TABLE}.hardware = "iPad7,11" THEN "iPad - 7th Gen - 10.2"
+          WHEN ${TABLE}.hardware = "iPad8,11" THEN "iPad Pro - 4th Gen - 12.9"
+          WHEN ${TABLE}.hardware = "iPad11,3" THEN "iPad Air - 3rd Gen"
+          WHEN ${TABLE}.hardware = "samsung SM-M305F" THEN "Samsung Galaxy M30"
+          WHEN ${TABLE}.hardware = "samsung SM-G950F" THEN "Samsung Galaxy S8"
+          WHEN ${TABLE}.hardware = "samsung SM-G950U" THEN "Samsung Galaxy S8"
+          WHEN ${TABLE}.hardware = "samsung SM-G955U" THEN "Samsung Galaxy S8+"
+          WHEN ${TABLE}.hardware = "samsung SM-G960U1" THEN "Samsung Galaxy S9"
+          WHEN ${TABLE}.hardware = "samsung SM-G960U" THEN "Samsung Galaxy S9"
+          WHEN ${TABLE}.hardware = "samsung SM-G965U" THEN "Samsung Galaxy S9+"
+          WHEN ${TABLE}.hardware = "samsung SM-G973U" THEN "Samsung Galaxy S10"
+          WHEN ${TABLE}.hardware = "samsung SM-G970U" THEN "Samsung Galaxy S10"
+          WHEN ${TABLE}.hardware = "samsung SM-G986U" THEN "Samsung Galaxy S20+"
+          WHEN ${TABLE}.hardware = "samsung SM-J400M" THEN "Samsung Galaxy J4"
+          WHEN ${TABLE}.hardware = "samsung SM-N975U" THEN "Samsung Galaxy Note10+"
+          WHEN ${TABLE}.hardware = "samsung SM-N975U1" THEN "Samsung Galaxy Note10+"
+          WHEN ${TABLE}.hardware = "samsung SM-T560NU" THEN "Samsung Galaxy Tab 9.6"
+          WHEN ${TABLE}.hardware = "motorola Moto G (5) Plus" THEN "Motorola Moto G5 Plus"
+          ELSE ${TABLE}.hardware
+        END ;;
   }
 
   dimension: device_os_version {
@@ -409,12 +459,43 @@ view: events {
 
 ###
 
+###ROUND START / END DIMENSIONS###
+
+  dimension: round_id {
+    group_label: "Round End"
+    label: "Round ID"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
+  }
+
+  dimension: character_used {
+    group_label: "Round End"
+    label: "Character Used"
+    type: string
+    sql: REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_0'),'"','');;
+  }
+
+  dimension: character_used_level {
+    group_label: "Round End"
+    label: "Character Level"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_level_0'),'"','') AS NUMERIC);;
+  }
+###
+
 
 ###MEASURES###
   measure: count {
     type: count
     drill_fields: [event_name]
   }
+
+  measure: avg_round_count {
+    label: "Avg. Round Count"
+    type: average
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
+  }
+
 
   measure: max_ltv {
     type: max

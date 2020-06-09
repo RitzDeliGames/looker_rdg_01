@@ -17,7 +17,7 @@ view: _003_chains_matches_comp {
 
   dimension: character {
     type: string
-    sql: JSON_EXTRACT_SCALAR(${extra_json},'$.team_slot_0') ;;
+    sql: REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','')  ;;
   }
 
 

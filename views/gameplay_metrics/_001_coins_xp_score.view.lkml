@@ -13,36 +13,6 @@ view: _001_coins_xp_score {
     sql:  CONCAT(${character_used} ,${extra_json}) ;;
   }
 
-  dimension_group: created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.created_at ;;
-  }
-
-
-
-  dimension: days_from_install {
-    type: number
-    sql: DATE_DIFF(${timestamp_date},${created_date}, day) ;;
-  }
-
-  dimension: event_name {
-    type: string
-    sql: ${TABLE}.event_name ;;
-  }
-
-
-
-#Remove ""
-
   dimension: coins_earned {
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},

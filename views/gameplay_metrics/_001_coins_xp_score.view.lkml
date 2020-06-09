@@ -5,43 +5,7 @@ view: _001_coins_xp_score {
 
   sql_table_name: eraser-blast.game_data.events ;;
 
-
-  # Dimensions
-
-  dimension: primary_key {
-    type: string
-    sql:  CONCAT(${character_used} ,${extra_json}) ;;
-  }
-
-  dimension_group: created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.created_at ;;
-  }
-
-
-
-  dimension: days_from_install {
-    type: number
-    sql: DATE_DIFF(${timestamp_date},${created_date}, day) ;;
-  }
-
-  dimension: event_name {
-    type: string
-    sql: ${TABLE}.event_name ;;
-  }
-
-
-
-#Remove ""
+###DIMENSIONS###
 
   dimension: coins_earned {
     type: number
@@ -61,49 +25,8 @@ view: _001_coins_xp_score {
       '$.xp_earned'),'"','') as NUMERIC) ;;
   }
 
-  dimension: round_id {
-    type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},
-      '$.round_id'),'"','') as NUMERIC) ;;
-  }
-
-  dimension: session_id {
-    type: string
-    sql: ${TABLE}.session_id ;;
-  }
-
-  dimension_group: timestamp {
-    type: time
-    timeframes: [
-      raw,
-      hour,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.timestamp ;;
-  }
-
-  dimension_group: timestamp_insert {
-    type: time
-    timeframes: [
-      raw,
-      hour,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.timestamp_insert ;;
-  }
-
-
 ###MEASURES###
+
   measure: count {
     type: count
     drill_fields: [event_name]
@@ -141,7 +64,7 @@ view: _001_coins_xp_score {
       label: "Drill and sort by score earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
     }
-    group_label: "BoxPlot"
+    group_label: "BoxPlot Measures"
     type: min
     sql: CASE
       WHEN  {% parameter boxplot_type %} = 'Coins'
@@ -168,7 +91,7 @@ view: _001_coins_xp_score {
       label: "Drill and sort by score earned"
       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
     }
-    group_label: "BoxPlot"
+    group_label: "BoxPlot Measures"
     type: max
     sql: CASE
       WHEN  {% parameter boxplot_type %} = 'Coins'

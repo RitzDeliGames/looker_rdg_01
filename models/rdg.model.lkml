@@ -35,7 +35,6 @@ explore: fue_funnel {
 
 ##########BINGO CARDS##########
 
-
 explore: _000_bingo_cards {
   sql_always_where: event_name = "cards" ;;
   view_name: _000_bingo_cards_comp
@@ -47,8 +46,6 @@ explore: _000_bingo_cards {
     ;;
   }
 }
-
-
 
 
 ##########GAMEPLAY EXPLORES##########
@@ -102,9 +99,7 @@ explore: _004_large_dropped_and_popped {
 }
 
 
-
-# BUBBLES:
-
+# BUBBLES EXPLORE:
 
 explore: _005_bubbles {
   sql_always_where: event_name = "round_end"
@@ -153,8 +148,6 @@ explore: _005_bubbles {
       ;;
   }
 }
-
-
 
 
 # ROUND LENGTH EXPLORE:

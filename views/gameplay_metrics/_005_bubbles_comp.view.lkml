@@ -78,6 +78,15 @@ view: _005_bubbles_comp {
  }
 
 
+###
+
+  dimension: bubble_normal_p {
+    hidden: yes
+    type: number
+    sql: bubble_normal ;;
+  }
+
+
   parameter: boxplot_ {
     type: string
     allowed_value: {

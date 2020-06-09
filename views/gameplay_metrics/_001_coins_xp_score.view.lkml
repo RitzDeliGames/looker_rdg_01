@@ -67,11 +67,6 @@ view: _001_coins_xp_score {
       '$.round_id'),'"','') as NUMERIC) ;;
   }
 
-  dimension: session_id {
-    type: string
-    sql: ${TABLE}.session_id ;;
-  }
-
   dimension_group: timestamp {
     type: time
     timeframes: [

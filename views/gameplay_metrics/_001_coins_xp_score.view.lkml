@@ -67,37 +67,6 @@ view: _001_coins_xp_score {
       '$.round_id'),'"','') as NUMERIC) ;;
   }
 
-  dimension_group: timestamp {
-    type: time
-    timeframes: [
-      raw,
-      hour,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.timestamp ;;
-  }
-
-  dimension_group: timestamp_insert {
-    type: time
-    timeframes: [
-      raw,
-      hour,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.timestamp_insert ;;
-  }
-
-
 ###MEASURES###
   measure: count {
     type: count

@@ -11,8 +11,12 @@ view: _003_chains_matches_comp {
 
   dimension: all_chains_packed {
     type: string
-    sql: JSON_EXTRACT(${extra_json},'$.all_chains') ;;
+    sql: CASE
+    WHEN JSON_EXTRACT(${extra_json},'$.all_chains') <> ''
+    THEN JSON_EXTRACT(${extra_json},'$.all_chains')
+    END;;
   }
+
 
   # CHAINS AND MATCHES DIMENSIONS
 
@@ -21,14 +25,15 @@ view: _003_chains_matches_comp {
     sql: CAST(JSON_Value(${extra_json},'$.round_length') AS NUMERIC) / 1000  ;;
   }
 
-  dimension: chain_length {
+  dimension: total_chains {
     type: number
-    sql: CAST(JSON_Value(extra_json,'$.total_chains') AS NUMERIC)  ;;
+    sql: CAST(JSON_Value(extra_json,'$.total_chains') AS NUMERIC) ;;
   }
+
 
   dimension: seconds_per_chain {
     type: number
-    sql: 1.0*${round_length} / NULLIF(${chain_length},0) ;;
+    sql: 1.0*${round_length} / NULLIF(${total_chains},0) ;;
   }
 
   dimension: all_chains {
@@ -43,8 +48,8 @@ view: _003_chains_matches_comp {
   parameter: boxplot_ {
     type: string
     allowed_value: {
-      label: "chain length"
-      value: "chain length"
+      label: "total chains"
+      value: "total chains"
     }
     allowed_value: {
       label: "seconds per chain"
@@ -60,8 +65,8 @@ view: _003_chains_matches_comp {
   measure: 1_min_boxplot {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by Chain Length"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
+      label: "Drill and sort by total chains"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
     }
     link: {
       label: "Drill and sort by Seconds per Chain"
@@ -74,8 +79,8 @@ view: _003_chains_matches_comp {
     group_label: "BoxPlot"
     type: min
     sql: CASE
-      WHEN  {% parameter boxplot_ %} = 'chain length'
-      THEN ${chain_length}
+      WHEN  {% parameter boxplot_ %} = 'total chains'
+      THEN ${total_chains}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
@@ -86,8 +91,8 @@ view: _003_chains_matches_comp {
   measure: 5_max_boxplot {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by Chain Length"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
+      label: "Drill and sort by total chains"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
     }
     link: {
       label: "Drill and sort by Seconds per Chain"
@@ -100,8 +105,8 @@ view: _003_chains_matches_comp {
     group_label: "BoxPlot"
     type: max
     sql: CASE
-      WHEN  {% parameter boxplot_ %} = 'chain length'
-      THEN ${chain_length}
+      WHEN  {% parameter boxplot_ %} = 'total chains'
+      THEN ${total_chains}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
@@ -112,8 +117,8 @@ view: _003_chains_matches_comp {
   measure: 3_median_boxplot {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by Chain Length"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
+      label: "Drill and sort by total chains"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
     }
     link: {
       label: "Drill and sort by Seconds per Chain"
@@ -126,8 +131,8 @@ view: _003_chains_matches_comp {
     group_label: "BoxPlot"
     type: median
     sql: CASE
-      WHEN  {% parameter boxplot_ %} = 'chain length'
-      THEN ${chain_length}
+      WHEN  {% parameter boxplot_ %} = 'total chains'
+      THEN ${total_chains}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
@@ -138,8 +143,8 @@ view: _003_chains_matches_comp {
   measure: 2_25th_boxplot {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by Chain Length"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
+      label: "Drill and sort by total chains"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
     }
     link: {
       label: "Drill and sort by Seconds per Chain"
@@ -153,8 +158,8 @@ view: _003_chains_matches_comp {
     type: percentile
     percentile: 25
     sql: CASE
-      WHEN  {% parameter boxplot_ %} = 'chain length'
-      THEN ${chain_length}
+      WHEN  {% parameter boxplot_ %} = 'total chains'
+      THEN ${total_chains}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
@@ -165,8 +170,8 @@ view: _003_chains_matches_comp {
   measure: 4_75th_boxplot {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by Chain Length"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
+      label: "Drill and sort by total chains"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
     }
     link: {
       label: "Drill and sort by Seconds per Chain"
@@ -180,8 +185,8 @@ view: _003_chains_matches_comp {
     type: percentile
     percentile: 75
     sql: CASE
-      WHEN  {% parameter boxplot_ %} = 'chain length'
-      THEN ${chain_length}
+      WHEN  {% parameter boxplot_ %} = 'total chains'
+      THEN ${total_chains}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
@@ -198,7 +203,7 @@ view: _003_chains_matches_comp {
       user_type,
       player_xp_level,
       device_platform,
-      chain_length,
+      total_chains,
       seconds_per_chain,
       round_length,
       all_chains_packed,

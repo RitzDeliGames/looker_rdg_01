@@ -48,6 +48,8 @@ view: events {
     sql: CASE
           WHEN ${TABLE}.user_id LIKE "anon-431ff9ad-d91c-43e1-9c7d-26a651f686b4" THEN "Robert Einspruch iPhone 11"
           WHEN ${TABLE}.user_id LIKE "anon-a92949b7-e902-45b0-9e1d-addb6cc46b80" THEN "Robert Einspruch iPhone 8"
+          WHEN ${TABLE}.user_id LIKE "anon-5c17fbfe-414a-4ced-a4af-1387aa5d32f2" THEN "Robert Einspruch iPhone 6"
+          WHEN ${TABLE}.user_id LIKE "anon-4DB773A6-FC02-47E3-9454-56653DD6A311" THEN "Robert Einspruch iPhone 6"
         END ;;
   }
 
@@ -76,7 +78,7 @@ view: events {
           WHEN ${TABLE}.hardware LIKE "%iPad%" THEN "Apple"
           WHEN ${TABLE}.hardware LIKE "%Pixel%" THEN "Google"
           WHEN ${TABLE}.hardware LIKE "%samsung%" THEN "Samsung"
-          WHEN ${TABLE}.hardware LIKE "%LGE%" THEN "LGE"
+          WHEN ${TABLE}.hardware LIKE "%LG%" THEN "LG"
           WHEN ${TABLE}.hardware LIKE "%moto%" THEN "Motorola"
           WHEN ${TABLE}.hardware LIKE "%Huawei%" THEN "Huawei"
         END ;;
@@ -141,20 +143,20 @@ view: events {
 ###GEO DIMENSIONS###
 
   dimension: country {
-    group_label: "geo dimensions"
+    group_label: "Geo Dimensions"
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
   }
 
   dimension: city {
-    group_label: "geo dimensions"
+    group_label: "Geo Dimensions"
     type: string
     sql: ${TABLE}.city ;;
   }
 
   dimension: region {
-    group_label: "geo dimensions"
+    group_label: "Geo Dimensions"
     type: string
     sql: ${TABLE}.region ;;
   }
@@ -223,7 +225,12 @@ view: events {
 
   dimension: player_xp_level {
     type: number
-    sql: ${TABLE}.player_xp_level ;;
+    sql: ${TABLE}.player_level_xp ;;
+  }
+
+  dimension: player_xp_level_int {
+    type: number
+    sql: CAST(FLOOR(${TABLE}.player_level_xp) AS INT64);;
   }
 
   dimension: ltv {
@@ -412,26 +419,40 @@ view: events {
 ###ROUND START / END DIMENSIONS###
 
   dimension: round_id {
-    group_label: "Round End"
+    group_label: "Round Start/End"
     label: "Round ID"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
   }
 
   dimension: character_used {
-    group_label: "Round End"
+    group_label: "Round Start/End"
     label: "Character Used"
     type: string
     sql: REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_0'),'"','');;
   }
 
-  dimension: character_used_level {
-    group_label: "Round End"
-    label: "Character Level"
+  dimension: character_used_skill {
+    group_label: "Round Start/End"
+    label: "Character XP Level"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_skill_0'),'"','') AS NUMERIC);;
+  }
+
+  dimension: character_used_xp {
+    group_label: "Round Start/End"
+    label: "Character Skill Level"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_level_0'),'"','') AS NUMERIC);;
   }
 ###
+
+# Please, allocate this dimension at will:
+
+  dimension: round_length {
+    type: number
+    sql: CAST(JSON_Value(${extra_json},'$.round_length') AS NUMERIC) / 1000  ;;
+  }
 
 
 ###MEASURES###
@@ -445,7 +466,6 @@ view: events {
     type: average
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
   }
-
 
   measure: max_ltv {
     type: max

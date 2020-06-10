@@ -146,6 +146,7 @@ view: _006_round_length {
   set: detail {
     fields: [
       user_type,
+      player_xp_level,
       character,
       round_length_num,
       round_length,

@@ -2,16 +2,6 @@ include: "/views/**/events.view"
 
 view: _005_bubbles_comp {
   extends: [events]
-  derived_table: {
-    sql: SELECT extra_json,
-       user_type,
-       timestamp_insert,
-       JSON_EXTRACT(extra_json,'$.team_slot_0') AS character
-FROM events
-WHERE event_name = 'round_end'
-AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
- ;;
-  }
 
 
   measure: count {
@@ -31,23 +21,9 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     sql: ${TABLE}.timestamp_insert ;;
   }
 
-#   dimension: character {
-#     hidden: no
-#     type: string
-#     sql: JSON_EXTRACT(${extra_json},'$.team_slot_0') ;;
-#   }
-
   dimension: character {
     type: string
-    sql: ${TABLE}.character ;;
-  }
-
-  dimension: extra_json {
-    type: string
-#     hidden: yes
-#     suggest_explore: events
-#     suggest_dimension: events.extra_json
-    sql: ${TABLE}.extra_json ;;
+    sql: REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','')  ;;
   }
 
   dimension: bubbles_x_axis {
@@ -56,43 +32,37 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       END ;;
   }
 
-  dimension: user_type {
-    type: string
-    suggest_explore: events
-    suggest_dimension: events.user_type
-#     sql: ${TABLE}.user_type ;;
-  }
 
 
 # Bubbles Dimensions:
 
 
   dimension: bubble_normal {
-#     hidden: yes
+    hidden: yes
     type: number
     sql: bubble_normal ;;
   }
 
   dimension: bubble_coins {
-#     hidden: yes
+    hidden: yes
     type: number
     sql: bubble_coins;;
   }
 
   dimension: bubble_xp {
-#     hidden: yes
+    hidden: yes
     type: number
     sql: bubble_xp ;;
   }
 
   dimension: bubble_time {
-#     hidden: yes
+    hidden: yes
     type: number
     sql: bubble_time ;;
   }
 
   dimension: bubble_score {
-#     hidden: yes
+    hidden: yes
     type: number
     sql: bubble_score ;;
   }
@@ -107,6 +77,28 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
   ;;
  }
 
+
+
+### ALL TEST. PROCEED WITH CAUTION
+
+  dimension: bubble_normal_p {
+#     hidden: yes
+    type: string
+    sql: JSON_EXTRACT_ARRAY(extra_json, '$.bubble_normal')  ;;
+  }
+
+  dimension: bubble_normal_p_str {
+    type: string
+    sql: JSON_EXTRACT(extra_json, '$.bubble_normal') ;;
+  }
+
+  dimension: bubble_normal_p_length {
+    type: number
+    sql:  ARRAY_LENGTH(${bubble_normal_p}) ;;
+  }
+
+
+###################################################333333
 
 
 
@@ -136,14 +128,9 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
       label: "All bubbles"
       value: "All bubbles"
     }
-
   }
 
-# CAST(if(${bubble_normal.bubble_normal} = '' , '0', ${bubble_normal.bubble_normal}) AS NUMERIC) +
-#         CAST(if(${bubble_coins.bubble_coins} = '' , '0', ${bubble_coins.bubble_coins}) AS NUMERIC) +
-#         CAST(if(${bubble_xp.bubble_xp} = '' , '0', ${bubble_xp.bubble_xp}) AS NUMERIC) +
-#         CAST(if(${bubble_time.bubble_time} = '' , '0', ${bubble_time.bubble_time}) AS NUMERIC) +
-#         CAST(if(${bubble_score.bubble_score} = '' , '0', ${bubble_score.bubble_score}) AS NUMERIC)
+
 
 # Bubbles Boxplots
 
@@ -374,6 +361,7 @@ AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
     fields: [
       character,
       user_type,
+      player_xp_level,
       bubble_normal,
       bubble_coins,
       bubble_xp,

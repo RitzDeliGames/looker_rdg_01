@@ -1,8 +1,7 @@
-include: "/views/**/events.view"
+ include: "/views/**/events.view"
 
 
 view: _000_bingo_cards_comp {
-
   extends: [events]
 
 
@@ -28,8 +27,9 @@ view: _000_bingo_cards_comp {
 #   }
 
   dimension: hardware {
-    type: string
-    sql: ${TABLE}.hardware ;;
+    hidden: yes
+#     type: string
+#     sql: ${TABLE}.hardware ;;
   }
 
   dimension: platform {

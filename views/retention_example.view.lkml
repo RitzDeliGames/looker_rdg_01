@@ -1,26 +1,45 @@
 explore: retention_example {}
 view: retention_example {
   derived_table: {
-    sql:
-SELECT events.user_id AS user_id ,
-       DATETIME_TRUNC(CAST(created_at AS DATETIME), HOUR) AS signup_hour ,
-       day_list.activity_hour AS activity_hour ,
-       data.event_hour AS activity ,
-       data.unique_events AS EVENTS
-FROM `eraser-blast.game_data.events` EVENTS
-CROSS JOIN
-  (SELECT DISTINCT(DATETIME_TRUNC(CAST(TIMESTAMP AS DATETIME), HOUR)) AS activity_hour
-   FROM `eraser-blast.game_data.events`) AS day_list
-LEFT JOIN
-  (SELECT user_id event_user_id ,
-          DATETIME_TRUNC(CAST(TIMESTAMP AS DATETIME), HOUR) event_hour,
-          COUNT(event_name) AS unique_events
-   FROM `eraser-blast.game_data.events`
-   GROUP BY 1,
-            2) AS DATA ON data.event_hour = day_list.activity_hour
-AND data.event_user_id = events.user_id
-WHERE activity_hour >= DATETIME_TRUNC(CAST(created_at AS DATETIME), HOUR)
- ;;
+    sql: with cohort as (
+      SELECT
+          events.user_id AS user_id ,
+          DATETIME_TRUNC(CAST(created_at AS DATETIME), HOUR) AS signup_hour
+      FROM `eraser-blast.game_data.events` EVENTS
+      WHERE 1=1
+      and REPLACE(JSON_EXTRACT(extra_json,"$.current_FueStep"),'"','') = "FIRST_PLAY"),
+
+      data as (
+      SELECT user_id,
+            DATETIME_TRUNC(CAST(TIMESTAMP AS DATETIME), HOUR) event_hour,
+            COUNT( distinct event_name) AS unique_events
+        FROM `eraser-blast.game_data.events`
+        GROUP BY 1,2
+      ),
+
+      day_list as (
+      SELECT DISTINCT(DATETIME_TRUNC(CAST(TIMESTAMP AS DATETIME), HOUR)) AS activity_hour
+
+          FROM `eraser-blast.game_data.events`
+      )
+
+      select
+      cohort.user_id
+      , cohort.signup_hour
+      , data.event_hour
+      , day_list.activity_hour
+      , data.unique_events
+      from
+      cohort
+      cross join day_list
+      left join data on data.user_id = cohort.user_id
+                and day_list.activity_hour = data.event_hour
+
+
+
+      WHERE 1=1
+      and activity_hour >= signup_hour
+       ;;
   }
 
   measure: count {
@@ -32,41 +51,41 @@ WHERE activity_hour >= DATETIME_TRUNC(CAST(created_at AS DATETIME), HOUR)
     sql: ${TABLE}.user_id ;;
   }
 
-  dimension: signup_hour {
-    type: date_raw
-    sql: timestamp(${TABLE}.signup_hour) ;;
+  dimension_group: signup_hour {
+    type: time
+    sql: cast(${TABLE}.signup_hour as timestamp)  ;;
   }
 
-  dimension: activity {
-    type: date_raw
-    sql: timestamp(${TABLE}.activity) ;;
+  dimension_group: event_hour {
+    type: time
+    sql: cast(${TABLE}.event_hour  as timestamp) ;;
   }
 
-  dimension: events {
+  dimension_group: diff  {
+    type: duration
+    sql_start: cast(${signup_hour_raw} as timestamp) ;;
+    sql_end: cast(${activity_hour_raw} as timestamp) ;;
+  }
+
+  dimension_group: activity_hour {
+    type: time
+    sql: ${TABLE}.activity_hour ;;
+  }
+
+  dimension: unique_events {
     type: number
-    sql: ${TABLE}.events ;;
-  }
-
-  dimension: days_since_signup {
-    type: number
-   sql: timestamp_DIFF(${activity}, ${signup_hour}, hour) ;;
+    sql: ${TABLE}.unique_events ;;
   }
 
   measure: total_users {
     type: count_distinct
     sql: ${user_id} ;;
-    drill_fields: [users.id, users.age, users.name, user_order_facts.lifetime_orders]
   }
 
   measure: total_active_users {
     type: count_distinct
     sql: ${user_id} ;;
-    drill_fields: [users.id, users.age, users.name, user_order_facts.lifetime_orders]
-
-    filters: {
-      field: events
-      value: ">0"
-    }
+    filters: [unique_events: ">0"]
   }
 
   measure: percent_of_cohort_active {

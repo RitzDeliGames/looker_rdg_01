@@ -3,12 +3,6 @@ include: "/views/**/events.view"
 view: _003_chains_matches_comp {
   extends: [events]
 
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
-
   dimension: all_chains_packed {
     type: string
     sql: CASE
@@ -22,7 +16,7 @@ view: _003_chains_matches_comp {
 
   dimension: round_length {
     type: number
-    sql: CAST(JSON_Value(${extra_json},'$.round_length') AS NUMERIC) / 1000  ;;
+    sql: CAST(JSON_Value(${extra_json},'$.round_length') AS NUMERIC) / 1000  ;; ###this should probably be moved to the main events view
   }
 
   dimension: total_chains {
@@ -41,9 +35,14 @@ view: _003_chains_matches_comp {
     sql: all_chains ;;
   }
 
+  ###MEASURES###
+
+  measure: count {
+    type: count
+    drill_fields: [detail*]
+  }
 
   #####################_BOXPLOTS_#####################
-
 
   parameter: boxplot_ {
     type: string
@@ -60,7 +59,6 @@ view: _003_chains_matches_comp {
       value: "chains made"
     }
   }
-
 
   measure: 1_min_boxplot {
     drill_fields: [detail*]

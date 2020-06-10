@@ -78,13 +78,28 @@ view: _005_bubbles_comp {
  }
 
 
-###
+
+### ALL TEST. PROCEED WITH CAUTION
 
   dimension: bubble_normal_p {
-    hidden: yes
-    type: number
-    sql: bubble_normal ;;
+#     hidden: yes
+    type: string
+    sql: JSON_EXTRACT_ARRAY(extra_json, '$.bubble_normal')  ;;
   }
+
+  dimension: bubble_normal_p_str {
+    type: string
+    sql: JSON_EXTRACT(extra_json, '$.bubble_normal') ;;
+  }
+
+  dimension: bubble_normal_p_length {
+    type: number
+    sql:  ARRAY_LENGTH(${bubble_normal_p}) ;;
+  }
+
+
+###################################################333333
+
 
 
   parameter: boxplot_ {

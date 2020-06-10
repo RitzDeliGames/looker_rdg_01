@@ -274,7 +274,12 @@ view: events {
 
   dimension: player_xp_level {
     type: number
-    sql: ${TABLE}.player_xp_level ;;
+    sql: ${TABLE}.player_level_xp ;;
+  }
+
+  dimension: player_xp_level_int {
+    type: number
+    sql: CAST(FLOOR(${TABLE}.player_level_xp) AS INT64);;
   }
 
   dimension: ltv {
@@ -463,28 +468,28 @@ view: events {
 ###ROUND START / END DIMENSIONS###
 
   dimension: round_id {
-    group_label: "Round End"
+    group_label: "Round Start/End"
     label: "Round ID"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
   }
 
   dimension: character_used {
-    group_label: "Round End"
+    group_label: "Round Start/End"
     label: "Character Used"
     type: string
     sql: REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_0'),'"','');;
   }
 
   dimension: character_used_skill {
-    group_label: "Round End"
+    group_label: "Round Start/End"
     label: "Character XP Level"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_skill_0'),'"','') AS NUMERIC);;
   }
 
   dimension: character_used_xp {
-    group_label: "Round End"
+    group_label: "Round Start/End"
     label: "Character Skill Level"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_level_0'),'"','') AS NUMERIC);;

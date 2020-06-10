@@ -78,7 +78,7 @@ view: events {
           WHEN ${TABLE}.hardware LIKE "%iPad%" THEN "Apple"
           WHEN ${TABLE}.hardware LIKE "%Pixel%" THEN "Google"
           WHEN ${TABLE}.hardware LIKE "%samsung%" THEN "Samsung"
-          WHEN ${TABLE}.hardware LIKE "%LGE%" THEN "LGE"
+          WHEN ${TABLE}.hardware LIKE "%LG%" THEN "LG"
           WHEN ${TABLE}.hardware LIKE "%moto%" THEN "Motorola"
           WHEN ${TABLE}.hardware LIKE "%Huawei%" THEN "Huawei"
         END ;;

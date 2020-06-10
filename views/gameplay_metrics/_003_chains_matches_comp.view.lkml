@@ -14,28 +14,6 @@ view: _003_chains_matches_comp {
     sql: JSON_EXTRACT(${extra_json},'$.all_chains') ;;
   }
 
-
-  dimension: character {
-    type: string
-    sql: REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','')  ;;
-  }
-
-
-  dimension: platform {
-    type: string
-    sql: ${TABLE}.platform ;;
-  }
-
-  dimension: platform_type {
-    type: string
-    sql: CASE
-      WHEN ${TABLE}.platform LIKE '%Android%' THEN 'mobile'
-      WHEN ${TABLE}.platform LIKE '%iOS%' THEN 'mobile'
-      ELSE 'desktop (web)'
-      END ;;
-  }
-
-
   # CHAINS AND MATCHES DIMENSIONS
 
   dimension: round_length {
@@ -215,10 +193,11 @@ view: _003_chains_matches_comp {
 ###############
 
   set: detail {
-    fields: [character,
+    fields: [
+      events.character,
       user_type,
       player_xp_level,
-      platform,
+      events.platform,
       chain_length,
       chains_per_second,
       round_length,

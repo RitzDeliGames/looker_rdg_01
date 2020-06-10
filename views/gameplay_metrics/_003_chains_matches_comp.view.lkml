@@ -62,7 +62,7 @@ view: _003_chains_matches_comp {
       url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     link: {
-      label: "Drill and sort by Chains per Second"
+      label: "Drill and sort by Seconds per Chain"
       url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
@@ -88,7 +88,7 @@ view: _003_chains_matches_comp {
       url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     link: {
-      label: "Drill and sort by Chains per Second"
+      label: "Drill and sort by Seconds per Chain"
       url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
@@ -114,7 +114,7 @@ view: _003_chains_matches_comp {
       url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     link: {
-      label: "Drill and sort by Chains per Second"
+      label: "Drill and sort by Seconds per Chain"
       url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
@@ -140,7 +140,7 @@ view: _003_chains_matches_comp {
       url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     link: {
-      label: "Drill and sort by Chains per Second"
+      label: "Drill and sort by Seconds per Chain"
       url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
@@ -167,7 +167,7 @@ view: _003_chains_matches_comp {
       url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     link: {
-      label: "Drill and sort by Chains per Second"
+      label: "Drill and sort by Seconds per Chain"
       url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
@@ -192,10 +192,10 @@ view: _003_chains_matches_comp {
 
   set: detail {
     fields: [
-      events.character_used,
+      character_used,
       user_type,
       player_xp_level,
-      events.platform,
+      device_platform,
       chain_length,
       seconds_per_chain,
       round_length,

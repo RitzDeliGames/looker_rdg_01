@@ -13,10 +13,10 @@ view: _003_chains_matches_comp {
 
   # CHAINS AND MATCHES DIMENSIONS
 
-  dimension: round_length {
-    type: number
-    sql: CAST(JSON_Value(${extra_json},'$.round_length') AS NUMERIC) / 1000  ;; ###this should probably be moved to the main events view
-  }
+#   dimension: round_length {
+#     type: number
+#     sql: CAST(JSON_Value(${extra_json},'$.round_length') AS NUMERIC) / 1000  ;; ###this should probably be moved to the main events view
+#   }
 
   dimension: total_chains {
     type: number

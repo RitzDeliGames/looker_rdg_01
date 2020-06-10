@@ -497,6 +497,12 @@ view: events {
 ###
 
 
+  dimension: round_length {
+    type: number
+    sql: CAST(JSON_Value(${extra_json},'$.round_length') AS NUMERIC) / 1000  ;;
+  }
+
+
 ###MEASURES###
   measure: count {
     type: count

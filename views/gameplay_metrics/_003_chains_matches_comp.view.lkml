@@ -194,7 +194,7 @@ view: _003_chains_matches_comp {
 
   set: detail {
     fields: [
-      events.character,
+      events.character_used,
       user_type,
       player_xp_level,
       events.platform,

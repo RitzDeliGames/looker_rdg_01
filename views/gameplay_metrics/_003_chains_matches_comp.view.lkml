@@ -26,7 +26,7 @@ view: _003_chains_matches_comp {
     sql: CAST(JSON_Value(extra_json,'$.total_chains') AS NUMERIC)  ;;
   }
 
-  dimension: chains_per_second {
+  dimension: seconds_per_chain {
     type: number
     sql: 1.0*${round_length} / NULLIF(${chain_length},0) ;;
   }
@@ -65,7 +65,7 @@ view: _003_chains_matches_comp {
     }
     link: {
       label: "Drill and sort by Chains per Second"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_per_second+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
       label: "Drill and sort by Chains Made"
@@ -77,7 +77,7 @@ view: _003_chains_matches_comp {
       WHEN  {% parameter boxplot_ %} = 'chain length'
       THEN ${chain_length}
       WHEN  {% parameter boxplot_ %} = 'chains per second'
-      THEN ${chains_per_second}
+      THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
     END  ;;
@@ -91,7 +91,7 @@ view: _003_chains_matches_comp {
     }
     link: {
       label: "Drill and sort by Chains per Second"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_per_second+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
       label: "Drill and sort by Chains Made"
@@ -103,7 +103,7 @@ view: _003_chains_matches_comp {
       WHEN  {% parameter boxplot_ %} = 'chain length'
       THEN ${chain_length}
       WHEN  {% parameter boxplot_ %} = 'chains per second'
-      THEN ${chains_per_second}
+      THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
     END  ;;
@@ -117,7 +117,7 @@ view: _003_chains_matches_comp {
     }
     link: {
       label: "Drill and sort by Chains per Second"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_per_second+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
       label: "Drill and sort by Chains Made"
@@ -129,7 +129,7 @@ view: _003_chains_matches_comp {
       WHEN  {% parameter boxplot_ %} = 'chain length'
       THEN ${chain_length}
       WHEN  {% parameter boxplot_ %} = 'chains per second'
-      THEN ${chains_per_second}
+      THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
     END  ;;
@@ -143,7 +143,7 @@ view: _003_chains_matches_comp {
     }
     link: {
       label: "Drill and sort by Chains per Second"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_per_second+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
       label: "Drill and sort by Chains Made"
@@ -156,7 +156,7 @@ view: _003_chains_matches_comp {
       WHEN  {% parameter boxplot_ %} = 'chain length'
       THEN ${chain_length}
       WHEN  {% parameter boxplot_ %} = 'chains per second'
-      THEN ${chains_per_second}
+      THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
     END  ;;
@@ -170,7 +170,7 @@ view: _003_chains_matches_comp {
     }
     link: {
       label: "Drill and sort by Chains per Second"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_per_second+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
       label: "Drill and sort by Chains Made"
@@ -183,7 +183,7 @@ view: _003_chains_matches_comp {
       WHEN  {% parameter boxplot_ %} = 'chain length'
       THEN ${chain_length}
       WHEN  {% parameter boxplot_ %} = 'chains per second'
-      THEN ${chains_per_second}
+      THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
     END  ;;
@@ -199,7 +199,7 @@ view: _003_chains_matches_comp {
       player_xp_level,
       events.platform,
       chain_length,
-      chains_per_second,
+      seconds_per_chain,
       round_length,
       all_chains_packed,
     ]

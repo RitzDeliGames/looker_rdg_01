@@ -11,7 +11,6 @@ view: _003_chains_matches_comp {
     END;;
   }
 
-
   # CHAINS AND MATCHES DIMENSIONS
 
   dimension: round_length {

@@ -496,6 +496,7 @@ view: events {
   }
 ###
 
+# Please, allocate this dimension at will:
 
   dimension: round_length {
     type: number

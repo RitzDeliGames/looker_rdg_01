@@ -277,6 +277,11 @@ view: events {
     sql: ${TABLE}.player_level_xp ;;
   }
 
+  dimension: player_xp_level_int {
+    type: number
+    sql: CAST(FLOOR(${TABLE}.player_level_xp) AS INT64);;
+  }
+
   dimension: ltv {
     type: number
     description: "total spend over the player's lifetime at the time of the event"

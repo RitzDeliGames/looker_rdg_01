@@ -47,8 +47,8 @@ view: _003_chains_matches_comp {
       value: "chain length"
     }
     allowed_value: {
-      label: "chains per second"
-      value: "chains per second"
+      label: "seconds per chain"
+      value: "seconds per chain"
     }
     allowed_value: {
       label: "chains made"
@@ -64,7 +64,7 @@ view: _003_chains_matches_comp {
       url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     link: {
-      label: "Drill and sort by Chains per Second"
+      label: "Drill and sort by Seconds per Chain"
       url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
@@ -76,7 +76,7 @@ view: _003_chains_matches_comp {
     sql: CASE
       WHEN  {% parameter boxplot_ %} = 'chain length'
       THEN ${chain_length}
-      WHEN  {% parameter boxplot_ %} = 'chains per second'
+      WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
@@ -90,7 +90,7 @@ view: _003_chains_matches_comp {
       url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     link: {
-      label: "Drill and sort by Chains per Second"
+      label: "Drill and sort by Seconds per Chain"
       url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
@@ -102,7 +102,7 @@ view: _003_chains_matches_comp {
     sql: CASE
       WHEN  {% parameter boxplot_ %} = 'chain length'
       THEN ${chain_length}
-      WHEN  {% parameter boxplot_ %} = 'chains per second'
+      WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
@@ -116,7 +116,7 @@ view: _003_chains_matches_comp {
       url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     link: {
-      label: "Drill and sort by Chains per Second"
+      label: "Drill and sort by Seconds per Chain"
       url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
@@ -128,7 +128,7 @@ view: _003_chains_matches_comp {
     sql: CASE
       WHEN  {% parameter boxplot_ %} = 'chain length'
       THEN ${chain_length}
-      WHEN  {% parameter boxplot_ %} = 'chains per second'
+      WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
@@ -142,7 +142,7 @@ view: _003_chains_matches_comp {
       url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     link: {
-      label: "Drill and sort by Chains per Second"
+      label: "Drill and sort by Seconds per Chain"
       url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
@@ -155,7 +155,7 @@ view: _003_chains_matches_comp {
     sql: CASE
       WHEN  {% parameter boxplot_ %} = 'chain length'
       THEN ${chain_length}
-      WHEN  {% parameter boxplot_ %} = 'chains per second'
+      WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
@@ -169,7 +169,7 @@ view: _003_chains_matches_comp {
       url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     link: {
-      label: "Drill and sort by Chains per Second"
+      label: "Drill and sort by Seconds per Chain"
       url: "{{ link }}&sorts=_003_chains_matches_comp.seconds_per_chain+desc"
     }
     link: {
@@ -182,7 +182,7 @@ view: _003_chains_matches_comp {
     sql: CASE
       WHEN  {% parameter boxplot_ %} = 'chain length'
       THEN ${chain_length}
-      WHEN  {% parameter boxplot_ %} = 'chains per second'
+      WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
       THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
@@ -194,10 +194,10 @@ view: _003_chains_matches_comp {
 
   set: detail {
     fields: [
-      events.character_used,
+      character_used,
       user_type,
       player_xp_level,
-      events.platform,
+      device_platform,
       chain_length,
       seconds_per_chain,
       round_length,

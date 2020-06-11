@@ -7,29 +7,9 @@ view: _000_bingo_cards_comp {
 
   #_DIMENSIONS_MANY_TYPES_#####################################
 
-#   dimension: extra_json {
-#     type: string
-#     hidden: yes
-#     suggest_explore: events
-#     suggest_dimension: events.extra_json
-#   }
-
   dimension: primary_key {
     type: string
     sql:  CONCAT(${card_id},${extra_json}) ;;
-  }
-
-
-#   dimension: user_type {
-#     type: string
-#     suggest_explore: events
-#     suggest_dimension: events.user_type
-#   }
-
-  dimension: hardware {
-    hidden: yes
-#     type: string
-#     sql: ${TABLE}.hardware ;;
   }
 
   dimension: platform {
@@ -65,11 +45,6 @@ view: _000_bingo_cards_comp {
     type: string
     sql: JSON_Value(extra_json, '$.card_id');;
   }
-
-#   dimension: node_data {
-#      type: string
-#     sql: JSON_EXTRACT(extra_json, '$.node_data');;
-#   }
 
   dimension: round_id {
     type: string
@@ -419,7 +394,7 @@ view: _000_bingo_cards_comp {
 
   set: detail {
     fields: [user_type,
-             hardware,
+             events.hardware,
              platform,
              game_version,
              user_id,

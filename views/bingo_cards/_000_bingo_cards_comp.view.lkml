@@ -12,20 +12,6 @@ view: _000_bingo_cards_comp {
     sql:  CONCAT(${card_id},${extra_json}) ;;
   }
 
-  dimension: platform {
-    type: string
-    sql: ${TABLE}.platform ;;
-  }
-
-  dimension: platform_type {
-    type: string
-    sql: CASE
-      WHEN ${TABLE}.platform LIKE '%Android%' THEN 'mobile'
-      WHEN ${TABLE}.platform LIKE '%iOS%' THEN 'mobile'
-      ELSE 'desktop (web)'
-      END ;;
-  }
-
   dimension: game_version_alt {
     type: number
     sql: CAST(${TABLE}.version AS NUMERIC) ;;
@@ -395,7 +381,7 @@ view: _000_bingo_cards_comp {
   set: detail {
     fields: [user_type,
              events.hardware,
-             platform,
+             events.platform,
              game_version,
              user_id,
              current_card,
@@ -403,16 +389,12 @@ view: _000_bingo_cards_comp {
              round_id,
              rounds,
              sessions,
-
              length_completed,
              card_state_completed_str,
-
              length_progress,
              card_state_progress_str,
-
-             platform_type,
+             events.platform_type,
              card_end_time,
-
              node_data.node_data,
              rounds_nodes,
              node_id,

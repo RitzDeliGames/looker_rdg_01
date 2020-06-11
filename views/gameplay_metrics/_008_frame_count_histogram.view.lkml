@@ -4,10 +4,12 @@ include: "/views/**/events.view"
 view: _008_frame_count_histogram {
   extends: [events]
   derived_table: {
-    sql: SELECT user_type,
+    sql: SELECT extra_json,
+                user_type,
                 hardware,
                 platform,
                 version,
+
                 SUM(CAST(frame_time_histogram AS INT64)) AS frame_count,
                 OFFSET AS ms_per_frame
          FROM
@@ -15,7 +17,7 @@ view: _008_frame_count_histogram {
          CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json,'$.frame_time_histogram_values'))) AS frame_time_histogram WITH OFFSET
          WHERE
             event_name = 'round_end'
-         GROUP BY ms_per_frame, user_type, hardware, platform, version
+         GROUP BY ms_per_frame, user_type, hardware, platform, version, extra_json
          ORDER BY ms_per_frame ASC
        ;;
   }
@@ -39,6 +41,20 @@ view: _008_frame_count_histogram {
     type: string
     sql: ${TABLE}.version ;;
   }
+
+  dimension: character_used {
+    type: string
+    suggest_explore: events
+    suggest_dimension: events.character_used
+  }
+
+#   dimension: extra_json {
+#     hidden: yes
+#     type: string
+#     suggest_explore: events
+#     suggest_dimension: events.extra_json
+#   }
+
 
   dimension: frame_count {
     type: number

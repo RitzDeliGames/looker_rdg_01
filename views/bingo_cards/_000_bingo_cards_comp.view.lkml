@@ -1,49 +1,15 @@
-include: "/views/**/events.view"
+ include: "/views/**/events.view"
 
 
 view: _000_bingo_cards_comp {
-
   extends: [events]
 
 
   #_DIMENSIONS_MANY_TYPES_#####################################
 
-#   dimension: extra_json {
-#     type: string
-#     hidden: yes
-#     suggest_explore: events
-#     suggest_dimension: events.extra_json
-#   }
-
   dimension: primary_key {
     type: string
     sql:  CONCAT(${card_id},${extra_json}) ;;
-  }
-
-
-#   dimension: user_type {
-#     type: string
-#     suggest_explore: events
-#     suggest_dimension: events.user_type
-#   }
-
-  dimension: hardware {
-    type: string
-    sql: ${TABLE}.hardware ;;
-  }
-
-  dimension: platform {
-    type: string
-    sql: ${TABLE}.platform ;;
-  }
-
-  dimension: platform_type {
-    type: string
-    sql: CASE
-      WHEN ${TABLE}.platform LIKE '%Android%' THEN 'mobile'
-      WHEN ${TABLE}.platform LIKE '%iOS%' THEN 'mobile'
-      ELSE 'desktop (web)'
-      END ;;
   }
 
   dimension: game_version_alt {
@@ -66,11 +32,6 @@ view: _000_bingo_cards_comp {
     sql: JSON_Value(extra_json, '$.card_id');;
   }
 
-#   dimension: node_data {
-#      type: string
-#     sql: JSON_EXTRACT(extra_json, '$.node_data');;
-#   }
-
   dimension: round_id {
     type: string
     sql: JSON_Value(extra_json, '$.round_id');;
@@ -91,6 +52,28 @@ view: _000_bingo_cards_comp {
     sql: JSON_Value(extra_json, '$.sessions');;
   }
 
+  dimension: rcd_mapping {
+    type: string
+    sql: CASE
+      WHEN ${card_state_str} LIKE "%1%" AND ${card_state_str} LIKE "%2%" AND ${card_state_str} LIKE "%3%" AND ${card_state_str} LIKE "%4%" AND ${card_state_str} LIKE "%5%" THEN "row_01"
+      WHEN ${card_state_str} LIKE "%6%" AND ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%8%" AND ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%10%" THEN "row_02"
+      WHEN ${card_state_str} LIKE "%11%" AND ${card_state_str} LIKE "%12%" AND ${card_state_str} LIKE "%13%" AND ${card_state_str} LIKE "%14%" THEN "row_03"
+      WHEN ${card_state_str} LIKE "%15%" AND ${card_state_str} LIKE "%16%" AND ${card_state_str} LIKE "%17%" AND ${card_state_str} LIKE "%18%" AND ${card_state_str} LIKE "%19%" THEN "row_04"
+      WHEN ${card_state_str} LIKE "%20%" AND ${card_state_str} LIKE "%21%" AND ${card_state_str} LIKE "%22%" AND ${card_state_str} LIKE "%23%" AND ${card_state_str} LIKE "%24%" THEN "row_05"
+      WHEN ${card_state_str} LIKE "%1%" AND ${card_state_str} LIKE "%6%" AND ${card_state_str} LIKE "%11%" AND ${card_state_str} LIKE "%15%" AND ${card_state_str} LIKE "%20%" THEN "column_01"
+      WHEN ${card_state_str} LIKE "%2%" AND ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%12%" AND ${card_state_str} LIKE "%16%" AND ${card_state_str} LIKE "%21%" THEN "column_02"
+      WHEN ${card_state_str} LIKE "%3%" AND ${card_state_str} LIKE "%8%" AND ${card_state_str} LIKE "%17%" AND ${card_state_str} LIKE "%22%" THEN "column_03"
+      WHEN ${card_state_str} LIKE "%4%" AND ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%13%" AND ${card_state_str} LIKE "%18%" AND ${card_state_str} LIKE "%23%" THEN "column_04"
+      WHEN ${card_state_str} LIKE "%5%" AND ${card_state_str} LIKE "%10%" AND ${card_state_str} LIKE "%14%" AND ${card_state_str} LIKE "%19%" AND ${card_state_str} LIKE "%24%" THEN "column_05"
+      WHEN ${card_state_str} LIKE "%1%" AND ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%18%" AND ${card_state_str} LIKE "%24%" THEN 'diagonal_01'
+      WHEN ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%18%" THEN 'diagonal_01'
+      WHEN ${card_state_str} LIKE "%5%" AND ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%16%" AND ${card_state_str} LIKE "%20%" THEN 'diagonal_02'
+      WHEN ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%16%" THEN 'diagonal_02'
+      ELSE "other"
+    END
+    ;;
+  }
+
 
   dimension: player_bingo_card_walk {
     type: string
@@ -108,43 +91,7 @@ view: _000_bingo_cards_comp {
         ;;
   }
 
-#   dimension: test_card_progress {
-#     type: string
-#     sql: CASE
-#           WHEN  ${card_state_progress_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
-#           '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
-#           THEN 'column'
-#           WHEN ${card_state_progress_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
-#           '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
-#           THEN 'row'
-#           WHEN ${card_state_progress_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
-#           THEN 'diagonal'
-#           ELSE 'random walk'
-#           END
-#           ;;
-#   }
-#
-#   dimension: test_card_completed {
-#     type: string
-#     sql: CASE
-#           WHEN  ${card_state_completed_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
-#           '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
-#           THEN 'column'
-#           WHEN ${card_state_completed_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
-#           '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
-#           THEN 'row'
-#           WHEN ${card_state_completed_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
-#           THEN 'diagonal'
-#           ELSE 'random walk'
-#           END
-#           ;;
-#   }
-
-
-
-  #_CARD_STATE_###############################################
-
-
+  ###CARD_STATE###
 
   dimension: card_state {
     hidden: yes
@@ -163,7 +110,7 @@ view: _000_bingo_cards_comp {
   }
 
 
-  #_CARD_STATE_PROGRESS_######################################
+  ###CARD_STATE_PROGRESS###
 
   dimension: card_state_progress {
     hidden: yes
@@ -182,7 +129,7 @@ view: _000_bingo_cards_comp {
   }
 
 
-  #_CARD_STATE_COMPLETED_######################################
+  ###CARD_STATE_COMPLETED###
 
   dimension: card_state_completed {
     hidden: yes
@@ -199,9 +146,6 @@ view: _000_bingo_cards_comp {
     type: number
     sql: ARRAY_LENGTH(${card_state_completed}) ;;
   }
-
-  #############################################################
-
 
   dimension: node_data {
     type: string
@@ -224,29 +168,14 @@ view: _000_bingo_cards_comp {
   }
 
 
-
-  #########################################################
-
-
-#   dimension: len {
-#     type: string
-#     sql: len
-#     ;;
-#   }
-
-#   dimension: test {
-#     type: number
-#     sql:  1 = 1 ;;
-#     html: {% assign the_array = card_state_completed._value | split: "," %} {{ the_array.size }} ;;
-#   }
-
-#   measure: test_sql {
-#     type: sum
-#     sql: ${test} ;;
-#   }
-
-
   #_MEASURES_############################################
+
+
+  measure: min_rounds_to_complete {
+    type: min
+    sql: ${rounds} ;;
+
+  }
 
   measure: length_avg_pro {
     type: average
@@ -392,8 +321,8 @@ view: _000_bingo_cards_comp {
 
   set: detail {
     fields: [user_type,
-             hardware,
-             platform,
+             events.hardware,
+             events.platform,
              game_version,
              user_id,
              current_card,
@@ -401,16 +330,12 @@ view: _000_bingo_cards_comp {
              round_id,
              rounds,
              sessions,
-
              length_completed,
              card_state_completed_str,
-
              length_progress,
              card_state_progress_str,
-
-             platform_type,
+             events.platform_type,
              card_end_time,
-
              node_data.node_data,
              rounds_nodes,
              node_id,

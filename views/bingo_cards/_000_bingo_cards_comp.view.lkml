@@ -66,7 +66,9 @@ view: _000_bingo_cards_comp {
       WHEN ${card_state_str} LIKE "%4%" AND ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%13%" AND ${card_state_str} LIKE "%18%" AND ${card_state_str} LIKE "%23%" THEN "column_04"
       WHEN ${card_state_str} LIKE "%5%" AND ${card_state_str} LIKE "%10%" AND ${card_state_str} LIKE "%14%" AND ${card_state_str} LIKE "%19%" AND ${card_state_str} LIKE "%24%" THEN "column_05"
       WHEN ${card_state_str} LIKE "%1%" AND ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%18%" AND ${card_state_str} LIKE "%24%" THEN 'diagonal_01'
+      WHEN ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%18%" THEN 'diagonal_01'
       WHEN ${card_state_str} LIKE "%5%" AND ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%16%" AND ${card_state_str} LIKE "%20%" THEN 'diagonal_02'
+      WHEN ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%16%" THEN 'diagonal_02'
       ELSE "other"
     END
     ;;
@@ -144,11 +146,6 @@ view: _000_bingo_cards_comp {
     type: number
     sql: ARRAY_LENGTH(${card_state_completed}) ;;
   }
-
-
-
-
-
 
   dimension: node_data {
     type: string

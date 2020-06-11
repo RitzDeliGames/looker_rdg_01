@@ -3,11 +3,11 @@ include: "/views/**/events.view"
 view: _003_chains_matches_comp {
   extends: [events]
 
-  dimension: all_chains_packed {
+  dimension: chain_length_packed {
     type: string
     sql: CASE
-    WHEN JSON_EXTRACT(${extra_json},'$.all_chains') <> ''
-    THEN JSON_EXTRACT(${extra_json},'$.all_chains')
+    WHEN JSON_EXTRACT(${extra_json},'$.chain_length') <> ''
+    THEN JSON_EXTRACT(${extra_json},'$.chain_length')
     END;;
   }
 
@@ -29,9 +29,9 @@ view: _003_chains_matches_comp {
     sql: 1.0*${round_length} / NULLIF(${chains_made},0) ;;
   }
 
-  dimension: all_chains {
+  dimension: chain_length {
     type: number
-    sql: all_chains ;;
+    sql: chain_length ;;
   }
 
   ###MEASURES###
@@ -54,8 +54,8 @@ view: _003_chains_matches_comp {
       value: "seconds per chain"
     }
     allowed_value: {
-      label: "chains made xxx"
-      value: "chains made xxx"
+      label: "chain length"
+      value: "chain length"
     }
   }
 
@@ -71,7 +71,7 @@ view: _003_chains_matches_comp {
     }
     link: {
       label: "Drill and sort by Chains Made"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.all_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     group_label: "BoxPlot"
     type: min
@@ -80,8 +80,8 @@ view: _003_chains_matches_comp {
       THEN ${chains_made}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
-      WHEN  {% parameter boxplot_ %} = 'chains made'
-      THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
+      WHEN  {% parameter boxplot_ %} = 'chain length'
+      THEN CAST(if(${chain_length.chain_length} = '' , '0', ${chain_length.chain_length}) AS NUMERIC)
     END  ;;
   }
 
@@ -97,7 +97,7 @@ view: _003_chains_matches_comp {
     }
     link: {
       label: "Drill and sort by Chains Made"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.all_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     group_label: "BoxPlot"
     type: max
@@ -106,8 +106,8 @@ view: _003_chains_matches_comp {
       THEN ${chains_made}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
-      WHEN  {% parameter boxplot_ %} = 'chains made'
-      THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
+      WHEN  {% parameter boxplot_ %} = 'chain length'
+      THEN CAST(if(${chain_length.chain_length} = '' , '0', ${chain_length.chain_length}) AS NUMERIC)
     END  ;;
   }
 
@@ -123,7 +123,7 @@ view: _003_chains_matches_comp {
     }
     link: {
       label: "Drill and sort by Chains Made"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.all_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     group_label: "BoxPlot"
     type: median
@@ -132,8 +132,8 @@ view: _003_chains_matches_comp {
       THEN ${chains_made}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
-      WHEN  {% parameter boxplot_ %} = 'chains made'
-      THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
+      WHEN  {% parameter boxplot_ %} = 'chain length'
+      THEN CAST(if(${chain_length.chain_length} = '' , '0', ${chain_length.chain_length}) AS NUMERIC)
     END  ;;
   }
 
@@ -149,7 +149,7 @@ view: _003_chains_matches_comp {
     }
     link: {
       label: "Drill and sort by Chains Made"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.all_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     group_label: "BoxPlot"
     type: percentile
@@ -159,8 +159,8 @@ view: _003_chains_matches_comp {
       THEN ${chains_made}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
-      WHEN  {% parameter boxplot_ %} = 'chains made'
-      THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
+      WHEN  {% parameter boxplot_ %} = 'chain length'
+      THEN CAST(if(${chain_length.chain_length} = '' , '0', ${chain_length.chain_length}) AS NUMERIC)
     END  ;;
   }
 
@@ -176,7 +176,7 @@ view: _003_chains_matches_comp {
     }
     link: {
       label: "Drill and sort by Chains Made"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.all_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chain_length+desc"
     }
     group_label: "BoxPlot"
     type: percentile
@@ -186,8 +186,8 @@ view: _003_chains_matches_comp {
       THEN ${chains_made}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
-      WHEN  {% parameter boxplot_ %} = 'chains made'
-      THEN CAST(if(${all_chains.all_chains} = '' , '0', ${all_chains.all_chains}) AS NUMERIC)
+      WHEN  {% parameter boxplot_ %} = 'chain length'
+      THEN CAST(if(${chain_length.chain_length} = '' , '0', ${chain_length.chain_length}) AS NUMERIC)
     END  ;;
   }
 
@@ -203,10 +203,8 @@ view: _003_chains_matches_comp {
       chains_made,
       seconds_per_chain,
       round_length,
-      all_chains_packed,
+      chain_length_packed,
+      chain_length
     ]
   }
 }
-
-
-#      all_chains.all_chains,

@@ -79,11 +79,11 @@ explore: _003_chains_matches {
   AND user_type NOT IN ("internal_editor", "unit_test")
   ;;
   view_name: _003_chains_matches_comp
-  join: all_chains {
-    fields: [all_chains.all_chains]
+  join: chain_length {
+    fields: [chain_length.chain_length]
     relationship: many_to_one
     from: _003_chains_matches_comp
-    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.all_chains'))) as all_chains
+    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.chain_length'))) as chain_length
       ;;
   }
 }

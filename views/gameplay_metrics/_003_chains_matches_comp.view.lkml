@@ -46,16 +46,16 @@ view: _003_chains_matches_comp {
   parameter: boxplot_ {
     type: string
     allowed_value: {
-      label: "total chains"
-      value: "total chains"
+      label: "chains made"
+      value: "chains made"
     }
     allowed_value: {
       label: "seconds per chain"
       value: "seconds per chain"
     }
     allowed_value: {
-      label: "chains made"
-      value: "chains made"
+      label: "chains made xxx"
+      value: "chains made xxx"
     }
   }
 
@@ -63,7 +63,7 @@ view: _003_chains_matches_comp {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by total chains"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_made+desc"
     }
     link: {
       label: "Drill and sort by Seconds per Chain"
@@ -89,7 +89,7 @@ view: _003_chains_matches_comp {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by total chains"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_made+desc"
     }
     link: {
       label: "Drill and sort by Seconds per Chain"
@@ -115,7 +115,7 @@ view: _003_chains_matches_comp {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by total chains"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_made+desc"
     }
     link: {
       label: "Drill and sort by Seconds per Chain"
@@ -141,7 +141,7 @@ view: _003_chains_matches_comp {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by total chains"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_made+desc"
     }
     link: {
       label: "Drill and sort by Seconds per Chain"
@@ -168,7 +168,7 @@ view: _003_chains_matches_comp {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by total chains"
-      url: "{{ link }}&sorts=_003_chains_matches_comp.total_chains+desc"
+      url: "{{ link }}&sorts=_003_chains_matches_comp.chains_made+desc"
     }
     link: {
       label: "Drill and sort by Seconds per Chain"

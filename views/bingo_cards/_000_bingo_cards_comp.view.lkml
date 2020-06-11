@@ -91,6 +91,31 @@ view: _000_bingo_cards_comp {
     sql: JSON_Value(extra_json, '$.sessions');;
   }
 
+  dimension: rcd_mapping {
+    type: string
+    sql: CASE
+      WHEN ${card_state_str} LIKE "%1%" AND ${card_state_str} LIKE "%2%" AND ${card_state_str} LIKE "%3%" AND ${card_state_str} LIKE "%4%" AND ${card_state_str} LIKE "%5%" THEN "row_01"
+      WHEN ${card_state_str} LIKE "%6%" AND ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%8%" AND ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%10%" THEN "row_02"
+      WHEN ${card_state_str} LIKE "%11%" AND ${card_state_str} LIKE "%12%" AND ${card_state_str} LIKE "%13%" AND ${card_state_str} LIKE "%14%" THEN "row_03"
+      WHEN ${card_state_str} LIKE "%15%" AND ${card_state_str} LIKE "%16%" AND ${card_state_str} LIKE "%17%" AND ${card_state_str} LIKE "%18%" AND ${card_state_str} LIKE "%19%" THEN "row_04"
+      WHEN ${card_state_str} LIKE "%20%" AND ${card_state_str} LIKE "%21%" AND ${card_state_str} LIKE "%22%" AND ${card_state_str} LIKE "%23%" AND ${card_state_str} LIKE "%24%" THEN "row_05"
+      WHEN ${card_state_str} LIKE "%1%" AND ${card_state_str} LIKE "%6%" AND ${card_state_str} LIKE "%11%" AND ${card_state_str} LIKE "%15%" AND ${card_state_str} LIKE "%20%" THEN "column_01"
+      WHEN ${card_state_str} LIKE "%2%" AND ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%12%" AND ${card_state_str} LIKE "%16%" AND ${card_state_str} LIKE "%21%" THEN "column_02"
+      WHEN ${card_state_str} LIKE "%3%" AND ${card_state_str} LIKE "%8%" AND ${card_state_str} LIKE "%17%" AND ${card_state_str} LIKE "%22%" THEN "column_03"
+      WHEN ${card_state_str} LIKE "%4%" AND ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%13%" AND ${card_state_str} LIKE "%18%" AND ${card_state_str} LIKE "%23%" THEN "column_04"
+      WHEN ${card_state_str} LIKE "%5%" AND ${card_state_str} LIKE "%10%" AND ${card_state_str} LIKE "%14%" AND ${card_state_str} LIKE "%19%" AND ${card_state_str} LIKE "%24%" THEN "column_05"
+      WHEN ${card_state_str} LIKE "%1%" AND ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%18%" AND ${card_state_str} LIKE "%24%" THEN 'diagonal_01'
+      WHEN ${card_state_str} LIKE "%5%" AND ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%16%" AND ${card_state_str} LIKE "%20%" THEN 'diagonal_02'
+      ELSE "other"
+    END
+    ;;
+  }
+
+  measure: min_rounds_to_complete {
+    type: min
+    sql: ${rounds} ;;
+
+  }
 
   dimension: player_bingo_card_walk {
     type: string
@@ -201,6 +226,8 @@ view: _000_bingo_cards_comp {
   }
 
   #############################################################
+
+
 
 
   dimension: node_data {

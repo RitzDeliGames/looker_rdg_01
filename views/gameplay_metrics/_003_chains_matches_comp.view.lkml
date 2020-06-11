@@ -18,7 +18,7 @@ view: _003_chains_matches_comp {
 #     sql: CAST(JSON_Value(${extra_json},'$.round_length') AS NUMERIC) / 1000  ;; ###this should probably be moved to the main events view
 #   }
 
-  dimension: total_chains {
+  dimension: chains_made {
     type: number
     sql: CAST(JSON_Value(extra_json,'$.total_chains') AS NUMERIC) ;;
   }
@@ -26,7 +26,7 @@ view: _003_chains_matches_comp {
 
   dimension: seconds_per_chain {
     type: number
-    sql: 1.0*${round_length} / NULLIF(${total_chains},0) ;;
+    sql: 1.0*${round_length} / NULLIF(${chains_made},0) ;;
   }
 
   dimension: all_chains {
@@ -76,8 +76,8 @@ view: _003_chains_matches_comp {
     group_label: "BoxPlot"
     type: min
     sql: CASE
-      WHEN  {% parameter boxplot_ %} = 'total chains'
-      THEN ${total_chains}
+      WHEN  {% parameter boxplot_ %} = 'chains made'
+      THEN ${chains_made}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
@@ -102,8 +102,8 @@ view: _003_chains_matches_comp {
     group_label: "BoxPlot"
     type: max
     sql: CASE
-      WHEN  {% parameter boxplot_ %} = 'total chains'
-      THEN ${total_chains}
+      WHEN  {% parameter boxplot_ %} = 'chains made'
+      THEN ${chains_made}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
@@ -128,8 +128,8 @@ view: _003_chains_matches_comp {
     group_label: "BoxPlot"
     type: median
     sql: CASE
-      WHEN  {% parameter boxplot_ %} = 'total chains'
-      THEN ${total_chains}
+      WHEN  {% parameter boxplot_ %} = 'chains made'
+      THEN ${chains_made}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
@@ -155,8 +155,8 @@ view: _003_chains_matches_comp {
     type: percentile
     percentile: 25
     sql: CASE
-      WHEN  {% parameter boxplot_ %} = 'total chains'
-      THEN ${total_chains}
+      WHEN  {% parameter boxplot_ %} = 'chains made'
+      THEN ${chains_made}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
@@ -182,8 +182,8 @@ view: _003_chains_matches_comp {
     type: percentile
     percentile: 75
     sql: CASE
-      WHEN  {% parameter boxplot_ %} = 'total chains'
-      THEN ${total_chains}
+      WHEN  {% parameter boxplot_ %} = 'chains made'
+      THEN ${chains_made}
       WHEN  {% parameter boxplot_ %} = 'seconds per chain'
       THEN ${seconds_per_chain}
       WHEN  {% parameter boxplot_ %} = 'chains made'
@@ -200,7 +200,7 @@ view: _003_chains_matches_comp {
       user_type,
       player_xp_level,
       device_platform,
-      total_chains,
+      chains_made,
       seconds_per_chain,
       round_length,
       all_chains_packed,

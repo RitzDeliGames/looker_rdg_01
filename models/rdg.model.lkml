@@ -83,7 +83,7 @@ explore: _003_chains_matches {
     fields: [chain_length.chain_length]
     relationship: many_to_one
     from: _003_chains_matches_comp
-    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.chain_length'))) as chain_length
+    sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.all_chains'))) as chain_length
       ;;
   }
 }

@@ -90,6 +90,7 @@ view: events {
   }
 
   dimension: device_model {
+    group_label: "device & os dimensions"
     sql:@{device_model_mapping} ;;
 
   }

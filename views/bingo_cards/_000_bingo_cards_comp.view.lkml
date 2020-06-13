@@ -52,27 +52,43 @@ view: _000_bingo_cards_comp {
     sql: JSON_Value(extra_json, '$.sessions');;
   }
 
-  dimension: rcd_mapping {
-    type: string
-    sql: CASE
-      WHEN ${card_state_str} LIKE "%1%" AND ${card_state_str} LIKE "%2%" AND ${card_state_str} LIKE "%3%" AND ${card_state_str} LIKE "%4%" AND ${card_state_str} LIKE "%5%" THEN "row_01"
-      WHEN ${card_state_str} LIKE "%6%" AND ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%8%" AND ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%10%" THEN "row_02"
-      WHEN ${card_state_str} LIKE "%11%" AND ${card_state_str} LIKE "%12%" AND ${card_state_str} LIKE "%13%" AND ${card_state_str} LIKE "%14%" THEN "row_03"
-      WHEN ${card_state_str} LIKE "%15%" AND ${card_state_str} LIKE "%16%" AND ${card_state_str} LIKE "%17%" AND ${card_state_str} LIKE "%18%" AND ${card_state_str} LIKE "%19%" THEN "row_04"
-      WHEN ${card_state_str} LIKE "%20%" AND ${card_state_str} LIKE "%21%" AND ${card_state_str} LIKE "%22%" AND ${card_state_str} LIKE "%23%" AND ${card_state_str} LIKE "%24%" THEN "row_05"
-      WHEN ${card_state_str} LIKE "%1%" AND ${card_state_str} LIKE "%6%" AND ${card_state_str} LIKE "%11%" AND ${card_state_str} LIKE "%15%" AND ${card_state_str} LIKE "%20%" THEN "column_01"
-      WHEN ${card_state_str} LIKE "%2%" AND ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%12%" AND ${card_state_str} LIKE "%16%" AND ${card_state_str} LIKE "%21%" THEN "column_02"
-      WHEN ${card_state_str} LIKE "%3%" AND ${card_state_str} LIKE "%8%" AND ${card_state_str} LIKE "%17%" AND ${card_state_str} LIKE "%22%" THEN "column_03"
-      WHEN ${card_state_str} LIKE "%4%" AND ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%13%" AND ${card_state_str} LIKE "%18%" AND ${card_state_str} LIKE "%23%" THEN "column_04"
-      WHEN ${card_state_str} LIKE "%5%" AND ${card_state_str} LIKE "%10%" AND ${card_state_str} LIKE "%14%" AND ${card_state_str} LIKE "%19%" AND ${card_state_str} LIKE "%24%" THEN "column_05"
-      WHEN ${card_state_str} LIKE "%1%" AND ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%18%" AND ${card_state_str} LIKE "%24%" THEN 'diagonal_01'
-      WHEN ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%18%" THEN 'diagonal_01'
-      WHEN ${card_state_str} LIKE "%5%" AND ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%16%" AND ${card_state_str} LIKE "%20%" THEN 'diagonal_02'
-      WHEN ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%16%" THEN 'diagonal_02'
-      ELSE "other"
-    END
-    ;;
-  }
+
+
+#   dimension: rcd_mapping {
+#     type: string
+#     sql: CASE
+#       WHEN ${card_state_str} LIKE "%1%" AND ${card_state_str} LIKE "%2%" AND ${card_state_str} LIKE "%3%" AND ${card_state_str} LIKE "%4%" AND ${card_state_str} LIKE "%5%"
+#       THEN "row_01"
+#       WHEN ${card_state_str} LIKE "%6%" AND ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%8%" AND ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%10%"
+#       THEN "row_02"
+#       WHEN ${card_state_str} LIKE "%11%" AND ${card_state_str} LIKE "%12%" AND ${card_state_str} LIKE "%13%" AND ${card_state_str} LIKE "%14%"
+#       THEN "row_03"
+#       WHEN ${card_state_str} LIKE "%15%" AND ${card_state_str} LIKE "%16%" AND ${card_state_str} LIKE "%17%" AND ${card_state_str} LIKE "%18%" AND ${card_state_str} LIKE "%19%"
+#       THEN "row_04"
+#       WHEN ${card_state_str} LIKE "%20%" AND ${card_state_str} LIKE "%21%" AND ${card_state_str} LIKE "%22%" AND ${card_state_str} LIKE "%23%" AND ${card_state_str} LIKE "%24%"
+#       THEN "row_05"
+#       WHEN ${card_state_str} LIKE "%1%" AND ${card_state_str} LIKE "%6%" AND ${card_state_str} LIKE "%11%" AND ${card_state_str} LIKE "%15%" AND ${card_state_str} LIKE "%20%"
+#       THEN "column_01"
+#       WHEN ${card_state_str} LIKE "%2%" AND ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%12%" AND ${card_state_str} LIKE "%16%" AND ${card_state_str} LIKE "%21%"
+#       THEN "column_02"
+#       WHEN ${card_state_str} LIKE "%3%" AND ${card_state_str} LIKE "%8%" AND ${card_state_str} LIKE "%17%" AND ${card_state_str} LIKE "%22%"
+#       THEN "column_03"
+#       WHEN ${card_state_str} LIKE "%4%" AND ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%13%" AND ${card_state_str} LIKE "%18%" AND ${card_state_str} LIKE "%23%"
+#       THEN "column_04"
+#       WHEN ${card_state_str} LIKE "%5%" AND ${card_state_str} LIKE "%10%" AND ${card_state_str} LIKE "%14%" AND ${card_state_str} LIKE "%19%" AND ${card_state_str} LIKE "%24%"
+#       THEN "column_05"
+#       WHEN ${card_state_str} LIKE "%1%" AND ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%18%" AND ${card_state_str} LIKE "%24%"
+#       THEN 'diagonal_01'
+#       WHEN ${card_state_str} LIKE "%7%" AND ${card_state_str} LIKE "%18%"
+#       THEN 'diagonal_01'
+#       WHEN ${card_state_str} LIKE "%5%" AND ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%16%" AND ${card_state_str} LIKE "%20%"
+#       THEN 'diagonal_02'
+#       WHEN ${card_state_str} LIKE "%9%" AND ${card_state_str} LIKE "%16%"
+#       THEN 'diagonal_02'
+#       ELSE "other"
+#     END
+#     ;;
+#   }
 
 
   dimension: player_bingo_card_walk {
@@ -91,6 +107,115 @@ view: _000_bingo_cards_comp {
         ;;
   }
 
+  dimension: rcd_mapping_alt {
+    type: string
+    sql: CASE
+
+          WHEN ${card_state_str} LIKE '%1%' AND ${card_state_str} LIKE '%6%' AND ${card_state_str} LIKE '%11%' AND ${card_state_str} LIKE '%15%' AND ${card_state_str} LIKE '%20%'
+          THEN 'column_01'
+          WHEN ${card_state_str} LIKE '%2%' AND ${card_state_str} LIKE '%7%' AND ${card_state_str} LIKE '%12%' AND ${card_state_str} LIKE '%16%' AND ${card_state_str} LIKE '%21%'
+          THEN 'column_02'
+          WHEN ${card_state_str} LIKE '%3%' AND ${card_state_str} LIKE '%8%' AND ${card_state_str} LIKE '%17%' AND ${card_state_str} LIKE '%22%'
+          THEN 'column_03'
+          WHEN ${card_state_str} LIKE '%4%' AND ${card_state_str} LIKE '%9%' AND ${card_state_str} LIKE '%13%' AND ${card_state_str} LIKE '%18%' AND ${card_state_str} LIKE '%23%'
+          THEN 'column_04'
+          WHEN ${card_state_str} LIKE '%5%' AND ${card_state_str} LIKE '%10%' AND ${card_state_str} LIKE '%14%' AND ${card_state_str} LIKE '%19%' AND ${card_state_str} LIKE '%24%'
+          THEN 'column_05'
+          WHEN ${card_state_str} LIKE '%7%' AND ${card_state_str} LIKE '%12%' AND ${card_state_str} LIKE '%16%'
+          THEN 'column_02'
+          WHEN ${card_state_str} LIKE '8%' AND ${card_state_str} LIKE '%17%' --AND NOT REGEXP_CONTAINS(${card_state_str}, '/(18)/')
+          THEN 'column_03'
+          WHEN ${card_state_str} LIKE '%9%' AND ${card_state_str} LIKE '%13%' AND ${card_state_str} LIKE '%18%'
+          THEN 'column_04'
+
+          WHEN ${card_state_str} LIKE '%1%' AND ${card_state_str} LIKE '%2%' AND ${card_state_str} LIKE '%3%' AND ${card_state_str} LIKE '%4%' AND ${card_state_str} LIKE '%5%'
+          THEN 'row_01'
+          WHEN ${card_state_str} LIKE '%6%' AND ${card_state_str} LIKE '%7%' AND ${card_state_str} LIKE '%8%' AND ${card_state_str} LIKE '%9%' AND ${card_state_str} LIKE '%10%'
+          THEN 'row_02'
+          WHEN ${card_state_str} LIKE '%11%' AND ${card_state_str} LIKE '%12%' AND ${card_state_str} LIKE '%13%' AND ${card_state_str} LIKE '%14%'
+          THEN 'row_03'
+          WHEN ${card_state_str} LIKE '%15%' AND ${card_state_str} LIKE '%16%' AND ${card_state_str} LIKE '%17%' AND ${card_state_str} LIKE '%18%' AND ${card_state_str} LIKE '%19%'
+          THEN 'row_04'
+          WHEN ${card_state_str} LIKE '%20%' AND ${card_state_str} LIKE '%21%' AND ${card_state_str} LIKE '%22%' AND ${card_state_str} LIKE '%23%' AND ${card_state_str} LIKE '%24%'
+          THEN 'row_05'
+          WHEN ${card_state_str} LIKE '%7%' AND ${card_state_str} LIKE '%8%' AND ${card_state_str} LIKE '%9%' AND ${card_state_str} NOT LIKE '%1%' --OR '%2%' OR '%3%' OR '%4%' OR '%5%' OR '%6%' OR '%0%')
+          THEN 'row_02'
+          WHEN ${card_state_str} LIKE '%12%' AND ${card_state_str} LIKE '%13%'
+          THEN 'row_03'
+          WHEN ${card_state_str} LIKE '%16%' AND ${card_state_str} LIKE '%17%' AND ${card_state_str} LIKE '%18%'
+          THEN 'row_04'
+
+          WHEN ${card_state_str} LIKE '%7%' AND ${card_state_str} LIKE '%18%'
+          THEN 'diagonal_01'
+          WHEN ${card_state_str} LIKE '%9%' AND ${card_state_str} LIKE '%16%' --AND NOT REGEXP_CONTAINS(${card_state_str}, '/(2345780)/')
+          THEN 'diagonal_02'
+          WHEN ${card_state_str} LIKE '%1%' AND ${card_state_str} LIKE '%7%' AND ${card_state_str} LIKE '%18%' AND ${card_state_str} LIKE '%24%'
+          THEN 'diagonal_01'
+          WHEN ${card_state_str} LIKE '%5%' AND ${card_state_str} LIKE '%9%' AND ${card_state_str} LIKE '%16%' AND ${card_state_str} LIKE '%20%'
+          THEN 'diagonal_02'
+
+          ELSE 'other'
+
+        END
+        ;;
+  }
+
+  dimension: rcd_mapping {
+    type: string
+    sql: CASE
+
+                WHEN ${card_state_str} LIKE '[%1%,%6%,%1%1%,%1%5%,%2%0%]'
+                THEN 'column_01'
+                WHEN ${card_state_str} LIKE '[%2%,%7%,%1%2%,%1%6%,%2%1%]'
+                THEN 'column_02'
+                WHEN ${card_state_str} LIKE '[%3%,%8%,%1%7%,%2%2%]'
+                THEN 'column_03'
+                WHEN ${card_state_str} LIKE '[%4%,%9%,%1%3%,%1%8%,%2%3%]'
+                THEN 'column_04'
+                WHEN ${card_state_str} LIKE '[%5%,%1%0%,%1%4%,%1%9%,%2%4%]'
+                THEN 'column_05'
+                WHEN ${card_state_str} LIKE '[%7%,%1%2%,%1%6%]'
+                THEN 'column_02'
+                WHEN ${card_state_str} LIKE '[%8%,%1%7%]'
+                THEN 'column_03'
+                WHEN ${card_state_str} LIKE '[%9%,%1%3%,%1%8%]'
+                THEN 'column_04'
+
+                WHEN ${card_state_str} LIKE '[%1%,%2%,%3%,%4%,%5%]'
+                THEN 'row_01'
+                WHEN ${card_state_str} LIKE '[%6%,%7%,%8%,%9%,1%0]'
+                THEN 'row_02'
+                WHEN ${card_state_str} LIKE '[%1%1%,%1%2%,%1%3%,%1%4%]'
+                THEN 'row_03'
+                WHEN ${card_state_str} LIKE '[%1%5%,%1%6%,%1%7%,%1%8%,%1%9%]'
+                THEN 'row_04'
+                WHEN ${card_state_str} LIKE '[%2%0%,%2%1%,%2%2%,%2%3%,%2%4%]'
+                THEN 'row_05'
+                WHEN ${card_state_str} LIKE '[%7%,%8%,%9%]'
+                THEN 'row_02'
+                WHEN ${card_state_str} LIKE '[%1%2%,%1%3%]'
+                THEN 'row_03'
+                WHEN ${card_state_str} LIKE '[%1%6%,%1%7%,%1%8%]'
+                THEN 'row_04'
+
+                WHEN ${card_state_str} LIKE '[%7%,%1%8%]'
+                THEN 'diagonal_01'
+                WHEN ${card_state_str} LIKE '[%9%,%1%6%]' --AND NOT REGEXP_CONTAINS(${card_state_str}, '/(2345780)/') (Possible path for improvement)
+                THEN 'diagonal_02'
+                WHEN ${card_state_str} LIKE '[%1%,%7%,%1%8%,%2%4%]'
+                THEN 'diagonal_01'
+                WHEN ${card_state_str} LIKE '[%5%,%9%,%1%6%,%2%0%]'
+                THEN 'diagonal_02'
+
+                ELSE 'other'
+
+              END
+              ;;
+  }
+
+
+
+
   ###CARD_STATE###
 
   dimension: card_state {
@@ -108,6 +233,7 @@ view: _000_bingo_cards_comp {
     type: number
     sql:  ARRAY_LENGTH(${card_state}) ;;
   }
+
 
 
   ###CARD_STATE_PROGRESS###
@@ -174,7 +300,6 @@ view: _000_bingo_cards_comp {
   measure: min_rounds_to_complete {
     type: min
     sql: ${rounds} ;;
-
   }
 
   measure: length_avg_pro {

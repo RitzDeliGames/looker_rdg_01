@@ -176,34 +176,9 @@ explore: _008_frame_count_histogram {}
 
 
 
-# explore: hist_frame_vals {
-#   view_name: test_histogram
-#   join: frame_time_histogram {
-#     fields: [frame_time_histogram.frame_time_histogram]
-#     from: test_histogram
-#     relationship: one_to_one
-#     sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json,'$.frame_time_histogram_values'))) AS frame_time_histogram WITH OFFSET
-#       ;;
-#   }
-#   join: frame_count {
-#     fields: [frame_count.frame_count]
-#     from: test_histogram
-#     relationship: one_to_one
-#     sql: SUM(CAST(frame_time_histogram AS INT64))
-#       ;;
-#   }
-#   join: ms_per_frame {
-#     fields: [ms_per_frame.ms_per_frame]
-#     from: test_histogram
-#     relationship: one_to_one
-#     sql: SUM(CAST(frame_time_histogram AS INT64))
-#          OFFSET AS ms_per_frame
-#          GROUP BY ms_per_frame
-#          ORDER BY ms_per_frame ASC
-#     ;;
-#   }
-# }
-#
+# PLAYER ANALYSIS
+
+explore: player_analysis {}
 
 
 

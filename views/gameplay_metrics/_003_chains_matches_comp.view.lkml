@@ -62,7 +62,7 @@ view: _003_chains_matches_comp {
   measure: 1_min_boxplot {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by total chains"
+      label: "Drill and sort by chains made"
       url: "{{ link }}&sorts=_003_chains_matches_comp.chains_made+desc"
     }
     link: {
@@ -88,7 +88,7 @@ view: _003_chains_matches_comp {
   measure: 5_max_boxplot {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by total chains"
+      label: "Drill and sort by chains made"
       url: "{{ link }}&sorts=_003_chains_matches_comp.chains_made+desc"
     }
     link: {
@@ -114,7 +114,7 @@ view: _003_chains_matches_comp {
   measure: 3_median_boxplot {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by total chains"
+      label: "Drill and sort by chains made"
       url: "{{ link }}&sorts=_003_chains_matches_comp.chains_made+desc"
     }
     link: {
@@ -140,7 +140,7 @@ view: _003_chains_matches_comp {
   measure: 2_25th_boxplot {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by total chains"
+      label: "Drill and sort by chains made"
       url: "{{ link }}&sorts=_003_chains_matches_comp.chains_made+desc"
     }
     link: {
@@ -167,7 +167,7 @@ view: _003_chains_matches_comp {
   measure: 4_75th_boxplot {
     drill_fields: [detail*]
     link: {
-      label: "Drill and sort by total chains"
+      label: "Drill and sort by chains made"
       url: "{{ link }}&sorts=_003_chains_matches_comp.chains_made+desc"
     }
     link: {

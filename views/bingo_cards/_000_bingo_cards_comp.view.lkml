@@ -448,7 +448,7 @@ view: _000_bingo_cards_comp {
     fields: [user_type,
              events.hardware,
              events.platform,
-             game_version,
+             game_version_str,
              user_id,
              current_card,
              card_id,

@@ -188,14 +188,12 @@ explore: player_analysis {}
 explore: iap_query {
   sql_always_where: event_name = "transaction"
     AND JSON_EXTRACT(extra_json,"$.transaction_id") IS NOT NULL
-    AND user_type NOT IN ("internal_editor", "unit_test")
-    AND ${game_version} > 1212;;
+    AND user_type NOT IN ("internal_editor", "unit_test");;
 }
 
 explore: transactions_query {
   sql_always_where: event_name = "transaction"
-    AND user_type NOT IN ("internal_editor", "unit_test")
-    AND ${game_version} > 1212;;
+    AND user_type NOT IN ("internal_editor", "unit_test");;
 }
 
 ##########GAMING BLOCK EXPLORES##########
@@ -204,8 +202,7 @@ explore: gaming_block_events {
   persist_with: events_raw
 
   sql_always_where:
-    user_type = "external"
-    AND ${game_version} > 1212;;
+    user_type = "external";;
 
   #always_filter: {
     #filters: {

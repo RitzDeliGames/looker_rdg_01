@@ -33,6 +33,12 @@ explore: fue_funnel {
  user_type NOT IN ("internal_editor", "unit_test","bots","ugs");;
 }
 
+explore: bingo_card_funnel {
+  sql_always_where:
+   user_type NOT IN ("internal_editor", "unit_test","bots","ugs");;
+}
+
+
 ##########BINGO CARDS##########
 
 explore: _000_bingo_cards {

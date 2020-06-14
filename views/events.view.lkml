@@ -512,10 +512,16 @@ view: events {
     sql: MAX(${timestamp_raw}) ;;
   }
 
-  measure: tenure {
+  measure: tenure_hours {
     type: number
     sql: TIMESTAMP_DIFF(MAX(${timestamp_raw}), min(${timestamp_raw}), HOUR)
- ;;
+    ;;
+  }
+
+  measure: tenure_minutes {
+    type: number
+    sql: TIMESTAMP_DIFF(MAX(${timestamp_raw}), min(${timestamp_raw}), MINUTE)
+      ;;
   }
 
   measure: count_unique_person_id {

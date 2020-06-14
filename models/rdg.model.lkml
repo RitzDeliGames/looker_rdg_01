@@ -36,7 +36,8 @@ explore: fue_funnel {
 ##########BINGO CARDS##########
 
 explore: _000_bingo_cards {
-  sql_always_where: event_name = "cards" ;;
+  sql_always_where: event_name = "cards"
+  AND user_type NOT IN ("internal_editor", "unit_test") ;;
   view_name: _000_bingo_cards_comp
   join: node_data {
     fields: [node_data.node_data]
@@ -179,6 +180,12 @@ explore: _008_frame_count_histogram {}
 # PLAYER ANALYSIS
 
 explore: player_analysis {}
+
+
+
+# LOAD TIME:
+
+explore: scene_load_time {}
 
 
 

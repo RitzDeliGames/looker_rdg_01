@@ -91,21 +91,21 @@ view: _000_bingo_cards_comp {
 #   }
 
 
-  dimension: player_bingo_card_walk {
-    type: string
-    sql: CASE
-          WHEN  ${card_state_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
-          '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
-          THEN 'column'
-          WHEN ${card_state_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
-          '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
-          THEN 'row'
-          WHEN ${card_state_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
-          THEN 'diagonal'
-          ELSE 'random walk'
-        END
-        ;;
-  }
+#   dimension: player_bingo_card_walk {
+#     type: string
+#     sql: CASE
+#           WHEN  ${card_state_str} IN ('[7, 12, 16]', '[8, 17]', '[9, 13, 18]',
+#           '[1, 6, 11, 15, 20]', '[2, 7, 12, 16, 21]', '[3, 8, 17, 22]', '[4, 9, 13, 18, 23]', '[5, 10, 14, 19, 24]')
+#           THEN 'column'
+#           WHEN ${card_state_str} IN ('[7, 8, 9]', '[12, 13]', '[16, 17, 18]',
+#           '[1, 2, 3, 4, 5]', '[6, 7, 8, 9, 10]', '[11, 12, 13, 14]', '[15, 16, 17, 18, 19]', '[20, 21, 22, 23, 24]')
+#           THEN 'row'
+#           WHEN ${card_state_str} IN ('[7, 18]', '[9, 16]', '[1, 7, 18, 24]', '[5, 9, 16, 20]')
+#           THEN 'diagonal'
+#           ELSE 'random walk'
+#         END
+#         ;;
+#   }
 
   dimension: rcd_mapping_alt {
     type: string
@@ -332,7 +332,6 @@ view: _000_bingo_cards_comp {
       label: "rounds"
       value: "rounds"
     }
-
     allowed_value: {
       label: "rounds per node id"
       value: "rounds per node id"
@@ -464,7 +463,6 @@ view: _000_bingo_cards_comp {
              node_data.node_data,
              rounds_nodes,
              node_id,
-             player_bingo_card_walk
             ]
   }
 }

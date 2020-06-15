@@ -53,3 +53,15 @@ constant: device_model_mapping {
           ELSE ${TABLE}.hardware
         END"
 }
+
+constant: device_manufacturer_mapping{
+  value: "CASE
+          WHEN ${TABLE}.hardware LIKE '%iPhone%' THEN 'Apple'
+          WHEN ${TABLE}.hardware LIKE '%iPad%' THEN 'Apple'
+          WHEN ${TABLE}.hardware LIKE '%Pixel%' THEN 'Google'
+          WHEN ${TABLE}.hardware LIKE '%samsung%' THEN 'Samsung'
+          WHEN ${TABLE}.hardware LIKE '%LG%' THEN 'LG'
+          WHEN ${TABLE}.hardware LIKE '%moto%' THEN 'Motorola'
+          WHEN ${TABLE}.hardware LIKE '%Huawei%' THEN 'Huawei'
+        END"
+}

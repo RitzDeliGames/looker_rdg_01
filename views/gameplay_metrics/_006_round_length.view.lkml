@@ -15,11 +15,6 @@ view: _006_round_length {
       END ;;
   }
 
-  dimension: round_id {
-    type: string
-    sql: JSON_Value(extra_json,'$.round_id') ;;
-  }
-
   dimension: character {
 #     hidden: yes
     type: string

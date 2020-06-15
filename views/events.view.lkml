@@ -442,14 +442,13 @@ view: events {
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_level_0'),'"','') AS NUMERIC);;
   }
-###
-
-# Please, allocate this dimension at will:
 
   dimension: round_length {
     type: number
     sql: CAST(JSON_Value(${extra_json},'$.round_length') AS NUMERIC) / 1000  ;;
   }
+
+###
 
 
 ###MEASURES###

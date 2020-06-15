@@ -431,14 +431,14 @@ view: events {
 
   dimension: character_used_skill {
     group_label: "Round Start/End"
-    label: "Character XP Level"
+    label: "Character Skill Level"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_skill_0'),'"','') AS NUMERIC);;
   }
 
   dimension: character_used_xp {
     group_label: "Round Start/End"
-    label: "Character Skill Level"
+    label: "Character XP Level"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_level_0'),'"','') AS NUMERIC);;
   }

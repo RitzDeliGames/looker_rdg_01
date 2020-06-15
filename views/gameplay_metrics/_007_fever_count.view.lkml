@@ -8,28 +8,11 @@ view: _007_fever_count {
     drill_fields: [detail*]
   }
 
-  dimension: character_skill {
-    type: string
-    sql: JSON_Value(extra_json,'$.team_slot_skill_0') ;;
-  }
-
-  dimension: character_level {
-    type: string
-    sql: JSON_Value(extra_json,'$.team_slot_level_0') ;;
-  }
-
   dimension: fever_count {
     hidden: yes
     type: number
     sql: CAST(JSON_Value(extra_json,'$.fever_count') AS NUMERIC) ;;
   }
-
-  dimension: character {
-    type: string
-    sql: REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','') ;;
-  }
-
-
 
 # FEVER COUNT BOXPLOT
 
@@ -117,10 +100,10 @@ view: _007_fever_count {
   set: detail {
     fields: [user_type,
              player_xp_level,
-             character,
+             events.character_used,
              fever_count,
-             character_skill,
-             character_level
+             events.character_used_skill,
+             events.character_used_xp
             ]
   }
 }

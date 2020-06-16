@@ -142,7 +142,6 @@ constant: bingo_card_mapping_5x5 {
   END"
 }
 
-
 constant: bingo_card_mapping_5x5_X {
   value:"CASE
   WHEN ${card_state_str} LIKE '[%1%,%5%]'

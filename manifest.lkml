@@ -88,3 +88,84 @@ constant: device_platform_mapping {
         END"
 
 }
+
+constant: bingo_card_mapping_3x3 {
+  value:"CASE
+    WHEN ${card_state_str} LIKE '[%7%,%8%,%9%]'
+    THEN 'row_02'
+    WHEN ${card_state_str} LIKE '[%1%2%,%1%3%]'
+    THEN 'row_03'
+    WHEN ${card_state_str} LIKE '[%1%6%,%1%7%,%1%8%]'
+
+    WHEN ${card_state_str} LIKE '[%7%,%1%2%,%1%6%]'
+    THEN 'column_02'
+    WHEN ${card_state_str} LIKE '[%8%,%1%7%]'
+    THEN 'column_03'
+    WHEN ${card_state_str} LIKE '[%9%,%1%3%,%1%8%]'
+    THEN 'column_04'_
+
+    WHEN ${card_state_str} LIKE '[%7%,%1%8%]'
+    THEN 'diagonal_01'
+    WHEN ${card_state_str} LIKE '[%9%,%1%6%]'
+    THEN 'diagonal_02'
+  END"
+}
+
+constant: bingo_card_mapping_5x5 {
+  value:"CASE
+    WHEN ${card_state_str} LIKE '[%1%,%2%,%3%,%4%,%5%]'
+    THEN 'row_01'
+    WHEN ${card_state_str} LIKE '[%6%,%7%,%8%,%9%,1%0]'
+    THEN 'row_02'
+    WHEN ${card_state_str} LIKE '[%1%1%,%1%2%,%1%3%,%1%4%]'
+    THEN 'row_03'
+    WHEN ${card_state_str} LIKE '[%1%5%,%1%6%,%1%7%,%1%8%,%1%9%]'
+    THEN 'row_04'
+    WHEN ${card_state_str} LIKE '[%2%0%,%2%1%,%2%2%,%2%3%,%2%4%]'
+    THEN 'row_05'
+
+    WHEN ${card_state_str} LIKE '[%1%,%6%,%1%1%,%1%5%,%2%0%]'
+    THEN 'column_01'
+    WHEN ${card_state_str} LIKE '[%2%,%7%,%1%2%,%1%6%,%2%1%]'
+    THEN 'column_02'
+    WHEN ${card_state_str} LIKE '[%3%,%8%,%1%7%,%2%2%]'
+    THEN 'column_03'
+    WHEN ${card_state_str} LIKE '[%4%,%9%,%1%3%,%1%8%,%2%3%]'
+    THEN 'column_04'
+    WHEN ${card_state_str} LIKE '[%5%,%1%0%,%1%4%,%1%9%,%2%4%]'
+    THEN 'column_05'
+
+    WHEN ${card_state_str} LIKE '[%1%,%7%,%1%8%,%2%4%]'
+    THEN 'diagonal_01'
+    WHEN ${card_state_str} LIKE '[%5%,%9%,%1%6%,%2%0%]'
+    THEN 'diagonal_02'
+  END"
+}
+
+
+constant: bingo_card_mapping_5x5_X {
+  value:"CASE
+  WHEN ${card_state_str} LIKE '[%1%,%5%]'
+  THEN 'row_01'
+  WHEN ${card_state_str} LIKE '[%7%,%9%]'
+  THEN 'row_02'
+  WHEN ${card_state_str} LIKE '[%1%6%,%1%8%]'
+  THEN 'row_04'
+  WHEN ${card_state_str} LIKE '[%2%0%,%2%4%]'
+  THEN 'row_05'
+
+  WHEN ${card_state_str} LIKE '[%1%,%2%0%]'
+  THEN 'column_01'
+  WHEN ${card_state_str} LIKE '[%7%,%1%6%]'
+  THEN 'column_02'
+  WHEN ${card_state_str} LIKE '[%9%,%1%8%]'
+  THEN 'column_04'
+  WHEN ${card_state_str} LIKE '[%5%,%2%4%]'
+  THEN 'column_05'
+
+  WHEN ${card_state_str} LIKE '[%1%,%7%,%1%8%,%2%4%]'
+  THEN 'diagonal_01'
+  WHEN ${card_state_str} LIKE '[%5%,%9%,%1%6%,%2%0%]'
+  THEN 'diagonal_02'
+  END"
+}

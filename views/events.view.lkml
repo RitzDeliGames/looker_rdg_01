@@ -75,59 +75,45 @@ view: events {
 ###DEVICE DIMENSIONS###
 
   dimension: device_brand {#SHOULD WEB TRAFFIC GRAB PC OR BROWSER? sug: "pc_browser"}
-    group_label: "device & os dimensions"
+    group_label: "Device & OS Dimensions"
+    label: "Device Manufacturer"
     sql:@{device_manufacturer_mapping} ;;
   }
 
   dimension: device_model {
-    group_label: "device & os dimensions"
+    group_label: "Device & OS Dimensions"
+    label: "Device Model"
     sql:@{device_model_mapping} ;;
-
   }
 
   dimension: device_os_version {
-    group_label: "device & os dimensions"
-    type: string
-    label: "device OS (major)"
-    sql:CASE
-          WHEN ${TABLE}.platform LIKE "%iOS 13%" THEN "iOS 13"
-          WHEN ${TABLE}.platform LIKE "%iOS 12%" THEN "iOS 12"
-          WHEN ${TABLE}.platform LIKE "%iOS 11%" THEN "iOS 11"
-          WHEN ${TABLE}.platform LIKE "%iOS 10%" THEN "iOS 10"
-          WHEN ${TABLE}.platform LIKE "%iOS 10%" THEN "iOS 10"
-          WHEN ${TABLE}.platform LIKE "%Android OS 10%" THEN "Android 10"
-          WHEN ${TABLE}.platform LIKE "%Android OS 9%" THEN "Android 9"
-          WHEN ${TABLE}.platform LIKE "%Android OS 8%" THEN "Android 8"
-          WHEN ${TABLE}.platform LIKE "%Android OS 7%" THEN "Android 7"
-        END ;;
+    group_label: "Device & OS Dimensions"
+    label: "Device OS (major)"
+    sql:@{device_os_version_mapping} ;;
   }
 
   dimension: device_os_version_minor {
-    group_label: "device & os dimensions"
+    group_label: "Device & OS Dimensions"
+    label: "Device OS (minor)"
     type: string
-    label: "device OS (minor)"
     sql: ${TABLE}.platform ;;
   }
 
   dimension: device_platform {
-    group_label: "device & os dimensions"
-    type: string
-    sql: CASE
-          WHEN ${TABLE}.platform LIKE "%iOS%" THEN "Apple"
-          WHEN ${TABLE}.platform LIKE "%Android%" THEN "Google"
-          WHEN ${TABLE}.hardware LIKE "%Chrome%" AND ${TABLE}.user_id LIKE "%facebook%" THEN "Facebook"
-        END ;;
+    group_label: "Device & OS Dimensions"
+    label: "Device Platform"
+    sql: @{device_platform_mapping} ;;
   }
 
   #UPDATE - NEEDS TO BE DERIVED BY THE DB
   dimension: device_language {
-    group_label: "device & os dimensions"
+    group_label: "Device & OS Dimensions"
     type: string
     sql: REPLACE(JSON_EXTRACT(${TABLE}.language, "$.SystemLanguage"),'"','') ;;
   }
 
   dimension: battery_level {
-    group_label: "device & os dimensions"
+    group_label: "Device & OS Dimensions"
     type: number
     sql: ${TABLE}.battery_level ;;
   }

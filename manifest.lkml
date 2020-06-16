@@ -65,3 +65,26 @@ constant: device_manufacturer_mapping{
           WHEN ${TABLE}.hardware LIKE '%Huawei%' THEN 'Huawei'
         END"
 }
+
+constant: device_os_version_mapping {
+  value: "CASE
+          WHEN ${TABLE}.platform LIKE '%iOS 13%' THEN 'iOS 13'
+          WHEN ${TABLE}.platform LIKE '%iOS 12%' THEN 'iOS 12'
+          WHEN ${TABLE}.platform LIKE '%iOS 11%' THEN 'iOS 11'
+          WHEN ${TABLE}.platform LIKE '%iOS 10%' THEN 'iOS 10'
+          WHEN ${TABLE}.platform LIKE '%iOS 10%' THEN 'iOS 10'
+          WHEN ${TABLE}.platform LIKE '%Android OS 10%' THEN 'Android 10'
+          WHEN ${TABLE}.platform LIKE '%Android OS 9%' THEN 'Android 9'
+          WHEN ${TABLE}.platform LIKE '%Android OS 8%' THEN 'Android 8'
+          WHEN ${TABLE}.platform LIKE '%Android OS 7%' THEN 'Android 7'
+        END"
+  }
+
+constant: device_platform_mapping {
+  value: "CASE
+          WHEN ${TABLE}.platform LIKE '%iOS%' THEN 'Apple'
+          WHEN ${TABLE}.platform LIKE '%Android%' THEN 'Google'
+          WHEN ${TABLE}.hardware LIKE '%Chrome%' AND ${TABLE}.user_id LIKE '%facebook%' THEN 'Facebook'
+        END"
+
+}

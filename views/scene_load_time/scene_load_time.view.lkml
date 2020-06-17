@@ -4,20 +4,6 @@ view: scene_load_time {
   extends: [events]
 
 
-# view: scene_load_time {
-#   derived_table: {
-#     sql: SELECT extra_json,
-#        JSON_EXTRACT(extra_json, '$.load_time') AS load_time,
-#        JSON_EXTRACT(extra_json, '$.transition_from') AS transition_from,
-#        JSON_EXTRACT(extra_json, '$.transition_to') AS transition_to
-#
-# FROM events
-# WHERE event_name = "transition"
-# AND user_type NOT IN ("internal_editor", "unit_test")
-#  ;;
-#   }
-
-
 
 
   measure: count {
@@ -25,10 +11,6 @@ view: scene_load_time {
     drill_fields: [detail*]
   }
 
-#   dimension: extra_json {
-#     type: string
-#     sql: ${TABLE}.extra_json ;;
-#   }
 
 
   dimension: load_time {
@@ -53,10 +35,37 @@ view: scene_load_time {
     type: string
     sql: CONCAT(${transition_from}, " - ", ${transition_to}) ;;
   }
-  #"1. UpdateCheck" - "TitleScene"
-  #"2. TitleScene" - "MetaScene"
-  #"3. MetaScene" - "Balls"
-  #"4. Balls" - "MetaScene"
+
+  dimension: transition_from_to_place {
+    type: number
+    sql: CASE
+      WHEN ${transition_from_to} = '"UpdateCheck" - "TitleScene"'
+      THEN 1
+      WHEN ${transition_from_to} = '"TitleScene" - "MetaScene"'
+      THEN 2
+      WHEN ${transition_from_to} = '"MetaScene" - "Balls"'
+      THEN 3
+      WHEN ${transition_from_to} = '"Balls" - "MetaScene"'
+      THEN 4
+    END
+    ;;
+  }
+
+  dimension: transition_from_to_place_str {
+    type: string
+    sql: CASE
+      WHEN ${transition_from_to} = '"UpdateCheck" - "TitleScene"'
+      THEN '1. UpdateCheck - TitleScene'
+      WHEN ${transition_from_to} = '"TitleScene" - "MetaScene"'
+      THEN '2. TitleScene - MetaScene'
+      WHEN ${transition_from_to} = '"MetaScene" - "Balls"'
+      THEN '3. MetaScene - Balls'
+      WHEN ${transition_from_to} = '"Balls" - "MetaScene"'
+      THEN '4. Balls - MetaScene'
+    END
+    ;;
+  }
+
 
   dimension: load_time_sec {
     type: number

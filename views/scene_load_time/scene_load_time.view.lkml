@@ -53,10 +53,14 @@ view: scene_load_time {
     type: string
     sql: CONCAT(${transition_from}, " - ", ${transition_to}) ;;
   }
+  #"1. UpdateCheck" - "TitleScene"
+  #"2. TitleScene" - "MetaScene"
+  #"3. MetaScene" - "Balls"
+  #"4. Balls" - "MetaScene"
 
-  measure: load_time_num {
-    type: sum
-    sql: CAST(${load_time} AS NUMERIC) ;;
+  dimension: load_time_sec {
+    type: number
+    sql: CAST((${load_time} / 1000) AS NUMERIC) ;;
   }
 
 
@@ -68,57 +72,57 @@ view: scene_load_time {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by load_time"
-      url: "{{ link }}&sorts=scene_load_time.load_time+desc"
+      url: "{{ link }}&sorts=scene_load_time.load_time_sec+desc"
     }
     group_label: "boxplot"
     type: min
-    sql: CAST(${load_time} AS NUMERIC) ;;
+    sql: CAST(${load_time_sec} AS NUMERIC) ;;
   }
 
   measure: 5_max_transition {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by load_time"
-      url: "{{ link }}&sorts=scene_load_time.load_time+desc"
+      url: "{{ link }}&sorts=scene_load_time.load_time_sec+desc"
     }
     group_label: "boxplot"
     type: max
-    sql: CAST(${load_time} AS NUMERIC) ;;
+    sql: CAST(${load_time_sec} AS NUMERIC) ;;
   }
 
   measure: 3_median_transition {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by load_time"
-      url: "{{ link }}&sorts=scene_load_time.load_time+desc"
+      url: "{{ link }}&sorts=scene_load_time.load_time_sec+desc"
     }
     group_label: "boxplot"
     type: median
-    sql: CAST(${load_time} AS NUMERIC) ;;
+    sql: CAST(${load_time_sec} AS NUMERIC) ;;
   }
 
   measure: 2_25_transition {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by load_time"
-      url: "{{ link }}&sorts=scene_load_time.load_time+desc"
+      url: "{{ link }}&sorts=scene_load_time.load_time_sec+desc"
     }
     group_label: "boxplot"
     type: percentile
     percentile: 25
-    sql: CAST(${load_time} AS NUMERIC) ;;
+    sql: CAST(${load_time_sec} AS NUMERIC) ;;
   }
 
   measure: 4_75_transition {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by load_time"
-      url: "{{ link }}&sorts=scene_load_time.load_time+desc"
+      url: "{{ link }}&sorts=scene_load_time.load_time_sec+desc"
     }
     group_label: "boxplot"
     type: percentile
     percentile: 75
-    sql: CAST(${load_time} AS NUMERIC) ;;
+    sql: CAST(${load_time_sec} AS NUMERIC) ;;
   }
 
 

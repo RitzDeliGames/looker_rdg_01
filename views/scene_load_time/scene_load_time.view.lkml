@@ -30,6 +30,7 @@ view: scene_load_time {
 #     sql: ${TABLE}.extra_json ;;
 #   }
 
+
   dimension: load_time {
     type: string
     sql: CAST(JSON_EXTRACT(extra_json, '$.load_time') AS NUMERIC) ;;

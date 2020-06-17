@@ -1,76 +1,199 @@
-# include: "/views/**/events.view"
+include: "/views/**/events.view"
 
 
 view: player_analysis {
-#   extends: [events]
+  extends: [events]
 
-  derived_table: {
-    sql: SELECT CAST(JSON_VALUE(extra_json, '$.round_id') AS NUMERIC) as round_id,
-          coins,
-          gems,
-          player_level_xp AS player_xp,
-          player_xp_level AS xp_player,
-      FROM
-      events
-      WHERE event_name = 'round_end'
-      AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
-       ;;
-  }
 
-#   measure: count {
-#     type: count
-#     drill_fields: [detail*]
-#   }
-#
+# This code lines extract all key-values from extra_json where event_name = 'collection'
 
-  dimension: round_id {
-    type: number
-    sql: ${TABLE}.round_id ;;
-  }
-
-  dimension: coins {
-    type: number
-    sql: ${TABLE}.coins ;;
-  }
-
-  dimension: gems {
-    type: number
-    sql: ${TABLE}.gems ;;
-  }
-
-#   dimension: player_xp {
-#     type: number
-#     sql: ${TABLE}.player_xp ;;
-#   }
-#
-#   dimension: xp_player {
-#     type: number
-#     sql: ${TABLE}.xp_player ;;
-#   }
+#        JSON_EXTRACT(extra_json, '$.character_001.inventory') AS inventory,
+#        JSON_EXTRACT(extra_json, '$.character_001.skill_level') AS skill_level,
+#        JSON_EXTRACT(extra_json, '$.character_001.collection_date') AS collection_date,
+#        JSON_EXTRACT(extra_json, '$.character_001.level_up_date') AS level_up_date,
+#        JSON_EXTRACT(extra_json, '$.character_001.skill_up_date') AS skill_up_date,
+#        JSON_EXTRACT(extra_json, '$.character_001.collection_round_id') AS collection_round_id,
+#        JSON_EXTRACT(extra_json, '$.character_001.level_up_round_id') AS level_up_round_id,
+#        JSON_EXTRACT(extra_json, '$.character_001.skilled_up_round_id') AS skilled_up_round_id,
+#        JSON_EXTRACT(extra_json, '$.character_001.level_cap') AS level_cap,
+#        JSON_EXTRACT(extra_json, '$.character_001.max_level') AS max_level,
+#        JSON_EXTRACT(extra_json, '$.character_001.max_skill') AS max_skill,
 
 
 
 
-  parameter: line_charts {
+  parameter: general_balance {
     type: string
     allowed_value: {
-      label: "coins balance"
-      value: "coins balance"
+      label: "player xp"
+      value: "player xp"
+    }
+    allowed_value: {
+      label: "player xp (int)"
+      value: "player xp (int)"
+    }
+  }
+
+  measure: 1_min_general {
+#     drill_fields: [detail*]
+#     link: {
+#       label: "Drill and sort by COINS balance"
+#       url: "{{ link }}&sorts=player_analysis.coins+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by XP PLAYER balance"
+#       url: "{{ link }}&sorts=player_analysis.gems+desc"
+#     }
+    group_label: "TEST_G"
+    type: min
+    sql: CASE
+      WHEN {% parameter general_balance %} = 'player xp'
+      THEN ${player_xp_level}
+      WHEN {% parameter general_balance %} = 'player xp (int)'
+      THEN ${player_xp_level_int}
+    END ;;
+  }
+
+  measure: 5_max_general {
+#     drill_fields: [detail*]
+#     link: {
+#       label: "Drill and sort by COINS balance"
+#       url: "{{ link }}&sorts=player_analysis.coins+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by XP PLAYER balance"
+#       url: "{{ link }}&sorts=player_analysis.gems+desc"
+#     }
+    group_label: "TEST_G"
+    type: max
+    sql: CASE
+      WHEN {% parameter general_balance %} = 'player xp'
+      THEN ${player_xp_level}
+      WHEN {% parameter general_balance %} = 'player xp (int)'
+      THEN ${player_xp_level_int}
+    END ;;
+  }
+
+  measure: 3_median_general {
+#     drill_fields: [detail*]
+#     link: {
+#       label: "Drill and sort by COINS balance"
+#       url: "{{ link }}&sorts=player_analysis.coins+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by XP PLAYER balance"
+#       url: "{{ link }}&sorts=player_analysis.gems+desc"
+#     }
+    group_label: "TEST_G"
+    type: median
+    sql: CASE
+      WHEN {% parameter general_balance %} = 'player xp'
+      THEN ${player_xp_level}
+      WHEN {% parameter general_balance %} = 'player xp (int)'
+      THEN ${player_xp_level_int}
+    END ;;
+  }
+
+
+  measure: 2_25th_general {
+#     drill_fields: [detail*]
+#     link: {
+#       label: "Drill and sort by COINS balance"
+#       url: "{{ link }}&sorts=player_analysis.coins+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by XP PLAYER balance"
+#       url: "{{ link }}&sorts=player_analysis.gems+desc"
+#     }
+  group_label: "TEST_G"
+  type: percentile
+  percentile: 25
+  sql: CASE
+      WHEN {% parameter general_balance %} = 'player xp'
+      THEN ${player_xp_level}
+      WHEN {% parameter general_balance %} = 'player xp (int)'
+      THEN ${player_xp_level_int}
+    END ;;
+}
+
+
+  measure: 4_75th_general {
+#     drill_fields: [detail*]
+#     link: {
+#       label: "Drill and sort by COINS balance"
+#       url: "{{ link }}&sorts=player_analysis.coins+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by XP PLAYER balance"
+#       url: "{{ link }}&sorts=player_analysis.gems+desc"
+#     }
+  group_label: "TEST_G"
+  type: percentile
+  percentile: 75
+  sql: CASE
+
+      WHEN {% parameter general_balance %} = 'player xp'
+      THEN ${player_xp_level}
+      WHEN {% parameter general_balance %} = 'player xp (int)'
+      THEN ${player_xp_level_int}
+    END ;;
+}
+
+
+
+
+  parameter: player_inventory {
+    type: string
+    allowed_value: {
+      label: "coins"
+      value: "coins"
     }
     allowed_value: {
       label: "gems"
       value: "gems"
     }
+    allowed_value: {
+      label: "lives"
+      value: "lives"
+    }
+    allowed_value: {
+      label: "box 002 tickets"
+      value: "box 002 tickets"
+    }
+    allowed_value: {
+      label: "box 007 tickets"
+      value: "box 007 tickets"
+    }
+    allowed_value: {
+      label: "score tickets"
+      value: "score tickets"
+    }
+    allowed_value: {
+      label: "bubble_tickets"
+      value: "bubble_tickets"
+    }
+    allowed_value: {
+      label: "time_tickets"
+      value: "time_tickets"
+    }
+    allowed_value: {
+      label: "five_to_four_tickets"
+      value: "five_to_four_tickets"
+    }
+    allowed_value: {
+      label: "exp_tickets"
+      value: "exp_tickets"
+    }
   }
 
 
 
-###_LINE_CHARTS_###
+###PLAYER INVENTORY###
 
 ##_MEASURES_##
 
 
-  measure: 1_min_ {
+  measure: 1_min_player {
 #     drill_fields: [detail*]
 #     link: {
 #       label: "Drill and sort by COINS balance"
@@ -83,17 +206,31 @@ view: player_analysis {
     group_label: "TEST"
     type: min
     sql: CASE
-      WHEN {% parameter line_charts %} = 'coins balance'
-      --THEN CAST(${TABLE}.coins AS NUMERIC)
+      WHEN {% parameter player_inventory %} = 'coins'
       THEN ${coins}
-      WHEN {% parameter line_charts %} = 'gems'
-      --THEN CAST(${TABLE}.gems AS NUMERIC)
+      WHEN {% parameter player_inventory %} = 'gems'
       THEN ${gems}
+      WHEN {% parameter player_inventory %} = 'lives'
+      THEN ${lives}
+      WHEN {% parameter player_inventory %} = 'box 002 tickets'
+      THEN ${box_002_tickets}
+      WHEN {% parameter player_inventory %} = 'box 007 tickets'
+      THEN ${box_007_tickets}
+      WHEN {% parameter player_inventory %} = 'score tickets'
+      THEN ${score_tickets}
+      WHEN {% parameter player_inventory %} = 'bubble_tickets'
+      THEN ${bubble_tickets}
+      WHEN {% parameter player_inventory %} = 'time_tickets'
+      THEN ${time_tickets}
+      WHEN {% parameter player_inventory %} = 'five_to_four_tickets'
+      THEN ${five_to_four_tickets}
+      WHEN {% parameter player_inventory %} = 'exp_tickets'
+      THEN ${exp_tickets}
     END ;;
   }
 
 
-  measure: 5_max_ {
+  measure: 5_max_player {
 #     drill_fields: [detail*]
 #     link: {
 #       label: "Drill and sort by COINS balance"
@@ -106,17 +243,31 @@ view: player_analysis {
     group_label: "TEST"
     type: max
     sql: CASE
-      WHEN {% parameter line_charts %} = 'coins balance'
-      --THEN CAST(${TABLE}.coins AS NUMERIC)
+      WHEN {% parameter player_inventory %} = 'coins'
       THEN ${coins}
-      WHEN {% parameter line_charts %} = 'gems'
-      --THEN CAST(${TABLE}.gems AS NUMERIC)
+      WHEN {% parameter player_inventory %} = 'gems'
       THEN ${gems}
+      WHEN {% parameter player_inventory %} = 'lives'
+      THEN ${lives}
+      WHEN {% parameter player_inventory %} = 'box 002 tickets'
+      THEN ${box_002_tickets}
+      WHEN {% parameter player_inventory %} = 'box 007 tickets'
+      THEN ${box_007_tickets}
+      WHEN {% parameter player_inventory %} = 'score tickets'
+      THEN ${score_tickets}
+      WHEN {% parameter player_inventory %} = 'bubble_tickets'
+      THEN ${bubble_tickets}
+      WHEN {% parameter player_inventory %} = 'time_tickets'
+      THEN ${time_tickets}
+      WHEN {% parameter player_inventory %} = 'five_to_four_tickets'
+      THEN ${five_to_four_tickets}
+      WHEN {% parameter player_inventory %} = 'exp_tickets'
+      THEN ${exp_tickets}
     END ;;
   }
 
 
-  measure: 3_median_ {
+  measure: 3_median_player {
 #     drill_fields: [detail*]
 #     link: {
 #       label: "Drill and sort by COINS balance"
@@ -129,17 +280,31 @@ view: player_analysis {
     group_label: "TEST"
     type: median
     sql: CASE
-      WHEN {% parameter line_charts %} = 'coins balance'
-      --THEN CAST(${TABLE}.coins AS NUMERIC)
+      WHEN {% parameter player_inventory %} = 'coins'
       THEN ${coins}
-      WHEN {% parameter line_charts %} = 'gems'
-      --THEN CAST(${TABLE}.gems AS NUMERIC)
+      WHEN {% parameter player_inventory %} = 'gems'
       THEN ${gems}
+      WHEN {% parameter player_inventory %} = 'lives'
+      THEN ${lives}
+      WHEN {% parameter player_inventory %} = 'box 002 tickets'
+      THEN ${box_002_tickets}
+      WHEN {% parameter player_inventory %} = 'box 007 tickets'
+      THEN ${box_007_tickets}
+      WHEN {% parameter player_inventory %} = 'score tickets'
+      THEN ${score_tickets}
+      WHEN {% parameter player_inventory %} = 'bubble_tickets'
+      THEN ${bubble_tickets}
+      WHEN {% parameter player_inventory %} = 'time_tickets'
+      THEN ${time_tickets}
+      WHEN {% parameter player_inventory %} = 'five_to_four_tickets'
+      THEN ${five_to_four_tickets}
+      WHEN {% parameter player_inventory %} = 'exp_tickets'
+      THEN ${exp_tickets}
     END ;;
   }
 
 
-  measure: 2_25th_ {
+  measure: 2_25th_player {
 #     drill_fields: [detail*]
 #     link: {
 #       label: "Drill and sort by COINS balance"
@@ -153,17 +318,31 @@ view: player_analysis {
     type: percentile
     percentile: 25
     sql: CASE
-      WHEN {% parameter line_charts %} = 'coins balance'
-      --THEN CAST(${TABLE}.coins AS NUMERIC)
+      WHEN {% parameter player_inventory %} = 'coins'
       THEN ${coins}
-      WHEN {% parameter line_charts %} = 'gems'
-      --THEN CAST(${TABLE}.gems AS NUMERIC)
+      WHEN {% parameter player_inventory %} = 'gems'
       THEN ${gems}
+      WHEN {% parameter player_inventory %} = 'lives'
+      THEN ${lives}
+      WHEN {% parameter player_inventory %} = 'box 002 tickets'
+      THEN ${box_002_tickets}
+      WHEN {% parameter player_inventory %} = 'box 007 tickets'
+      THEN ${box_007_tickets}
+      WHEN {% parameter player_inventory %} = 'score tickets'
+      THEN ${score_tickets}
+      WHEN {% parameter player_inventory %} = 'bubble_tickets'
+      THEN ${bubble_tickets}
+      WHEN {% parameter player_inventory %} = 'time_tickets'
+      THEN ${time_tickets}
+      WHEN {% parameter player_inventory %} = 'five_to_four_tickets'
+      THEN ${five_to_four_tickets}
+      WHEN {% parameter player_inventory %} = 'exp_tickets'
+      THEN ${exp_tickets}
     END ;;
   }
 
 
-  measure: 4_75th_ {
+  measure: 4_75th_player {
 #     drill_fields: [detail*]
 #     link: {
 #       label: "Drill and sort by COINS balance"
@@ -177,12 +356,26 @@ view: player_analysis {
     type: percentile
     percentile: 75
     sql: CASE
-      WHEN {% parameter line_charts %} = 'coins balance'
-      --THEN CAST(${TABLE}.coins AS NUMERIC)
+      WHEN {% parameter player_inventory %} = 'coins'
       THEN ${coins}
-      WHEN {% parameter line_charts %} = 'gems'
-      --THEN CAST(${TABLE}.gems AS NUMERIC)
+      WHEN {% parameter player_inventory %} = 'gems'
       THEN ${gems}
+      WHEN {% parameter player_inventory %} = 'lives'
+      THEN ${lives}
+      WHEN {% parameter player_inventory %} = 'box 002 tickets'
+      THEN ${box_002_tickets}
+      WHEN {% parameter player_inventory %} = 'box 007 tickets'
+      THEN ${box_007_tickets}
+      WHEN {% parameter player_inventory %} = 'score tickets'
+      THEN ${score_tickets}
+      WHEN {% parameter player_inventory %} = 'bubble_tickets'
+      THEN ${bubble_tickets}
+      WHEN {% parameter player_inventory %} = 'time_tickets'
+      THEN ${time_tickets}
+      WHEN {% parameter player_inventory %} = 'five_to_four_tickets'
+      THEN ${five_to_four_tickets}
+      WHEN {% parameter player_inventory %} = 'exp_tickets'
+      THEN ${exp_tickets}
     END ;;
   }
 

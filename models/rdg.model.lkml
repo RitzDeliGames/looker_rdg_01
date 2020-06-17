@@ -38,7 +38,6 @@ explore: bingo_card_funnel {
    user_type NOT IN ("internal_editor", "unit_test","bots","ugs");;
 }
 
-
 ##########BINGO CARDS##########
 
 explore: _000_bingo_cards {
@@ -53,7 +52,6 @@ explore: _000_bingo_cards {
     ;;
   }
 }
-
 
 ##########GAMEPLAY EXPLORES##########
 

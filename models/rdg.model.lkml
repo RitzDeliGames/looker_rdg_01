@@ -196,6 +196,7 @@ explore: player_analysis_view {
 explore: scene_load_time {
   sql_always_where: event_name = "transition"
   AND user_type NOT IN ("internal_editor", "unit_test")
+  ;;
 }
 
 

@@ -185,8 +185,13 @@ explore: _008_frame_count_histogram {}
 
 # PLAYER ANALYSIS
 
-explore: player_analysis {}
+explore: player_analysis {
+  sql_always_where: event_name = "round_end"
+  AND user_type NOT IN ("internal_editor", "unit_test")
+  ;;
+}
 
+explore: test_player_analysis {}
 
 
 # LOAD TIME:

@@ -177,6 +177,11 @@ view: _000_bingo_cards_comp {
   #_MEASURES_############################################
 
 
+  measure: cumulative_rounds {
+    type: sum
+    sql: ${rounds} ;;
+  }
+
   measure: min_rounds_to_complete {
     type: min
     sql: ${rounds} ;;

@@ -244,6 +244,7 @@ view: events {
     sql: ${TABLE}.last_payment ;;
   }
 
+
 ###
 
 ###PLAYER INVENTORY DIMENSIONS###
@@ -253,7 +254,6 @@ view: events {
     label: "gems"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_02'),'"','') as NUMERIC);;
-#     sql:  JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_02') ;;
   }
 
   dimension: coins {
@@ -261,7 +261,6 @@ view: events {
     label: "coins"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_03'),'"','') as NUMERIC);;
-#     sql:  JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_03') ;;
   }
 
   dimension: lives {

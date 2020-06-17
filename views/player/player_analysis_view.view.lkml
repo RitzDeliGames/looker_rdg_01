@@ -1,21 +1,21 @@
-# include: "/views/**/events.view"
+include: "/views/**/events.view"
 
 
-view: player_analysis {
-#   extends: [events]
+view: player_analysis_view {
+   extends: [events]
 
-  derived_table: {
-    sql: SELECT CAST(JSON_VALUE(extra_json, '$.round_id') AS NUMERIC) as round_id,
-          coins,
-          gems,
-          player_level_xp AS player_xp,
-          player_xp_level AS xp_player,
-      FROM
-      events
-      WHERE event_name = 'round_end'
-      AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
-       ;;
-  }
+#   derived_table: {
+#     sql: SELECT CAST(JSON_VALUE(extra_json, '$.round_id') AS NUMERIC) as round_id,
+#           coins,
+#           gems,
+#           player_level_xp AS player_xp,
+#           player_xp_level AS xp_player,
+#       FROM
+#       events
+#       WHERE event_name = 'round_end'
+#       AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
+#        ;;
+#   }
 
 #   measure: count {
 #     type: count

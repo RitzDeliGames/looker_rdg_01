@@ -177,7 +177,7 @@ view: _000_bingo_cards_comp {
   #_MEASURES_############################################
 
 
-  measure: cumulative_rounds {
+  measure: for_cumulative_rounds {
     type: sum
     sql: ${rounds} ;;
   }

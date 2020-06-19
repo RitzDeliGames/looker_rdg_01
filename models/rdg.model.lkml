@@ -183,9 +183,12 @@ explore: _008_frame_count_histogram {}
 ######PLAYER ANALYSIS######
 
 explore: player_analysis_view {
-  sql_always_where: event_name = "collection"
-  AND user_type NOT IN ("internal_editor", "unit_test")
+   sql_always_where: user_type NOT IN ("internal_editor", "unit_test")
   ;;
+#   event_name = "collection"
+#   AND event_name = "round_end"
+#   AND user_type NOT IN ("internal_editor", "unit_test")
+#   ;;
   view_name: player_analysis_view
   join: characters {
     fields: [characters.characters]

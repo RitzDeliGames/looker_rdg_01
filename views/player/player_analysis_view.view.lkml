@@ -4,24 +4,7 @@ include: "/views/**/events.view"
 view: player_analysis_view {
    extends: [events]
 
-#   derived_table: {
-#     sql: SELECT CAST(JSON_VALUE(extra_json, '$.round_id') AS NUMERIC) as round_id,
-#           coins,
-#           gems,
-#           player_level_xp AS player_xp,
-#           player_xp_level AS xp_player,
-#       FROM
-#       events
-#       WHERE event_name = 'round_end'
-#       AND JSON_EXTRACT(extra_json,'$.team_slot_0') IS NOT NULL
-#        ;;
-#   }
 
-#   measure: count {
-#     type: count
-#     drill_fields: [detail*]
-#   }
-#
 
   dimension: characters {
     type: string
@@ -30,7 +13,7 @@ view: player_analysis_view {
 
   dimension: character {
     type: string
-    sql: JSON_EXTRACT(characters, '$.character_id') ;;
+    sql: JSON_EXTRACT(${characters.characters}, '$.character_id') ;;
   }
 
   dimension: inventory {
@@ -110,21 +93,21 @@ view: player_analysis_view {
     sql: JSON_EXTRACT(${characters.characters}, '$.max_skill') ;;
   }
 
+#   measure: depth_over_char_xp {
+#     type: number
+#     sql: CAST((${count_of_characters} / ${xp_level}) AS FLOAT64) ;;
+#   }
 
   #####################
 
-  dimension: round_id {
-    type: number
-    sql: ${TABLE}.round_id ;;
-  }
-
-
-
+#   dimension: round_id {
+#     type: number
+#     sql: ${TABLE}.round_id ;;
+#   }
 #   dimension: player_xp {
 #     type: number
 #     sql: ${TABLE}.player_xp ;;
 #   }
-#
 #   dimension: xp_player {
 #     type: number
 #     sql: ${TABLE}.xp_player ;;
@@ -132,11 +115,12 @@ view: player_analysis_view {
 
 
 
+
   parameter: characters_dimensions {
     type: string
     allowed_value: {
-      label: "Characters per round"
-      value: "Characters per round"
+      label: "Characters Analysis"
+      value: "Characters Analysis"
     }
     allowed_value: {
       label: "inventory"
@@ -165,26 +149,43 @@ view: player_analysis_view {
   }
 
 
-  measure: number_of_characters_per_round {
-    group_label: "Character count"
+  measure: count_of_characters {
+    group_label: "3. Character count"
     type: count_distinct
     sql: CASE
-      WHEN {% parameter characters_dimensions %} = 'Characters per round'
+      WHEN {% parameter characters_dimensions %} = 'Characters Analysis'
       THEN ${character}
     END ;;
   }
 
 
+
   measure: 1_min_char_dim {
-#     drill_fields: [detail*]
-#     link: {
-#       label: "Drill and sort by COINS balance"
-#       url: "{{ link }}&sorts=player_analysis.coins+desc"
-#     }
-#     link: {
-#       label: "Drill and sort by XP PLAYER balance"
-#       url: "{{ link }}&sorts=player_analysis.gems+desc"
-#     }
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by characters Inventory"
+      url: "{{ link }}&sorts=characters_dimensions.inventory+desc"
+    }
+    link: {
+      label: "Drill and sort by characters xp level"
+      url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters skill level"
+      url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters level cap"
+      url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
+    }
+    link: {
+      label: "Drill and sort by characters max level"
+      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters max skill"
+      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+    }
     group_label: "1. character dimension"
     type: min
     sql: CASE
@@ -198,22 +199,37 @@ view: player_analysis_view {
       THEN ${level_cap}
       WHEN {% parameter characters_dimensions %} = 'max_level'
       THEN ${max_level}
-      WHEN {% parameter characters_dimensions %} = 'max_skill'
+      WHEN {% parameter characters_dimensions %} = 'max_level'
       THEN ${max_skill}
     END ;;
   }
 
 
   measure: 5_max_char_dim {
-  #     drill_fields: [detail*]
-  #     link: {
-  #       label: "Drill and sort by COINS balance"
-  #       url: "{{ link }}&sorts=player_analysis.coins+desc"
-  #     }
-  #     link: {
-  #       label: "Drill and sort by XP PLAYER balance"
-  #       url: "{{ link }}&sorts=player_analysis.gems+desc"
-  #     }
+    link: {
+      label: "Drill and sort by characters Inventory"
+      url: "{{ link }}&sorts=characters_dimensions.inventory+desc"
+    }
+    link: {
+      label: "Drill and sort by characters xp level"
+      url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters skill level"
+      url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters level cap"
+      url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
+    }
+    link: {
+      label: "Drill and sort by characters max level"
+      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters max skill"
+      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+    }
     group_label: "1. character dimension"
     type: max
     sql: CASE
@@ -234,15 +250,30 @@ view: player_analysis_view {
 
 
   measure: 3_median_char_dim {
-    #     drill_fields: [detail*]
-    #     link: {
-    #       label: "Drill and sort by COINS balance"
-    #       url: "{{ link }}&sorts=player_analysis.coins+desc"
-    #     }
-    #     link: {
-    #       label: "Drill and sort by XP PLAYER balance"
-    #       url: "{{ link }}&sorts=player_analysis.gems+desc"
-    #     }
+    link: {
+      label: "Drill and sort by characters Inventory"
+      url: "{{ link }}&sorts=characters_dimensions.inventory+desc"
+    }
+    link: {
+      label: "Drill and sort by characters xp level"
+      url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters skill level"
+      url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters level cap"
+      url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
+    }
+    link: {
+      label: "Drill and sort by characters max level"
+      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters max skill"
+      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+    }
     group_label: "1. character dimension"
     type: median
     sql: CASE
@@ -263,15 +294,30 @@ view: player_analysis_view {
 
 
   measure: 2_25th_char_dim {
-    #     drill_fields: [detail*]
-    #     link: {
-    #       label: "Drill and sort by COINS balance"
-    #       url: "{{ link }}&sorts=player_analysis.coins+desc"
-    #     }
-    #     link: {
-    #       label: "Drill and sort by XP PLAYER balance"
-    #       url: "{{ link }}&sorts=player_analysis.gems+desc"
-    #     }
+    link: {
+      label: "Drill and sort by characters Inventory"
+      url: "{{ link }}&sorts=characters_dimensions.inventory+desc"
+    }
+    link: {
+      label: "Drill and sort by characters xp level"
+      url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters skill level"
+      url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters level cap"
+      url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
+    }
+    link: {
+      label: "Drill and sort by characters max level"
+      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters max skill"
+      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+    }
     group_label: "1. character dimension"
     type: percentile
     percentile: 25
@@ -293,15 +339,30 @@ view: player_analysis_view {
 
 
   measure: 4_75th_char_dim {
-    #     drill_fields: [detail*]
-    #     link: {
-    #       label: "Drill and sort by COINS balance"
-    #       url: "{{ link }}&sorts=player_analysis.coins+desc"
-    #     }
-    #     link: {
-    #       label: "Drill and sort by XP PLAYER balance"
-    #       url: "{{ link }}&sorts=player_analysis.gems+desc"
-    #     }
+    link: {
+      label: "Drill and sort by characters Inventory"
+      url: "{{ link }}&sorts=characters_dimensions.inventory+desc"
+    }
+    link: {
+      label: "Drill and sort by characters xp level"
+      url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters skill level"
+      url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters level cap"
+      url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
+    }
+    link: {
+      label: "Drill and sort by characters max level"
+      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+    }
+    link: {
+      label: "Drill and sort by characters max skill"
+      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+    }
     group_label: "1. character dimension"
     type: percentile
     percentile: 75
@@ -371,21 +432,49 @@ view: player_analysis_view {
 
 
 
-###_LINE_CHARTS_###
-
-##_MEASURES_##
-
 
   measure: 1_min_ {
-#     drill_fields: [detail*]
-#     link: {
-#       label: "Drill and sort by COINS balance"
-#       url: "{{ link }}&sorts=player_analysis.coins+desc"
-#     }
-#     link: {
-#       label: "Drill and sort by XP PLAYER balance"
-#       url: "{{ link }}&sorts=player_analysis.gems+desc"
-#     }
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by coins"
+      url: "{{ link }}&sorts=player_inventory.coins+desc"
+    }
+    link: {
+      label: "Drill and sort by gems"
+      url: "{{ link }}&sorts=player_inventory.gems+desc"
+    }
+    link: {
+      label: "Drill and sort by lives"
+      url: "{{ link }}&sorts=player_inventory.lives+desc"
+    }
+    link: {
+      label: "Drill and sort by box_002_tickets"
+      url: "{{ link }}&sorts=player_inventory.box_002_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by box_007_tickets"
+      url: "{{ link }}&sorts=player_inventory.box_007_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by score_tickets"
+      url: "{{ link }}&sorts=player_inventory.score_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by bubble_tickets"
+      url: "{{ link }}&sorts=player_inventory.bubble_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by time_tickets"
+      url: "{{ link }}&sorts=player_inventory.time_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by five_to_four_tickets"
+      url: "{{ link }}&sorts=player_inventory.five_to_four_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by exp_tickets"
+      url: "{{ link }}&sorts=player_inventory.exp_tickets+desc"
+    }
     group_label: "2. player inventory"
     type: min
     sql: CASE
@@ -414,15 +503,46 @@ view: player_analysis_view {
 
 
   measure: 5_max_ {
-#     drill_fields: [detail*]
-#     link: {
-#       label: "Drill and sort by COINS balance"
-#       url: "{{ link }}&sorts=player_analysis.coins+desc"
-#     }
-#     link: {
-#       label: "Drill and sort by XP PLAYER balance"
-#       url: "{{ link }}&sorts=player_analysis.gems+desc"
-#     }
+    link: {
+      label: "Drill and sort by coins"
+      url: "{{ link }}&sorts=player_inventory.coins+desc"
+    }
+    link: {
+      label: "Drill and sort by gems"
+      url: "{{ link }}&sorts=player_inventory.gems+desc"
+    }
+    link: {
+      label: "Drill and sort by lives"
+      url: "{{ link }}&sorts=player_inventory.lives+desc"
+    }
+    link: {
+      label: "Drill and sort by box_002_tickets"
+      url: "{{ link }}&sorts=player_inventory.box_002_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by box_007_tickets"
+      url: "{{ link }}&sorts=player_inventory.box_007_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by score_tickets"
+      url: "{{ link }}&sorts=player_inventory.score_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by bubble_tickets"
+      url: "{{ link }}&sorts=player_inventory.bubble_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by time_tickets"
+      url: "{{ link }}&sorts=player_inventory.time_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by five_to_four_tickets"
+      url: "{{ link }}&sorts=player_inventory.five_to_four_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by exp_tickets"
+      url: "{{ link }}&sorts=player_inventory.exp_tickets+desc"
+    }
     group_label: "2. player inventory"
     type: max
     sql: CASE
@@ -451,15 +571,46 @@ view: player_analysis_view {
 
 
   measure: 3_median_ {
-#     drill_fields: [detail*]
-#     link: {
-#       label: "Drill and sort by COINS balance"
-#       url: "{{ link }}&sorts=player_analysis.coins+desc"
-#     }
-#     link: {
-#       label: "Drill and sort by XP PLAYER balance"
-#       url: "{{ link }}&sorts=player_analysis.gems+desc"
-#     }
+    link: {
+      label: "Drill and sort by coins"
+      url: "{{ link }}&sorts=player_inventory.coins+desc"
+    }
+    link: {
+      label: "Drill and sort by gems"
+      url: "{{ link }}&sorts=player_inventory.gems+desc"
+    }
+    link: {
+      label: "Drill and sort by lives"
+      url: "{{ link }}&sorts=player_inventory.lives+desc"
+    }
+    link: {
+      label: "Drill and sort by box_002_tickets"
+      url: "{{ link }}&sorts=player_inventory.box_002_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by box_007_tickets"
+      url: "{{ link }}&sorts=player_inventory.box_007_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by score_tickets"
+      url: "{{ link }}&sorts=player_inventory.score_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by bubble_tickets"
+      url: "{{ link }}&sorts=player_inventory.bubble_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by time_tickets"
+      url: "{{ link }}&sorts=player_inventory.time_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by five_to_four_tickets"
+      url: "{{ link }}&sorts=player_inventory.five_to_four_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by exp_tickets"
+      url: "{{ link }}&sorts=player_inventory.exp_tickets+desc"
+    }
     group_label: "2. player inventory"
     type: median
     sql: CASE
@@ -488,15 +639,46 @@ view: player_analysis_view {
 
 
   measure: 2_25th_ {
-#     drill_fields: [detail*]
-#     link: {
-#       label: "Drill and sort by COINS balance"
-#       url: "{{ link }}&sorts=player_analysis.coins+desc"
-#     }
-#     link: {
-#       label: "Drill and sort by XP PLAYER balance"
-#       url: "{{ link }}&sorts=player_analysis.gems+desc"
-#     }
+    link: {
+      label: "Drill and sort by coins"
+      url: "{{ link }}&sorts=player_inventory.coins+desc"
+    }
+    link: {
+      label: "Drill and sort by gems"
+      url: "{{ link }}&sorts=player_inventory.gems+desc"
+    }
+    link: {
+      label: "Drill and sort by lives"
+      url: "{{ link }}&sorts=player_inventory.lives+desc"
+    }
+    link: {
+      label: "Drill and sort by box_002_tickets"
+      url: "{{ link }}&sorts=player_inventory.box_002_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by box_007_tickets"
+      url: "{{ link }}&sorts=player_inventory.box_007_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by score_tickets"
+      url: "{{ link }}&sorts=player_inventory.score_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by bubble_tickets"
+      url: "{{ link }}&sorts=player_inventory.bubble_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by time_tickets"
+      url: "{{ link }}&sorts=player_inventory.time_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by five_to_four_tickets"
+      url: "{{ link }}&sorts=player_inventory.five_to_four_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by exp_tickets"
+      url: "{{ link }}&sorts=player_inventory.exp_tickets+desc"
+    }
     group_label: "2. player inventory"
     type: percentile
     percentile: 25
@@ -526,15 +708,46 @@ view: player_analysis_view {
 
 
   measure: 4_75th_ {
-#     drill_fields: [detail*]
-#     link: {
-#       label: "Drill and sort by COINS balance"
-#       url: "{{ link }}&sorts=player_analysis.coins+desc"
-#     }
-#     link: {
-#       label: "Drill and sort by XP PLAYER balance"
-#       url: "{{ link }}&sorts=player_analysis.gems+desc"
-#     }
+    link: {
+      label: "Drill and sort by coins"
+      url: "{{ link }}&sorts=player_inventory.coins+desc"
+    }
+    link: {
+      label: "Drill and sort by gems"
+      url: "{{ link }}&sorts=player_inventory.gems+desc"
+    }
+    link: {
+      label: "Drill and sort by lives"
+      url: "{{ link }}&sorts=player_inventory.lives+desc"
+    }
+    link: {
+      label: "Drill and sort by box_002_tickets"
+      url: "{{ link }}&sorts=player_inventory.box_002_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by box_007_tickets"
+      url: "{{ link }}&sorts=player_inventory.box_007_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by score_tickets"
+      url: "{{ link }}&sorts=player_inventory.score_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by bubble_tickets"
+      url: "{{ link }}&sorts=player_inventory.bubble_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by time_tickets"
+      url: "{{ link }}&sorts=player_inventory.time_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by five_to_four_tickets"
+      url: "{{ link }}&sorts=player_inventory.five_to_four_tickets+desc"
+    }
+    link: {
+      label: "Drill and sort by exp_tickets"
+      url: "{{ link }}&sorts=player_inventory.exp_tickets+desc"
+    }
     group_label: "2. player inventory"
     type: percentile
     percentile: 75
@@ -566,6 +779,6 @@ view: player_analysis_view {
 
 
   set: detail {
-    fields: [round_id, coins, gems]
+    fields: [events.round_id, coins, gems]
   }
 }

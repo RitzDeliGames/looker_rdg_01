@@ -92,12 +92,12 @@ constant: device_platform_mapping {
 
 constant: device_internal_tester_mapping {
   value: "CASE
-          WHEN ${TABLE}.device_id LIKE 'fc4240714a08de28281c816896adf3cc' THEN 'Eric Jordan's Amazon Shitfire'
-          WHEN ${TABLE}.device_id LIKE 'ab5d89e60aef9fa8e9349c42fdc3ac54' THEN 'Eric Jordan's Pixel 3a'
-          WHEN ${TABLE}.device_id LIKE 'ab5d89e60aef9fa8e9349c42fdc3ac54' THEN 'Eric Jordan's Pixel 3a'
-          WHEN ${TABLE}.device_id LIKE '9C204FCA-2B22-41CD-A2F0-F4FCCE08672B' THEN 'Robert Einspruch iPhone 11'
-          WHEN ${TABLE}.device_id LIKE '1514C433-1718-4621-BD18-2661CD888608' THEN 'Robert Einspruch iPhone 8'
-          WHEN ${TABLE}.device_id LIKE '40361030-B80C-4615-8C57-4661C411F97F' THEN 'Robert Einspruch iPhone 6'
+          WHEN ${TABLE}.device_id LIKE 'fc4240714a08de28281c816896adf3cc' THEN 'Eric Jordan - Amazon Shitfire'
+          WHEN ${TABLE}.device_id LIKE 'ab5d89e60aef9fa8e9349c42fdc3ac54' THEN 'Eric Jordan - Pixel 3a'
+          WHEN ${TABLE}.device_id LIKE 'ab5d89e60aef9fa8e9349c42fdc3ac54' THEN 'Eric Jordan - Pixel 3a'
+          WHEN ${TABLE}.device_id LIKE '9C204FCA-2B22-41CD-A2F0-F4FCCE08672B' THEN 'Robert Einspruch - iPhone 11'
+          WHEN ${TABLE}.device_id LIKE '1514C433-1718-4621-BD18-2661CD888608' THEN 'Robert Einspruch - iPhone 8'
+          WHEN ${TABLE}.device_id LIKE '40361030-B80C-4615-8C57-4661C411F97F' THEN 'Robert Einspruch - iPhone 6'
         END"
 }
 

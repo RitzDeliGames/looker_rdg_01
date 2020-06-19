@@ -64,6 +64,12 @@ view: events {
     sql: ${TABLE}.rdg_id ;;
   }
 
+  dimension: playtest_group {
+    group_label: "Player ID Dimensions"
+    label: "Playtest Group"
+    sql: @{playtest_group_mapping} ;;
+  }
+
 ###
 
 ###DEVICE DIMENSIONS###

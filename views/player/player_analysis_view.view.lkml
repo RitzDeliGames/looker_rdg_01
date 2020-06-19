@@ -166,15 +166,6 @@ view: player_analysis_view {
 
 
   measure: number_of_characters_per_round {
-#     drill_fields: [detail*]
-#     link: {
-#       label: "Drill and sort by COINS balance"
-#       url: "{{ link }}&sorts=player_analysis.coins+desc"
-#     }
-#     link: {
-#       label: "Drill and sort by XP PLAYER balance"
-#       url: "{{ link }}&sorts=player_analysis.gems+desc"
-#     }
     group_label: "Character count"
     type: count_distinct
     sql: CASE

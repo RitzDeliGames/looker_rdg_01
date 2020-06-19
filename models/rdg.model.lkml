@@ -180,25 +180,46 @@ explore: _007_fever_count {
 explore: _008_frame_count_histogram {}
 
 
-
-# PLAYER ANALYSIS
+######PLAYER ANALYSIS######
 
 explore: player_analysis_view {
-  sql_always_where: event_name = "round_end"
+  sql_always_where: event_name = "collection"
   AND user_type NOT IN ("internal_editor", "unit_test")
   ;;
+  view_name: player_analysis_view
+  join: characters {
+    fields: [characters.characters]
+    relationship: one_to_many
+    from: player_analysis_view
+    sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.characters')) as characters
+  ;;
+  }
 }
 
+# explore: test_players_test {
+# #   sql_always_where: event_name = "collection"
+# #   AND user_type NOT IN ("internal_editor", "unit_test")
+# #   ;;
+#   view_name: test_player
+#   join: characters {
+#     fields: [characters.characters]
+#     relationship: one_to_many
+#     from: test_player
+#     sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.characters')) as characters
+#       ;;
+#   }
+# }
 
 
-# LOAD TIME:
+
+
+######LOAD TIME######
 
 explore: scene_load_time {
   sql_always_where: event_name = "transition"
   AND user_type NOT IN ("internal_editor", "unit_test")
   ;;
 }
-
 
 
 

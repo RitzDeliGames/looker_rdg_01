@@ -93,10 +93,7 @@ view: player_analysis_view {
     sql: JSON_EXTRACT(${characters.characters}, '$.max_skill') ;;
   }
 
-#   measure: depth_over_char_xp {
-#     type: number
-#     sql: CAST((${count_of_characters} / ${xp_level}) AS FLOAT64) ;;
-#   }
+
 
   #####################
 
@@ -126,30 +123,30 @@ view: player_analysis_view {
       label: "inventory"
       value: "inventory"
     }
-    allowed_value: {
-      label: "xp_level"
-      value: "xp_level"
-    }
-    allowed_value: {
-      label: "skill_level"
-      value: "skill_level"
-    }
-    allowed_value: {
-      label: "level_cap"
-      value: "level_cap"
-    }
-    allowed_value: {
-      label: "max_level"
-      value: "max_level"
-    }
-    allowed_value: {
-      label: "max_skill"
-      value: "max_skill"
-    }
+#     allowed_value: {
+#       label: "xp_level"
+#       value: "xp_level"
+#     }
+#     allowed_value: {
+#       label: "skill_level"
+#       value: "skill_level"
+#     }
+#     allowed_value: {
+#       label: "level_cap"
+#       value: "level_cap"
+#     }
+#     allowed_value: {
+#       label: "max_level"
+#       value: "max_level"
+#     }
+#     allowed_value: {
+#       label: "max_skill"
+#       value: "max_skill"
+#     }
   }
 
 
-  measure: count_of_characters {
+  measure: count_of_unique_characters {
     group_label: "3. Character count"
     type: count_distinct
     sql: CASE
@@ -160,225 +157,241 @@ view: player_analysis_view {
 
 
 
+#   measure: xp_level_measure {
+#     type: number
+#     sql: CAST(${xp_level} AS NUMERIC) ;;
+#   }
+#
+#   measure: depth_over_char_collected {
+#     type: number
+#     sql: ${count_of_characters} / ${xp_level_measure} ;;
+#   }
+
+
+
   measure: 1_min_char_dim {
     drill_fields: [detail*]
     link: {
       label: "Drill and sort by characters Inventory"
       url: "{{ link }}&sorts=characters_dimensions.inventory+desc"
     }
-    link: {
-      label: "Drill and sort by characters xp level"
-      url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters skill level"
-      url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters level cap"
-      url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
-    }
-    link: {
-      label: "Drill and sort by characters max level"
-      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters max skill"
-      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
-    }
+#     link: {
+#       label: "Drill and sort by characters xp level"
+#       url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters skill level"
+#       url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters level cap"
+#       url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters max level"
+#       url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters max skill"
+#       url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+#     }
     group_label: "1. character dimension"
     type: min
     sql: CASE
       WHEN {% parameter characters_dimensions %} = 'inventory'
       THEN ${inventory}
-      WHEN {% parameter characters_dimensions %} = 'xp_level'
-      THEN ${xp_level}
-      WHEN {% parameter characters_dimensions %} = 'skill_level'
-      THEN ${skill_level}
-      WHEN {% parameter characters_dimensions %} = 'level_cap'
-      THEN ${level_cap}
-      WHEN {% parameter characters_dimensions %} = 'max_level'
-      THEN ${max_level}
-      WHEN {% parameter characters_dimensions %} = 'max_level'
-      THEN ${max_skill}
+      --WHEN {% parameter characters_dimensions %} = 'xp_level'
+      --THEN ${xp_level}
+      --WHEN {% parameter characters_dimensions %} = 'skill_level'
+      --THEN ${skill_level}
+      --WHEN {% parameter characters_dimensions %} = 'level_cap'
+      --THEN ${level_cap}
+      --WHEN {% parameter characters_dimensions %} = 'max_level'
+      --THEN ${max_level}
+      --WHEN {% parameter characters_dimensions %} = 'max_level'
+      --THEN ${max_skill}
     END ;;
   }
 
 
   measure: 5_max_char_dim {
+    drill_fields: [detail*]
     link: {
       label: "Drill and sort by characters Inventory"
       url: "{{ link }}&sorts=characters_dimensions.inventory+desc"
     }
-    link: {
-      label: "Drill and sort by characters xp level"
-      url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters skill level"
-      url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters level cap"
-      url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
-    }
-    link: {
-      label: "Drill and sort by characters max level"
-      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters max skill"
-      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
-    }
+#     link: {
+#       label: "Drill and sort by characters xp level"
+#       url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters skill level"
+#       url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters level cap"
+#       url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters max level"
+#       url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters max skill"
+#       url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+#     }
     group_label: "1. character dimension"
     type: max
     sql: CASE
       WHEN {% parameter characters_dimensions %} = 'inventory'
       THEN ${inventory}
-      WHEN {% parameter characters_dimensions %} = 'xp_level'
-      THEN ${xp_level}
-      WHEN {% parameter characters_dimensions %} = 'skill_level'
-      THEN ${skill_level}
-      WHEN {% parameter characters_dimensions %} = 'level_cap'
-      THEN ${level_cap}
-      WHEN {% parameter characters_dimensions %} = 'max_level'
-      THEN ${max_level}
-      WHEN {% parameter characters_dimensions %} = 'max_skill'
-      THEN ${max_skill}
+      --WHEN {% parameter characters_dimensions %} = 'xp_level'
+      --THEN ${xp_level}
+      --WHEN {% parameter characters_dimensions %} = 'skill_level'
+      --THEN ${skill_level}
+      --WHEN {% parameter characters_dimensions %} = 'level_cap'
+      --THEN ${level_cap}
+      --WHEN {% parameter characters_dimensions %} = 'max_level'
+      --THEN ${max_level}
+      --WHEN {% parameter characters_dimensions %} = 'max_level'
+      --THEN ${max_skill}
     END ;;
 }
 
 
   measure: 3_median_char_dim {
+    drill_fields: [detail*]
     link: {
       label: "Drill and sort by characters Inventory"
       url: "{{ link }}&sorts=characters_dimensions.inventory+desc"
     }
-    link: {
-      label: "Drill and sort by characters xp level"
-      url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters skill level"
-      url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters level cap"
-      url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
-    }
-    link: {
-      label: "Drill and sort by characters max level"
-      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters max skill"
-      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
-    }
+#     link: {
+#       label: "Drill and sort by characters xp level"
+#       url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters skill level"
+#       url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters level cap"
+#       url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters max level"
+#       url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters max skill"
+#       url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+#     }
     group_label: "1. character dimension"
     type: median
     sql: CASE
       WHEN {% parameter characters_dimensions %} = 'inventory'
       THEN ${inventory}
-      WHEN {% parameter characters_dimensions %} = 'xp_level'
-      THEN ${xp_level}
-      WHEN {% parameter characters_dimensions %} = 'skill_level'
-      THEN ${skill_level}
-      WHEN {% parameter characters_dimensions %} = 'level_cap'
-      THEN ${level_cap}
-      WHEN {% parameter characters_dimensions %} = 'max_level'
-      THEN ${max_level}
-      WHEN {% parameter characters_dimensions %} = 'max_skill'
-      THEN ${max_skill}
+      --WHEN {% parameter characters_dimensions %} = 'xp_level'
+      --THEN ${xp_level}
+      --WHEN {% parameter characters_dimensions %} = 'skill_level'
+      --THEN ${skill_level}
+      --WHEN {% parameter characters_dimensions %} = 'level_cap'
+      --THEN ${level_cap}
+      --WHEN {% parameter characters_dimensions %} = 'max_level'
+      --THEN ${max_level}
+      --WHEN {% parameter characters_dimensions %} = 'max_level'
+      --THEN ${max_skill}
     END ;;
   }
 
 
   measure: 2_25th_char_dim {
+    drill_fields: [detail*]
     link: {
       label: "Drill and sort by characters Inventory"
       url: "{{ link }}&sorts=characters_dimensions.inventory+desc"
     }
-    link: {
-      label: "Drill and sort by characters xp level"
-      url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters skill level"
-      url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters level cap"
-      url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
-    }
-    link: {
-      label: "Drill and sort by characters max level"
-      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters max skill"
-      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
-    }
+#     link: {
+#       label: "Drill and sort by characters xp level"
+#       url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters skill level"
+#       url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters level cap"
+#       url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters max level"
+#       url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters max skill"
+#       url: "{{ link }}&sorts=characters_dimensions.max_skill+desc"
+#     }
     group_label: "1. character dimension"
     type: percentile
     percentile: 25
     sql: CASE
       WHEN {% parameter characters_dimensions %} = 'inventory'
       THEN ${inventory}
-      WHEN {% parameter characters_dimensions %} = 'xp_level'
-      THEN ${xp_level}
-      WHEN {% parameter characters_dimensions %} = 'skill_level'
-      THEN ${skill_level}
-      WHEN {% parameter characters_dimensions %} = 'level_cap'
-      THEN ${level_cap}
-      WHEN {% parameter characters_dimensions %} = 'max_level'
-      THEN ${max_level}
-      WHEN {% parameter characters_dimensions %} = 'max_skill'
-      THEN ${max_skill}
+      --WHEN {% parameter characters_dimensions %} = 'xp_level'
+      --THEN ${xp_level}
+      --WHEN {% parameter characters_dimensions %} = 'skill_level'
+      --THEN ${skill_level}
+      --WHEN {% parameter characters_dimensions %} = 'level_cap'
+      --THEN ${level_cap}
+      --WHEN {% parameter characters_dimensions %} = 'max_level'
+      --THEN ${max_level}
+      --WHEN {% parameter characters_dimensions %} = 'max_level'
+      --THEN ${max_skill}
     END ;;
   }
 
 
   measure: 4_75th_char_dim {
+    drill_fields: [detail*]
     link: {
       label: "Drill and sort by characters Inventory"
       url: "{{ link }}&sorts=characters_dimensions.inventory+desc"
     }
-    link: {
-      label: "Drill and sort by characters xp level"
-      url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters skill level"
-      url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters level cap"
-      url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
-    }
-    link: {
-      label: "Drill and sort by characters max level"
-      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
-    }
-    link: {
-      label: "Drill and sort by characters max skill"
-      url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
-    }
+#     link: {
+#       label: "Drill and sort by characters xp level"
+#       url: "{{ link }}&sorts=characters_dimensions.xp_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters skill level"
+#       url: "{{ link }}&sorts=characters_dimensions.skill_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters level cap"
+#       url: "{{ link }}&sorts=characters_dimensions.level_cap+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters max level"
+#       url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by characters max skill"
+#       url: "{{ link }}&sorts=characters_dimensions.max_level+desc"
+#     }
     group_label: "1. character dimension"
     type: percentile
     percentile: 75
     sql: CASE
       WHEN {% parameter characters_dimensions %} = 'inventory'
       THEN ${inventory}
-      WHEN {% parameter characters_dimensions %} = 'xp_level'
-      THEN ${xp_level}
-      WHEN {% parameter characters_dimensions %} = 'skill_level'
-      THEN ${skill_level}
-      WHEN {% parameter characters_dimensions %} = 'level_cap'
-      THEN ${level_cap}
-      WHEN {% parameter characters_dimensions %} = 'max_level'
-      THEN ${max_level}
-      WHEN {% parameter characters_dimensions %} = 'max_skill'
-      THEN ${max_skill}
+      --WHEN {% parameter characters_dimensions %} = 'xp_level'
+      --THEN ${xp_level}
+      --WHEN {% parameter characters_dimensions %} = 'skill_level'
+      --THEN ${skill_level}
+      --WHEN {% parameter characters_dimensions %} = 'level_cap'
+      --THEN ${level_cap}
+      --WHEN {% parameter characters_dimensions %} = 'max_level'
+      --THEN ${max_level}
+      --WHEN {% parameter characters_dimensions %} = 'max_level'
+      --THEN ${max_skill}
     END ;;
   }
 
@@ -779,6 +792,22 @@ view: player_analysis_view {
 
 
   set: detail {
-    fields: [events.round_id, coins, gems]
+    fields: [events.round_id,
+             coins,
+             gems,
+             lives,
+             box_002_tickets,
+             box_007_tickets,
+             score_tickets,
+             bubble_tickets,
+             time_tickets,
+             five_to_four_tickets,
+             exp_tickets,
+             inventory,
+             xp_level,
+             skill_level,
+             level_cap,
+             max_level,
+             max_skill]
   }
 }

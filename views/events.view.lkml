@@ -457,9 +457,56 @@ view: events {
   }
 
   dimension: round_length {
+    group_label: "Round Start/End"
+    label: "Score Boost Used"
     type: number
     sql: CAST(JSON_Value(${extra_json},'$.round_length') AS NUMERIC) / 1000  ;;
   }
+
+###BOOST USED DIMENSIONS###
+
+  dimension: score_boost {
+    group_label: "Boosts Used"
+    label: "Score Boost"
+    type: yesno
+    sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.score_boost'),'"','') = "1", TRUE, FALSE);;
+  }
+
+  dimension: coin_boost {
+    group_label: "Boosts Used"
+    label: "Coin Boost"
+    type: yesno
+    sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.coin_boost'),'"','') = "1", TRUE, FALSE);;
+  }
+
+  dimension: exp_boost {
+    group_label: "Boosts Used"
+    label: "XP Boost"
+    type: yesno
+    sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.exp_boost'),'"','') = "1", TRUE, FALSE);;
+  }
+
+  dimension: time_boost {
+    group_label: "Boosts Used"
+    label: "Time Boost"
+    type: yesno
+    sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.time_boost'),'"','') = "1", TRUE, FALSE);;
+  }
+
+  dimension: bubble_boost {
+    group_label: "Boosts Used"
+    label: "Bubble Boost"
+    type: yesno
+    sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.bubble_boost'),'"','') = "1", TRUE, FALSE);;
+  }
+
+  dimension: five_to_four_boost {
+    group_label: "Boosts Used"
+    label: "5-to-4 Boost"
+    type: yesno
+    sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.five_to_four_boost'),'"','') = "1", TRUE, FALSE);;
+  }
+
 
 ###
 

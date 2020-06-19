@@ -1,4 +1,25 @@
 
+constant: playtest_group_mapping {
+  value: "CASE
+          WHEN ${TABLE}.device_id = '06216fe866eae677d0e2414832cd4008' THEN '1478 - 5 min'
+          WHEN ${TABLE}.device_id = 'ef1dab4a1e82c50e1f3c23a6470bbbe2' THEN '1478 - 5 min'
+          WHEN ${TABLE}.device_id = '0abe5bd2070a76ad05d34392b3b979be' THEN '1478 - 5 min'
+          WHEN ${TABLE}.device_id = '432982c0f6a929ec3c5d427e5029ace5' THEN '1478 - 5 min'
+          WHEN ${TABLE}.device_id = '469bfe58eca72d95bd308575b3df391f' THEN '1478 - 5 min'
+          WHEN ${TABLE}.device_id = '35b4f1eda1136e395f33ad1f304f44ac' THEN '1478 - 5 min'
+          WHEN ${TABLE}.device_id = '30dcb64c20d58f540620a490215235e0' THEN '1478 - 5 min'
+          WHEN ${TABLE}.device_id = '89d7c389a8f63080aaa7e3c9c4647873' THEN '1478 - 5 min'
+          WHEN ${TABLE}.device_id = 'c597b3a398f36d73b74f4e5400bf9b1d' THEN '1478 - 15 min'
+          WHEN ${TABLE}.device_id = '826a20afa2bd53788a562fc3391ee7f3' THEN '1478 - 15 min'
+          WHEN ${TABLE}.device_id = '06c7e98542841467847f5e38fb580cb0' THEN '1478 - 15 min'
+          WHEN ${TABLE}.device_id = '2e5045324af7639cb233d0d6a0369166' THEN '1478 - 15 min'
+          WHEN ${TABLE}.device_id = '44d1dc8607e0178c6f806c85e67fe9cd' THEN '1478 - 15 min'
+          WHEN ${TABLE}.device_id = '0067557eac0c44a4c6b17a50afea0e8b' THEN '1478 - 15 min'
+          WHEN ${TABLE}.device_id = '229c61f57795b350cca4aaf7c559c150' THEN '1478 - 15 min'
+          WHEN ${TABLE}.device_id = 'ede71f9a6c8ffcc6f593c6ec19c157f9' THEN '1478 - 15 min'
+          ELSE 'No Assigned Playtest Group'
+        END"
+}
 constant: device_model_mapping {
   value: "CASE
           WHEN ${TABLE}.hardware = 'iPhone6,2' THEN 'iPhone 5s Global'
@@ -34,6 +55,7 @@ constant: device_model_mapping {
           WHEN ${TABLE}.hardware = 'iPad8,11' THEN 'iPad Pro - 4th Gen - 12.9'
           WHEN ${TABLE}.hardware = 'iPad11,3' THEN 'iPad Air - 3rd Gen'
           WHEN ${TABLE}.hardware = 'samsung SM-A102U' THEN 'Samsung Galaxy A10'
+          WHEN ${TABLE}.hardware = 'samsung SM-S102DL' THEN 'Samsung Galaxy A10'
           WHEN ${TABLE}.hardware = 'samsung SM-A205U' THEN 'Samsung Galaxy A20'
           WHEN ${TABLE}.hardware = 'samsung SM-A505G' THEN 'Samsung Galaxy A50'
           WHEN ${TABLE}.hardware = 'samsung SM-A505U' THEN 'Samsung Galaxy A50'
@@ -50,6 +72,7 @@ constant: device_model_mapping {
           WHEN ${TABLE}.hardware = 'samsung SM-G970U' THEN 'Samsung Galaxy S10'
           WHEN ${TABLE}.hardware = 'samsung SM-G981U' THEN 'Samsung Galaxy S20'
           WHEN ${TABLE}.hardware = 'samsung SM-G986U' THEN 'Samsung Galaxy S20+'
+          WHEN ${TABLE}.hardware = 'samsung SM-J337AZ' THEN 'Samsung Galaxy J3'
           WHEN ${TABLE}.hardware = 'samsung SM-J400M' THEN 'Samsung Galaxy J4'
           WHEN ${TABLE}.hardware = 'samsung SM-J737T1' THEN 'Samsung Galaxy J7'
           WHEN ${TABLE}.hardware = 'samsung SM-N950U' THEN 'Samsung Galaxy Note8'
@@ -59,8 +82,13 @@ constant: device_model_mapping {
           WHEN ${TABLE}.hardware = 'samsung SM-N975U1' THEN 'Samsung Galaxy Note10+'
           WHEN ${TABLE}.hardware = 'samsung SM-T560NU' THEN 'Samsung Galaxy Tab 9.6'
           WHEN ${TABLE}.hardware = 'motorola Moto G (5) Plus' THEN 'Motorola Moto G5 Plus'
+          WHEN ${TABLE}.hardware = 'LGE LG-LS777' THEN 'LGE Stylo 3'
+          WHEN ${TABLE}.hardware = 'LGE LGMP450' THEN 'LGE Stylo Plus'
+          WHEN ${TABLE}.hardware = 'LGE LM-X410(FG)' THEN 'LGE K30'
+          WHEN ${TABLE}.hardware = 'LGE LGLK430' THEN 'LGE G Pad'
           WHEN ${TABLE}.hardware = 'Umx U693CL' THEN 'Assurance Wireless - Unimax 693CL'
           WHEN ${TABLE}.hardware = 'ANS L51' THEN 'Assurance Wireless - ANS L51'
+          WHEN ${TABLE}.hardware = 'Yulong cp3705A' THEN 'Yulong Coolpad 3705A'
           ELSE ${TABLE}.hardware
         END"
 }

@@ -1,3 +1,4 @@
+
 constant: device_model_mapping {
   value: "CASE
           WHEN ${TABLE}.hardware = 'iPhone6,2' THEN 'iPhone 5s Global'

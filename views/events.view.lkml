@@ -250,73 +250,101 @@ view: events {
 ###PLAYER INVENTORY DIMENSIONS###
 
   dimension: gems {
-    group_label: "currencies"
-    label: "gems"
+    group_label: "Currency Balances"
+    label: "Gems"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_02'),'"','') as NUMERIC);;
   }
 
   dimension: coins {
-    group_label: "currencies"
-    label: "coins"
+    group_label: "Currency Balances"
+    label: "Coins"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_03'),'"','') as NUMERIC);;
   }
 
   dimension: lives {
-    group_label: "currencies"
-    label: "lives"
+    group_label: "Currency Balances"
+    label: "Lives"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_04'),'"','') as NUMERIC);;
   }
 
+  dimension: box_001_tickets {
+    group_label: "Capsule Tickets"
+    label: "box 001 tickets"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_001'),'"','') as NUMERIC);;
+  }
+
   dimension: box_002_tickets {
-    group_label: "box tickets"
-    label: "super fun box tickets"
+    group_label: "Capsule Tickets"
+    label: "box 002 tickets"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_002'),'"','') as NUMERIC);;
   }
 
+  dimension: box_003_tickets {
+    group_label: "Capsule Tickets"
+    label: "box 003 tickets"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_003'),'"','') as NUMERIC);;
+  }
+
+  dimension: box_006_tickets {
+    group_label: "Capsule Tickets"
+    label: "box 006 tickets"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_006'),'"','') as NUMERIC);;
+  }
+
   dimension: box_007_tickets {
-    group_label: "box tickets"
-    label: "house pet box tickets"
+    group_label: "Capsule Tickets"
+    label: "box 007 tickets"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_007'),'"','') as NUMERIC);;
   }
 
   dimension: score_tickets {
-    group_label: "boosts"
-    label: "score boosts"
+    group_label: "Boost Inventory"
+    label: "Score Boost"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.SCORE'),'"','') as NUMERIC);;
   }
 
   dimension: bubble_tickets {
-    group_label: "boosts"
-    label: "bubble boosts"
+    group_label: "Boost Inventory"
+    label: "Bubble Boost"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.BUBBLE'),'"','') as NUMERIC);;
   }
 
   dimension: time_tickets {
-    group_label: "boosts"
-    label: "time boosts"
+    group_label: "Boost Inventory"
+    label: "Time Boost"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.TIME'),'"','') as NUMERIC);;
   }
 
   dimension: five_to_four_tickets {
-    group_label: "boosts"
-    label: "5-to-4 boosts"
+    group_label: "Boost Inventory"
+    label: "5-to-4 Boost"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.FIVE_TO_FOUR'),'"','') as NUMERIC);;
   }
 
   dimension: exp_tickets {
-    group_label: "boosts"
-    label: "xp boosts"
+    group_label: "Boost Inventory"
+    label: "XP Boost"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.EXP'),'"','') as NUMERIC);;
+  }
+
+  dimension: coin_tickets {
+    group_label: "Boost Inventory"
+    label: "Coin Boost"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.Coin'),'"','') as NUMERIC);;
   }
 
 ###
@@ -429,9 +457,56 @@ view: events {
   }
 
   dimension: round_length {
+    group_label: "Round Start/End"
+    label: "Score Boost Used"
     type: number
     sql: CAST(JSON_Value(${extra_json},'$.round_length') AS NUMERIC) / 1000  ;;
   }
+
+###BOOST USED DIMENSIONS###
+
+  dimension: score_boost {
+    group_label: "Boosts Used"
+    label: "Score Boost"
+    type: yesno
+    sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.score_boost'),'"','') = "1", TRUE, FALSE);;
+  }
+
+  dimension: coin_boost {
+    group_label: "Boosts Used"
+    label: "Coin Boost"
+    type: yesno
+    sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.coin_boost'),'"','') = "1", TRUE, FALSE);;
+  }
+
+  dimension: exp_boost {
+    group_label: "Boosts Used"
+    label: "XP Boost"
+    type: yesno
+    sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.exp_boost'),'"','') = "1", TRUE, FALSE);;
+  }
+
+  dimension: time_boost {
+    group_label: "Boosts Used"
+    label: "Time Boost"
+    type: yesno
+    sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.time_boost'),'"','') = "1", TRUE, FALSE);;
+  }
+
+  dimension: bubble_boost {
+    group_label: "Boosts Used"
+    label: "Bubble Boost"
+    type: yesno
+    sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.bubble_boost'),'"','') = "1", TRUE, FALSE);;
+  }
+
+  dimension: five_to_four_boost {
+    group_label: "Boosts Used"
+    label: "5-to-4 Boost"
+    type: yesno
+    sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.five_to_four_boost'),'"','') = "1", TRUE, FALSE);;
+  }
+
 
 ###
 

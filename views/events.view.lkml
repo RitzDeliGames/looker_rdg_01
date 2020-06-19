@@ -250,36 +250,57 @@ view: events {
 ###PLAYER INVENTORY DIMENSIONS###
 
   dimension: gems {
-    group_label: "currencies"
-    label: "gems"
+    group_label: "Currency Balances"
+    label: "Gems"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_02'),'"','') as NUMERIC);;
   }
 
   dimension: coins {
-    group_label: "currencies"
-    label: "coins"
+    group_label: "Currency Balances"
+    label: "Coins"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_03'),'"','') as NUMERIC);;
   }
 
   dimension: lives {
-    group_label: "currencies"
-    label: "lives"
+    group_label: "Currency Balances"
+    label: "Lives"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_04'),'"','') as NUMERIC);;
   }
 
+  dimension: box_001_tickets {
+    group_label: "Capsule Tickets"
+    label: "box 001 tickets"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_001'),'"','') as NUMERIC);;
+  }
+
   dimension: box_002_tickets {
-    group_label: "box tickets"
-    label: "super fun box tickets"
+    group_label: "Capsule Tickets"
+    label: "box 002 tickets"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_002'),'"','') as NUMERIC);;
   }
 
+  dimension: box_003_tickets {
+    group_label: "Capsule Tickets"
+    label: "box 003 tickets"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_003'),'"','') as NUMERIC);;
+  }
+
+  dimension: box_006_tickets {
+    group_label: "Capsule Tickets"
+    label: "box 006 tickets"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_006'),'"','') as NUMERIC);;
+  }
+
   dimension: box_007_tickets {
-    group_label: "Boosts"
-    label: "house pet box tickets"
+    group_label: "Capsule Tickets"
+    label: "box 007 tickets"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_007'),'"','') as NUMERIC);;
   }

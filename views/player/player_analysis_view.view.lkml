@@ -13,7 +13,7 @@ view: player_analysis_view {
 
   dimension: character {
     type: string
-    sql: JSON_EXTRACT(${characters.characters}, '$.character_id') ;;
+    sql: REPLACE(JSON_EXTRACT(${characters.characters}, '$.character_id'),'"','') ;;
   }
 
   dimension: inventory {

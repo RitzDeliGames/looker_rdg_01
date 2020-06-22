@@ -20,6 +20,7 @@ constant: playtest_group_mapping {
           ELSE 'No Assigned Playtest Group'
         END"
 }
+
 constant: device_model_mapping {
   value: "CASE
           WHEN ${TABLE}.hardware = 'iPhone6,2' THEN 'iPhone 5s Global'

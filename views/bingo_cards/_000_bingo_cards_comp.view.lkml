@@ -162,7 +162,7 @@ view: _000_bingo_cards_comp {
           WHEN ${card_id} = 'card_001'
             THEN @{bingo_card_mapping_3x3}
           WHEN ${card_id} = 'card_002'
-            THEN @{bingo_card_mapping_5x5_X}
+            THEN @{bingo_card_mapping_3x3}
           WHEN ${card_id} = 'card_003'
             THEN @{bingo_card_mapping_5x5_X}
           WHEN ${card_id} = 'card_004'

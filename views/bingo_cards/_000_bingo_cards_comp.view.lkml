@@ -57,82 +57,103 @@ view: _000_bingo_cards_comp {
   }
   dimension: row_1_search {
     type: string
-    sql: CASE "1" IN UNNEST(${card_state}) WHEN TRUE THEN
-          CASE "2" IN UNNEST(${card_state}) WHEN TRUE THEN
-           CASE "3" IN UNNEST(${card_state}) WHEN TRUE THEN
-            CASE "4" IN UNNEST(${card_state}) WHEN TRUE THEN
-             CASE "5" IN UNNEST(${card_state}) WHEN TRUE THEN 'row_01'
-             ELSE NULL
-            ELSE NULL
-          ELSE NULL
-         ELSE NULL
-        ELSE NULL
-       END  ;;
+    sql:
+    CASE WHEN ${card_state_str} LIKE '%1%,%5%'
+              OR ${card_state_str} LIKE '%1%,%2%,%3%,%4%,%5%'
+              THEN 'row_01' END ;;
   }
 
   dimension: row_2_search {
     type: string
-    sql: CASE "6" IN UNNEST(${card_state}) WHEN TRUE THEN
-          CASE "7" IN UNNEST(${card_state}) WHEN TRUE THEN
-            CASE "8" IN UNNEST(${card_state}) WHEN TRUE THEN
-              CASE "9" IN UNNEST(${card_state}) WHEN TRUE THEN
-                CASE "10" IN UNNEST(${card_state}) WHEN TRUE THEN 'row_02'
-                ELSE END
-              ELSE END
-            ELSE END
-          ELSE END
-        ELSE END
-      ;;
+    sql:
+    CASE WHEN ${card_state_str} LIKE '%7%,%8%,%9%'
+              OR ${card_state_str} LIKE '%6%,%7%,%8%,%9%,1%0'
+              OR ${card_state_str} LIKE '%7%,%9%'
+              THEN 'row_02' END ;;
   }
 
   dimension: row_3_search {
     type: string
-    sql: CASE WHEN ${card_state} LIKE '[%1%1%,%1%2%,%1%3%,%1%4%]' THEN 'row_03' END ;;
-  }
+    sql:
+    CASE WHEN ${card_state_str} LIKE '%1%2%,%1%3%'
+              OR ${card_state_str} LIKE '%1%1%,%1%2%,%1%3%,%1%4%'
+              THEN 'row_03' END ;;
+        }
 
   dimension: row_4_search {
     type: string
-    sql: CASE WHEN ${card_state} LIKE '[%1%5%,%1%6%,%1%7%,%1%8%,%1%9%]' THEN 'row_04' END  ;;
-  }
+    sql:
+        CASE WHEN ${card_state_str} LIKE '%1%6%,%1%7%,%1%8%'
+              OR ${card_state_str} LIKE '%1%5%,%1%6%,%1%7%,%1%8%,%1%9%'
+              OR ${card_state_str} LIKE '%1%6%,%1%8%'
+              THEN 'row_04' END ;;
+        }
 
   dimension: row_5_search {
     type: string
-    sql: CASE WHEN ${card_state} LIKE '[%2%0%,%2%1%,%2%2%,%2%3%,%2%4%]' THEN 'row_05' END  ;;
+    sql:
+    CASE WHEN ${card_state_str} LIKE '%2%0%,%2%4%'
+              OR ${card_state_str} LIKE '%2%0%,%2%1%,%2%2%,%2%3%,%2%4%'
+              THEN 'row_05' END ;;
   }
 
   dimension: column_1_search {
     type: string
-    sql: CASE WHEN ${card_state} LIKE '[%1%,%6%,%1%1%,%1%5%,%2%0%]' THEN 'column_1' END  ;;
+    sql:
+        CASE WHEN ${card_state_str} LIKE '%1%,%6%,%1%1%,%1%5%,%2%0%'
+              OR ${card_state_str} LIKE '%1%,%2%0%'
+              THEN 'column_1' END ;;
   }
 
   dimension: column_2_search {
     type: string
-    sql: CASE WHEN ${card_state} LIKE '[%2%,%7%,%1%2%,%1%6%,%2%1%]' THEN 'column_2' END  ;;
-  }
+    sql:
+       CASE WHEN ${card_state_str} LIKE '%7%,%1%2%,%1%6%'
+              OR ${card_state_str} LIKE '%2%,%7%,%1%2%,%1%6%,%2%1%'
+              OR ${card_state_str} LIKE '%7%,%1%6%'
+              THEN 'column_2' END ;;
+      }
 
   dimension: column_3_search {
     type: string
-    sql: CASE WHEN ${card_state} LIKE '[%3%,%8%,%1%7%,%2%2%]' THEN 'column_3' END  ;;
+    sql:
+       CASE WHEN ${card_state_str} LIKE '%3%,%8%,%1%7%,%2%2%'
+              OR ${card_state_str} LIKE '%8%,%1%7%'
+              THEN 'column_3' END ;;
   }
 
   dimension: column_4_search {
     type: string
-    sql: CASE WHEN ${card_state} LIKE '[%4%,%9%,%1%3%,%1%8%,%2%3%]' THEN 'column_4' END  ;;
+    sql:
+       CASE WHEN ${card_state_str} LIKE '%9%,%1%3%,%1%8%'
+              OR ${card_state_str} LIKE '%1%5%,%1%6%,%1%7%,%1%8%,%1%9%'
+              OR ${card_state_str} LIKE '%9%,%1%8%'
+              THEN 'column_4' END ;;
   }
 
   dimension: column_5_search {
     type: string
-    sql: CASE WHEN ${card_state} LIKE '[%5%,%1%0%,%1%4%,%1%9%,%2%4%]' THEN 'column_5' END  ;;
-  }
+    sql:
+       CASE WHEN ${card_state_str} LIKE '%5%,%2%4%'
+              OR ${card_state_str} LIKE '%5%,%1%0%,%1%4%,%1%9%,%2%4%'
+              THEN 'column_5' END ;;
+    }
 
   dimension: diagonal_01_search {
     type: string
-    sql: CASE WHEN ${card_state} LIKE '[%1%,%7%,%1%8%,%2%4%]' THEN 'diagonal_01' END  ;;
+    sql:
+       CASE WHEN ${card_state_str} LIKE '%7%,%1%8%'
+              OR ${card_state_str} LIKE '%1%,%7%,%1%8%,%2%4%'
+              OR ${card_state_str} LIKE '%1%,%7%,%1%8%,%2%4%'
+              THEN 'diagonal_01' END ;;
   }
 
   dimension: diagonal_02_search {
     type: string
-    sql: CASE WHEN ${card_state} LIKE '[%5%,%9%,%1%6%,%2%0%]' THEN 'diagonal_02' END  ;;
+    sql:
+       CASE WHEN ${card_state_str} LIKE '%5%,%9%,%1%6%,%2%0%'
+              OR ${card_state_str} LIKE '%9%,%1%6%'
+              THEN 'diagonal_02' END ;;
   }
 
   dimension: rcd_mapping {
@@ -258,10 +279,6 @@ view: _000_bingo_cards_comp {
 
 
   #_MEASURES_############################################
-  measure: card_id_agg {
-    type: string
-    sql: ARRAY_AGG(DISTINCT card_id IGNORE NULLS) ;;
-  }
 
   measure: for_cumulative_rounds {
     type: sum

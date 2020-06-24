@@ -93,7 +93,6 @@ constant: device_model_mapping {
           ELSE ${TABLE}.hardware
         END"
 }
-
 constant: device_manufacturer_mapping{
   value: "CASE
           WHEN ${TABLE}.hardware LIKE '%iPhone%' THEN 'Apple'
@@ -119,7 +118,6 @@ constant: device_os_version_mapping {
           WHEN ${TABLE}.platform LIKE '%Android OS 7%' THEN 'Android 7'
         END"
   }
-
 constant: device_platform_mapping {
   value: "CASE
           WHEN ${TABLE}.platform LIKE '%iOS%' THEN 'Apple'
@@ -128,7 +126,6 @@ constant: device_platform_mapping {
         END"
 
 }
-
 constant: device_internal_tester_mapping {
   value: "CASE
           WHEN ${TABLE}.device_id LIKE 'fc4240714a08de28281c816896adf3cc' THEN 'Eric Jordan - Amazon Shitfire'
@@ -139,7 +136,6 @@ constant: device_internal_tester_mapping {
           WHEN ${TABLE}.device_id LIKE '40361030-B80C-4615-8C57-4661C411F97F' THEN 'Robert Einspruch - iPhone 6'
         END"
 }
-
 constant: bingo_card_mapping_3x3 {
   value:"(CASE
     WHEN ${card_state_str} LIKE '[%7%,%8%,%9%]'

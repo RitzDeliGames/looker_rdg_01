@@ -25,8 +25,12 @@ datagroup: events_raw {
 
 explore: events {
   sql_always_where:
-    user_type NOT IN ("internal_editor", "unit_test");;
-}
+    user_type NOT IN ("internal_editor", "unit_test") ;;
+    join: retention_example {
+      sql_on: ${events.player_id} = ${retention_example.user_id} ;;
+      relationship: many_to_one
+    }
+  }
 
 explore: fue_funnel {
  sql_always_where:
@@ -41,15 +45,50 @@ explore: bingo_card_funnel {
 ##########BINGO CARDS##########
 
 explore: _000_bingo_cards {
-  sql_always_where: event_name = "cards"
-  AND user_type NOT IN ("internal_editor", "unit_test") ;;
+  always_join: [card_mapping]
+  sql_always_where: _000_bingo_cards_comp.event_name = "cards"
+  AND _000_bingo_cards_comp.user_type NOT IN ("internal_editor", "unit_test") ;;
   view_name: _000_bingo_cards_comp
   join: node_data {
     fields: [node_data.node_data]
     relationship: one_to_many
     from: _000_bingo_cards_comp
-    sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.node_data')) as node_data
-    ;;
+    sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.node_data')) as node_data ;;
+    }
+  join: card_mapping {
+    from: _000_bingo_cards_comp
+#     sql: CROSS JOIN card_mapping, UNNEST([
+#        row_1_search
+#       , row_2_search
+#       , row_3_search
+#       , row_4_search
+#       , row_5_search
+#       , column_1_search
+#       , column_2_search
+#       , column_3_search
+#       , column_4_search
+#       , column_5_search
+#       , diagonal_01_search
+#       , diagonal_02_search
+#   ]) as card_id ;;
+
+    sql: CROSS JOIN UNNEST([
+      ${card_mapping.row_1_search}
+      , ${card_mapping.row_2_search}
+      , ${card_mapping.row_3_search}
+      , ${card_mapping.row_4_search}
+      , ${card_mapping.row_5_search}
+      , ${card_mapping.column_1_search}
+      , ${card_mapping.column_2_search}
+      , ${card_mapping.column_3_search}
+      , ${card_mapping.column_4_search}
+      , ${card_mapping.column_5_search}
+      , ${card_mapping.diagonal_01_search}
+      , ${card_mapping.diagonal_02_search}
+      ]) as card_id ;;
+    relationship: many_to_one
+
+#       , ${bing_cards.row_2_search}, ${bing_cards.row_3_search}, ${bing_cards.row_4_search}, ${bing_cards.row_5_search}, ${bing_cards.column_1_search}, ${bing_cards.column_2_search}, ${bing_cards.column_3_search}, ${bing_cards.column_4_search}, ${bing_cards.column_5_search}, ${bing_cards.diagonal_01_search}, ${bing_cards.diagonal_02_search}]) card_id ;;
   }
 }
 

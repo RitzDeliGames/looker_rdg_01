@@ -46,12 +46,14 @@ explore: _000_bingo_cards {
   view_name: _000_bingo_cards_comp
   join: node_data {
     fields: [node_data.node_data]
-    relationship: many_to_one
+    relationship: one_to_many
     from: _000_bingo_cards_comp
     sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.node_data')) as node_data
     ;;
   }
 }
+
+
 
 ##########GAMEPLAY EXPLORES##########
 
@@ -111,6 +113,7 @@ explore: _005_bubbles {
   AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
   AND user_type NOT IN ("internal_editor", "unit_test")
   ;;
+
   join: bubble_types {
     relationship: one_to_one
     sql_on: ${_005_bubbles_comp.character} = ${bubble_types.character}  ;;
@@ -199,20 +202,25 @@ explore: player_analysis_view {
   }
 }
 
-# explore: test_players_test {
-# #   sql_always_where: event_name = "collection"
-# #   AND user_type NOT IN ("internal_editor", "unit_test")
-# #   ;;
-#   view_name: test_player
-#   join: characters {
-#     fields: [characters.characters]
-#     relationship: one_to_many
-#     from: test_player
-#     sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.characters')) as characters
-#       ;;
-#   }
-# }
 
+################
+
+explore: boost_usage_main {
+  sql_always_where: user_type NOT IN ("internal_editor", "unit_test")
+  --AND event_name = "round_end" (?)
+  ;;
+  join: boost_usage_types {
+    relationship: one_to_one
+    sql_on: ${boost_usage_main.character_used} = ${boost_usage_types.character}  ;;
+  }
+  join: node_data {
+    fields: [node_data.node_data]
+    relationship: one_to_many
+    from: _000_bingo_cards_comp
+    sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.node_data')) as node_data
+      ;;
+  }
+}
 
 
 

@@ -432,7 +432,9 @@ view: events {
     group_label: "Round Start/End"
     label: "Round ID"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
+#     sql: CAST(REPLACE(JSON_VALUE(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
+    sql: JSON_Value(${TABLE}.extra_json,'$.round_id') ;;
+
   }
 
   dimension: character_used {
@@ -468,42 +470,42 @@ view: events {
   dimension: score_boost {
     group_label: "Boosts Used"
     label: "Score Boost"
-    type: yesno
+    type: string
     sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.score_boost'),'"','') = "1", TRUE, FALSE);;
   }
 
   dimension: coin_boost {
     group_label: "Boosts Used"
     label: "Coin Boost"
-    type: yesno
+    type: string
     sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.coin_boost'),'"','') = "1", TRUE, FALSE);;
   }
 
   dimension: exp_boost {
     group_label: "Boosts Used"
     label: "XP Boost"
-    type: yesno
+    type: string
     sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.exp_boost'),'"','') = "1", TRUE, FALSE);;
   }
 
   dimension: time_boost {
     group_label: "Boosts Used"
     label: "Time Boost"
-    type: yesno
+    type: string
     sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.time_boost'),'"','') = "1", TRUE, FALSE);;
   }
 
   dimension: bubble_boost {
     group_label: "Boosts Used"
     label: "Bubble Boost"
-    type: yesno
+    type: string
     sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.bubble_boost'),'"','') = "1", TRUE, FALSE);;
   }
 
   dimension: five_to_four_boost {
     group_label: "Boosts Used"
     label: "5-to-4 Boost"
-    type: yesno
+    type: string
     sql:IF(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.five_to_four_boost'),'"','') = "1", TRUE, FALSE);;
   }
 

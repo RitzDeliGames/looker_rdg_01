@@ -25,8 +25,12 @@ datagroup: events_raw {
 
 explore: events {
   sql_always_where:
-    user_type NOT IN ("internal_editor", "unit_test");;
-}
+    user_type NOT IN ("internal_editor", "unit_test") ;;
+    join: retention_example {
+      sql_on: ${events.player_id} = ${retention_example.user_id} ;;
+      relationship: many_to_one
+    }
+  }
 
 explore: fue_funnel {
  sql_always_where:

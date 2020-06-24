@@ -104,6 +104,7 @@ constant: device_manufacturer_mapping{
           WHEN ${TABLE}.hardware LIKE '%Huawei%' THEN 'Huawei'
         END"
 }
+
 constant: device_os_version_mapping {
   value: "CASE
           WHEN ${TABLE}.platform LIKE '%iOS 13%' THEN 'iOS 13'

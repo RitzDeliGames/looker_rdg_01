@@ -1,13 +1,33 @@
-# include: "/views/**/events.view"
 include: "/views/**/bingo_cards/**/_000_bingo_cards_comp.view"
 
 
 view: boost_usage_main {
 
-#   extends: [events]
   extends: [_000_bingo_cards_comp]
 
 
+  ########################
+
+  dimension: coins_earned {
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},
+      '$.coins_earned'),'"','') as NUMERIC) ;;
+  }
+
+  dimension: score_earned {
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},
+      '$.score_earned'),'"','') as NUMERIC) ;;
+  }
+
+  dimension: xp_earned {
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},
+      '$.xp_earned'),'"','') as NUMERIC) ;;
+  }
+
+
+  ########################
 
   dimension: score_boost_string {
     hidden: yes
@@ -46,17 +66,21 @@ view: boost_usage_main {
   }
 
 
+############BINGO CARDS EXTENSION############
+
   dimension: rounds_nodes {
     type: number
     sql: JSON_EXTRACT(${node_data.node_data}, '$.rounds') ;;
   }
-
 
   dimension: node_id {
     type: number
     sql: JSON_EXTRACT(${node_data.node_data}, '$.node_id') ;;
   }
 
+
+
+#########
 
   measure:  count_labels_test_measure {
     type: count_distinct

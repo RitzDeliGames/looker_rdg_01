@@ -109,12 +109,7 @@ explore: _001_coins_xp_score {
 
 # SKILL USED EXPLORE:
 
-explore: _002_skill_used {
-#   sql_always_where: event_name = "round_end"
-#   AND JSON_EXTRACT(extra_json, "$.team_slot_0") IS NOT NULL
-#   AND ${character_skill} IS NOT NULL
-#   ;;
-}
+explore: _002_skill_used {}
 
 
 # CHAINS & MATCHES MADE EXPLORE:
@@ -246,10 +241,13 @@ explore: player_analysis_view {
 
 explore: boost_usage_main {
   sql_always_where: user_type NOT IN ("internal_editor", "unit_test")
-  --AND event_name = "round_end" (?)
   ;;
+  join: boost_usage_types_values {
+    relationship: many_to_one
+    sql_on: ${boost_usage_main.character_used} = ${boost_usage_types_values.character}  ;;
+  }
   join: boost_usage_types {
-    relationship: one_to_one
+    relationship: many_to_one
     sql_on: ${boost_usage_main.character_used} = ${boost_usage_types.character}  ;;
   }
   join: node_data {

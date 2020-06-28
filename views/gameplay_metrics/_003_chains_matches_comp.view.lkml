@@ -3,26 +3,22 @@ include: "/views/**/events.view"
 view: _003_chains_matches_comp {
   extends: [events]
 
-  dimension: chain_length_packed {
-    type: string
-    sql: CASE
-    WHEN JSON_EXTRACT(${extra_json},'$.chain_length') <> ''
-    THEN JSON_EXTRACT(${extra_json},'$.chain_length')
-    END;;
-  }
 
-  # CHAINS AND MATCHES DIMENSIONS
 
-#   dimension: round_length {
-#     type: number
-#     sql: CAST(JSON_Value(${extra_json},'$.round_length') AS NUMERIC) / 1000  ;; ###this should probably be moved to the main events view
-#   }
+#####DIMENSIONS#####
 
   dimension: chains_made {
     type: number
     sql: CAST(JSON_Value(extra_json,'$.total_chains') AS NUMERIC) ;;
   }
 
+  dimension: chain_length_packed {
+    type: string
+    sql: CASE
+          WHEN JSON_EXTRACT(${extra_json},'$.chain_length') <> ''
+          THEN JSON_EXTRACT(${extra_json},'$.chain_length')
+          END;;
+  }
 
   dimension: seconds_per_chain {
     type: number
@@ -34,14 +30,16 @@ view: _003_chains_matches_comp {
     sql: chain_length ;;
   }
 
-  ###MEASURES###
+
+#####MEASURES#####
 
   measure: count {
     type: count
     drill_fields: [detail*]
   }
 
-  #####################_BOXPLOTS_#####################
+
+#####CHAIN & MATCHES BOXPLOTS#####
 
   parameter: boxplot_ {
     type: string

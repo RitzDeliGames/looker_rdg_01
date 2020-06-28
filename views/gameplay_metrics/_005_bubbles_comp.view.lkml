@@ -4,10 +4,6 @@ view: _005_bubbles_comp {
   extends: [events]
 
 
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
 
   dimension: primary_key {
     hidden: yes
@@ -32,10 +28,34 @@ view: _005_bubbles_comp {
       END ;;
   }
 
+  ###
+  dimension: bubble_normal_array {
+    type: string
+    sql: JSON_Value(extra_json, '$.bubble_normal') ;;
+  }
+
+  dimension: bubble_coins_array {
+    type: string
+    sql: JSON_Value(extra_json, '$.bubble_coins') ;;
+  }
+
+  dimension: bubble_xp_array {
+    type: string
+    sql: JSON_Value(extra_json, '$.bubble_xp') ;;
+  }
+
+  dimension: bubble_time_array {
+    type: string
+    sql: JSON_Value(extra_json, '$.bubble_time') ;;
+  }
+
+  dimension: bubble_score_array {
+    type: string
+    sql: JSON_Value(extra_json, '$.bubble_score') ;;
+  }
 
 
-# BUBBLES DROPPED:
-
+#####BUBBLES DROPPED#####
 
   dimension: bubble_normal {
     hidden: yes
@@ -78,8 +98,7 @@ view: _005_bubbles_comp {
  }
 
 
-# BUBBLES POPPED
-
+#####BUBBLES POPPED#####
 
   dimension: bubble_normal_popped {
     type: number
@@ -112,33 +131,12 @@ view: _005_bubbles_comp {
   }
 
 
-###################################################
 
-  dimension: bubble_normal_array {
-    type: string
-    sql: JSON_Value(extra_json, '$.bubble_normal') ;;
+
+  measure: count {
+    type: count
+    drill_fields: [detail*]
   }
-
-  dimension: bubble_coins_array {
-    type: string
-    sql: JSON_Value(extra_json, '$.bubble_coins') ;;
-  }
-
-  dimension: bubble_xp_array {
-    type: string
-    sql: JSON_Value(extra_json, '$.bubble_xp') ;;
-  }
-
-  dimension: bubble_time_array {
-    type: string
-    sql: JSON_Value(extra_json, '$.bubble_time') ;;
-  }
-
-  dimension: bubble_score_array {
-    type: string
-    sql: JSON_Value(extra_json, '$.bubble_score') ;;
-  }
-
 
 
 
@@ -193,8 +191,7 @@ view: _005_bubbles_comp {
   }
 
 
-
-# Bubbles Boxplots
+#####BOXPLOT BUBBLES MEASURES#####
 
   measure: 1_min_boxplot {
     drill_fields: [detail*]

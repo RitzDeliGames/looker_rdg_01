@@ -1,5 +1,6 @@
 include: "/views/**/events.view"
 
+
 view: _001_coins_xp_score {
   extends: [events]
 
@@ -9,20 +10,17 @@ view: _001_coins_xp_score {
 
   dimension: coins_earned {
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},
-      '$.coins_earned'),'"','') as NUMERIC) ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json}, '$.coins_earned'),'"','') as NUMERIC) ;;
   }
 
   dimension: score_earned {
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},
-      '$.score_earned'),'"','') as NUMERIC) ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json}, '$.score_earned'),'"','') as NUMERIC) ;;
   }
 
   dimension: xp_earned {
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},
-      '$.xp_earned'),'"','') as NUMERIC) ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json}, '$.xp_earned'),'"','') as NUMERIC) ;;
   }
 
 ###MEASURES###

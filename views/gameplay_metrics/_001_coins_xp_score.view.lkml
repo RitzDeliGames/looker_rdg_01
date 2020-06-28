@@ -32,7 +32,7 @@ view: _001_coins_xp_score {
 
 ###BOXPLOT MEASURES###
 
-  parameter: boxplot_type {
+  parameter: Boxplot_Coins_XP_Score {
     type: string
     allowed_value: {
       label: "Coins"
@@ -65,11 +65,11 @@ view: _001_coins_xp_score {
     group_label: "BoxPlot Measures"
     type: min
     sql: CASE
-      WHEN  {% parameter boxplot_type %} = 'Coins'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'Coins'
       THEN ${coins_earned}
-      WHEN  {% parameter boxplot_type %} = 'Score Earned'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'Score Earned'
       THEN ${score_earned}
-      WHEN  {% parameter boxplot_type %} = 'XP Earned'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'XP Earned'
       THEN ${xp_earned}
 
     END  ;;
@@ -92,11 +92,11 @@ view: _001_coins_xp_score {
     group_label: "BoxPlot Measures"
     type: max
     sql: CASE
-      WHEN  {% parameter boxplot_type %} = 'Coins'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'Coins'
       THEN ${coins_earned}
-      WHEN  {% parameter boxplot_type %} = 'Score Earned'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'Score Earned'
       THEN ${score_earned}
-      WHEN  {% parameter boxplot_type %} = 'XP Earned'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'XP Earned'
       THEN ${xp_earned}
     END  ;;
   }
@@ -118,11 +118,11 @@ view: _001_coins_xp_score {
     group_label: "BoxPlot Measures"
     type: median
     sql: CASE
-      WHEN  {% parameter boxplot_type %} = 'Coins'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'Coins'
       THEN ${coins_earned}
-      WHEN  {% parameter boxplot_type %} = 'Score Earned'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'Score Earned'
       THEN ${score_earned}
-      WHEN  {% parameter boxplot_type %} = 'XP Earned'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'XP Earned'
       THEN ${xp_earned}
     END  ;;
   }
@@ -145,11 +145,11 @@ view: _001_coins_xp_score {
     type: percentile
     percentile: 25
     sql: CASE
-      WHEN  {% parameter boxplot_type %} = 'Coins'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'Coins'
       THEN ${coins_earned}
-      WHEN  {% parameter boxplot_type %} = 'Score Earned'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'Score Earned'
       THEN ${score_earned}
-      WHEN  {% parameter boxplot_type %} = 'XP Earned'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'XP Earned'
       THEN ${xp_earned}
     END  ;;
   }
@@ -172,16 +172,16 @@ view: _001_coins_xp_score {
     type: percentile
     percentile: 75
     sql: CASE
-      WHEN  {% parameter boxplot_type %} = 'Coins'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'Coins'
       THEN ${coins_earned}
-      WHEN  {% parameter boxplot_type %} = 'Score Earned'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'Score Earned'
       THEN ${score_earned}
-      WHEN  {% parameter boxplot_type %} = 'XP Earned'
+      WHEN  {% parameter Boxplot_Coins_XP_Score %} = 'XP Earned'
       THEN ${xp_earned}
     END  ;;
   }
 
   set: user_details {
-    fields: [user_id]
+    fields: [user_id, user_type, character_used, coins_earned, score_earned, xp_earned]
   }
 }

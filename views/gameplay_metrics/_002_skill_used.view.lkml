@@ -11,7 +11,8 @@ view: _002_skill_used {
         user_type,
         player_xp_level,
         payer,
-        character_skill_used
+        character_skill_used,
+        hardware
       FROM
         events
         CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.{% parameter character %}_skill_used'))) AS character_skill_used
@@ -21,7 +22,6 @@ view: _002_skill_used {
   }
 
 
-#########################`eraser-blast.game_data.events
 
 
   parameter: character {
@@ -32,32 +32,17 @@ view: _002_skill_used {
   }
 
 
-  #parameter: character_number {
-  #  description: "Type a number from 01-50"
-  #  type: unquoted
-  #  default_value: "01"
-  #}
+#####DIMENSIONS#####
 
   dimension: character_dimension {
     type: string
     sql: REPLACE(JSON_EXTRACT(extra_json,'$.team_slot_0'),'"','') ;;
   }
 
-
   dimension: primary_key {
     type: string
     hidden: yes
     sql:  CONCAT(${character_dimension},${extra_json}) ;;
-  }
-
-
-
-  #################
-
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
   }
 
   dimension_group: timestamp_insert {
@@ -78,34 +63,76 @@ view: _002_skill_used {
 
   dimension: character_skill {
     type: number
-    sql: REPLACE(JSON_EXTRACT(${extra_json},
-      '$.team_slot_skill_0'),'"','') ;;
+    sql: REPLACE(JSON_EXTRACT(${extra_json}, '$.team_slot_skill_0'),'"','') ;;
   }
 
   dimension: character_level {
     type: number
-    sql: REPLACE(JSON_EXTRACT(${extra_json},
-      '$.team_slot_level_0'),'"','') ;;
+    sql: REPLACE(JSON_EXTRACT(${extra_json}, '$.team_slot_level_0'),'"','') ;;
   }
 
   dimension: coins_earned {
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},
-      '$.coins_earned'),'"','') as NUMERIC) ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json}, '$.coins_earned'),'"','') as NUMERIC) ;;
   }
 
   dimension: score_earned {
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},
-      '$.score_earned'),'"','') as NUMERIC) ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json}, '$.score_earned'),'"','') as NUMERIC) ;;
   }
 
   dimension: xp_earned {
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},
-      '$.xp_earned'),'"','') as NUMERIC) ;;
+    sql: CAST(REPLACE(JSON_EXTRACT(${extra_json}, '$.xp_earned'),'"','') as NUMERIC) ;;
   }
 
+#####DEVICES & OS DIMENSIONS#####
+
+  dimension: device_brand {#SHOULD WEB TRAFFIC GRAB PC OR BROWSER? sug: "pc_browser"}
+    group_label: "Device & OS Dimensions"
+    label: "Device Manufacturer"
+    sql:@{device_manufacturer_mapping} ;;
+  }
+
+  dimension: device_model {
+    group_label: "Device & OS Dimensions"
+    label: "Device Model"
+    sql:@{device_model_mapping} ;;
+  }
+
+  dimension: device_os_version {
+    group_label: "Device & OS Dimensions"
+    label: "Device OS (major)"
+    sql:@{device_os_version_mapping} ;;
+  }
+
+  dimension: device_os_version_minor {
+    group_label: "Device & OS Dimensions"
+    label: "Device OS (minor)"
+    type: string
+    sql: ${TABLE}.platform ;;
+  }
+
+  dimension: device_platform {
+    group_label: "Device & OS Dimensions"
+    label: "Device Platform"
+    sql: @{device_platform_mapping} ;;
+  }
+
+  #UPDATE - NEEDS TO BE DERIVED BY THE DB
+  dimension: device_language {
+    group_label: "Device & OS Dimensions"
+    type: string
+    sql: REPLACE(JSON_EXTRACT(${TABLE}.language, "$.SystemLanguage"),'"','') ;;
+  }
+
+
+#####MEASURES#####
+
+  measure: count {
+    type: count
+    drill_fields: [detail*]
+  }
 
   measure: total_skill_used {
     drill_fields: [detail*]
@@ -123,7 +150,7 @@ view: _002_skill_used {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
     }
-    group_label: "boxplot"
+    group_label: "boxplot_skill_used"
     type: min
     sql: ${character_skill_used} ;;
   }
@@ -134,7 +161,7 @@ view: _002_skill_used {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
     }
-    group_label: "boxplot"
+    group_label: "boxplot_skill_used"
     type: max
     sql: ${character_skill_used} ;;
   }
@@ -145,7 +172,7 @@ view: _002_skill_used {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
     }
-    group_label: "boxplot"
+    group_label: "boxplot_skill_used"
     type: median
     sql: ${character_skill_used} ;;
   }
@@ -156,7 +183,7 @@ view: _002_skill_used {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
     }
-    group_label: "boxplot"
+    group_label: "boxplot_skill_used"
     type: percentile
     percentile: 25
     sql: ${character_skill_used} ;;
@@ -168,19 +195,13 @@ view: _002_skill_used {
       label: "Drill and sort by Total Skill Used"
       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
     }
-    group_label: "boxplot"
+    group_label: "boxplot_skill_used"
     type: percentile
     percentile: 75
     sql: ${character_skill_used} ;;
   }
 
 
-#   dimension: user_type {
-#     type: string
-#     suggest_explore: events
-#     suggest_dimension: events.user_type
-# #     sql: ${TABLE}.user_type ;;
-#   }
 
   set: detail {
     fields: [character_dimension,

@@ -9,6 +9,9 @@ view: _006_round_length {
     drill_fields: [detail*]
   }
 
+
+#####DIMENSIONS#####
+
   dimension: round_x_axis {
     type: string
     sql: CASE WHEN ${TABLE}.extra_json IS NOT NULL THEN 'x'
@@ -41,20 +44,8 @@ view: _006_round_length {
     sql: CAST(JSON_Value(extra_json,'$.round_length') AS NUMERIC) / 1000 ;;
   }
 
-#   dimension: character {
-#     type: string
-#     sql: JSON_EXTRACT(${extra_json},'$.team_slot_0');;
-#   }
 
-
-#   dimension: user_type {
-#     type: string
-#     suggest_explore: events
-#     suggest_dimension: events.user_type
-# #     sql: ${TABLE}.user_type ;;
-#   }
-
-# Round Length Boxplot
+#####BOXPLOT ROUND LENGTH#####
 
   parameter: boxplot_rounds {
     type: string
@@ -137,6 +128,8 @@ view: _006_round_length {
     END  ;;
   }
 
+
+# VIEW DETAILS
 
   set: detail {
     fields: [

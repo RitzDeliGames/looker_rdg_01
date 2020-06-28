@@ -27,6 +27,9 @@ view: _008_frame_count_histogram {
     drill_fields: [detail*]
   }
 
+
+#####DIMENSIONS#####
+
   dimension: user_type {
     type: string
     sql: ${TABLE}.user_type ;;
@@ -48,19 +51,10 @@ view: _008_frame_count_histogram {
     suggest_dimension: events.character_used
   }
 
-#   dimension: extra_json {
-#     hidden: yes
-#     type: string
-#     suggest_explore: events
-#     suggest_dimension: events.extra_json
-#   }
-
-
   dimension: frame_count {
     type: number
     sql: ${TABLE}.frame_count ;;
   }
-
 
   dimension: ms_per_frame {
     type: number
@@ -90,6 +84,8 @@ view: _008_frame_count_histogram {
     suggest_dimension: events.device_os_version
   }
 
+
+# VIEW DETAILS
 
   drill_fields: [detail*]
 

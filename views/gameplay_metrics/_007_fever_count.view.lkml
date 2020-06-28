@@ -3,6 +3,7 @@ include: "/views/**/events.view"
 view: _007_fever_count {
   extends: [events]
 
+
   measure: count {
     type: count
     drill_fields: [detail*]
@@ -14,7 +15,8 @@ view: _007_fever_count {
     sql: CAST(JSON_Value(extra_json,'$.fever_count') AS NUMERIC) ;;
   }
 
-# FEVER COUNT BOXPLOT
+
+#####BOXPLOT FEVER COUNT#####
 
   parameter: boxplot_fever {
     type: string
@@ -96,6 +98,9 @@ view: _007_fever_count {
       THEN ${fever_count}
     END  ;;
   }
+
+
+# VIEW DETAILS
 
   set: detail {
     fields: [user_type,

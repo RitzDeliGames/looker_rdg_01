@@ -13,6 +13,9 @@ view: bubble_types {
     ;;
   }
 
+
+#####DIMENSIONS#####
+
   dimension: value_d {
     hidden: yes
     type: number
@@ -32,6 +35,8 @@ view: bubble_types {
   }
 
 
+#####BOXPLOT DROPPED & POPPED#####
+
   parameter: boxplot_dropped_or_popped {
     type: string
     allowed_value: {
@@ -43,8 +48,6 @@ view: bubble_types {
       value: "Bubbles Popped"
     }
   }
-
-
 
 
   measure: 1_min_bubble_types{
@@ -150,11 +153,12 @@ view: bubble_types {
   }
 
 
+# VIEW DETAILS
+
     set: detail {
       fields: [character, Bubble_Type, value_d]
     }
 }
-
 
 
 # Bubble Coinds Value-Number transformation
@@ -263,6 +267,7 @@ view: bubble_time {
   }
 
 }
+
 
 # Bubble XP Value-Number transformation
 

@@ -120,7 +120,6 @@ view: events {
 
 ###
 
-
 ###GEO DIMENSIONS###
 
   dimension: country {

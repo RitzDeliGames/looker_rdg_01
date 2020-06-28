@@ -4,14 +4,13 @@ view: scene_load_time {
   extends: [events]
 
 
-
-
   measure: count {
     type: count
     drill_fields: [detail*]
   }
 
 
+#####DIMENSIONS#####
 
   dimension: load_time {
     type: string
@@ -66,16 +65,13 @@ view: scene_load_time {
     ;;
   }
 
-
   dimension: load_time_sec {
     type: number
     sql: CAST((${load_time} / 1000) AS NUMERIC) ;;
   }
 
 
-
-########BOX_PLOT########
-
+#####BOXPLOT SCENE LOAD TIME#####
 
   measure: 1_min_transition {
     drill_fields: [detail*]
@@ -135,6 +131,7 @@ view: scene_load_time {
   }
 
 
+# VIEW DETAILS
 
   set: detail {
     fields: [

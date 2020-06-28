@@ -4,6 +4,9 @@ include: "/views/**/events.view"
 view: _004_large_dropped_and_popped {
   extends: [events]
 
+
+#####DIMENSIONS#####
+
   dimension: round_x_axis {
     type: string
     sql: CASE WHEN ${TABLE}.extra_json IS NOT NULL THEN 'x'
@@ -13,7 +16,7 @@ view: _004_large_dropped_and_popped {
   dimension: large_dropped {
     type: string
   sql: JSON_EXTRACT(extra_json, '$.{% parameter character %}_large') ;;
-}
+  }
 
   dimension: large_popped {
       type: string
@@ -29,6 +32,17 @@ view: _004_large_dropped_and_popped {
     type: string
     sql: JSON_EXTRACT(extra_json,'$.total_large_popped') ;;
   }
+
+
+#####MEASURES#####
+
+  measure: count {
+    type: count
+    drill_fields: [detail*]
+  }
+
+
+#####BOXPLOTS DROPPED & POPPED#####
 
   parameter: character {
     type: unquoted
@@ -56,14 +70,6 @@ view: _004_large_dropped_and_popped {
       value: "total_large_popped"
     }
   }
-
-###MEASURES###
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
-
-###BOXPLOTS###
 
 
 measure: 1_min_boxplot {
@@ -248,17 +254,16 @@ measure: sum {
 # VIEW DETAILS
 
 set: detail {
-  fields: [
-    events.user_type,
-    events.player_level_xp_int,
-    events.hardware,
-    events.platform,
-    events.platform_type,
-    round_x_axis,
-    large_dropped,
-    large_popped,
-    total_large_dropped,
-    total_large_popped
-  ]
-}
+  fields: [events.user_type,
+           events.player_level_xp_int,
+           events.hardware,
+           events.platform,
+           events.platform_type,
+           round_x_axis,
+           large_dropped,
+           large_popped,
+           total_large_dropped,
+           total_large_popped
+           ]
+  }
 }

@@ -6,7 +6,8 @@ view: _001_coins_xp_score {
 
   sql_table_name: eraser-blast.game_data.events ;;
 
-###DIMENSIONS###
+
+#####DIMENSIONS#####
 
   dimension: coins_earned {
     type: number
@@ -23,14 +24,16 @@ view: _001_coins_xp_score {
     sql: CAST(REPLACE(JSON_EXTRACT(${extra_json}, '$.xp_earned'),'"','') as NUMERIC) ;;
   }
 
-###MEASURES###
+
+#####MEASURES#####
 
   measure: count {
     type: count
     drill_fields: [event_name]
   }
 
-###BOXPLOT MEASURES###
+
+#####BOXPLOT MEASURES#####
 
   parameter: Boxplot_Coins_XP_Score {
     type: string
@@ -181,7 +184,15 @@ view: _001_coins_xp_score {
     END  ;;
   }
 
+
+# VIEW DETAILS
+
   set: user_details {
-    fields: [user_id, user_type, character_used, coins_earned, score_earned, xp_earned]
+    fields: [user_id,
+             user_type,
+             character_used,
+             coins_earned,
+             score_earned,
+             xp_earned]
   }
 }

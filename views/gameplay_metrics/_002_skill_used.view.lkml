@@ -202,6 +202,7 @@ view: _002_skill_used {
   }
 
 
+# VIEW DETAILS
 
   set: detail {
     fields: [character_dimension,

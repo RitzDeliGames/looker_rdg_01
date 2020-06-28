@@ -190,7 +190,7 @@ view: _003_chains_matches_comp {
   }
 
 
-###############
+# VIEW DETAILS
 
   set: detail {
     fields: [

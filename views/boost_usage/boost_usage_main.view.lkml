@@ -88,6 +88,13 @@ view: boost_usage_main {
   }
 
 
+  dimension: character_used {
+    type: string
+    sql: REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.team_slot_0'),'"','');;
+  }
+
+
+
 #########BOXPLOT PARAMETERS & MEASURES#########
 
   parameter: boxplot_boosts {

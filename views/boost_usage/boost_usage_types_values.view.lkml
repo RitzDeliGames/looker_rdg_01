@@ -1,11 +1,41 @@
 view: boost_usage_types_values {
   derived_table: {
     sql: SELECT *
-          FROM ${coins_earned_boosts.SQL_TABLE_NAME}
+          FROM ${coins_earned_5_to_4.SQL_TABLE_NAME}
           UNION ALL SELECT *
-          FROM ${score_earned_boosts.SQL_TABLE_NAME}
+          FROM ${score_earned_5_to_4.SQL_TABLE_NAME}
           UNION ALL SELECT *
-          FROM ${xp_earned_boosts.SQL_TABLE_NAME}
+          FROM ${xp_earned_5_to_4.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${coins_earned_bubble.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${score_earned_bubble.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${xp_earned_bubble.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${coins_earned_time.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${score_earned_time.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${xp_earned_time.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${coins_earned_exp.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${score_earned_exp.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${xp_earned_exp.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${coins_earned_coins.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${score_earned_coins.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${xp_earned_coins.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${coins_earned_score.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${score_earned_score.SQL_TABLE_NAME}
+          UNION ALL SELECT *
+          FROM ${xp_earned_score.SQL_TABLE_NAME}
           ;;
   }
 
@@ -18,6 +48,8 @@ view: boost_usage_types_values {
   dimension: Boost_Type {
     type: string
   }
+
+  dimension:  label {}
 
   dimension: character {
     hidden: yes
@@ -38,65 +70,66 @@ view: boost_usage_types_values {
 #       label: "Drill and sort by Total Skill Used"
 #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
 #     }
-    group_label: "boxplot_boosts"
-    type: min
-    sql: ${value_boost} ;;
+  group_label: "boxplot_boosts"
+  type: min
+  sql: ${value_boost} ;;
 }
 
-  measure: 5_max_all_boosts {
+measure: 5_max_all_boosts {
   #     drill_fields: [detail*]
   #     link: {
   #       label: "Drill and sort by Total Skill Used"
   #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
   #     }
-    group_label: "boxplot_boosts"
-    type: max
-    sql: ${value_boost} ;;
+  group_label: "boxplot_boosts"
+  type: max
+  sql: ${value_boost} ;;
 }
 
-  measure: 3_median_all_boosts {
+measure: 3_median_all_boosts {
   #     drill_fields: [detail*]
   #     link: {
   #       label: "Drill and sort by Total Skill Used"
   #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
   #     }
-    group_label: "boxplot_boosts"
-    type: median
-    sql: ${value_boost} ;;
- }
+  group_label: "boxplot_boosts"
+  type: median
+  sql: ${value_boost} ;;
+}
 
-  measure: 2_25_all_boosts {
+measure: 2_25_all_boosts {
   #     drill_fields: [detail*]
   #     link: {
   #       label: "Drill and sort by Total Skill Used"
   #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
   #     }
-    group_label: "boxplot_boosts"
-    type: percentile
-    percentile: 25
-    sql: ${value_boost} ;;
- }
+  group_label: "boxplot_boosts"
+  type: percentile
+  percentile: 25
+  sql: ${value_boost} ;;
+}
 
-  measure: 4_75_all_boosts {
+measure: 4_75_all_boosts {
   #     drill_fields: [detail*]
   #     link: {
   #       label: "Drill and sort by Total Skill Used"
   #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
   #     }
-    group_label: "boxplot_boosts"
-    type: percentile
-    percentile: 75
-    sql: ${value_boost} ;;
- }
+  group_label: "boxplot_boosts"
+  type: percentile
+  percentile: 75
+  sql: ${value_boost} ;;
+}
 
 }
 
 
 
 
-# Bubble Normal Value-Number transformation
+### 5_to_4 Boost ###
 
-view: coins_earned_boosts {
+
+view: coins_earned_5_to_4 {
   derived_table: {
     explore_source: boost_usage_main {
       column: value_boost { field: boost_usage_main.coins_earned }
@@ -105,6 +138,9 @@ view: coins_earned_boosts {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
       }
+      derived_column: label {
+        sql: "coins" ;;
+      }
     }
   }
 
@@ -114,6 +150,8 @@ view: coins_earned_boosts {
 
   dimension: Boost_Type {}
 
+  dimension:  label {}
+
   dimension: character {
     type: string
     sql:  ${TABLE}.character ;;
@@ -122,12 +160,7 @@ view: coins_earned_boosts {
 }
 
 
-
-
-
-# Bubble Score Value-Number transformation
-
-view: score_earned_boosts {
+view: score_earned_5_to_4 {
   derived_table: {
     explore_source: boost_usage_main {
       column: value_boost { field: boost_usage_main.score_earned }
@@ -136,6 +169,9 @@ view: score_earned_boosts {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
       }
+      derived_column: label {
+        sql: "score" ;;
+      }
     }
   }
   dimension: value_boost {
@@ -143,6 +179,8 @@ view: score_earned_boosts {
   }
 
   dimension: Boost_Type {}
+
+  dimension:  label {}
 
   dimension: character {
     type: string
@@ -152,9 +190,7 @@ view: score_earned_boosts {
 }
 
 
-##################
-
-view: xp_earned_boosts {
+view: xp_earned_5_to_4 {
   derived_table: {
     explore_source: boost_usage_main {
       column: value_boost { field: boost_usage_main.xp_earned }
@@ -162,6 +198,9 @@ view: xp_earned_boosts {
       column: label_boost { field: boost_usage_main.five_to_four_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
+      }
+      derived_column: label {
+        sql: "xp" ;;
       }
     }
   }
@@ -175,5 +214,460 @@ view: xp_earned_boosts {
     type: string
     sql:  ${TABLE}.character ;;
   }
+}
 
+
+
+### bubble_boost_string ###
+
+
+view: coins_earned_bubble {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.coins_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.bubble_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - Coins Earned") ;;
+      }
+      derived_column: label {
+        sql: "coins" ;;
+      }
+    }
+  }
+
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension:  label {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
+
+}
+
+
+view: score_earned_bubble {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.score_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.bubble_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - Score Earned") ;;
+      }
+      derived_column: label {
+        sql: "score" ;;
+      }
+    }
+  }
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension:  label {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
+
+}
+
+
+view: xp_earned_bubble {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.xp_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.bubble_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - XP Earned") ;;
+      }
+      derived_column: label {
+        sql: "xp" ;;
+      }
+    }
+  }
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
+}
+
+
+
+### time_boost_string ###
+
+view: coins_earned_time {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.coins_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.time_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - Coins Earned") ;;
+      }
+      derived_column: label {
+        sql: "coins" ;;
+      }
+    }
+  }
+
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension:  label {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
+
+}
+
+
+view: score_earned_time {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.score_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.time_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - Score Earned") ;;
+      }
+      derived_column: label {
+        sql: "score" ;;
+      }
+    }
+  }
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension:  label {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
+
+}
+
+
+view: xp_earned_time {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.xp_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.time_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - XP Earned") ;;
+      }
+      derived_column: label {
+        sql: "xp" ;;
+      }
+    }
+  }
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
+}
+
+
+
+### exp_boost_string ###
+
+view: coins_earned_exp {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.coins_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.exp_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - Coins Earned") ;;
+      }
+      derived_column: label {
+        sql: "coins" ;;
+      }
+    }
+  }
+
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension:  label {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
+
+}
+
+
+view: score_earned_exp {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.score_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.exp_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - Score Earned") ;;
+      }
+      derived_column: label {
+        sql: "score" ;;
+      }
+    }
+  }
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension:  label {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
+
+}
+
+
+view: xp_earned_exp {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.xp_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.exp_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - XP Earned") ;;
+      }
+      derived_column: label {
+        sql: "xp" ;;
+      }
+    }
+  }
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
+}
+
+
+
+### coin_boost_string ###
+
+view: coins_earned_coins {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.coins_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.coin_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - Coins Earned") ;;
+      }
+      derived_column: label {
+        sql: "coins" ;;
+      }
+    }
+  }
+
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension:  label {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
+
+}
+
+
+view: score_earned_coins {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.score_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.coin_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - Score Earned") ;;
+      }
+      derived_column: label {
+        sql: "score" ;;
+      }
+    }
+  }
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension:  label {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
+
+}
+
+
+view: xp_earned_coins {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.xp_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.coin_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - XP Earned") ;;
+      }
+      derived_column: label {
+        sql: "xp" ;;
+      }
+    }
+  }
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
+}
+
+
+
+### coin_boost_string ###
+
+view: coins_earned_score {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.coins_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.score_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - Coins Earned") ;;
+      }
+      derived_column: label {
+        sql: "coins" ;;
+      }
+    }
+  }
+
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension:  label {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
+
+}
+
+
+view: score_earned_score {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.score_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.score_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - Score Earned") ;;
+      }
+      derived_column: label {
+        sql: "score" ;;
+      }
+    }
+  }
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension:  label {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
+
+}
+
+
+view: xp_earned_score {
+  derived_table: {
+    explore_source: boost_usage_main {
+      column: value_boost { field: boost_usage_main.xp_earned }
+      column: character_used { field: boost_usage_main.character_used }
+      column: label_boost { field: boost_usage_main.score_boost_string }
+      derived_column: Boost_Type {
+        sql: CONCAT(label_boost, " - XP Earned") ;;
+      }
+      derived_column: label {
+        sql: "xp" ;;
+      }
+    }
+  }
+  dimension: value_boost {
+    type: number
+  }
+
+  dimension: Boost_Type {}
+
+  dimension: character {
+    type: string
+    sql:  ${TABLE}.character ;;
+  }
 }

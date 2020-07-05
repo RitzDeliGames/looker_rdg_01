@@ -243,7 +243,7 @@ explore: boost_usage_main {
   sql_always_where: user_type NOT IN ("internal_editor", "unit_test")
   ;;
   join: boost_usage_types_values {
-    relationship: many_to_one
+    relationship: many_to_many
     sql_on: ${boost_usage_main.character_used} = ${boost_usage_types_values.character}  ;;
   }
   join: boost_usage_types {

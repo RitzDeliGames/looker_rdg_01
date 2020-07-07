@@ -11,10 +11,16 @@ view: events {
     sql: "ERASER BLAST" ;;
   }
 
-  dimension: game_version_str {
+  dimension: game_version {
+    label: "Game Version"
+    type: string
+    sql:${TABLE}.version;;
+  }
+
+  dimension: release_version {
     label: "Release Version"
     type: string
-    sql:@{device_internal_tester_mapping};;
+    sql:@{release_versions};;
   }
 
 ###

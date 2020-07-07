@@ -193,5 +193,5 @@ constant: bingo_card_mapping_5x5_X {
 }
 
 constant: release_versions {
-  value: "['1568']"
+  value: "version IN ('1568','1579')"
 }

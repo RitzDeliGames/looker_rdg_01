@@ -137,7 +137,7 @@ view: scene_load_time {
     fields: [
              user_type,
              device_brand,
-             game_version_str,
+             game_version,
              transition_from_to,
              load_time]
   }

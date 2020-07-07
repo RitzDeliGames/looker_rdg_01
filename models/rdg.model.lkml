@@ -246,16 +246,13 @@ explore: boost_usage_main {
     relationship: many_to_many
     sql_on: ${boost_usage_main.character_used} = ${boost_usage_types_values.character}  ;;
   }
-  join: boost_usage_types {
-    relationship: many_to_one
-    sql_on: ${boost_usage_main.character_used} = ${boost_usage_types.character}  ;;
-  }
   join: node_data {
     fields: [node_data.node_data]
     relationship: one_to_many
     from: _000_bingo_cards_comp
     sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.node_data')) as node_data
       ;;
+
   }
 }
 

@@ -49,7 +49,9 @@ view: boost_usage_types_values {
     type: string
   }
 
-  dimension:  label {}
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
 
   dimension: character {
     hidden: yes
@@ -62,6 +64,15 @@ view: boost_usage_types_values {
 #   set: detail {
 #     fields: [character, Boost_Type, value_boost]
 #   }
+
+
+
+  measure: boosts_sum {
+    group_label: "boxplot_boosts"
+    type: number
+
+    sql: SUM(${value_boost}) ;;
+  }
 
 
   measure: 1_min_all_boosts {
@@ -128,7 +139,6 @@ measure: 4_75_all_boosts {
 
 ### 5_to_4 Boost ###
 
-
 view: coins_earned_5_to_4 {
   derived_table: {
     explore_source: boost_usage_main {
@@ -138,8 +148,11 @@ view: coins_earned_5_to_4 {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "coins" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "5_to_4" ;;
       }
     }
   }
@@ -150,7 +163,9 @@ view: coins_earned_5_to_4 {
 
   dimension: Boost_Type {}
 
-  dimension:  label {}
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
 
   dimension: character {
     type: string
@@ -169,8 +184,11 @@ view: score_earned_5_to_4 {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "score" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "5_to_4" ;;
       }
     }
   }
@@ -180,7 +198,9 @@ view: score_earned_5_to_4 {
 
   dimension: Boost_Type {}
 
-  dimension:  label {}
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
 
   dimension: character {
     type: string
@@ -199,8 +219,11 @@ view: xp_earned_5_to_4 {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "xp" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "5_to_4" ;;
       }
     }
   }
@@ -210,6 +233,10 @@ view: xp_earned_5_to_4 {
 
   dimension: Boost_Type {}
 
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
+
   dimension: character {
     type: string
     sql:  ${TABLE}.character ;;
@@ -217,9 +244,7 @@ view: xp_earned_5_to_4 {
 }
 
 
-
 ### bubble_boost_string ###
-
 
 view: coins_earned_bubble {
   derived_table: {
@@ -230,8 +255,11 @@ view: coins_earned_bubble {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "coins" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "bubble" ;;
       }
     }
   }
@@ -242,7 +270,9 @@ view: coins_earned_bubble {
 
   dimension: Boost_Type {}
 
-  dimension:  label {}
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
 
   dimension: character {
     type: string
@@ -261,8 +291,11 @@ view: score_earned_bubble {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "score" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "bubble" ;;
       }
     }
   }
@@ -272,7 +305,9 @@ view: score_earned_bubble {
 
   dimension: Boost_Type {}
 
-  dimension:  label {}
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
 
   dimension: character {
     type: string
@@ -291,8 +326,11 @@ view: xp_earned_bubble {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "xp" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "bubble" ;;
       }
     }
   }
@@ -302,12 +340,15 @@ view: xp_earned_bubble {
 
   dimension: Boost_Type {}
 
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
+
   dimension: character {
     type: string
     sql:  ${TABLE}.character ;;
   }
 }
-
 
 
 ### time_boost_string ###
@@ -321,8 +362,11 @@ view: coins_earned_time {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "coins" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "time" ;;
       }
     }
   }
@@ -333,7 +377,9 @@ view: coins_earned_time {
 
   dimension: Boost_Type {}
 
-  dimension:  label {}
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
 
   dimension: character {
     type: string
@@ -352,8 +398,11 @@ view: score_earned_time {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "score" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "time" ;;
       }
     }
   }
@@ -363,7 +412,9 @@ view: score_earned_time {
 
   dimension: Boost_Type {}
 
-  dimension:  label {}
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
 
   dimension: character {
     type: string
@@ -382,8 +433,11 @@ view: xp_earned_time {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "xp" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "time" ;;
       }
     }
   }
@@ -393,12 +447,15 @@ view: xp_earned_time {
 
   dimension: Boost_Type {}
 
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
+
   dimension: character {
     type: string
     sql:  ${TABLE}.character ;;
   }
 }
-
 
 
 ### exp_boost_string ###
@@ -412,8 +469,11 @@ view: coins_earned_exp {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "coins" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "exp" ;;
       }
     }
   }
@@ -424,7 +484,9 @@ view: coins_earned_exp {
 
   dimension: Boost_Type {}
 
-  dimension:  label {}
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
 
   dimension: character {
     type: string
@@ -443,8 +505,11 @@ view: score_earned_exp {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "score" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "exp" ;;
       }
     }
   }
@@ -454,7 +519,9 @@ view: score_earned_exp {
 
   dimension: Boost_Type {}
 
-  dimension:  label {}
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
 
   dimension: character {
     type: string
@@ -473,8 +540,11 @@ view: xp_earned_exp {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "xp" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "exp" ;;
       }
     }
   }
@@ -484,12 +554,15 @@ view: xp_earned_exp {
 
   dimension: Boost_Type {}
 
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
+
   dimension: character {
     type: string
     sql:  ${TABLE}.character ;;
   }
 }
-
 
 
 ### coin_boost_string ###
@@ -503,7 +576,10 @@ view: coins_earned_coins {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
+        sql: "coins" ;;
+      }
+      derived_column: label_type_boost {
         sql: "coins" ;;
       }
     }
@@ -515,7 +591,9 @@ view: coins_earned_coins {
 
   dimension: Boost_Type {}
 
-  dimension:  label {}
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
 
   dimension: character {
     type: string
@@ -534,8 +612,11 @@ view: score_earned_coins {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "score" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "coins" ;;
       }
     }
   }
@@ -545,7 +626,9 @@ view: score_earned_coins {
 
   dimension: Boost_Type {}
 
-  dimension:  label {}
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
 
   dimension: character {
     type: string
@@ -564,8 +647,11 @@ view: xp_earned_coins {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "xp" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "coins" ;;
       }
     }
   }
@@ -575,6 +661,10 @@ view: xp_earned_coins {
 
   dimension: Boost_Type {}
 
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
+
   dimension: character {
     type: string
     sql:  ${TABLE}.character ;;
@@ -582,8 +672,7 @@ view: xp_earned_coins {
 }
 
 
-
-### coin_boost_string ###
+### score_boost_string ###
 
 view: coins_earned_score {
   derived_table: {
@@ -594,8 +683,11 @@ view: coins_earned_score {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "coins" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "score" ;;
       }
     }
   }
@@ -606,7 +698,9 @@ view: coins_earned_score {
 
   dimension: Boost_Type {}
 
-  dimension:  label {}
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
 
   dimension: character {
     type: string
@@ -625,7 +719,10 @@ view: score_earned_score {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
+        sql: "score" ;;
+      }
+      derived_column: label_type_boost {
         sql: "score" ;;
       }
     }
@@ -636,7 +733,9 @@ view: score_earned_score {
 
   dimension: Boost_Type {}
 
-  dimension:  label {}
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
 
   dimension: character {
     type: string
@@ -655,8 +754,11 @@ view: xp_earned_score {
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
       }
-      derived_column: label {
+      derived_column: label_measure {
         sql: "xp" ;;
+      }
+      derived_column: label_type_boost {
+        sql: "score" ;;
       }
     }
   }
@@ -665,6 +767,10 @@ view: xp_earned_score {
   }
 
   dimension: Boost_Type {}
+
+  dimension:  label_measure {}
+
+  dimension:  label_type_boost {}
 
   dimension: character {
     type: string

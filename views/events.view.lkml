@@ -12,14 +12,9 @@ view: events {
   }
 
   dimension: game_version_str {
+    label: "Release Version"
     type: string
-    sql: ${TABLE}.version;;
-  }
-
-  dimension: game_version_int {
-    type: number
-    value_format: "###0"
-    sql: ${TABLE}.version;;
+    sql:@{device_internal_tester_mapping};;
   }
 
 ###
@@ -62,12 +57,6 @@ view: events {
     group_label: "Player ID Dimensions"
     type: string
     sql: ${TABLE}.rdg_id ;;
-  }
-
-  dimension: playtest_group {
-    group_label: "Player ID Dimensions"
-    label: "Playtest Group"
-    sql: @{playtest_group_mapping} ;;
   }
 
 ###

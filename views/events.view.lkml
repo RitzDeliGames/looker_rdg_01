@@ -118,27 +118,12 @@ view: events {
     sql: ${TABLE}.battery_level ;;
   }
 
-###
-
-###GEO DIMENSIONS###
-
   dimension: country {
-    group_label: "Geo Dimensions"
+    group_label: "Device & OS Dimensions"
+    label: "Device Country"
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
-  }
-
-  dimension: city {
-    group_label: "Geo Dimensions"
-    type: string
-    sql: ${TABLE}.city ;;
-  }
-
-  dimension: region {
-    group_label: "Geo Dimensions"
-    type: string
-    sql: ${TABLE}.region ;;
   }
 
 ###

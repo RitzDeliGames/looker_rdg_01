@@ -11,15 +11,16 @@ view: events {
     sql: "ERASER BLAST" ;;
   }
 
-  dimension: game_version_str {
+  dimension: game_version {
+    label: "Game Version"
     type: string
-    sql: ${TABLE}.version;;
+    sql:${TABLE}.version;;
   }
 
-  dimension: game_version_int {
-    type: number
-    value_format: "###0"
-    sql: ${TABLE}.version;;
+  dimension: release_version {
+    label: "Release Version"
+    type: string
+    sql:@{release_version};;
   }
 
 ###
@@ -62,12 +63,6 @@ view: events {
     group_label: "Player ID Dimensions"
     type: string
     sql: ${TABLE}.rdg_id ;;
-  }
-
-  dimension: playtest_group {
-    group_label: "Player ID Dimensions"
-    label: "Playtest Group"
-    sql: @{playtest_group_mapping} ;;
   }
 
 ###

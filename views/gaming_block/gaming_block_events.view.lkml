@@ -30,7 +30,7 @@ view: gaming_block_events {
         {% when "'game_name'" %}
           ${game_name}
         {% when "'game_version'" %}
-          ${game_version_str}
+          ${game_version}
         {% when "'install_source'" %}
           ${install_source}
         {% else %}

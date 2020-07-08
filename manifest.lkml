@@ -1,26 +1,3 @@
-
-constant: playtest_group_mapping {
-  value: "CASE
-          WHEN ${TABLE}.device_id = '06216fe866eae677d0e2414832cd4008' THEN '1478 - 5 min'
-          WHEN ${TABLE}.device_id = 'ef1dab4a1e82c50e1f3c23a6470bbbe2' THEN '1478 - 5 min'
-          WHEN ${TABLE}.device_id = '0abe5bd2070a76ad05d34392b3b979be' THEN '1478 - 5 min'
-          WHEN ${TABLE}.device_id = '432982c0f6a929ec3c5d427e5029ace5' THEN '1478 - 5 min'
-          WHEN ${TABLE}.device_id = '469bfe58eca72d95bd308575b3df391f' THEN '1478 - 5 min'
-          WHEN ${TABLE}.device_id = '35b4f1eda1136e395f33ad1f304f44ac' THEN '1478 - 5 min'
-          WHEN ${TABLE}.device_id = '30dcb64c20d58f540620a490215235e0' THEN '1478 - 5 min'
-          WHEN ${TABLE}.device_id = '89d7c389a8f63080aaa7e3c9c4647873' THEN '1478 - 5 min'
-          WHEN ${TABLE}.device_id = 'c597b3a398f36d73b74f4e5400bf9b1d' THEN '1478 - 15 min'
-          WHEN ${TABLE}.device_id = '826a20afa2bd53788a562fc3391ee7f3' THEN '1478 - 15 min'
-          WHEN ${TABLE}.device_id = '06c7e98542841467847f5e38fb580cb0' THEN '1478 - 15 min'
-          WHEN ${TABLE}.device_id = '2e5045324af7639cb233d0d6a0369166' THEN '1478 - 15 min'
-          WHEN ${TABLE}.device_id = '44d1dc8607e0178c6f806c85e67fe9cd' THEN '1478 - 15 min'
-          WHEN ${TABLE}.device_id = '0067557eac0c44a4c6b17a50afea0e8b' THEN '1478 - 15 min'
-          WHEN ${TABLE}.device_id = '229c61f57795b350cca4aaf7c559c150' THEN '1478 - 15 min'
-          WHEN ${TABLE}.device_id = 'ede71f9a6c8ffcc6f593c6ec19c157f9' THEN '1478 - 15 min'
-          ELSE 'No Assigned Playtest Group'
-        END"
-}
-
 constant: device_model_mapping {
   value: "CASE
           WHEN ${TABLE}.hardware = 'iPhone6,2' THEN 'iPhone 5s Global'
@@ -93,6 +70,7 @@ constant: device_model_mapping {
           ELSE ${TABLE}.hardware
         END"
 }
+
 constant: device_manufacturer_mapping{
   value: "CASE
           WHEN ${TABLE}.hardware LIKE '%iPhone%' THEN 'Apple'
@@ -118,6 +96,7 @@ constant: device_os_version_mapping {
           WHEN ${TABLE}.platform LIKE '%Android OS 7%' THEN 'Android 7'
         END"
   }
+
 constant: device_platform_mapping {
   value: "CASE
           WHEN ${TABLE}.platform LIKE '%iOS%' THEN 'Apple'
@@ -126,6 +105,7 @@ constant: device_platform_mapping {
         END"
 
 }
+
 constant: device_internal_tester_mapping {
   value: "CASE
           WHEN ${TABLE}.device_id LIKE 'fc4240714a08de28281c816896adf3cc' THEN 'Eric Jordan - Amazon Shitfire'
@@ -136,6 +116,7 @@ constant: device_internal_tester_mapping {
           WHEN ${TABLE}.device_id LIKE '40361030-B80C-4615-8C57-4661C411F97F' THEN 'Robert Einspruch - iPhone 6'
         END"
 }
+
 constant: bingo_card_mapping_3x3 {
   value:"(CASE
     WHEN ${card_state_str} LIKE '[%7%,%8%,%9%]'
@@ -208,5 +189,14 @@ constant: bingo_card_mapping_5x5_X {
   THEN 'diagonal_01'
   WHEN ${card_state_str} LIKE '[%5%,%9%,%1%6%,%2%0%]'
   THEN 'diagonal_02'
+  END)"
+}
+
+constant: release_version {
+  value: "(CASE
+  WHEN ${TABLE}.version = '1568'
+  THEN 'Release v1.0.85'
+  WHEN ${TABLE}.version = '1579'
+  THEN 'Release v1.0.96'
   END)"
 }

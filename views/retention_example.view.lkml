@@ -8,7 +8,7 @@ view: retention_example {
       WHERE
       {% condition events.payer %} events.payer {% endcondition %}
       AND {% condition events.country %} events.country {% endcondition %}
-      AND {% condition events.game_version_str %} events.version {% endcondition %}
+      AND {% condition events.game_version %} events.version {% endcondition %}
       AND {% condition events.device_os_version %}
       CASE
           WHEN events.platform LIKE '%iOS 13%' THEN 'iOS 13'

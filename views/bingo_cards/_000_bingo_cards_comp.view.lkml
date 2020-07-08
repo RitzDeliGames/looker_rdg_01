@@ -281,9 +281,19 @@ view: _000_bingo_cards_comp {
   #_MEASURES_############################################
 
   measure: for_cumulative_rounds {
+    group_label: "cumulative analysis"
+    label: "a) total rounds per label "
     type: sum
     sql: ${rounds} ;;
   }
+
+  measure: cumulative_total_rounds {
+    group_label: "cumulative analysis"
+    label: "b) cumulative total rounds"
+    type: running_total
+    sql: COALESCE(SUM((CAST(JSON_Value(extra_json,'$.rounds') AS NUMERIC)) ), 0) ;;
+  }
+
 
   measure: min_rounds_to_complete {
     type: min

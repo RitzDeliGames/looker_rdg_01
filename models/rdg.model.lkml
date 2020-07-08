@@ -239,12 +239,12 @@ explore: player_analysis_view {
 
 ################
 
-explore: boost_usage_main {
+explore: boost_usage {
   sql_always_where: user_type NOT IN ("internal_editor", "unit_test")
   ;;
   join: boost_usage_types_values {
     relationship: many_to_many
-    sql_on: ${boost_usage_main.character_used} = ${boost_usage_types_values.character}  ;;
+    sql_on: ${boost_usage.character_used} = ${boost_usage_types_values.character}  ;;
   }
   join: node_data {
     fields: [node_data.node_data]

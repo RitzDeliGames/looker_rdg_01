@@ -141,10 +141,10 @@ measure: 4_75_all_boosts {
 
 view: coins_earned_5_to_4 {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.coins_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.five_to_four_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.coins_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.five_to_four_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
       }
@@ -177,10 +177,10 @@ view: coins_earned_5_to_4 {
 
 view: score_earned_5_to_4 {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.score_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.five_to_four_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.score_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.five_to_four_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
       }
@@ -212,10 +212,10 @@ view: score_earned_5_to_4 {
 
 view: xp_earned_5_to_4 {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.xp_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.five_to_four_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.xp_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.five_to_four_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
       }
@@ -248,10 +248,10 @@ view: xp_earned_5_to_4 {
 
 view: coins_earned_bubble {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.coins_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.bubble_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.coins_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.bubble_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
       }
@@ -284,10 +284,10 @@ view: coins_earned_bubble {
 
 view: score_earned_bubble {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.score_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.bubble_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.score_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.bubble_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
       }
@@ -319,10 +319,10 @@ view: score_earned_bubble {
 
 view: xp_earned_bubble {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.xp_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.bubble_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.xp_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.bubble_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
       }
@@ -355,10 +355,10 @@ view: xp_earned_bubble {
 
 view: coins_earned_time {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.coins_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.time_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.coins_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.time_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
       }
@@ -391,10 +391,10 @@ view: coins_earned_time {
 
 view: score_earned_time {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.score_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.time_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.score_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.time_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
       }
@@ -426,10 +426,10 @@ view: score_earned_time {
 
 view: xp_earned_time {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.xp_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.time_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.xp_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.time_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
       }
@@ -462,10 +462,10 @@ view: xp_earned_time {
 
 view: coins_earned_exp {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.coins_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.exp_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.coins_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.exp_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
       }
@@ -498,10 +498,10 @@ view: coins_earned_exp {
 
 view: score_earned_exp {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.score_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.exp_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.score_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.exp_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
       }
@@ -533,10 +533,10 @@ view: score_earned_exp {
 
 view: xp_earned_exp {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.xp_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.exp_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.xp_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.exp_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
       }
@@ -569,10 +569,10 @@ view: xp_earned_exp {
 
 view: coins_earned_coins {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.coins_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.coin_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.coins_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.coin_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
       }
@@ -605,10 +605,10 @@ view: coins_earned_coins {
 
 view: score_earned_coins {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.score_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.coin_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.score_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.coin_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
       }
@@ -640,10 +640,10 @@ view: score_earned_coins {
 
 view: xp_earned_coins {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.xp_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.coin_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.xp_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.coin_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
       }
@@ -676,10 +676,10 @@ view: xp_earned_coins {
 
 view: coins_earned_score {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.coins_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.score_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.coins_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.score_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
       }
@@ -712,10 +712,10 @@ view: coins_earned_score {
 
 view: score_earned_score {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.score_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.score_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.score_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.score_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
       }
@@ -747,10 +747,10 @@ view: score_earned_score {
 
 view: xp_earned_score {
   derived_table: {
-    explore_source: boost_usage_main {
-      column: value_boost { field: boost_usage_main.xp_earned }
-      column: character_used { field: boost_usage_main.character_used }
-      column: label_boost { field: boost_usage_main.score_boost_string }
+    explore_source: boost_usage {
+      column: value_boost { field: boost_usage.xp_earned }
+      column: character_used { field: boost_usage.character_used }
+      column: label_boost { field: boost_usage.score_boost_string }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
       }

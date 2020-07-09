@@ -139,4 +139,74 @@ view: boost_usage {
   }
 
 
+
+###
+
+
+  measure: boosts_sum {
+    group_label: "boxplot_boosts"
+    type: number
+
+    sql: SUM(${boost_usage_types_values.value_boost}) ;;
+  }
+
+
+  measure: 1_min_all_boosts {
+#     drill_fields: [detail*]
+#     link: {
+#       label: "Drill and sort by Total Skill Used"
+#       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+#     }
+  group_label: "boxplot_boosts"
+  type: min
+  sql: ${boost_usage_types_values.value_boost} ;;
+}
+
+measure: 5_max_all_boosts {
+  #     drill_fields: [detail*]
+  #     link: {
+  #       label: "Drill and sort by Total Skill Used"
+  #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+  #     }
+  group_label: "boxplot_boosts"
+  type: max
+  sql: ${boost_usage_types_values.value_boost} ;;
+}
+
+measure: 3_median_all_boosts {
+  #     drill_fields: [detail*]
+  #     link: {
+  #       label: "Drill and sort by Total Skill Used"
+  #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+  #     }
+  group_label: "boxplot_boosts"
+  type: median
+  sql: ${boost_usage_types_values.value_boost} ;;
+}
+
+measure: 2_25_all_boosts {
+  #     drill_fields: [detail*]
+  #     link: {
+  #       label: "Drill and sort by Total Skill Used"
+  #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+  #     }
+  group_label: "boxplot_boosts"
+  type: percentile
+  percentile: 25
+  sql: ${boost_usage_types_values.value_boost} ;;
+}
+
+measure: 4_75_all_boosts {
+  #     drill_fields: [detail*]
+  #     link: {
+  #       label: "Drill and sort by Total Skill Used"
+  #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+  #     }
+  group_label: "boxplot_boosts"
+  type: percentile
+  percentile: 75
+  sql: ${boost_usage_types_values.value_boost} ;;
+}
+
+
 }

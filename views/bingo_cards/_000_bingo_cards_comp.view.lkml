@@ -12,10 +12,6 @@ view: _000_bingo_cards_comp {
     sql:  CONCAT(${card_id},${extra_json}) ;;
   }
 
-  dimension: game_version_alt {
-    type: number
-    sql: CAST(${TABLE}.version AS NUMERIC) ;;
-  }
 
   dimension: user_id {
     type: string

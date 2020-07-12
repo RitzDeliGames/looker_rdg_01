@@ -277,21 +277,6 @@ view: _000_bingo_cards_comp {
   #_MEASURES_############################################
 
 
-  measure: for_cumulative_rounds {
-    group_label: "cumulative analysis"
-    label: "a) Average Rounds per Label "
-    type: number
-    sql: AVG((CAST(JSON_Value(extra_json,'$.rounds') AS NUMERIC))) ;;
-  }
-
-  measure: cumulative_total_rounds {
-    group_label: "cumulative analysis"
-    label: "b) Cumulative of Average Rounds"
-    type: running_total
-    sql: AVG(DISTINCT(CAST(JSON_Value(extra_json,'$.rounds') AS NUMERIC))) ;;
-    }
-
-
   measure: min_rounds_to_complete {
     type: min
     sql: ${rounds} ;;

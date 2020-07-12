@@ -26,6 +26,7 @@ view: bingo_card_funnel {
          WHEN ${current_card} = "card_007" THEN "CARD 007"
          WHEN ${current_card} = "card_008" THEN "CARD 008"
          WHEN ${current_card} = "card_009" THEN "CARD 009"
+         WHEN ${current_card} = "card_010" THEN "CARD 010"
         ELSE ${current_card}
         END
         ;;
@@ -208,6 +209,23 @@ view: card_step009 {
       filters: {
         field: bingo_card_funnel.card_step_hierarchy
         value: "CARD 009"
+      }
+    }
+  }
+}
+
+view: card_step010 {
+  derived_table: {
+    explore_source: bingo_card_funnel {
+      derived_column: step {
+        sql: "CARD 010" ;;
+      }
+      column: player_id {}
+      column: ChoreographyStepId {}
+      column: first_time {}
+      filters: {
+        field: bingo_card_funnel.card_step_hierarchy
+        value: "CARD 010"
       }
     }
   }

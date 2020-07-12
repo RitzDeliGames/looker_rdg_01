@@ -17,15 +17,15 @@ view: bingo_card_funnel {
   dimension: card_step_hierarchy {
     type: string
     sql:
-    CASE WHEN ${current_card} = "card_001" THEN "card_001"
-         WHEN ${current_card} = "card_002" THEN "card_002"
-         WHEN ${current_card} = "card_003" THEN "card_003"
-         WHEN ${current_card} = "card_004" THEN "card_004"
-         WHEN ${current_card} = "card_005" THEN "card_005"
-         WHEN ${current_card} = "card_006" THEN "card_006"
-         WHEN ${current_card} = "card_007" THEN "card_007"
-         WHEN ${current_card} = "card_008" THEN "card_008"
-         WHEN ${current_card} = "card_009" THEN "card_009"
+    CASE WHEN ${current_card} = "card_001" THEN "CARD 001"
+         WHEN ${current_card} = "card_002" THEN "CARD 002"
+         WHEN ${current_card} = "card_003" THEN "CARD 003"
+         WHEN ${current_card} = "card_004" THEN "CARD 004"
+         WHEN ${current_card} = "card_005" THEN "CARD 005"
+         WHEN ${current_card} = "card_006" THEN "CARD 006"
+         WHEN ${current_card} = "card_007" THEN "CARD 007"
+         WHEN ${current_card} = "card_008" THEN "CARD 008"
+         WHEN ${current_card} = "card_009" THEN "CARD 009"
         ELSE ${current_card}
         END
         ;;
@@ -64,14 +64,14 @@ view: card_step001 {
   derived_table: {
     explore_source: bingo_card_funnel {
       derived_column: step {
-        sql: "1. TitleScreenAwake" ;;
+        sql: "CARD 001" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: bingo_card_funnel.card_step_hierarchy
-        value: "1. TitleScreenAwake"
+        value: "CARD 001"
       }
     }
   }
@@ -81,14 +81,14 @@ view: card_step002 {
   derived_table: {
     explore_source: bingo_card_funnel {
       derived_column: step {
-        sql: "2. FIRST PLAY" ;;
+        sql: "CARD 002" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: bingo_card_funnel.card_step_hierarchy
-        value: "2. FIRST PLAY"
+        value: "CARD 002"
       }
     }
   }
@@ -98,14 +98,14 @@ view: card_step003 {
   derived_table: {
     explore_source: bingo_card_funnel {
       derived_column: step {
-        sql: "3. BINGO_CARD_INTRO" ;;
+        sql: "CARD 003" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: bingo_card_funnel.card_step_hierarchy
-        value: "3. BINGO_CARD_INTRO"
+        value: "CARD 003"
       }
     }
   }
@@ -115,14 +115,14 @@ view: card_step004 {
   derived_table: {
     explore_source: bingo_card_funnel {
       derived_column: step {
-        sql: "4. BINGO_CARD_FIRST_NODE_COMPLETE" ;;
+        sql: "CARD 004" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: bingo_card_funnel.card_step_hierarchy
-        value: "4. BINGO_CARD_FIRST_NODE_COMPLETE"
+        value: "CARD 004"
       }
     }
   }
@@ -132,14 +132,14 @@ view: card_step005 {
   derived_table: {
     explore_source: bingo_card_funnel {
       derived_column: step {
-        sql: "5. BINGO_CARD_KEEP_PLAYING" ;;
+        sql: "CARD 005" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: bingo_card_funnel.card_step_hierarchy
-        value: "5. BINGO_CARD_KEEP_PLAYING"
+        value: "CARD 005"
       }
     }
   }
@@ -149,14 +149,14 @@ view: card_step006 {
   derived_table: {
     explore_source: bingo_card_funnel {
       derived_column: step {
-        sql: "6. BINGO_CARD_FIRST_REWARD" ;;
+        sql: "CARD 006" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: bingo_card_funnel.card_step_hierarchy
-        value: "6. BINGO_CARD_FIRST_REWARD"
+        value: "CARD 006"
       }
     }
   }
@@ -166,14 +166,14 @@ view: card_step007 {
   derived_table: {
     explore_source: bingo_card_funnel {
       derived_column: step {
-        sql: "7. BINGO_CARD_FUE_END" ;;
+        sql: "CARD 007" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: bingo_card_funnel.card_step_hierarchy
-        value: "7. BINGO_CARD_FUE_END"
+        value: "CARD 007"
       }
     }
   }
@@ -183,14 +183,14 @@ view: card_step008 {
   derived_table: {
     explore_source: bingo_card_funnel {
       derived_column: step {
-        sql: "8. STORE_UNLOCK" ;;
+        sql: "CARD 008" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: bingo_card_funnel.card_step_hierarchy
-        value: "8. STORE_UNLOCK"
+        value: "CARD 008"
       }
     }
   }
@@ -200,14 +200,14 @@ view: card_step009 {
   derived_table: {
     explore_source: bingo_card_funnel {
       derived_column: step {
-        sql: "9. USE_BOOSTS" ;;
+        sql: "CARD 009" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: bingo_card_funnel.card_step_hierarchy
-        value: "9. USE_BOOSTS"
+        value: "CARD 009"
       }
     }
   }

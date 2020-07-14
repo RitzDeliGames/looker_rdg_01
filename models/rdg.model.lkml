@@ -30,7 +30,12 @@ explore: events {
       sql_on: ${events.player_id} = ${retention_example.user_id} ;;
       relationship: many_to_one
     }
+  join: sessions {
+    sql_on: ${events.player_id} = ${sessions.user_id} ;;
+    relationship: many_to_one
   }
+}
+
 
 explore: fue_funnel {
  sql_always_where:
@@ -255,6 +260,10 @@ explore: boost_usage {
 
   }
 }
+
+
+
+#########################
 
 
 

@@ -411,8 +411,8 @@ view: events {
     group_label: "Round Start/End"
     label: "Round ID"
     type: number
-#     sql: CAST(REPLACE(JSON_VALUE(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
-    sql: JSON_Value(${TABLE}.extra_json,'$.round_id') ;;
+    sql: CAST(REPLACE(JSON_VALUE(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
+#     sql: JSON_Value(${TABLE}.extra_json,'$.round_id') ;;
 
   }
 

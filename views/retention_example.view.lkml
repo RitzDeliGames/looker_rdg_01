@@ -176,7 +176,7 @@ view: retention_example {
   measure: total_active_users {
     type: count_distinct
     sql: ${user_id} ;;
-    filters: [unique_events: ">0"]
+#     filters: [unique_events: ">0"]
   }
 
   measure: percent_of_cohort_active {

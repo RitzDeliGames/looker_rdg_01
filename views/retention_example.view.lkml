@@ -1,3 +1,5 @@
+explore: retention_example {}
+
 view: retention_example {
   derived_table: {
     sql:
@@ -50,6 +52,7 @@ view: retention_example {
   }
 
   dimension_group: activity_day {
+    label: "for fan out"
     type: time
     sql: ${TABLE}.activity_day ;;
   }
@@ -104,6 +107,8 @@ view: cohort {
 view: day_list {
   derived_table: {
     explore_source: events {
+      timezone: query_timezone
+
       column: activity_day { field:events.event_date}
       filters: {
         field: events.user_type
@@ -119,8 +124,10 @@ view: day_list {
 view: data {
   derived_table: {
     explore_source: events {
+      timezone: query_timezone
+
       column: user_id {}
-      column: unique_events { field:events.count_unique_events }
+      column: unique_events { field:events.count_unique_person_id }
       column: event_day { field:events.event_date}
       filters: {
         field: events.user_type

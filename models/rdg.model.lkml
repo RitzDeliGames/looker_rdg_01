@@ -27,7 +27,8 @@ explore: events {
   sql_always_where:
     user_type NOT IN ("internal_editor", "unit_test") ;;
     join: retention_example {
-      sql_on: ${events.player_id} = ${retention_example.user_id} ;;
+      sql_on: ${events.player_id} = ${retention_example.user_id}
+                and ${events.user_first_seen_date} = ${retention_example.signup_day_date};;
       relationship: many_to_one
     }
   join: sessions {

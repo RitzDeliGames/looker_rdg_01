@@ -559,4 +559,9 @@ view: events {
     sql: ${player_id} ;;
   }
 
+  measure: count_unique_events {
+    type: count_distinct
+    sql: ${event_raw} ;;
+  }
+
 }

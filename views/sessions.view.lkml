@@ -5,10 +5,10 @@ view: sessions {
     sql:  SELECT CAST(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', timestamp , 'America/Los_Angeles')) AS DATE) AS date,
                  user_id,
                  COUNT(DISTINCT session_id) AS sessions
-                 FROM `eraser-blast.game_data.events`
-                 WHERE user_id <>  "user_id_not_set"
-                 GROUP BY date, user_id
-                 ORDER BY date DESC
+          FROM `eraser-blast.game_data.events`
+          WHERE user_id <>  "user_id_not_set"
+          GROUP BY date, user_id
+          ORDER BY date DESC
        ;;
   }
 

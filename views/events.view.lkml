@@ -504,6 +504,21 @@ view: events {
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
   }
 
+  #######
+
+  measure: max_round_count {
+    label: "Max Round Count"
+    type: max
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
+  }
+
+  dimension: rounds {
+    type: number
+    sql: CAST(JSON_Value(extra_json,'$.rounds') AS NUMERIC) ;;
+  }
+
+  ########
+
   measure: max_ltv {
     type: max
     label: "total lifetime spend"

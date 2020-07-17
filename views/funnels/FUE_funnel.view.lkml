@@ -1,8 +1,11 @@
 
 include: "/views/**/events.view"
+include: "/views/**/scene_load_time/**/scene_load_time.view"
 
 view: fue_funnel {
   extends: [events]
+  extends: [scene_load_time]
+
 
   measure: count_users {
     type: count_distinct

@@ -557,13 +557,22 @@ view: events {
     sql: MAX(${timestamp_raw}) ;;
   }
 
+  measure: tenure_days {
+    group_label: "Tenure"
+    type: number
+    sql: TIMESTAMP_DIFF(MAX(${timestamp_raw}), min(${timestamp_raw}), DAY)
+      ;;
+  }
+
   measure: tenure_hours {
+    group_label: "Tenure"
     type: number
     sql: TIMESTAMP_DIFF(MAX(${timestamp_raw}), min(${timestamp_raw}), HOUR)
     ;;
   }
 
   measure: tenure_minutes {
+    group_label: "Tenure"
     type: number
     sql: TIMESTAMP_DIFF(MAX(${timestamp_raw}), min(${timestamp_raw}), MINUTE)
       ;;

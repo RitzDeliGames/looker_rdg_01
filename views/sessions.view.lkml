@@ -14,9 +14,6 @@ view: sessions {
 
 
 
-
-
-
   measure: count {
     type: count
     drill_fields: [detail*]

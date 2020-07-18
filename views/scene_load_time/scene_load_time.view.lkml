@@ -70,6 +70,16 @@ view: scene_load_time {
     sql: CAST((${load_time} / 1000) AS NUMERIC) ;;
   }
 
+  dimension: load_time_sec_rd {
+    type: number
+    sql: ROUND(CAST((${load_time} / 1000) AS NUMERIC), 1) ;;
+  }
+
+  dimension: load_time_sec_rd_0 {
+    type: number
+    sql: ROUND(CAST((${load_time} / 1000) AS NUMERIC), 0) ;;
+  }
+
 
 #####BOXPLOT SCENE LOAD TIME#####
 

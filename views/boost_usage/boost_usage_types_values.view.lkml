@@ -1,5 +1,6 @@
 view: boost_usage_types_values {
   derived_table: {
+    datagroup_trigger: events_boost
     sql: SELECT *
           FROM ${coins_earned_5_to_4.SQL_TABLE_NAME}
           UNION ALL SELECT *

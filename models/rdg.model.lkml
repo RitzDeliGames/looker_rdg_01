@@ -23,6 +23,11 @@ datagroup: change_at_midnight {
 datagroup: events_raw {
   sql_trigger:  SELECT max(event) FROM `eraser-blast.game_data.events` WHERE DATE(event) = CURRENT_DATE  ;;
 }
+
+datagroup: events_boost {
+  sql_trigger:  SELECT CURRENT_DATE  ;;
+}
+
   named_value_format: large_usd { value_format: "[>=1000000]\"$\"0.00,,\"M\";[>=1000]\"$\"0.00,\"K\";\"$\"0.00" }
   named_value_format: large_number { value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";0" }
 
@@ -257,13 +262,15 @@ explore: boost_usage {
     relationship: many_to_many
     sql_on: ${boost_usage.character_used} = ${boost_usage_types_values.character}  ;;
   }
+  join: _000_bingo_cards_comp {
+    relationship: many_to_many
+    sql_on: ${boost_usage.character_used} = ${_000_bingo_cards_comp.character_used}  ;;
+  }
   join: node_data {
     fields: [node_data.node_data]
     relationship: one_to_many
     from: _000_bingo_cards_comp
-    sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.node_data')) as node_data
-      ;;
-
+    sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.node_data')) as node_data ;;
   }
 }
 

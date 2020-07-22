@@ -87,6 +87,7 @@ view: retention_example {
 
 view: cohort {
   derived_table: {
+    #datagroup_trigger: change_at_midnight
     explore_source: events {
       timezone: query_timezone
       column: signup_day { field: events.user_first_seen_date }
@@ -106,6 +107,7 @@ view: cohort {
 
 view: day_list {
   derived_table: {
+    #datagroup_trigger: change_at_midnight
     explore_source: events {
       timezone: query_timezone
 
@@ -123,6 +125,7 @@ view: day_list {
 
 view: data {
   derived_table: {
+    #datagroup_trigger: change_at_midnight
     explore_source: events {
       timezone: query_timezone
 

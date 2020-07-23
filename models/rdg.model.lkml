@@ -15,6 +15,11 @@ datagroup: rdg_default_datagroup {
 
 persist_with: rdg_default_datagroup
 
+datagroup: change_at_midnight {
+  sql_trigger:  SELECT CURRENT_DATE  ;;
+  max_cache_age: "24 hours"
+}
+
 datagroup: events_raw {
   sql_trigger:  SELECT max(event) FROM `eraser-blast.game_data.events` WHERE DATE(event) = CURRENT_DATE  ;;
 }

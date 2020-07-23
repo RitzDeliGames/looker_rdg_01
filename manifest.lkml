@@ -217,10 +217,8 @@ constant: bingo_card_mapping_5x5_X {
 }
 
 constant: release_version {
-  value: "(CASE
-  WHEN ${TABLE}.version = '1568'
-  THEN 'Release v1.0.85'
-  WHEN ${TABLE}.version = '1579'
-  THEN 'Release v1.0.96'
-  END)"
+  value: "CASE
+          WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0'
+          WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0'
+        END"
 }

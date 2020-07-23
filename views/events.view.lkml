@@ -19,8 +19,7 @@ view: events {
 
   dimension: release_version {
     label: "Release Version"
-    type: string
-    sql:@{release_version};;
+    sql: @{release_version};;
   }
 
 ###

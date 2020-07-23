@@ -1,9 +1,9 @@
-include: "/views/**/bingo_cards/**/_000_bingo_cards_comp.view"
+include: "/views/**/events.view"
 
 
 view: boost_usage {
 
-  extends: [_000_bingo_cards_comp]
+  extends: [events]
 
 
   ########################
@@ -24,6 +24,31 @@ view: boost_usage {
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${extra_json},
       '$.xp_earned'),'"','') as NUMERIC) ;;
+  }
+
+  dimension: timestamp_join {
+#     convert_tz: no
+    sql: ${timestamp_raw} ;;
+  }
+
+  dimension: boost_bool {
+    type: string
+    sql:  CASE
+    WHEN REPLACE(JSON_Value(${TABLE}.extra_json,'$.score_boost'),'"','') > "0"
+    THEN TRUE
+    WHEN REPLACE(JSON_Value(${TABLE}.extra_json,'$.coin_boost'),'"','') > "0"
+    THEN TRUE
+    WHEN REPLACE(JSON_Value(${TABLE}.extra_json,'$.exp_boost'),'"','') > "0"
+    THEN TRUE
+    WHEN REPLACE(JSON_Value(${TABLE}.extra_json,'$.time_boost'),'"','') > "0"
+    THEN TRUE
+    WHEN REPLACE(JSON_Value(${TABLE}.extra_json,'$.bubble_boost'),'"','') > "0"
+    THEN TRUE
+    WHEN REPLACE(JSON_Value(${TABLE}.extra_json,'$.five_to_four_boost'),'"','') > "0"
+    THEN TRUE
+    ELSE FALSE
+    END
+    ;;
   }
 
 
@@ -68,68 +93,54 @@ view: boost_usage {
 
 ##########
 
-  dimension: score_boost_num {
-    group_label: "Boosts Num"
-    label: "Score Boost"
-    hidden: no
+  dimension: score_boost_bool {
+    hidden: yes
     type: number
-    sql: REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.score_boost'),'"','');;
+    sql:IF(REPLACE(JSON_Value(${TABLE}.extra_json,'$.score_boost'),'"','') > "0", 1, 0);;
   }
 
-  dimension: coin_boost_num {
-    group_label: "Boosts Num"
-    label: "Coin Boost"
-    hidden: no
+  dimension: coin_boost_bool {
+    hidden: yes
     type: number
-    sql: REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.coin_boost'),'"','') ;;
+    sql:IF(REPLACE(JSON_Value(${TABLE}.extra_json,'$.coin_boost'),'"','') > "0", 1, 0);;
   }
 
-  dimension: exp_boost_num {
-    group_label: "Boosts Num"
-    label: "XP Boost"
-    hidden: no
+  dimension: exp_boost_bool {
+    hidden: yes
     type: number
-    sql: REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.exp_boost'),'"','') ;;
+    sql:IF(REPLACE(JSON_Value(${TABLE}.extra_json,'$.exp_boost'),'"','') > "0", 1, 0);;
   }
 
-  dimension: time_boost_num {
-    group_label: "Boosts Num"
-    label: "Time Boost"
-    hidden: no
+  dimension: time_boost_bool {
+    hidden: yes
     type: number
-    sql: REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.time_boost'),'"','') ;;
+    sql:IF(REPLACE(JSON_Value(${TABLE}.extra_json,'$.time_boost'),'"','') > "0", 1, 0);;
   }
 
-  dimension: bubble_boost_num {
-    group_label: "Boosts Num"
-    label: "Bubble Boost"
-    hidden: no
+  dimension: bubble_boost_bool {
+    hidden: yes
     type: number
-    sql: REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.bubble_boost'),'"','') ;;
+    sql:IF(REPLACE(JSON_Value(${TABLE}.extra_json,'$.bubble_boost'),'"','') > "0", 1, 0);;
   }
 
-  dimension: five_to_four_boost_num {
-    group_label: "Boosts Num"
-    label: "5-to-4 Boost"
-    hidden: no
+  dimension: five_to_four_boost_bool {
+    hidden: yes
     type: number
-    sql: REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.five_to_four_boost'),'"','') ;;
+    sql:IF(REPLACE(JSON_Value(${TABLE}.extra_json,'$.five_to_four_boost'),'"','') > "0", 1, 0);;
   }
-
-
 
 
 ############BINGO CARDS EXTENSION############
 
-  dimension: rounds_nodes {
-    type: number
-    sql: JSON_EXTRACT(${node_data.node_data}, '$.rounds') ;;
-  }
-
-  dimension: node_id {
-    type: number
-    sql: JSON_EXTRACT(${node_data.node_data}, '$.node_id') ;;
-  }
+#   dimension: rounds_nodes {
+#     type: number
+#     sql: JSON_EXTRACT(${node_data.node_data}, '$.rounds') ;;
+#   }
+#
+#   dimension: node_id {
+#     type: number
+#     sql: JSON_EXTRACT(${node_data.node_data}, '$.node_id') ;;
+#   }
 
 
 
@@ -139,74 +150,87 @@ view: boost_usage {
   }
 
 
+  ####################
 
-###
 
+  measure: rounds_test {
+    type: sum_distinct
+    sql: CAST(JSON_Value(extra_json,'$.rounds') AS NUMERIC) ;;
+  }
 
-  measure: boosts_sum {
-    group_label: "boxplot_boosts"
-    type: number
-
-    sql: SUM(${boost_usage_types_values.value_boost}) ;;
+  measure: round_count {
+#     label:
+    type: count_distinct
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
   }
 
 
-  measure: 1_min_all_boosts {
-#     drill_fields: [detail*]
-#     link: {
-#       label: "Drill and sort by Total Skill Used"
-#       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
-#     }
-  group_label: "boxplot_boosts"
-  type: min
-  sql: ${boost_usage_types_values.value_boost} ;;
-}
+  ####################
 
-measure: 5_max_all_boosts {
-  #     drill_fields: [detail*]
-  #     link: {
-  #       label: "Drill and sort by Total Skill Used"
-  #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
-  #     }
-  group_label: "boxplot_boosts"
-  type: max
-  sql: ${boost_usage_types_values.value_boost} ;;
-}
-
-measure: 3_median_all_boosts {
-  #     drill_fields: [detail*]
-  #     link: {
-  #       label: "Drill and sort by Total Skill Used"
-  #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
-  #     }
-  group_label: "boxplot_boosts"
-  type: median
-  sql: ${boost_usage_types_values.value_boost} ;;
-}
-
-measure: 2_25_all_boosts {
-  #     drill_fields: [detail*]
-  #     link: {
-  #       label: "Drill and sort by Total Skill Used"
-  #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
-  #     }
-  group_label: "boxplot_boosts"
-  type: percentile
-  percentile: 25
-  sql: ${boost_usage_types_values.value_boost} ;;
-}
-
-measure: 4_75_all_boosts {
-  #     drill_fields: [detail*]
-  #     link: {
-  #       label: "Drill and sort by Total Skill Used"
-  #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
-  #     }
-  group_label: "boxplot_boosts"
-  type: percentile
-  percentile: 75
-  sql: ${boost_usage_types_values.value_boost} ;;
-}
+#   measure: boosts_sum {
+#     group_label: "boxplot_boosts"
+#     type: number
+#
+#     sql: SUM(${boost_usage_types_values.value_boost}) ;;
+#   }
+#
+#
+#   measure: 1_min_all_boosts {
+# #     drill_fields: [detail*]
+# #     link: {
+# #       label: "Drill and sort by Total Skill Used"
+# #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+# #     }
+#   group_label: "boxplot_boosts"
+#   type: min
+#   sql: ${boost_usage_types_values.value_boost} ;;
+# }
+#
+# measure: 5_max_all_boosts {
+#   #     drill_fields: [detail*]
+#   #     link: {
+#   #       label: "Drill and sort by Total Skill Used"
+#   #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+#   #     }
+#   group_label: "boxplot_boosts"
+#   type: max
+#   sql: ${boost_usage_types_values.value_boost} ;;
+# }
+#
+# measure: 3_median_all_boosts {
+#   #     drill_fields: [detail*]
+#   #     link: {
+#   #       label: "Drill and sort by Total Skill Used"
+#   #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+#   #     }
+#   group_label: "boxplot_boosts"
+#   type: median
+#   sql: ${boost_usage_types_values.value_boost} ;;
+# }
+#
+# measure: 2_25_all_boosts {
+#   #     drill_fields: [detail*]
+#   #     link: {
+#   #       label: "Drill and sort by Total Skill Used"
+#   #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+#   #     }
+#   group_label: "boxplot_boosts"
+#   type: percentile
+#   percentile: 25
+#   sql: ${boost_usage_types_values.value_boost} ;;
+# }
+#
+# measure: 4_75_all_boosts {
+#   #     drill_fields: [detail*]
+#   #     link: {
+#   #       label: "Drill and sort by Total Skill Used"
+#   #       url: "{{ link }}&sorts=_002_skill_used.character_skill_used+desc"
+#   #     }
+#   group_label: "boxplot_boosts"
+#   type: percentile
+#   percentile: 75
+#   sql: ${boost_usage_types_values.value_boost} ;;
+# }
 
 
 }

@@ -588,4 +588,10 @@ view: events {
     sql: ${event_raw} ;;
   }
 
+  measure: round_count {
+#     label:
+    type: count_distinct
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
+  }
+
 }

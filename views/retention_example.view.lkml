@@ -1,5 +1,3 @@
-explore: retention_example {}
-
 view: retention_example {
   derived_table: {
     sql:
@@ -96,6 +94,18 @@ view: cohort {
         field: events.user_type
         value: "external"
       }
+      bind_filters: {
+        from_field: events.payer
+        to_field: events.payer
+      }
+      bind_filters: {
+        from_field: events.country
+        to_field: events.country
+      }
+      bind_filters: {
+        from_field: events.game_version
+        to_field: events.game_version
+      }
     }
   }
   dimension: signup_day {
@@ -135,6 +145,18 @@ view: data {
       filters: {
         field: events.user_type
         value: "external"
+      }
+      bind_filters: {
+        from_field: events.payer
+        to_field: events.payer
+      }
+      bind_filters: {
+        from_field: events.country
+        to_field: events.country
+      }
+      bind_filters: {
+        from_field: events.game_version
+        to_field: events.game_version
       }
     }
   }

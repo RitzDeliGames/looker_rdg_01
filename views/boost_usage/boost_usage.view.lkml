@@ -124,7 +124,7 @@ view: boost_usage {
   }
 
   dimension: five_to_four_boost_bool {
-    hidden: no
+    hidden: yes
     type: number
     sql:IF(REPLACE(JSON_Value(${TABLE}.extra_json,'$.five_to_four_boost'),'"','') > "0", 1, 0);;
   }

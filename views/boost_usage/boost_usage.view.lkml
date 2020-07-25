@@ -124,10 +124,11 @@ view: boost_usage {
   }
 
   dimension: five_to_four_boost_bool {
-    hidden: yes
+    hidden: no
     type: number
     sql:IF(REPLACE(JSON_Value(${TABLE}.extra_json,'$.five_to_four_boost'),'"','') > "0", 1, 0);;
   }
+
 
 
 ############BINGO CARDS EXTENSION############

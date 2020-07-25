@@ -66,6 +66,8 @@ view: boost_usage_types_values {
 
   dimension: label_boost {}
 
+  dimension: label_boost_bool {}
+
   dimension: character {
 #     hidden: yes
     type: string
@@ -157,6 +159,7 @@ view: coins_earned_5_to_4 {
       column: value_boost { field: boost_usage.coins_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.five_to_four_boost_string }
+      column: label_boost_bool { field: boost_usage.five_to_four_boost }
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
@@ -196,6 +199,7 @@ view: score_earned_5_to_4 {
       column: value_boost { field: boost_usage.score_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.five_to_four_boost_string }
+      column: label_boost_bool { field: boost_usage.five_to_four_boost }
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
@@ -235,6 +239,7 @@ view: xp_earned_5_to_4 {
       column: value_boost { field: boost_usage.xp_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.five_to_four_boost_string }
+      column: label_boost_bool { field: boost_usage.five_to_four_boost }
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
@@ -275,6 +280,7 @@ view: coins_earned_bubble {
       column: value_boost { field: boost_usage.coins_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.bubble_boost_string }
+      column: label_boost_bool { field: boost_usage.bubble_boost }
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
@@ -315,6 +321,7 @@ view: score_earned_bubble {
       column: value_boost { field: boost_usage.score_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.bubble_boost_string }
+      column: label_boost_bool { field: boost_usage.bubble_boost }
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
@@ -354,6 +361,7 @@ view: xp_earned_bubble {
       column: value_boost { field: boost_usage.xp_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.bubble_boost_string }
+      column: label_boost_bool { field: boost_usage.bubble_boost }
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
@@ -394,6 +402,7 @@ view: coins_earned_time {
       column: value_boost { field: boost_usage.coins_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.time_boost_string }
+      column: label_boost_bool { field: boost_usage.time_boost }
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
@@ -434,6 +443,7 @@ view: score_earned_time {
       column: value_boost { field: boost_usage.score_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.time_boost_string }
+      column: label_boost_bool { field: boost_usage.time_boost }
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
@@ -473,6 +483,7 @@ view: xp_earned_time {
       column: value_boost { field: boost_usage.xp_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.time_boost_string }
+      column: label_boost_bool { field: boost_usage.time_boost }
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
@@ -513,6 +524,8 @@ view: coins_earned_exp {
       column: value_boost { field: boost_usage.coins_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.exp_boost_string }
+      column: label_boost_bool { field: boost_usage.exp_boost }
+
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
@@ -553,6 +566,8 @@ view: score_earned_exp {
       column: value_boost { field: boost_usage.score_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.exp_boost_string }
+      column: label_boost_bool { field: boost_usage.exp_boost }
+
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
@@ -592,6 +607,8 @@ view: xp_earned_exp {
       column: value_boost { field: boost_usage.xp_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.exp_boost_string }
+      column: label_boost_bool { field: boost_usage.exp_boost }
+
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
@@ -632,6 +649,8 @@ view: coins_earned_coins {
       column: value_boost { field: boost_usage.coins_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.coin_boost_string }
+      column: label_boost_bool { field: boost_usage.coin_boost }
+
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
@@ -672,6 +691,8 @@ view: score_earned_coins {
       column: value_boost { field: boost_usage.score_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.coin_boost_string }
+      column: label_boost_bool { field: boost_usage.coin_boost }
+
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
@@ -711,6 +732,8 @@ view: xp_earned_coins {
       column: value_boost { field: boost_usage.xp_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.coin_boost_string }
+      column: label_boost_bool { field: boost_usage.coin_boost }
+
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;
@@ -751,6 +774,8 @@ view: coins_earned_score {
       column: value_boost { field: boost_usage.coins_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.score_boost_string }
+      column: label_boost_bool { field: boost_usage.score_boost }
+
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Coins Earned") ;;
@@ -791,6 +816,8 @@ view: score_earned_score {
       column: value_boost { field: boost_usage.score_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.score_boost_string }
+      column: label_boost_bool { field: boost_usage.score_boost }
+
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - Score Earned") ;;
@@ -830,6 +857,8 @@ view: xp_earned_score {
       column: value_boost { field: boost_usage.xp_earned }
       column: character_used { field: boost_usage.character_used }
       column: label_boost { field: boost_usage.score_boost_string }
+      column: label_boost_bool { field: boost_usage.score_boost }
+
       column: timestamp_date { field: boost_usage.timestamp_raw }
       derived_column: Boost_Type {
         sql: CONCAT(label_boost, " - XP Earned") ;;

@@ -220,5 +220,6 @@ constant: release_version {
   value: "CASE
           WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0'
           WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0'
+          WHEN ${TABLE}.version LIKE '2044' THEN 'Release 1.1'
         END"
 }

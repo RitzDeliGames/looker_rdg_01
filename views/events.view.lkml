@@ -24,6 +24,23 @@ view: events {
 
 ###
 
+###EXPERIMENT DIMENSIONS
+
+  dimension: experiment {
+    label: "Experiment"
+    type: string
+    sql: @{experiments};;
+  }
+
+  dimension: variants {
+    type: string
+    sql: JSON_EXTRACT(experiments,${experiment}) ;;
+    #sql:  CONCAT(${character_dimension},${extra_json}) ;;
+  }
+
+###
+
+
 ###PLAYER ID DIMENSIONS###
 
   dimension: device_id {

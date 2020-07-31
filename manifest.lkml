@@ -224,14 +224,23 @@ constant: release_version {
         END"
 }
 
-constant: experiments {
+constant: experiment_ids {
   value: "CASE
-  WHEN JSON_EXTRACT({TABLE}.experiments,'$.linearFirstCards_20200723') THEN 'LinearVsNonLinear'
-  WHEN JSON_EXTRACT({TABLE}.experiments,'$.helper_bias_20200707') THEN 'HelperBiast'
-  WHEN JSON_EXTRACT({TABLE}.experiments,'$.skill_reminder_20200707') THEN 'SkillReminder'
-  WHEN JSON_EXTRACT({TABLE}.experiments,'$.more_time_reminder_20200708') THEN 'MoreTime'
-  WHEN JSON_EXTRACT({TABLE}.experiments,'$.roundsForFiveToFour_20200720') THEN 'Rounds5to4'
-  END"
+            WHEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723') != 'unassigned' THEN 'LinearVsNonLinear'
+            WHEN JSON_EXTRACT(${experiments},'$.helper_bias_20200707') != 'unassigned' THEN 'HelperBias'
+            WHEN JSON_EXTRACT(${experiments},'$.skill_reminder_20200707') != 'unassigned' THEN 'SkillReminder'
+            WHEN JSON_EXTRACT(${experiments},'$.more_time_reminder_20200708') != 'unassigned' THEN 'MoreTime'
+            WHEN JSON_EXTRACT(${experiments},'$.roundsForFiveToFour_20200720') != 'unassigned' THEN 'Rounds5to4'
+          END"
+}
+
+constant: variant_ids {
+  value: "CASE
+            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_control' THEN 'Control'
+            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_a' THEN 'Variant A'
+            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_b' THEN 'Variant B'
+            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_c' THEN 'Variant C'
+          END"
 }
 
 

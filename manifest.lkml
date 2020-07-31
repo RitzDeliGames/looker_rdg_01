@@ -220,5 +220,16 @@ constant: release_version {
   value: "CASE
           WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0'
           WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0'
+          WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
         END"
+}
+
+constant: experiments {
+  value: "CASE
+  WHEN JSON_EXTRACT({TABLE}.experiments,'$.linearFirstCards_20200723') THEN 'LinearVsNonLinear'
+  WHEN JSON_EXTRACT({TABLE}.experiments,'$.helper_bias_20200707') THEN 'HelperBiast'
+  WHEN JSON_EXTRACT({TABLE}.experiments,'$.skill_reminder_20200707') THEN 'SkillReminder'
+  WHEN JSON_EXTRACT({TABLE}.experiments,'$.more_time_reminder_20200708') THEN 'MoreTime'
+  WHEN JSON_EXTRACT({TABLE}.experiments,'$.roundsForFiveToFour_20200720') THEN 'Rounds5to4'
+  END"
 }

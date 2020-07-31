@@ -40,7 +40,6 @@ view: events {
 
 ###
 
-
 ###PLAYER ID DIMENSIONS###
 
   dimension: device_id {
@@ -135,6 +134,12 @@ view: events {
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
+  }
+
+  dimension: region {
+    label: "Region"
+    type: string
+    sql: @{country_region};;
   }
 
 ###

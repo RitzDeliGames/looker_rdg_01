@@ -5,7 +5,6 @@ view: sessions {
     sql:  SELECT CAST(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', timestamp , 'America/Los_Angeles')) AS DATE) AS event,
                  CAST(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', created_at , 'America/Los_Angeles')) AS DATE) AS signup_day,
                  user_id,
-
                  COUNT(DISTINCT session_id) AS sessions,
                  COUNT(session_id) AS sessions_rounds,
                  (COUNT(session_id) / COUNT(DISTINCT session_id)) AS ratio,
@@ -17,9 +16,6 @@ view: sessions {
           GROUP BY user_id, event, signup_day
        ;;
   }
-
-
-
 
 
   measure: count {

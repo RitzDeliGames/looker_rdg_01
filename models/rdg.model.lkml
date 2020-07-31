@@ -41,12 +41,17 @@ explore: events {
                 and ${events.user_first_seen_date} = ${retention_example.signup_day_date};;
       relationship: many_to_one
     }
-  join: sessions {
-    sql_on: ${events.player_id} = ${sessions.user_id} ;;
-    relationship: many_to_one
+}
+
+explore: sessions {
+    join: events {
+    sql_on: ${sessions.user_id} = ${events.user_id}
+                and ${sessions.event_date} = ${events.event_date};;
+    relationship: one_to_one
   }
 }
 
+explore: sessions_alt {}
 
 explore: fue_funnel {
  sql_always_where:

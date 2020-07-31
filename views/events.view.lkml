@@ -28,14 +28,14 @@ view: events {
 
   dimension: experiments {
     group_label: "Experiments"
-    label: "Experiment"
+    label: "Experiment IDs"
     type: string
     sql: ${TABLE}.experiments ;;
   }
 
   dimension: experiment_names {
     group_label: "Experiments"
-    label: "Experiment ID"
+    label: "Experiment Names"
     type: string
     sql: @{experiment_ids} ;;
   }
@@ -416,6 +416,8 @@ view: events {
     timeframes: [
       raw,
       time,
+      hour,
+      hour_of_day,
       date,
       week,
       month,

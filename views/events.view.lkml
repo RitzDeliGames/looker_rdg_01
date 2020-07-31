@@ -184,7 +184,7 @@ view: events {
 
   dimension_group: user_first_seen {
     type: time
-    group_label: "install date"
+    group_label: "Install Date"
     timeframes: [
       raw,
       time,
@@ -195,6 +195,44 @@ view: events {
       year
     ]
     sql: ${TABLE}.created_at ;;
+  }
+
+  dimension: minutes_since_install {
+    group_label: "Install Date"
+    label: "Minutes Since Install"
+    sql: CASE
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 0 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 1 THEN 'Min 01'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 1 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 2 THEN 'Min 02'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 2 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 3 THEN 'Min 03'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 3 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 4 THEN 'Min 04'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 4 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 5 THEN 'Min 05'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 5 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 6 THEN 'Min 06'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 6 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 7 THEN 'Min 07'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 7 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 8 THEN 'Min 08'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 8 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 9 THEN 'Min 09'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 9 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 10 THEN 'Min 10'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 10 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 11 THEN 'Min 11'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 11 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 12 THEN 'Min 12'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 12 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 13 THEN 'Min 13'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 13 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 14 THEN 'Min 14'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 14 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 15 THEN 'Min 15'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 15 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 16 THEN 'Min 16'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 16 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 17 THEN 'Min 17'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 17 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 18 THEN 'Min 18'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 18 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 19 THEN 'Min 19'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 19 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 20 THEN 'Min 20'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 20 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 21 THEN 'Min 21'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 21 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 22 THEN 'Min 22'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 22 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 23 THEN 'Min 23'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 23 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 24 THEN 'Min 24'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 24 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 25 THEN 'Min 25'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 25 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 26 THEN 'Min 26'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 26 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 27 THEN 'Min 27'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 27 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 28 THEN 'Min 28'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 28 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 29 THEN 'Min 29'
+          WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 29 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 30 THEN 'Min 30'
+          ELSE 'Min 30+'
+        END;;
   }
 
   dimension: payer {

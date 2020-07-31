@@ -45,14 +45,7 @@ view: events {
     label: "Variants"
     type: string
     sql: @{variant_ids} ;;
-    #sql:  CASE
-    #        WHEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723') LIKE '%_control' THEN 'Control'
-    #        WHEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723') LIKE '%_a' THEN 'Variant A'
-    #        WHEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723') LIKE '%_b' THEN 'Variant B'
-    #        WHEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723') LIKE '%_c' THEN 'Variant C'
-    #      END ;;
   }
-
 ###
 
 

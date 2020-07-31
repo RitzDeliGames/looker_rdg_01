@@ -526,10 +526,7 @@ view: events {
 
 
 ###MEASURES###
-  measure: count {
-    type: count
-    drill_fields: [event_name]
-  }
+
 
   measure: avg_round_count {
     label: "Avg. Round Count"
@@ -547,7 +544,7 @@ view: events {
 
   dimension: rounds {
     type: number
-    sql: CAST(JSON_Value(extra_json,'$.rounds') AS NUMERIC) ;;
+    sql: CAST(REPLACE(JSON_VALUE(${TABLE}.extra_json,'$.rounds'),'"','') AS NUMERIC) ;;
   }
 
   ########
@@ -621,10 +618,5 @@ view: events {
     sql: ${event_raw} ;;
   }
 
-  measure: round_count {
-#     label:
-    type: count_distinct
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
-  }
 
 }

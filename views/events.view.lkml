@@ -26,16 +26,31 @@ view: events {
 
 ###EXPERIMENT DIMENSIONS
 
-  dimension: experiment {
+  dimension: experiments {
+    group_label: "Experiments"
     label: "Experiment"
     type: string
-    sql: @{experiments};;
+    sql: ${TABLE}.experiments ;;
+  }
+
+  dimension: experiment_names {
+    group_label: "Experiments"
+    label: "Experiment ID"
+    type: string
+    sql: @{experiment_ids} ;;
   }
 
   dimension: variants {
+    group_label: "Experiments"
+    label: "Variants"
     type: string
-    sql: JSON_EXTRACT(experiments,${experiment}) ;;
-    #sql:  CONCAT(${character_dimension},${extra_json}) ;;
+    sql: @{variant_ids} ;;
+    #sql:  CASE
+    #        WHEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723') LIKE '%_control' THEN 'Control'
+    #        WHEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723') LIKE '%_a' THEN 'Variant A'
+    #        WHEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723') LIKE '%_b' THEN 'Variant B'
+    #        WHEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723') LIKE '%_c' THEN 'Variant C'
+    #      END ;;
   }
 
 ###

@@ -91,6 +91,8 @@ constant: device_model_mapping {
           WHEN ${TABLE}.hardware = 'Umx U693CL' THEN 'Assurance Wireless - Unimax 693CL'
           WHEN ${TABLE}.hardware = 'ANS L51' THEN 'Assurance Wireless - ANS L51'
           WHEN ${TABLE}.hardware = 'Yulong cp3705A' THEN 'Yulong Coolpad 3705A'
+          WHEN ${TABLE}.hardware = 'HUAWEI JKM-LX3' THEN 'Huawei Y9 2019'
+          WHEN ${TABLE}.hardware = 'HUAWEI MAR-LX3A' THEN 'Huawei P30 Lite'
           ELSE ${TABLE}.hardware
         END"
 }

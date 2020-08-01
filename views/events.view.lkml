@@ -88,6 +88,11 @@ view: events {
     sql: ${TABLE}.rdg_id ;;
   }
 
+  dimension: paused {
+    type: string
+    sql: JSON_Value(extra_json, '$.paused') ;;
+  }
+
 ###
 
 ###DEVICE DIMENSIONS###

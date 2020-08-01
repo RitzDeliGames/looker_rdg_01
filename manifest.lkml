@@ -38,6 +38,7 @@ constant: device_model_mapping {
           WHEN ${TABLE}.hardware = 'iPad7,11' THEN 'iPad - 7th Gen'
           WHEN ${TABLE}.hardware = 'iPad5,1' THEN 'iPad Mini - 4th Gen'
           WHEN ${TABLE}.hardware = 'samsung SM-A750G' THEN 'Samsung Galaxy A7'
+          WHEN ${TABLE}.hardware = 'samsung SM-A530F' THEN 'Samsung Galaxy A8'
           WHEN ${TABLE}.hardware = 'samsung SM-A102U' THEN 'Samsung Galaxy A10'
           WHEN ${TABLE}.hardware = 'samsung SM-A105M' THEN 'Samsung Galaxy A10'
           WHEN ${TABLE}.hardware = 'samsung SM-A107M' THEN 'Samsung Galaxy A10'

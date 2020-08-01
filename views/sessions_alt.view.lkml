@@ -1,11 +1,14 @@
 view: sessions_alt {
   derived_table: {
     sql: SELECT CAST(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', timestamp , 'America/Los_Angeles')) AS DATE) AS event,
-       user_id, session_id, JSON_EXTRACT(extra_json, '$.rounds') AS rounds, JSON_EXTRACT(extra_json, '$.sessions') AS sessions,
-       ((CAST(JSON_EXTRACT(extra_json, '$.rounds') AS NUMERIC)) / (CAST(JSON_EXTRACT(extra_json, '$.sessions') AS NUMERIC))) AS ratio,
-FROM `eraser-blast.game_data.events`
-WHERE (user_type = 'external') AND (user_type NOT IN ("internal_editor", "unit_test") AND (event_name = 'cards'))
- ;;
+                user_id,
+                session_id,
+                JSON_EXTRACT(extra_json, '$.rounds') AS rounds,
+                JSON_EXTRACT(extra_json, '$.sessions') AS sessions,
+                ((CAST(JSON_EXTRACT(extra_json, '$.rounds') AS NUMERIC)) / (CAST(JSON_EXTRACT(extra_json, '$.sessions') AS NUMERIC))) AS ratio,
+         FROM `eraser-blast.game_data.events`
+         WHERE (user_type = 'external') AND (user_type NOT IN ("internal_editor", "unit_test") AND (event_name = 'cards'))
+        ;;
   }
 
   measure: count {

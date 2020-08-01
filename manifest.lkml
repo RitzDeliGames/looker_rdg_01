@@ -245,3 +245,13 @@ constant: variant_ids {
             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_c' THEN 'Variant C'
           END"
 }
+
+
+constant: country_region {
+  value: "CASE
+          WHEN ${TABLE}.country LIKE 'ZZ' THEN 'N/A'
+          WHEN ${TABLE}.country IN ('MX', 'PE', 'UY', 'VE', 'NI', 'PY', 'CR', 'SV', 'CL', 'BZ', 'BO', 'AR', 'CO', 'HN', 'GT', 'EC', 'PA') THEN 'LATAM-ES'
+          WHEN ${TABLE}.country LIKE 'BR' THEN 'LATAM-BR'
+          ELSE 'OTHER'
+        END"
+}

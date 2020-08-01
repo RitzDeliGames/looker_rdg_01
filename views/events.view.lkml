@@ -48,7 +48,6 @@ view: events {
   }
 ###
 
-
 ###PLAYER ID DIMENSIONS###
 
   dimension: device_id {
@@ -87,6 +86,11 @@ view: events {
     group_label: "Player ID Dimensions"
     type: string
     sql: ${TABLE}.rdg_id ;;
+  }
+
+  dimension: paused {
+    type: string
+    sql: JSON_Value(extra_json, '$.paused') ;;
   }
 
 ###
@@ -143,6 +147,12 @@ view: events {
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
+  }
+
+  dimension: region {
+    label: "Region"
+    type: string
+    sql: @{country_region};;
   }
 
 ###

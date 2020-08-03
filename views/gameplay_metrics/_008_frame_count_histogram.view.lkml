@@ -66,6 +66,16 @@ view: _008_frame_count_histogram {
     sql: ${frame_count} ;;
   }
 
+  dimension: under_22_ms_per_frame {
+    type: string
+    sql: CASE
+          WHEN ${ms_per_frame} <= 22
+          THEN 'under_22'
+          ELSE 'over_22'
+         END;;
+  }
+
+
   dimension: device_brand {
     type: string
     suggest_explore: events

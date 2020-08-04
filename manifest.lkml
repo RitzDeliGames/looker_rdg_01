@@ -257,13 +257,22 @@ constant: bingo_card_mapping_5x5_X {
   END)"
 }
 
-constant: release_version {
+constant: release_version_major {
   value: "CASE
-          WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0'
-          WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0'
-          WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
-          WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1'
+            WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0'
+            WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0'
+            WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
+            WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1'
         END"
+}
+
+constant: release_version_minor {
+  value: "CASE
+            WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0'
+            WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0.100'
+            WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
+            WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1.100'
+          END"
 }
 
 constant: experiment_ids {

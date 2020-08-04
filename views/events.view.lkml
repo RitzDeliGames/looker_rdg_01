@@ -12,14 +12,22 @@ view: events {
   }
 
   dimension: game_version {
+    group_label: "Versions"
     label: "Game Version"
     type: string
     sql:${TABLE}.version;;
   }
 
   dimension: release_version {
-    label: "Release Version"
-    sql: @{release_version};;
+    group_label: "Versions"
+    label: "Major Release Version"
+    sql: @{release_version_major};;
+  }
+
+  dimension: release_version_minor {
+    group_label: "Versions"
+    label: "Minor Release Version"
+    sql: @{release_version_minor};;
   }
 
 ###

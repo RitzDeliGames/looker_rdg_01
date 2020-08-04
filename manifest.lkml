@@ -262,6 +262,7 @@ constant: release_version {
           WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0'
           WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0'
           WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
+          WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1'
         END"
 }
 

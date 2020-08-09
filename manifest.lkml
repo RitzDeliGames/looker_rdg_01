@@ -257,13 +257,22 @@ constant: bingo_card_mapping_5x5_X {
   END)"
 }
 
-constant: release_version {
+constant: release_version_major {
   value: "CASE
-          WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0'
-          WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0'
-          WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
-          WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1'
+            WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0'
+            WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0'
+            WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
+            WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1'
         END"
+}
+
+constant: release_version_minor {
+  value: "CASE
+            WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0'
+            WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0.100'
+            WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
+            WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1.100'
+          END"
 }
 
 constant: experiment_ids {
@@ -288,9 +297,45 @@ constant: variant_ids {
 
 constant: country_region {
   value: "CASE
-          WHEN ${TABLE}.country LIKE 'ZZ' THEN 'N/A'
-          WHEN ${TABLE}.country IN ('MX', 'PE', 'UY', 'VE', 'NI', 'PY', 'CR', 'SV', 'CL', 'BZ', 'BO', 'AR', 'CO', 'HN', 'GT', 'EC', 'PA') THEN 'LATAM-ES'
-          WHEN ${TABLE}.country LIKE 'BR' THEN 'LATAM-BR'
-          ELSE 'OTHER'
+            WHEN ${TABLE}.country LIKE 'ZZ' THEN 'N/A'
+            WHEN ${TABLE}.country IN ('MX', 'PE', 'UY', 'VE', 'NI', 'PY', 'CR', 'SV', 'CL', 'BZ', 'BO', 'AR', 'CO', 'HN', 'GT', 'EC', 'PA') THEN 'LATAM-ES'
+            WHEN ${TABLE}.country LIKE 'BR' THEN 'LATAM-BR'
+            ELSE 'OTHER'
+          END"
+}
+
+constant: minutes_since_install {
+  value: "CASE
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 0 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 1 THEN '01'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 1 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 2 THEN '02'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 2 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 3 THEN '03'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 3 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 4 THEN '04'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 4 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 5 THEN '05'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 5 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 6 THEN '06'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 6 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 7 THEN '07'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 7 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 8 THEN '08'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 8 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 9 THEN '09'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 9 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 10 THEN '10'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 10 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 11 THEN '11'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 11 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 12 THEN '12'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 12 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 13 THEN '13'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 13 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 14 THEN '14'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 14 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 15 THEN '15'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 15 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 16 THEN '16'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 16 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 17 THEN '17'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 17 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 18 THEN '18'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 18 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 19 THEN '19'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 19 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 20 THEN '20'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 20 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 21 THEN '21'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 21 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 22 THEN '22'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 22 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 23 THEN '23'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 23 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 24 THEN '24'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 24 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 25 THEN '25'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 25 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 26 THEN '26'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 26 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 27 THEN '27'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 27 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 28 THEN '28'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 28 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 29 THEN '29'
+            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 29 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 30 THEN '30'
+            ELSE 'Min 30+'
         END"
 }

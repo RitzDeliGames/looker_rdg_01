@@ -53,6 +53,7 @@ explore: sessions {
 
 explore: sessions_alt {}
 
+
 explore: fue_funnel {
  sql_always_where:
  user_type NOT IN ("internal_editor", "unit_test","bots","ugs");;
@@ -292,8 +293,15 @@ explore: scene_load_time {
   sql_always_where: event_name = "transition"
   AND user_type NOT IN ("internal_editor", "unit_test")
   ;;
+  join: events {
+    sql_on: ${scene_load_time.user_id_load} = ${events.user_id}
+      AND ${scene_load_time.session_id_load} = ${events.session_id} ;;
+    relationship: one_to_one
+  }
 }
 
+explore: test_load_times_rounds {
+}
 
 
 ##########IAP EXPLORES####################

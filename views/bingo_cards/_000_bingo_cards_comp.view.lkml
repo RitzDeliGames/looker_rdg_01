@@ -34,8 +34,8 @@ view: _000_bingo_cards_comp {
   }
 
   dimension: round_id {
-    type: string
-    sql: JSON_Value(extra_json, '$.round_id');;
+    type: number
+    sql: CAST(JSON_Value(extra_json, '$.round_id') AS NUMERIC) ;;
   }
 
   dimension: rounds {
@@ -305,6 +305,23 @@ view: _000_bingo_cards_comp {
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+
+
+  ############################
+
+  dimension_group: timestamp_distinct {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: DISTINCT ${TABLE}.timestamp ;;
   }
 
 

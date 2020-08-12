@@ -263,6 +263,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0'
             WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
             WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1'
+            WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2'
         END"
 }
 
@@ -272,11 +273,13 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0.100'
             WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
             WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1.100'
+            WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2.28'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
             WHEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723') != 'unassigned' THEN 'LinearVsNonLinear'
             WHEN JSON_EXTRACT(${experiments},'$.helper_bias_20200707') != 'unassigned' THEN 'HelperBias'
             WHEN JSON_EXTRACT(${experiments},'$.skill_reminder_20200707') != 'unassigned' THEN 'SkillReminder'

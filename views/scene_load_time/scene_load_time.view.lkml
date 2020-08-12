@@ -70,7 +70,7 @@ view: scene_load_time {
     sql: CAST((${load_time} / 1000) AS NUMERIC) ;;
   }
 
-  dimension: load_time_sec_rd {
+  dimension: load_time_sec_rd_1 {
     type: number
     sql: ROUND(CAST((${load_time} / 1000) AS NUMERIC), 1) ;;
   }
@@ -79,6 +79,43 @@ view: scene_load_time {
     type: number
     sql: ROUND(CAST((${load_time} / 1000) AS NUMERIC), 0) ;;
   }
+
+
+  ####################
+
+
+  dimension: user_id_load {
+    type: string
+    sql: ${TABLE}.user_id ;;
+  }
+
+  dimension_group: timestamp_load {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.timestamp ;;
+  }
+
+  dimension: session_id_load {
+    type: string
+    sql: ${TABLE}.session_id ;;
+  }
+
+  dimension: extra_json {
+    type: string
+    hidden: yes
+    sql: ${TABLE}.extra_json ;;
+  }
+
+  ####################
+
 
 
 #####BOXPLOT SCENE LOAD TIME#####

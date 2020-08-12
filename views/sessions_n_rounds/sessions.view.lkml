@@ -91,7 +91,7 @@ view: sessions {
 
 
   set: detail {
-    fields: [event_date, user_id, sessions, sessions_rounds, events.session_id]
+    fields: [event_date, user_id, sessions, sessions_rounds]  #, events.session_id]
   }
 
 

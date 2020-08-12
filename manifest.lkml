@@ -294,6 +294,10 @@ constant: variant_ids {
             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_a' THEN 'Variant A'
             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_b' THEN 'Variant B'
             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_c' THEN 'Variant C'
+            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_control' THEN 'Control'
+            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_a' THEN 'Variant A'
+            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_b' THEN 'Variant B'
+            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_c' THEN 'Variant C'
           END"
 }
 

@@ -112,6 +112,12 @@ explore: _000_bingo_cards {
 
 #       , ${bing_cards.row_2_search}, ${bing_cards.row_3_search}, ${bing_cards.row_4_search}, ${bing_cards.row_5_search}, ${bing_cards.column_1_search}, ${bing_cards.column_2_search}, ${bing_cards.column_3_search}, ${bing_cards.column_4_search}, ${bing_cards.column_5_search}, ${bing_cards.diagonal_01_search}, ${bing_cards.diagonal_02_search}]) card_id ;;
   }
+  join: max_rounds_for_card_finished {
+    relationship: many_to_one
+    sql_on: ${_000_bingo_cards_comp.player_id} = ${max_rounds_for_card_finished.user_id}
+      AND ${_000_bingo_cards_comp.session_id} = ${max_rounds_for_card_finished.session_id}
+      AND ${_000_bingo_cards_comp.game_version} = ${max_rounds_for_card_finished.version} ;;
+  }
 }
 
 
@@ -300,8 +306,9 @@ explore: scene_load_time {
   }
 }
 
-explore: test_load_times_rounds {
-}
+explore: test_load_times_rounds {}
+
+explore: scene_load_times {}
 
 
 ##########IAP EXPLORES####################

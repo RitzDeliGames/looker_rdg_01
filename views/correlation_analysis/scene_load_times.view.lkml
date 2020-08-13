@@ -16,6 +16,11 @@
          ;;
     }
 
+    measure: load_time_measure {
+      type: number
+      sql: ${load_time_secs} ;;
+    }
+
     measure: count {
       type: count
       drill_fields: [detail*]
@@ -50,4 +55,3 @@
       fields: [timestamp_time, user_id, session_id, transition_from_to, load_time_secs]
     }
   }
-

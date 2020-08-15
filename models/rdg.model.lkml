@@ -46,7 +46,8 @@ explore: events {
 explore: sessions {
     join: events {
     sql_on: ${sessions.user_id} = ${events.user_id}
-                and ${sessions.event_date} = ${events.event_date};;
+        AND ${sessions.event_date} = ${events.event_date}
+        AND ${sessions.session_id} = ${events.session_id};;
     relationship: one_to_one
   }
 }

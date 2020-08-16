@@ -2,7 +2,7 @@ view: sessions {
   derived_table: {
     sql: SELECT CAST(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', timestamp , 'America/Los_Angeles')) AS DATE) AS event_date,
        CAST(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', created_at , 'America/Los_Angeles')) AS DATE) AS signup_day,
-       session_id,
+       --session_id,
        --hardware,
        --platform,
        user_id,
@@ -14,7 +14,7 @@ view: sessions {
 FROM `eraser-blast.game_data.events` AS events
 WHERE (user_type = 'external') AND (user_type NOT IN ("internal_editor", "unit_test") AND (event_name = 'cards'))
   AND user_id <>  "user_id_not_set"
-GROUP BY event_date, signup_day, session_id, user_id, card_id--, hardware, platform
+GROUP BY event_date, signup_day, user_id, card_id--, hardware, platform, session_id
  ;;
   }
 
@@ -33,10 +33,10 @@ GROUP BY event_date, signup_day, session_id, user_id, card_id--, hardware, platf
     sql: ${TABLE}.signup_day ;;
   }
 
-  dimension: session_id {
-    type: string
-    sql: ${TABLE}.session_id ;;
-  }
+#   dimension: session_id {
+#     type: string
+#     sql: ${TABLE}.session_id ;;
+#   }
 
 #   dimension: hardware {
 #     type: string
@@ -77,7 +77,7 @@ GROUP BY event_date, signup_day, session_id, user_id, card_id--, hardware, platf
     fields: [
       event_date,
       signup_day,
-      session_id,
+
       user_id,
       card_id,
       rounds_played,

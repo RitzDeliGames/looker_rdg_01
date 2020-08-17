@@ -4,7 +4,7 @@ view: test_load_times_rounds {
                 user_id,
                 TIMESTAMP_DIFF(MAX(timestamp), min(timestamp), MINUTE) AS minutes,
                 COUNT(JSON_Value(extra_json, '$.rounds')) AS rounds,
-                ROUND(AVG(CAST(JSON_EXTRACT(extra_json, '$.load_time') AS NUMERIC) / 1000), 0) AS avg_load_time_rd_0,
+                ROUND(SUM(CAST(JSON_EXTRACT(extra_json, '$.load_time') AS NUMERIC) / 1000), 0) AS avg_load_time_rd_0,
 
          FROM events
          WHERE event_name IN ('transition', 'cards')
@@ -56,6 +56,11 @@ view: test_load_times_rounds {
 
   measure: avg_rounds {
     type: average
+    sql: ROUND(${rounds}, 0) ;;
+  }
+
+  measure: sum_total_rounds {
+    type: sum
     sql: ROUND(${rounds}, 0) ;;
   }
 

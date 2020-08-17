@@ -47,10 +47,12 @@ explore: sessions {
     join: events {
     sql_on: ${sessions.user_id} = ${events.user_id}
         AND ${sessions.event_date} = ${events.event_date}
+        AND ${sessions.current_card} = ${events.current_card}
         ;;
     relationship: one_to_one
   }
 }
+
 
 explore: sessions_alt {}
 

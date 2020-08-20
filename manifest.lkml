@@ -264,6 +264,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
             WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1'
             WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2'
+            WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2'
         END"
 }
 
@@ -274,6 +275,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
             WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1.100'
             WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2.28'
+            WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2.43'
           END"
 }
 

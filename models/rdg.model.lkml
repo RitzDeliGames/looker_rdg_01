@@ -40,8 +40,19 @@ explore: events {
       sql_on: ${events.player_id} = ${retention_example.user_id}
                 and ${events.user_first_seen_date} = ${retention_example.signup_day_date};;
       relationship: many_to_one
-    }
+      }
+    join: created_at_max {
+      sql_on: ${events.user_id} = ${created_at_max.user_id}
+              ;;
+      relationship: one_to_one
+      }
 }
+
+#                 and ${events.event_name} = ${created_at_max.event_name}
+#                 and ${events.event_date} = ${created_at_max.event_date}
+
+
+explore: created_at_max {}
 
 explore: sessions {
     join: events {
@@ -54,7 +65,7 @@ explore: sessions {
 }
 
 
-explore: sessions_alt {}
+# explore: sessions_alt {}
 
 
 explore: fue_funnel {
@@ -310,8 +321,6 @@ explore: scene_load_time {
 }
 
 explore: test_load_times_rounds {}
-
-explore: scene_load_times {}
 
 
 ##########IAP EXPLORES####################

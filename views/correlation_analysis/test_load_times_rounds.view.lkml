@@ -4,10 +4,14 @@ view: test_load_times_rounds {
                 user_id,
                 TIMESTAMP_DIFF(MAX(timestamp), min(timestamp), MINUTE) AS minutes,
                 COUNT(JSON_Value(extra_json, '$.rounds')) AS rounds,
-                ROUND(SUM(CAST(JSON_EXTRACT(extra_json, '$.load_time') AS NUMERIC) / 1000), 0) AS avg_load_time_rd_0,
+                ROUND(AVG(CAST(JSON_EXTRACT(extra_json, '$.load_time') AS NUMERIC) / 1000), 0) AS avg_load_time_rd_0,
+                ROUND(SUM(CAST(JSON_EXTRACT(extra_json, '$.load_time') AS NUMERIC) / 1000), 0) AS sum_load_time_rd_0,
 
          FROM events
          WHERE event_name IN ('transition', 'cards')
+           AND user_type NOT IN ("internal_editor", "unit_test")
+           AND user_id <>  "user_id_not_set"
+           -- AND (user_type = 'external')
            -- AND user_id IN ('anon-4f450865-8145-4ec0-a2ec-904e4ccb2690', 'facebook-108420860850386')
            -- AND session_id = '32020253-111d-4428-bf88-0965293219c2-07/08/2020 10:34:44'
          GROUP BY session_id, user_id
@@ -41,6 +45,11 @@ view: test_load_times_rounds {
     sql: ${TABLE}.avg_load_time_rd_0 ;;
   }
 
+  dimension: sum_load_time_rd_0 {
+    type: number
+    sql: ${TABLE}.sum_load_time_rd_0 ;;
+  }
+
 
   # MEASURES
 
@@ -67,6 +76,16 @@ view: test_load_times_rounds {
   measure: avg_time_minutes {
     type: average
     sql: ${minutes} ;;
+  }
+
+  measure: sum_total_minutes {
+    type: sum
+    sql: ROUND(${minutes}, 0) ;;
+  }
+
+  measure: avg_sum_load_times {
+    type: average
+    sql: ROUND(${sum_load_time_rd_0}, 0) ;;
   }
 
 

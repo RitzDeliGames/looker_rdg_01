@@ -48,11 +48,8 @@ explore: events {
       }
 }
 
-#                 and ${events.event_name} = ${created_at_max.event_name}
-#                 and ${events.event_date} = ${created_at_max.event_date}
-
-
 explore: created_at_max {}
+
 
 explore: sessions {
     join: events {

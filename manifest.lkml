@@ -264,6 +264,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
             WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1'
             WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2'
+            WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2'
         END"
 }
 
@@ -274,11 +275,13 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
             WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1.100'
             WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2.28'
+            WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2.43'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608') != 'unassigned' THEN 'EasyEarlyBingoCardVariants'
             WHEN JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
             WHEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723') != 'unassigned' THEN 'LinearVsNonLinear'
             WHEN JSON_EXTRACT(${experiments},'$.helper_bias_20200707') != 'unassigned' THEN 'HelperBias'
@@ -298,9 +301,12 @@ constant: variant_ids {
             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_a' THEN 'Variant A'
             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_b' THEN 'Variant B'
             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_c' THEN 'Variant C'
+            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_control' THEN 'Control'
+            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_a' THEN 'Variant A'
+            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_b' THEN 'Variant B'
+            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_c' THEN 'Variant C'
           END"
 }
-
 
 constant: country_region {
   value: "CASE

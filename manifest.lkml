@@ -293,20 +293,28 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
-            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_control' THEN 'Control'
-            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_a' THEN 'Variant A'
-            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_b' THEN 'Variant B'
-            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_c' THEN 'Variant C'
-            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_control' THEN 'Control'
-            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_a' THEN 'Variant A'
-            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_b' THEN 'Variant B'
-            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_c' THEN 'Variant C'
-            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_control' THEN 'Control'
-            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_a' THEN 'Variant A'
-            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_b' THEN 'Variant B'
-            WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_c' THEN 'Variant C'
+            WHEN ${experiment_names} = 'LinearVsNonLinear' THEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723')
+            WHEN ${experiment_names} = 'LowPerformanceMode' THEN JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803')
+            WHEN ${experiment_names} = 'EasyEarlyBingoCardVariants' THEN JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608')
           END"
 }
+
+# constant: variant_ids {
+#   value: "CASE
+#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_control' THEN 'Control'
+#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_a' THEN 'Variant A'
+#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_b' THEN 'Variant B'
+#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_c' THEN 'Variant C'
+#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_control' THEN 'Control'
+#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_a' THEN 'Variant A'
+#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_b' THEN 'Variant B'
+#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_c' THEN 'Variant C'
+#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_control' THEN 'Control'
+#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_a' THEN 'Variant A'
+#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_b' THEN 'Variant B'
+#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_c' THEN 'Variant C'
+#           END"
+# }
 
 constant: country_region {
   value: "CASE

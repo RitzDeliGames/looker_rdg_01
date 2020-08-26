@@ -265,6 +265,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1'
             WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2'
             WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2'
+            WHEN ${TABLE}.version LIKE '3100' THEN 'Release 1.2'
         END"
 }
 
@@ -276,11 +277,13 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1.100'
             WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2.28'
             WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2.43'
+            WHEN ${TABLE}.version LIKE '3100' THEN 'Release 1.2.100'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.tabFueTiming_20200825') != 'unassigned' THEN 'FUETiming'
             WHEN JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608') != 'unassigned' THEN 'EasyEarlyBingoCardVariants'
             WHEN JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
             WHEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723') != 'unassigned' THEN 'LinearVsNonLinear'
@@ -293,9 +296,10 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
-            WHEN ${experiment_names} = 'LinearVsNonLinear' THEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723')
-            WHEN ${experiment_names} = 'LowPerformanceMode' THEN JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803')
+            WHEN ${experiment_names} = 'FUETiming' THEN JSON_EXTRACT(${experiments},'$.tabFueTiming_20200825')
             WHEN ${experiment_names} = 'EasyEarlyBingoCardVariants' THEN JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608')
+            WHEN ${experiment_names} = 'LowPerformanceMode' THEN JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803')
+            WHEN ${experiment_names} = 'LinearVsNonLinear' THEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723')
           END"
 }
 

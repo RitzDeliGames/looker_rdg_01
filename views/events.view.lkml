@@ -243,6 +243,13 @@ view: events {
     sql: ${minutes_1mins_since_install} ;;
   }
 
+  dimension: days_since_install {
+    style: integer
+    type: tier
+    tiers: [1,2,3,4,5,6,7,8,9,10]
+    sql: ${days_1mins_since_install} ;;
+  }
+
   dimension: 2hours_since_install2 {#renamed
     group_label: "Install Date"
     label: "First 24 Hours of Play"

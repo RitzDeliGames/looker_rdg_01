@@ -652,5 +652,46 @@ view: events {
     sql: ${event_raw} ;;
   }
 
+  measure: 25th_player_xp_level {
+    group_label: "player_xp_level_measures"
+    type: percentile
+    percentile: 25
+    sql: ${player_xp_level_int} ;;
+  }
+
+  measure: median_player_xp_level {
+    group_label: "player_xp_level_measures"
+    type: median
+    sql: ${player_xp_level_int} ;;
+  }
+
+  measure: 75th_player_xp_level {
+    group_label: "player_xp_level_measures"
+    type: percentile
+    percentile: 75
+    sql: ${player_xp_level_int} ;;
+  }
+
+#   measure: 25th_player_xp_level {
+#     group_label: "player_xp_level_measures"
+#     type: percentile
+#     percentile: 25
+#     sql: ${player_xp_level} ;;
+#   }
+#
+#   measure: median_player_xp_level {
+#     group_label: "player_xp_level_measures"
+#     type: median
+#     sql: ${player_xp_level} ;;
+#   }
+#
+#   measure: 75th_player_xp_level {
+#     group_label: "player_xp_level_measures"
+#     type: percentile
+#     percentile: 75
+#     sql: ${player_xp_level} ;;
+#   }
+
+
 
 }

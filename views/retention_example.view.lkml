@@ -106,6 +106,10 @@ view: cohort {
         from_field: events.game_version
         to_field: events.game_version
       }
+      bind_filters: {
+        from_field: events.event_date
+        to_field: events.event_date
+      }
     }
   }
   dimension: signup_day {
@@ -157,6 +161,10 @@ view: data {
       bind_filters: {
         from_field: events.game_version
         to_field: events.game_version
+      }
+      bind_filters: {
+        from_field: events.event_date
+        to_field: events.event_date
       }
     }
   }

@@ -221,6 +221,23 @@ view: events {
     sql: @{minutes_since_install};;
   }
 
+  dimension_group: 1mins_since_install {
+    type: duration
+    sql_start: ${user_first_seen_raw} ;;
+    sql_end: ${timestamp_raw}  ;;
+  }
+
+  dimension: 3test {
+    sql: TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE) ;;
+  }
+
+  dimension: 2mins_since_install {
+    style: integer
+    type: tier
+    tiers: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+    sql: ${minutes_1mins_since_install} ;;
+  }
+
   dimension: payer {
     type: yesno
     sql: ${TABLE}.payer ;;

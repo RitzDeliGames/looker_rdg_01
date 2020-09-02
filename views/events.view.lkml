@@ -234,6 +234,8 @@ view: events {
   }
 
   dimension: 2mins_since_install {#renamed
+    group_label: "Install Date"
+    label: "First 60 Minutes of Play"
     style: integer
     type: tier
     tiers: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
@@ -242,6 +244,8 @@ view: events {
   }
 
   dimension: 2hours_since_install2 {#renamed
+    group_label: "Install Date"
+    label: "First 24 Hours of Play"
     style: integer
     type: tier
     tiers: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]

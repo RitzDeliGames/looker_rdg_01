@@ -221,6 +221,12 @@ view: events {
     sql: @{minutes_since_install};;
   }
 
+  dimension: minutes_install {
+    group_label: "Install Date"
+    label: "Minutes Since Install"
+    sql: @{minutes_install};;
+  }
+
   dimension: payer {
     type: yesno
     sql: ${TABLE}.payer ;;

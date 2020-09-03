@@ -216,7 +216,6 @@ view: events {
   }
 
   dimension_group: since_install {
-    hidden: yes
     type: duration
     sql_start: ${user_first_seen_raw} ;;
     sql_end: ${timestamp_raw}  ;;

@@ -215,13 +215,14 @@ view: events {
     sql: ${TABLE}.created_at ;;
   }
 
-  dimension_group: since_install {#renamed
+  dimension_group: since_install {
+    hidden: yes
     type: duration
     sql_start: ${user_first_seen_raw} ;;
     sql_end: ${timestamp_raw}  ;;
   }
 
-  dimension: 60_mins_since_install {#renamed
+  dimension: 60_mins_since_install {
     group_label: "Install Date"
     label: "First 60 Minutes of Play"
     style: integer
@@ -245,6 +246,24 @@ view: events {
     style: integer
     type: tier
     tiers: [1,2,3,4,5,6,7]
+    sql: ${days_since_install} ;;
+  }
+
+  dimension: 14_days_since_install {
+    group_label: "Install Date"
+    label: "First 14 Days of Play"
+    style: integer
+    type: tier
+    tiers: [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+    sql: ${days_since_install} ;;
+  }
+
+  dimension: 28_days_since_install {
+    group_label: "Install Date"
+    label: "First 28 Days of Play"
+    style: integer
+    type: tier
+    tiers: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
     sql: ${days_since_install} ;;
   }
 

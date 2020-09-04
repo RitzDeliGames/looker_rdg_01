@@ -277,16 +277,19 @@ view: events {
   }
 
   dimension: player_xp_level {
+    group_label: "Player XP Levels"
     type: number
     sql: ${TABLE}.player_level_xp ;;
   }
 
   dimension: player_xp_level_rd_1 {
+    group_label: "Player XP Levels"
     type: number
     sql: CAST(ROUND((${TABLE}.player_level_xp),1) AS FLOAT64) ;;
   }
 
   dimension: player_xp_level_int {
+    group_label: "Player XP Levels"
     type: number
     sql: CAST(FLOOR(${TABLE}.player_level_xp) AS INT64);;
   }

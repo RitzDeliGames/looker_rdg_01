@@ -281,6 +281,11 @@ view: events {
     sql: ${TABLE}.player_level_xp ;;
   }
 
+  dimension: player_xp_level_rd_1 {
+    type: number
+    sql: CAST(ROUND((${TABLE}.player_level_xp),1) AS FLOAT64) ;;
+  }
+
   dimension: player_xp_level_int {
     type: number
     sql: CAST(FLOOR(${TABLE}.player_level_xp) AS INT64);;
@@ -704,25 +709,25 @@ view: events {
     group_label: "player_xp_level_granular_measures"
     type: percentile
     percentile: 25
-    sql: ${player_xp_level} ;;
+    sql: ${player_xp_level_rd_1} ;;
   }
 
   measure: median_player_xp_level_float {
     group_label: "player_xp_level_granular_measures"
     type: median
-    sql: ${player_xp_level} ;;
+    sql: ${player_xp_level_rd_1} ;;
   }
 
   measure: 75th_player_xp_level_float {
     group_label: "player_xp_level_granular_measures"
     type: percentile
     percentile: 75
-    sql: ${player_xp_level} ;;
+    sql: ${player_xp_level_rd_1} ;;
   }
 
-#   measure: character_used_num {
-#     type: count
-#     sql: ${character_used} ;;
-#   }
+  measure: character_used_num {
+    type: count_distinct
+    sql: ${player_xp_level_rd_1} ;;
+  }
 
 }

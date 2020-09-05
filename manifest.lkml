@@ -266,6 +266,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2'
             WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2'
             WHEN ${TABLE}.version LIKE '3100' THEN 'Release 1.2'
+            WHEN ${TABLE}.version LIKE '4017' THEN 'Release 1.3'
         END"
 }
 
@@ -278,11 +279,15 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2.28'
             WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2.43'
             WHEN ${TABLE}.version LIKE '3100' THEN 'Release 1.2.100'
+            WHEN ${TABLE}.version LIKE '4017' THEN 'Release 1.3.17'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.notifications_20200824') != 'unassigned' THEN 'Notifications'
+            WHEN JSON_EXTRACT(${experiments},'$.earlyExit_20200828') != 'unassigned' THEN 'EarlyExit'
+            WHEN JSON_EXTRACT(${experiments},'$.lazyLoadOtherTabs_20200901') != 'unassigned' THEN 'LazyLoad'
             WHEN JSON_EXTRACT(${experiments},'$.tabFueTiming_20200825') != 'unassigned' THEN 'FUETiming'
             WHEN JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608') != 'unassigned' THEN 'EasyEarlyBingoCardVariants'
             WHEN JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
@@ -296,29 +301,15 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
+            WHEN ${experiment_names} = 'Notifications' THEN JSON_EXTRACT(${experiments},'$.notifications_20200824')
+            WHEN ${experiment_names} = 'EarlyExit' THEN JSON_EXTRACT(${experiments},'$.earlyExit_20200828')
+            WHEN ${experiment_names} = 'LazyLoad' THEN JSON_EXTRACT(${experiments},'$.lazyLoadOtherTabs_20200901')
             WHEN ${experiment_names} = 'FUETiming' THEN JSON_EXTRACT(${experiments},'$.tabFueTiming_20200825')
             WHEN ${experiment_names} = 'EasyEarlyBingoCardVariants' THEN JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608')
             WHEN ${experiment_names} = 'LowPerformanceMode' THEN JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803')
             WHEN ${experiment_names} = 'LinearVsNonLinear' THEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723')
           END"
 }
-
-# constant: variant_ids {
-#   value: "CASE
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_control' THEN 'Control'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_a' THEN 'Variant A'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_b' THEN 'Variant B'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_c' THEN 'Variant C'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_control' THEN 'Control'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_a' THEN 'Variant A'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_b' THEN 'Variant B'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_c' THEN 'Variant C'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_control' THEN 'Control'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_a' THEN 'Variant A'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_b' THEN 'Variant B'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_c' THEN 'Variant C'
-#           END"
-# }
 
 constant: country_region {
   value: "CASE

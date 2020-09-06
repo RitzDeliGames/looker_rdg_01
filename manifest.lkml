@@ -266,6 +266,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2'
             WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2'
             WHEN ${TABLE}.version LIKE '3100' THEN 'Release 1.2'
+            WHEN ${TABLE}.version LIKE '4017' THEN 'Release 1.3'
         END"
 }
 
@@ -278,11 +279,15 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2.28'
             WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2.43'
             WHEN ${TABLE}.version LIKE '3100' THEN 'Release 1.2.100'
+            WHEN ${TABLE}.version LIKE '4017' THEN 'Release 1.3.17'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.earlyExit_20200828') != 'unassigned' THEN 'EarlyExit'
+            WHEN JSON_EXTRACT(${experiments},'$.notifications_20200824') != 'unassigned' THEN 'Notifications'
+            WHEN JSON_EXTRACT(${experiments},'$.lazyLoadOtherTabs_20200901') != 'unassigned' THEN 'LazyLoad'
             WHEN JSON_EXTRACT(${experiments},'$.tabFueTiming_20200825') != 'unassigned' THEN 'FUETiming'
             WHEN JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608') != 'unassigned' THEN 'EasyEarlyBingoCardVariants'
             WHEN JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
@@ -296,29 +301,15 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
+            WHEN ${experiment_names} = 'EarlyExit' THEN JSON_EXTRACT(${experiments},'$.earlyExit_20200828')
+            WHEN ${experiment_names} = 'Notifications' THEN JSON_EXTRACT(${experiments},'$.notifications_20200824')
+            WHEN ${experiment_names} = 'LazyLoad' THEN JSON_EXTRACT(${experiments},'$.lazyLoadOtherTabs_20200901')
             WHEN ${experiment_names} = 'FUETiming' THEN JSON_EXTRACT(${experiments},'$.tabFueTiming_20200825')
             WHEN ${experiment_names} = 'EasyEarlyBingoCardVariants' THEN JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608')
             WHEN ${experiment_names} = 'LowPerformanceMode' THEN JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803')
             WHEN ${experiment_names} = 'LinearVsNonLinear' THEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723')
           END"
 }
-
-# constant: variant_ids {
-#   value: "CASE
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_control' THEN 'Control'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_a' THEN 'Variant A'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_b' THEN 'Variant B'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723'),'\"','') LIKE '%_c' THEN 'Variant C'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_control' THEN 'Control'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_a' THEN 'Variant A'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_b' THEN 'Variant B'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803'),'\"','') LIKE '%_c' THEN 'Variant C'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_control' THEN 'Control'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_a' THEN 'Variant A'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_b' THEN 'Variant B'
-#             WHEN REPLACE(JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608'),'\"','') LIKE '%_c' THEN 'Variant C'
-#           END"
-# }
 
 constant: country_region {
   value: "CASE
@@ -327,106 +318,4 @@ constant: country_region {
             WHEN ${TABLE}.country LIKE 'BR' THEN 'LATAM-BR'
             ELSE 'OTHER'
           END"
-}
-
-constant: minutes_since_install {
-  value: "CASE
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 0 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 1 THEN '01'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 1 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 2 THEN '02'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 2 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 3 THEN '03'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 3 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 4 THEN '04'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 4 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 5 THEN '05'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 5 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 6 THEN '06'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 6 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 7 THEN '07'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 7 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 8 THEN '08'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 8 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 9 THEN '09'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 9 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 10 THEN '10'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 10 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 11 THEN '11'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 11 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 12 THEN '12'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 12 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 13 THEN '13'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 13 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 14 THEN '14'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 14 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 15 THEN '15'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 15 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 16 THEN '16'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 16 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 17 THEN '17'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 17 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 18 THEN '18'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 18 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 19 THEN '19'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 19 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 20 THEN '20'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 20 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 21 THEN '21'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 21 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 22 THEN '22'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 22 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 23 THEN '23'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 23 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 24 THEN '24'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 24 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 25 THEN '25'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 25 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 26 THEN '26'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 26 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 27 THEN '27'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 27 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 28 THEN '28'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 28 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 29 THEN '29'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 29 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 30 THEN '30'
-            ELSE 'Min 30+'
-        END"
-}
-
-constant: minutes_install {
-  value: "CASE
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 0 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 1 THEN '01'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 1 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 2 THEN '02'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 2 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 3 THEN '03'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 3 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 4 THEN '04'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 4 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 5 THEN '05'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 5 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 6 THEN '06'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 6 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 7 THEN '07'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 7 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 8 THEN '08'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 8 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 9 THEN '09'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 9 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 10 THEN '10'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 10 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 11 THEN '11'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 11 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 12 THEN '12'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 12 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 13 THEN '13'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 13 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 14 THEN '14'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 14 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 15 THEN '15'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 15 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 16 THEN '16'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 16 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 17 THEN '17'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 17 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 18 THEN '18'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 18 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 19 THEN '19'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 19 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 20 THEN '20'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 20 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 21 THEN '21'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 21 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 22 THEN '22'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 22 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 23 THEN '23'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 23 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 24 THEN '24'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 24 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 25 THEN '25'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 25 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 26 THEN '26'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 26 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 27 THEN '27'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 27 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 28 THEN '28'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 28 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 29 THEN '29'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 29 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 30 THEN '30'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 30 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 31 THEN '31'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 31 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 32 THEN '32'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 32 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 33 THEN '33'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 33 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 34 THEN '34'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 34 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 35 THEN '35'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 35 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 36 THEN '36'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 36 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 37 THEN '37'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 37 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 38 THEN '38'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 38 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 39 THEN '39'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 39 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 40 THEN '40'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 40 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 41 THEN '41'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 41 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 42 THEN '42'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 42 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 43 THEN '43'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 43 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 44 THEN '44'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 44 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 45 THEN '45'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 45 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 46 THEN '46'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 46 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 47 THEN '47'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 47 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 48 THEN '48'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 48 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 49 THEN '49'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 49 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 50 THEN '50'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 50 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 51 THEN '51'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 51 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 52 THEN '52'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 52 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 53 THEN '53'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 53 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 54 THEN '54'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 54 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 55 THEN '55'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 55 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 56 THEN '56'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 56 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 57 THEN '57'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 57 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 58 THEN '58'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 58 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 59 THEN '59'
-            WHEN FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) > 59 and FLOOR(TIME_DIFF(TIME(timestamp), TIME(created_at), MINUTE)) <= 60 THEN '60'
-  ELSE 'Min 60+'
-  END"
 }

@@ -333,7 +333,7 @@ view: events {
     group_label: "Currency Balances"
     label: "Gems"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_02'),'"','') as NUMERIC);;
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_02'),'"','') as NUMERIC) ;;
   }
 
   dimension: coins {
@@ -426,6 +426,21 @@ view: events {
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.Coin'),'"','') as NUMERIC);;
   }
+
+  dimension: skill {
+    group_label: "missing"
+    label: "Skill"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(tickets,'$.SKILL'),'"','') as NUMERIC) ;;
+  }
+
+  dimension: level {
+    group_label: "missing"
+    label: "Level"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(tickets,'$.LEVEL'),'"','') as NUMERIC) ;;
+  }
+
 
 ###
 
@@ -688,6 +703,9 @@ view: events {
     sql: ${event_raw} ;;
   }
 
+  ###################CURRENCY BALANCES MEASURES###################
+
+  #PLAYER XP LEVEL (INTEGER)
   measure: 25th_player_xp_level {
     group_label: "player_xp_level_measures"
     type: percentile
@@ -708,6 +726,7 @@ view: events {
     sql: ${player_xp_level_int} ;;
   }
 
+  #PLAYER XP LEVEL (FLOAT)
   measure: 25th_player_xp_level_float {
     group_label: "player_xp_level_granular_measures"
     type: percentile
@@ -728,9 +747,355 @@ view: events {
     sql: ${player_xp_level_rd_1} ;;
   }
 
-  measure: character_used_num {
-    type: count_distinct
-    sql: ${player_xp_level_rd_1} ;;
+#   measure: character_used_num {
+#     type: count
+#     sql: ${player_xp_level_rd_1} ;;
+#   }
+
+  ###################CURRENCY BALANCES MEASURES###################
+
+  #GEMS
+  measure: 25th_gems {
+    group_label: "Currency Balances: Gems"
+    type: percentile
+    percentile: 25
+    sql: ${gems} ;;
+  }
+
+  measure: median_gems {
+    group_label: "Currency Balances: Gems"
+    type: median
+    sql: ${gems} ;;
+  }
+
+  measure: 75th_gems {
+    group_label: "Currency Balances: Gems"
+    type: percentile
+    percentile: 75
+    sql: ${gems} ;;
+  }
+
+  #COINS
+  measure: 25th_coins {
+    group_label: "Currency Balances: Coins"
+    type: percentile
+    percentile: 25
+    sql: ${coins} ;;
+  }
+
+  measure: median_coins {
+    group_label: "Currency Balances: Coins"
+    type: median
+    sql: ${coins} ;;
+  }
+
+  measure: 75th_coins {
+    group_label: "Currency Balances: Coins"
+    type: percentile
+    percentile: 75
+    sql: ${coins} ;;
+  }
+
+  #LIVES
+  measure: 25th_lives {
+    group_label: "Currency Balances: Lives"
+    type: percentile
+    percentile: 25
+    sql: ${lives} ;;
+  }
+
+  measure: median_lives {
+    group_label: "Currency Balances: Lives"
+    type: median
+    sql: ${lives} ;;
+  }
+
+  measure: 75th_lives {
+    group_label: "Currency Balances: Lives"
+    type: percentile
+    percentile: 75
+    sql: ${lives} ;;
+  }
+
+  ########################TICKETS MEASURES########################
+
+  ####CAPSULE####
+
+  #box 001
+  measure: box_001_25th {
+    group_label: "Capsules"
+    type: percentile
+    percentile: 25
+    sql: ${box_001_tickets} ;;
+  }
+
+  measure: box_001_median {
+    group_label: "Capsules"
+    type: median
+    sql: ${box_001_tickets} ;;
+  }
+
+  measure: box_001_75th {
+    group_label: "Capsules"
+    type: percentile
+    percentile: 75
+    sql: ${box_001_tickets} ;;
+  }
+
+  #box 002
+  measure: box_002_25th {
+    group_label: "Capsules"
+    type: percentile
+    percentile: 25
+    sql: ${box_002_tickets} ;;
+  }
+
+  measure: box_002_median {
+    group_label: "Capsules"
+    type: median
+    sql: ${box_002_tickets} ;;
+  }
+
+  measure: box_002_75th {
+    group_label: "Capsules"
+    type: percentile
+    percentile: 75
+    sql: ${box_002_tickets} ;;
+  }
+
+  #box 003
+  measure: box_003_25th {
+    group_label: "Capsules"
+    type: percentile
+    percentile: 25
+    sql: ${box_003_tickets} ;;
+  }
+
+  measure: box_003_median {
+    group_label: "Capsules"
+    type: median
+    sql: ${box_003_tickets} ;;
+  }
+
+  measure: box_003_75th {
+    group_label: "Capsules"
+    type: percentile
+    percentile: 75
+    sql: ${box_003_tickets} ;;
+  }
+
+  #box 006
+  measure: box_006_25th {
+    group_label: "Capsules"
+    type: percentile
+    percentile: 25
+    sql: ${box_006_tickets} ;;
+  }
+
+  measure: box_006_median {
+    group_label: "Capsules"
+    type: median
+    sql: ${box_006_tickets} ;;
+  }
+
+  measure: box_006_75th {
+    group_label: "Capsules"
+    type: percentile
+    percentile: 75
+    sql: ${box_006_tickets} ;;
+  }
+
+  #box 007
+  measure: box_007_25th {
+    group_label: "Capsules"
+    type: percentile
+    percentile: 25
+    sql: ${box_007_tickets} ;;
+  }
+
+  measure: box_007_median {
+    group_label: "Capsules"
+    type: median
+    sql: ${box_007_tickets} ;;
+  }
+
+  measure: box_007_75th {
+    group_label: "Capsules"
+    type: percentile
+    percentile: 75
+    sql: ${box_007_tickets} ;;
+  }
+
+  ####BOOST INVENTORY####
+
+  #SCORE BOOST
+  measure: score_boost_25th {
+    group_label: "Boosts"
+    type: percentile
+    percentile: 25
+    sql: ${score_tickets} ;;
+  }
+
+  measure: score_boost_median {
+    group_label: "Boosts"
+    type: median
+    sql: ${score_tickets} ;;
+  }
+
+  measure: score_boost_75th {
+    group_label: "Boosts"
+    type: percentile
+    percentile: 75
+    sql: ${score_tickets} ;;
+  }
+
+  #BUBBLE BOOST
+  measure: bubble_boost_25th {
+    group_label: "Boosts"
+    type: percentile
+    percentile: 25
+    sql: ${bubble_tickets} ;;
+  }
+
+  measure: bubble_boost_median {
+    group_label: "Boosts"
+    type: median
+    sql: ${bubble_tickets} ;;
+  }
+
+  measure: bubble_boost_75th {
+    group_label: "Boosts"
+    type: percentile
+    percentile: 75
+    sql: ${bubble_tickets} ;;
+  }
+
+  #TIME BOOST
+  measure: time_boost_25th {
+    group_label: "Boosts"
+    type: percentile
+    percentile: 25
+    sql: ${time_tickets} ;;
+  }
+
+  measure: time_boost_median {
+    group_label: "Boosts"
+    type: median
+    sql: ${time_tickets} ;;
+  }
+
+  measure: time_boost_75th {
+    group_label: "Boosts"
+    type: percentile
+    percentile: 75
+    sql: ${time_tickets} ;;
+  }
+
+  #5-TO-4 BOOST
+  measure: 5_to_4_boost_25th {
+    group_label: "Boosts"
+    type: percentile
+    percentile: 25
+    sql: ${five_to_four_tickets} ;;
+  }
+
+  measure: 5_to_4_boost_median {
+    group_label: "Boosts"
+    type: median
+    sql: ${five_to_four_tickets} ;;
+  }
+
+  measure: 5_to_4_boost_75th {
+    group_label: "Boosts"
+    type: percentile
+    percentile: 75
+    sql: ${five_to_four_tickets} ;;
+  }
+
+  #XP BOOST
+  measure: xp_boost_25th {
+    group_label: "Boosts"
+    type: percentile
+    percentile: 25
+    sql: ${exp_tickets} ;;
+  }
+
+  measure: xp_boost_median {
+    group_label: "Boosts"
+    type: median
+    sql: ${exp_tickets} ;;
+  }
+
+  measure: xp_boost_75th {
+    group_label: "Boosts"
+    type: percentile
+    percentile: 75
+    sql: ${exp_tickets} ;;
+  }
+
+  #COIN BOOST
+  measure: coin_boost_25th {
+    group_label: "Boosts"
+    type: percentile
+    percentile: 25
+    sql: ${coin_tickets} ;;
+  }
+
+  measure: coin_boost_median {
+    group_label: "Boosts"
+    type: median
+    sql: ${coin_tickets} ;;
+  }
+
+  measure: coin_boost_75th {
+    group_label: "Boosts"
+    type: percentile
+    percentile: 75
+    sql: ${coin_tickets} ;;
+  }
+
+  ####SKILL & LEVEL####
+
+  #SKILL
+  measure: skill_25th {
+    group_label: "missing"
+    type: percentile
+    percentile: 25
+    sql: ${skill} ;;
+  }
+
+  measure: skill_median {
+    group_label: "missing"
+    type: median
+    sql: ${skill} ;;
+  }
+
+  measure: skill_75th {
+    group_label: "missing"
+    type: percentile
+    percentile: 75
+    sql: ${skill} ;;
+  }
+
+  #LEVEL
+  measure: level_25th {
+    group_label: "missing"
+    type: percentile
+    percentile: 25
+    sql: ${level} ;;
+  }
+
+  measure: level_median {
+    group_label: "missing"
+    type: median
+    sql: ${level} ;;
+  }
+
+  measure: level_75th {
+    group_label: "missing"
+    type: percentile
+    percentile: 75
+    sql: ${level} ;;
   }
 
 }

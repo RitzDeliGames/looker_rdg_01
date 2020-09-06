@@ -46,7 +46,10 @@ explore: events {
               ;;
       relationship: one_to_one
       }
+
 }
+
+explore: player_s_wallet {}
 
 explore: created_at_max {}
 

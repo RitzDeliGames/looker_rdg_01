@@ -752,350 +752,442 @@ view: events {
 #     sql: ${player_xp_level_rd_1} ;;
 #   }
 
-  ###################CURRENCY BALANCES MEASURES###################
+#   ###################CURRENCY BALANCES MEASURES###################
+#
+#   parameter: 1_currency_type {
+#     type: string
+#     allowed_value: {
+#       label: "Gems"
+#       value: "Gems"
+#     }
+#     allowed_value: {
+#       label: "Coins"
+#       value: "Coins"
+#     }
+#     allowed_value: {
+#       label: "Lives"
+#       value: "Lives"
+#     }
+#   }
+#
+#   measure: median {
+# #     drill_fields: [user_details*]
+# #     link: {
+# #       label: "Drill and sort by coins earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by XP earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by score earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
+# #     }
+#     group_label: "1. Player's Wallet - Currency Balances: Gems, Coins & Lives"
+#     type: median
+#     sql: CASE
+#       WHEN  {% parameter 1_currency_type %} = 'Gems'
+#       THEN ${gems}
+#       WHEN  {% parameter 1_currency_type %} = 'Coins'
+#       THEN ${coins}
+#       WHEN  {% parameter 1_currency_type %} = 'Lives'
+#       THEN ${lives}
+#     END  ;;
+#   }
+#
+#   measure: 25th_quartile {
+# #     drill_fields: [user_details*]
+# #     link: {
+# #       label: "Drill and sort by coins earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by XP earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by score earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
+# #     }
+#     group_label: "1. Player's Wallet - Currency Balances: Gems, Coins & Lives"
+#     type: percentile
+#     percentile: 25
+#     sql: CASE
+#       WHEN  {% parameter 1_currency_type %} = 'Gems'
+#       THEN ${gems}
+#       WHEN  {% parameter 1_currency_type %} = 'Coins'
+#       THEN ${coins}
+#       WHEN  {% parameter 1_currency_type %} = 'Lives'
+#       THEN ${lives}
+#     END  ;;
+#   }
+#
+#   measure: 75th_quartile {
+# #     drill_fields: [user_details*]
+# #     link: {
+# #       label: "Drill and sort by coins earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by XP earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by score earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
+# #     }
+#     group_label: "1. Player's Wallet - Currency Balances: Gems, Coins & Lives"
+#     type: percentile
+#     percentile: 75
+#     sql: CASE
+#       WHEN  {% parameter 1_currency_type %} = 'Gems'
+#       THEN ${gems}
+#       WHEN  {% parameter 1_currency_type %} = 'Coins'
+#       THEN ${coins}
+#       WHEN  {% parameter 1_currency_type %} = 'Lives'
+#       THEN ${lives}
+#     END  ;;
+#   }
+#
+#
+#   ########################TICKETS MEASURES########################
+#
+#   ####CAPSULE####
+#
+#   parameter: 2_capsule_type {
+#     type: string
+#     allowed_value: {
+#       label: "box_001"
+#       value: "box_001"
+#     }
+#     allowed_value: {
+#       label: "box_002"
+#       value: "box_002"
+#     }
+#     allowed_value: {
+#       label: "box_003"
+#       value: "box_003"
+#     }
+#     allowed_value: {
+#       label: "box_006"
+#       value: "box_006"
+#     }
+#     allowed_value: {
+#       label: "box_007"
+#       value: "box_007"
+#     }
+#   }
+#
+#   measure: median_cap {
+# #     drill_fields: [user_details*]
+# #     link: {
+# #       label: "Drill and sort by coins earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by XP earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by score earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
+# #     }
+#     group_label: "2. Player's Wallet - Capsules: Boxes 1, 2, 3, 6 & 7"
+#     type: median
+#     sql: CASE
+#       WHEN  {% parameter 2_capsule_type %} = 'box_001'
+#       THEN ${box_001_tickets}
+#       WHEN  {% parameter 2_capsule_type %} = 'box_002'
+#       THEN ${box_002_tickets}
+#       WHEN  {% parameter 2_capsule_type %} = 'box_003'
+#       THEN ${box_003_tickets}
+#       WHEN  {% parameter 2_capsule_type %} = 'box_006'
+#       THEN ${box_006_tickets}
+#       WHEN  {% parameter 2_capsule_type %} = 'box_007'
+#       THEN ${box_007_tickets}
+#     END  ;;
+#   }
+#
+#   measure: 25th_quartile_cap {
+# #     drill_fields: [user_details*]
+# #     link: {
+# #       label: "Drill and sort by coins earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by XP earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by score earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
+# #     }
+#     group_label: "2. Player's Wallet - Capsules: Boxes 1, 2, 3, 6 & 7"
+#     type: percentile
+#     percentile: 25
+#     sql: CASE
+#       WHEN  {% parameter 2_capsule_type %} = 'box_001'
+#       THEN ${box_001_tickets}
+#       WHEN  {% parameter 2_capsule_type %} = 'box_002'
+#       THEN ${box_002_tickets}
+#       WHEN  {% parameter 2_capsule_type %} = 'box_003'
+#       THEN ${box_003_tickets}
+#       WHEN  {% parameter 2_capsule_type %} = 'box_006'
+#       THEN ${box_006_tickets}
+#       WHEN  {% parameter 2_capsule_type %} = 'box_007'
+#       THEN ${box_007_tickets}
+#     END  ;;
+#   }
+#
+#   measure: 75th_quartile_cap {
+# #     drill_fields: [user_details*]
+# #     link: {
+# #       label: "Drill and sort by coins earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by XP earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by score earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
+# #     }
+#     group_label: "2. Player's Wallet - Capsules: Boxes 1, 2, 3, 6 & 7"
+#     type: percentile
+#     percentile: 75
+#     sql: CASE
+#       WHEN  {% parameter 2_capsule_type %} = 'box_001'
+#       THEN ${box_001_tickets}
+#       WHEN  {% parameter 2_capsule_type %} = 'box_002'
+#       THEN ${box_002_tickets}
+#       WHEN  {% parameter 2_capsule_type %} = 'box_003'
+#       THEN ${box_003_tickets}
+#       WHEN  {% parameter 2_capsule_type %} = 'box_006'
+#       THEN ${box_006_tickets}
+#       WHEN  {% parameter 2_capsule_type %} = 'box_007'
+#       THEN ${box_007_tickets}
+#     END  ;;
+#   }
+#
+#
+#   ####BOOST INVENTORY####
+#
+#   parameter: 3_boost_type {
+#     type: string
+#     allowed_value: {
+#       label: "Score"
+#       value: "Score"
+#     }
+#     allowed_value: {
+#       label: "Bubble"
+#       value: "Bubble"
+#     }
+#     allowed_value: {
+#       label: "Time"
+#       value: "Time"
+#     }
+#     allowed_value: {
+#       label: "5-to-4"
+#       value: "5-to-4"
+#     }
+#     allowed_value: {
+#       label: "XP"
+#       value: "XP"
+#     }
+#     allowed_value: {
+#       label: "Coin"
+#       value: "Coin"
+#     }
+#   }
+#
+#   measure: median_boosts {
+# #     drill_fields: [user_details*]
+# #     link: {
+# #       label: "Drill and sort by coins earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by XP earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by score earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
+# #     }
+#     group_label: "3. Player's Wallet - Boosts: Score, Bubble, Time, 5-to-4, XP & Coins"
+#     type: median
+#     sql: CASE
+#       WHEN  {% parameter 3_boost_type %} = 'Score'
+#       THEN ${score_tickets}
+#       WHEN  {% parameter 3_boost_type %} = 'Bubble'
+#       THEN ${bubble_tickets}
+#       WHEN  {% parameter 3_boost_type %} = 'Time'
+#       THEN ${time_tickets}
+#       WHEN  {% parameter 3_boost_type %} = '5-to-4'
+#       THEN ${five_to_four_tickets}
+#       WHEN  {% parameter 3_boost_type %} = 'XP'
+#       THEN ${exp_tickets}
+#       WHEN  {% parameter 3_boost_type %} = 'Coin'
+#       THEN ${coin_tickets}
+#     END  ;;
+#   }
+#
+#   measure: 25th_quartile_boosts {
+# #     drill_fields: [user_details*]
+# #     link: {
+# #       label: "Drill and sort by coins earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by XP earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by score earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
+# #     }
+#     group_label: "3. Player's Wallet - Boosts: Score, Bubble, Time, 5-to-4, XP & Coins"
+#     type: percentile
+#     percentile: 25
+#     sql: CASE
+#       WHEN  {% parameter 3_boost_type %} = 'Score'
+#       THEN ${score_tickets}
+#       WHEN  {% parameter 3_boost_type %} = 'Bubble'
+#       THEN ${bubble_tickets}
+#       WHEN  {% parameter 3_boost_type %} = 'Time'
+#       THEN ${time_tickets}
+#       WHEN  {% parameter 3_boost_type %} = '5-to-4'
+#       THEN ${five_to_four_tickets}
+#       WHEN  {% parameter 3_boost_type %} = 'XP'
+#       THEN ${exp_tickets}
+#       WHEN  {% parameter 3_boost_type %} = 'Coin'
+#       THEN ${coin_tickets}
+#     END  ;;
+#   }
+#
+#   measure: 75th_quartile_boosts {
+# #     drill_fields: [user_details*]
+# #     link: {
+# #       label: "Drill and sort by coins earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by XP earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by score earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
+# #     }
+#     group_label: "3. Player's Wallet - Boosts: Score, Bubble, Time, 5-to-4, XP & Coins"
+#     type: percentile
+#     percentile: 75
+#     sql: CASE
+#       WHEN  {% parameter 3_boost_type %} = 'Score'
+#       THEN ${score_tickets}
+#       WHEN  {% parameter 3_boost_type %} = 'Bubble'
+#       THEN ${bubble_tickets}
+#       WHEN  {% parameter 3_boost_type %} = 'Time'
+#       THEN ${time_tickets}
+#       WHEN  {% parameter 3_boost_type %} = '5-to-4'
+#       THEN ${five_to_four_tickets}
+#       WHEN  {% parameter 3_boost_type %} = 'XP'
+#       THEN ${exp_tickets}
+#       WHEN  {% parameter 3_boost_type %} = 'Coin'
+#       THEN ${coin_tickets}
+#     END  ;;
+#   }
+#
+#
+#   ####SKILL & LEVEL####
+#
+#   parameter: 4_skill_n_level_type {
+#     type: string
+#     allowed_value: {
+#       label: "Skill"
+#       value: "Skill"
+#     }
+#     allowed_value: {
+#       label: "Level"
+#       value: "Level"
+#     }
+#   }
+#
+#   measure: median_s_n_l {
+# #     drill_fields: [user_details*]
+# #     link: {
+# #       label: "Drill and sort by coins earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by XP earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by score earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
+# #     }
+#     group_label: "4. Player's Wallet - Skill & Level"
+#     type: median
+#     sql: CASE
+#       WHEN  {% parameter 4_skill_n_level_type %} = 'Skill'
+#       THEN ${skill}
+#       WHEN  {% parameter 4_skill_n_level_type %} = 'Level'
+#       THEN ${level}
+#     END ;;
+#   }
+#
+#   measure: 25th_quartile_s_n_l {
+# #     drill_fields: [user_details*]
+# #     link: {
+# #       label: "Drill and sort by coins earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by XP earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by score earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
+# #     }
+#     group_label: "4. Player's Wallet - Skill & Level"
+#     type: percentile
+#     percentile: 25
+#     sql: CASE
+#       WHEN  {% parameter 4_skill_n_level_type %} = 'Skill'
+#       THEN ${skill}
+#       WHEN  {% parameter 4_skill_n_level_type %} = 'Level'
+#       THEN ${level}
+#     END ;;
+#   }
+#
+#   measure: 75th_quartile_s_n_l {
+# #     drill_fields: [user_details*]
+# #     link: {
+# #       label: "Drill and sort by coins earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by XP earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
+# #     }
+# #     link: {
+# #       label: "Drill and sort by score earned"
+# #       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
+# #     }
+#     group_label: "4. Player's Wallet - Skill & Level"
+#     type: percentile
+#     percentile: 75
+#     sql: CASE
+#       WHEN  {% parameter 4_skill_n_level_type %} = 'Skill'
+#       THEN ${skill}
+#       WHEN  {% parameter 4_skill_n_level_type %} = 'Level'
+#       THEN ${level}
+#     END ;;
+#   }
 
-  #GEMS
-  measure: 25th_gems {
-    group_label: "Currency Balances: Gems"
-    type: percentile
-    percentile: 25
-    sql: ${gems} ;;
-  }
-
-  measure: median_gems {
-    group_label: "Currency Balances: Gems"
-    type: median
-    sql: ${gems} ;;
-  }
-
-  measure: 75th_gems {
-    group_label: "Currency Balances: Gems"
-    type: percentile
-    percentile: 75
-    sql: ${gems} ;;
-  }
-
-  #COINS
-  measure: 25th_coins {
-    group_label: "Currency Balances: Coins"
-    type: percentile
-    percentile: 25
-    sql: ${coins} ;;
-  }
-
-  measure: median_coins {
-    group_label: "Currency Balances: Coins"
-    type: median
-    sql: ${coins} ;;
-  }
-
-  measure: 75th_coins {
-    group_label: "Currency Balances: Coins"
-    type: percentile
-    percentile: 75
-    sql: ${coins} ;;
-  }
-
-  #LIVES
-  measure: 25th_lives {
-    group_label: "Currency Balances: Lives"
-    type: percentile
-    percentile: 25
-    sql: ${lives} ;;
-  }
-
-  measure: median_lives {
-    group_label: "Currency Balances: Lives"
-    type: median
-    sql: ${lives} ;;
-  }
-
-  measure: 75th_lives {
-    group_label: "Currency Balances: Lives"
-    type: percentile
-    percentile: 75
-    sql: ${lives} ;;
-  }
-
-  ########################TICKETS MEASURES########################
-
-  ####CAPSULE####
-
-  #box 001
-  measure: box_001_25th {
-    group_label: "Capsules"
-    type: percentile
-    percentile: 25
-    sql: ${box_001_tickets} ;;
-  }
-
-  measure: box_001_median {
-    group_label: "Capsules"
-    type: median
-    sql: ${box_001_tickets} ;;
-  }
-
-  measure: box_001_75th {
-    group_label: "Capsules"
-    type: percentile
-    percentile: 75
-    sql: ${box_001_tickets} ;;
-  }
-
-  #box 002
-  measure: box_002_25th {
-    group_label: "Capsules"
-    type: percentile
-    percentile: 25
-    sql: ${box_002_tickets} ;;
-  }
-
-  measure: box_002_median {
-    group_label: "Capsules"
-    type: median
-    sql: ${box_002_tickets} ;;
-  }
-
-  measure: box_002_75th {
-    group_label: "Capsules"
-    type: percentile
-    percentile: 75
-    sql: ${box_002_tickets} ;;
-  }
-
-  #box 003
-  measure: box_003_25th {
-    group_label: "Capsules"
-    type: percentile
-    percentile: 25
-    sql: ${box_003_tickets} ;;
-  }
-
-  measure: box_003_median {
-    group_label: "Capsules"
-    type: median
-    sql: ${box_003_tickets} ;;
-  }
-
-  measure: box_003_75th {
-    group_label: "Capsules"
-    type: percentile
-    percentile: 75
-    sql: ${box_003_tickets} ;;
-  }
-
-  #box 006
-  measure: box_006_25th {
-    group_label: "Capsules"
-    type: percentile
-    percentile: 25
-    sql: ${box_006_tickets} ;;
-  }
-
-  measure: box_006_median {
-    group_label: "Capsules"
-    type: median
-    sql: ${box_006_tickets} ;;
-  }
-
-  measure: box_006_75th {
-    group_label: "Capsules"
-    type: percentile
-    percentile: 75
-    sql: ${box_006_tickets} ;;
-  }
-
-  #box 007
-  measure: box_007_25th {
-    group_label: "Capsules"
-    type: percentile
-    percentile: 25
-    sql: ${box_007_tickets} ;;
-  }
-
-  measure: box_007_median {
-    group_label: "Capsules"
-    type: median
-    sql: ${box_007_tickets} ;;
-  }
-
-  measure: box_007_75th {
-    group_label: "Capsules"
-    type: percentile
-    percentile: 75
-    sql: ${box_007_tickets} ;;
-  }
-
-  ####BOOST INVENTORY####
-
-  #SCORE BOOST
-  measure: score_boost_25th {
-    group_label: "Boosts"
-    type: percentile
-    percentile: 25
-    sql: ${score_tickets} ;;
-  }
-
-  measure: score_boost_median {
-    group_label: "Boosts"
-    type: median
-    sql: ${score_tickets} ;;
-  }
-
-  measure: score_boost_75th {
-    group_label: "Boosts"
-    type: percentile
-    percentile: 75
-    sql: ${score_tickets} ;;
-  }
-
-  #BUBBLE BOOST
-  measure: bubble_boost_25th {
-    group_label: "Boosts"
-    type: percentile
-    percentile: 25
-    sql: ${bubble_tickets} ;;
-  }
-
-  measure: bubble_boost_median {
-    group_label: "Boosts"
-    type: median
-    sql: ${bubble_tickets} ;;
-  }
-
-  measure: bubble_boost_75th {
-    group_label: "Boosts"
-    type: percentile
-    percentile: 75
-    sql: ${bubble_tickets} ;;
-  }
-
-  #TIME BOOST
-  measure: time_boost_25th {
-    group_label: "Boosts"
-    type: percentile
-    percentile: 25
-    sql: ${time_tickets} ;;
-  }
-
-  measure: time_boost_median {
-    group_label: "Boosts"
-    type: median
-    sql: ${time_tickets} ;;
-  }
-
-  measure: time_boost_75th {
-    group_label: "Boosts"
-    type: percentile
-    percentile: 75
-    sql: ${time_tickets} ;;
-  }
-
-  #5-TO-4 BOOST
-  measure: 5_to_4_boost_25th {
-    group_label: "Boosts"
-    type: percentile
-    percentile: 25
-    sql: ${five_to_four_tickets} ;;
-  }
-
-  measure: 5_to_4_boost_median {
-    group_label: "Boosts"
-    type: median
-    sql: ${five_to_four_tickets} ;;
-  }
-
-  measure: 5_to_4_boost_75th {
-    group_label: "Boosts"
-    type: percentile
-    percentile: 75
-    sql: ${five_to_four_tickets} ;;
-  }
-
-  #XP BOOST
-  measure: xp_boost_25th {
-    group_label: "Boosts"
-    type: percentile
-    percentile: 25
-    sql: ${exp_tickets} ;;
-  }
-
-  measure: xp_boost_median {
-    group_label: "Boosts"
-    type: median
-    sql: ${exp_tickets} ;;
-  }
-
-  measure: xp_boost_75th {
-    group_label: "Boosts"
-    type: percentile
-    percentile: 75
-    sql: ${exp_tickets} ;;
-  }
-
-  #COIN BOOST
-  measure: coin_boost_25th {
-    group_label: "Boosts"
-    type: percentile
-    percentile: 25
-    sql: ${coin_tickets} ;;
-  }
-
-  measure: coin_boost_median {
-    group_label: "Boosts"
-    type: median
-    sql: ${coin_tickets} ;;
-  }
-
-  measure: coin_boost_75th {
-    group_label: "Boosts"
-    type: percentile
-    percentile: 75
-    sql: ${coin_tickets} ;;
-  }
-
-  ####SKILL & LEVEL####
-
-  #SKILL
-  measure: skill_25th {
-    group_label: "missing"
-    type: percentile
-    percentile: 25
-    sql: ${skill} ;;
-  }
-
-  measure: skill_median {
-    group_label: "missing"
-    type: median
-    sql: ${skill} ;;
-  }
-
-  measure: skill_75th {
-    group_label: "missing"
-    type: percentile
-    percentile: 75
-    sql: ${skill} ;;
-  }
-
-  #LEVEL
-  measure: level_25th {
-    group_label: "missing"
-    type: percentile
-    percentile: 25
-    sql: ${level} ;;
-  }
-
-  measure: level_median {
-    group_label: "missing"
-    type: median
-    sql: ${level} ;;
-  }
-
-  measure: level_75th {
-    group_label: "missing"
-    type: percentile
-    percentile: 75
-    sql: ${level} ;;
-  }
 
 }

@@ -52,7 +52,7 @@ view: events {
     group_label: "Experiments"
     label: "Variants"
     type: string
-    sql: @{variant_ids} ;;
+    sql: REPLACE(@{variant_ids},'"','') ;;
   }
 ###
 

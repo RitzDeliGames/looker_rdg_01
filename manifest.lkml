@@ -272,14 +272,14 @@ constant: release_version_major {
 
 constant: release_version_minor {
   value: "CASE
-            WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0'
+            WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0.001'
             WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0.100'
-            WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
+            WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1.001'
             WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1.100'
-            WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2.28'
-            WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2.43'
+            WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2.028'
+            WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2.043'
             WHEN ${TABLE}.version LIKE '3100' THEN 'Release 1.2.100'
-            WHEN ${TABLE}.version LIKE '4017' THEN 'Release 1.3.17'
+            WHEN ${TABLE}.version LIKE '4017' THEN 'Release 1.3.017'
           END"
 }
 

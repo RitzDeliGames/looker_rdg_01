@@ -6,6 +6,7 @@ view: sessions {
        current_card,
        user_id,
        JSON_Value(extra_json, '$.card_id') AS card_id,
+       CAST(MAX(JSON_Value(extra_json, '$.round_id')) AS NUMERIC) AS max_rounds_played,
        COUNT(DISTINCT timestamp) AS rounds_played,
        COUNT(DISTINCT session_id) AS sessions,
        (COUNT(DISTINCT timestamp) / COUNT(DISTINCT session_id)) AS ratio,
@@ -20,6 +21,11 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+
+  dimension: max_rounds_played {
+    type: number
+    sql: ${TABLE}.max_rounds_played ;;
   }
 
   dimension: event_date {
@@ -93,7 +99,18 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       label: "Rounds per Session"
       value: "Rounds per Session"
     }
+    allowed_value: {
+      label: "Rounds Played"
+      value: "Rounds Played"
+    }
+    allowed_value: {
+      label: "Cumulative Rounds Played"
+      value: "Cumulative Rounds Played"
+    }
   }
+
+###MEASURE
+
 
   measure: 1_min_boxplot {
     drill_fields: [detail*]
@@ -112,6 +129,10 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
+      WHEN  {% parameter boxplot_type %} = 'Rounds Played'
+      THEN ${rounds_played}
+      WHEN  {% parameter boxplot_type %} = 'Cumulative Rounds Played'
+      THEN ${max_rounds_played}
     END  ;;
   }
 
@@ -132,6 +153,10 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
+      WHEN  {% parameter boxplot_type %} = 'Rounds Played'
+      THEN ${rounds_played}
+      WHEN  {% parameter boxplot_type %} = 'Cumulative Rounds Played'
+      THEN ${max_rounds_played}
     END  ;;
   }
 
@@ -152,6 +177,10 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
+      WHEN  {% parameter boxplot_type %} = 'Rounds Played'
+      THEN ${rounds_played}
+      WHEN  {% parameter boxplot_type %} = 'Cumulative Rounds Played'
+      THEN ${max_rounds_played}
     END  ;;
   }
 
@@ -173,6 +202,10 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
+      WHEN  {% parameter boxplot_type %} = 'Rounds Played'
+      THEN ${rounds_played}
+      WHEN  {% parameter boxplot_type %} = 'Cumulative Rounds Played'
+      THEN ${max_rounds_played}
     END  ;;
   }
 
@@ -194,6 +227,10 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
+      WHEN  {% parameter boxplot_type %} = 'Rounds Played'
+      THEN ${rounds_played}
+      WHEN  {% parameter boxplot_type %} = 'Cumulative Rounds Played'
+      THEN ${max_rounds_played}
     END  ;;
   }
 

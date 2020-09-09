@@ -116,7 +116,7 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
-      WHEN  {% parameter boxplot_type %} = 'Rounds'
+      WHEN  {% parameter boxplot_type %} = 'Rounds Played'
       THEN ${rounds_played}
     END  ;;
   }
@@ -138,7 +138,7 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
-      WHEN  {% parameter boxplot_type %} = 'Rounds'
+      WHEN  {% parameter boxplot_type %} = 'Rounds Played'
       THEN ${rounds_played}
 
     END  ;;
@@ -161,7 +161,7 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
-      WHEN  {% parameter boxplot_type %} = 'Rounds'
+      WHEN  {% parameter boxplot_type %} = 'Rounds Played'
       THEN ${rounds_played}
     END  ;;
   }
@@ -184,7 +184,7 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
-      WHEN  {% parameter boxplot_type %} = 'Rounds'
+      WHEN  {% parameter boxplot_type %} = 'Rounds Played'
       THEN ${rounds_played}
     END  ;;
   }
@@ -207,7 +207,7 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
-      WHEN  {% parameter boxplot_type %} = 'Rounds'
+      WHEN  {% parameter boxplot_type %} = 'Rounds Played'
       THEN ${rounds_played}
     END  ;;
   }

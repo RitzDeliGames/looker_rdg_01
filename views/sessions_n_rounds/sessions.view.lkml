@@ -13,7 +13,7 @@ view: sessions {
 FROM `eraser-blast.game_data.events` AS events
 WHERE (user_type = 'external') AND (user_type NOT IN ("internal_editor", "unit_test") AND (event_name = 'cards'))
   AND user_id <>  "user_id_not_set"
-GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
+GROUP BY event_date, signup_day, user_id, round_id, card_id, current_card--, session_id
  ;;
   }
 

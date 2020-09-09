@@ -5,6 +5,7 @@ view: player_s_wallet {
   extends: [events]
 
 
+
   ###################CURRENCY BALANCES MEASURES###################
 
   parameter: 1_currency_type {
@@ -21,6 +22,32 @@ view: player_s_wallet {
       label: "Lives"
       value: "Lives"
     }
+  }
+
+  measure: sum_currencies {
+#     drill_fields: [user_details*]
+#     link: {
+#       label: "Drill and sort by coins earned"
+#       url: "{{ link }}&sorts=_001_coins_xp_score.coins_earned+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by XP earned"
+#       url: "{{ link }}&sorts=_001_coins_xp_score.xp_earned+desc"
+#     }
+#     link: {
+#       label: "Drill and sort by score earned"
+#       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
+#     }
+    group_label: "1. Player's Wallet - Currency Balances: Gems, Coins & Lives"
+    type: sum
+    sql: CASE
+      WHEN  {% parameter 1_currency_type %} = 'Gems'
+      THEN ${gems}
+      WHEN  {% parameter 1_currency_type %} = 'Coins'
+      THEN ${coins}
+      WHEN  {% parameter 1_currency_type %} = 'Lives'
+      THEN ${lives}
+    END  ;;
   }
 
   measure: median {

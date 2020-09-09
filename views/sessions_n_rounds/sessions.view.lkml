@@ -93,6 +93,10 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       label: "Rounds per Session"
       value: "Rounds per Session"
     }
+    allowed_value: {
+      label: "Rounds Played"
+      value: "Rounds Played"
+    }
   }
 
   measure: 1_min_boxplot {
@@ -112,6 +116,8 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
+      WHEN  {% parameter boxplot_type %} = 'Rounds'
+      THEN ${rounds_played}
     END  ;;
   }
 
@@ -132,6 +138,9 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
+      WHEN  {% parameter boxplot_type %} = 'Rounds'
+      THEN ${rounds_played}
+
     END  ;;
   }
 
@@ -152,6 +161,8 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
+      WHEN  {% parameter boxplot_type %} = 'Rounds'
+      THEN ${rounds_played}
     END  ;;
   }
 
@@ -173,6 +184,8 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
+      WHEN  {% parameter boxplot_type %} = 'Rounds'
+      THEN ${rounds_played}
     END  ;;
   }
 
@@ -194,6 +207,8 @@ GROUP BY event_date, signup_day, user_id, card_id, current_card--, session_id
       THEN ${sessions}
       WHEN  {% parameter boxplot_type %} = 'Rounds per Session'
       THEN ${ratio}
+      WHEN  {% parameter boxplot_type %} = 'Rounds'
+      THEN ${rounds_played}
     END  ;;
   }
 

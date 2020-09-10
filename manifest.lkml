@@ -267,6 +267,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2'
             WHEN ${TABLE}.version LIKE '3100' THEN 'Release 1.2'
             WHEN ${TABLE}.version LIKE '4017' THEN 'Release 1.3'
+            WHEN ${TABLE}.version LIKE '4100' THEN 'Release 1.3'
         END"
 }
 
@@ -280,11 +281,13 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2.043'
             WHEN ${TABLE}.version LIKE '3100' THEN 'Release 1.2.100'
             WHEN ${TABLE}.version LIKE '4017' THEN 'Release 1.3.017'
+            WHEN ${TABLE}.version LIKE '4017' THEN 'Release 1.3.100'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.earlyExitContent_20200909') != 'unassigned' THEN 'EarlyExit2'
             WHEN JSON_EXTRACT(${experiments},'$.earlyExit_20200828') != 'unassigned' THEN 'EarlyExit'
             WHEN JSON_EXTRACT(${experiments},'$.notifications_20200824') != 'unassigned' THEN 'Notifications'
             WHEN JSON_EXTRACT(${experiments},'$.lazyLoadOtherTabs_20200901') != 'unassigned' THEN 'LazyLoad'
@@ -301,6 +304,7 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
+            WHEN ${experiment_names} = 'EarlyExit2' THEN JSON_EXTRACT(${experiments},'$.earlyExitContent_20200909')
             WHEN ${experiment_names} = 'EarlyExit' THEN JSON_EXTRACT(${experiments},'$.earlyExit_20200828')
             WHEN ${experiment_names} = 'Notifications' THEN JSON_EXTRACT(${experiments},'$.notifications_20200824')
             WHEN ${experiment_names} = 'LazyLoad' THEN JSON_EXTRACT(${experiments},'$.lazyLoadOtherTabs_20200901')

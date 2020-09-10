@@ -281,7 +281,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2.043'
             WHEN ${TABLE}.version LIKE '3100' THEN 'Release 1.2.100'
             WHEN ${TABLE}.version LIKE '4017' THEN 'Release 1.3.017'
-            WHEN ${TABLE}.version LIKE '4017' THEN 'Release 1.3.100'
+            WHEN ${TABLE}.version LIKE '4100' THEN 'Release 1.3.100'
           END"
 }
 

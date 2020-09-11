@@ -10,7 +10,6 @@ view: sessions {
        COUNT(DISTINCT timestamp) AS rounds_played,
        COUNT(DISTINCT session_id) AS sessions,
        (COUNT(DISTINCT timestamp) / COUNT(DISTINCT session_id)) AS ratio,
-
 FROM `eraser-blast.game_data.events` AS events
 WHERE (user_type = 'external') AND (user_type NOT IN ("internal_editor", "unit_test") AND (event_name = 'cards'))
   AND user_id <>  "user_id_not_set"

@@ -6,6 +6,73 @@ view: player_s_wallet {
 
 
 
+  dimension: coins_econ_in_out {
+    type: number
+    sql: CASE
+      WHEN ${event_name} = 'transaction'
+      THEN ${coins} * (-1)
+      WHEN ${event_name} = 'reward'
+      THEN ${coins}
+      END;;
+  }
+
+  dimension: gems_econ_in_out {
+    type: number
+    sql: CASE
+      WHEN ${event_name} = 'transaction'
+      THEN ${gems} * (-1)
+      WHEN ${event_name} = 'reward'
+      THEN ${gems}
+      END;;
+  }
+
+  dimension: lives_econ_in_out {
+    type: number
+    sql: CASE
+      WHEN ${event_name} = 'transaction'
+      THEN ${lives} * (-1)
+      WHEN ${event_name} = 'reward'
+      THEN ${lives}
+      END;;
+  }
+
+  ###############
+
+  dimension: coins_econ_in_out_positive {
+    type: number
+    hidden: yes
+    sql: CASE
+      WHEN ${event_name} = 'reward'
+      THEN ${coins}
+      END;;
+  }
+
+  dimension: coins_econ_in_out_negative {
+    type: number
+    hidden: yes
+    sql: CASE
+      WHEN ${event_name} = 'transaction'
+      THEN ${coins} * (-1)
+      END;;
+  }
+
+  measure: coins_earned {
+    type: sum
+    sql: ${coins_econ_in_out_positive} ;;
+  }
+
+  measure: coins_spent {
+    type: sum
+    sql: ${coins_econ_in_out_negative} ;;
+  }
+
+  measure: coins_net {
+    type: number
+    sql: SUM(${coins_econ_in_out}) ;;
+  }
+
+
+
   ###################CURRENCY BALANCES MEASURES###################
 
   parameter: 1_currency_type {
@@ -42,11 +109,11 @@ view: player_s_wallet {
     type: sum
     sql: CASE
       WHEN  {% parameter 1_currency_type %} = 'Gems'
-      THEN ${gems}
+      THEN ${gems_econ_in_out}
       WHEN  {% parameter 1_currency_type %} = 'Coins'
-      THEN ${coins}
+      THEN ${coins_econ_in_out}
       WHEN  {% parameter 1_currency_type %} = 'Lives'
-      THEN ${lives}
+      THEN ${lives_econ_in_out}
     END  ;;
   }
 

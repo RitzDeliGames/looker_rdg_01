@@ -20,15 +20,21 @@ view: fue_funnel {
   dimension: fue_step_hierarchy {
     type: string
     sql:
-    CASE WHEN ${event_name} = "TitleScreenAwake" THEN "1. TitleScreenAwake"
-         WHEN ${fue_step} = "FIRST_PLAY" THEN "2. FIRST PLAY"
-         WHEN ${fue_step} = "BINGO_CARD_INTRO" THEN "3. BINGO_CARD_INTRO"
-         WHEN ${fue_step} = "BINGO_CARD_FIRST_NODE_COMPLETE" THEN "4. BINGO_CARD_FIRST_NODE_COMPLETE"
-         WHEN ${fue_step} = "BINGO_CARD_KEEP_PLAYING" THEN "5. BINGO_CARD_KEEP_PLAYING"
-         WHEN ${fue_step} = "BINGO_CARD_FIRST_REWARD" THEN "6. BINGO_CARD_FIRST_REWARD"
-         WHEN ${fue_step} = "BINGO_CARD_FUE_END" THEN "7. BINGO_CARD_FUE_END"
-         WHEN ${fue_step} = "STORE_UNLOCK" THEN "8. STORE_UNLOCK"
-         WHEN ${fue_step} = "USE_BOOSTS" THEN "9. USE_BOOSTS"
+    CASE WHEN ${event_name} = "TitleScreenAwake" THEN "01. TitleScreenAwake"
+         WHEN ${fue_step} = "FIRST_PLAY" THEN "02. FIRST PLAY"
+         WHEN ${fue_step} = "BINGO_CARD_INTRO_LINEAR" THEN "03. BINGO_CARD_INTRO_LINEAR"
+         WHEN ${fue_step} = "BINGO_CARD_FIRST_NODE_COMPLETE_LINEAR" THEN "04. BINGO_CARD_FIRST_NODE_COMPLETE_LINEAR"
+         WHEN ${fue_step} = "BINGO_CARD_FIRST_NODE_FAILED_LINEAR" THEN "05. BINGO_CARD_FIRST_NODE_FAILED_LINEAR"
+         WHEN ${fue_step} = "BINGO_CARD_FIRST_REWARD_LINEAR" THEN "06. BINGO_CARD_FIRST_REWARD_LINEAR"
+         WHEN ${fue_step} = "NEW_CHARACTER_CONGRATS_FIRST" THEN "07. NEW_CHARACTER_CONGRATS_FIRST"
+         WHEN ${fue_step} = "NEW_CHARACTER_CONGRATS_SECOND" THEN "08. NEW_CHARACTER_CONGRATS_SECOND"
+         WHEN ${fue_step} = "BINGO_CARD_FUE_END" THEN "09. BINGO_CARD_FUE_END"
+         WHEN ${fue_step} = "BINGO_CARD_FIRST_NONLINEAR" THEN "10. BINGO_CARD_FIRST_NONLINEAR"
+         WHEN ${fue_step} = "STORE_UNLOCK" THEN "11. STORE_UNLOCK"
+         WHEN ${fue_step} = "USE_BOOSTS" THEN "12. USE_BOOSTS"
+         WHEN ${fue_step} = "LEADERBOARD_UNLOCK" THEN "13. LEADERBOARD_UNLOCK"
+         WHEN ${fue_step} = "FIRST_DUPLICATE" THEN "14. FIRST_DUPLICATE"
+         WHEN ${fue_step} = "ERASER_LEVEL_CAP" THEN "15. ERASER_LEVEL_CAP"
         ELSE ${fue_step}
         END
         ;;
@@ -51,7 +57,13 @@ view: funnel_steps {
       union all SELECT * FROM ${fue_step006.SQL_TABLE_NAME}
       union all SELECT * FROM ${fue_step007.SQL_TABLE_NAME}
       union all SELECT * FROM ${fue_step008.SQL_TABLE_NAME}
-      union all SELECT * FROM ${fue_step009.SQL_TABLE_NAME} ;;
+      union all SELECT * FROM ${fue_step009.SQL_TABLE_NAME}
+      union all SELECT * FROM ${fue_step010.SQL_TABLE_NAME}
+      union all SELECT * FROM ${fue_step011.SQL_TABLE_NAME}
+      union all SELECT * FROM ${fue_step012.SQL_TABLE_NAME}
+      union all SELECT * FROM ${fue_step013.SQL_TABLE_NAME}
+      union all SELECT * FROM ${fue_step014.SQL_TABLE_NAME}
+      union all SELECT * FROM ${fue_step015.SQL_TABLE_NAME} ;;
   }
   dimension: step {}
   measure: count_players {
@@ -67,14 +79,14 @@ view: fue_step001 {
   derived_table: {
     explore_source: fue_funnel {
       derived_column: step {
-        sql: "1. TitleScreenAwake" ;;
+        sql: "01. TitleScreenAwake" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: fue_funnel.fue_step_hierarchy
-        value: "1. TitleScreenAwake"
+        value: "01. TitleScreenAwake"
       }
     }
   }
@@ -84,14 +96,14 @@ view: fue_step002 {
   derived_table: {
     explore_source: fue_funnel {
       derived_column: step {
-        sql: "2. FIRST PLAY" ;;
+        sql: "02. FIRST PLAY" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: fue_funnel.fue_step_hierarchy
-        value: "2. FIRST PLAY"
+        value: "02. FIRST PLAY"
       }
     }
   }
@@ -101,31 +113,32 @@ view: fue_step003 {
   derived_table: {
     explore_source: fue_funnel {
       derived_column: step {
-        sql: "3. BINGO_CARD_INTRO" ;;
+        sql: "03. BINGO_CARD_INTRO_LINEAR" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: fue_funnel.fue_step_hierarchy
-        value: "3. BINGO_CARD_INTRO"
+        value: "03. BINGO_CARD_INTRO_LINEAR"
       }
     }
   }
 }
 
+
 view: fue_step004 {
   derived_table: {
     explore_source: fue_funnel {
       derived_column: step {
-        sql: "4. BINGO_CARD_FIRST_NODE_COMPLETE" ;;
+        sql: "04. BINGO_CARD_FIRST_NODE_COMPLETE_LINEAR" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: fue_funnel.fue_step_hierarchy
-        value: "4. BINGO_CARD_FIRST_NODE_COMPLETE"
+        value: "04. BINGO_CARD_FIRST_NODE_COMPLETE_LINEAR"
       }
     }
   }
@@ -135,14 +148,14 @@ view: fue_step005 {
   derived_table: {
     explore_source: fue_funnel {
       derived_column: step {
-        sql: "5. BINGO_CARD_KEEP_PLAYING" ;;
+        sql: "05. BINGO_CARD_FIRST_NODE_FAILED_LINEAR" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: fue_funnel.fue_step_hierarchy
-        value: "5. BINGO_CARD_KEEP_PLAYING"
+        value: "05. BINGO_CARD_FIRST_NODE_FAILED_LINEAR"
       }
     }
   }
@@ -152,14 +165,14 @@ view: fue_step006 {
   derived_table: {
     explore_source: fue_funnel {
       derived_column: step {
-        sql: "6. BINGO_CARD_FIRST_REWARD" ;;
+        sql: "06. BINGO_CARD_FIRST_REWARD_LINEAR" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: fue_funnel.fue_step_hierarchy
-        value: "6. BINGO_CARD_FIRST_REWARD"
+        value: "06. BINGO_CARD_FIRST_REWARD_LINEAR"
       }
     }
   }
@@ -169,14 +182,14 @@ view: fue_step007 {
   derived_table: {
     explore_source: fue_funnel {
       derived_column: step {
-        sql: "7. BINGO_CARD_FUE_END" ;;
+        sql: "07. NEW_CHARACTER_CONGRATS_FIRST" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: fue_funnel.fue_step_hierarchy
-        value: "7. BINGO_CARD_FUE_END"
+        value: "07. NEW_CHARACTER_CONGRATS_FIRST"
       }
     }
   }
@@ -186,14 +199,14 @@ view: fue_step008 {
   derived_table: {
     explore_source: fue_funnel {
       derived_column: step {
-        sql: "8. STORE_UNLOCK" ;;
+        sql: "08. NEW_CHARACTER_CONGRATS_SECOND" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: fue_funnel.fue_step_hierarchy
-        value: "8. STORE_UNLOCK"
+        value: "08. NEW_CHARACTER_CONGRATS_SECOND"
       }
     }
   }
@@ -203,14 +216,116 @@ view: fue_step009 {
   derived_table: {
     explore_source: fue_funnel {
       derived_column: step {
-        sql: "9. USE_BOOSTS" ;;
+        sql: "09. BINGO_CARD_FUE_END" ;;
       }
       column: player_id {}
       column: ChoreographyStepId {}
       column: first_time {}
       filters: {
         field: fue_funnel.fue_step_hierarchy
-        value: "9. USE_BOOSTS"
+        value: "09. BINGO_CARD_FUE_END"
+      }
+    }
+  }
+}
+
+view: fue_step010 {
+  derived_table: {
+    explore_source: fue_funnel {
+      derived_column: step {
+        sql: "10. BINGO_CARD_FIRST_NONLINEAR" ;;
+      }
+      column: player_id {}
+      column: ChoreographyStepId {}
+      column: first_time {}
+      filters: {
+        field: fue_funnel.fue_step_hierarchy
+        value: "10. BINGO_CARD_FIRST_NONLINEAR"
+      }
+    }
+  }
+}
+
+view: fue_step011 {
+  derived_table: {
+    explore_source: fue_funnel {
+      derived_column: step {
+        sql: "11. STORE_UNLOCK" ;;
+      }
+      column: player_id {}
+      column: ChoreographyStepId {}
+      column: first_time {}
+      filters: {
+        field: fue_funnel.fue_step_hierarchy
+        value: "11. STORE_UNLOCK"
+      }
+    }
+  }
+}
+
+view: fue_step012 {
+  derived_table: {
+    explore_source: fue_funnel {
+      derived_column: step {
+        sql: "12. USE_BOOSTS" ;;
+      }
+      column: player_id {}
+      column: ChoreographyStepId {}
+      column: first_time {}
+      filters: {
+        field: fue_funnel.fue_step_hierarchy
+        value: "12. USE_BOOSTS"
+      }
+    }
+  }
+}
+
+view: fue_step013 {
+  derived_table: {
+    explore_source: fue_funnel {
+      derived_column: step {
+        sql: "13. LEADERBOARD_UNLOCK" ;;
+      }
+      column: player_id {}
+      column: ChoreographyStepId {}
+      column: first_time {}
+      filters: {
+        field: fue_funnel.fue_step_hierarchy
+        value: "13. LEADERBOARD_UNLOCK"
+      }
+    }
+  }
+}
+
+view: fue_step014 {
+  derived_table: {
+    explore_source: fue_funnel {
+      derived_column: step {
+        sql: "14. FIRST_DUPLICATE" ;;
+      }
+      column: player_id {}
+      column: ChoreographyStepId {}
+      column: first_time {}
+      filters: {
+        field: fue_funnel.fue_step_hierarchy
+        value: "14. FIRST_DUPLICATE"
+      }
+    }
+  }
+}
+
+view: fue_step015 {
+  derived_table: {
+    explore_source: fue_funnel {
+      derived_column: step {
+        sql: "15. ERASER_LEVEL_CAP" ;;
+      }
+      column: player_id {}
+      column: ChoreographyStepId {}
+      column: first_time {}
+      filters: {
+        field: fue_funnel.fue_step_hierarchy
+        value: "15. ERASER_LEVEL_CAP"
       }
     }
   }

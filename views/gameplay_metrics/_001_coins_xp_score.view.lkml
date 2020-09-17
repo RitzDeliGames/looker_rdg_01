@@ -74,7 +74,6 @@ view: _001_coins_xp_score {
       THEN ${score_earned}
       WHEN  {% parameter boxplot_type %} = 'XP Earned'
       THEN ${xp_earned}
-
     END  ;;
   }
 

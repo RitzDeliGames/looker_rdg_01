@@ -27,6 +27,9 @@ view: bingo_card_funnel {
          WHEN ${current_card} = "card_008" THEN "CARD 008"
          WHEN ${current_card} = "card_009" THEN "CARD 009"
          WHEN ${current_card} = "card_010" THEN "CARD 010"
+         WHEN ${current_card} = "card_001_a" THEN "CARD 001_A"
+         WHEN ${current_card} = "card_002_a" THEN "CARD 002_A"
+         WHEN ${current_card} = "card_003_a" THEN "CARD 003_A"
         ELSE ${current_card}
         END
         ;;
@@ -49,7 +52,10 @@ view: card_steps {
       union all SELECT * FROM ${card_step006.SQL_TABLE_NAME}
       union all SELECT * FROM ${card_step007.SQL_TABLE_NAME}
       union all SELECT * FROM ${card_step008.SQL_TABLE_NAME}
-      union all SELECT * FROM ${card_step009.SQL_TABLE_NAME} ;;
+      union all SELECT * FROM ${card_step009.SQL_TABLE_NAME}
+      union all SELECT * FROM ${card_step001_a.SQL_TABLE_NAME}
+      union all SELECT * FROM ${card_step002_a.SQL_TABLE_NAME}
+      union all SELECT * FROM ${card_step003_a.SQL_TABLE_NAME} ;;
   }
   dimension: step {}
   measure: count_players {
@@ -226,6 +232,57 @@ view: card_step010 {
       filters: {
         field: bingo_card_funnel.card_step_hierarchy
         value: "CARD 010"
+      }
+    }
+  }
+}
+
+view: card_step001_a {
+  derived_table: {
+    explore_source: bingo_card_funnel {
+      derived_column: step {
+        sql: "CARD 001_A" ;;
+      }
+      column: player_id {}
+      column: ChoreographyStepId {}
+      column: first_time {}
+      filters: {
+        field: bingo_card_funnel.card_step_hierarchy
+        value: "CARD 001_A"
+      }
+    }
+  }
+}
+
+view: card_step002_a {
+  derived_table: {
+    explore_source: bingo_card_funnel {
+      derived_column: step {
+        sql: "CARD 002_A" ;;
+      }
+      column: player_id {}
+      column: ChoreographyStepId {}
+      column: first_time {}
+      filters: {
+        field: bingo_card_funnel.card_step_hierarchy
+        value: "CARD 002_A"
+      }
+    }
+  }
+}
+
+view: card_step003_a {
+  derived_table: {
+    explore_source: bingo_card_funnel {
+      derived_column: step {
+        sql: "CARD 003_A" ;;
+      }
+      column: player_id {}
+      column: ChoreographyStepId {}
+      column: first_time {}
+      filters: {
+        field: bingo_card_funnel.card_step_hierarchy
+        value: "CARD 003_A"
       }
     }
   }

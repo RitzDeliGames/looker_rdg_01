@@ -52,7 +52,7 @@ view: events {
     group_label: "Experiments"
     label: "Variants"
     type: string
-    sql: @{variant_ids} ;;
+    sql: REPLACE(@{variant_ids},'"','') ;;
   }
 ###
 
@@ -221,15 +221,24 @@ view: events {
     sql_end: ${timestamp_raw}  ;;
   }
 
+  dimension: 30_mins_since_install {
+    group_label: "Install Date"
+    label: "First 30 Minutes of Play"
+    style: integer
+    type: tier
+    tiers: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
+    sql: ${minutes_since_install} ;;
+  }
+
   dimension: 60_mins_since_install {
     group_label: "Install Date"
     label: "First 60 Minutes of Play"
     style: integer
     type: tier
-    tiers: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
-            31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60]
+    tiers: [2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60]
     sql: ${minutes_since_install} ;;
   }
+
   dimension: 24_hours_since_install {
     group_label: "Install Date"
     label: "First 24 Hours of Play"
@@ -333,7 +342,7 @@ view: events {
     group_label: "Currency Balances"
     label: "Gems"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_02'),'"','') as NUMERIC);;
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_02'),'"','') as NUMERIC) ;;
   }
 
   dimension: coins {
@@ -426,6 +435,21 @@ view: events {
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.Coin'),'"','') as NUMERIC);;
   }
+
+  dimension: skill {
+    group_label: "missing"
+    label: "Skill"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(tickets,'$.SKILL'),'"','') as NUMERIC) ;;
+  }
+
+  dimension: level {
+    group_label: "missing"
+    label: "Level"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(tickets,'$.LEVEL'),'"','') as NUMERIC) ;;
+  }
+
 
 ###
 
@@ -688,6 +712,9 @@ view: events {
     sql: ${event_raw} ;;
   }
 
+  ###################CURRENCY BALANCES MEASURES###################
+
+  #PLAYER XP LEVEL (INTEGER)
   measure: 25th_player_xp_level {
     group_label: "player_xp_level_measures"
     type: percentile
@@ -708,6 +735,7 @@ view: events {
     sql: ${player_xp_level_int} ;;
   }
 
+  #PLAYER XP LEVEL (FLOAT)
   measure: 25th_player_xp_level_float {
     group_label: "player_xp_level_granular_measures"
     type: percentile
@@ -728,9 +756,11 @@ view: events {
     sql: ${player_xp_level_rd_1} ;;
   }
 
-  measure: character_used_num {
-    type: count_distinct
-    sql: ${player_xp_level_rd_1} ;;
-  }
+#   measure: character_used_num {
+#     type: count
+#     sql: ${player_xp_level_rd_1} ;;
+#   }
+
+
 
 }

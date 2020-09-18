@@ -111,9 +111,15 @@ view: events {
     sql:@{device_manufacturer_mapping} ;;
   }
 
+  dimension: device_model_number {
+    group_label: "Device & OS Dimensions"
+    label:  "Device Model (Ungrouped)"
+    sql:${TABLE}.hardware ;;
+  }
+
   dimension: device_model {
     group_label: "Device & OS Dimensions"
-    label: "Device Model"
+    label: "Device Model (Grouped)"
     sql:@{device_model_mapping} ;;
   }
 

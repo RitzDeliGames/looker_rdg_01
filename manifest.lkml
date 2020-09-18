@@ -78,6 +78,7 @@ constant: device_model_mapping {
           WHEN ${TABLE}.hardware = 'samsung SM-J105B' THEN 'Samsung Galaxy J1'
           WHEN ${TABLE}.hardware = 'samsung SM-J111M' THEN 'Samsung Galaxy J1'
           WHEN ${TABLE}.hardware = 'samsung SM-J120H' THEN 'Samsung Galaxy J1'
+          WHEN ${TABLE}.hardware = 'samsung SM-J120M' THEN 'Samsung Galaxy J1'
           WHEN ${TABLE}.hardware = 'samsung SM-G532MT' THEN 'Samsung Galaxy J2'
           WHEN ${TABLE}.hardware = 'samsung SM-J260M' THEN 'Samsung Galaxy J2'
           WHEN ${TABLE}.hardware = 'samsung SM-G532M' THEN 'Samsung Galaxy J2'

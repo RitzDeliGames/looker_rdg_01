@@ -57,18 +57,18 @@ view: player_s_wallet {
   }
 
   measure: coins_earned {
-    type: sum
+    type: max
     sql: ${coins_econ_in_out_positive} ;;
   }
 
   measure: coins_spent {
-    type: sum
+    type: min
     sql: ${coins_econ_in_out_negative} ;;
   }
 
   measure: coins_net {
     type: number
-    sql: SUM(${coins_econ_in_out}) ;;
+    sql: MAX(${coins_econ_in_out_positive}) + MIN(${coins_econ_in_out_negative})  ;;
   }
 
 

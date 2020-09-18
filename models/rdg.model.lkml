@@ -51,7 +51,18 @@ explore: events {
 
 explore: player_s_wallet {}
 
+
 explore: created_at_max {}
+
+
+explore: time_no_play {
+  join: events {
+    sql_on: ${time_no_play.user_id} = ${events.user_id}
+            AND ${time_no_play.event_date} = ${events.event_date}
+            ;;
+    relationship: one_to_one
+  }
+}
 
 
 explore: sessions {

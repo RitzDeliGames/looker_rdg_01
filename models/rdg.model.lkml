@@ -55,6 +55,10 @@ explore: player_s_wallet {}
 explore: created_at_max {}
 
 
+explore: starts_ends_awake_ratios {}
+
+
+
 explore: time_no_play {
   join: events {
     sql_on: ${time_no_play.user_id} = ${events.user_id}
@@ -75,8 +79,6 @@ explore: sessions {
   }
 }
 
-
-# explore: sessions_alt {}
 
 
 explore: fue_funnel {

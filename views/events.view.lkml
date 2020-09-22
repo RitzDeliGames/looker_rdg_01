@@ -111,9 +111,15 @@ view: events {
     sql:@{device_manufacturer_mapping} ;;
   }
 
+  dimension: device_model_number {
+    group_label: "Device & OS Dimensions"
+    label:  "Device Model (Ungrouped)"
+    sql:${TABLE}.hardware ;;
+  }
+
   dimension: device_model {
     group_label: "Device & OS Dimensions"
-    label: "Device Model"
+    label: "Device Model (Grouped)"
     sql:@{device_model_mapping} ;;
   }
 
@@ -761,6 +767,13 @@ view: events {
 #     sql: ${player_xp_level_rd_1} ;;
 #   }
 
+  dimension: fb_users {
+    type: string
+    sql: CASE
+        WHEN ${player_id} LIKE '%facebook%' THEN 'fb'
+        ELSE 'out'
+        END ;;
+  }
 
 
 }

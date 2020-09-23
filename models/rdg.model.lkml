@@ -95,7 +95,7 @@ explore: bingo_card_funnel {
 
 explore: _000_bingo_cards {
   always_join: [card_mapping]
-  sql_always_where: _000_bingo_cards_comp.event_name = "cards"
+  sql_always_where: _000_bingo_cards_comp.event_name IN ("cards", "round_end")
   AND _000_bingo_cards_comp.user_type NOT IN ("internal_editor", "unit_test") ;;
   view_name: _000_bingo_cards_comp
   join: node_data {

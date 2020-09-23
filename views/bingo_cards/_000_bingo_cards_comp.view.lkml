@@ -343,19 +343,13 @@ view: _000_bingo_cards_comp {
       label: "rounds per node id"
       value: "rounds per node id"
     }
+    allowed_value: {
+      label: "round length"
+      value: "round length"
+    }
   }
 
-  parameter: boxplot_rounds {
-    type: string
-    allowed_value: {
-      label: "rounds"
-      value: "rounds"
-    }
-    allowed_value: {
-      label: "rounds per node id"
-      value: "rounds per node id"
-    }
-  }
+
 
   measure: 1_min_ {
     drill_fields: [detail*]
@@ -374,6 +368,8 @@ view: _000_bingo_cards_comp {
       THEN ${rounds}
       WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
+      WHEN  {% parameter descriptive_stats_bc %} = 'round length'
+      THEN CAST(${round_length_num} AS NUMERIC)
     END  ;;
   }
 
@@ -396,6 +392,8 @@ view: _000_bingo_cards_comp {
       THEN ${rounds}
       WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
+      WHEN  {% parameter descriptive_stats_bc %} = 'round length'
+      THEN CAST(${round_length_num} AS NUMERIC)
     END  ;;
   }
 
@@ -416,6 +414,8 @@ view: _000_bingo_cards_comp {
       THEN ${rounds}
       WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
+      WHEN  {% parameter descriptive_stats_bc %} = 'round length'
+      THEN CAST(${round_length_num} AS NUMERIC)
     END  ;;
   }
 
@@ -437,6 +437,8 @@ view: _000_bingo_cards_comp {
       THEN ${rounds}
       WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
+      WHEN  {% parameter descriptive_stats_bc %} = 'round length'
+      THEN CAST(${round_length_num} AS NUMERIC)
     END  ;;
   }
 
@@ -458,78 +460,8 @@ view: _000_bingo_cards_comp {
       THEN ${rounds}
       WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
-    END  ;;
-  }
-
-  measure: 1_min_boxplot {
-    drill_fields: [detail*]
-    link: {
-      label: "Drill and sort by Round Length"
-      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
-    }
-    group_label: "BoxPlot"
-    type: min
-    sql: CASE
-      WHEN  {% parameter boxplot_rounds %} = 'round length'
-      THEN ${round_length_num}
-    END  ;;
-  }
-
-  measure: 5_max_boxplot {
-    drill_fields: [detail*]
-    link: {
-      label: "Drill and sort by Round Length"
-      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
-    }
-    group_label: "BoxPlot"
-    type: max
-    sql: CASE
-      WHEN  {% parameter boxplot_rounds %} = 'round length'
-      THEN ${round_length_num}
-    END  ;;
-  }
-
-  measure: 3_median_boxplot {
-    drill_fields: [detail*]
-    link: {
-      label: "Drill and sort by Round Length"
-      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
-    }
-    group_label: "BoxPlot"
-    type: median
-    sql: CASE
-      WHEN  {% parameter boxplot_rounds %} = 'round length'
-      THEN ${round_length_num}
-    END  ;;
-  }
-
-  measure: 2_25th_boxplot {
-    drill_fields: [detail*]
-    link: {
-      label: "Drill and sort by Round Length"
-      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
-    }
-    group_label: "BoxPlot"
-    type: percentile
-    percentile: 25
-    sql: CASE
-      WHEN  {% parameter boxplot_rounds %} = 'round length'
-      THEN ${round_length_num}
-    END  ;;
-  }
-
-  measure: 4_75th_boxplot {
-    drill_fields: [detail*]
-    link: {
-      label: "Drill and sort by Round Length"
-      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
-    }
-    group_label: "BoxPlot"
-    type: percentile
-    percentile: 75
-    sql: CASE
-      WHEN  {% parameter boxplot_rounds %} = 'round length'
-      THEN ${round_length_num}
+      WHEN  {% parameter descriptive_stats_bc %} = 'round length'
+      THEN CAST(${round_length_num} AS NUMERIC)
     END  ;;
   }
 

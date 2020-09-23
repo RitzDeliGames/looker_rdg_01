@@ -324,11 +324,28 @@ view: _000_bingo_cards_comp {
     sql: DISTINCT ${TABLE}.timestamp ;;
   }
 
+  dimension: round_length_num {
+    type: number
+    sql: CAST(JSON_Value(extra_json,'$.round_length') AS NUMERIC) / 1000 ;;
+  }
+
 
   #########################FOR DESCRIPTIVE STATISTICS VISUALIZATION#########################
 
 
   parameter: descriptive_stats_bc {
+    type: string
+    allowed_value: {
+      label: "rounds"
+      value: "rounds"
+    }
+    allowed_value: {
+      label: "rounds per node id"
+      value: "rounds per node id"
+    }
+  }
+
+  parameter: boxplot_rounds {
     type: string
     allowed_value: {
       label: "rounds"
@@ -443,6 +460,79 @@ view: _000_bingo_cards_comp {
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
     END  ;;
   }
+
+  measure: 1_min_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Round Length"
+      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
+    }
+    group_label: "BoxPlot"
+    type: min
+    sql: CASE
+      WHEN  {% parameter boxplot_rounds %} = 'round length'
+      THEN ${round_length_num}
+    END  ;;
+  }
+
+  measure: 5_max_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Round Length"
+      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
+    }
+    group_label: "BoxPlot"
+    type: max
+    sql: CASE
+      WHEN  {% parameter boxplot_rounds %} = 'round length'
+      THEN ${round_length_num}
+    END  ;;
+  }
+
+  measure: 3_median_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Round Length"
+      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
+    }
+    group_label: "BoxPlot"
+    type: median
+    sql: CASE
+      WHEN  {% parameter boxplot_rounds %} = 'round length'
+      THEN ${round_length_num}
+    END  ;;
+  }
+
+  measure: 2_25th_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Round Length"
+      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
+    }
+    group_label: "BoxPlot"
+    type: percentile
+    percentile: 25
+    sql: CASE
+      WHEN  {% parameter boxplot_rounds %} = 'round length'
+      THEN ${round_length_num}
+    END  ;;
+  }
+
+  measure: 4_75th_boxplot {
+    drill_fields: [detail*]
+    link: {
+      label: "Drill and sort by Round Length"
+      url: "{{ link }}&sorts=_006_round_length.round_length_num+desc"
+    }
+    group_label: "BoxPlot"
+    type: percentile
+    percentile: 75
+    sql: CASE
+      WHEN  {% parameter boxplot_rounds %} = 'round length'
+      THEN ${round_length_num}
+    END  ;;
+  }
+
 
 
   set: detail {

@@ -762,10 +762,31 @@ view: events {
     sql: ${player_xp_level_rd_1} ;;
   }
 
-#   measure: character_used_num {
-#     type: count
-#     sql: ${player_xp_level_rd_1} ;;
-#   }
+
+  #############
+
+  #TEST 30min Since Install
+  measure: 25th_30_mins_since_install {
+    group_label: "30min_Since_Install_measures"
+    type: percentile
+    percentile: 25
+    sql: CAST(${30_mins_since_install} AS NUMERIC) ;;
+  }
+
+  measure: median_30_mins_since_install{
+    group_label: "30min_Since_Install_measures"
+    type: median
+    sql: CAST(${30_mins_since_install} AS NUMERIC) ;;
+  }
+
+  measure: 75th_30_mins_since_install {
+    group_label: "30min_Since_Install_measures"
+    type: percentile
+    percentile: 75
+    sql: CAST(${30_mins_since_install} AS NUMERIC) ;;
+  }
+
+
 
   dimension: fb_users {
     type: string

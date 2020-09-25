@@ -95,7 +95,7 @@ explore: bingo_card_funnel {
 
 explore: _000_bingo_cards {
   always_join: [card_mapping]
-  sql_always_where: _000_bingo_cards_comp.event_name IN ("cards", "round_end")
+  sql_always_where: _000_bingo_cards_comp.event_name IN ("cards")
   AND _000_bingo_cards_comp.user_type NOT IN ("internal_editor", "unit_test") ;;
   view_name: _000_bingo_cards_comp
   join: node_data {
@@ -141,11 +141,24 @@ explore: _000_bingo_cards {
   }
   join: max_rounds_for_card_finished {
     relationship: many_to_one
-    sql_on: ${_000_bingo_cards_comp.player_id} = ${max_rounds_for_card_finished.user_id}
+    sql_on: ${_000_bingo_cards_comp.user_id} = ${max_rounds_for_card_finished.user_id}
       AND ${_000_bingo_cards_comp.session_id} = ${max_rounds_for_card_finished.session_id}
       AND ${_000_bingo_cards_comp.game_version} = ${max_rounds_for_card_finished.version} ;;
   }
+  join: round_length_by_tile {
+    relationship: many_to_many
+    sql_on: ${_000_bingo_cards_comp.user_id} = ${round_length_by_tile.user_id}
+      AND ${_000_bingo_cards_comp.round_id} = ${round_length_by_tile.round_id} ;;
+  }
+
 }
+
+#   join: _006_round_length {
+#     relationship: many_to_many
+#     sql_on: ${_000_bingo_cards_comp.user_id} = ${_006_round_length.user_id}
+#       AND ${_000_bingo_cards_comp.round_id} = ${_006_round_length.round_id} ;;
+#   }
+
 
 
 
@@ -254,6 +267,17 @@ explore: _006_round_length {
   AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
   AND user_type NOT IN ("internal_editor", "unit_test")
   ;;
+  join: _000_bingo_cards_comp {
+    relationship: many_to_many
+    sql_on: ${_006_round_length.user_id} = ${_000_bingo_cards_comp.user_id}
+      AND ${_006_round_length.round_id} = ${_000_bingo_cards_comp.round_id} ;;
+  }
+  join: node_data {
+    fields: [node_data.node_data]
+    relationship: one_to_many
+    from: _000_bingo_cards_comp
+    sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.node_data')) as node_data ;;
+  }
 }
 
 

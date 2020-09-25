@@ -13,9 +13,7 @@ view: max_rounds_for_card_finished {
 FROM events
 WHERE event_name = 'cards'
   AND ((JSON_EXTRACT(extra_json, '$.card_end_time')) IS NOT NULL)
-
 GROUP BY user_id, event_date, card_id, card_end_time, session_id, version, user_type, timestamp
-
  ;;
   }
 

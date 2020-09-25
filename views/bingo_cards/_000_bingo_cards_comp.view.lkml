@@ -1,9 +1,8 @@
- include: "/views/**/events.view"
+include: "/views/**/events.view"
 
 
 view: _000_bingo_cards_comp {
   extends: [events]
-
 
   #_DIMENSIONS_MANY_TYPES_#####################################
 
@@ -279,6 +278,35 @@ view: _000_bingo_cards_comp {
   }
 
 
+  dimension: node_end_time {
+    type: number
+    sql: CAST(JSON_EXTRACT(${node_data.node_data}, '$.node_end_time') AS NUMERIC) ;;
+  }
+
+  dimension: node_last_update_time {
+    type: number
+    sql: CAST(JSON_EXTRACT(${node_data.node_data}, '$.node_last_update_time') AS NUMERIC) ;;
+  }
+
+  dimension: card_start_time {
+    type: number
+    sql:  CAST(JSON_EXTRACT(extra_json, '$.card_start_time') AS NUMERIC) ;;
+  }
+
+  dimension: card_update_time {
+    type: number
+    sql:  CAST(JSON_EXTRACT(extra_json, '$.card_update_time') AS NUMERIC) ;;
+  }
+
+  dimension: time_node_length {
+    type: number
+    sql: CASE
+          WHEN ${node_last_update_time} > 0
+           THEN ${node_end_time} - ${node_last_update_time}
+          ELSE ${node_end_time} - ${card_start_time}
+         END ;;
+  }
+
   #_MEASURES_############################################
 
 
@@ -369,7 +397,7 @@ view: _000_bingo_cards_comp {
       WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
       WHEN  {% parameter descriptive_stats_bc %} = 'round length'
-      THEN CAST(${round_length_num} AS NUMERIC)
+      THEN CAST(${round_length} AS NUMERIC)
     END  ;;
   }
 
@@ -393,7 +421,7 @@ view: _000_bingo_cards_comp {
       WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
       WHEN  {% parameter descriptive_stats_bc %} = 'round length'
-      THEN CAST(${round_length_num} AS NUMERIC)
+      THEN CAST(${round_length} AS NUMERIC)
     END  ;;
   }
 
@@ -415,7 +443,7 @@ view: _000_bingo_cards_comp {
       WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
       WHEN  {% parameter descriptive_stats_bc %} = 'round length'
-      THEN CAST(${round_length_num} AS NUMERIC)
+      THEN CAST(${round_length} AS NUMERIC)
     END  ;;
   }
 
@@ -438,7 +466,7 @@ view: _000_bingo_cards_comp {
       WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
       WHEN  {% parameter descriptive_stats_bc %} = 'round length'
-      THEN CAST(${round_length_num} AS NUMERIC)
+      THEN CAST(${round_length} AS NUMERIC)
     END  ;;
   }
 
@@ -461,7 +489,7 @@ view: _000_bingo_cards_comp {
       WHEN  {% parameter descriptive_stats_bc %} = "rounds per node id"
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
       WHEN  {% parameter descriptive_stats_bc %} = 'round length'
-      THEN CAST(${round_length_num} AS NUMERIC)
+      THEN CAST(${round_length} AS NUMERIC)
     END  ;;
   }
 

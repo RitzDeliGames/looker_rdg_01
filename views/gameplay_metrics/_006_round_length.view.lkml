@@ -12,6 +12,17 @@ view: _006_round_length {
 
 #####DIMENSIONS#####
 
+  dimension: user_id {
+    type: string
+    sql: ${TABLE}.user_id ;;
+  }
+
+  dimension: round_id {
+    type: number
+    sql: CAST(JSON_Value(extra_json, '$.round_id') AS NUMERIC) ;;
+  }
+
+  #
   dimension: round_x_axis {
     type: string
     sql: CASE WHEN ${TABLE}.extra_json IS NOT NULL THEN 'x'

@@ -342,7 +342,7 @@ explore: boost_usage {
 
 #########################
 
-
+explore: test_churn {}
 
 ######LOAD TIME######
 

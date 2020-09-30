@@ -58,6 +58,8 @@ explore: created_at_max {}
 explore: starts_ends_awake_ratios {}
 
 
+explore: experiments_charts {}
+
 
 explore: time_no_play {
   join: events {

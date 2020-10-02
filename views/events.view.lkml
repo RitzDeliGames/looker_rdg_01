@@ -762,6 +762,12 @@ view: events {
     sql: ${player_xp_level_rd_1} ;;
   }
 
+  measure: count_characters {
+    type: count_distinct
+    # drill_fields: [character_used]
+    sql: ${character_used} ;;
+  }
+
 
   #############
 
@@ -772,6 +778,7 @@ view: events {
         ELSE 'out'
         END ;;
   }
+
 
 
 }

@@ -709,6 +709,7 @@ view: events {
   }
 
   measure: count_unique_person_id {
+    label: "Player Count"
     type: count_distinct
     sql: ${player_id} ;;
   }

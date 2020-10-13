@@ -719,6 +719,71 @@ view: events {
     sql: ${event_raw} ;;
   }
 
+
+  ###################CHARACTER USED SKILL MEASURES###################
+
+  measure: character_used_skill_sum {
+    group_label: "character_used_skill_measures"
+    type: sum
+    sql: ${character_used_skill} ;;
+  }
+
+  measure: character_used_skill_avg {
+    group_label: "character_used_skill_measures"
+    type: average
+    sql: ${character_used_skill} ;;
+  }
+
+  measure: 1_min_character_used_skill {
+    group_label: "character_used_skill_measures"
+    type: min
+    sql: ${character_used_skill} ;;
+  }
+
+  measure: 2_25th_character_used_skill {
+    group_label: "character_used_skill_measures"
+    type: percentile
+    percentile: 25
+    sql: ${character_used_skill} ;;
+  }
+
+  measure: 3_median_character_used_skill {
+    group_label: "character_used_skill_measures"
+    type: median
+    sql: ${character_used_skill} ;;
+  }
+
+  measure: 4_75th_character_used_skill {
+    group_label: "character_used_skill_measures"
+    type: percentile
+    percentile: 75
+    sql: ${character_used_skill} ;;
+  }
+
+  measure: 5_max_character_used_skill {
+    group_label: "character_used_skill_measures"
+    type: max
+    sql: ${character_used_skill} ;;
+  }
+
+  ###############################################
+
+  measure: churn_measure {
+    type: percent_of_previous
+    sql: COUNT(DISTINCT ${player_id}) ;;
+  }
+
+  measure: churn_int {
+    type: number
+    sql: ROUND(100 * (1 - ((LAG(COUNT(DISTINCT events.user_id)) OVER(ORDER BY COUNT(DISTINCT events.user_id))) / COUNT(DISTINCT ${player_id}))), 0) ;;
+  }
+
+  measure: churn_decimal {
+    type: number
+    sql: (1 - ((LAG(COUNT(DISTINCT events.user_id)) OVER(ORDER BY COUNT(DISTINCT events.user_id))) / COUNT(DISTINCT ${player_id}))) ;;
+  }
+
+
   ###################CURRENCY BALANCES MEASURES###################
 
   #PLAYER XP LEVEL (INTEGER)

@@ -61,6 +61,16 @@ explore: starts_ends_awake_ratios {}
 explore: experiments_charts {}
 
 
+explore: retention_cohort_dimensionalize_20days {}
+
+
+explore: test_h {}
+
+
+explore: count_char_used_by_skill_level_roundid {}
+
+
+
 explore: time_no_play {
   join: events {
     sql_on: ${time_no_play.user_id} = ${events.user_id}

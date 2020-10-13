@@ -81,7 +81,10 @@ view: retention {
     value_format_name: percent_1
     sql: 1.0 * ${total_active_users} / nullif(${total_users},0) ;;
   }
+
+
 }
+
 
 view: cohort {
   derived_table: {

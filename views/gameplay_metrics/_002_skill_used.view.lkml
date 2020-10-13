@@ -9,7 +9,6 @@ view: _002_skill_used {
         created_at,
         extra_json,
         user_type,
-        player_xp_level,
         payer,
         character_skill_used,
         hardware
@@ -54,11 +53,6 @@ view: _002_skill_used {
   dimension: character_skill_used {
     type: number
     sql: CAST(if(character_skill_used = '' ,'0', character_skill_used) AS NUMERIC);;
-  }
-
-  dimension: player_xp_level {
-    type: number
-    sql: ${TABLE}.player_xp_level ;;
   }
 
   dimension: character_skill {

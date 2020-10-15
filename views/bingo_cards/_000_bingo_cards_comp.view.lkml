@@ -42,11 +42,6 @@ view: _000_bingo_cards_comp {
     sql: CAST(JSON_Value(extra_json,'$.rounds') AS NUMERIC) ;;
   }
 
-  dimension: card_end_time {
-    type: string
-    sql: JSON_EXTRACT(extra_json, '$.card_end_time') ;;
-  }
-
   dimension: sessions {
     type: string
     sql: JSON_Value(extra_json, '$.sessions');;
@@ -257,6 +252,8 @@ view: _000_bingo_cards_comp {
     sql: ARRAY_LENGTH(${card_state_completed}) ;;
   }
 
+  ###
+
   dimension: node_data {
     type: string
     sql: node_data ;;
@@ -277,25 +274,20 @@ view: _000_bingo_cards_comp {
     sql: JSON_EXTRACT(${node_data.node_data}, '$.node_id') ;;
   }
 
-
   dimension: node_end_time {
     type: number
     sql: CAST(JSON_EXTRACT(${node_data.node_data}, '$.node_end_time') AS NUMERIC) ;;
   }
 
+  dimension: node_start_time {
+    type: number
+    sql: CAST(JSON_EXTRACT(${node_data.node_data}, '$.node_start_time') AS NUMERIC) ;;
+  }
+
   dimension: node_last_update_time {
+    group_label: "Tile Times"
     type: number
     sql: CAST(JSON_EXTRACT(${node_data.node_data}, '$.node_last_update_time') AS NUMERIC) ;;
-  }
-
-  dimension: card_start_time {
-    type: number
-    sql:  CAST(JSON_EXTRACT(extra_json, '$.card_start_time') AS NUMERIC) ;;
-  }
-
-  dimension: card_update_time {
-    type: number
-    sql:  CAST(JSON_EXTRACT(extra_json, '$.card_update_time') AS NUMERIC) ;;
   }
 
   dimension: time_node_length {
@@ -307,8 +299,59 @@ view: _000_bingo_cards_comp {
          END ;;
   }
 
-  #_MEASURES_############################################
 
+  ###Card Times as dates###
+
+  dimension: card_start_time_date {
+    group_label: "Card & Tile Times"
+    type: date
+    sql: timestamp_millis(CAST(JSON_EXTRACT(extra_json, '$.card_start_time') AS INT64)) ;;
+  }
+
+  dimension: card_end_time_date {
+    group_label: "Card & Tile Times"
+    type: date
+    sql: timestamp_millis(CAST(JSON_EXTRACT(extra_json, '$.card_end_time') AS INT64)) ;;
+  }
+
+
+  ###Card & Tile Times###
+
+  dimension: card_start_time {
+    group_label: "Card & Tile Times"
+    type: number
+    sql:  CAST(JSON_EXTRACT(extra_json, '$.card_start_time') AS INT64) ;;
+  }
+
+  dimension: card_end_time {
+    group_label: "Card & Tile Times"
+    type: number
+    sql:  CAST(JSON_EXTRACT(extra_json, '$.card_end_time') AS INT64) ;;
+  }
+
+  dimension: card_hours_to_finish_ {
+    group_label: "Card & Tile Times"
+    type: number
+    sql: ROUND(((((CAST(${card_end_time} AS INT64) - CAST(${card_start_time} AS INT64)) / 1000) / 60) / 60), 0) ;;
+  }
+
+  dimension: card_update_time {
+    group_label: "Card & Tile Times"
+    type: number
+    sql:  CAST(JSON_EXTRACT(extra_json, '$.card_update_time') AS NUMERIC) ;;
+  }
+
+  # measure: card_hours_to_finish_ {
+  #   group_label: "Card & Tile Times"
+  #   type: number
+  #   sql: TIMESTAMP_DIFF(MAX(${card_end_time}), MIN(${card_start_time}), HOUR)
+  #     ;;
+  # }
+
+  ###
+
+
+  #_MEASURES_############################################
 
   measure: min_rounds_to_complete {
     type: min
@@ -375,9 +418,12 @@ view: _000_bingo_cards_comp {
       label: "round length"
       value: "round length"
     }
+    allowed_value: {
+      label: "Hours to finish cards"
+      value: "Hours to finish cards"
+    }
+
   }
-
-
 
   measure: 1_min_ {
     drill_fields: [detail*]
@@ -398,6 +444,8 @@ view: _000_bingo_cards_comp {
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
       WHEN  {% parameter descriptive_stats_bc %} = 'round length'
       THEN CAST(${round_length} AS NUMERIC)
+      WHEN  {% parameter descriptive_stats_bc %} = 'Hours to finish cards'
+      THEN ${card_hours_to_finish_}
     END  ;;
   }
 
@@ -422,6 +470,8 @@ view: _000_bingo_cards_comp {
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
       WHEN  {% parameter descriptive_stats_bc %} = 'round length'
       THEN CAST(${round_length} AS NUMERIC)
+      WHEN  {% parameter descriptive_stats_bc %} = 'Hours to finish cards'
+      THEN ${card_hours_to_finish_}
     END  ;;
   }
 
@@ -444,6 +494,8 @@ view: _000_bingo_cards_comp {
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
       WHEN  {% parameter descriptive_stats_bc %} = 'round length'
       THEN CAST(${round_length} AS NUMERIC)
+      WHEN  {% parameter descriptive_stats_bc %} = 'Hours to finish cards'
+      THEN ${card_hours_to_finish_}
     END  ;;
   }
 
@@ -467,6 +519,8 @@ view: _000_bingo_cards_comp {
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
       WHEN  {% parameter descriptive_stats_bc %} = 'round length'
       THEN CAST(${round_length} AS NUMERIC)
+      WHEN  {% parameter descriptive_stats_bc %} = 'Hours to finish cards'
+      THEN ${card_hours_to_finish_}
     END  ;;
   }
 
@@ -490,6 +544,8 @@ view: _000_bingo_cards_comp {
       THEN CAST(if(${rounds_nodes} = '' , '0', ${rounds_nodes}) AS NUMERIC)
       WHEN  {% parameter descriptive_stats_bc %} = 'round length'
       THEN CAST(${round_length} AS NUMERIC)
+      WHEN  {% parameter descriptive_stats_bc %} = 'Hours to finish cards'
+      THEN ${card_hours_to_finish_}
     END  ;;
   }
 

@@ -180,7 +180,7 @@ view: gaming_block_events {
     sql:  DATE_DIFF(${event_date}, ${user_first_seen_date}, DAY);;
   }
 
-  # D1
+  # D2
 
   measure: d1_retained_users {
     group_label: "Retention"
@@ -212,6 +212,41 @@ view: gaming_block_events {
     type: number
     sql: 1.0 * ${d1_retained_users}/ NULLIF(${d1_eligible_users},0);;
     drill_fields: [drill_field,d1_retention_rate]
+  }
+
+  # D3
+
+  measure: d3_retained_users {
+    group_label: "Retention"
+    description: "Number of players that came back to play on day 7"
+    type: count_distinct sql: ${user_id} ;;
+    filters: {
+      field: retention_day
+      value: "3"
+    }
+    drill_fields: [drill_field,d7_retained_users]
+  }
+
+  measure: d3_eligible_users {
+    hidden: yes
+    group_label: "Retention"
+    description: "Number of players older than 3 days"
+    type: count_distinct
+    sql: ${user_id} ;;
+    filters: {
+      field: days_since_user_signup
+      value: ">3"
+    }
+    drill_fields: [drill_field,d7_eligible_users]
+  }
+
+  measure: d3_retention_rate {
+    group_label: "Retention"
+    description: "% of players (that are older than 7 days) that came back to play on day 7"
+    value_format_name: percent_2
+    type: number
+    sql: 1.0 * ${d3_retained_users}/ NULLIF(${d3_eligible_users},0);;
+    drill_fields: [drill_field,d7_retention_rate]
   }
 
   # D7

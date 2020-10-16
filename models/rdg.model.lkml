@@ -65,6 +65,7 @@ explore: retention_cohort_dimensionalize_20days {}
 
 
 explore: test_h {}
+explore: test_i {}
 
 
 explore: count_char_used_by_skill_level_roundid {}

@@ -464,6 +464,7 @@ view: events {
 dimension: current_card_no {
   group_label: "Current Card"
   label: "Current Card Numbered"
+  type: number
   sql: @{current_card_numbered} ;;
 }
 

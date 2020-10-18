@@ -459,6 +459,17 @@ view: events {
 
 ###
 
+###CARD DIMENSIONS###
+
+dimension: current_card_no {
+  group_label: "Current Card"
+  label: "Current Card Numbered"
+  sql: @{current_card_numbered} ;;
+}
+
+###
+
+
 ###SCHEMA DIMENSIONS###
 
   dimension: event_name {

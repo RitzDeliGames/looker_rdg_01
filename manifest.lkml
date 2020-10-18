@@ -332,3 +332,28 @@ constant: country_region {
             ELSE 'OTHER'
           END"
 }
+
+constant: current_card_numbered {
+  value: "CASE
+              WHEN ${TABLE}.current_card = 'card_001_a' THEN 1
+              WHEN ${TABLE}.current_card = 'card_002_a' THEN 2
+              WHEN ${TABLE}.current_card = 'card_003_a' THEN 3
+              WHEN ${TABLE}.current_card = 'card_002' THEN 4
+              WHEN ${TABLE}.current_card = 'card_003' THEN 5
+              WHEN ${TABLE}.current_card = 'card_004' THEN 6
+              WHEN ${TABLE}.current_card = 'card_005' THEN 7
+              WHEN ${TABLE}.current_card = 'card_006' THEN 8
+              WHEN ${TABLE}.current_card = 'card_007' THEN 9
+              WHEN ${TABLE}.current_card = 'card_008' THEN 10
+              WHEN ${TABLE}.current_card = 'card_009' THEN 11
+              WHEN ${TABLE}.current_card = 'card_010' THEN 12
+              WHEN ${TABLE}.current_card = 'card_011' THEN 13
+              WHEN ${TABLE}.current_card = 'card_012' THEN 14
+              WHEN ${TABLE}.current_card = 'card_013' THEN 15
+              WHEN ${TABLE}.current_card = 'card_014' THEN 16
+              WHEN ${TABLE}.current_card = 'card_015' THEN 17
+              WHEN ${TABLE}.current_card = 'card_016' THEN 18
+              WHEN ${TABLE}.current_card = 'card_017' THEN 19
+              WHEN ${TABLE}.current_card = 'card_018' THEN 20
+          END"
+}

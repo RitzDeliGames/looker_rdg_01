@@ -545,8 +545,6 @@ view: events {
     label: "Round ID"
     type: number
     sql: CAST(REPLACE(JSON_VALUE(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
-#     sql: JSON_Value(${TABLE}.extra_json,'$.round_id') ;;
-
   }
 
   dimension: character_used {
@@ -718,7 +716,6 @@ view: events {
     type: count_distinct
     sql: ${event_raw} ;;
   }
-
 
   ###################CHARACTER USED SKILL MEASURES###################
 

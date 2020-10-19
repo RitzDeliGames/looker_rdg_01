@@ -67,6 +67,18 @@ explore: retention_cohort_dimensionalize_20days {}
 explore: test_h {}
 explore: test_i {}
 
+explore: char_collection_test {
+  join: events {
+    sql_on: ${char_collection_test.user_id} = ${events.user_id}
+    AND ${char_collection_test.session_id} = ${events.session_id}
+    AND ${char_collection_test.timestamp_date} = ${events.timestamp_date}
+    AND ${char_collection_test.created_at_date} = ${events.user_first_seen_date}
+      ;;
+    relationship: one_to_one
+  }
+
+}
+
 
 explore: count_char_used_by_skill_level_roundid {}
 

@@ -10,7 +10,7 @@ view: player_s_wallet {
     type: number
     sql: CASE
       WHEN ${event_name} = 'transaction'
-      THEN ${coins} * (-1)
+      THEN ${amount_spent} * (-1)
       WHEN ${event_name} = 'reward'
       THEN ${coins}
       END;;
@@ -40,20 +40,18 @@ view: player_s_wallet {
 
   dimension: coins_econ_in_out_positive {
     type: number
-    hidden: yes
-    sql: CASE
-      WHEN ${event_name} = 'reward'
-      THEN ${coins}
-      END;;
+    # hidden: yes
+    # sql: CASE
+    #   WHEN ${event_name} = 'reward'
+    #   THEN ${coins}
+    #   END;;
+    sql: ${coins} ;;
   }
 
   dimension: coins_econ_in_out_negative {
     type: number
-    hidden: yes
-    sql: CASE
-      WHEN ${event_name} = 'transaction'
-      THEN ${coins} * (-1)
-      END;;
+    # hidden: yes
+    sql: ${amount_spent} * (-1) ;;
   }
 
   measure: coins_earned {
@@ -62,13 +60,13 @@ view: player_s_wallet {
   }
 
   measure: coins_spent {
-    type: min
+    type: max
     sql: ${coins_econ_in_out_negative} ;;
   }
 
   measure: coins_net {
     type: number
-    sql: MAX(${coins_econ_in_out_positive}) + MIN(${coins_econ_in_out_negative})  ;;
+    sql: MAX(${coins_econ_in_out_positive}) + MAX(${coins_econ_in_out_negative})  ;;
   }
 
 

@@ -456,8 +456,30 @@ view: events {
     sql: CAST(REPLACE(JSON_EXTRACT(tickets,'$.LEVEL'),'"','') as NUMERIC) ;;
   }
 
+  dimension: engagement_ticks {
+    group_label: "missing"
+    label: "Engagement Ticks"
+    type: string
+    sql: ${TABLE}.engagement_ticks ;;
+  }
+
 
 ###
+
+  dimension: amount_spent {
+    group_label: "Currency Transactions"
+    label: "transaction purchase amount"
+    type: number
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.transaction_purchase_amount'),'"','') as NUMERIC);;
+  }
+
+  dimension: currencies_spent {
+    group_label: "Currency Transactions"
+    label: "transaction purchase currency"
+    type: string
+    sql: JSON_EXTRACT(${TABLE}.extra_json,'$.transaction_purchase_currency');;
+  }
+
 
 ###SCHEMA DIMENSIONS###
 

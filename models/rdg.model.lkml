@@ -35,7 +35,8 @@ datagroup: events_boost {
 
 explore: events {
   sql_always_where:
-    user_type NOT IN ("internal_editor", "unit_test") ;;
+    created_at  >= TIMESTAMP('2020-07-06 00:00:00')
+    AND user_type NOT IN ("internal_editor", "unit_test") ;;
     join: retention {
       sql_on: ${events.player_id} = ${retention.user_id}
                 and ${events.user_first_seen_date} = ${retention.signup_day_date};;

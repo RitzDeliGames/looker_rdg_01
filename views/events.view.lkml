@@ -480,6 +480,17 @@ view: events {
     sql: JSON_EXTRACT(${TABLE}.extra_json,'$.transaction_purchase_currency');;
   }
 
+###CARD DIMENSIONS###
+
+dimension: current_card_no {
+  group_label: "Current Card"
+  label: "Current Card Numbered"
+  type: number
+  sql: @{current_card_numbered} ;;
+}
+
+###
+
 
 ###SCHEMA DIMENSIONS###
 
@@ -567,8 +578,6 @@ view: events {
     label: "Round ID"
     type: number
     sql: CAST(REPLACE(JSON_VALUE(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
-#     sql: JSON_Value(${TABLE}.extra_json,'$.round_id') ;;
-
   }
 
   dimension: character_used {
@@ -740,7 +749,6 @@ view: events {
     type: count_distinct
     sql: ${event_raw} ;;
   }
-
 
   ###################CHARACTER USED SKILL MEASURES###################
 

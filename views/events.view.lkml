@@ -463,6 +463,15 @@ view: events {
     sql: ${TABLE}.engagement_ticks ;;
   }
 
+  dimension: install_version {
+    group_label: "missing"
+    label: "Install Version"
+    type: string
+    sql: ${TABLE}.install_version ;;
+  }
+
+
+
 
 ###
 

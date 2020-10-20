@@ -335,25 +335,25 @@ constant: country_region {
 
 constant: current_card_numbered {
   value: "CASE
-              WHEN ${TABLE}.current_card = 'card_001_a' THEN 1
-              WHEN ${TABLE}.current_card = 'card_002_a' THEN 2
-              WHEN ${TABLE}.current_card = 'card_003_a' THEN 3
-              WHEN ${TABLE}.current_card = 'card_002' THEN 4
-              WHEN ${TABLE}.current_card = 'card_003' THEN 5
-              WHEN ${TABLE}.current_card = 'card_004' THEN 6
-              WHEN ${TABLE}.current_card = 'card_005' THEN 7
-              WHEN ${TABLE}.current_card = 'card_006' THEN 8
-              WHEN ${TABLE}.current_card = 'card_007' THEN 9
-              WHEN ${TABLE}.current_card = 'card_008' THEN 10
-              WHEN ${TABLE}.current_card = 'card_009' THEN 11
-              WHEN ${TABLE}.current_card = 'card_010' THEN 12
-              WHEN ${TABLE}.current_card = 'card_011' THEN 13
-              WHEN ${TABLE}.current_card = 'card_012' THEN 14
-              WHEN ${TABLE}.current_card = 'card_013' THEN 15
-              WHEN ${TABLE}.current_card = 'card_014' THEN 16
-              WHEN ${TABLE}.current_card = 'card_015' THEN 17
-              WHEN ${TABLE}.current_card = 'card_016' THEN 18
-              WHEN ${TABLE}.current_card = 'card_017' THEN 19
-              WHEN ${TABLE}.current_card = 'card_018' THEN 20
+              WHEN ${TABLE}.current_card = 'card_001_a' THEN 100
+              WHEN ${TABLE}.current_card = 'card_002_a' THEN 200
+              WHEN ${TABLE}.current_card = 'card_003_a' THEN 300
+              WHEN ${TABLE}.current_card = 'card_002' THEN 400
+              WHEN ${TABLE}.current_card = 'card_003' THEN 500
+              WHEN ${TABLE}.current_card = 'card_004' THEN 600
+              WHEN ${TABLE}.current_card = 'card_005' THEN 700
+              WHEN ${TABLE}.current_card = 'card_006' THEN 800
+              WHEN ${TABLE}.current_card = 'card_007' THEN 900
+              WHEN ${TABLE}.current_card = 'card_008' THEN 1000
+              WHEN ${TABLE}.current_card = 'card_009' THEN 1100
+              WHEN ${TABLE}.current_card = 'card_010' THEN 1200
+              WHEN ${TABLE}.current_card = 'card_011' THEN 1300
+              WHEN ${TABLE}.current_card = 'card_012' THEN 1400
+              WHEN ${TABLE}.current_card = 'card_013' THEN 1500
+              WHEN ${TABLE}.current_card = 'card_014' THEN 1600
+              WHEN ${TABLE}.current_card = 'card_015' THEN 1700
+              WHEN ${TABLE}.current_card = 'card_016' THEN 1800
+              WHEN ${TABLE}.current_card = 'card_017' THEN 1900
+              WHEN ${TABLE}.current_card = 'card_018' THEN 2000
           END"
 }

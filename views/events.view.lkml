@@ -480,17 +480,6 @@ view: events {
     sql: JSON_EXTRACT(${TABLE}.extra_json,'$.transaction_purchase_currency');;
   }
 
-###CARD DIMENSIONS###
-
-dimension: current_card_no {
-  group_label: "Current Card"
-  label: "Current Card Numbered"
-  type: number
-  sql: @{current_card_numbered} ;;
-}
-
-###
-
 
 ###SCHEMA DIMENSIONS###
 
@@ -565,9 +554,34 @@ dimension: current_card_no {
 ###BINGO CARD DIMENSIONS###
 
   dimension: current_card {
+    group_label: "Current Card"
+    label: "Current Card ID"
     type: string
     sql: ${TABLE}.current_card ;;
   }
+
+  dimension: current_card_no {
+    group_label: "Current Card"
+    label: "Current Card Numbered"
+    type: number
+    value_format: "####"
+    sql: @{current_card_numbered} ;;
+  }
+
+  dimension: current_quest {
+    group_label: "Current Card"
+    label: "Current Quest"
+    type: number
+    sql: CAST(REPLACE(JSON_VALUE(${TABLE}.extra_json,'$.current_quest'),'"','') AS NUMERIC);;
+  }
+
+  dimension: current_card_quest {
+    group_label: "Current Card"
+    label: "Current Card + Quest"
+    type: number
+    sql: ${current_card_no} + ${current_quest};;
+  }
+
 
 ###
 

@@ -65,9 +65,6 @@ explore: experiments_charts {}
 explore: retention_cohort_dimensionalize_20days {}
 
 
-explore: test_h {}
-explore: test_i {}
-
 explore: char_collection_test {
   join: events {
     sql_on: ${char_collection_test.user_id} = ${events.user_id}

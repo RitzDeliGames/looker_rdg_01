@@ -271,6 +271,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '4100' THEN 'Release 1.3'
             WHEN ${TABLE}.version LIKE '5006' THEN 'Release 1.5'
             WHEN ${TABLE}.version LIKE '5100' THEN 'Release 1.5'
+            WHEN ${TABLE}.version LIKE '6001' THEN 'Release 1.6'
         END"
 }
 
@@ -287,11 +288,13 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '4100' THEN 'Release 1.3.100'
             WHEN ${TABLE}.version LIKE '5006' THEN 'Release 1.5.006'
             WHEN ${TABLE}.version LIKE '5100' THEN 'Release 1.5.100'
+            WHEN ${TABLE}.version LIKE '6001' THEN 'Release 1.6.001'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.untimed_20200918') != 'unassigned' THEN 'UntimedMode'
             WHEN JSON_EXTRACT(${experiments},'$.content_20201005') != 'unassigned' THEN 'EarlyContent'
             WHEN JSON_EXTRACT(${experiments},'$.secondsPerRound_20200922') != 'unassigned' THEN 'SecondsPerRound'
             WHEN JSON_EXTRACT(${experiments},'$.earlyExitContent_20200909') != 'unassigned' THEN 'EarlyExit2'
@@ -311,6 +314,7 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
+            WHEN ${experiment_names} = 'UntimedMode' THEN JSON_EXTRACT(${experiments},'$.untimed_20200918')
             WHEN ${experiment_names} = 'EarlyContent' THEN JSON_EXTRACT(${experiments},'$.content_20201005')
             WHEN ${experiment_names} = 'SecondsPerRound' THEN JSON_EXTRACT(${experiments},'$.secondsPerRound_20200922')
             WHEN ${experiment_names} = 'EarlyExit2' THEN JSON_EXTRACT(${experiments},'$.earlyExitContent_20200909')

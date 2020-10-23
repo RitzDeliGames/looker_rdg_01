@@ -12,10 +12,10 @@ view: churn_analysis_install_cohort {
   }
 
   measure: one_day_churn {
-    label: "1 day churn"
+    label: "D2 Retention"
     type: number
     value_format_name: percent_2
-    sql: 1-(1.0*${count_unique_person_id_one_day} / NULLIF(${count_unique_person_id},0)) ;;
+    sql: (1.0*${count_unique_person_id_one_day} / NULLIF(${count_unique_person_id},0)) ;;
   }
 
 

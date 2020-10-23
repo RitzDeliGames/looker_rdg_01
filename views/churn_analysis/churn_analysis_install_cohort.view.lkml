@@ -1,43 +1,26 @@
+include: "/views/**/events.view"
+
 view: churn_analysis_install_cohort {
-  sql_table_name: `eraser-blast.game_data.events`;;
+  extends: [events]
+#   sql_table_name: `eraser-blast.game_data.events`;;
 
-#DIMENSIONS# NOTE: THESE WERE BRUTE-FORCED TO GET STARTED...NEXT STEP IS TO OPTIMIZE / JOIN TO THE EVENT VIEW / TIE TO THE MANIFEST
-
-###PLAYER DIMENSIONS###
-
-  dimension: player_id {
-    group_label: "Player ID Dimensions"
-    label: "Player ID"
-    type: string
-    sql: ${TABLE}.user_id ;;
+  measure: count_unique_person_id_one_day {
+    label: "Player Count 1 day"
+    type: count_distinct
+    sql: ${user_id} ;;
+    filters: [consecutive_days: ">=1"]
   }
 
-  dimension_group: user_first_seen {
-    type: time
-    group_label: "Install Date"
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.created_at ;;
+  measure: one_day_churn {
+    label: "1 day churn"
+    type: number
+    value_format_name: percent_2
+    sql: 1-(1.0*${count_unique_person_id_one_day} / NULLIF(${count_unique_person_id},0)) ;;
   }
+
 
   dimension: consecutive_days {
     type: number
     sql: ${TABLE}.consecutive_days ;;
   }
-
-#MEASURES#
-
-  measure: count_unique_person_id {
-    label: "Count of Unique Players"
-    type: count_distinct
-    sql: ${player_id} ;;
-  }
-
 }

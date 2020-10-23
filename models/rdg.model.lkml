@@ -53,12 +53,6 @@ explore: churn_analysis_install_cohort {
   sql_always_where:
     churn_analysis_install_cohort.created_at  >= TIMESTAMP('2020-07-06 00:00:00')
     AND churn_analysis_install_cohort.user_type = "external";;
-
-    join: churn_analysis_returning_cohort {
-      sql_on: ${churn_analysis_install_cohort.player_id} = ${churn_analysis_returning_cohort.player_id} ;;
-      type: left_outer
-      relationship: one_to_one
-    }
 }
 
 explore: player_s_wallet {}

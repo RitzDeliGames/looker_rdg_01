@@ -344,8 +344,11 @@ constant: country_region {
 constant: current_card_numbered {
   value: "CASE
               WHEN ${TABLE}.current_card = 'card_001_a' THEN 100
+              WHEN ${TABLE}.current_card = 'card_001_untimed' THEN 100
               WHEN ${TABLE}.current_card = 'card_002_a' THEN 200
+              WHEN ${TABLE}.current_card = 'card_002_untimed' THEN 200
               WHEN ${TABLE}.current_card = 'card_003_a' THEN 300
+              WHEN ${TABLE}.current_card = 'card_003_untimed' THEN 300
               WHEN ${TABLE}.current_card = 'card_002' THEN 400
               WHEN ${TABLE}.current_card = 'card_003' THEN 500
               WHEN ${TABLE}.current_card = 'card_004' THEN 600

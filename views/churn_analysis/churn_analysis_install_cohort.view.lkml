@@ -18,7 +18,6 @@ view: churn_analysis_install_cohort {
     sql: (1.0*${count_unique_person_id_one_day} / NULLIF(${count_unique_person_id},0)) ;;
   }
 
-
   dimension: consecutive_days {
     type: number
     sql: ${TABLE}.consecutive_days ;;

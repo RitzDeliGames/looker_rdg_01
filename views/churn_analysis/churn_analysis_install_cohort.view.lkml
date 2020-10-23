@@ -8,6 +8,7 @@ view: churn_analysis_install_cohort {
     label: "Player Count 1 day"
     type: count_distinct
     sql: ${user_id} ;;
+    drill_fields: [user_id, max_card_quest]
     filters: [consecutive_days: ">=1"]
   }
 
@@ -16,6 +17,13 @@ view: churn_analysis_install_cohort {
     type: number
     value_format_name: percent_2
     sql: (1.0*${count_unique_person_id_one_day} / NULLIF(${count_unique_person_id},0)) ;;
+  }
+
+  measure: max_card_quest {
+    label: "Max Card + Quest"
+    type: max
+    value_format: "####"
+    sql: ${current_card_quest} ;;
   }
 
   dimension: consecutive_days {

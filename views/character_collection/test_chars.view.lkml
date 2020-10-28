@@ -1,4 +1,5 @@
-view: characters_collection {
+
+view: test_chars {
   derived_table: {
     sql: SELECT
           user_id
@@ -22,9 +23,16 @@ view: characters_collection {
        ;;
   }
 
+
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+
+  dimension: primary_key {
+    type: string
+    hidden: yes
+    sql:  CONCAT(${user_id},${session_id}) ;;
   }
 
   dimension: user_id {
@@ -83,8 +91,8 @@ view: characters_collection {
   }
 
   dimension: inventory {
-    type: string
-    sql: ${TABLE}.inventory ;;
+    type: number
+    sql: CAST(${TABLE}.inventory AS NUMERIC) ;;
   }
 
   dimension: xp_level {
@@ -96,6 +104,66 @@ view: characters_collection {
     type: string
     sql: ${TABLE}.skill_level ;;
   }
+
+
+
+
+  parameter: char_collection {
+    type: string
+    allowed_value: {
+      label: "Character Collection"
+      value: "Character Collection"
+    }
+  }
+
+  measure: sum_chars {
+    group_label: "1. Character Collection"
+    type: count_distinct
+    sql: CASE
+      WHEN  {% parameter char_collection %} = 'Character Collection'
+      THEN ${char_id}
+    END  ;;
+  }
+
+  measure: average {
+    group_label: "1. Character Collection"
+    type: average
+    sql: CASE
+      WHEN  {% parameter char_collection %} = 'Character Collection'
+      THEN ${inventory}
+    END  ;;
+  }
+
+
+# -
+# -  measure: median {
+# -  group_label: "1. Character Collection"
+# -  type: median
+# -  sql: CASE
+# -        WHEN  {% parameter char_collection %} = 'Character Collection'
+# -        THEN ${reward_amount}
+# -      END  ;;
+# -  }
+# -
+# -  measure: 25th_quartile {
+# -  group_label: "1. Character Collection"
+# -  type: percentile
+# -  percentile: 25
+# -  sql: CASE
+# -        WHEN  {% parameter char_collection %} = 'Character Collection'
+# -        THEN ${reward_amount}
+# -      END  ;;
+# -  }
+# -
+# -  measure: 75th_quartile {
+# -  group_label: "1. Character Collection"
+# -  type: percentile
+# -  percentile: 75
+# -  sql: CASE
+# -        WHEN  {% parameter char_collection %} = 'Character Collection'
+# -        THEN ${reward_amount}
+# -      END  ;;
+# -  }
 
   set: detail {
     fields: [
@@ -115,4 +183,5 @@ view: characters_collection {
       skill_level
     ]
   }
+
 }

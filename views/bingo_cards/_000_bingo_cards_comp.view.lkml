@@ -314,6 +314,12 @@ view: _000_bingo_cards_comp {
     sql: timestamp_millis(CAST(JSON_EXTRACT(extra_json, '$.card_end_time') AS INT64)) ;;
   }
 
+  measure: card_end_measure {
+    # group_label: "Card & Tile Times"
+    type: number
+    sql: COUNT(DISTINCT ${card_end_time}) ;;
+  }
+
 
   ###Card & Tile Times###
 

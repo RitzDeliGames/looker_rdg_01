@@ -63,23 +63,19 @@ explore: experiments_charts {}
 
 
 explore: retention_cohort_dimensionalize_20days {}
+explore: round_id_decay_per_churn {}
 
 
-explore: char_collection_test {
+explore: characters_collection_iii {
   join: events {
-    sql_on: ${char_collection_test.user_id} = ${events.user_id}
-    AND ${char_collection_test.session_id} = ${events.session_id}
-    AND ${char_collection_test.timestamp_date} = ${events.timestamp_date}
-    AND ${char_collection_test.created_at_date} = ${events.user_first_seen_date}
-      ;;
+    sql_on: ${characters_collection_iii.user_id} = ${events.user_id}
+          AND ${characters_collection_iii.session_id} = ${events.session_id}
+          AND ${characters_collection_iii.event_date} = ${events.event_date}
+          AND ${characters_collection_iii.user_first_seen_date} = ${events.user_first_seen_date}
+            ;;
     relationship: one_to_one
   }
-
 }
-
-
-explore: count_char_used_by_skill_level_roundid {}
-
 
 
 explore: time_no_play {
@@ -365,7 +361,7 @@ explore: boost_usage {
 
 #########################
 
-explore: test_churn {}
+# explore: test_churn {}
 
 ######LOAD TIME######
 

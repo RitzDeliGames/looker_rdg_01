@@ -107,12 +107,12 @@ explore: sessions {
 
 explore: fue_funnel {
  sql_always_where:
- user_type NOT IN ("internal_editor", "unit_test","bots","ugs");;
+ user_type = "external";;
 }
 
 explore: bingo_card_funnel {
   sql_always_where:
-   user_type NOT IN ("internal_editor", "unit_test","bots","ugs");;
+   user_type = "external";;
 }
 
 ##########BINGO CARDS##########
@@ -194,7 +194,7 @@ explore: _000_bingo_cards {
 explore: _001_coins_xp_score {
   sql_always_where: event_name = "round_end"
   AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
-  AND user_type NOT IN ("internal_editor", "unit_test")
+  AND user_type = "external"
   ;;
 }
 
@@ -209,7 +209,7 @@ explore: _002_skill_used {}
 explore: _003_chains_matches {
   sql_always_where: event_name = "round_end"
   AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
-  AND user_type NOT IN ("internal_editor", "unit_test")
+  AND user_type = "external"
   ;;
   view_name: _003_chains_matches_comp
   join: chain_length {
@@ -227,7 +227,7 @@ explore: _003_chains_matches {
 explore: _004_large_dropped_and_popped {
   sql_always_where: event_name = "round_end"
   AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
-  AND user_type NOT IN ("internal_editor", "unit_test")
+  AND user_type = "external"
   ;;
 }
 
@@ -237,7 +237,7 @@ explore: _004_large_dropped_and_popped {
 explore: _005_bubbles {
   sql_always_where: event_name = "round_end"
   AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
-  AND user_type NOT IN ("internal_editor", "unit_test")
+  AND user_type = "external"
   ;;
 
   join: bubble_types {
@@ -289,7 +289,7 @@ explore: _005_bubbles {
 explore: _006_round_length {
   sql_always_where: event_name = "round_end"
   AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
-  AND user_type NOT IN ("internal_editor", "unit_test")
+  AND user_type = "external"
   ;;
   join: _000_bingo_cards_comp {
     relationship: many_to_many
@@ -310,7 +310,7 @@ explore: _006_round_length {
 explore: _007_fever_count {
   sql_always_where: event_name = "round_end"
   AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
-  AND user_type NOT IN ("internal_editor", "unit_test")
+  AND user_type = "external"
   ;;
 }
 
@@ -323,7 +323,7 @@ explore: _008_frame_count_histogram {}
 ######PLAYER ANALYSIS######
 
 explore: player_analysis_view {
-   sql_always_where: user_type NOT IN ("internal_editor", "unit_test")
+   sql_always_where: user_type = "external"
   ;;
 #   event_name = "collection"
 #   AND event_name = "round_end"
@@ -343,7 +343,7 @@ explore: player_analysis_view {
 ################
 
 explore: boost_usage {
-  sql_always_where: user_type NOT IN ("internal_editor", "unit_test")
+  sql_always_where: user_type = "external"
   ;;
   join: boost_usage_types_values {
     relationship: many_to_many
@@ -372,7 +372,7 @@ explore: boost_usage {
 
 explore: scene_load_time {
   sql_always_where: event_name = "transition"
-  AND user_type NOT IN ("internal_editor", "unit_test")
+  AND user_type = "external"
   ;;
   join: events {
     sql_on: ${scene_load_time.user_id_load} = ${events.user_id}
@@ -390,12 +390,12 @@ explore: test_load_times_rounds {}
 explore: iap_query {
   sql_always_where: event_name = "transaction"
     AND JSON_EXTRACT(extra_json,"$.transaction_id") IS NOT NULL
-    AND user_type NOT IN ("internal_editor", "unit_test");;
+    AND user_type = "external";;
 }
 
 explore: transactions_query {
   sql_always_where: event_name = "transaction"
-    AND user_type NOT IN ("internal_editor", "unit_test");;
+    AND user_type = "external";;
 }
 
 ##########GAMING BLOCK EXPLORES##########

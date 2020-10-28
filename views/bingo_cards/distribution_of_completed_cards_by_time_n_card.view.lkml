@@ -65,24 +65,24 @@ view: distribution_of_completed_cards_by_time_n_card {
     drill_fields: [detail*]
   }
 
-  dimension: _000_bingo_cards_comp_user_first_seen_date {
+  dimension: user_first_seen_date {
     type: date
     datatype: date
     sql: ${TABLE}._000_bingo_cards_comp_user_first_seen_date ;;
   }
 
-  dimension: _000_bingo_cards_comp_event_date {
+  dimension: event_date {
     type: date
     datatype: date
     sql: ${TABLE}._000_bingo_cards_comp_event_date ;;
   }
 
-  dimension: _000_bingo_cards_comp_current_card {
+  dimension: current_card {
     type: string
     sql: ${TABLE}._000_bingo_cards_comp_current_card ;;
   }
 
-  dimension: _000_bingo_cards_comp_days_since_install {
+  dimension: days_since_install {
     type: number
     sql: ${TABLE}._000_bingo_cards_comp_days_since_install ;;
   }
@@ -125,6 +125,6 @@ view: distribution_of_completed_cards_by_time_n_card {
   }
 
   set: detail {
-    fields: [_000_bingo_cards_comp_user_first_seen_date, _000_bingo_cards_comp_event_date, _000_bingo_cards_comp_current_card, _000_bingo_cards_comp_days_since_install, card_end_measure]
+    fields: [user_first_seen_date, event_date, current_card, days_since_install, card_end_measure]
   }
 }

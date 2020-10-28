@@ -93,10 +93,6 @@ view: cohort {
       timezone: query_timezone
       column: signup_day { field: events.user_first_seen_date }
       column: user_id {}
-      filters: {
-        field: events.user_type
-        value: "external"
-      }
       bind_filters: {
         from_field: events.payer
         to_field: events.payer
@@ -106,8 +102,12 @@ view: cohort {
         to_field: events.country
       }
       bind_filters: {
-        from_field: events.game_version
-        to_field: events.game_version
+        from_field: events.release_version
+        to_field: events.release_version
+      }
+      bind_filters: {
+        from_field: events.release_version_minor
+        to_field: events.release_version_minor
       }
       bind_filters: {
         from_field: events.event_date
@@ -131,10 +131,6 @@ view: day_list {
       timezone: query_timezone
 
       column: activity_day { field:events.event_date}
-      filters: {
-        field: events.user_type
-        value: "external"
-      }
     }
   }
   dimension: activity_day {
@@ -151,10 +147,6 @@ view: data {
       column: user_id {}
       column: unique_events { field:events.count_unique_person_id }
       column: event_day { field:events.event_date}
-      filters: {
-        field: events.user_type
-        value: "external"
-      }
       bind_filters: {
         from_field: events.payer
         to_field: events.payer
@@ -164,8 +156,12 @@ view: data {
         to_field: events.country
       }
       bind_filters: {
-        from_field: events.game_version
-        to_field: events.game_version
+        from_field: events.release_version
+        to_field: events.release_version
+      }
+      bind_filters: {
+        from_field: events.release_version_minor
+        to_field: events.release_version_minor
       }
       bind_filters: {
         from_field: events.event_date

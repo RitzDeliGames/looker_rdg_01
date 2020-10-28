@@ -30,6 +30,13 @@ view: events {
     sql: @{release_version_minor};;
   }
 
+  dimension: install_version {
+    group_label: "Versions"
+    label: "Install Version"
+    type: string
+    sql: ${TABLE}.install_version ;;
+  }
+
 ###
 
 ###EXPERIMENT DIMENSIONS
@@ -463,12 +470,7 @@ view: events {
     sql: ${TABLE}.engagement_ticks ;;
   }
 
-  dimension: install_version {
-    # group_label: "missing"
-    label: "Install Version"
-    type: string
-    sql: ${TABLE}.install_version ;;
-  }
+
 
 
 ###
@@ -763,7 +765,7 @@ view: events {
   measure: count_unique_person_id {
     label: "Player Count"
     type: count_distinct
-    sql: ${player_id} ;;
+    sql: ${user_id} ;;
   }
 
   measure: count_unique_events {

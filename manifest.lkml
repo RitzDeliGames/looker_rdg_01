@@ -151,11 +151,13 @@ constant: device_manufacturer_mapping{
 
 constant: device_os_version_mapping {
   value: "CASE
+          WHEN ${TABLE}.platform LIKE '%iOS 13%' THEN 'iOS 14'
           WHEN ${TABLE}.platform LIKE '%iOS 13%' THEN 'iOS 13'
           WHEN ${TABLE}.platform LIKE '%iOS 12%' THEN 'iOS 12'
           WHEN ${TABLE}.platform LIKE '%iOS 11%' THEN 'iOS 11'
           WHEN ${TABLE}.platform LIKE '%iOS 10%' THEN 'iOS 10'
           WHEN ${TABLE}.platform LIKE '%iOS 10%' THEN 'iOS 10'
+          WHEN ${TABLE}.platform LIKE '%Android OS 10%' THEN 'Android 11'
           WHEN ${TABLE}.platform LIKE '%Android OS 10%' THEN 'Android 10'
           WHEN ${TABLE}.platform LIKE '%Android OS 9%' THEN 'Android 9'
           WHEN ${TABLE}.platform LIKE '%Android OS 8%' THEN 'Android 8'
@@ -271,6 +273,8 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '4100' THEN 'Release 1.3'
             WHEN ${TABLE}.version LIKE '5006' THEN 'Release 1.5'
             WHEN ${TABLE}.version LIKE '5100' THEN 'Release 1.5'
+            WHEN ${TABLE}.version LIKE '6001' THEN 'Release 1.6'
+            WHEN ${TABLE}.version LIKE '6100' THEN 'Release 1.6'
         END"
 }
 
@@ -287,11 +291,14 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '4100' THEN 'Release 1.3.100'
             WHEN ${TABLE}.version LIKE '5006' THEN 'Release 1.5.006'
             WHEN ${TABLE}.version LIKE '5100' THEN 'Release 1.5.100'
+            WHEN ${TABLE}.version LIKE '6001' THEN 'Release 1.6.001'
+            WHEN ${TABLE}.version LIKE '6100' THEN 'Release 1.6.100'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.untimed_20200918') != 'unassigned' THEN 'UntimedMode'
             WHEN JSON_EXTRACT(${experiments},'$.content_20201005') != 'unassigned' THEN 'EarlyContent'
             WHEN JSON_EXTRACT(${experiments},'$.secondsPerRound_20200922') != 'unassigned' THEN 'SecondsPerRound'
             WHEN JSON_EXTRACT(${experiments},'$.earlyExitContent_20200909') != 'unassigned' THEN 'EarlyExit2'
@@ -311,6 +318,7 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
+            WHEN ${experiment_names} = 'UntimedMode' THEN JSON_EXTRACT(${experiments},'$.untimed_20200918')
             WHEN ${experiment_names} = 'EarlyContent' THEN JSON_EXTRACT(${experiments},'$.content_20201005')
             WHEN ${experiment_names} = 'SecondsPerRound' THEN JSON_EXTRACT(${experiments},'$.secondsPerRound_20200922')
             WHEN ${experiment_names} = 'EarlyExit2' THEN JSON_EXTRACT(${experiments},'$.earlyExitContent_20200909')
@@ -336,8 +344,11 @@ constant: country_region {
 constant: current_card_numbered {
   value: "CASE
               WHEN ${TABLE}.current_card = 'card_001_a' THEN 100
+              WHEN ${TABLE}.current_card = 'card_001_untimed' THEN 100
               WHEN ${TABLE}.current_card = 'card_002_a' THEN 200
+              WHEN ${TABLE}.current_card = 'card_002_untimed' THEN 200
               WHEN ${TABLE}.current_card = 'card_003_a' THEN 300
+              WHEN ${TABLE}.current_card = 'card_003_untimed' THEN 300
               WHEN ${TABLE}.current_card = 'card_002' THEN 400
               WHEN ${TABLE}.current_card = 'card_003' THEN 500
               WHEN ${TABLE}.current_card = 'card_004' THEN 600

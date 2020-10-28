@@ -36,7 +36,7 @@ datagroup: events_boost {
 explore: events {
   sql_always_where:
     created_at  >= TIMESTAMP('2020-07-06 00:00:00')
-    AND user_type NOT IN ("internal_editor", "unit_test") ;;
+    AND user_type = "external";;
     join: retention {
       sql_on: ${events.player_id} = ${retention.user_id}
                 and ${events.user_first_seen_date} = ${retention.signup_day_date};;
@@ -47,7 +47,12 @@ explore: events {
               ;;
       relationship: one_to_one
       }
+}
 
+explore: churn_analysis_install_cohort {
+  sql_always_where:
+    churn_analysis_install_cohort.created_at  >= TIMESTAMP('2020-07-06 00:00:00')
+    AND churn_analysis_install_cohort.user_type = "external";;
 }
 
 explore: player_s_wallet {}

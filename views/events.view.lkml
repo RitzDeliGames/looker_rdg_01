@@ -37,6 +37,19 @@ view: events {
     sql: ${TABLE}.install_version ;;
   }
 
+  dimension: install_release_version {
+    group_label: "Versions"
+    label: "Install Major Release Version"
+    sql: @{install_release_version_major};;
+  }
+
+  dimension: install_release_version_minor {
+    group_label: "Versions"
+    label: "Install Minor Release Version"
+    sql: @{install_release_version_minor};;
+  }
+
+
 ###
 
 ###EXPERIMENT DIMENSIONS

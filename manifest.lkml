@@ -279,6 +279,25 @@ constant: release_version_major {
         END"
 }
 
+constant: install_release_version_major {
+  value: "CASE
+            WHEN ${TABLE}.install_version LIKE '1568' THEN 'Release 1.0'
+            WHEN ${TABLE}.install_version LIKE '1579' THEN 'Release 1.0'
+            WHEN ${TABLE}.install_version LIKE '2047' THEN 'Release 1.1'
+            WHEN ${TABLE}.install_version LIKE '2100' THEN 'Release 1.1'
+            WHEN ${TABLE}.install_version LIKE '3028' THEN 'Release 1.2'
+            WHEN ${TABLE}.install_version LIKE '3043' THEN 'Release 1.2'
+            WHEN ${TABLE}.install_version LIKE '3100' THEN 'Release 1.2'
+            WHEN ${TABLE}.install_version LIKE '4017' THEN 'Release 1.3'
+            WHEN ${TABLE}.install_version LIKE '4100' THEN 'Release 1.3'
+            WHEN ${TABLE}.install_version LIKE '5006' THEN 'Release 1.5'
+            WHEN ${TABLE}.install_version LIKE '5100' THEN 'Release 1.5'
+            WHEN ${TABLE}.install_version LIKE '6001' THEN 'Release 1.6'
+            WHEN ${TABLE}.install_version LIKE '6100' THEN 'Release 1.6'
+            WHEN ${TABLE}.install_version LIKE '6200' THEN 'Release 1.6'
+        END"
+}
+
 constant: release_version_minor {
   value: "CASE
             WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0.001'
@@ -295,6 +314,25 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '6001' THEN 'Release 1.6.001'
             WHEN ${TABLE}.version LIKE '6100' THEN 'Release 1.6.100'
             WHEN ${TABLE}.version LIKE '6200' THEN 'Release 1.6.200'
+          END"
+}
+
+constant: install_release_version_minor {
+  value: "CASE
+            WHEN ${TABLE}.install_version LIKE '1568' THEN 'Release 1.0.001'
+            WHEN ${TABLE}.install_version LIKE '1579' THEN 'Release 1.0.100'
+            WHEN ${TABLE}.install_version LIKE '2047' THEN 'Release 1.1.001'
+            WHEN ${TABLE}.install_version LIKE '2100' THEN 'Release 1.1.100'
+            WHEN ${TABLE}.install_version LIKE '3028' THEN 'Release 1.2.028'
+            WHEN ${TABLE}.install_version LIKE '3043' THEN 'Release 1.2.043'
+            WHEN ${TABLE}.install_version LIKE '3100' THEN 'Release 1.2.100'
+            WHEN ${TABLE}.install_version LIKE '4017' THEN 'Release 1.3.017'
+            WHEN ${TABLE}.install_version LIKE '4100' THEN 'Release 1.3.100'
+            WHEN ${TABLE}.install_version LIKE '5006' THEN 'Release 1.5.006'
+            WHEN ${TABLE}.install_version LIKE '5100' THEN 'Release 1.5.100'
+            WHEN ${TABLE}.install_version LIKE '6001' THEN 'Release 1.6.001'
+            WHEN ${TABLE}.install_version LIKE '6100' THEN 'Release 1.6.100'
+            WHEN ${TABLE}.install_version LIKE '6200' THEN 'Release 1.6.200'
           END"
 }
 

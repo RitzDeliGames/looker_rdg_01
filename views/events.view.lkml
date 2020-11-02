@@ -479,7 +479,7 @@ view: events {
   dimension: engagement_ticks {
     # group_label: "missing"
     label: "Engagement Ticks"
-    type: string
+    type: number
     sql: ${TABLE}.engagement_ticks ;;
   }
 

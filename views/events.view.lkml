@@ -18,6 +18,13 @@ view: events {
     sql:${TABLE}.version;;
   }
 
+  dimension: config_version {
+    group_label: "Versions"
+    label: "Config Version"
+    type: string
+    sql: REPLACE(JSON_EXTRACT(${TABLE}.extra_json,"$.config_timestamp"),'"','');;
+  }
+
   dimension: release_version {
     group_label: "Versions"
     label: "Major Release Version"

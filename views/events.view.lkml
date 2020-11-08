@@ -833,6 +833,11 @@ view: events {
     # sql: ROUND(100 * (1 - ((LAG(COUNT(DISTINCT ${user_id})) OVER(PARTITION BY MAX(${round_id}) ORDER BY MAX(${user_id}))) / COUNT(DISTINCT ${user_id}))), 0) ;;
   }
 
+  measure: churn_decimal {
+    type: number
+    sql: (1 - ((LAG(COUNT(DISTINCT ${user_id})) OVER(ORDER BY MAX(${round_id}), COUNT(DISTINCT ${user_id}))) / COUNT(DISTINCT ${user_id}))) ;;
+  }
+
   measure: churn_int_minutes {
     type: number
     # sql: ROUND(100 * (1 - ((LAG(COUNT(DISTINCT ${player_id})) OVER(ORDER BY MAX(${round_id}), MAX(CAST(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', timestamp, 'America/Los_Angeles')) AS DATE)))) / COUNT(DISTINCT ${player_id}))), 0) ;;
@@ -848,11 +853,6 @@ view: events {
     #   ELSE (1 - ((LAG(COUNT(DISTINCT ${user_id})) OVER(ORDER BY COUNT(DISTINCT ${user_id}))) / COUNT(DISTINCT ${user_id})))
     #   END ;;
     sql:  (1 - ((LAG(COUNT(DISTINCT ${user_id})) OVER(ORDER BY COUNT(DISTINCT ${user_id}))) / COUNT(DISTINCT ${user_id})))  ;;
-  }
-
-  measure: churn_decimal {
-    type: number
-    sql: (1 - ((LAG(COUNT(DISTINCT ${user_id})) OVER(ORDER BY MAX(${round_id}))) / COUNT(DISTINCT ${user_id}))) ;;
   }
 
 

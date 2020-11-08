@@ -47,8 +47,8 @@ view: _004_large_dropped_and_popped {
   parameter: character {
     type: unquoted
     default_value: "character_01"
-    suggest_explore: _004_large_dropped_and_popped
-    suggest_dimension: _004_large_dropped_and_popped.events.character_used
+    # suggest_explore: _004_large_dropped_and_popped
+    # suggest_dimension: _004_large_dropped_and_popped.events.character_used
     }
 
   parameter: boxplot_large_n_p {

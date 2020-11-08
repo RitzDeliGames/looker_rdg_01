@@ -92,17 +92,25 @@ GROUP BY 1,2,3
     sql: ${TABLE}.retention_total_users ;;
   }
 
-  dimension: experiments {
-    group_label: "retention_cohort_20days"
-    type: string
-    sql: ${TABLE}.experiments ;;
-  }
+  # dimension: experiments {
+  #   group_label: "retention_cohort_20days"
+  #   hidden: yes
+  #   type: string
+  #   sql: ${TABLE}.experiments ;;
+  # }
 
   dimension: events_variants {
     group_label: "retention_cohort_20days"
     type: string
     sql: REPLACE(@{variant_ids},'"','') ;;
   }
+
+  dimension: events_experiment_ids {
+    group_label: "retention_cohort_20days"
+    type: string
+    sql: REPLACE(@{experiment_ids},'"','') ;;
+  }
+
 
   # MEASURES
   measure: 1_min_ {

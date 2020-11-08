@@ -174,7 +174,12 @@ explore: _000_bingo_cards {
     sql_on: ${_000_bingo_cards_comp.user_id} = ${round_length_by_tile.user_id}
       AND ${_000_bingo_cards_comp.round_id} = ${round_length_by_tile.round_id} ;;
   }
-
+  # join: events {
+  #   relationship: one_to_one
+  #   sql_on: ${_000_bingo_cards_comp.user_id} = ${events.user_id}
+  #     AND ${_000_bingo_cards_comp.event_date} = ${events.event_date}
+  #     AND ${_000_bingo_cards_comp.session_id} = ${events.session_id} ;;
+  # }
 }
 
 #   join: _006_round_length {

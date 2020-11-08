@@ -18,6 +18,13 @@ view: events {
     sql:${TABLE}.version;;
   }
 
+  dimension: config_version {
+    group_label: "Versions"
+    label: "Config Version"
+    type: string
+    sql: REPLACE(JSON_EXTRACT(${TABLE}.extra_json,"$.config_timestamp"),'"','');;
+  }
+
   dimension: release_version {
     group_label: "Versions"
     label: "Major Release Version"
@@ -36,6 +43,19 @@ view: events {
     type: string
     sql: ${TABLE}.install_version ;;
   }
+
+  dimension: install_release_version {
+    group_label: "Versions"
+    label: "Install Major Release Version"
+    sql: @{install_release_version_major};;
+  }
+
+  dimension: install_release_version_minor {
+    group_label: "Versions"
+    label: "Install Minor Release Version"
+    sql: @{install_release_version_minor};;
+  }
+
 
 ###
 
@@ -466,7 +486,7 @@ view: events {
   dimension: engagement_ticks {
     # group_label: "missing"
     label: "Engagement Ticks"
-    type: string
+    type: number
     sql: ${TABLE}.engagement_ticks ;;
   }
 

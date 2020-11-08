@@ -279,6 +279,25 @@ constant: release_version_major {
         END"
 }
 
+constant: install_release_version_major {
+  value: "CASE
+            WHEN ${TABLE}.install_version LIKE '1568' THEN 'Release 1.0'
+            WHEN ${TABLE}.install_version LIKE '1579' THEN 'Release 1.0'
+            WHEN ${TABLE}.install_version LIKE '2047' THEN 'Release 1.1'
+            WHEN ${TABLE}.install_version LIKE '2100' THEN 'Release 1.1'
+            WHEN ${TABLE}.install_version LIKE '3028' THEN 'Release 1.2'
+            WHEN ${TABLE}.install_version LIKE '3043' THEN 'Release 1.2'
+            WHEN ${TABLE}.install_version LIKE '3100' THEN 'Release 1.2'
+            WHEN ${TABLE}.install_version LIKE '4017' THEN 'Release 1.3'
+            WHEN ${TABLE}.install_version LIKE '4100' THEN 'Release 1.3'
+            WHEN ${TABLE}.install_version LIKE '5006' THEN 'Release 1.5'
+            WHEN ${TABLE}.install_version LIKE '5100' THEN 'Release 1.5'
+            WHEN ${TABLE}.install_version LIKE '6001' THEN 'Release 1.6'
+            WHEN ${TABLE}.install_version LIKE '6100' THEN 'Release 1.6'
+            WHEN ${TABLE}.install_version LIKE '6200' THEN 'Release 1.6'
+        END"
+}
+
 constant: release_version_minor {
   value: "CASE
             WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0.001'
@@ -298,8 +317,30 @@ constant: release_version_minor {
           END"
 }
 
+constant: install_release_version_minor {
+  value: "CASE
+            WHEN ${TABLE}.install_version LIKE '1568' THEN 'Release 1.0.001'
+            WHEN ${TABLE}.install_version LIKE '1579' THEN 'Release 1.0.100'
+            WHEN ${TABLE}.install_version LIKE '2047' THEN 'Release 1.1.001'
+            WHEN ${TABLE}.install_version LIKE '2100' THEN 'Release 1.1.100'
+            WHEN ${TABLE}.install_version LIKE '3028' THEN 'Release 1.2.028'
+            WHEN ${TABLE}.install_version LIKE '3043' THEN 'Release 1.2.043'
+            WHEN ${TABLE}.install_version LIKE '3100' THEN 'Release 1.2.100'
+            WHEN ${TABLE}.install_version LIKE '4017' THEN 'Release 1.3.017'
+            WHEN ${TABLE}.install_version LIKE '4100' THEN 'Release 1.3.100'
+            WHEN ${TABLE}.install_version LIKE '5006' THEN 'Release 1.5.006'
+            WHEN ${TABLE}.install_version LIKE '5100' THEN 'Release 1.5.100'
+            WHEN ${TABLE}.install_version LIKE '6001' THEN 'Release 1.6.001'
+            WHEN ${TABLE}.install_version LIKE '6100' THEN 'Release 1.6.100'
+            WHEN ${TABLE}.install_version LIKE '6200' THEN 'Release 1.6.200'
+          END"
+}
+
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.content_20201106') != 'unassigned' THEN 'EarlyContent2'
+            WHEN JSON_EXTRACT(${experiments},'$.vfx_threshold_20201102') != 'unassigned' THEN 'VFXTreshold'
+            WHEN JSON_EXTRACT(${experiments},'$.last_bonus_20201105') != 'unassigned' THEN 'LastBonus'
             WHEN JSON_EXTRACT(${experiments},'$.untimed_20200918') != 'unassigned' THEN 'UntimedMode'
             WHEN JSON_EXTRACT(${experiments},'$.content_20201005') != 'unassigned' THEN 'EarlyContent'
             WHEN JSON_EXTRACT(${experiments},'$.secondsPerRound_20200922') != 'unassigned' THEN 'SecondsPerRound'
@@ -320,6 +361,9 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
+            WHEN ${experiment_names} = 'EarlyContent2' THEN JSON_EXTRACT(${experiments},'$.content_20201106')
+            WHEN ${experiment_names} = 'VFXTreshold' THEN JSON_EXTRACT(${experiments},'$.vfx_threshold_20201102')
+            WHEN ${experiment_names} = 'LastBonus' THEN JSON_EXTRACT(${experiments},'$.last_bonus_20201105')
             WHEN ${experiment_names} = 'UntimedMode' THEN JSON_EXTRACT(${experiments},'$.untimed_20200918')
             WHEN ${experiment_names} = 'EarlyContent' THEN JSON_EXTRACT(${experiments},'$.content_20201005')
             WHEN ${experiment_names} = 'SecondsPerRound' THEN JSON_EXTRACT(${experiments},'$.secondsPerRound_20200922')
@@ -352,8 +396,11 @@ constant: current_card_numbered {
               WHEN ${TABLE}.current_card = 'card_003_a' THEN 300
               WHEN ${TABLE}.current_card = 'card_003_untimed' THEN 300
               WHEN ${TABLE}.current_card = 'card_002' THEN 400
+              WHEN ${TABLE}.current_card = 'card_004_untimed' THEN 400
               WHEN ${TABLE}.current_card = 'card_003' THEN 500
+              WHEN ${TABLE}.current_card = 'card_005_untimed' THEN 500
               WHEN ${TABLE}.current_card = 'card_004' THEN 600
+              WHEN ${TABLE}.current_card = 'card_006_untimed' THEN 600
               WHEN ${TABLE}.current_card = 'card_005' THEN 700
               WHEN ${TABLE}.current_card = 'card_006' THEN 800
               WHEN ${TABLE}.current_card = 'card_007' THEN 900

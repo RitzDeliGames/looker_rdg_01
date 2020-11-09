@@ -41,13 +41,21 @@ explore: events {
       sql_on: ${events.player_id} = ${retention.user_id}
                 and ${events.user_first_seen_date} = ${retention.signup_day_date};;
       relationship: many_to_one
-      }
+    }
     join: created_at_max {
       sql_on: ${events.user_id} = ${created_at_max.user_id}
               ;;
       relationship: one_to_one
-      }
+    }
+    # join: count_quests_attempts {
+    #   relationship: one_to_one
+    #   sql_on: ${events.current_card_quest} = ${count_quests_attempts.current_card_quest}
+    #     AND ${events.user_first_seen_date} = ${count_quests_attempts.user_first_seen_date}
+    #     ;;
+    # }
 }
+
+
 
 explore: churn_analysis_install_cohort {
   sql_always_where:
@@ -119,7 +127,7 @@ explore: bingo_card_funnel {
 
 explore: _000_bingo_cards {
   always_join: [card_mapping]
-  sql_always_where: _000_bingo_cards_comp.event_name IN ("cards")
+  sql_always_where: _000_bingo_cards_comp.event_name IN ("cards", "round_end")
   AND _000_bingo_cards_comp.user_type NOT IN ("internal_editor", "unit_test") ;;
   view_name: _000_bingo_cards_comp
   join: node_data {
@@ -174,19 +182,10 @@ explore: _000_bingo_cards {
     sql_on: ${_000_bingo_cards_comp.user_id} = ${round_length_by_tile.user_id}
       AND ${_000_bingo_cards_comp.round_id} = ${round_length_by_tile.round_id} ;;
   }
-  # join: events {
-  #   relationship: one_to_one
-  #   sql_on: ${_000_bingo_cards_comp.user_id} = ${events.user_id}
-  #     AND ${_000_bingo_cards_comp.event_date} = ${events.event_date}
-  #     AND ${_000_bingo_cards_comp.session_id} = ${events.session_id} ;;
-  # }
+
 }
 
-#   join: _006_round_length {
-#     relationship: many_to_many
-#     sql_on: ${_000_bingo_cards_comp.user_id} = ${_006_round_length.user_id}
-#       AND ${_000_bingo_cards_comp.round_id} = ${_006_round_length.round_id} ;;
-#   }
+
 
 
 

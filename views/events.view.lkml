@@ -611,6 +611,13 @@ view: events {
     sql: ${current_card_no} + ${current_quest};;
   }
 
+  dimension: quest_complete {
+    group_label: "Current Card"
+    label: "Quest Complete"
+    type: string
+    sql: JSON_VALUE(${TABLE}.extra_json,'$.quest_complete') ;;
+  }
+
 
 ###
 

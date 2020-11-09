@@ -351,11 +351,6 @@ constant: experiment_ids {
             WHEN JSON_EXTRACT(${experiments},'$.tabFueTiming_20200825') != 'unassigned' THEN 'FUETiming'
             WHEN JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608') != 'unassigned' THEN 'EasyEarlyBingoCardVariants'
             WHEN JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
-            WHEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723') != 'unassigned' THEN 'LinearVsNonLinear'
-            WHEN JSON_EXTRACT(${experiments},'$.helper_bias_20200707') != 'unassigned' THEN 'HelperBias'
-            WHEN JSON_EXTRACT(${experiments},'$.skill_reminder_20200707') != 'unassigned' THEN 'SkillReminder'
-            WHEN JSON_EXTRACT(${experiments},'$.more_time_reminder_20200708') != 'unassigned' THEN 'MoreTime'
-            WHEN JSON_EXTRACT(${experiments},'$.roundsForFiveToFour_20200720') != 'unassigned' THEN 'Rounds5to4'
           END"
 }
 
@@ -374,7 +369,6 @@ constant: variant_ids {
             WHEN ${experiment_names} = 'FUETiming' THEN JSON_EXTRACT(${experiments},'$.tabFueTiming_20200825')
             WHEN ${experiment_names} = 'EasyEarlyBingoCardVariants' THEN JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608')
             WHEN ${experiment_names} = 'LowPerformanceMode' THEN JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803')
-            WHEN ${experiment_names} = 'LinearVsNonLinear' THEN JSON_EXTRACT(${experiments},'$.linearFirstCards_20200723')
           END"
 }
 

@@ -47,12 +47,6 @@ explore: events {
               ;;
       relationship: one_to_one
     }
-    # join: count_quests_attempts {
-    #   relationship: one_to_one
-    #   sql_on: ${events.current_card_quest} = ${count_quests_attempts.current_card_quest}
-    #     AND ${events.user_first_seen_date} = ${count_quests_attempts.user_first_seen_date}
-    #     ;;
-    # }
 }
 
 
@@ -76,7 +70,13 @@ explore: experiments_charts {}
 
 
 explore: retention_cohort_dimensionalize_20days {}
+
+
 explore: round_id_decay_per_churn {}
+
+
+explore: count_quests_attempts {}
+
 
 
 explore: characters_collection_iii {
@@ -184,8 +184,6 @@ explore: _000_bingo_cards {
   }
 
 }
-
-
 
 
 

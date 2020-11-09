@@ -71,6 +71,8 @@ view: count_quests_attempts {
         version,
         install_version,
         REPLACE(JSON_EXTRACT(extra_json,"$.config_timestamp"),'"','') AS config_version,
+        platform,
+        hardware,
         COUNT(CAST(REPLACE(JSON_VALUE(extra_json,'$.current_quest'),'"','') AS NUMERIC)) AS count_attempts,
         MAX(JSON_VALUE(events.extra_json,'$.quest_complete'))  AS quest_complete_true,
 
@@ -80,12 +82,13 @@ view: count_quests_attempts {
           AND (created_at  >= TIMESTAMP('2020-07-06 00:00:00')
           AND user_type = "external")
 
-      GROUP BY 2,3,4,5,6,7,8,9,10,11
+      GROUP BY 2,3,4,5,6,7,8,9,10,11,12,13
        ;;
   }
 
 
-  dimension_group: event_quest {
+  dimension_group: quest_event {
+    # group_label: "Quests Attempts Dimensions"
     type: time
     timeframes: [
       raw,
@@ -101,51 +104,55 @@ view: count_quests_attempts {
     sql: ${TABLE}.max_timestamp ;;
   }
 
-  dimension_group: user_first_seen {
-    group_label: "Quests Attempts Dimensions"
-    hidden: yes
+  dimension_group: quest_user_first_seen {
+    # group_label: "Quests Attempts Dimensions"
     type: time
+    timeframes: [
+      raw,
+      time,
+      hour,
+      hour_of_day,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
     sql: ${TABLE}.user_first_seen ;;
   }
 
   dimension: user_id {
     group_label: "Quests Attempts Dimensions"
-    hidden: yes
     type: string
     sql: ${TABLE}.user_id ;;
   }
 
-  dimension: user_type_quest {
+  dimension: user_type {
     group_label: "Quests Attempts Dimensions"
-    hidden: yes
     type: string
     sql: ${TABLE}.user_type_quest ;;
   }
 
   dimension: current_card_quest {
     group_label: "Quests Attempts Dimensions"
-    hidden: yes
     type: string
     sql: ${TABLE}.current_card_quest ;;
   }
 
   dimension: current_card {
     group_label: "Quests Attempts Dimensions"
-    hidden: yes
     type: string
     sql: ${TABLE}.current_card ;;
   }
 
   dimension: current_quest {
     group_label: "Quests Attempts Dimensions"
-    hidden: yes
     type: number
     sql: ${TABLE}.current_quest ;;
   }
 
   dimension: count_attempts {
     group_label: "Quests Attempts Dimensions"
-    hidden: yes
     type: number
     sql: ${TABLE}.count_attempts ;;
   }
@@ -159,37 +166,42 @@ view: count_quests_attempts {
 
   dimension: experiment_names {
     group_label: "Quests Attempts Dimensions"
-    hidden: yes
     type: string
     sql: @{experiment_ids} ;;
   }
 
   dimension: variants {
     group_label: "Quests Attempts Dimensions"
-    hidden: yes
     type: string
     sql: REPLACE(@{variant_ids},'"','') ;;
   }
 
   dimension: version {
-    group_label: "Quests Attempts Dimensions"
-    hidden: yes
+    # group_label: "Quests Attempts Dimensions"
     type: string
     sql: ${TABLE}.version ;;
   }
 
   dimension: install_version {
-    group_label: "Quests Attempts Dimensions"
-    hidden: yes
+    # group_label: "Quests Attempts Dimensions"
     type: string
     sql: ${TABLE}.install_version ;;
   }
 
   dimension: config_version {
-    group_label: "Quests Attempts Dimensions"
-    hidden: yes
+    # group_label: "Quests Attempts Dimensions"
     type: string
     sql: ${TABLE}.install_version ;;
+  }
+
+  dimension: platform {
+    type: string
+    sql: ${TABLE}.platform ;;
+  }
+
+  dimension: hardware {
+    type: string
+    sql: ${TABLE}.hardware ;;
   }
 
 
@@ -230,7 +242,7 @@ view: count_quests_attempts {
     fields: [
       timestamp_time,
       user_id,
-      user_type_quest,
+      user_type,
       current_card_quest,
       current_card,
       current_quest,

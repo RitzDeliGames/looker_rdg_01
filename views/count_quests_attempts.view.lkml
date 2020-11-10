@@ -10,7 +10,7 @@ view: count_quests_attempts {
         created_at AS user_first_seen,
         user_id,
         user_type AS user_type_quest,
-        (CASE
+        CAST((CASE
                     WHEN events.current_card = 'card_001_a' THEN 100
                     WHEN events.current_card = 'card_001_untimed' THEN 100
                     WHEN events.current_card = 'card_002_a' THEN 200
@@ -37,7 +37,7 @@ view: count_quests_attempts {
                     WHEN events.current_card = 'card_016' THEN 1800
                     WHEN events.current_card = 'card_017' THEN 1900
                     WHEN events.current_card = 'card_018' THEN 2000
-                END) + (CAST(REPLACE(JSON_VALUE(extra_json,'$.current_quest'),'"','') AS NUMERIC)) AS current_card_quest,
+                END) + (CAST(REPLACE(JSON_VALUE(extra_json,'$.current_quest'),'"','') AS NUMERIC)) AS INT64) AS current_card_quest,
           (CASE
                     WHEN events.current_card = 'card_001_a' THEN '100'
                     WHEN events.current_card = 'card_001_untimed' THEN '100'

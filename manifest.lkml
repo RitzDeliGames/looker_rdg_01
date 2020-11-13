@@ -276,6 +276,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '6001' THEN 'Release 1.6'
             WHEN ${TABLE}.version LIKE '6100' THEN 'Release 1.6'
             WHEN ${TABLE}.version LIKE '6200' THEN 'Release 1.6'
+            WHEN ${TABLE}.version LIKE '6300' THEN 'Release 1.6'
         END"
 }
 
@@ -295,6 +296,7 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '6001' THEN 'Release 1.6'
             WHEN ${TABLE}.install_version LIKE '6100' THEN 'Release 1.6'
             WHEN ${TABLE}.install_version LIKE '6200' THEN 'Release 1.6'
+            WHEN ${TABLE}.install_version LIKE '6300' THEN 'Release 1.6'
         END"
 }
 
@@ -314,6 +316,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '6001' THEN 'Release 1.6.001'
             WHEN ${TABLE}.version LIKE '6100' THEN 'Release 1.6.100'
             WHEN ${TABLE}.version LIKE '6200' THEN 'Release 1.6.200'
+            WHEN ${TABLE}.version LIKE '6300' THEN 'Release 1.6.300'
           END"
 }
 
@@ -333,6 +336,7 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '6001' THEN 'Release 1.6.001'
             WHEN ${TABLE}.install_version LIKE '6100' THEN 'Release 1.6.100'
             WHEN ${TABLE}.install_version LIKE '6200' THEN 'Release 1.6.200'
+            WHEN ${TABLE}.install_version LIKE '6300' THEN 'Release 1.6.300'
           END"
 }
 

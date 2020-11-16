@@ -191,7 +191,8 @@ view: events {
   }
 
   dimension: region {
-    label: "Region"
+    group_label: "Device & OS Dimensions"
+    label: "Device Region"
     type: string
     sql: @{country_region};;
   }

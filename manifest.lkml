@@ -277,6 +277,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '6100' THEN 'Release 1.6'
             WHEN ${TABLE}.version LIKE '6200' THEN 'Release 1.6'
             WHEN ${TABLE}.version LIKE '6300' THEN 'Release 1.6'
+            WHEN ${TABLE}.version LIKE '6400' THEN 'Release 1.6'
         END"
 }
 
@@ -297,6 +298,7 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '6100' THEN 'Release 1.6'
             WHEN ${TABLE}.install_version LIKE '6200' THEN 'Release 1.6'
             WHEN ${TABLE}.install_version LIKE '6300' THEN 'Release 1.6'
+            WHEN ${TABLE}.install_version LIKE '6400' THEN 'Release 1.6'
         END"
 }
 
@@ -317,6 +319,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '6100' THEN 'Release 1.6.100'
             WHEN ${TABLE}.version LIKE '6200' THEN 'Release 1.6.200'
             WHEN ${TABLE}.version LIKE '6300' THEN 'Release 1.6.300'
+            WHEN ${TABLE}.version LIKE '6400' THEN 'Release 1.6.400'
           END"
 }
 
@@ -337,11 +340,13 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '6100' THEN 'Release 1.6.100'
             WHEN ${TABLE}.install_version LIKE '6200' THEN 'Release 1.6.200'
             WHEN ${TABLE}.install_version LIKE '6300' THEN 'Release 1.6.300'
+            WHEN ${TABLE}.install_version LIKE '6400' THEN 'Release 1.6.400'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.laterLinearTest_20201111') != 'unassigned' THEN 'LaterLinear'
             WHEN JSON_EXTRACT(${experiments},'$.content_20201106') != 'unassigned' THEN 'EarlyContent2'
             WHEN JSON_EXTRACT(${experiments},'$.vfx_threshold_20201102') != 'unassigned' THEN 'VFXTreshold'
             WHEN JSON_EXTRACT(${experiments},'$.last_bonus_20201105') != 'unassigned' THEN 'LastBonus'
@@ -360,6 +365,7 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
+            WHEN ${experiment_names} = 'LaterLinear' THEN JSON_EXTRACT(${experiments},'$.laterLinearTest_20201111')
             WHEN ${experiment_names} = 'EarlyContent2' THEN JSON_EXTRACT(${experiments},'$.content_20201106')
             WHEN ${experiment_names} = 'VFXTreshold' THEN JSON_EXTRACT(${experiments},'$.vfx_threshold_20201102')
             WHEN ${experiment_names} = 'LastBonus' THEN JSON_EXTRACT(${experiments},'$.last_bonus_20201105')

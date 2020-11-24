@@ -609,6 +609,7 @@ view: events {
     group_label: "Current Card"
     label: "Current Card + Quest"
     type: number
+    value_format: "####"
     sql: ${current_card_no} + ${current_quest};;
   }
 

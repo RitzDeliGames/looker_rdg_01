@@ -403,10 +403,13 @@ constant: current_card_numbered {
               WHEN ${TABLE}.current_card = 'card_003_a' THEN 300
               WHEN ${TABLE}.current_card = 'card_003_untimed' THEN 300
               WHEN ${TABLE}.current_card = 'card_002' THEN 400
+              WHEN ${TABLE}.current_card = 'card_039' THEN 400
               WHEN ${TABLE}.current_card = 'card_004_untimed' THEN 400
               WHEN ${TABLE}.current_card = 'card_003' THEN 500
+              WHEN ${TABLE}.current_card = 'card_040' THEN 500
               WHEN ${TABLE}.current_card = 'card_005_untimed' THEN 500
               WHEN ${TABLE}.current_card = 'card_004' THEN 600
+              WHEN ${TABLE}.current_card = 'card_041' THEN 600
               WHEN ${TABLE}.current_card = 'card_006_untimed' THEN 600
               WHEN ${TABLE}.current_card = 'card_005' THEN 700
               WHEN ${TABLE}.current_card = 'card_006' THEN 800

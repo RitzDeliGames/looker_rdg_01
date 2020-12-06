@@ -9,7 +9,7 @@ view: _008_frame_count_histogram {
                 hardware,
                 platform,
                 version,
-
+                install_version,
                 SUM(CAST(frame_time_histogram AS INT64)) AS frame_count,
                 OFFSET AS ms_per_frame
          FROM
@@ -17,7 +17,7 @@ view: _008_frame_count_histogram {
          CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json,'$.frame_time_histogram_values'))) AS frame_time_histogram WITH OFFSET
          WHERE
             event_name = 'round_end'
-         GROUP BY ms_per_frame, user_type, hardware, platform, version, extra_json
+         GROUP BY ms_per_frame, user_type, hardware, platform, version, install_version, extra_json
          ORDER BY ms_per_frame ASC
        ;;
   }
@@ -93,6 +93,26 @@ view: _008_frame_count_histogram {
     suggest_explore: events
     suggest_dimension: events.device_os_version
   }
+
+  dimension: install_version {
+    group_label: "Versions"
+    label: "Install Version"
+    type: string
+    sql: ${TABLE}.install_version ;;
+  }
+
+  dimension: install_release_version {
+    group_label: "Versions"
+    label: "Install Major Release Version"
+    sql: @{install_release_version_major};;
+  }
+
+  dimension: install_release_version_minor {
+    group_label: "Versions"
+    label: "Install Minor Release Version"
+    sql: @{install_release_version_minor};;
+  }
+
 
 
 # VIEW DETAILS

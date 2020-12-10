@@ -179,8 +179,11 @@ constant: device_internal_tester_mapping {
           WHEN ${TABLE}.device_id LIKE 'fc4240714a08de28281c816896adf3cc' THEN 'Eric Jordan - Amazon Shitfire'
           WHEN ${TABLE}.device_id LIKE 'ab5d89e60aef9fa8e9349c42fdc3ac54' THEN 'Eric Jordan - Pixel 3a'
           WHEN ${TABLE}.device_id LIKE 'ab5d89e60aef9fa8e9349c42fdc3ac54' THEN 'Eric Jordan - Pixel 3a'
-          WHEN ${TABLE}.device_id LIKE '9C204FCA-2B22-41CD-A2F0-F4FCCE08672B' THEN 'Robert Einspruch - iPhone 11'
+          WHEN ${TABLE}.device_id LIKE '5EE844B7-05F0-45B1-9EEB-C444CBBA5898' THEN 'Robert Einspruch - iPhone 11'
+          WHEN ${TABLE}.device_id LIKE 'C4836C6F-23D4-4966-A7B6-E75E65264596' THEN 'Robert Einspruch - iPhone 11'
+          WHEN ${TABLE}.device_id LIKE '0F0433FC-EF78-4D51-9ED3-218053E81641' THEN 'Robert Einspruch - iPhone 8'
           WHEN ${TABLE}.device_id LIKE '1514C433-1718-4621-BD18-2661CD888608' THEN 'Robert Einspruch - iPhone 8'
+          WHEN ${TABLE}.device_id LIKE '645F4788-F440-4FAC-B0D8-A956CBE4D64C' THEN 'Robert Einspruch - iPhone 8'
           WHEN ${TABLE}.device_id LIKE '40361030-B80C-4615-8C57-4661C411F97F' THEN 'Robert Einspruch - iPhone 6'
         END"
 }
@@ -278,6 +281,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '6200' THEN 'Release 1.6'
             WHEN ${TABLE}.version LIKE '6300' THEN 'Release 1.6'
             WHEN ${TABLE}.version LIKE '6400' THEN 'Release 1.6'
+            WHEN ${TABLE}.version LIKE '7350' THEN 'Release 1.7'
         END"
 }
 
@@ -299,6 +303,7 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '6200' THEN 'Release 1.6'
             WHEN ${TABLE}.install_version LIKE '6300' THEN 'Release 1.6'
             WHEN ${TABLE}.install_version LIKE '6400' THEN 'Release 1.6'
+            WHEN ${TABLE}.install_version LIKE '7350' THEN 'Release 1.7'
         END"
 }
 
@@ -320,6 +325,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '6200' THEN 'Release 1.6.200'
             WHEN ${TABLE}.version LIKE '6300' THEN 'Release 1.6.300'
             WHEN ${TABLE}.version LIKE '6400' THEN 'Release 1.6.400'
+            WHEN ${TABLE}.version LIKE '7350' THEN 'Release 1.7.350'
           END"
 }
 
@@ -341,6 +347,7 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '6200' THEN 'Release 1.6.200'
             WHEN ${TABLE}.install_version LIKE '6300' THEN 'Release 1.6.300'
             WHEN ${TABLE}.install_version LIKE '6400' THEN 'Release 1.6.400'
+            WHEN ${TABLE}.install_version LIKE '7350' THEN 'Release 1.7.350'
           END"
 }
 

@@ -146,6 +146,7 @@ constant: device_manufacturer_mapping{
           WHEN ${TABLE}.hardware LIKE '%LG%' THEN 'LG'
           WHEN ${TABLE}.hardware LIKE '%moto%' THEN 'Motorola'
           WHEN ${TABLE}.hardware LIKE '%Huawei%' THEN 'Huawei'
+          WHEN ${TABLE}.hardware LIKE '%Lenovo%' THEN 'Lenovo'
         END"
 }
 
@@ -185,6 +186,7 @@ constant: device_internal_tester_mapping {
           WHEN ${TABLE}.device_id LIKE '1514C433-1718-4621-BD18-2661CD888608' THEN 'Robert Einspruch - iPhone 8'
           WHEN ${TABLE}.device_id LIKE '645F4788-F440-4FAC-B0D8-A956CBE4D64C' THEN 'Robert Einspruch - iPhone 8'
           WHEN ${TABLE}.device_id LIKE '40361030-B80C-4615-8C57-4661C411F97F' THEN 'Robert Einspruch - iPhone 6'
+          WHEN ${TABLE}.device_id LIKE 'db7bfa86d4eae7922496fb6c2c68253b' THEN 'RDG Samsung J2'
         END"
 }
 

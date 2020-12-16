@@ -356,9 +356,9 @@ constant: install_release_version_minor {
 
 constant: experiment_ids {
   value: "CASE
-            WHEN JSON_EXTRACT(${experiments},'$.endOfRound_20201204') != 'unassigned' THEN 'NewEoR'
             WHEN JSON_EXTRACT(${experiments},'$.new_UX_20201203') != 'unassigned' THEN 'NewUX'
             WHEN JSON_EXTRACT(${experiments},'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
+            WHEN JSON_EXTRACT(${experiments},'$.endOfRound_20201204') != 'unassigned' THEN 'NewEoR'
             WHEN JSON_EXTRACT(${experiments},'$.content_20201130') != 'unassigned' THEN 'EarlyContent3'
             WHEN JSON_EXTRACT(${experiments},'$.content_20201130') != 'unassigned' THEN 'EarlyContent3'
             WHEN JSON_EXTRACT(${experiments},'$.laterLinearTest_20201111') != 'unassigned' THEN 'LaterLinear'
@@ -380,9 +380,9 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
-            WHEN ${experiment_names} = 'NewEoR' THEN JSON_EXTRACT(${experiments},'$.endOfRound_20201204')
             WHEN ${experiment_names} = 'NewUX' THEN JSON_EXTRACT(${experiments},'$.new_UX_20201203')
             WHEN ${experiment_names} = 'WorldMap' THEN JSON_EXTRACT(${experiments},'$.worldmap_20201028')
+            WHEN ${experiment_names} = 'NewEoR' THEN JSON_EXTRACT(${experiments},'$.endOfRound_20201204')
             WHEN ${experiment_names} = 'EarlyContent3' THEN JSON_EXTRACT(${experiments},'$.content_20201130')
             WHEN ${experiment_names} = 'LaterLinear' THEN JSON_EXTRACT(${experiments},'$.laterLinearTest_20201111')
             WHEN ${experiment_names} = 'EarlyContent2' THEN JSON_EXTRACT(${experiments},'$.content_20201106')

@@ -90,7 +90,7 @@ view: cohort {
   derived_table: {
     #datagroup_trigger: change_at_midnight
     explore_source: events {
-      timezone: query_timezone
+      timezone: UTC
       column: signup_day { field: events.user_first_seen_date }
       column: user_id {}
       bind_filters: {
@@ -118,7 +118,7 @@ view: cohort {
     }
   }
   dimension: signup_day {
-    convert_tz: yes
+    convert_tz: no
     type: date
   }
   dimension: user_id {}

@@ -285,6 +285,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '6300' THEN 'Release 1.6'
             WHEN ${TABLE}.version LIKE '6400' THEN 'Release 1.6'
             WHEN ${TABLE}.version LIKE '7100' THEN 'Release 1.7'
+            WHEN ${TABLE}.version LIKE '7200' THEN 'Release 1.7'
         END"
 }
 
@@ -307,6 +308,7 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '6300' THEN 'Release 1.6'
             WHEN ${TABLE}.install_version LIKE '6400' THEN 'Release 1.6'
             WHEN ${TABLE}.install_version LIKE '7100' THEN 'Release 1.7'
+            WHEN ${TABLE}.install_version LIKE '7200' THEN 'Release 1.7'
         END"
 }
 
@@ -329,6 +331,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '6300' THEN 'Release 1.6.300'
             WHEN ${TABLE}.version LIKE '6400' THEN 'Release 1.6.400'
             WHEN ${TABLE}.version LIKE '7100' THEN 'Release 1.7.100'
+            WHEN ${TABLE}.version LIKE '7200' THEN 'Release 1.7.200'
           END"
 }
 
@@ -351,12 +354,14 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '6300' THEN 'Release 1.6.300'
             WHEN ${TABLE}.install_version LIKE '6400' THEN 'Release 1.6.400'
             WHEN ${TABLE}.install_version LIKE '7100' THEN 'Release 1.7.100'
+            WHEN ${TABLE}.install_version LIKE '7200' THEN 'Release 1.7.200'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
-            WHEN JSON_EXTRACT(${experiments},'$.new_UX_20201203') != 'unassigned' THEN 'NewUX'
+            WHEN JSON_EXTRACT(${experiments},'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
+            WHEN JSON_EXTRACT(${experiments},'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
             WHEN JSON_EXTRACT(${experiments},'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
             WHEN JSON_EXTRACT(${experiments},'$.endOfRound_20201204') != 'unassigned' THEN 'NewEoR'
             WHEN JSON_EXTRACT(${experiments},'$.content_20201130') != 'unassigned' THEN 'EarlyContent3'
@@ -380,7 +385,8 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
-            WHEN ${experiment_names} = 'NewUX' THEN JSON_EXTRACT(${experiments},'$.new_UX_20201203')
+            WHEN ${experiment_names} = 'TransitionTiming' THEN JSON_EXTRACT(${experiments},'$.transitionDelay_20201217')
+            WHEN ${experiment_names} = 'NewUX' THEN JSON_EXTRACT(${experiments},'$.newVsOld_20201218')
             WHEN ${experiment_names} = 'WorldMap' THEN JSON_EXTRACT(${experiments},'$.worldmap_20201028')
             WHEN ${experiment_names} = 'NewEoR' THEN JSON_EXTRACT(${experiments},'$.endOfRound_20201204')
             WHEN ${experiment_names} = 'EarlyContent3' THEN JSON_EXTRACT(${experiments},'$.content_20201130')

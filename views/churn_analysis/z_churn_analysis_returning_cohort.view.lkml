@@ -1,7 +1,7 @@
 # If necessary, uncomment the line below to include explore_source.
 # include: "rdg.model.lkml"
 
-view: churn_analysis_returning_cohort {
+view: z_churn_analysis_returning_cohort {
   derived_table: {
     explore_source: churn_analysis_install_cohort {
       column: count_unique_person_id {}

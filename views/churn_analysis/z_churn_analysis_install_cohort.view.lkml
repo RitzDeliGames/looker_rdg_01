@@ -1,6 +1,6 @@
 include: "/views/**/events.view"
 
-view: churn_analysis_install_cohort {
+view: z_churn_analysis_install_cohort {
   extends: [events]
 #   sql_table_name: `eraser-blast.game_data.events`;;
 

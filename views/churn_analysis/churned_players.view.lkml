@@ -28,6 +28,11 @@ view: churned_players {
     type: date_time
   }
 
+  measure: event_count {
+    type: count_distinct
+    sql: ${timestamp} ;;
+  }
+
   dimension: user_first_seen {
     type: date_time
   }

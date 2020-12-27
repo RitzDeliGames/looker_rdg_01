@@ -12,10 +12,18 @@ view: churned_players {
       column: timestamp {field: events.timestamp_raw}
       column: user_first_seen {field: events.user_first_seen_raw}
       column: platform {field: events.device_platform}
+      column: consecutive_days {field:events.consecutive_days}
+      column: current_card_quest {field:events.current_card_quest}
     }
   }
 
   dimension: user_id {}
+
+  measure: player_count {
+    type: count_distinct
+    sql: ${user_id} ;;
+  }
+
   dimension: created_at {}
   dimension: install_version {}
   dimension: current_card {}
@@ -66,6 +74,20 @@ view: churned_players {
   dimension: load_time {
     type: number
     sql: JSON_EXTRACT_SCALAR(extra_json,"$.load_time");;
+  }
+
+  dimension: consecutive_days {}
+
+  measure: max_consecutive_days {
+    type: max
+    sql: ${consecutive_days};;
+  }
+
+  dimension: current_card_quest {}
+
+  measure: max_current_card_quest {
+    type: max
+    sql: ${current_card_quest} ;;
   }
 
 }

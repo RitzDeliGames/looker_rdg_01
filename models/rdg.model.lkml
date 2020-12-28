@@ -51,6 +51,8 @@ explore: events {
 
 explore: churned_players {}
 
+explore: churned_players_aggregated {}
+
 explore: z_churn_analysis_install_cohort {
   sql_always_where:
     churn_analysis_install_cohort.created_at  >= TIMESTAMP('2020-07-06 00:00:00')

@@ -18,6 +18,7 @@ view: churned_players {
       column: variants {field: events.variants}
       column: 24_hours_since_install {field: events.24_hours_since_install}
       column: 60_mins_since_install {field: events.60_mins_since_install}
+      column: round_id {field: events.round_id}
     }
   }
 
@@ -70,9 +71,19 @@ view: churned_players {
     sql: JSON_EXTRACT_SCALAR(extra_json,"$.button_tag");;
   }
 
+  measure: click_count {
+    type: number
+    sql: COUNT(${button_click}) ;;
+  }
+
   dimension: load_time {
     type: number
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.load_time");;
+    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.load_time") AS INT64);;
+  }
+
+  measure: cumulative_loading_time {
+    type: sum
+    sql: ${load_time} ;;
   }
 
   dimension: consecutive_days {}
@@ -100,4 +111,18 @@ view: churned_players {
   dimension: 24_hours_since_install {}
 
   dimension: 60_mins_since_install {}
+
+  dimension: round_id {}
+
+  measure: max_round_id {
+    type: max
+    sql: ${round_id} ;;
+  }
+
+  measure: avg_load_time {
+    type: average
+    value_format: "####"
+    sql:  ${load_time} / 1000;;
+  }
+
 }

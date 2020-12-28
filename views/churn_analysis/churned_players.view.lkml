@@ -14,6 +14,10 @@ view: churned_players {
       column: platform {field: events.device_platform}
       column: consecutive_days {field:events.consecutive_days}
       column: current_card_quest {field:events.current_card_quest}
+      column: experiment_names {field: events.experiment_names}
+      column: variants {field: events.variants}
+      column: 24_hours_since_install {field: events.24_hours_since_install}
+      column: 60_mins_since_install {field: events.60_mins_since_install}
     }
   }
 
@@ -31,6 +35,7 @@ view: churned_players {
   dimension: extra_json {}
   dimension: engagement_ticks {}
   dimension: platform {}
+  dimension: experiments {}
 
   dimension: timestamp {
     type: date_time
@@ -48,12 +53,6 @@ view: churned_players {
   dimension: quest {
     type: number
     sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.current_quest") AS INT64);;
-  }
-
-  measure: max_quest {
-    type: max
-    sql: ${quest} ;;
-    drill_fields: [timestamp, engagement_ticks, quest, quest_complete, event_name, button_click, load_time, extra_json]
   }
 
   dimension: quest_complete {
@@ -83,11 +82,22 @@ view: churned_players {
     sql: ${consecutive_days};;
   }
 
-  dimension: current_card_quest {}
+  dimension: current_card_quest {
+    value_format: "####"
+  }
 
   measure: max_current_card_quest {
     type: max
+    value_format: "####"
     sql: ${current_card_quest} ;;
+    drill_fields: [timestamp, engagement_ticks, 60_mins_since_install, 24_hours_since_install, current_card_quest, quest_complete, event_name, button_click, load_time, extra_json, experiments]
   }
 
+  dimension: experiment_names {}
+
+  dimension: variants {}
+
+  dimension: 24_hours_since_install {}
+
+  dimension: 60_mins_since_install {}
 }

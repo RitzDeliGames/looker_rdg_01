@@ -603,13 +603,14 @@ view: churned_players_aggregated {
         churned_players.user_id AS churned_players_user_id,
         churned_players.experiment_names AS churned_players_experiment_names,
         churned_players.variants AS churned_players_variants,
+        churned_players.install_version AS churned_players_install_version,
         MAX(churned_players.current_card_quest ) AS churned_players_max_current_card_quest,
         COUNT((JSON_EXTRACT_SCALAR(extra_json,"$.button_tag")))  AS churned_players_click_count,
         AVG((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.load_time") AS INT64)) / 1000) AS churned_players_avg_load_time
       FROM churned_players
 
       WHERE (churned_players.install_version = '7200') AND (churned_players.experiment_names LIKE '%NewUX%') AND ((churned_players.variants IN ('control', 'variant_a')))
-      GROUP BY 1,2,3
+      GROUP BY 1,2,3, 4
       --HAVING (MAX(churned_players.consecutive_days) = 0) AND (MAX(churned_players.current_card_quest ) = 107)
       ORDER BY 3 DESC
        ;;
@@ -626,45 +627,50 @@ view: churned_players_aggregated {
     drill_fields: [detail*]
   }
 
-  dimension: churned_players_user_id {
+  dimension: user_id {
     type: string
     sql: ${TABLE}.churned_players_user_id ;;
   }
 
-  dimension: churned_players_experiment_names {
+  dimension: experiment_names {
     type: string
     sql: ${TABLE}.churned_players_experiment_names ;;
   }
 
-  dimension: churned_players_variants {
+  dimension: variants {
     type: string
     sql: ${TABLE}.churned_players_variants ;;
   }
 
-  dimension: churned_players_max_current_card_quest {
+  dimension: max_current_card_quest {
     type: number
     value_format: "####"
     sql: ${TABLE}.churned_players_max_current_card_quest ;;
   }
 
-  dimension: churned_players_click_count {
+  dimension: click_count {
     type: number
     sql: ${TABLE}.churned_players_click_count ;;
   }
 
-  dimension: churned_players_avg_load_time {
+  dimension: avg_load_time {
     type: number
     sql: ${TABLE}.churned_players_avg_load_time ;;
   }
 
+  dimension: install_version {
+    type: string
+    sql: ${TABLE}.churned_players_install_version ;;
+  }
+
   set: detail {
     fields: [
-      churned_players_user_id,
-      churned_players_experiment_names,
-      churned_players_variants,
-      churned_players_max_current_card_quest,
-      churned_players_click_count,
-      churned_players_avg_load_time
+      user_id,
+      experiment_names,
+      variants,
+      max_current_card_quest,
+      click_count,
+      avg_load_time
     ]
   }
 }

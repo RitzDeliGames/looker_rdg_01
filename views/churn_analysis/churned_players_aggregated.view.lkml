@@ -605,6 +605,7 @@ view: churned_players_aggregated {
         churned_players.variants AS churned_players_variants,
         churned_players.install_version AS churned_players_install_version,
         MAX(churned_players.current_card_quest ) AS churned_players_max_current_card_quest,
+        MAX((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.rounds") AS INT64) - CAST(ARRAY_LENGTH(JSON_EXTRACT_ARRAY(extra_json,"$.card_state")) AS INT64)) ) AS churned_players_max_failed_attempts,
         COUNT((JSON_EXTRACT_SCALAR(extra_json,"$.button_tag")))  AS churned_players_click_count,
         AVG((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.load_time") AS INT64)) / 1000) AS churned_players_avg_load_time
       FROM churned_players
@@ -648,6 +649,50 @@ view: churned_players_aggregated {
     sql: ${TABLE}.churned_players_max_current_card_quest ;;
   }
 
+  dimension: max_failed_attempts {
+    type: number
+    value_format: "####"
+    sql: ${TABLE}.churned_players_max_failed_attempts ;;
+  }
+
+  measure: avg_failed_attempts {
+    type: average
+    value_format: "####"
+    sql: ${max_failed_attempts} ;;
+  }
+
+  measure: max_max_failed_attempts {
+    type: max
+    value_format: "####"
+    sql: ${max_failed_attempts} ;;
+  }
+
+  measure: min_max_failed_attempts {
+    type: min
+    value_format: "####"
+    sql: ${max_failed_attempts} ;;
+  }
+
+  measure: med_max_failed_attempts {
+    type: median
+    value_format: "####"
+    sql: ${max_failed_attempts} ;;
+  }
+
+  measure: quartile_2_max_failed_attempts {
+    type: percentile
+    percentile: 25
+    value_format: "####"
+    sql: ${max_failed_attempts} ;;
+  }
+
+  measure: quartile_3_max_failed_attempts {
+    type: percentile
+    percentile: 75
+    value_format: "####"
+    sql: ${max_failed_attempts} ;;
+  }
+
   dimension: click_count {
     type: number
     sql: ${TABLE}.churned_players_click_count ;;
@@ -669,6 +714,7 @@ view: churned_players_aggregated {
       experiment_names,
       variants,
       max_current_card_quest,
+      max_failed_attempts,
       click_count,
       avg_load_time
     ]

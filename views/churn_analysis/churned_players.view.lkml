@@ -101,7 +101,7 @@ view: churned_players {
     type: max
     value_format: "####"
     sql: ${current_card_quest} ;;
-    drill_fields: [timestamp, engagement_ticks, 60_mins_since_install, 24_hours_since_install, current_card_quest, quest_complete, event_name, button_click, load_time, extra_json, experiments]
+    drill_fields: [timestamp, engagement_ticks, 60_mins_since_install, 24_hours_since_install, current_card_quest, quest_complete, failed_attempts, event_name, button_click, load_time, extra_json, experiments]
   }
 
   dimension: experiment_names {}
@@ -125,4 +125,13 @@ view: churned_players {
     sql:  ${load_time} / 1000;;
   }
 
+  dimension: failed_attempts {
+    type: number
+    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.rounds") AS INT64) - CAST(ARRAY_LENGTH(JSON_EXTRACT_ARRAY(extra_json,"$.card_state")) AS INT64) ;;
+  }
+
+  measure: max_failed_attempts {
+    type: max
+    sql: ${failed_attempts} ;;
+  }
 }

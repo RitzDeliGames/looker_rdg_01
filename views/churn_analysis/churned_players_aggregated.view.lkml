@@ -610,9 +610,9 @@ view: churned_players_aggregated {
         AVG((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.load_time") AS INT64)) / 1000) AS churned_players_avg_load_time
       FROM churned_players
 
-      WHERE (churned_players.install_version = '7200') AND (churned_players.experiment_names LIKE '%NewUX%') AND ((churned_players.variants IN ('control', 'variant_a')))
+      --WHERE (churned_players.install_version = '7200') AND (churned_players.experiment_names LIKE '%NewUX%') AND ((churned_players.variants IN ('control', 'variant_a')))
       GROUP BY 1,2,3, 4
-      --HAVING (MAX(churned_players.consecutive_days) = 0) AND (MAX(churned_players.current_card_quest ) = 107)
+      HAVING (MAX(churned_players.consecutive_days) = 0) --AND (MAX(churned_players.current_card_quest ) = 107)
       ORDER BY 3 DESC
        ;;
   }

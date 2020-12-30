@@ -34,9 +34,15 @@ view: churned_players {
   dimension: current_card {}
   dimension: event_name {}
   dimension: extra_json {}
-  dimension: engagement_ticks {}
   dimension: platform {}
   dimension: experiments {}
+
+  dimension: engagement_ticks {}
+
+  measure:  max_engagement_ticks {
+    type: max
+    sql: ${engagement_ticks} ;;
+  }
 
   dimension: timestamp {
     type: date_time

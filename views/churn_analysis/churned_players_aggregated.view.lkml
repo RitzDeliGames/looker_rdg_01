@@ -604,7 +604,8 @@ view: churned_players_aggregated {
         churned_players.experiment_names AS churned_players_experiment_names,
         churned_players.variants AS churned_players_variants,
         churned_players.install_version AS churned_players_install_version,
-        MAX(churned_players.current_card_quest ) AS churned_players_max_current_card_quest,
+        MAX(churned_players.current_card_quest) AS churned_players_max_current_card_quest,
+        MAX(churned_players.engagement_ticks) AS churned_players_max_engagement_ticks,
         MAX((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.rounds") AS INT64) - CAST(ARRAY_LENGTH(JSON_EXTRACT_ARRAY(extra_json,"$.card_state")) AS INT64)) ) AS churned_players_max_failed_attempts,
         COUNT((JSON_EXTRACT_SCALAR(extra_json,"$.button_tag")))  AS churned_players_click_count,
         AVG((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.load_time") AS INT64)) / 1000) AS churned_players_avg_load_time
@@ -647,6 +648,17 @@ view: churned_players_aggregated {
     type: number
     value_format: "####"
     sql: ${TABLE}.churned_players_max_current_card_quest ;;
+  }
+
+  dimension: max_current_card_quest_str {
+    type: string
+    sql: ${max_current_card_quest} ;;
+  }
+
+  dimension: max_engagement_ticks {
+    type: number
+    value_format: "####"
+    sql: ${TABLE}.churned_players_max_engagement_ticks ;;
   }
 
   dimension: max_failed_attempts {

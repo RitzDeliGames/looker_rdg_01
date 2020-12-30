@@ -703,6 +703,38 @@ view: churned_players_aggregated {
     sql: ${TABLE}.churned_players_avg_load_time ;;
   }
 
+  measure: max_load_time {
+    type: max
+    value_format: "####"
+    sql: ${avg_load_time} ;;
+  }
+
+  measure: min_load_time {
+    type: min
+    value_format: "####"
+    sql: ${avg_load_time} ;;
+  }
+
+  measure: med_load_time {
+    type: median
+    value_format: "####"
+    sql: ${avg_load_time} ;;
+  }
+
+  measure: quartile_2_load_time {
+    type: percentile
+    percentile: 25
+    value_format: "####"
+    sql: ${avg_load_time} ;;
+  }
+
+  measure: quartile_3_load_time {
+    type: percentile
+    percentile: 75
+    value_format: "####"
+    sql: ${avg_load_time} ;;
+  }
+
   dimension: install_version {
     type: string
     sql: ${TABLE}.churned_players_install_version ;;

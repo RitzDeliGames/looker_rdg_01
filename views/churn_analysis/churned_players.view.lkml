@@ -125,6 +125,38 @@ view: churned_players {
     sql:  ${load_time} / 1000;;
   }
 
+  measure: max_load_time {
+    type: max
+    value_format: "####"
+    sql:  ${load_time} / 1000;;
+  }
+
+  measure: min_load_time {
+    type: min
+    value_format: "####"
+    sql:  ${load_time} / 1000;;
+  }
+
+  measure: med_load_time {
+    type: median
+    value_format: "####"
+    sql:  ${load_time} / 1000;;
+  }
+
+  measure: quartile_2_load_time {
+    type: percentile
+    percentile: 25
+    value_format: "####"
+    sql:  ${load_time} / 1000;;
+  }
+
+  measure: quartile_3_load_time {
+    type: percentile
+    percentile: 75
+    value_format: "####"
+    sql:  ${load_time} / 1000;;
+  }
+
   dimension: failed_attempts {
     type: number
     sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.rounds") AS INT64) - CAST(ARRAY_LENGTH(JSON_EXTRACT_ARRAY(extra_json,"$.card_state")) AS INT64) ;;

@@ -3,7 +3,7 @@ view: churned_players {
     explore_source: events {
       column: user_id {field: events.user_id}
       column: extra_json {field: events.extra_json}
-      column: install_version {field: events.install_version}
+      column: install_release_version_minor {field: events.install_release_version_minor}
       column: current_card {field: events.current_card}
       column: experiments {field: events.experiments}
       column: event_name {field: events.event_name}
@@ -30,7 +30,7 @@ view: churned_players {
   }
 
   dimension: created_at {}
-  dimension: install_version {}
+  dimension: install_release_version_minor {}
   dimension: current_card {}
   dimension: event_name {}
   dimension: extra_json {}

@@ -402,6 +402,8 @@ explore: transactions_query {
     AND user_type = "external";;
 }
 
+explore: transactions {}
+
 ##########GAMING BLOCK EXPLORES##########
 
 explore: gaming_block_events {

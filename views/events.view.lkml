@@ -260,7 +260,7 @@ view: events {
     label: "First 30 Minutes of Play"
     style: integer
     type: tier
-    tiers: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
+    tiers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
     sql: ${minutes_since_install} ;;
   }
 
@@ -269,7 +269,7 @@ view: events {
     label: "First 60 Minutes of Play"
     style: integer
     type: tier
-    tiers: [2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60]
+    tiers: [0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60]
     sql: ${minutes_since_install} ;;
   }
 
@@ -287,7 +287,7 @@ view: events {
     label: "First 7 Days of Play"
     style: integer
     type: tier
-    tiers: [1,2,3,4,5,6,7]
+    tiers: [0,1,2,3,4,5,6,7]
     sql: ${days_since_install} ;;
   }
 
@@ -296,7 +296,7 @@ view: events {
     label: "First 14 Days of Play"
     style: integer
     type: tier
-    tiers: [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+    tiers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
     sql: ${days_since_install} ;;
   }
 
@@ -305,7 +305,7 @@ view: events {
     label: "First 28 Days of Play"
     style: integer
     type: tier
-    tiers: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
+    tiers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
     sql: ${days_since_install} ;;
   }
 

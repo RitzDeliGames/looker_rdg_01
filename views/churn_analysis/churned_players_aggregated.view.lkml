@@ -3,13 +3,32 @@ view: churned_players_aggregated {
     sql: WITH churned_players AS (SELECT
         events.user_id  AS user_id,
         events.extra_json  AS extra_json,
-        events.install_version  AS install_version,
         events.current_card  AS current_card,
         events.experiments  AS experiments,
         events.event_name  AS event_name,
         events.engagement_ticks  AS engagement_ticks,
         events.timestamp  AS timestamp,
         events.created_at  AS user_first_seen,
+        CASE
+          WHEN events.install_version LIKE '1568' THEN 'Release 1.0.001'
+          WHEN events.install_version LIKE '1579' THEN 'Release 1.0.100'
+          WHEN events.install_version LIKE '2047' THEN 'Release 1.1.001'
+          WHEN events.install_version LIKE '2100' THEN 'Release 1.1.100'
+          WHEN events.install_version LIKE '3028' THEN 'Release 1.2.028'
+          WHEN events.install_version LIKE '3043' THEN 'Release 1.2.043'
+          WHEN events.install_version LIKE '3100' THEN 'Release 1.2.100'
+          WHEN events.install_version LIKE '4017' THEN 'Release 1.3.017'
+          WHEN events.install_version LIKE '4100' THEN 'Release 1.3.100'
+          WHEN events.install_version LIKE '5006' THEN 'Release 1.5.006'
+          WHEN events.install_version LIKE '5100' THEN 'Release 1.5.100'
+          WHEN events.install_version LIKE '6001' THEN 'Release 1.6.001'
+          WHEN events.install_version LIKE '6100' THEN 'Release 1.6.100'
+          WHEN events.install_version LIKE '6200' THEN 'Release 1.6.200'
+          WHEN events.install_version LIKE '6300' THEN 'Release 1.6.300'
+          WHEN events.install_version LIKE '6400' THEN 'Release 1.6.400'
+          WHEN events.install_version LIKE '7100' THEN 'Release 1.7.100'
+          WHEN events.install_version LIKE '7200' THEN 'Release 1.7.200'
+        END AS install_release_version_minor,
         CASE
                 WHEN events.platform LIKE '%iOS%' THEN 'Apple'
                 WHEN events.platform LIKE '%Android%' THEN 'Google'
@@ -603,7 +622,7 @@ view: churned_players_aggregated {
         churned_players.user_id AS churned_players_user_id,
         churned_players.experiment_names AS churned_players_experiment_names,
         churned_players.variants AS churned_players_variants,
-        churned_players.install_version AS churned_players_install_version,
+        churned_players.install_release_version_minor AS churned_players_install_release_version_minor,
         MAX(churned_players.current_card_quest) AS churned_players_max_current_card_quest,
         MAX(churned_players.engagement_ticks) AS churned_players_max_engagement_ticks,
         MAX((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.rounds") AS INT64) - CAST(ARRAY_LENGTH(JSON_EXTRACT_ARRAY(extra_json,"$.card_state")) AS INT64)) ) AS churned_players_max_failed_attempts,
@@ -611,7 +630,7 @@ view: churned_players_aggregated {
         AVG((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.load_time") AS INT64)) / 1000) AS churned_players_avg_load_time
       FROM churned_players
 
-      --WHERE (churned_players.install_version = '7200') AND (churned_players.experiment_names LIKE '%NewUX%') AND ((churned_players.variants IN ('control', 'variant_a')))
+      --WHERE (churned_players.install_release_version_minor = '7200') AND (churned_players.experiment_names LIKE '%NewUX%') AND ((churned_players.variants IN ('control', 'variant_a')))
       GROUP BY 1,2,3, 4
       HAVING (MAX(churned_players.consecutive_days) = 0) --AND (MAX(churned_players.current_card_quest ) = 107)
       ORDER BY 3 DESC
@@ -747,9 +766,9 @@ view: churned_players_aggregated {
     sql: ${avg_load_time} ;;
   }
 
-  dimension: install_version {
+  dimension: install_release_version_minor {
     type: string
-    sql: ${TABLE}.churned_players_install_version ;;
+    sql: ${TABLE}.churned_players_install_release_version_minor ;;
   }
 
   set: detail {

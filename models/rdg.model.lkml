@@ -54,6 +54,7 @@ explore: churned_players {}
 explore: churned_players_aggregated {}
 
 explore: z_churn_analysis_install_cohort {
+  description: "deprecated"
   sql_always_where:
     churn_analysis_install_cohort.created_at  >= TIMESTAMP('2020-07-06 00:00:00')
     AND churn_analysis_install_cohort.user_type = "external";;
@@ -74,7 +75,9 @@ explore: experiments_charts {}
 explore: retention_cohort_dimensionalize_20days {}
 
 
-explore: round_id_decay_per_churn {}
+explore: round_id_decay_per_churn {
+  description: "deprecated"
+}
 
 
 explore: count_quests_attempts {}
@@ -82,6 +85,7 @@ explore: count_quests_attempts {}
 
 
 explore: characters_collection_iii {
+  description: "ok to deprecate"
   join: events {
     sql_on: ${characters_collection_iii.user_id} = ${events.user_id}
           AND ${characters_collection_iii.session_id} = ${events.session_id}
@@ -366,11 +370,6 @@ explore: boost_usage {
 #   }
 }
 
-
-
-#########################
-
-# explore: test_churn {}
 
 ######LOAD TIME######
 

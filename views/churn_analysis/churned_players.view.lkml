@@ -28,6 +28,7 @@ view: churned_players {
   measure: player_count {
     type: count_distinct
     sql: ${user_id} ;;
+    drill_fields: [user_id]
   }
 
   dimension: created_at {}
@@ -51,7 +52,29 @@ view: churned_players {
 
   dimension: engagement_ticks {}
 
-  measure:  max_engagement_ticks {
+  measure:  engagement_ticks_min {
+    type: min
+    sql: ${engagement_ticks} ;;
+  }
+
+  measure:  engagement_ticks_25th {
+    type: percentile
+    percentile: 25
+    sql: ${engagement_ticks} ;;
+  }
+
+  measure:  engagement_ticks_med {
+    type: median
+    sql: ${engagement_ticks} ;;
+  }
+
+  measure:  engagement_ticks_75th {
+    type: percentile
+    percentile: 75
+    sql: ${engagement_ticks} ;;
+  }
+
+  measure:  engagement_ticks_max {
     type: max
     sql: ${engagement_ticks} ;;
   }
@@ -107,7 +130,13 @@ view: churned_players {
   }
 
   dimension: current_card_quest {
+    type: number
     value_format: "####"
+  }
+
+  dimension: current_card_quest_str {
+    type: string
+    sql: ${current_card_quest} ;;
   }
 
   measure: max_current_card_quest {
@@ -117,15 +146,35 @@ view: churned_players {
     drill_fields: [timestamp, engagement_ticks, 60_mins_since_install, 24_hours_since_install, current_card_quest, quest_complete, failed_attempts, event_name, button_click, load_time, extra_json, experiments]
   }
 
-  dimension: 24_hours_since_install {}
+  dimension: 60_mins_since_install {
+    type: number
+  }
 
-  dimension: 60_mins_since_install {}
+  dimension: 24_hours_since_install {
+    type: number
+  }
 
-  dimension: 7_days_since_install {}
+  dimension: 7_days_since_install {
+    type: number
+  }
 
-  dimension: 14_days_since_install {}
+  dimension: 14_days_since_install {
+    type: number
+  }
 
-  dimension: 28_days_since_install {}
+  dimension: 28_days_since_install {
+    type: number
+  }
+
+  measure: 28_days_since_install_min {
+    type: min
+    sql: ${28_days_since_install} ;;
+  }
+
+  measure: 28_days_since_install_max {
+    type: max
+    sql: ${28_days_since_install} ;;
+  }
 
   dimension: round_id {}
 

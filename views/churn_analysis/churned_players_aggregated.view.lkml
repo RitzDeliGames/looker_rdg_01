@@ -9,64 +9,59 @@ view: churned_players_aggregated {
         events.engagement_ticks  AS engagement_ticks,
         events.created_at  AS user_first_seen,
         events.install_version AS install_version,
-        CASE
-          WHEN events.platform LIKE '%iOS%' THEN 'Apple'
-          WHEN events.platform LIKE '%Android%' THEN 'Google'
-          WHEN events.hardware LIKE '%Chrome%' AND events.user_id LIKE '%facebook%' THEN 'Facebook'
-        END  AS platform,
         events.consecutive_days  AS consecutive_days,
         (CASE
-                    WHEN events.current_card = 'card_001_a' THEN 100
-                    WHEN events.current_card = 'card_001_untimed' THEN 100
-                    WHEN events.current_card = 'card_002_a' THEN 200
-                    WHEN events.current_card = 'card_002_untimed' THEN 200
-                    WHEN events.current_card = 'card_003_a' THEN 300
-                    WHEN events.current_card = 'card_003_untimed' THEN 300
-                    WHEN events.current_card = 'card_002' THEN 400
-                    WHEN events.current_card = 'card_039' THEN 400
-                    WHEN events.current_card = 'card_004_untimed' THEN 400
-                    WHEN events.current_card = 'card_003' THEN 500
-                    WHEN events.current_card = 'card_040' THEN 500
-                    WHEN events.current_card = 'card_005_untimed' THEN 500
-                    WHEN events.current_card = 'card_004' THEN 600
-                    WHEN events.current_card = 'card_041' THEN 600
-                    WHEN events.current_card = 'card_006_untimed' THEN 600
-                    WHEN events.current_card = 'card_005' THEN 700
-                    WHEN events.current_card = 'card_006' THEN 800
-                    WHEN events.current_card = 'card_007' THEN 900
-                    WHEN events.current_card = 'card_008' THEN 1000
-                    WHEN events.current_card = 'card_009' THEN 1100
-                    WHEN events.current_card = 'card_010' THEN 1200
-                    WHEN events.current_card = 'card_011' THEN 1300
-                    WHEN events.current_card = 'card_012' THEN 1400
-                    WHEN events.current_card = 'card_013' THEN 1500
-                    WHEN events.current_card = 'card_014' THEN 1600
-                    WHEN events.current_card = 'card_015' THEN 1700
-                    WHEN events.current_card = 'card_016' THEN 1800
-                    WHEN events.current_card = 'card_017' THEN 1900
-                    WHEN events.current_card = 'card_018' THEN 2000
-                END) + (CAST(REPLACE(JSON_VALUE(events.extra_json,'$.current_quest'),'"','') AS NUMERIC)) AS current_card_quest,
+          WHEN events.current_card = 'card_001_a' THEN 100
+          WHEN events.current_card = 'card_001_untimed' THEN 100
+          WHEN events.current_card = 'card_002_a' THEN 200
+          WHEN events.current_card = 'card_002_untimed' THEN 200
+          WHEN events.current_card = 'card_003_a' THEN 300
+          WHEN events.current_card = 'card_003_untimed' THEN 300
+          WHEN events.current_card = 'card_002' THEN 400
+          WHEN events.current_card = 'card_039' THEN 400
+          WHEN events.current_card = 'card_004_untimed' THEN 400
+          WHEN events.current_card = 'card_003' THEN 500
+          WHEN events.current_card = 'card_040' THEN 500
+          WHEN events.current_card = 'card_005_untimed' THEN 500
+          WHEN events.current_card = 'card_004' THEN 600
+          WHEN events.current_card = 'card_041' THEN 600
+          WHEN events.current_card = 'card_006_untimed' THEN 600
+          WHEN events.current_card = 'card_005' THEN 700
+          WHEN events.current_card = 'card_006' THEN 800
+          WHEN events.current_card = 'card_007' THEN 900
+          WHEN events.current_card = 'card_008' THEN 1000
+          WHEN events.current_card = 'card_009' THEN 1100
+          WHEN events.current_card = 'card_010' THEN 1200
+          WHEN events.current_card = 'card_011' THEN 1300
+          WHEN events.current_card = 'card_012' THEN 1400
+          WHEN events.current_card = 'card_013' THEN 1500
+          WHEN events.current_card = 'card_014' THEN 1600
+          WHEN events.current_card = 'card_015' THEN 1700
+          WHEN events.current_card = 'card_016' THEN 1800
+          WHEN events.current_card = 'card_017' THEN 1900
+          WHEN events.current_card = 'card_018' THEN 2000
+      END) + (CAST(REPLACE(JSON_VALUE(events.extra_json,'$.current_quest'),'"','') AS NUMERIC)) AS current_card_quest,
         CASE
-                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
-                  WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
-                  WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
-                  WHEN JSON_EXTRACT(events.experiments,'$.endOfRound_20201204') != 'unassigned' THEN 'NewEoR'
-                  WHEN JSON_EXTRACT(events.experiments,'$.content_20201130') != 'unassigned' THEN 'EarlyContent3'
-                  WHEN JSON_EXTRACT(events.experiments,'$.laterLinearTest_20201111') != 'unassigned' THEN 'LaterLinear'
-                  WHEN JSON_EXTRACT(events.experiments,'$.content_20201106') != 'unassigned' THEN 'EarlyContent2'
-                  WHEN JSON_EXTRACT(events.experiments,'$.vfx_threshold_20201102') != 'unassigned' THEN 'VFXTreshold'
-                  WHEN JSON_EXTRACT(events.experiments,'$.last_bonus_20201105') != 'unassigned' THEN 'LastBonus'
-                  WHEN JSON_EXTRACT(events.experiments,'$.untimed_20200918') != 'unassigned' THEN 'UntimedMode'
-                  WHEN JSON_EXTRACT(events.experiments,'$.content_20201005') != 'unassigned' THEN 'EarlyContent'
-                  WHEN JSON_EXTRACT(events.experiments,'$.secondsPerRound_20200922') != 'unassigned' THEN 'SecondsPerRound'
-                  WHEN JSON_EXTRACT(events.experiments,'$.earlyExitContent_20200909') != 'unassigned' THEN 'EarlyExit2'
-                  WHEN JSON_EXTRACT(events.experiments,'$.earlyExit_20200828') != 'unassigned' THEN 'EarlyExit'
-                  WHEN JSON_EXTRACT(events.experiments,'$.notifications_20200824') != 'unassigned' THEN 'Notifications'
-                  WHEN JSON_EXTRACT(events.experiments,'$.lazyLoadOtherTabs_20200901') != 'unassigned' THEN 'LazyLoad'
-                  WHEN JSON_EXTRACT(events.experiments,'$.tabFueTiming_20200825') != 'unassigned' THEN 'FUETiming'
-                  WHEN JSON_EXTRACT(events.experiments,'$.bingoEasyEarlyVariants_20200608') != 'unassigned' THEN 'EasyEarlyBingoCardVariants'
-                  WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
-                END  AS experiment_names,
+          WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
+          WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
+          WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
+          WHEN JSON_EXTRACT(events.experiments,'$.endOfRound_20201204') != 'unassigned' THEN 'NewEoR'
+          WHEN JSON_EXTRACT(events.experiments,'$.content_20201130') != 'unassigned' THEN 'EarlyContent3'
+          WHEN JSON_EXTRACT(events.experiments,'$.laterLinearTest_20201111') != 'unassigned' THEN 'LaterLinear'
+          WHEN JSON_EXTRACT(events.experiments,'$.content_20201106') != 'unassigned' THEN 'EarlyContent2'
+          WHEN JSON_EXTRACT(events.experiments,'$.vfx_threshold_20201102') != 'unassigned' THEN 'VFXTreshold'
+          WHEN JSON_EXTRACT(events.experiments,'$.last_bonus_20201105') != 'unassigned' THEN 'LastBonus'
+          WHEN JSON_EXTRACT(events.experiments,'$.untimed_20200918') != 'unassigned' THEN 'UntimedMode'
+          WHEN JSON_EXTRACT(events.experiments,'$.content_20201005') != 'unassigned' THEN 'EarlyContent'
+          WHEN JSON_EXTRACT(events.experiments,'$.secondsPerRound_20200922') != 'unassigned' THEN 'SecondsPerRound'
+          WHEN JSON_EXTRACT(events.experiments,'$.earlyExitContent_20200909') != 'unassigned' THEN 'EarlyExit2'
+          WHEN JSON_EXTRACT(events.experiments,'$.earlyExit_20200828') != 'unassigned' THEN 'EarlyExit'
+          WHEN JSON_EXTRACT(events.experiments,'$.notifications_20200824') != 'unassigned' THEN 'Notifications'
+          WHEN JSON_EXTRACT(events.experiments,'$.lazyLoadOtherTabs_20200901') != 'unassigned' THEN 'LazyLoad'
+          WHEN JSON_EXTRACT(events.experiments,'$.tabFueTiming_20200825') != 'unassigned' THEN 'FUETiming'
+          WHEN JSON_EXTRACT(events.experiments,'$.bingoEasyEarlyVariants_20200608') != 'unassigned' THEN 'EasyEarlyBingoCardVariants'
+          WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
+        END  AS experiment_names,
         REPLACE(CASE
                   WHEN (CASE
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
@@ -470,10 +465,9 @@ view: churned_players_aggregated {
                 END,'"','')  AS variants,
         CAST(REPLACE(JSON_VALUE(events.extra_json,'$.round_id'),'"','') AS NUMERIC) AS round_id
       FROM `eraser-blast.game_data.events` AS events
-
       WHERE created_at  >= TIMESTAMP('2020-07-06 00:00:00')
           AND user_type = "external"
-      GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12)
+      GROUP BY 1,2,3,4,5,6,7,8,9,10,11)
       SELECT
         churned_players.user_id AS churned_players_user_id,
         churned_players.experiment_names AS churned_players_experiment_names,
@@ -485,10 +479,8 @@ view: churned_players_aggregated {
         COUNT((JSON_EXTRACT_SCALAR(extra_json,"$.button_tag")))  AS churned_players_click_count,
         AVG((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.load_time") AS INT64)) / 1000) AS churned_players_avg_load_time
       FROM churned_players
-
-      --WHERE (churned_players.install_release_version_minor = '7200') AND (churned_players.experiment_names LIKE '%NewUX%') AND ((churned_players.variants IN ('control', 'variant_a')))
       GROUP BY 1,2,3,4
-      HAVING (MAX(churned_players.consecutive_days) = 0) --AND (MAX(churned_players.current_card_quest ) = 107)
+      HAVING (MAX(churned_players.consecutive_days) = 0)
       ORDER BY 3 DESC
        ;;
   }

@@ -15,11 +15,8 @@ view: churned_players {
       column: consecutive_days {field:events.consecutive_days}
       column: current_card_quest {field:events.current_card_quest}
       column: round_id {field: events.round_id}
-      column: 60_mins_since_install {field: events.60_mins_since_install}
-      column: 24_hours_since_install {field: events.24_hours_since_install}
-      column: 7_days_since_install {field: events.7_days_since_install}
-      column: 14_days_since_install {field: events.14_days_since_install}
-      column: 28_days_since_install {field: events.28_days_since_install}
+      column: minutes_since_install {field:events.minutes_since_install}
+      column: hours_since_install {field:events.hours_since_install}
     }
   }
 
@@ -83,6 +80,72 @@ view: churned_players {
     type: date_time
   }
 
+  dimension: minutes_since_install {
+    type: number
+  }
+
+  measure: minutes_since_install_min {
+    type: min
+    sql: ${minutes_since_install} ;;
+    drill_fields: [user_id, user_first_seen, timestamp, minutes_since_install, current_card_quest]
+  }
+
+  measure: minutes_since_install_25th {
+    type: percentile
+    percentile: 25
+    sql: ${minutes_since_install} ;;
+  }
+
+  measure: minutes_since_install_med {
+    type: median
+    sql: ${minutes_since_install} ;;
+  }
+
+  measure: minutes_since_install_75th {
+    type: percentile
+    percentile: 75
+    sql: ${minutes_since_install} ;;
+  }
+
+  measure: minutes_since_install_max {
+    type: max
+    sql: ${minutes_since_install} ;;
+    drill_fields: [user_id, user_first_seen, timestamp, minutes_since_install, current_card_quest]
+  }
+
+  dimension: hours_since_install {
+    type: number
+  }
+
+  measure: hours_since_install_min {
+    type: min
+    sql: ${hours_since_install} ;;
+    drill_fields: [user_id, user_first_seen, timestamp, hours_since_install, current_card_quest]
+  }
+
+  measure: hours_since_install_25th {
+    type: percentile
+    percentile: 25
+    sql: ${hours_since_install} ;;
+  }
+
+  measure: hours_since_install_med {
+    type: median
+    sql: ${hours_since_install} ;;
+  }
+
+  measure: hours_since_install_75th {
+    type: percentile
+    percentile: 75
+    sql: ${hours_since_install} ;;
+  }
+
+  measure: hours_since_install_max {
+    type: max
+    sql: ${hours_since_install} ;;
+    drill_fields: [user_id, user_first_seen, timestamp, hours_since_install, current_card_quest]
+  }
+
   measure: event_count {
     type: count_distinct
     sql: ${timestamp} ;;
@@ -143,37 +206,7 @@ view: churned_players {
     type: max
     value_format: "####"
     sql: ${current_card_quest} ;;
-    drill_fields: [timestamp, engagement_ticks, 60_mins_since_install, 24_hours_since_install, current_card_quest, quest_complete, failed_attempts, event_name, button_click, load_time, extra_json, experiments]
-  }
-
-  dimension: 60_mins_since_install {
-    type: number
-  }
-
-  dimension: 24_hours_since_install {
-    type: number
-  }
-
-  dimension: 7_days_since_install {
-    type: number
-  }
-
-  dimension: 14_days_since_install {
-    type: number
-  }
-
-  dimension: 28_days_since_install {
-    type: number
-  }
-
-  measure: 28_days_since_install_min {
-    type: min
-    sql: ${28_days_since_install} ;;
-  }
-
-  measure: 28_days_since_install_max {
-    type: max
-    sql: ${28_days_since_install} ;;
+    drill_fields: [timestamp, minutes_since_install, engagement_ticks, current_card_quest, quest_complete, failed_attempts, event_name, button_click, load_time, extra_json, experiments]
   }
 
   dimension: round_id {}

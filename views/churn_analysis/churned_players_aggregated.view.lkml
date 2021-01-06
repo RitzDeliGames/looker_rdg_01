@@ -577,6 +577,33 @@ view: churned_players_aggregated {
     sql: ${TABLE}.churned_players_click_count ;;
   }
 
+  measure: click_count_min {
+    type: min
+    sql: ${click_count} ;;
+  }
+
+  measure: click_count_25th {
+    type: percentile
+    percentile: 25
+    sql: ${click_count} ;;
+  }
+
+  measure: click_count_med {
+    type: median
+    sql: ${click_count} ;;
+  }
+
+  measure: click_count_75th {
+    type: percentile
+    percentile: 75
+    sql: ${click_count} ;;
+  }
+
+  measure: click_count_max {
+    type: max
+    sql: ${click_count} ;;
+  }
+
   dimension: avg_load_time {
     type: number
     sql: ${TABLE}.churned_players_avg_load_time ;;

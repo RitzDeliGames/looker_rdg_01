@@ -47,6 +47,10 @@ view: churned_players {
 
   dimension: install_version {}
 
+  dimension: install_release_version_minor {
+    sql: @{install_release_version_minor};;
+  }
+
   dimension: engagement_ticks {}
 
   measure:  engagement_ticks_min {

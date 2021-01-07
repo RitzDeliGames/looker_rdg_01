@@ -42,10 +42,16 @@ view: scene_load_time {
       THEN 1
       WHEN ${transition_from_to} = '"TitleScene" - "MetaScene"'
       THEN 2
-      WHEN ${transition_from_to} = '"MetaScene" - "Balls"'
+      WHEN ${transition_from_to} = '"TitleScene" - "WorldMapMetaScene"'
       THEN 3
-      WHEN ${transition_from_to} = '"Balls" - "MetaScene"'
+      WHEN ${transition_from_to} = '"MetaScene" - "Balls"'
       THEN 4
+      WHEN ${transition_from_to} = '"WorldMapMetaScene" - "Balls"'
+      THEN 5
+      WHEN ${transition_from_to} = '"Balls" - "MetaScene"'
+      THEN 6
+      WHEN ${transition_from_to} = '"Balls" - "WorldMapMetaScene"'
+      THEN 7
     END
     ;;
   }
@@ -57,10 +63,16 @@ view: scene_load_time {
       THEN '1. UpdateCheck - TitleScene'
       WHEN ${transition_from_to} = '"TitleScene" - "MetaScene"'
       THEN '2. TitleScene - MetaScene'
+      WHEN ${transition_from_to} = '"TitleScene" - "WorldMapMetaScene"'
+      THEN '5. TitleScene - WorldMapMetaScene'
       WHEN ${transition_from_to} = '"MetaScene" - "Balls"'
       THEN '3. MetaScene - Balls'
+      WHEN ${transition_from_to} = '"WorldMapMetaScene" - "Balls"'
+      THEN '5. WorldMapMetaScene - Balls'
       WHEN ${transition_from_to} = '"Balls" - "MetaScene"'
       THEN '4. Balls - MetaScene'
+      WHEN ${transition_from_to} = '"Balls" - "WorldMapMetaScene"'
+      THEN '6. Balls - WorldMapMetaScene'
     END
     ;;
   }

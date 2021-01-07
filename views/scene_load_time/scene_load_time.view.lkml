@@ -52,6 +52,8 @@ view: scene_load_time {
       THEN 6
       WHEN ${transition_from_to} = '"Balls" - "WorldMapMetaScene"'
       THEN 7
+      WHEN ${transition_from_to} = '"AppStart" - "FirstInteraction"'
+      THEN 8
     END
     ;;
   }
@@ -73,6 +75,8 @@ view: scene_load_time {
       THEN '4. Balls - MetaScene'
       WHEN ${transition_from_to} = '"Balls" - "WorldMapMetaScene"'
       THEN '6. Balls - WorldMapMetaScene'
+      WHEN ${transition_from_to} = '"AppStart" - "FirstInteraction"'
+      THEN '7. AppStart - FirstInteraction'
     END
     ;;
   }

@@ -12,11 +12,12 @@ view: churned_players {
       column: timestamp {field: events.timestamp_raw}
       column: user_first_seen {field: events.user_first_seen_raw}
       column: platform {field: events.device_platform}
-      column: consecutive_days {field:events.consecutive_days}
-      column: current_card_quest {field:events.current_card_quest}
+      column: consecutive_days {field: events.consecutive_days}
+      column: current_card_quest {field: events.current_card_quest}
       column: round_id {field: events.round_id}
-      column: minutes_since_install {field:events.minutes_since_install}
-      column: hours_since_install {field:events.hours_since_install}
+      column: minutes_since_install {field: events.minutes_since_install}
+      column: hours_since_install {field: events.hours_since_install}
+      column: session_id {field: events.session_id}
     }
   }
 
@@ -266,5 +267,14 @@ view: churned_players {
   measure: max_failed_attempts {
     type: max
     sql: ${failed_attempts} ;;
+  }
+
+  dimension: session_id {
+    hidden: yes
+  }
+
+  measure: session_count {
+    type: count_distinct
+    sql: ${session_id} ;;
   }
 }

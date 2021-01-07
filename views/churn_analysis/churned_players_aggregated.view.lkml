@@ -10,6 +10,7 @@ view: churned_players_aggregated {
         events.created_at  AS user_first_seen,
         events.install_version AS install_version,
         events.consecutive_days  AS consecutive_days,
+        events.session_id  AS session_id,
         (CASE
           WHEN events.current_card = 'card_001_a' THEN 100
           WHEN events.current_card = 'card_001_untimed' THEN 100
@@ -467,7 +468,7 @@ view: churned_players_aggregated {
       FROM `eraser-blast.game_data.events` AS events
       WHERE created_at  >= TIMESTAMP('2020-07-06 00:00:00')
           AND user_type = "external"
-      GROUP BY 1,2,3,4,5,6,7,8,9,10,11)
+      GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12)
       SELECT
         churned_players.user_id AS churned_players_user_id,
         churned_players.experiment_names AS churned_players_experiment_names,
@@ -477,7 +478,8 @@ view: churned_players_aggregated {
         MAX(churned_players.engagement_ticks) AS churned_players_max_engagement_ticks,
         MAX((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.rounds") AS INT64) - CAST(ARRAY_LENGTH(JSON_EXTRACT_ARRAY(extra_json,"$.card_state")) AS INT64)) ) AS churned_players_max_failed_attempts,
         COUNT((JSON_EXTRACT_SCALAR(extra_json,"$.button_tag")))  AS churned_players_click_count,
-        AVG((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.load_time") AS INT64)) / 1000) AS churned_players_avg_load_time
+        AVG((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.load_time") AS INT64)) / 1000) AS churned_players_avg_load_time,
+        COUNT(DISTINCT churned_players.session_id) AS churned_players_session_count
       FROM churned_players
       GROUP BY 1,2,3,4
       HAVING (MAX(churned_players.consecutive_days) = 0)
@@ -645,6 +647,38 @@ view: churned_players_aggregated {
 
   dimension: install_release_version_minor {
     sql: @{install_release_version_minor};;
+  }
+
+  dimension: session_count {
+    type: number
+    sql: ${TABLE}.churned_players_session_count ;;
+  }
+
+  measure: session_count_min {
+    type: min
+    sql: ${session_count} ;;
+  }
+
+  measure: session_count_25th {
+    type: percentile
+    percentile: 25
+    sql: ${session_count} ;;
+  }
+
+  measure: session_count_med {
+    type: median
+    sql: ${session_count} ;;
+  }
+
+  measure: session_count_75th {
+    type: percentile
+    percentile: 75
+    sql: ${session_count} ;;
+  }
+
+  measure: session_count_max {
+    type: max
+    sql: ${session_count} ;;
   }
 
   set: detail {

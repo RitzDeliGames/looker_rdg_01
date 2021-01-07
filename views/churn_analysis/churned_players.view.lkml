@@ -269,12 +269,10 @@ view: churned_players {
     sql: ${failed_attempts} ;;
   }
 
-  dimension: session_id {
-    hidden: yes
-  }
+  dimension: session_id {}
 
   measure: session_count {
     type: count_distinct
-    sql: ${session_id} ;;
+    sql: ${session_id};;
   }
 }

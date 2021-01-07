@@ -53,6 +53,8 @@ explore: churned_players {}
 
 explore: churned_players_aggregated {}
 
+explore: non_churned_players_aggregated {}
+
 explore: z_churn_analysis_install_cohort {
   description: "deprecated"
   sql_always_where:

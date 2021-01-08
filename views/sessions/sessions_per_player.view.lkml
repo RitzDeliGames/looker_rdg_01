@@ -1,4 +1,4 @@
-view: churned_players {
+view: sessions_per_player {
   derived_table: {
     explore_source: events {
       column: user_id {field: events.user_id}
@@ -17,7 +17,7 @@ view: churned_players {
       column: round_id {field: events.round_id}
       column: minutes_since_install {field: events.minutes_since_install}
       column: hours_since_install {field: events.hours_since_install}
-      column: days_since_install {field: events.days_since_install}
+      column: days_since_install {field:events.days_since_install}
       column: session_id {field: events.session_id}
     }
   }
@@ -30,7 +30,6 @@ view: churned_players {
     drill_fields: [user_id]
   }
 
-  dimension: created_at {}
   dimension: current_card {}
   dimension: event_name {}
   dimension: extra_json {}
@@ -54,6 +53,11 @@ view: churned_players {
   }
 
   dimension: engagement_ticks {}
+
+  measure:  engagement_ticks_count {
+    type: count_distinct
+    sql: ${engagement_ticks} ;;
+  }
 
   measure:  engagement_ticks_min {
     type: min

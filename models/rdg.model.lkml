@@ -55,6 +55,12 @@ explore: churned_players_aggregated {}
 
 explore: non_churned_players_aggregated {}
 
+explore: resources_spent {}
+
+explore: resources_earned {}
+
+explore: sessions_per_player {}
+
 explore: z_churn_analysis_install_cohort {
   description: "deprecated"
   sql_always_where:
@@ -109,11 +115,12 @@ explore: time_no_play {
 }
 
 
-explore: sessions {
+explore: z_sessions {
+  description: "ok to deprecate"
     join: events {
-    sql_on: ${sessions.user_id} = ${events.user_id}
-        AND ${sessions.event_date} = ${events.event_date}
-        AND ${sessions.current_card} = ${events.current_card}
+    sql_on: ${z_sessions.user_id} = ${events.user_id}
+        AND ${z_sessions.event_date} = ${events.event_date}
+        AND ${z_sessions.current_card} = ${events.current_card}
         ;;
     relationship: one_to_one
   }

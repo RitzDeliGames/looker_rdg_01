@@ -23,7 +23,7 @@ view: resources_earned {
       column: 28_days_since_install {field: events.28_days_since_install}
       column: round_id {field: events.round_id}
 
-      filters: [events.event_name: "transaction"]
+      filters: [events.event_name: "reward"]
     }
   }
 
@@ -44,19 +44,9 @@ view: resources_earned {
 
   dimension: user_id {}
 
-  measure: spender_count {
+  measure: player_count {
     type: count_distinct
     sql: ${user_id} ;;
-  }
-
-  dimension: timestamp_transaction {
-    type: string
-    sql:  JSON_EXTRACT_SCALAR(extra_json,"$.timestamp_transaction");;
-  }
-
-  measure: transaction_count {
-    type: count_distinct
-    sql: ${timestamp_transaction} ;;
   }
 
   dimension: engagement_ticks {}
@@ -68,7 +58,12 @@ view: resources_earned {
 
   dimension: timestamp {}
 
-  dimension_group: transaction_date {
+  measure: reward_count {
+    type: count_distinct
+    sql: ${timestamp} ;;
+  }
+
+  dimension_group: reward_date {
     type: time
     timeframes: [
       raw,
@@ -84,11 +79,6 @@ view: resources_earned {
 
   dimension: user_first_seen {
     type: date_time
-  }
-
-  dimension: quest {
-    type: number
-    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.current_quest") AS INT64);;
   }
 
   dimension: consecutive_days {}
@@ -108,85 +98,24 @@ view: resources_earned {
     sql: ${current_card_quest} ;;
   }
 
-  dimension: round_id {}
-
-  measure: max_round_id {
-    type: max
-    sql: ${round_id} ;;
-  }
-
-  dimension: sheet {
+  dimension:  resource_earned_event {
     type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.sheet_id") ;;
+    sql: JSON_EXTRACT_SCALAR(extra_json,"$.reward_event") ;;
   }
 
-  dimension: source {
+  dimension:  resource_earned_type {
     type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.source_id") ;;
+    sql: JSON_EXTRACT_SCALAR(extra_json,"$.reward_type") ;;
   }
 
-  dimension:  currency_spent {
-    type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") ;;
-  }
-
-  dimension:  currency_spent_amount {
+  dimension:  resource_earned_qty {
     type: number
-    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS INT64);;
+    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.reward_amount") AS INT64);;
   }
 
-  measure: sum_currency_spent_amount {
+  measure: resource_earned_sum {
     type: sum
-    sql: ${currency_spent_amount} ;;
-    drill_fields: [user_id, currency_spent_amount, currency_spent, iap_purchase_item, iap_purchase_qty, extra_json]
-  }
-
-  measure: sum_currency_spent_amount_per_spender {
-    type: number
-    value_format: "####"
-    sql: ${sum_currency_spent_amount} / ${spender_count} ;;
-    drill_fields: [user_id, currency_spent_amount, currency_spent, iap_purchase_item, iap_purchase_qty, extra_json]
-  }
-
-  measure: min_currency_spent_amount {
-    type: min
-    sql: ${currency_spent_amount} ;;
-  }
-
-  measure: quartile_2_currency_spent_amount {
-    type: percentile
-    percentile: 25
-    sql: ${currency_spent_amount} ;;
-  }
-
-  measure: med_currency_spent_amount {
-    type: median
-    sql: ${currency_spent_amount} ;;
-  }
-
-  measure: quartile_3_currency_spent_amount {
-    type: percentile
-    percentile: 75
-    sql: ${currency_spent_amount} ;;
-  }
-
-  measure: max_currency_spent_amount {
-    type: max
-    sql: ${currency_spent_amount} ;;
-  }
-
-  dimension:  iap_id {
-    type: string
-    sql:  JSON_EXTRACT_SCALAR(extra_json,"$.iap_id");;
-  }
-
-  dimension: iap_purchase_item {
-    type: string
-    sql:  JSON_EXTRACT_SCALAR(extra_json,"$.iap_purchase_item");;
-  }
-
-  dimension: iap_purchase_qty {
-    type: number
-    sql:  JSON_EXTRACT_SCALAR(extra_json,"$.iap_purchase_qty");;
+    sql: ${resource_earned_qty} ;;
+    drill_fields: [user_id, resource_earned_event, resource_earned_type, resource_earned_qty]
   }
 }

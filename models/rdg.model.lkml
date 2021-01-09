@@ -57,10 +57,6 @@ explore: non_churned_players_aggregated {}
 
 explore: resources_spent {}
 
-explore: resources_earned {}
-
-explore: resources_rewarded {}
-
 explore: resources_earned_rewarded {}
 
 explore: sessions_per_player {}

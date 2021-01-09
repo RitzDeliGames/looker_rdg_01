@@ -1,6 +1,9 @@
 view: resources_earned_rewarded {
   derived_table: {
     sql: SELECT
+      a.user_id AS user_id_a,
+      b.user_id AS user_id_b,
+      b.version AS version,
       a.date AS earned_date,
       b.date AS reward_date,
       a.resources_earned_type,
@@ -9,37 +12,49 @@ view: resources_earned_rewarded {
       b.resources_rewarded
       FROM
       (SELECT
+      user_id,
       DATE(timestamp) AS date,
       "CURRENCY_03" AS resources_earned_type,
       SUM(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.coins_earned") AS INT64)) AS resources_earned
       FROM `eraser-blast.game_data.events`
       WHERE event_name IN ("round_end")
-      GROUP BY 1
+      GROUP BY 1, 2, 3
       ORDER BY 1 DESC
       ) AS a
       RIGHT JOIN
       (SELECT
+      user_id,
+      version,
       DATE(timestamp) AS date,
       JSON_EXTRACT_SCALAR(extra_json,"$.reward_type") AS reward_type,
       SUM(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.reward_amount") AS INT64)) AS resources_rewarded,
       FROM `eraser-blast.game_data.events`
       WHERE event_name IN ("reward")
-      GROUP BY 1, 2
+      GROUP BY 1, 2, 3, 4
       ORDER BY 1 DESC
       ) AS b
       ON a.date = b.date
       AND a.resources_earned_type = b.reward_type
+      AND a.user_id = b.user_id
       --WHERE b.reward_type = "CURRENCY_03"
       ORDER BY 1 DESC
        ;;
   }
+
+  dimension: version {}
 
   measure: count {
     type: count
     drill_fields: [detail*]
   }
 
+  dimension: user_id {
+    type: string
+    sql: ${TABLE}.user_id_b ;;
+  }
+
   dimension: earned_date {
+    hidden: yes
     type: date
     datatype: date
     sql: ${TABLE}.earned_date ;;

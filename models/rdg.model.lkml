@@ -61,6 +61,8 @@ explore: resources_earned {}
 
 explore: resources_rewarded {}
 
+explore: resources_earned_rewarded {}
+
 explore: sessions_per_player {}
 
 explore: z_churn_analysis_install_cohort {
@@ -407,7 +409,8 @@ explore: iap_query {
     AND user_type = "external";;
 }
 
-explore: transactions_query {
+explore: z_transactions_query {
+  description: "ok to deprecate"
   sql_always_where: event_name = "transaction"
     AND user_type = "external";;
 }

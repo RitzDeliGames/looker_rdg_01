@@ -1,6 +1,6 @@
 include: "/views/**/events.view"
 
-view: transactions_query {
+view: z_transactions_query {
   extends: [events]
 
   dimension: gems_spent {

@@ -58,12 +58,12 @@ view: resources_earned {
 
   dimension: timestamp {}
 
-  measure: reward_count {
+  measure: earned_count {
     type: count_distinct
     sql: ${timestamp} ;;
   }
 
-  dimension_group: reward_date {
+  dimension_group: earned_date {
     type: time
     timeframes: [
       raw,
@@ -100,17 +100,17 @@ view: resources_earned {
 
   dimension:  resource_earned_event {
     type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.coins_earned") ;;
+    sql: "round_end" ;;
   }
 
   dimension:  resource_earned_type {
     type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.reward_type") ;;
+    sql: "CURRENCY_03" ;;
   }
 
   dimension:  resource_earned_qty {
     type: number
-    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.reward_amount") AS INT64);;
+    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.coins_earned") AS INT64);;
   }
 
   measure: resource_earned_sum {
@@ -121,7 +121,7 @@ view: resources_earned {
   measure: resource_earned_per_reward {
     type: number
     value_format: "#,###"
-    sql: ${resource_earned_sum} / ${reward_count} ;;
+    sql: ${resource_earned_sum} / ${earned_count} ;;
   }
 
   measure: resource_earned_per_rewarded_player {

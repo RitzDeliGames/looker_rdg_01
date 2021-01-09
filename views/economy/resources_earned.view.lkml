@@ -116,6 +116,17 @@ view: resources_earned {
   measure: resource_earned_sum {
     type: sum
     sql: ${resource_earned_qty} ;;
-    drill_fields: [user_id, resource_earned_event, resource_earned_type, resource_earned_qty]
+  }
+
+  measure: resource_earned_per_reward {
+    type: number
+    value_format: "#,###"
+    sql: ${resource_earned_sum} / ${reward_count} ;;
+  }
+
+  measure: resource_earned_per_rewarded_player {
+    type: number
+    value_format: "#,###"
+    sql:  ${resource_earned_sum} / ${player_count} ;;
   }
 }

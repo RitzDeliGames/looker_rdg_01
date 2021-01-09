@@ -23,7 +23,7 @@ view: resources_earned {
       column: 28_days_since_install {field: events.28_days_since_install}
       column: round_id {field: events.round_id}
 
-      filters: [events.event_name: "reward"]
+      filters: [events.event_name: "round_end"]
     }
   }
 
@@ -100,7 +100,7 @@ view: resources_earned {
 
   dimension:  resource_earned_event {
     type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.reward_event") ;;
+    sql: JSON_EXTRACT_SCALAR(extra_json,"$.coins_earned") ;;
   }
 
   dimension:  resource_earned_type {

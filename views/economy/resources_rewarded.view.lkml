@@ -98,35 +98,35 @@ view: resources_rewarded {
     sql: ${current_card_quest} ;;
   }
 
-  dimension:  resource_earned_event {
+  dimension:  resource_rewarded_event {
     type: string
     sql: JSON_EXTRACT_SCALAR(extra_json,"$.reward_event") ;;
   }
 
-  dimension:  resource_earned_type {
+  dimension:  resource_rewarded_type {
     type: string
     sql: JSON_EXTRACT_SCALAR(extra_json,"$.reward_type") ;;
   }
 
-  dimension:  resource_earned_qty {
+  dimension:  resource_rewarded_qty {
     type: number
     sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.reward_amount") AS INT64);;
   }
 
-  measure: resource_earned_sum {
+  measure: resource_rewarded_sum {
     type: sum
-    sql: ${resource_earned_qty} ;;
+    sql: ${resource_rewarded_qty} ;;
   }
 
-  measure: resource_earned_per_reward {
+  measure: resource_rewarded_per_reward {
     type: number
     value_format: "#,###"
-    sql: ${resource_earned_sum} / ${reward_count} ;;
+    sql: ${resource_rewarded_sum} / ${reward_count} ;;
   }
 
-  measure: resource_earned_per_rewarded_player {
+  measure: resource_rewarded_per_rewarded_player {
     type: number
     value_format: "#,###"
-    sql:  ${resource_earned_sum} / ${player_count} ;;
+    sql:  ${resource_rewarded_sum} / ${player_count} ;;
   }
 }

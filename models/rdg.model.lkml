@@ -59,6 +59,8 @@ explore: resources_spent {}
 
 explore: resources_earned {}
 
+explore: resources_rewarded {}
+
 explore: sessions_per_player {}
 
 explore: z_churn_analysis_install_cohort {

@@ -38,7 +38,7 @@ view: resources_earned {
     sql: ${user_id} ;;
   }
 
-  measure: transaction_count {
+  measure: earned_count {
     type: count_distinct
     sql: ${timestamp} ;;
   }
@@ -57,12 +57,21 @@ view: resources_earned {
     sql: ${engagement_ticks} ;;
   }
 
-  dimension: engagement_ticks_first_1400_ticks {
+  dimension: engagement_ticks_first_1440_ticks {
     group_label: "Engagement Ticks"
     label: "First 12 Hours"
     style: integer
     type: tier
     tiers: [0,120,240,360,480,600,720,840,960,1080,1200,1320,1440]
+    sql: ${engagement_ticks} ;;
+  }
+
+  dimension: engagement_ticks_first_2880_ticks {
+    group_label: "Engagement Ticks"
+    label: "First 24 Hours"
+    style: integer
+    type: tier
+    tiers: [0,240,480,720,960,1200,1440,1680,1920,2160,2400]
     sql: ${engagement_ticks} ;;
   }
 

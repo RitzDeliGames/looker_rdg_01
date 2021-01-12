@@ -287,6 +287,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '7100' THEN 'Release 1.7'
             WHEN ${TABLE}.version LIKE '7200' THEN 'Release 1.7'
             WHEN ${TABLE}.version LIKE '7300' THEN 'Release 1.7'
+            WHEN ${TABLE}.version LIKE '7400' THEN 'Release 1.7'
         END"
 }
 
@@ -311,6 +312,7 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '7100' THEN 'Release 1.7'
             WHEN ${TABLE}.install_version LIKE '7200' THEN 'Release 1.7'
             WHEN ${TABLE}.install_version LIKE '7300' THEN 'Release 1.7'
+            WHEN ${TABLE}.install_version LIKE '7400' THEN 'Release 1.7'
         END"
 }
 
@@ -335,6 +337,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '7100' THEN 'Release 1.7.100'
             WHEN ${TABLE}.version LIKE '7200' THEN 'Release 1.7.200'
             WHEN ${TABLE}.version LIKE '7300' THEN 'Release 1.7.300'
+            WHEN ${TABLE}.version LIKE '7400' THEN 'Release 1.7.300'
           END"
 }
 
@@ -359,11 +362,13 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '7100' THEN 'Release 1.7.100'
             WHEN ${TABLE}.install_version LIKE '7200' THEN 'Release 1.7.200'
             WHEN ${TABLE}.install_version LIKE '7300' THEN 'Release 1.7.300'
+            WHEN ${TABLE}.install_version LIKE '7400' THEN 'Release 1.7.400'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
             WHEN JSON_EXTRACT(${experiments},'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
             WHEN JSON_EXTRACT(${experiments},'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
             WHEN JSON_EXTRACT(${experiments},'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -388,6 +393,7 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
+            WHEN ${experiment_names} = 'NewUX2' THEN JSON_EXTRACT(${experiments},'$.newVsOld_20210108')
             WHEN ${experiment_names} = 'NewUX' THEN JSON_EXTRACT(${experiments},'$.newVsOld_20201218')
             WHEN ${experiment_names} = 'TransitionTiming' THEN JSON_EXTRACT(${experiments},'$.transitionDelay_20201217')
             WHEN ${experiment_names} = 'WorldMap' THEN JSON_EXTRACT(${experiments},'$.worldmap_20201028')

@@ -134,6 +134,7 @@ view: resources_rewarded {
   measure: resources_rewarded_max {
     type: max
     sql: ${resources_rewarded} ;;
+    drill_fields: [user_id, resources_rewarded]
   }
 
   measure: resources_rewarded_sum {

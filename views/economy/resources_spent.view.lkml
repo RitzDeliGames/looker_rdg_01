@@ -59,7 +59,28 @@ view: resources_spent {
     sql: ${timestamp_transaction} ;;
   }
 
-  dimension: engagement_ticks {}
+  dimension: engagement_ticks {
+    group_label: "Engagement Ticks"
+    type: number
+  }
+
+  dimension: engagement_ticks_first_120_ticks {
+    group_label: "Engagement Ticks"
+    label: "First Hour"
+    style: integer
+    type: tier
+    tiers: [0,20,40,60,80,100,120]
+    sql: ${engagement_ticks} ;;
+  }
+
+  dimension: engagement_ticks_first_1400_ticks {
+    group_label: "Engagement Ticks"
+    label: "First 12 Hours"
+    style: integer
+    type: tier
+    tiers: [0,120,240,360,480,600,720,840,960,1080,1200,1320,1440]
+    sql: ${engagement_ticks} ;;
+  }
 
   measure:  max_engagement_ticks {
     type: max
@@ -130,49 +151,54 @@ view: resources_spent {
     sql: JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") ;;
   }
 
-  dimension:  currency_spent_amount {
+  dimension:  resources_spent {
     type: number
     sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS INT64);;
   }
 
   measure: sum_currency_spent_amount {
     type: sum
-    sql: ${currency_spent_amount} ;;
-    drill_fields: [user_id, currency_spent_amount, currency_spent, iap_purchase_item, iap_purchase_qty, extra_json]
+    sql: ${resources_spent} ;;
+  drill_fields: [user_id, resources_spent, sheet, iap_id, iap_purchase_item, iap_purchase_qty, extra_json]
   }
 
   measure: sum_currency_spent_amount_per_spender {
     type: number
     value_format: "####"
     sql: ${sum_currency_spent_amount} / ${spender_count} ;;
-    drill_fields: [user_id, currency_spent_amount, currency_spent, iap_purchase_item, iap_purchase_qty, extra_json]
+    drill_fields: [user_id, resources_spent, sheet, iap_id, iap_purchase_item, iap_purchase_qty, extra_json]
   }
 
-  measure: min_currency_spent_amount {
+  measure: resources_spent_min {
     type: min
-    sql: ${currency_spent_amount} ;;
+    sql: ${resources_spent} ;;
+    drill_fields: [user_id, resources_spent, sheet, iap_id, iap_purchase_item, iap_purchase_qty, extra_json]
   }
 
-  measure: quartile_2_currency_spent_amount {
+  measure: resources_spent_25th {
     type: percentile
     percentile: 25
-    sql: ${currency_spent_amount} ;;
+    sql: ${resources_spent} ;;
+    drill_fields: [user_id, resources_spent, sheet, iap_id, iap_purchase_item, iap_purchase_qty, extra_json]
   }
 
-  measure: med_currency_spent_amount {
+  measure: resources_spent_med {
     type: median
-    sql: ${currency_spent_amount} ;;
+    sql: ${resources_spent} ;;
+    drill_fields: [user_id, resources_spent, sheet, iap_id, iap_purchase_item, iap_purchase_qty, extra_json]
   }
 
-  measure: quartile_3_currency_spent_amount {
+  measure: resources_spent_75th {
     type: percentile
     percentile: 75
-    sql: ${currency_spent_amount} ;;
+    sql: ${resources_spent} ;;
+    drill_fields: [user_id, resources_spent, sheet, iap_id, iap_purchase_item, iap_purchase_qty, extra_json]
   }
 
-  measure: max_currency_spent_amount {
+  measure: resources_spent_max {
     type: max
-    sql: ${currency_spent_amount} ;;
+    sql: ${resources_spent} ;;
+    drill_fields: [user_id, resources_spent, sheet, iap_id, iap_purchase_item, iap_purchase_qty, extra_json]
   }
 
   dimension:  iap_id {

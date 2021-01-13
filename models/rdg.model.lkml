@@ -63,6 +63,10 @@ explore: resources_earned {}
 
 explore: resources_earned_rewarded {}
 
+explore: bingo_card_funnels {}
+
+###############
+
 explore: sessions_per_player {}
 
 explore: z_churn_analysis_install_cohort {
@@ -137,7 +141,8 @@ explore: fue_funnel {
  user_type = "external";;
 }
 
-explore: bingo_card_funnel {
+explore: z_bingo_card_funnel {
+  description: "ok to deprecate"
   sql_always_where:
    user_type = "external";;
 }

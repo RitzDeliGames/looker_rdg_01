@@ -1,7 +1,7 @@
 
 include: "/views/**/events.view"
 
-view: bingo_card_funnel {
+view: z_bingo_card_funnel {
   extends: [events]
 
   measure: count_users {

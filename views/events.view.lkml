@@ -795,6 +795,7 @@ view: events {
     label: "Player Count"
     type: count_distinct
     sql: ${user_id} ;;
+    drill_fields: [user_id, user_first_seen_date, current_card_quest]
   }
 
   measure: count_unique_events {

@@ -1,4 +1,4 @@
-view: resources_earned_rewarded {#ROLL UP SINCE INSTALL DATE
+view: resources_earned_rewarded {#JOING TOGETHER EARNED & REWARDED INTO A NET FLOW?
   derived_table: {
     sql: SELECT
       b.user_id,

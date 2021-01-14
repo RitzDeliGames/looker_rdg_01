@@ -14,6 +14,7 @@ view: bingo_card_funnels {
       column: platform {field: events.device_platform}
       column: consecutive_days {field: events.consecutive_days}
       column: round_id {field: events.round_id}
+      column: engagement_ticks {field: events.engagement_ticks}
 
       filters: [events.event_name: "round_end"]
     }
@@ -84,6 +85,29 @@ view: bingo_card_funnels {
   dimension: current_card_quest {
     type: number
     value_format: "####"
+  }
+
+  dimension: engagement_ticks {
+    group_label: "Engagement Ticks"
+    type: number
+  }
+
+  dimension: engagement_ticks_first_20_ticks {
+    group_label: "Engagement Ticks"
+    label: "First 10 Minutes"
+    style: integer
+    type: tier
+    tiers: [0,4,8,12,16,20]
+    sql: ${engagement_ticks} ;;
+  }
+
+  dimension: engagement_ticks_first_120_ticks {
+    group_label: "Engagement Ticks"
+    label: "First Hour"
+    style: integer
+    type: tier
+    tiers: [0,10,20,30,40,50,60,70,80,90,100,110,120]
+    sql: ${engagement_ticks} ;;
   }
 
 }

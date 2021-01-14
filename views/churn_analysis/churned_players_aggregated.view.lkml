@@ -43,6 +43,7 @@ view: churned_players_aggregated {
           WHEN events.current_card = 'card_018' THEN 2000
       END) + (CAST(REPLACE(JSON_VALUE(events.extra_json,'$.current_quest'),'"','') AS NUMERIC)) AS current_card_quest,
         CASE
+          WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
           WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
           WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
           WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -65,6 +66,7 @@ view: churned_players_aggregated {
         END  AS experiment_names,
         REPLACE(CASE
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -86,6 +88,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'NewUX' THEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -107,6 +110,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'TransitionTiming' THEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -128,6 +132,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'WorldMap' THEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -149,6 +154,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'NewEoR' THEN JSON_EXTRACT(events.experiments,'$.endOfRound_20201204')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -170,6 +176,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'EarlyContent3' THEN JSON_EXTRACT(events.experiments,'$.content_20201130')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -191,6 +198,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'LaterLinear' THEN JSON_EXTRACT(events.experiments,'$.laterLinearTest_20201111')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -212,6 +220,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'EarlyContent2' THEN JSON_EXTRACT(events.experiments,'$.content_20201106')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -233,6 +242,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'VFXTreshold' THEN JSON_EXTRACT(events.experiments,'$.vfx_threshold_20201102')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -254,6 +264,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'LastBonus' THEN JSON_EXTRACT(events.experiments,'$.last_bonus_20201105')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -275,6 +286,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'UntimedMode' THEN JSON_EXTRACT(events.experiments,'$.untimed_20200918')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -296,6 +308,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'EarlyContent' THEN JSON_EXTRACT(events.experiments,'$.content_20201005')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -317,6 +330,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'SecondsPerRound' THEN JSON_EXTRACT(events.experiments,'$.secondsPerRound_20200922')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -338,6 +352,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'EarlyExit2' THEN JSON_EXTRACT(events.experiments,'$.earlyExitContent_20200909')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -359,6 +374,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'EarlyExit' THEN JSON_EXTRACT(events.experiments,'$.earlyExit_20200828')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -380,6 +396,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'Notifications' THEN JSON_EXTRACT(events.experiments,'$.notifications_20200824')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -401,6 +418,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'LazyLoad' THEN JSON_EXTRACT(events.experiments,'$.lazyLoadOtherTabs_20200901')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -422,6 +440,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'FUETiming' THEN JSON_EXTRACT(events.experiments,'$.tabFueTiming_20200825')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
@@ -443,6 +462,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'EasyEarlyBingoCardVariants' THEN JSON_EXTRACT(events.experiments,'$.bingoEasyEarlyVariants_20200608')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
                   WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'

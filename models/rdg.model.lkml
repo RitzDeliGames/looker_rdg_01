@@ -59,9 +59,15 @@ explore: resources_spent {}
 
 explore: resources_rewarded {}
 
-explore: resources_earned {}
+explore: resources_earned {
+  description: "deprecated"
+}
 
-explore: resources_earned_rewarded {}
+explore: resources_net {}
+
+explore: z_resources_earned_rewarded {
+  description: "BLOCKED"
+}
 
 explore: bingo_card_funnels {}
 

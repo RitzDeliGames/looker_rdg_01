@@ -102,7 +102,9 @@ explore: round_id_decay_per_churn {
 }
 
 
-explore: count_quests_attempts {}
+explore: count_quests_attempts {
+  description: "refactor"
+}
 
 
 

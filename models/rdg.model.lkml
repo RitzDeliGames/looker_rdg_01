@@ -54,7 +54,8 @@ explore: churned_players {}
 explore: churned_players_aggregated {
   join: experiments_cohorted_players {
     sql_on: ${churned_players_aggregated.experiment_names} = ${experiments_cohorted_players.experiment_names}
-      and ${churned_players_aggregated.variants} = ${experiments_cohorted_players.variants};;
+      AND ${churned_players_aggregated.variants} = ${experiments_cohorted_players.variants}
+      AND ${churned_players_aggregated.install_version} = ${experiments_cohorted_players.install_version};;
     relationship: one_to_one
   }
 }

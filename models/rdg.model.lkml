@@ -71,6 +71,8 @@ explore: z_resources_earned_rewarded {
 
 explore: bingo_card_funnels {}
 
+explore: experiments_cohorted_players {}
+
 ###############
 
 explore: sessions_per_player {}

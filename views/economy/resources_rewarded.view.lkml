@@ -98,6 +98,11 @@ view: resources_rewarded {
     sql: ${consecutive_days};;
   }
 
+  dimension: reward_event {
+    type: string
+    sql: JSON_EXTRACT_SCALAR(extra_json,"$.reward_event") ;;
+  }
+
   dimension: reward_type {
     type: string
     sql: JSON_EXTRACT_SCALAR(extra_json,"$.reward_type") ;;

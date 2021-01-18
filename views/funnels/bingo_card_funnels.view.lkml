@@ -101,6 +101,16 @@ view: bingo_card_funnels {
     sql: ${engagement_ticks} ;;
   }
 
+
+  dimension: engagement_ticks_first_60_ticks {
+    group_label: "Engagement Ticks"
+    label: "First 30 Minutes"
+    style: integer
+    type: tier
+    tiers: [0,4,8,12,16,20,24,28,32,36,40,44,48,52,56,60]
+    sql: ${engagement_ticks} ;;
+  }
+
   dimension: engagement_ticks_first_120_ticks {
     group_label: "Engagement Ticks"
     label: "First Hour"
@@ -108,6 +118,35 @@ view: bingo_card_funnels {
     type: tier
     tiers: [0,10,20,30,40,50,60,70,80,90,100,110,120]
     sql: ${engagement_ticks} ;;
+  }
+
+  dimension: round_id {}
+
+  measure: round_id_min {
+    type: min
+    sql: ${round_id} ;;
+  }
+
+  measure: round_id_25th {
+    type: percentile
+    percentile: 25
+    sql: ${round_id} ;;
+  }
+
+  measure: round_id_med {
+    type: median
+    sql: ${round_id} ;;
+  }
+
+  measure: round_id_75th {
+    type: percentile
+    percentile: 75
+    sql: ${round_id} ;;
+  }
+
+  measure: round_id_max {
+    type: max
+    sql: ${round_id} ;;
   }
 
 }

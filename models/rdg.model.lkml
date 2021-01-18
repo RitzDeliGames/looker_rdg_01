@@ -437,7 +437,13 @@ explore: z_transactions_query {
     AND user_type = "external";;
 }
 
-explore: transactions {}
+explore: transactions {
+  #join: events {
+    #sql_on: ${events.user_id} = ${transactions.user_id}
+    #AND ${events.timestamp_date} = ${transactions.transaction_date_date}
+    #relationship: many_to_many
+  #}
+}
 
 ##########GAMING BLOCK EXPLORES##########
 

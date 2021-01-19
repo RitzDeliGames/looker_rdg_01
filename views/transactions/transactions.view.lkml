@@ -177,7 +177,7 @@ view: transactions {
 
   dimension:  iap_id {
     type: string
-    sql:  JSON_EXTRACT_SCALAR(extra_json,"$.iap_id");;
+    sql:  JSON_EXTRACT_SCALAR(transactions.extra_json,"$.iap_id");;
   }
 
   dimension: iap_purchase_item {

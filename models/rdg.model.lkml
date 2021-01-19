@@ -438,11 +438,10 @@ explore: z_transactions_query {
 }
 
 explore: transactions {
-  #join: events {
-    #sql_on: ${events.user_id} = ${transactions.user_id}
-    #AND ${events.timestamp_date} = ${transactions.transaction_date_date}
-    #relationship: many_to_many
-  #}
+  join: events {
+    sql_on: ${events.timestamp_date} = ${transactions.transaction_date_date} ;;
+    relationship: one_to_one
+  }
 }
 
 ##########GAMING BLOCK EXPLORES##########

@@ -72,13 +72,26 @@ explore: resources_earned {
 
 explore: resources_net {}
 
-explore: z_resources_earned_rewarded {
-  description: "BLOCKED"
-}
-
 explore: bingo_card_funnels {}
 
 explore: experiments_cohorted_players {}
+
+explore: transactions {
+  join: events {
+    sql_on: ${events.timestamp_date} = ${transactions.transaction_date_date} ;;
+    relationship: one_to_one
+  }
+
+  join: resources_rewarded {
+    sql_on: ${resources_rewarded.transaction_date_date} = ${transactions.transaction_date_date}
+    AND ${resources_rewarded.reward_type} = ${transactions.currency_spent};;
+    relationship: one_to_one
+  }
+}
+
+explore: z_resources_earned_rewarded {
+  description: "BLOCKED"
+}
 
 ###############
 
@@ -437,12 +450,6 @@ explore: z_transactions_query {
     AND user_type = "external";;
 }
 
-explore: transactions {
-  join: events {
-    sql_on: ${events.timestamp_date} = ${transactions.transaction_date_date} ;;
-    relationship: one_to_one
-  }
-}
 
 ##########GAMING BLOCK EXPLORES##########
 

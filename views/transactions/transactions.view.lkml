@@ -127,12 +127,12 @@ view: transactions {
 
   dimension:  currency_spent {
     type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") ;;
+    sql: JSON_EXTRACT_SCALAR(transactions.extra_json,"$.transaction_purchase_currency") ;;
   }
 
   dimension:  currency_spent_amount {
     type: number
-    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS INT64);;
+    sql: CAST(JSON_EXTRACT_SCALAR(transactions.extra_json,"$.transaction_purchase_amount") AS INT64);;
   }
 
   measure: sum_currency_spent_amount {

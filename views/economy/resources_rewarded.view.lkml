@@ -105,13 +105,13 @@ view: resources_rewarded {
 
   dimension: reward_type {
     type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.reward_type") ;;
+    sql: JSON_EXTRACT_SCALAR(resources_rewarded.extra_json,"$.reward_type") ;;
   }
 
   dimension: resources_rewarded {
     hidden: yes
     type: number
-    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.reward_amount") AS INT64);;
+    sql: CAST(JSON_EXTRACT_SCALAR(resources_rewarded.extra_json,"$.reward_amount") AS INT64);;
   }
 
   measure: resources_rewarded_min {

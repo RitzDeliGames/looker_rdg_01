@@ -26,7 +26,7 @@ view: experiments_cohorted_players {
   }
 
   dimension: user_id {
-    hidden: yes
+    hidden: no
   }
 
   measure: cohort_size {

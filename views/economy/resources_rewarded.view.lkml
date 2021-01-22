@@ -53,8 +53,8 @@ view: resources_rewarded {
     label: "First Hour"
     style: integer
     type: tier
-    tiers: [0,20,40,60,80,100,120]
-    sql: ${engagement_ticks} ;;
+    tiers: [0,1,10,20,30,40,50,60,70,80,90,100,110,120]
+    sql: ${resources_rewarded.engagement_ticks} ;;
   }
 
   dimension: engagement_ticks_first_1400_ticks {
@@ -151,6 +151,50 @@ view: resources_rewarded {
     type: number
     value_format: "#,###"
     sql: ${resources_rewarded_sum} / ${rewarded_player_count} ;;
+    drill_fields: [user_id, resources_rewarded_sum]
+  }
+
+  ##CODE BELOW PROBABLY CAN BE DEPRECATED
+  dimension: gem_balance {
+    type: number
+    sql: CAST(JSON_EXTRACT_SCALAR(resources_rewarded.currencies,"$.CURRENCY_02") AS INT64) ;;
+  }
+
+  dimension: coin_balance {
+    type: number
+    sql: CAST(JSON_EXTRACT_SCALAR(resources_rewarded.currencies,"$.CURRENCY_03") AS INT64) ;;
+  }
+
+  measure: coin_balance_min {
+    group_label: "Coin Balanace"
+    type: min
+    sql: ${coin_balance} ;;
+  }
+
+  measure: coin_balance_25th {
+    group_label: "Coin Balanace"
+    type: percentile
+    percentile: 25
+    sql: ${coin_balance} ;;
+  }
+
+  measure: coin_balance_med {
+    group_label: "Coin Balanace"
+    type: median
+    sql: ${coin_balance} ;;
+  }
+
+  measure: coin_balance_75th {
+    group_label: "Coin Balanace"
+    type: percentile
+    percentile: 75
+    sql: ${coin_balance} ;;
+  }
+
+  measure: coin_balance_max {
+    group_label: "Coin Balanace"
+    type: max
+    sql: ${coin_balance} ;;
   }
 
 }

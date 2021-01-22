@@ -36,7 +36,8 @@ datagroup: events_boost {
 explore: events {
   sql_always_where:
     created_at  >= TIMESTAMP('2020-07-06 00:00:00')
-    AND user_type = "external";;
+    AND user_type = "external"
+    AND ${user_id} NOT IN ("anon-c39ef24b-bb78-4339-9e42-befd5532a5d4");;
     join: retention {
       sql_on: ${events.player_id} = ${retention.user_id}
                 and ${events.user_first_seen_date} = ${retention.signup_day_date};;
@@ -66,25 +67,20 @@ explore: resources_spent {}
 
 explore: resources_rewarded {}
 
-explore: resources_earned {
-  description: "deprecated"
-}
-
-explore: resources_net {}
-
 explore: bingo_card_funnels {}
 
 explore: experiments_cohorted_players {}
 
 explore: transactions {
   join: events {
-    sql_on: ${events.timestamp_date} = ${transactions.transaction_date_date} ;;
+    sql_on: ${events.timestamp_date} = ${transactions.transaction_date_date};;
     relationship: one_to_one
   }
 
   join: resources_rewarded {
     sql_on: ${resources_rewarded.transaction_date_date} = ${transactions.transaction_date_date}
-    AND ${resources_rewarded.reward_type} = ${transactions.currency_spent};;
+    AND ${resources_rewarded.reward_type} = ${transactions.currency_spent}
+    AND ${resources_rewarded.engagement_ticks_first_120_ticks} = ${transactions.engagement_ticks_first_120_ticks};;
     relationship: one_to_one
   }
 }

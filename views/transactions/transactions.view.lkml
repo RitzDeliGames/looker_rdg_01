@@ -36,11 +36,24 @@ view: transactions {
   dimension: experiments {}
   dimension: experiment_names {}
   dimension: variants {}
-  dimension: 24_hours_since_install {}
   dimension: 60_mins_since_install {}
+
+  dimension: 24_hours_since_install {}
+
+  dimension: 24_hours_since_install_int {
+    type: number
+    sql: ${24_hours_since_install} ;;
+  }
+
   dimension: 7_days_since_install {}
   dimension: 14_days_since_install {}
+
   dimension: 28_days_since_install {}
+
+  dimension: 28_days_since_install_int {
+    type: number
+    sql: ${28_days_since_install} ;;
+  }
 
   dimension: user_id {}
 
@@ -59,7 +72,19 @@ view: transactions {
     sql: ${timestamp_transaction} ;;
   }
 
-  dimension: engagement_ticks {}
+  dimension: engagement_ticks {
+    group_label: "Engagement Ticks"
+    type: number
+  }
+
+  dimension: engagement_ticks_first_120_ticks {
+    group_label: "Engagement Ticks"
+    label: "First Hour"
+    style: integer
+    type: tier
+    tiers: [0,20,40,60,80,100,120]
+    sql: ${engagement_ticks} ;;
+  }
 
   measure:  max_engagement_ticks {
     type: max
@@ -135,16 +160,16 @@ view: transactions {
     sql: CAST(JSON_EXTRACT_SCALAR(transactions.extra_json,"$.transaction_purchase_amount") AS INT64);;
   }
 
-  measure: sum_currency_spent_amount {
+  measure: currency_spent_amount_sum {
     type: sum
     sql: ${currency_spent_amount} ;;
     drill_fields: [user_id, currency_spent_amount, currency_spent, iap_purchase_item, iap_purchase_qty, extra_json]
   }
 
-  measure: sum_currency_spent_amount_per_spender {
+  measure: currency_spent_amount_sum_per_spender {
     type: number
     value_format: "####"
-    sql: ${sum_currency_spent_amount} / ${spender_count} ;;
+    sql: ${currency_spent_amount_sum} / ${spender_count} ;;
     drill_fields: [user_id, currency_spent_amount, currency_spent, iap_purchase_item, iap_purchase_qty, extra_json]
   }
 

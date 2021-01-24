@@ -82,7 +82,16 @@ view: transactions {
     label: "First Hour"
     style: integer
     type: tier
-    tiers: [0,20,40,60,80,100,120]
+    tiers: [0,1,10,20,30,40,50,60,70,80,90,100,110,120]
+    sql: ${engagement_ticks} ;;
+  }
+
+  dimension: engagement_ticks_first_1400_ticks {
+    group_label: "Engagement Ticks"
+    label: "First 12 Hours"
+    style: integer
+    type: tier
+    tiers: [0,120,240,360,480,600,720,840,960,1080,1200,1320,1440]
     sql: ${engagement_ticks} ;;
   }
 
@@ -162,40 +171,41 @@ view: transactions {
 
   measure: currency_spent_amount_sum {
     type: sum
+    value_format: "#,###"
     sql: ${currency_spent_amount} ;;
-    drill_fields: [user_id, currency_spent_amount, currency_spent, iap_purchase_item, iap_purchase_qty, extra_json]
+    drill_fields: [user_id, source, sheet, currency_spent_amount, currency_spent, iap_purchase_item, iap_purchase_qty]
   }
 
   measure: currency_spent_amount_sum_per_spender {
     type: number
-    value_format: "####"
+    value_format: "#,###"
     sql: ${currency_spent_amount_sum} / ${spender_count} ;;
-    drill_fields: [user_id, currency_spent_amount, currency_spent, iap_purchase_item, iap_purchase_qty, extra_json]
+    drill_fields: [user_id, source, sheet, currency_spent_amount, currency_spent, iap_purchase_item, iap_purchase_qty]
   }
 
-  measure: min_currency_spent_amount {
+  measure: currency_spent_amount_min {
     type: min
     sql: ${currency_spent_amount} ;;
   }
 
-  measure: quartile_2_currency_spent_amount {
+  measure: currency_spent_amount_25th {
     type: percentile
     percentile: 25
     sql: ${currency_spent_amount} ;;
   }
 
-  measure: med_currency_spent_amount {
+  measure: currency_spent_amount_med {
     type: median
     sql: ${currency_spent_amount} ;;
   }
 
-  measure: quartile_3_currency_spent_amount {
+  measure: currency_spent_amount_75th {
     type: percentile
     percentile: 75
     sql: ${currency_spent_amount} ;;
   }
 
-  measure: max_currency_spent_amount {
+  measure: currency_spent_amount_max {
     type: max
     sql: ${currency_spent_amount} ;;
   }

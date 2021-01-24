@@ -54,7 +54,7 @@ view: resources_rewarded {
     style: integer
     type: tier
     tiers: [0,1,10,20,30,40,50,60,70,80,90,100,110,120]
-    sql: ${resources_rewarded.engagement_ticks} ;;
+    sql: ${engagement_ticks} ;;
   }
 
   dimension: engagement_ticks_first_1400_ticks {

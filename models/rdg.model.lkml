@@ -80,6 +80,8 @@ explore: transactions {
 
 explore: bingo_card_attempts {}
 
+explore: bingo_card_attempts_aggregated {}
+
 ###############
 
 explore: sessions_per_player {}

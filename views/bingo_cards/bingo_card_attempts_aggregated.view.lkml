@@ -46,38 +46,24 @@ view: bingo_card_attempts_aggregated {
       SELECT
         bingo_card_attempts.user_id AS bingo_card_attempts_user_id,
         bingo_card_attempts.current_card AS bingo_card_attempts_current_card,
+        bingo_card_attempts.install_version AS bingo_card_attempts_install_version,
         CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64) AS bingo_card_attempts_current_quest,
         bingo_card_attempts.current_card_quest AS bingo_card_attempts_current_card_quest,
         COUNT(DISTINCT (CAST(JSON_EXTRACT(JSON_EXTRACT_ARRAY(extra_json, "$.node_data")[ORDINAL(CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64))],"$.rounds") AS INT64)) ) AS bingo_card_attempts_attempts_count
       FROM bingo_card_attempts
-
-      WHERE (((CASE
-                  WHEN bingo_card_attempts.install_version LIKE '1568' THEN 'Release 1.0.001'
-                  WHEN bingo_card_attempts.install_version LIKE '1579' THEN 'Release 1.0.100'
-                  WHEN bingo_card_attempts.install_version LIKE '2047' THEN 'Release 1.1.001'
-                  WHEN bingo_card_attempts.install_version LIKE '2100' THEN 'Release 1.1.100'
-                  WHEN bingo_card_attempts.install_version LIKE '3028' THEN 'Release 1.2.028'
-                  WHEN bingo_card_attempts.install_version LIKE '3043' THEN 'Release 1.2.043'
-                  WHEN bingo_card_attempts.install_version LIKE '3100' THEN 'Release 1.2.100'
-                  WHEN bingo_card_attempts.install_version LIKE '4017' THEN 'Release 1.3.017'
-                  WHEN bingo_card_attempts.install_version LIKE '4100' THEN 'Release 1.3.100'
-                  WHEN bingo_card_attempts.install_version LIKE '5006' THEN 'Release 1.5.006'
-                  WHEN bingo_card_attempts.install_version LIKE '5100' THEN 'Release 1.5.100'
-                  WHEN bingo_card_attempts.install_version LIKE '6001' THEN 'Release 1.6.001'
-                  WHEN bingo_card_attempts.install_version LIKE '6100' THEN 'Release 1.6.100'
-                  WHEN bingo_card_attempts.install_version LIKE '6200' THEN 'Release 1.6.200'
-                  WHEN bingo_card_attempts.install_version LIKE '6300' THEN 'Release 1.6.300'
-                  WHEN bingo_card_attempts.install_version LIKE '6400' THEN 'Release 1.6.400'
-                  WHEN bingo_card_attempts.install_version LIKE '7100' THEN 'Release 1.7.100'
-                  WHEN bingo_card_attempts.install_version LIKE '7200' THEN 'Release 1.7.200'
-                  WHEN bingo_card_attempts.install_version LIKE '7300' THEN 'Release 1.7.300'
-                  WHEN bingo_card_attempts.install_version LIKE '7400' THEN 'Release 1.7.400'
-                  WHEN bingo_card_attempts.install_version LIKE '7500' THEN 'Release 1.7.500'
-                END) = 'Release 1.7.500')) AND ((bingo_card_attempts.current_card IN ('card_001_a', 'card_002_a', 'card_003_a', 'card_002'))) AND ((CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64) >= 1))
-      GROUP BY 1,2,3,4
+      WHERE ((CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64) >= 1))
+      GROUP BY 1,2,3,4,5
       ORDER BY 1 ,2 DESC,4
-      LIMIT 500
        ;;
+  }
+
+  dimension: install_version {
+    type: string
+    sql: ${TABLE}.bingo_card_attempts_install_version ;;
+  }
+
+  dimension: install_release_version_minor {
+    sql: @{install_release_version_minor};;
   }
 
   dimension: bingo_card_attempts_user_id {

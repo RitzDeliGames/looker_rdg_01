@@ -59,6 +59,11 @@ explore: churned_players_aggregated {
       AND ${churned_players_aggregated.install_version} = ${experiments_cohorted_players.install_version};;
     relationship: one_to_one
   }
+
+  join: cohorted_players {
+    sql_on:  ${churned_players_aggregated.install_version} = ${cohorted_players.install_version};;
+    relationship: one_to_one
+  }
 }
 
 explore: non_churned_players_aggregated {}
@@ -71,6 +76,8 @@ explore: bingo_card_funnels {}
 
 explore: experiments_cohorted_players {}
 
+explore: cohorted_players {}
+
 explore: transactions {
   join: events {
     sql_on: ${events.timestamp_date} = ${transactions.transaction_date_date};;
@@ -81,6 +88,8 @@ explore: transactions {
 explore: bingo_card_attempts {}
 
 explore: bingo_card_attempts_aggregated {}
+
+explore: skill_used {}
 
 ###############
 

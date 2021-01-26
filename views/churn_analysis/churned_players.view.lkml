@@ -7,7 +7,6 @@ view: churned_players {
       column: current_card {field: events.current_card}
       column: experiments {field: events.experiments}
       column: event_name {field: events.event_name}
-      column: extra_json {field: events.extra_json}
       column: engagement_ticks {field: events.engagement_ticks}
       column: timestamp {field: events.timestamp_raw}
       column: user_first_seen {field: events.user_first_seen_raw}

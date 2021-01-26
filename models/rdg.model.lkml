@@ -91,6 +91,8 @@ explore: bingo_card_attempts_aggregated {}
 
 explore: skill_used {}
 
+explore: derived_install_version_players {}
+
 ###############
 
 explore: sessions_per_player {}

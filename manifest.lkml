@@ -289,6 +289,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '7300' THEN 'Release 1.7'
             WHEN ${TABLE}.version LIKE '7400' THEN 'Release 1.7'
             WHEN ${TABLE}.version LIKE '7500' THEN 'Release 1.7'
+            WHEN ${TABLE}.version LIKE '7600' THEN 'Release 1.7'
         END"
 }
 
@@ -315,6 +316,7 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '7300' THEN 'Release 1.7'
             WHEN ${TABLE}.install_version LIKE '7400' THEN 'Release 1.7'
             WHEN ${TABLE}.install_version LIKE '7500' THEN 'Release 1.7'
+            WHEN ${TABLE}.install_version LIKE '7600' THEN 'Release 1.7'
         END"
 }
 
@@ -341,6 +343,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '7300' THEN 'Release 1.7.300'
             WHEN ${TABLE}.version LIKE '7400' THEN 'Release 1.7.400'
             WHEN ${TABLE}.version LIKE '7500' THEN 'Release 1.7.500'
+            WHEN ${TABLE}.version LIKE '7600' THEN 'Release 1.7.600'
           END"
 }
 
@@ -367,6 +370,7 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '7300' THEN 'Release 1.7.300'
             WHEN ${TABLE}.install_version LIKE '7400' THEN 'Release 1.7.400'
             WHEN ${TABLE}.install_version LIKE '7500' THEN 'Release 1.7.500'
+            WHEN ${TABLE}.install_version LIKE '7600' THEN 'Release 1.7.600'
           END"
 }
 

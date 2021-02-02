@@ -172,10 +172,18 @@ view: skill_used {
     sql: ${skill_available} ;;
   }
 
+  measure:  skill_available_05 {
+    type: percentile
+    percentile: 5
+    sql: ${skill_available} ;;
+    drill_fields: [skill_available, engagement_ticks, user_id, round_id, extra_json]
+  }
+
   measure:  skill_available_25 {
     type: percentile
     percentile: 25
     sql: ${skill_available} ;;
+    drill_fields: [skill_available, engagement_ticks, user_id, round_id, extra_json]
   }
 
   measure:  skill_available_med {
@@ -188,6 +196,14 @@ view: skill_used {
     type: percentile
     percentile: 75
     sql: ${skill_available} ;;
+    drill_fields: [skill_available, engagement_ticks, user_id, round_id, extra_json]
+  }
+
+  measure:  skill_available_95 {
+    type: percentile
+    percentile: 95
+    sql: ${skill_available} ;;
+    drill_fields: [skill_available, engagement_ticks, user_id, round_id, extra_json]
   }
 
   measure: skill_available_max {

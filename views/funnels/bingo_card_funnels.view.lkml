@@ -6,6 +6,7 @@ view: bingo_card_funnels {
       column: install_version {field: events.install_version}
       column: current_card {field: events.current_card}
       column: current_card_quest {field: events.current_card_quest}
+      column: country {field: events.country}
       column: experiments {field: events.experiments}
       column: event_name {field: events.event_name}
       column: extra_json {field: events.extra_json}
@@ -32,6 +33,8 @@ view: bingo_card_funnels {
   dimension: event_name {}
   dimension: extra_json {}
   dimension: platform {}
+  dimension: country {}
+
   dimension: experiments {}
 
   dimension: experiment_names {

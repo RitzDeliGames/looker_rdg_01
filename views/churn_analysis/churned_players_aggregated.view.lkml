@@ -11,6 +11,7 @@ view: churned_players_aggregated {
         events.install_version AS install_version,
         events.consecutive_days  AS consecutive_days,
         events.session_id  AS session_id,
+        events.country AS country,
         (CASE
           WHEN events.current_card = 'card_001_a' THEN 100
           WHEN events.current_card = 'card_001_untimed' THEN 100
@@ -510,12 +511,13 @@ view: churned_players_aggregated {
       FROM `eraser-blast.game_data.events` AS events
       WHERE created_at  >= TIMESTAMP('2020-07-06 00:00:00')
           AND user_type = "external"
-      GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12)
+      GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13)
       SELECT
         churned_players.user_id AS churned_players_user_id,
         churned_players.experiment_names AS churned_players_experiment_names,
         churned_players.variants AS churned_players_variants,
         churned_players.install_version AS install_version,
+        churned_players.country AS country,
         MAX(churned_players.current_card_quest) AS churned_players_max_current_card_quest,
         MAX(churned_players.engagement_ticks) AS churned_players_max_engagement_ticks,
         MAX((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.rounds") AS INT64) - CAST(ARRAY_LENGTH(JSON_EXTRACT_ARRAY(extra_json,"$.card_state")) AS INT64)) ) AS churned_players_max_failed_attempts,
@@ -523,7 +525,7 @@ view: churned_players_aggregated {
         AVG((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.load_time") AS INT64)) / 1000) AS churned_players_avg_load_time,
         COUNT(DISTINCT churned_players.session_id) AS churned_players_session_count
       FROM churned_players
-      GROUP BY 1,2,3,4
+      GROUP BY 1,2,3,4,5
       HAVING (MAX(churned_players.consecutive_days) = 0)
       ORDER BY 3 DESC
        ;;
@@ -543,6 +545,11 @@ view: churned_players_aggregated {
   dimension: user_id {
     type: string
     sql: ${TABLE}.churned_players_user_id ;;
+  }
+
+  dimension: country {
+    type: string
+    sql: ${TABLE}.country ;;
   }
 
   dimension: experiment_names {

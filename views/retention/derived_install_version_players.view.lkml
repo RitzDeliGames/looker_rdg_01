@@ -7,15 +7,15 @@ view: derived_install_version_players {
       --version,
       MIN(version) AS derived_install_version,
       CASE
-            WHEN MIN(version) LIKE '1568' THEN 'r1.0.001'
-            WHEN MIN(version) LIKE '1579' THEN 'r1.0.100'
-            WHEN MIN(version) LIKE '2047' THEN 'r1.1.001'
-            WHEN MIN(version) LIKE '2100' THEN 'r1.1.100'
-            WHEN MIN(version) LIKE '3028' THEN 'r1.2.028'
-            WHEN MIN(version) LIKE '3043' THEN 'r1.2.043'
-            WHEN MIN(version) LIKE '3100' THEN 'r1.2.100'
-            WHEN MIN(version) LIKE '4017' THEN 'r1.3.017'
-            WHEN MIN(version) LIKE '4100' THEN 'r1.3.100'
+            --WHEN MIN(version) LIKE '1568' THEN '1.0.001'
+            WHEN MIN(version) LIKE '1579' THEN '1.0.100'
+            WHEN MIN(version) LIKE '2047' THEN '1.1.001'
+            WHEN MIN(version) LIKE '2100' THEN '1.1.100'
+            WHEN MIN(version) LIKE '3028' THEN '1.2.028'
+            WHEN MIN(version) LIKE '3043' THEN '1.2.043'
+            WHEN MIN(version) LIKE '3100' THEN '1.2.100'
+            WHEN MIN(version) LIKE '4017' THEN '1.3.017'
+            WHEN MIN(version) LIKE '4100' THEN '1.3.100'
           END AS derived_install_release_version_minor
       FROM `eraser-blast.game_data.events`
       WHERE install_version IS NULL

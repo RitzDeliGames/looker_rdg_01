@@ -43,6 +43,11 @@ explore: events {
                 and ${events.user_first_seen_date} = ${retention.signup_day_date};;
       relationship: many_to_one
     }
+    join: derived_install_version_players {
+      sql_on: ${events.player_id} = ${derived_install_version_players.user_id}
+                and ${events.user_first_seen_date} = ${derived_install_version_players.user_first_seen_date};;
+      relationship: many_to_many
+    }
     join: created_at_max {
       sql_on: ${events.user_id} = ${created_at_max.user_id}
               ;;

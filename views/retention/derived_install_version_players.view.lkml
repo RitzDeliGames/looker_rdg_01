@@ -2,7 +2,7 @@ view: derived_install_version_players {
   derived_table: {
     sql: SELECT
       DISTINCT user_id,
-      created_at,
+      created_at AS derived_created_at,
       install_version,
       --version,
       MIN(version) AS derived_install_version,
@@ -37,9 +37,24 @@ view: derived_install_version_players {
     sql: ${TABLE}.user_id ;;
   }
 
-  dimension_group: created_at {
+  dimension_group: derived_created_at {
     type: time
-    sql: ${TABLE}.created_at ;;
+    sql: ${TABLE}.derived_created_at ;;
+  }
+
+  dimension_group: user_first_seen {
+    type: time
+    group_label: "Install Date"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.derived_created_at ;;
   }
 
   dimension: derived_install_version {
@@ -53,6 +68,6 @@ view: derived_install_version_players {
   }
 
   set: detail {
-    fields: [user_id, created_at_time, derived_install_version]
+    fields: [user_id, derived_created_at_time, derived_install_version]
   }
 }

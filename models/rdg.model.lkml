@@ -119,7 +119,14 @@ explore: experiments_charts {}
 
 explore: retention_cohort_dimensionalize_20days {}
 
-explore: churn_per_of_previous {}
+explore: churn_per_of_previous {
+  join: events {
+    sql_on: ${churn_per_of_previous.events_experiment_names} = ${events.experiment_names}
+          AND ${churn_per_of_previous.events_round_id} = ${events.round_id}
+            ;;
+    relationship: many_to_many
+  }
+}
 
 
 explore: count_quests_attempts {

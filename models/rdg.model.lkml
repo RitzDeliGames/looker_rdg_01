@@ -111,28 +111,20 @@ explore: z_churn_analysis_install_cohort {
 
 explore: player_s_wallet {}
 
-
 explore: created_at_max {}
-
 
 explore: starts_ends_awake_ratios {}
 
-
 explore: experiments_charts {}
-
 
 explore: retention_cohort_dimensionalize_20days {}
 
-
-explore: round_id_decay_per_churn {
-  description: "deprecated"
-}
+explore: churn_per_of_previous {}
 
 
 explore: count_quests_attempts {
   description: "refactor"
 }
-
 
 
 explore: characters_collection_iii {

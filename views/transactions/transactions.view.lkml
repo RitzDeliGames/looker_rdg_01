@@ -2,6 +2,7 @@ view: transactions {
   derived_table: {
     explore_source: events {
       column: user_id {field: events.user_id}
+      column: created_at {field: events.user_first_seen_date}
       column: extra_json {field: events.extra_json}
       column: install_release_version_minor {field: events.install_release_version_minor}
       column: current_card {field: events.current_card}
@@ -27,7 +28,29 @@ view: transactions {
     }
   }
 
+  dimension: user_id {}
+
+  measure: spender_count {
+    type: count_distinct
+    sql: ${user_id} ;;
+  }
+
   dimension: created_at {}
+
+  dimension_group: created_at_date {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${created_at} ;;
+  }
+
   dimension: install_release_version_minor {}
   dimension: current_card {}
   dimension: event_name {}
@@ -36,31 +59,7 @@ view: transactions {
   dimension: experiments {}
   dimension: experiment_names {}
   dimension: variants {}
-  dimension: 60_mins_since_install {}
 
-  dimension: 24_hours_since_install {}
-
-  dimension: 24_hours_since_install_int {
-    type: number
-    sql: ${24_hours_since_install} ;;
-  }
-
-  dimension: 7_days_since_install {}
-  dimension: 14_days_since_install {}
-
-  dimension: 28_days_since_install {}
-
-  dimension: 28_days_since_install_int {
-    type: number
-    sql: ${28_days_since_install} ;;
-  }
-
-  dimension: user_id {}
-
-  measure: spender_count {
-    type: count_distinct
-    sql: ${user_id} ;;
-  }
 
   dimension: timestamp_transaction {
     type: string
@@ -166,7 +165,7 @@ view: transactions {
 
   dimension:  currency_spent_amount {
     type: number
-    sql: CAST(JSON_EXTRACT_SCALAR(transactions.extra_json,"$.transaction_purchase_amount") AS INT64);;
+    sql: CAST(JSON_EXTRACT_SCALAR(transactions.extra_json,"$.transaction_purchase_amount") AS INT64) / 100;;
   }
 
   measure: currency_spent_amount_sum {
@@ -223,5 +222,10 @@ view: transactions {
   dimension: iap_purchase_qty {
     type: number
     sql:  JSON_EXTRACT_SCALAR(extra_json,"$.iap_purchase_qty");;
+  }
+
+  dimension: transaction_id {
+    type: string
+    sql: JSON_EXTRACT_SCALAR(extra_json, "$.transaction_id") ;;
   }
 }

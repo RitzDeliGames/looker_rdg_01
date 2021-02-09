@@ -148,14 +148,24 @@ view: transactions {
     sql: ${round_id} ;;
   }
 
-  dimension: sheet {
+  dimension: sheet_raw {
     type: string
     sql: JSON_EXTRACT_SCALAR(extra_json,"$.sheet_id") ;;
   }
 
-  dimension: source {
+  dimension: sheet {
+    type: string
+    sql: @{purchase_iap_strings} ;;
+  }
+
+  dimension: source_raw {
     type: string
     sql: JSON_EXTRACT_SCALAR(extra_json,"$.source_id") ;;
+  }
+
+  dimension: source {
+    type: string
+    sql: @{purchase_source} ;;
   }
 
   dimension:  currency_spent {

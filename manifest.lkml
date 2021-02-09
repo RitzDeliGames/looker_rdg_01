@@ -461,5 +461,24 @@ constant: current_card_numbered {
               WHEN ${TABLE}.current_card = 'card_016' THEN 1800
               WHEN ${TABLE}.current_card = 'card_017' THEN 1900
               WHEN ${TABLE}.current_card = 'card_018' THEN 2000
+              WHEN ${TABLE}.current_card = 'card_019' THEN 2100
+          END"
+}
+
+constant: purchase_source {
+  value: "CASE
+              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_ManageLives.QuickPurchase.%' THEN 'Lives Quick Purchase Sheet'
+              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_CurrencyPack.QuickPurchase.%' THEN 'Coins Quick Purchase Sheet'
+              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Panel_Store.Purchase.%' THEN 'Store'
+              ELSE 'OTHER'
+          END"
+}
+
+constant: purchase_iap_strings {
+  value: "CASE
+              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_008' THEN 'Peewee Gem Capsule'
+              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_009' THEN 'Small Gem Capsule'
+              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_010' THEN 'Medium Gem Capsule'
+              ELSE 'OTHER'
           END"
 }

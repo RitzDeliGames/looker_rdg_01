@@ -319,6 +319,14 @@ view: events {
     sql: ${TABLE}.consecutive_days ;;
   }
 
+  dimension: everyday_players {
+    label: "Everyday Players"
+    style: integer
+    type: tier
+    tiers: [0,1,2,3,4,5,6]
+    sql: ${TABLE}.consecutive_days ;;
+  }
+
   dimension: player_xp_level {
     group_label: "Player XP Levels"
     type: number

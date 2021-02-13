@@ -64,8 +64,21 @@ view: bingo_card_funnels {
     sql: ${timestamp} ;;
   }
 
-  dimension: user_first_seen {
-    type: date_time
+  dimension: user_first_seen {}
+
+  dimension_group: user_first_seen {
+    type: time
+    group_label: "Install Date"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${user_first_seen} ;;
   }
 
   dimension: quest {

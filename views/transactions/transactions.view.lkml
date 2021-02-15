@@ -4,6 +4,7 @@ view: transactions {
       column: user_id {field: events.user_id}
       column: created_at {field: events.user_first_seen_date}
       column: extra_json {field: events.extra_json}
+      column: country {field: events.country}
       column: install_release_version_minor {field: events.install_release_version_minor}
       column: current_card {field: events.current_card}
       column: experiments {field: events.experiments}
@@ -54,6 +55,7 @@ view: transactions {
   dimension: install_release_version_minor {}
   dimension: current_card {}
   dimension: event_name {}
+  dimension: country {}
   dimension: extra_json {}
   dimension: platform {}
   dimension: experiments {}

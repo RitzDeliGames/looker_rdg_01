@@ -406,7 +406,7 @@ constant: variant_ids {
   value: "CASE
             WHEN ${experiment_names} = 'AskForHelp_v1' THEN JSON_EXTRACT(${experiments},'$.askForHelp_20210112')
             WHEN ${experiment_names} = 'DailyRewards_v1' THEN JSON_EXTRACT(${experiments},'$.dailyRewards_20210112')
-            WHEN ${experiment_names} = 'SkillReminder2' THEN JSON_EXTRACT(${experiments},'$.skillReminder_20200204')
+            WHEN ${experiment_names} = 'SkillReminder_v2' THEN JSON_EXTRACT(${experiments},'$.skillReminder_20200204')
             WHEN ${experiment_names} = 'NewUX2' THEN JSON_EXTRACT(${experiments},'$.newVsOld_20210108')
             WHEN ${experiment_names} = 'NewUX' THEN JSON_EXTRACT(${experiments},'$.newVsOld_20201218')
             WHEN ${experiment_names} = 'TransitionTiming' THEN JSON_EXTRACT(${experiments},'$.transitionDelay_20201217')

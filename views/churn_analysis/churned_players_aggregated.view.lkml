@@ -12,6 +12,7 @@ view: churned_players_aggregated {
         events.consecutive_days  AS consecutive_days,
         events.session_id  AS session_id,
         events.country AS country,
+        events.lives AS lives,
         (CASE
           WHEN events.current_card = 'card_001_a' THEN 100
           WHEN events.current_card = 'card_001_untimed' THEN 100
@@ -511,7 +512,7 @@ view: churned_players_aggregated {
       FROM `eraser-blast.game_data.events` AS events
       WHERE created_at  >= TIMESTAMP('2020-07-06 00:00:00')
           AND user_type = "external"
-      GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13)
+      GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13, 14)
       SELECT
         churned_players.user_id AS churned_players_user_id,
         churned_players.experiment_names AS churned_players_experiment_names,

@@ -18,6 +18,7 @@ view: churned_players {
       column: hours_since_install {field: events.hours_since_install}
       column: days_since_install {field: events.days_since_install}
       column: session_id {field: events.session_id}
+      column: lives {field: events.lives}
     }
   }
 
@@ -215,7 +216,7 @@ view: churned_players {
     type: max
     value_format: "####"
     sql: ${current_card_quest} ;;
-    drill_fields: [timestamp, minutes_since_install, engagement_ticks, current_card_quest, quest_complete, failed_attempts, event_name, button_click, load_time, extra_json, experiments]
+    drill_fields: [timestamp, minutes_since_install, engagement_ticks, current_card, current_card_quest, quest_complete, lives, failed_attempts, event_name, button_click, load_time, extra_json, experiments]
   }
 
   dimension: round_id {}
@@ -278,5 +279,12 @@ view: churned_players {
   measure: session_count {
     type: count_distinct
     sql: ${session_id};;
+  }
+
+  dimension: lives {}
+
+  measure: lives_balance_min {
+    type: number
+    sql: ${lives} ;;
   }
 }

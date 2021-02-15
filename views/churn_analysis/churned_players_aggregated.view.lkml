@@ -12,7 +12,6 @@ view: churned_players_aggregated {
         events.consecutive_days  AS consecutive_days,
         events.session_id  AS session_id,
         events.country AS country,
-        events.lives AS lives,
         (CASE
           WHEN events.current_card = 'card_001_a' THEN 100
           WHEN events.current_card = 'card_001_untimed' THEN 100
@@ -592,32 +591,32 @@ view: churned_players_aggregated {
     sql: ${max_failed_attempts} ;;
   }
 
-  measure: max_max_failed_attempts {
+  measure: max_failed_attempts_max {
     type: max
     value_format: "####"
     sql: ${max_failed_attempts} ;;
   }
 
-  measure: min_max_failed_attempts {
+  measure: max_failed_attempts_min {
     type: min
     value_format: "####"
     sql: ${max_failed_attempts} ;;
   }
 
-  measure: med_max_failed_attempts {
+  measure: max_failed_attempts_med {
     type: median
     value_format: "####"
     sql: ${max_failed_attempts} ;;
   }
 
-  measure: quartile_2_max_failed_attempts {
+  measure: max_failed_attempts_25th {
     type: percentile
     percentile: 25
     value_format: "####"
     sql: ${max_failed_attempts} ;;
   }
 
-  measure: quartile_3_max_failed_attempts {
+  measure: max_failed_attempts_75th {
     type: percentile
     percentile: 75
     value_format: "####"

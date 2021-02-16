@@ -376,10 +376,10 @@ constant: install_release_version_minor {
 
 constant: experiment_ids {
   value: "CASE
-            WHEN JSON_EXTRACT(${experiments},'$.fueStory_20210215') != 'unassigned' THEN 'FUE/Story v1'
             WHEN JSON_EXTRACT(${experiments},'$.skillReminder_20200204') != 'unassigned' THEN 'SkillReminder_v2'
-            WHEN JSON_EXTRACT(${experiments},'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp_v1'
-            WHEN JSON_EXTRACT(${experiments},'$.dailyRewards_20210112') != 'unassigned' THEN 'DailyRewards_v1'
+            WHEN JSON_EXTRACT(${experiments},'$.fueStory_20210215') != 'unassigned' THEN 'FUE/Story v1'
+            WHEN JSON_EXTRACT(${experiments},'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
+            WHEN JSON_EXTRACT(${experiments},'$.dailyRewards_20210112') != 'unassigned' THEN 'DailyRewards v1'
             WHEN JSON_EXTRACT(${experiments},'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
             WHEN JSON_EXTRACT(${experiments},'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
             WHEN JSON_EXTRACT(${experiments},'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -406,9 +406,9 @@ constant: experiment_ids {
 constant: variant_ids {
   value: "CASE
             WHEN ${experiment_names} = 'FUE/Story v1' THEN JSON_EXTRACT(${experiments},'$.fueStory_20210215')
-            WHEN ${experiment_names} = 'SkillReminder_v2' THEN JSON_EXTRACT(${experiments},'$.skillReminder_20200204')
-            WHEN ${experiment_names} = 'AskForHelp_v1' THEN JSON_EXTRACT(${experiments},'$.askForHelp_20210112')
-            WHEN ${experiment_names} = 'DailyRewards_v1' THEN JSON_EXTRACT(${experiments},'$.dailyRewards_20210112')
+            WHEN ${experiment_names} = 'SkillReminder v2' THEN JSON_EXTRACT(${experiments},'$.skillReminder_20200204')
+            WHEN ${experiment_names} = 'AskForHelp v1' THEN JSON_EXTRACT(${experiments},'$.askForHelp_20210112')
+            WHEN ${experiment_names} = 'DailyRewards v1' THEN JSON_EXTRACT(${experiments},'$.dailyRewards_20210112')
             WHEN ${experiment_names} = 'NewUX2' THEN JSON_EXTRACT(${experiments},'$.newVsOld_20210108')
             WHEN ${experiment_names} = 'NewUX' THEN JSON_EXTRACT(${experiments},'$.newVsOld_20201218')
             WHEN ${experiment_names} = 'TransitionTiming' THEN JSON_EXTRACT(${experiments},'$.transitionDelay_20201217')

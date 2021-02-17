@@ -212,4 +212,64 @@ view: skill_used {
     drill_fields: [skill_available, engagement_ticks, user_id, round_id, extra_json]
   }
 
+  dimension: character_matches {
+    type: number
+    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.character_007_matched") AS INT64) ;;
+  }
+
+  dimension:  character_match_potential {
+    type: number
+    sql:  FLOOR(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.character_007_matched") AS INT64) / 11);;
+    # character_001_matched: 14
+    # character_004_matched: 12
+    # character_007_matched: 11
+  }
+
+  dimension: character_skill_available {
+    type: number
+    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.skill_available") AS INT64) ;;
+  }
+
+  dimension: available_to_potential {
+    type: number
+    sql: IFNULL(SAFE_DIVIDE(${character_skill_available},${character_match_potential}),0) ;;
+  }
+
+  dimension: character_skill_used {
+    type: number
+    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.skill_used") AS INT64) ;;
+  }
+
+  dimension: used_to_potential {
+    type: number
+    sql: IFNULL(SAFE_DIVIDE(${character_skill_used},${character_match_potential}),0) ;;
+  }
+
+  measure:  used_to_potential_min {
+    type: min
+    sql: ${used_to_potential} ;;
+  }
+
+  measure:  used_to_potential_25th {
+    type: percentile
+    percentile: 25
+    sql: ${used_to_potential} ;;
+  }
+
+  measure:  used_to_potential_med {
+    type: median
+    sql: ${used_to_potential} ;;
+  }
+
+  measure:  used_to_potential_75th {
+    type: percentile
+    percentile: 75
+    sql: ${used_to_potential} ;;
+  }
+
+  measure:  used_to_potential_max {
+    type: max
+    sql: ${used_to_potential} ;;
+  }
+
 }

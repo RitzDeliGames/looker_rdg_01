@@ -214,12 +214,12 @@ view: skill_used {
 
   dimension: character_matches {
     type: number
-    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.character_007_matched") AS INT64) ;;
+    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.character_001_matched") AS INT64) ;;
   }
 
   dimension:  character_match_potential {
     type: number
-    sql:  FLOOR(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.character_007_matched") AS INT64) / 11);;
+    sql:  FLOOR(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.character_001_matched") AS INT64) / 14);;
     # character_001_matched: 14
     # character_004_matched: 12
     # character_007_matched: 11

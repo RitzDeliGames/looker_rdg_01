@@ -98,6 +98,8 @@ explore: skill_used {}
 
 explore: derived_install_version_players {}
 
+explore: ask_for_help {}
+
 ###############
 
 explore: sessions_per_player {}

@@ -6,6 +6,7 @@ view: ask_for_help {
       column: rdg_id {field: events.rdg_id}
       column: timestamp {field: events.timestamp_raw}
       column: country {field: events.country}
+      column: region {field: events.region}
       column: install_version {field: events.install_version}
       column: country {field: events.country}
       column: current_card {field: events.current_card}
@@ -19,6 +20,7 @@ view: ask_for_help {
   dimension: user_id {}
   dimension: timestamp {}
   dimension: country {}
+  dimension: region {}
   dimension: extra_json {
     hidden: yes
   }

@@ -806,6 +806,14 @@ view: events {
     drill_fields: [user_id, user_first_seen_date, current_card_quest]
   }
 
+
+  measure: count_unique_rdg_id {
+    label: "RDG Player Count"
+    type: count_distinct
+    sql: ${rdg_id} ;;
+    drill_fields: [user_id, user_first_seen_date, current_card_quest]
+  }
+
   measure: count_unique_events {
     type: count_distinct
     sql: ${event_raw} ;;

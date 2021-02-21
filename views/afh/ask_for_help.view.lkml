@@ -19,6 +19,21 @@ view: ask_for_help {
 
   dimension: user_id {}
   dimension: timestamp {}
+  dimension_group: event_timestamp {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      hour,
+      hour_of_day,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${timestamp} ;;
+  }
   dimension: country {}
   dimension: region {}
   dimension: extra_json {
@@ -37,6 +52,10 @@ view: ask_for_help {
     type: string
     sql: JSON_EXTRACT_SCALAR(extra_json,"$.rdg_afh_id") ;;
   }
+  dimension: is_fake {
+    type: string
+    sql: JSON_EXTRACT_SCALAR(extra_json,"$.is_fake") ;;
+  }
   dimension: request_card_id {
     type: string
     sql: JSON_EXTRACT_SCALAR(extra_json,"$.request_card_id") ;;
@@ -54,7 +73,24 @@ view: ask_for_help {
     type: string
     sql: JSON_EXTRACT_SCALAR(extra_json,"$.afh_action") ;;
   }
-
+  dimension: requesting_player_id {
+    type: string
+    sql: JSON_EXTRACT_SCALAR(extra_json,"$.requesting_player_id") ;;
+  }
+  measure:  requesting_player_distinct_count {
+    label: "Unique Requesting Player Count"
+    type: count_distinct
+    sql: ${requesting_player_id} ;;
+  }
+  dimension: providing_player_id {
+    type: string
+    sql: JSON_EXTRACT_SCALAR(extra_json,"$.providing_player_id") ;;
+  }
+  measure:  providing_player_distinct_count {
+    label: "Unique Providing Player Count"
+    type: count_distinct
+    sql:  JSON_EXTRACT_SCALAR(extra_json,"$.providing_player_id") ;;
+  }
   measure: requests_count {
     type: count_distinct
     sql: ${rdg_afh_id} ;;

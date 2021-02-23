@@ -98,7 +98,17 @@ explore: skill_used {}
 
 explore: derived_install_version_players {}
 
-explore: ask_for_help {}
+explore: ask_for_help {
+  join: cohorted_players {
+    sql_on: ${ask_for_help.event_timestamp_raw} = ${cohorted_players.event_timestamp_raw} ;;
+    relationship: one_to_one
+  }
+
+  join: events {
+    sql_on: ${ask_for_help.user_id} = ${events.user_id} ;;
+    relationship: one_to_one
+  }
+}
 
 ###############
 

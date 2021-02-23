@@ -319,6 +319,16 @@ view: events {
     sql: ${TABLE}.consecutive_days ;;
   }
 
+  measure: consecutive_days_played_min {
+    type: min
+    sql: ${consecutive_days} ;;
+  }
+
+  measure: consecutive_days_played_max {
+    type: max
+    sql: ${consecutive_days} ;;
+  }
+
   dimension: everyday_players {
     label: "Everyday Players"
     style: integer

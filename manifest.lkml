@@ -474,7 +474,45 @@ constant: current_card_numbered {
               WHEN ${TABLE}.current_card = 'card_017' THEN 1900
               WHEN ${TABLE}.current_card = 'card_018' THEN 2000
               WHEN ${TABLE}.current_card = 'card_019' THEN 2100
+              WHEN ${TABLE}.current_card = 'card_020' THEN 2200
           END"
+}
+
+
+constant: request_card_numbered {
+  value: "CASE
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_001_a' THEN 100
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_001_untimed' THEN 100
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_002_a' THEN 200
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_002_untimed' THEN 200
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_003_a' THEN 300
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_003_untimed' THEN 300
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_002' THEN 400
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_039' THEN 400
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = = 'card_004_untimed' THEN 400
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = = 'card_003' THEN 500
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_040' THEN 500
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_005_untimed' THEN 500
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_004' THEN 600
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_041' THEN 600
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_006_untimed' THEN 600
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_005' THEN 700
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_006' THEN 800
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_007' THEN 900
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_008' THEN 1000
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_009' THEN 1100
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_010' THEN 1200
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_011' THEN 1300
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_012' THEN 1400
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_013' THEN 1500
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_014' THEN 1600
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_015' THEN 1700
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_016' THEN 1800
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_017' THEN 1900
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_018' THEN 2000
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_019' THEN 2100
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_020' THEN 2200
+        END"
 }
 
 constant: purchase_source {

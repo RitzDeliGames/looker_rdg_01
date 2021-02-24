@@ -9,8 +9,7 @@ view: ask_for_help {
       column: region {field: events.region}
       column: install_version {field: events.install_version}
       column: country {field: events.country}
-      column: current_card {field: events.current_card}
-      column: current_card_quest {field: events.current_card_quest}
+      column: experiments {field: events.experiments}
       column: extra_json_afh {field: events.extra_json}
 
       filters: [events.event_name: "afh"]
@@ -43,11 +42,6 @@ view: ask_for_help {
   dimension: install_release_version_minor {
     sql: @{install_release_version_minor};;
   }
-  dimension: current_card {}
-  dimension: current_card_quest {
-    type: number
-    value_format: "####"
-  }
   dimension: rdg_afh_id {
     type: string
     sql: JSON_EXTRACT_SCALAR(extra_json_afh,"$.rdg_afh_id") ;;
@@ -61,8 +55,20 @@ view: ask_for_help {
     sql: JSON_EXTRACT_SCALAR(extra_json_afh,"$.request_card_id") ;;
   }
   dimension: request_tile_id {
-    type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json_afh,"$.request_tile_id") ;;
+    type: number
+    sql: CAST(JSON_EXTRACT_SCALAR(extra_json_afh,"$.request_tile_id") AS INT64);;
+  }
+  dimension: current_card_no {
+    label: "Request Card Numbered"
+    type: number
+    value_format: "####"
+    sql: @{request_card_numbered} ;;
+  }
+  dimension: request_card_quest {
+    label: "Request Card + Quest"
+    type: number
+    value_format: "####"
+    sql: ${current_card_no} + ${request_tile_id};;
   }
   dimension: request_sent_timestamp {
     type: number
@@ -98,7 +104,8 @@ view: ask_for_help {
   }
   measure: max_current_card_quest {
     type: max
-    sql: ${current_card_quest} ;;
-    drill_fields: [user_id, current_card_quest]
+    sql: ${request_card_quest} ;;
+    drill_fields: [user_id, request_card_quest]
   }
+  dimension: experiments {}
 }

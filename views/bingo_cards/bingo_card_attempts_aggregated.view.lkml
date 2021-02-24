@@ -5,6 +5,7 @@ view: bingo_card_attempts_aggregated {
         events.timestamp  AS timestamp,
         events.install_version  AS install_version,
         events.current_card  AS current_card,
+        events.experiments AS experiments,
         (CASE
                     WHEN events.current_card = 'card_001_a' THEN 100
                     WHEN events.current_card = 'card_001_untimed' THEN 100
@@ -42,17 +43,18 @@ view: bingo_card_attempts_aggregated {
       WHERE (events.event_name = 'cards') AND (created_at  >= TIMESTAMP('2020-07-06 00:00:00')
           AND user_type = "external"
           AND events.user_id NOT IN ("anon-c39ef24b-bb78-4339-9e42-befd5532a5d4"))
-      GROUP BY 1,2,3,4,5,6)
+      GROUP BY 1,2,3,4,5,6,7)
       SELECT
         bingo_card_attempts.user_id AS bingo_card_attempts_user_id,
         bingo_card_attempts.current_card AS bingo_card_attempts_current_card,
         bingo_card_attempts.install_version AS bingo_card_attempts_install_version,
         CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64) AS bingo_card_attempts_current_quest,
         bingo_card_attempts.current_card_quest AS bingo_card_attempts_current_card_quest,
-        COUNT(DISTINCT (CAST(JSON_EXTRACT(JSON_EXTRACT_ARRAY(extra_json, "$.node_data")[ORDINAL(CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64))],"$.rounds") AS INT64)) ) AS bingo_card_attempts_attempts_count
+        bingo_card_attempts.experiments AS bingo_card_attempts_experiments,
+        COUNT(CAST(JSON_EXTRACT(JSON_EXTRACT_ARRAY(extra_json, "$.node_data")[ORDINAL(CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64))],"$.node_attempts_explicit") AS INT64)) AS bingo_card_attempts_attempts_count
       FROM bingo_card_attempts
       WHERE ((CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64) >= 1))
-      GROUP BY 1,2,3,4,5
+      GROUP BY 1,2,3,4,5,6
       ORDER BY 1 ,2 DESC,4
        ;;
   }
@@ -68,6 +70,11 @@ view: bingo_card_attempts_aggregated {
 
   dimension: bingo_card_attempts_user_id {
     type: string
+    sql: ${TABLE}.bingo_card_attempts_user_id ;;
+  }
+
+  measure:  bingo_card_attempts_player_count {
+    type: count_distinct
     sql: ${TABLE}.bingo_card_attempts_user_id ;;
   }
 
@@ -91,9 +98,28 @@ view: bingo_card_attempts_aggregated {
     sql: ${TABLE}.bingo_card_attempts_attempts_count ;;
   }
 
+  dimension: experiments {
+    type: string
+    sql: ${TABLE}.bingo_card_attempts_experiments ;;
+  }
+
+  dimension: experiment_names {
+    type: string
+    sql: @{experiment_ids} ;;
+  }
+
+  dimension: variant_ids {
+    sql: @{variant_ids} ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+
+  measure: attempts_sum {
+    type: sum
+    sql:  ${TABLE}.bingo_card_attempts_attempts_count ;;
   }
 
   measure: attempts_min {

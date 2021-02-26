@@ -10,13 +10,17 @@ view: ask_for_help {
       column: install_version {field: events.install_version}
       column: country {field: events.country}
       column: experiments {field: events.experiments}
-      column: extra_json {field: events.extra_json}
+      column: quests_completed {field: events.quests_completed}
+      column: extra_json_afh {field: events.extra_json}
 
       filters: [events.event_name: "afh"]
     }
   }
 
   dimension: user_id {}
+  dimension: quests_completed {
+    type: number
+  }
   dimension: timestamp {}
   dimension_group: event_timestamp {
     type: time
@@ -35,7 +39,7 @@ view: ask_for_help {
   }
   dimension: country {}
   dimension: region {}
-  dimension: extra_json {
+  dimension: extra_json_afh {
     hidden: yes
   }
   dimension: install_version {}
@@ -44,19 +48,19 @@ view: ask_for_help {
   }
   dimension: rdg_afh_id {
     type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.rdg_afh_id") ;;
+    sql: JSON_EXTRACT_SCALAR(extra_json_afh,"$.rdg_afh_id") ;;
   }
   dimension: is_fake {
     type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.is_fake") ;;
+    sql: JSON_EXTRACT_SCALAR(extra_json_afh,"$.is_fake") ;;
   }
   dimension: request_card_id {
     type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.request_card_id") ;;
+    sql: JSON_EXTRACT_SCALAR(extra_json_afh,"$.request_card_id") ;;
   }
   dimension: request_tile_id {
     type: number
-    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.request_tile_id") AS INT64);;
+    sql: CAST(JSON_EXTRACT_SCALAR(extra_json_afh,"$.request_tile_id") AS INT64);;
   }
   dimension: current_card_no {
     label: "Request Card Numbered"
@@ -73,15 +77,15 @@ view: ask_for_help {
   dimension: request_sent_timestamp {
     type: number
     value_format: "####"
-    sql: CAST(JSON_EXTRACT_SCALAR(extra_json,"$.request_sent_timestamp") AS INT64);;
+    sql: CAST(JSON_EXTRACT_SCALAR(extra_json_afh,"$.request_sent_timestamp") AS INT64);;
   }
   dimension: afh_action {
     type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.afh_action") ;;
+    sql: JSON_EXTRACT_SCALAR(extra_json_afh,"$.afh_action") ;;
   }
   dimension: requesting_player_id {
     type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.requesting_player_id") ;;
+    sql: JSON_EXTRACT_SCALAR(extra_json_afh,"$.requesting_player_id") ;;
   }
   measure:  requesting_player_distinct_count {
     label: "Unique Requesting Player Count"
@@ -90,12 +94,12 @@ view: ask_for_help {
   }
   dimension: providing_player_id {
     type: string
-    sql: JSON_EXTRACT_SCALAR(extra_json,"$.providing_player_id") ;;
+    sql: JSON_EXTRACT_SCALAR(extra_json_afh,"$.providing_player_id") ;;
   }
   measure:  providing_player_distinct_count {
     label: "Unique Providing Player Count"
     type: count_distinct
-    sql:  JSON_EXTRACT_SCALAR(extra_json,"$.providing_player_id") ;;
+    sql:  JSON_EXTRACT_SCALAR(extra_json_afh,"$.providing_player_id") ;;
   }
   measure: requests_count {
     type: count_distinct

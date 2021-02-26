@@ -509,6 +509,11 @@ view: events {
     sql: ${TABLE}.engagement_ticks ;;
   }
 
+  dimension: quests_completed {
+    label: "Quests Completed"
+    type: number
+    sql: ${TABLE}.quests_completed ;;
+  }
 
 
 

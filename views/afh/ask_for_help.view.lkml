@@ -100,6 +100,7 @@ view: ask_for_help {
     label: "Unique Providing Player Count"
     type: count_distinct
     sql:  JSON_EXTRACT_SCALAR(extra_json_afh,"$.providing_player_id") ;;
+    drill_fields: [quests_completed, providing_player_id, rdg_afh_id, requesting_player_id, request_card_id, request_tile_id]
   }
   measure: requests_count {
     type: count_distinct

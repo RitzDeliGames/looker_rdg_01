@@ -113,10 +113,11 @@ explore: ask_for_help {
 
   join: events {
     sql_on: ${ask_for_help.user_id} = ${events.user_id} ;;
-    type: full_outer
     relationship: one_to_one
   }
 }
+
+explore: afh_hack {}
 
 ###############
 

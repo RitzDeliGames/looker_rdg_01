@@ -290,6 +290,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '7500' THEN '1.7'
             WHEN ${TABLE}.version LIKE '7600' THEN '1.7'
             WHEN ${TABLE}.version LIKE '8000' THEN '1.8'
+            WHEN ${TABLE}.version LIKE '8100' THEN '1.8'
         END"
 }
 
@@ -317,6 +318,7 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '7500' THEN '1.7'
             WHEN ${TABLE}.install_version LIKE '7600' THEN '1.7'
             WHEN ${TABLE}.install_version LIKE '8000' THEN '1.8'
+            WHEN ${TABLE}.install_version LIKE '8100' THEN '1.8'
         END"
 }
 
@@ -344,6 +346,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '7500' THEN '1.7.500'
             WHEN ${TABLE}.version LIKE '7600' THEN '1.7.600'
             WHEN ${TABLE}.version LIKE '8000' THEN '1.8.000'
+            WHEN ${TABLE}.version LIKE '8100' THEN '1.8.100'
           END"
 }
 
@@ -371,11 +374,14 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '7500' THEN '1.7.500'
             WHEN ${TABLE}.install_version LIKE '7600' THEN '1.7.600'
             WHEN ${TABLE}.install_version LIKE '8000' THEN '1.8.000'
+            WHEN ${TABLE}.install_version LIKE '8100' THEN '1.8.100'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.card002_20210222') != 'unassigned' THEN 'Alt Card 4'
+            WHEN JSON_EXTRACT(${experiments},'$.newUX_20210223') != 'unassigned' THEN 'New UX v4'
             WHEN JSON_EXTRACT(${experiments},'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
             WHEN JSON_EXTRACT(${experiments},'$.dailyRewards_20210112') != 'unassigned' THEN 'DailyRewards v1'
             WHEN JSON_EXTRACT(${experiments},'$.fueStory_20210215') != 'unassigned' THEN 'FUE/Story v1'
@@ -405,6 +411,8 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
+            WHEN ${experiment_names} = 'Alt Card 4' THEN JSON_EXTRACT(${experiments},'$.card002_20210222')
+            WHEN ${experiment_names} = 'New UX v4' THEN JSON_EXTRACT(${experiments},'$.newUX_20210223')
             WHEN ${experiment_names} = 'AskForHelp v1' THEN JSON_EXTRACT(${experiments},'$.askForHelp_20210112')
             WHEN ${experiment_names} = 'DailyRewards v1' THEN JSON_EXTRACT(${experiments},'$.dailyRewards_20210112')
             WHEN ${experiment_names} = 'FUE/Story v1' THEN JSON_EXTRACT(${experiments},'$.fueStory_20210215')
@@ -448,6 +456,7 @@ constant: current_card_numbered {
               WHEN ${TABLE}.current_card = 'card_001_untimed' THEN 100
               WHEN ${TABLE}.current_card = 'card_002_a' THEN 200
               WHEN ${TABLE}.current_card = 'card_002_untimed' THEN 200
+              WHEN ${TABLE}.current_card = 'card_002_inverted' THEN 200
               WHEN ${TABLE}.current_card = 'card_003_a' THEN 300
               WHEN ${TABLE}.current_card = 'card_003_untimed' THEN 300
               WHEN ${TABLE}.current_card = 'card_002' THEN 400
@@ -485,6 +494,7 @@ constant: request_card_numbered {
             WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_001_untimed' THEN 100
             WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_002_a' THEN 200
             WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_002_untimed' THEN 200
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_002_inverted' THEN 200
             WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_003_a' THEN 300
             WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_003_untimed' THEN 300
             WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_002' THEN 400

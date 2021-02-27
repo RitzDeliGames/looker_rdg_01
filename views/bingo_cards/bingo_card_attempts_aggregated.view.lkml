@@ -51,7 +51,10 @@ view: bingo_card_attempts_aggregated {
         CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64) AS bingo_card_attempts_current_quest,
         bingo_card_attempts.current_card_quest AS bingo_card_attempts_current_card_quest,
         bingo_card_attempts.experiments AS bingo_card_attempts_experiments,
-        COUNT(CAST(JSON_EXTRACT(JSON_EXTRACT_ARRAY(extra_json, "$.node_data")[ORDINAL(CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64))],"$.node_attempts_explicit") AS INT64)) AS bingo_card_attempts_attempts_count
+        COUNT(CAST(JSON_EXTRACT(JSON_EXTRACT_ARRAY(extra_json, "$.node_data")[ORDINAL(CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64))],"$.node_attempts_explicit") AS INT64)) AS bingo_card_attempts_attempts_count,
+        MAX(CAST(JSON_EXTRACT(JSON_EXTRACT_ARRAY(extra_json, "$.node_data")[ORDINAL(CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64))],"$.node_attempts_explicit") AS INT64)) AS bingo_card_attempts_explicit_attempts,
+        MAX(CAST(JSON_EXTRACT(JSON_EXTRACT_ARRAY(extra_json, "$.node_data")[ORDINAL(CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64))],"$.node_attempts_passive") AS INT64)) AS bingo_card_attempts_passive_attempts,
+        MAX(CAST(JSON_EXTRACT(JSON_EXTRACT_ARRAY(extra_json, "$.node_data")[ORDINAL(CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64))],"$.rounds") AS INT64)) AS bingo_card_attempts_rounds
       FROM bingo_card_attempts
       WHERE ((CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64) >= 1))
       GROUP BY 1,2,3,4,5,6
@@ -90,6 +93,12 @@ view: bingo_card_attempts_aggregated {
 
   dimension: bingo_card_attempts_current_card_quest {
     type: number
+    sql: ${TABLE}.bingo_card_attempts_current_card_quest ;;
+  }
+
+  dimension: bingo_card_attempts_current_card_quest_str {
+    type: string
+    value_format: "*00#"
     sql: ${TABLE}.bingo_card_attempts_current_card_quest ;;
   }
 
@@ -149,6 +158,123 @@ view: bingo_card_attempts_aggregated {
     sql:  ${TABLE}.bingo_card_attempts_attempts_count ;;
   }
 
+  dimension: bingo_card_attempts_explicit_attempts {
+    label: "Explicit Attempts - Max"
+    type: number
+    sql: ${TABLE}.bingo_card_attempts_explicit_attempts ;;
+  }
+
+  measure:  bingo_card_attempts_explicit_attempts_max {
+    label: "Explicit Attempts - Max"
+    type: max
+    sql: ${bingo_card_attempts_explicit_attempts} ;;
+    drill_fields: [detail*]
+  }
+
+  measure:  bingo_card_attempts_explicit_attempts_975 {
+    label: "Explicit Attempts - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${bingo_card_attempts_explicit_attempts} ;;
+    drill_fields: [detail*]
+  }
+
+  measure:  bingo_card_attempts_explicit_attempts_75 {
+    label: "Explicit Attempts - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${bingo_card_attempts_explicit_attempts} ;;
+    drill_fields: [detail*]
+  }
+
+  measure:  bingo_card_attempts_explicit_attempts_med {
+    label: "Explicit Attempts - Median"
+    type: median
+    sql: ${bingo_card_attempts_explicit_attempts} ;;
+    drill_fields: [detail*]
+  }
+
+  measure:  bingo_card_attempts_explicit_attempts_25 {
+    label: "Explicit Attempts - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${bingo_card_attempts_explicit_attempts} ;;
+    drill_fields: [detail*]
+  }
+
+  measure:  bingo_card_attempts_explicit_attempts_025 {
+    label: "Explicit Attempts - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${bingo_card_attempts_explicit_attempts} ;;
+    drill_fields: [detail*]
+  }
+
+  measure:  bingo_card_attempts_explicit_attempts_min {
+    label: "Explicit Attempts - Min"
+    type: min
+    sql: ${bingo_card_attempts_explicit_attempts} ;;
+    drill_fields: [detail*]
+  }
+
+  dimension: bingo_card_attempts_total_rounds {
+    label: "Total Rounds - Max"
+    type: number
+    sql: ${TABLE}.bingo_card_attempts_rounds ;;
+  }
+
+  measure:  bingo_card_attempts_total_rounds_max {
+    label: "Total Rounds - Max"
+    type: max
+    sql: ${bingo_card_attempts_total_rounds} ;;
+    drill_fields: [detail*]
+  }
+
+  measure:  bingo_card_attempts_total_rounds_975 {
+    label: "Total Rounds - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${bingo_card_attempts_total_rounds} ;;
+    drill_fields: [detail*]
+  }
+
+  measure:  bingo_card_attempts_total_rounds_75 {
+    label: "Total Rounds - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${bingo_card_attempts_total_rounds} ;;
+    drill_fields: [detail*]
+  }
+
+  measure:  bingo_card_attempts_total_rounds_med {
+    label: "Total Rounds - Median"
+    type: median
+    sql: ${bingo_card_attempts_total_rounds} ;;
+    drill_fields: [detail*]
+  }
+
+  measure:  bingo_card_attempts_total_rounds_25 {
+    label: "Total Rounds - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${bingo_card_attempts_total_rounds} ;;
+    drill_fields: [detail*]
+  }
+
+  measure:  bingo_card_attempts_total_rounds_025 {
+    label: "Total Rounds - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${bingo_card_attempts_total_rounds} ;;
+    drill_fields: [detail*]
+  }
+
+  measure:  bingo_card_attempts_total_rounds_min {
+    label: "Total Rounds - Min"
+    type: min
+    sql: ${bingo_card_attempts_total_rounds} ;;
+    drill_fields: [detail*]
+  }
 
   set: detail {
     fields: [bingo_card_attempts_user_id, bingo_card_attempts_current_card, bingo_card_attempts_current_quest, bingo_card_attempts_current_card_quest, bingo_card_attempts_attempts_count]

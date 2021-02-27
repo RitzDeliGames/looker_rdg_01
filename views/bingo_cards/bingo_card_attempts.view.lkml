@@ -42,7 +42,8 @@ view: bingo_card_attempts {
   }
 
   dimension:  attempts {
-    type: number
+  #TO BE DEPRECATED
+   type: number
     sql:  CAST(JSON_EXTRACT(JSON_EXTRACT_ARRAY(extra_json, "$.node_data")[ORDINAL(CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64))],"$.rounds") AS INT64);;
   }
 
@@ -52,35 +53,44 @@ view: bingo_card_attempts {
     drill_fields: [user_id, timestamp, current_card_quest, current_card, current_quest, attempts, extra_json]
   }
 
-  # measure: attempts_min {
-  #   type: min
-  #   sql: ${attempts} ;;
-  #   drill_fields: [user_id, current_card_quest, current_card, current_quest, attempts]
-  # }
+  dimension: attempts_explicit {
+    type: number
+    sql: CAST(JSON_EXTRACT(JSON_EXTRACT_ARRAY(extra_json, "$.node_data")[ORDINAL(CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64))],"$.node_attempts_explicit") AS INT64) ;;
+  }
 
-  # measure: attempts_25th {
-  #   type: percentile
-  #   percentile: 25
-  #   sql: ${attempts} ;;
-  #   drill_fields: [user_id, current_card_quest, current_card, current_quest, attempts]
-  # }
+  measure: attempts_explicit_max {
+    label: "Explicit Attempts - Max"
+    type: max
+    sql: ${attempts_explicit} ;;
+  }
 
-  # measure: attempts_med {
-  #   type: median
-  #   sql: ${attempts} ;;
-  #   drill_fields: [user_id, current_card_quest, current_card, current_quest, attempts]
-  # }
+  dimension: attempts_passive {
+    type: number
+    sql: CAST(JSON_EXTRACT(JSON_EXTRACT_ARRAY(extra_json, "$.node_data")[ORDINAL(CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64))],"$.node_attempts_passive") AS INT64) ;;
+  }
 
-  # measure: attempts_75th {
-  #   type: percentile
-  #   percentile: 75
-  #   sql: ${attempts} ;;
-  #   drill_fields: [user_id, current_card_quest, current_card, current_quest, attempts]
-  # }
+  measure: attempts_passive_max {
+    label: "Passive Attempts - Max"
+    type: max
+    sql: ${attempts_passive} ;;
+  }
 
-  # measure: attempts_max {
-  #   type: max
-  #   sql: ${attempts} ;;
-  #   drill_fields: [user_id, current_card_quest, current_card, current_quest, attempts]
-  # }
+  dimension: rounds {
+    label: "Rounds to Complete"
+    type: number
+    sql:  CAST(JSON_EXTRACT(JSON_EXTRACT_ARRAY(extra_json, "$.node_data")[ORDINAL(CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64))],"$.rounds") AS INT64) ;;
+  }
+
+  measure: round_count {
+    label: "Rounds to Complete - Max"
+    type: max
+    sql: ${rounds} ;;
+  }
+
+  dimension: node_end_tick {
+    label: "Engagement Ticks to Complete"
+    type: number
+    sql:  CAST(JSON_EXTRACT(JSON_EXTRACT_ARRAY(extra_json, "$.node_data")[ORDINAL(CAST(JSON_EXTRACT(extra_json,"$.current_quest") AS INT64))],"$.node_end_tick") AS INT64) ;;
+  }
+
 }

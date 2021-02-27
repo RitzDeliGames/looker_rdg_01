@@ -14,6 +14,7 @@ view: bingo_card_attempts_aggregated {
                     WHEN events.current_card = 'card_003_a' THEN 300
                     WHEN events.current_card = 'card_003_untimed' THEN 300
                     WHEN events.current_card = 'card_002' THEN 400
+                    WHEN events.current_card = 'card_002_inverted' THEN 400
                     WHEN events.current_card = 'card_039' THEN 400
                     WHEN events.current_card = 'card_004_untimed' THEN 400
                     WHEN events.current_card = 'card_003' THEN 500
@@ -84,6 +85,11 @@ view: bingo_card_attempts_aggregated {
   dimension: bingo_card_attempts_current_card {
     type: string
     sql: ${TABLE}.bingo_card_attempts_current_card ;;
+  }
+
+  dimension: bingo_card_attempts_current_card_no {
+    type: number
+    sql: @{current_card_numbered} ;;
   }
 
   dimension: bingo_card_attempts_current_quest {

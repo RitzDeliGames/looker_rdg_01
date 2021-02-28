@@ -333,7 +333,7 @@ view: events {
     label: "Everyday Players"
     style: integer
     type: tier
-    tiers: [0,1,2,3,4,5,6]
+    tiers: [0,1,2,6]
     sql: ${TABLE}.consecutive_days ;;
   }
 

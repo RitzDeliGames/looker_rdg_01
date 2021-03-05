@@ -39,6 +39,7 @@ view: user_fact {
   dimension: purchase_amt {
     type: number
     value_format_name: usd
+    hidden: yes
   }
   dimension: days_between_first_and_last_event {
     type: number

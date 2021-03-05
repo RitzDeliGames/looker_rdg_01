@@ -6,7 +6,6 @@ include: "/views/**/*.view"
 # include all the dashboards
 include: "/dashboards/**/*.dashboard"
 
-
 ##########MODEL##########
 datagroup: rdg_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -526,3 +525,12 @@ explore: gaming_block_session_facts {
     sql_on: ${gaming_block_session_facts.user_id} = ${gaming_block_user_tiering.user_id} ;;
   }
 }
+
+# week_start_day: sunday ## remove me
+# explore: test_retention {}
+# explore: firebase_events {
+#   always_filter: {
+#     filters: [current_period_filter: "1 days ago for 1 day"]
+#   }
+# }
+explore: user_fact {}

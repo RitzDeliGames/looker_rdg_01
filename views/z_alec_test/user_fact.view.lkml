@@ -52,7 +52,7 @@ view: user_fact {
     type:number
     sql: case when ${last_event_date} <= current_date() then date_diff(current_date(),${last_event_date},day) else null end ;;
   }
-  dimension: spend_tier {
+  dimension: lifetime_spend_tier {
     type: string
     sql: case when ${purchase_amt} = 0 then '$0.00'
       when ${purchase_amt} > 0 and ${purchase_amt} < 10 then '$1.00 - $9.99'
@@ -73,7 +73,7 @@ view: user_fact {
   measure: count {
     type: count
   }
-  measure: purchase_amount {
+  measure: lifetime_spend_amount {
     type: sum
     sql: ${purchase_amt} ;;
     value_format_name: usd

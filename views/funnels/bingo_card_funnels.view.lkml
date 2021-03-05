@@ -5,7 +5,9 @@ view: bingo_card_funnels {
       column: extra_json {field: events.extra_json}
       column: install_version {field: events.install_version}
       column: current_card {field: events.current_card}
+      column: current_card_no {field: events.current_card_no}
       column: current_card_quest {field: events.current_card_quest}
+      column: country {field: events.country}
       column: experiments {field: events.experiments}
       column: event_name {field: events.event_name}
       column: extra_json {field: events.extra_json}
@@ -27,11 +29,11 @@ view: bingo_card_funnels {
     sql: ${user_id} ;;
     drill_fields: [user_id, install_release_version_minor, user_first_seen]
   }
-
-  dimension: current_card {}
   dimension: event_name {}
   dimension: extra_json {}
   dimension: platform {}
+  dimension: country {}
+
   dimension: experiments {}
 
   dimension: experiment_names {
@@ -61,8 +63,21 @@ view: bingo_card_funnels {
     sql: ${timestamp} ;;
   }
 
-  dimension: user_first_seen {
-    type: date_time
+  dimension: user_first_seen {}
+
+  dimension_group: user_first_seen {
+    type: time
+    group_label: "Install Date"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${user_first_seen} ;;
   }
 
   dimension: quest {
@@ -80,6 +95,12 @@ view: bingo_card_funnels {
   measure: max_consecutive_days {
     type: max
     sql: ${consecutive_days};;
+  }
+
+
+  dimension: current_card_no {
+    type: number
+    value_format: "####"
   }
 
   dimension: current_card_quest {

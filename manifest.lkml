@@ -268,115 +268,134 @@ constant: bingo_card_mapping_5x5_X {
 
 constant: release_version_major {
   value: "CASE
-            WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0'
-            WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0'
-            WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1'
-            WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1'
-            WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2'
-            WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2'
-            WHEN ${TABLE}.version LIKE '3100' THEN 'Release 1.2'
-            WHEN ${TABLE}.version LIKE '4017' THEN 'Release 1.3'
-            WHEN ${TABLE}.version LIKE '4100' THEN 'Release 1.3'
-            WHEN ${TABLE}.version LIKE '5006' THEN 'Release 1.5'
-            WHEN ${TABLE}.version LIKE '5100' THEN 'Release 1.5'
-            WHEN ${TABLE}.version LIKE '6001' THEN 'Release 1.6'
-            WHEN ${TABLE}.version LIKE '6100' THEN 'Release 1.6'
-            WHEN ${TABLE}.version LIKE '6200' THEN 'Release 1.6'
-            WHEN ${TABLE}.version LIKE '6300' THEN 'Release 1.6'
-            WHEN ${TABLE}.version LIKE '6400' THEN 'Release 1.6'
-            WHEN ${TABLE}.version LIKE '7100' THEN 'Release 1.7'
-            WHEN ${TABLE}.version LIKE '7200' THEN 'Release 1.7'
-            WHEN ${TABLE}.version LIKE '7300' THEN 'Release 1.7'
-            WHEN ${TABLE}.version LIKE '7400' THEN 'Release 1.7'
-            WHEN ${TABLE}.version LIKE '7500' THEN 'Release 1.7'
+            WHEN ${TABLE}.version LIKE '1568' THEN '1.0'
+            WHEN ${TABLE}.version LIKE '1579' THEN '1.0'
+            WHEN ${TABLE}.version LIKE '2047' THEN '1.1'
+            WHEN ${TABLE}.version LIKE '2100' THEN '1.1'
+            WHEN ${TABLE}.version LIKE '3028' THEN '1.2'
+            WHEN ${TABLE}.version LIKE '3043' THEN '1.2'
+            WHEN ${TABLE}.version LIKE '3100' THEN '1.2'
+            WHEN ${TABLE}.version LIKE '4017' THEN '1.3'
+            WHEN ${TABLE}.version LIKE '4100' THEN '1.3'
+            WHEN ${TABLE}.version LIKE '5006' THEN '1.5'
+            WHEN ${TABLE}.version LIKE '5100' THEN '1.5'
+            WHEN ${TABLE}.version LIKE '6100' THEN '1.6'
+            WHEN ${TABLE}.version LIKE '6200' THEN '1.6'
+            WHEN ${TABLE}.version LIKE '6300' THEN '1.6'
+            WHEN ${TABLE}.version LIKE '6400' THEN '1.6'
+            WHEN ${TABLE}.version LIKE '7100' THEN '1.7'
+            WHEN ${TABLE}.version LIKE '7200' THEN '1.7'
+            WHEN ${TABLE}.version LIKE '7300' THEN '1.7'
+            WHEN ${TABLE}.version LIKE '7400' THEN '1.7'
+            WHEN ${TABLE}.version LIKE '7500' THEN '1.7'
+            WHEN ${TABLE}.version LIKE '7600' THEN '1.7'
+            WHEN ${TABLE}.version LIKE '8000' THEN '1.8'
+            WHEN ${TABLE}.version LIKE '8100' THEN '1.8'
+            WHEN ${TABLE}.version LIKE '8200' THEN '1.8'
         END"
 }
 
 constant: install_release_version_major {
   value: "CASE
-            WHEN ${TABLE}.install_version LIKE '1568' THEN 'Release 1.0'
-            WHEN ${TABLE}.install_version LIKE '1579' THEN 'Release 1.0'
-            WHEN ${TABLE}.install_version LIKE '2047' THEN 'Release 1.1'
-            WHEN ${TABLE}.install_version LIKE '2100' THEN 'Release 1.1'
-            WHEN ${TABLE}.install_version LIKE '3028' THEN 'Release 1.2'
-            WHEN ${TABLE}.install_version LIKE '3043' THEN 'Release 1.2'
-            WHEN ${TABLE}.install_version LIKE '3100' THEN 'Release 1.2'
-            WHEN ${TABLE}.install_version LIKE '4017' THEN 'Release 1.3'
-            WHEN ${TABLE}.install_version LIKE '4100' THEN 'Release 1.3'
-            WHEN ${TABLE}.install_version LIKE '5006' THEN 'Release 1.5'
-            WHEN ${TABLE}.install_version LIKE '5100' THEN 'Release 1.5'
-            WHEN ${TABLE}.install_version LIKE '6001' THEN 'Release 1.6'
-            WHEN ${TABLE}.install_version LIKE '6100' THEN 'Release 1.6'
-            WHEN ${TABLE}.install_version LIKE '6200' THEN 'Release 1.6'
-            WHEN ${TABLE}.install_version LIKE '6300' THEN 'Release 1.6'
-            WHEN ${TABLE}.install_version LIKE '6400' THEN 'Release 1.6'
-            WHEN ${TABLE}.install_version LIKE '7100' THEN 'Release 1.7'
-            WHEN ${TABLE}.install_version LIKE '7200' THEN 'Release 1.7'
-            WHEN ${TABLE}.install_version LIKE '7300' THEN 'Release 1.7'
-            WHEN ${TABLE}.install_version LIKE '7400' THEN 'Release 1.7'
-            WHEN ${TABLE}.install_version LIKE '7500' THEN 'Release 1.7'
+            WHEN ${TABLE}.install_version LIKE '1568' THEN '1.0'
+            WHEN ${TABLE}.install_version LIKE '1579' THEN '1.0'
+            WHEN ${TABLE}.install_version LIKE '2047' THEN '1.1'
+            WHEN ${TABLE}.install_version LIKE '2100' THEN '1.1'
+            WHEN ${TABLE}.install_version LIKE '3028' THEN '1.2'
+            WHEN ${TABLE}.install_version LIKE '3043' THEN '1.2'
+            WHEN ${TABLE}.install_version LIKE '3100' THEN '1.2'
+            WHEN ${TABLE}.install_version LIKE '4017' THEN '1.3'
+            WHEN ${TABLE}.install_version LIKE '4100' THEN '1.3'
+            WHEN ${TABLE}.install_version LIKE '5006' THEN '1.5'
+            WHEN ${TABLE}.install_version LIKE '5100' THEN '1.5'
+            WHEN ${TABLE}.install_version LIKE '6100' THEN '1.6'
+            WHEN ${TABLE}.install_version LIKE '6200' THEN '1.6'
+            WHEN ${TABLE}.install_version LIKE '6300' THEN '1.6'
+            WHEN ${TABLE}.install_version LIKE '6400' THEN '1.6'
+            WHEN ${TABLE}.install_version LIKE '7100' THEN '1.7'
+            WHEN ${TABLE}.install_version LIKE '7200' THEN '1.7'
+            WHEN ${TABLE}.install_version LIKE '7300' THEN '1.7'
+            WHEN ${TABLE}.install_version LIKE '7400' THEN '1.7'
+            WHEN ${TABLE}.install_version LIKE '7500' THEN '1.7'
+            WHEN ${TABLE}.install_version LIKE '7600' THEN '1.7'
+            WHEN ${TABLE}.install_version LIKE '8000' THEN '1.8'
+            WHEN ${TABLE}.install_version LIKE '8100' THEN '1.8'
+            WHEN ${TABLE}.install_version LIKE '8200' THEN '1.8'
         END"
 }
 
 constant: release_version_minor {
   value: "CASE
-            WHEN ${TABLE}.version LIKE '1568' THEN 'Release 1.0.001'
-            WHEN ${TABLE}.version LIKE '1579' THEN 'Release 1.0.100'
-            WHEN ${TABLE}.version LIKE '2047' THEN 'Release 1.1.001'
-            WHEN ${TABLE}.version LIKE '2100' THEN 'Release 1.1.100'
-            WHEN ${TABLE}.version LIKE '3028' THEN 'Release 1.2.028'
-            WHEN ${TABLE}.version LIKE '3043' THEN 'Release 1.2.043'
-            WHEN ${TABLE}.version LIKE '3100' THEN 'Release 1.2.100'
-            WHEN ${TABLE}.version LIKE '4017' THEN 'Release 1.3.017'
-            WHEN ${TABLE}.version LIKE '4100' THEN 'Release 1.3.100'
-            WHEN ${TABLE}.version LIKE '5006' THEN 'Release 1.5.006'
-            WHEN ${TABLE}.version LIKE '5100' THEN 'Release 1.5.100'
-            WHEN ${TABLE}.version LIKE '6001' THEN 'Release 1.6.001'
-            WHEN ${TABLE}.version LIKE '6100' THEN 'Release 1.6.100'
-            WHEN ${TABLE}.version LIKE '6200' THEN 'Release 1.6.200'
-            WHEN ${TABLE}.version LIKE '6300' THEN 'Release 1.6.300'
-            WHEN ${TABLE}.version LIKE '6400' THEN 'Release 1.6.400'
-            WHEN ${TABLE}.version LIKE '7100' THEN 'Release 1.7.100'
-            WHEN ${TABLE}.version LIKE '7200' THEN 'Release 1.7.200'
-            WHEN ${TABLE}.version LIKE '7300' THEN 'Release 1.7.300'
-            WHEN ${TABLE}.version LIKE '7400' THEN 'Release 1.7.400'
-            WHEN ${TABLE}.version LIKE '7500' THEN 'Release 1.7.500'
+            WHEN ${TABLE}.version LIKE '1568' THEN '1.0.001'
+            WHEN ${TABLE}.version LIKE '1579' THEN '1.0.100'
+            WHEN ${TABLE}.version LIKE '2047' THEN '1.1.001'
+            WHEN ${TABLE}.version LIKE '2100' THEN '1.1.100'
+            WHEN ${TABLE}.version LIKE '3028' THEN '1.2.028'
+            WHEN ${TABLE}.version LIKE '3043' THEN '1.2.043'
+            WHEN ${TABLE}.version LIKE '3100' THEN '1.2.100'
+            WHEN ${TABLE}.version LIKE '4017' THEN '1.3.017'
+            WHEN ${TABLE}.version LIKE '4100' THEN '1.3.100'
+            WHEN ${TABLE}.version LIKE '5006' THEN '1.5.006'
+            WHEN ${TABLE}.version LIKE '5100' THEN '1.5.100'
+            WHEN ${TABLE}.version LIKE '6100' THEN '1.6.100'
+            WHEN ${TABLE}.version LIKE '6200' THEN '1.6.200'
+            WHEN ${TABLE}.version LIKE '6300' THEN '1.6.300'
+            WHEN ${TABLE}.version LIKE '6400' THEN '1.6.400'
+            WHEN ${TABLE}.version LIKE '7100' THEN '1.7.100'
+            WHEN ${TABLE}.version LIKE '7200' THEN '1.7.200'
+            WHEN ${TABLE}.version LIKE '7300' THEN '1.7.300'
+            WHEN ${TABLE}.version LIKE '7400' THEN '1.7.400'
+            WHEN ${TABLE}.version LIKE '7500' THEN '1.7.500'
+            WHEN ${TABLE}.version LIKE '7600' THEN '1.7.600'
+            WHEN ${TABLE}.version LIKE '8000' THEN '1.8.000'
+            WHEN ${TABLE}.version LIKE '8100' THEN '1.8.100'
+            WHEN ${TABLE}.version LIKE '8200' THEN '1.8.200'
           END"
 }
 
 constant: install_release_version_minor {
   value: "CASE
-            WHEN ${TABLE}.install_version LIKE '1568' THEN 'Release 1.0.001'
-            WHEN ${TABLE}.install_version LIKE '1579' THEN 'Release 1.0.100'
-            WHEN ${TABLE}.install_version LIKE '2047' THEN 'Release 1.1.001'
-            WHEN ${TABLE}.install_version LIKE '2100' THEN 'Release 1.1.100'
-            WHEN ${TABLE}.install_version LIKE '3028' THEN 'Release 1.2.028'
-            WHEN ${TABLE}.install_version LIKE '3043' THEN 'Release 1.2.043'
-            WHEN ${TABLE}.install_version LIKE '3100' THEN 'Release 1.2.100'
-            WHEN ${TABLE}.install_version LIKE '4017' THEN 'Release 1.3.017'
-            WHEN ${TABLE}.install_version LIKE '4100' THEN 'Release 1.3.100'
-            WHEN ${TABLE}.install_version LIKE '5006' THEN 'Release 1.5.006'
-            WHEN ${TABLE}.install_version LIKE '5100' THEN 'Release 1.5.100'
-            WHEN ${TABLE}.install_version LIKE '6001' THEN 'Release 1.6.001'
-            WHEN ${TABLE}.install_version LIKE '6100' THEN 'Release 1.6.100'
-            WHEN ${TABLE}.install_version LIKE '6200' THEN 'Release 1.6.200'
-            WHEN ${TABLE}.install_version LIKE '6300' THEN 'Release 1.6.300'
-            WHEN ${TABLE}.install_version LIKE '6400' THEN 'Release 1.6.400'
-            WHEN ${TABLE}.install_version LIKE '7100' THEN 'Release 1.7.100'
-            WHEN ${TABLE}.install_version LIKE '7200' THEN 'Release 1.7.200'
-            WHEN ${TABLE}.install_version LIKE '7300' THEN 'Release 1.7.300'
-            WHEN ${TABLE}.install_version LIKE '7400' THEN 'Release 1.7.400'
-            WHEN ${TABLE}.install_version LIKE '7500' THEN 'Release 1.7.500'
+            WHEN ${TABLE}.install_version LIKE '1568' THEN '1.0.001'
+            WHEN ${TABLE}.install_version LIKE '1579' THEN '1.0.100'
+            WHEN ${TABLE}.install_version LIKE '2047' THEN '1.1.001'
+            WHEN ${TABLE}.install_version LIKE '2100' THEN '1.1.100'
+            WHEN ${TABLE}.install_version LIKE '3028' THEN '1.2.028'
+            WHEN ${TABLE}.install_version LIKE '3043' THEN '1.2.043'
+            WHEN ${TABLE}.install_version LIKE '3100' THEN '1.2.100'
+            WHEN ${TABLE}.install_version LIKE '4017' THEN '1.3.017'
+            WHEN ${TABLE}.install_version LIKE '4100' THEN '1.3.100'
+            WHEN ${TABLE}.install_version LIKE '5006' THEN '1.5.006'
+            WHEN ${TABLE}.install_version LIKE '5100' THEN '1.5.100'
+            WHEN ${TABLE}.install_version LIKE '6100' THEN '1.6.100'
+            WHEN ${TABLE}.install_version LIKE '6200' THEN '1.6.200'
+            WHEN ${TABLE}.install_version LIKE '6300' THEN '1.6.300'
+            WHEN ${TABLE}.install_version LIKE '6400' THEN '1.6.400'
+            WHEN ${TABLE}.install_version LIKE '7100' THEN '1.7.100'
+            WHEN ${TABLE}.install_version LIKE '7200' THEN '1.7.200'
+            WHEN ${TABLE}.install_version LIKE '7300' THEN '1.7.300'
+            WHEN ${TABLE}.install_version LIKE '7400' THEN '1.7.400'
+            WHEN ${TABLE}.install_version LIKE '7500' THEN '1.7.500'
+            WHEN ${TABLE}.install_version LIKE '7600' THEN '1.7.600'
+            WHEN ${TABLE}.install_version LIKE '8000' THEN '1.8.000'
+            WHEN ${TABLE}.install_version LIKE '8100' THEN '1.8.100'
+            WHEN ${TABLE}.install_version LIKE '8200' THEN '1.8.200'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.card002_20210301') != 'unassigned' THEN 'Alt 407'
+            WHEN JSON_EXTRACT(${experiments},'$.card002_20210222') != 'unassigned' THEN 'Alt Card 4'
+            WHEN JSON_EXTRACT(${experiments},'$.newUX_20210223') != 'unassigned' THEN 'New UX v4'
+            WHEN JSON_EXTRACT(${experiments},'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
+            WHEN JSON_EXTRACT(${experiments},'$.dailyRewards_20210112') != 'unassigned' THEN 'DailyRewards v1'
+            WHEN JSON_EXTRACT(${experiments},'$.fueStory_20210215') != 'unassigned' THEN 'FUE/Story v1'
+            WHEN JSON_EXTRACT(${experiments},'$.skillReminder_20200204') != 'unassigned' THEN 'SkillReminder v2'
             WHEN JSON_EXTRACT(${experiments},'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
             WHEN JSON_EXTRACT(${experiments},'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
             WHEN JSON_EXTRACT(${experiments},'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
-            WHEN JSON_EXTRACT(${experiments},'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
             WHEN JSON_EXTRACT(${experiments},'$.endOfRound_20201204') != 'unassigned' THEN 'NewEoR'
+            WHEN JSON_EXTRACT(${experiments},'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
             WHEN JSON_EXTRACT(${experiments},'$.content_20201130') != 'unassigned' THEN 'EarlyContent3'
             WHEN JSON_EXTRACT(${experiments},'$.laterLinearTest_20201111') != 'unassigned' THEN 'LaterLinear'
             WHEN JSON_EXTRACT(${experiments},'$.content_20201106') != 'unassigned' THEN 'EarlyContent2'
@@ -397,35 +416,42 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
-            WHEN ${experiment_names} = 'NewUX2' THEN JSON_EXTRACT(${experiments},'$.newVsOld_20210108')
-            WHEN ${experiment_names} = 'NewUX' THEN JSON_EXTRACT(${experiments},'$.newVsOld_20201218')
-            WHEN ${experiment_names} = 'TransitionTiming' THEN JSON_EXTRACT(${experiments},'$.transitionDelay_20201217')
-            WHEN ${experiment_names} = 'WorldMap' THEN JSON_EXTRACT(${experiments},'$.worldmap_20201028')
-            WHEN ${experiment_names} = 'NewEoR' THEN JSON_EXTRACT(${experiments},'$.endOfRound_20201204')
-            WHEN ${experiment_names} = 'EarlyContent3' THEN JSON_EXTRACT(${experiments},'$.content_20201130')
-            WHEN ${experiment_names} = 'LaterLinear' THEN JSON_EXTRACT(${experiments},'$.laterLinearTest_20201111')
-            WHEN ${experiment_names} = 'EarlyContent2' THEN JSON_EXTRACT(${experiments},'$.content_20201106')
-            WHEN ${experiment_names} = 'VFXTreshold' THEN JSON_EXTRACT(${experiments},'$.vfx_threshold_20201102')
-            WHEN ${experiment_names} = 'LastBonus' THEN JSON_EXTRACT(${experiments},'$.last_bonus_20201105')
-            WHEN ${experiment_names} = 'UntimedMode' THEN JSON_EXTRACT(${experiments},'$.untimed_20200918')
-            WHEN ${experiment_names} = 'EarlyContent' THEN JSON_EXTRACT(${experiments},'$.content_20201005')
-            WHEN ${experiment_names} = 'SecondsPerRound' THEN JSON_EXTRACT(${experiments},'$.secondsPerRound_20200922')
-            WHEN ${experiment_names} = 'EarlyExit2' THEN JSON_EXTRACT(${experiments},'$.earlyExitContent_20200909')
-            WHEN ${experiment_names} = 'EarlyExit' THEN JSON_EXTRACT(${experiments},'$.earlyExit_20200828')
-            WHEN ${experiment_names} = 'Notifications' THEN JSON_EXTRACT(${experiments},'$.notifications_20200824')
-            WHEN ${experiment_names} = 'LazyLoad' THEN JSON_EXTRACT(${experiments},'$.lazyLoadOtherTabs_20200901')
-            WHEN ${experiment_names} = 'FUETiming' THEN JSON_EXTRACT(${experiments},'$.tabFueTiming_20200825')
-            WHEN ${experiment_names} = 'EasyEarlyBingoCardVariants' THEN JSON_EXTRACT(${experiments},'$.bingoEasyEarlyVariants_20200608')
-            WHEN ${experiment_names} = 'LowPerformanceMode' THEN JSON_EXTRACT(${experiments},'$.lowPerformanceMode_20200803')
+            WHEN ${experiment_names} = 'Alt 407' THEN JSON_EXTRACT_SCALAR(${experiments},'$.card002_20210301')
+            WHEN ${experiment_names} = 'Alt Card 4' THEN JSON_EXTRACT_SCALAR(${experiments},'$.card002_20210222')
+            WHEN ${experiment_names} = 'New UX v4' THEN JSON_EXTRACT_SCALAR(${experiments},'$.newUX_20210223')
+            WHEN ${experiment_names} = 'AskForHelp v1' THEN JSON_EXTRACT_SCALAR(${experiments},'$.askForHelp_20210112')
+            WHEN ${experiment_names} = 'DailyRewards v1' THEN JSON_EXTRACT_SCALAR(${experiments},'$.dailyRewards_20210112')
+            WHEN ${experiment_names} = 'FUE/Story v1' THEN JSON_EXTRACT_SCALAR(${experiments},'$.fueStory_20210215')
+            WHEN ${experiment_names} = 'SkillReminder v2' THEN JSON_EXTRACT_SCALAR(${experiments},'$.skillReminder_20200204')
+            WHEN ${experiment_names} = 'NewUX2' THEN JSON_EXTRACT_SCALAR(${experiments},'$.newVsOld_20210108')
+            WHEN ${experiment_names} = 'NewUX' THEN JSON_EXTRACT_SCALAR(${experiments},'$.newVsOld_20201218')
+            WHEN ${experiment_names} = 'TransitionTiming' THEN JSON_EXTRACT_SCALAR(${experiments},'$.transitionDelay_20201217')
+            WHEN ${experiment_names} = 'NewEoR' THEN JSON_EXTRACT_SCALAR(${experiments},'$.endOfRound_20201204')
+            WHEN ${experiment_names} = 'WorldMap' THEN JSON_EXTRACT_SCALAR(${experiments},'$.worldmap_20201028')
+            WHEN ${experiment_names} = 'EarlyContent3' THEN JSON_EXTRACT_SCALAR(${experiments},'$.content_20201130')
+            WHEN ${experiment_names} = 'LaterLinear' THEN JSON_EXTRACT_SCALAR(${experiments},'$.laterLinearTest_20201111')
+            WHEN ${experiment_names} = 'EarlyContent2' THEN JSON_EXTRACT_SCALAR(${experiments},'$.content_20201106')
+            WHEN ${experiment_names} = 'VFXTreshold' THEN JSON_EXTRACT_SCALAR(${experiments},'$.vfx_threshold_20201102')
+            WHEN ${experiment_names} = 'LastBonus' THEN JSON_EXTRACT_SCALAR(${experiments},'$.last_bonus_20201105')
+            WHEN ${experiment_names} = 'UntimedMode' THEN JSON_EXTRACT_SCALAR(${experiments},'$.untimed_20200918')
+            WHEN ${experiment_names} = 'EarlyContent' THEN JSON_EXTRACT_SCALAR(${experiments},'$.content_20201005')
+            WHEN ${experiment_names} = 'SecondsPerRound' THEN JSON_EXTRACT_SCALAR(${experiments},'$.secondsPerRound_20200922')
+            WHEN ${experiment_names} = 'EarlyExit2' THEN JSON_EXTRACT_SCALAR(${experiments},'$.earlyExitContent_20200909')
+            WHEN ${experiment_names} = 'EarlyExit' THEN JSON_EXTRACT_SCALAR(${experiments},'$.earlyExit_20200828')
+            WHEN ${experiment_names} = 'Notifications' THEN JSON_EXTRACT_SCALAR(${experiments},'$.notifications_20200824')
+            WHEN ${experiment_names} = 'LazyLoad' THEN JSON_EXTRACT_SCALAR(${experiments},'$.lazyLoadOtherTabs_20200901')
+            WHEN ${experiment_names} = 'FUETiming' THEN JSON_EXTRACT_SCALAR(${experiments},'$.tabFueTiming_20200825')
+            WHEN ${experiment_names} = 'EasyEarlyBingoCardVariants' THEN JSON_EXTRACT_SCALAR(${experiments},'$.bingoEasyEarlyVariants_20200608')
+            WHEN ${experiment_names} = 'LowPerformanceMode' THEN JSON_EXTRACT_SCALAR(${experiments},'$.lowPerformanceMode_20200803')
           END"
 }
 
 constant: country_region {
   value: "CASE
             WHEN ${TABLE}.country LIKE 'ZZ' THEN 'N/A'
-            WHEN ${TABLE}.country IN ('MX', 'PE', 'UY', 'VE', 'NI', 'PY', 'CR', 'SV', 'CL', 'BZ', 'BO', 'AR', 'CO', 'HN', 'GT', 'EC', 'PA') THEN 'LATAM-ES'
+            WHEN ${TABLE}.country IN ('AR','BO', 'CO','MX', 'PE', 'UY', 'VE', 'NI', 'PY', 'CR', 'SV', 'CL', 'BZ', 'HN', 'GT', 'EC', 'PA') THEN 'LATAM-ES'
             WHEN ${TABLE}.country LIKE 'BR' THEN 'LATAM-BR'
-            WHEN ${TABLE}.country IN ('GB', 'IE') THEN 'UK-IR'
+            WHEN ${TABLE}.country IN ('GB', 'IE', 'ES') THEN 'UK-EU'
             ELSE 'OTHER'
           END"
 }
@@ -439,6 +465,7 @@ constant: current_card_numbered {
               WHEN ${TABLE}.current_card = 'card_003_a' THEN 300
               WHEN ${TABLE}.current_card = 'card_003_untimed' THEN 300
               WHEN ${TABLE}.current_card = 'card_002' THEN 400
+              WHEN ${TABLE}.current_card = 'card_002_inverted' THEN 400
               WHEN ${TABLE}.current_card = 'card_039' THEN 400
               WHEN ${TABLE}.current_card = 'card_004_untimed' THEN 400
               WHEN ${TABLE}.current_card = 'card_003' THEN 500
@@ -461,5 +488,62 @@ constant: current_card_numbered {
               WHEN ${TABLE}.current_card = 'card_016' THEN 1800
               WHEN ${TABLE}.current_card = 'card_017' THEN 1900
               WHEN ${TABLE}.current_card = 'card_018' THEN 2000
+              WHEN ${TABLE}.current_card = 'card_019' THEN 2100
+              WHEN ${TABLE}.current_card = 'card_020' THEN 2200
+          END"
+}
+
+
+constant: request_card_numbered {
+  value: "CASE
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_001_a' THEN 100
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_001_untimed' THEN 100
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_002_a' THEN 200
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_003_a' THEN 300
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_003_untimed' THEN 300
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_002' THEN 400
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_002_inverted' THEN 400
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_039' THEN 400
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_004_untimed' THEN 400
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_003' THEN 500
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_040' THEN 500
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_005_untimed' THEN 500
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_004' THEN 600
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_041' THEN 600
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_006_untimed' THEN 600
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_005' THEN 700
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_006' THEN 800
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_007' THEN 900
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_008' THEN 1000
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_009' THEN 1100
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_010' THEN 1200
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_011' THEN 1300
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_012' THEN 1400
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_013' THEN 1500
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_014' THEN 1600
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_015' THEN 1700
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_016' THEN 1800
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_017' THEN 1900
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_018' THEN 2000
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_019' THEN 2100
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_020' THEN 2200
+        END"
+}
+
+constant: purchase_source {
+  value: "CASE
+              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_ManageLives.QuickPurchase.%' THEN 'Lives Quick Purchase Sheet'
+              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_CurrencyPack.QuickPurchase.%' THEN 'Coins Quick Purchase Sheet'
+              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Panel_Store.Purchase.%' THEN 'Store'
+              ELSE 'OTHER'
+          END"
+}
+
+constant: purchase_iap_strings {
+  value: "CASE
+              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_008' THEN 'Peewee Gem Capsule'
+              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_009' THEN 'Small Gem Capsule'
+              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_010' THEN 'Medium Gem Capsule'
+              ELSE 'OTHER'
           END"
 }

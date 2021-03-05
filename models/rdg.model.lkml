@@ -42,6 +42,11 @@ explore: events {
                 and ${events.user_first_seen_date} = ${retention.signup_day_date};;
       relationship: many_to_one
     }
+    join: derived_install_version_players {
+      sql_on: ${events.player_id} = ${derived_install_version_players.user_id}
+                and ${events.user_first_seen_date} = ${derived_install_version_players.user_first_seen_date};;
+      relationship: many_to_many
+    }
     join: created_at_max {
       sql_on: ${events.user_id} = ${created_at_max.user_id}
               ;;
@@ -58,6 +63,11 @@ explore: churned_players_aggregated {
       AND ${churned_players_aggregated.install_version} = ${experiments_cohorted_players.install_version};;
     relationship: one_to_one
   }
+
+  join: cohorted_players {
+    sql_on:  ${churned_players_aggregated.install_version} = ${cohorted_players.install_version};;
+    relationship: one_to_one
+  }
 }
 
 explore: non_churned_players_aggregated {}
@@ -70,6 +80,8 @@ explore: bingo_card_funnels {}
 
 explore: experiments_cohorted_players {}
 
+explore: cohorted_players {}
+
 explore: transactions {
   join: events {
     sql_on: ${events.timestamp_date} = ${transactions.transaction_date_date};;
@@ -79,7 +91,33 @@ explore: transactions {
 
 explore: bingo_card_attempts {}
 
-explore: bingo_card_attempts_aggregated {}
+explore: bingo_card_attempts_aggregated {
+  #REMOVE JOIN?
+  join: ask_for_help {
+    sql_on: ${ask_for_help.request_card_quest} = ${bingo_card_attempts_aggregated.bingo_card_attempts_current_card_quest}
+      AND ${ask_for_help.experiments} = ${bingo_card_attempts_aggregated.experiments};;
+    type: left_outer
+    relationship: one_to_one
+  }
+}
+
+explore: skill_used {}
+
+explore: derived_install_version_players {}
+
+explore: ask_for_help {
+  join: cohorted_players {
+    sql_on: ${ask_for_help.event_timestamp_raw} = ${cohorted_players.event_timestamp_raw} ;;
+    relationship: one_to_one
+  }
+
+  join: events {
+    sql_on: ${ask_for_help.user_id} = ${events.user_id} ;;
+    relationship: one_to_one
+  }
+}
+
+explore: afh_hack {}
 
 ###############
 
@@ -94,28 +132,27 @@ explore: z_churn_analysis_install_cohort {
 
 explore: player_s_wallet {}
 
-
 explore: created_at_max {}
-
 
 explore: starts_ends_awake_ratios {}
 
-
 explore: experiments_charts {}
-
 
 explore: retention_cohort_dimensionalize_20days {}
 
-
-explore: round_id_decay_per_churn {
-  description: "deprecated"
+explore: churn_per_of_previous {
+  join: events {
+    sql_on: ${churn_per_of_previous.events_experiment_names} = ${events.experiment_names}
+          AND ${churn_per_of_previous.events_round_id} = ${events.round_id}
+            ;;
+    relationship: many_to_many
+  }
 }
 
 
 explore: count_quests_attempts {
   description: "refactor"
 }
-
 
 
 explore: characters_collection_iii {

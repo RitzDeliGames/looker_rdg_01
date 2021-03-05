@@ -11,6 +11,7 @@ view: churned_players_aggregated {
         events.install_version AS install_version,
         events.consecutive_days  AS consecutive_days,
         events.session_id  AS session_id,
+        events.country AS country,
         (CASE
           WHEN events.current_card = 'card_001_a' THEN 100
           WHEN events.current_card = 'card_001_untimed' THEN 100
@@ -43,6 +44,7 @@ view: churned_players_aggregated {
           WHEN events.current_card = 'card_018' THEN 2000
       END) + (CAST(REPLACE(JSON_VALUE(events.extra_json,'$.current_quest'),'"','') AS NUMERIC)) AS current_card_quest,
         CASE
+          WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
           WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
           WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
           WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -66,6 +68,30 @@ view: churned_players_aggregated {
         END  AS experiment_names,
         REPLACE(CASE
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
+                  WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
+                  WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
+                  WHEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028') != 'unassigned' THEN 'WorldMap'
+                  WHEN JSON_EXTRACT(events.experiments,'$.endOfRound_20201204') != 'unassigned' THEN 'NewEoR'
+                  WHEN JSON_EXTRACT(events.experiments,'$.content_20201130') != 'unassigned' THEN 'EarlyContent3'
+                  WHEN JSON_EXTRACT(events.experiments,'$.laterLinearTest_20201111') != 'unassigned' THEN 'LaterLinear'
+                  WHEN JSON_EXTRACT(events.experiments,'$.content_20201106') != 'unassigned' THEN 'EarlyContent2'
+                  WHEN JSON_EXTRACT(events.experiments,'$.vfx_threshold_20201102') != 'unassigned' THEN 'VFXTreshold'
+                  WHEN JSON_EXTRACT(events.experiments,'$.last_bonus_20201105') != 'unassigned' THEN 'LastBonus'
+                  WHEN JSON_EXTRACT(events.experiments,'$.untimed_20200918') != 'unassigned' THEN 'UntimedMode'
+                  WHEN JSON_EXTRACT(events.experiments,'$.content_20201005') != 'unassigned' THEN 'EarlyContent'
+                  WHEN JSON_EXTRACT(events.experiments,'$.secondsPerRound_20200922') != 'unassigned' THEN 'SecondsPerRound'
+                  WHEN JSON_EXTRACT(events.experiments,'$.earlyExitContent_20200909') != 'unassigned' THEN 'EarlyExit2'
+                  WHEN JSON_EXTRACT(events.experiments,'$.earlyExit_20200828') != 'unassigned' THEN 'EarlyExit'
+                  WHEN JSON_EXTRACT(events.experiments,'$.notifications_20200824') != 'unassigned' THEN 'Notifications'
+                  WHEN JSON_EXTRACT(events.experiments,'$.lazyLoadOtherTabs_20200901') != 'unassigned' THEN 'LazyLoad'
+                  WHEN JSON_EXTRACT(events.experiments,'$.tabFueTiming_20200825') != 'unassigned' THEN 'FUETiming'
+                  WHEN JSON_EXTRACT(events.experiments,'$.bingoEasyEarlyVariants_20200608') != 'unassigned' THEN 'EasyEarlyBingoCardVariants'
+                  WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
+                END) = 'AskForHelp v1' THEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112')
+                  WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -88,6 +114,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'NewUX2' THEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -110,6 +137,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'NewUX' THEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -132,6 +160,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'TransitionTiming' THEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -154,6 +183,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'WorldMap' THEN JSON_EXTRACT(events.experiments,'$.worldmap_20201028')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -176,6 +206,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'NewEoR' THEN JSON_EXTRACT(events.experiments,'$.endOfRound_20201204')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -220,6 +251,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'LaterLinear' THEN JSON_EXTRACT(events.experiments,'$.laterLinearTest_20201111')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -242,6 +274,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'EarlyContent2' THEN JSON_EXTRACT(events.experiments,'$.content_20201106')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -264,6 +297,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'VFXTreshold' THEN JSON_EXTRACT(events.experiments,'$.vfx_threshold_20201102')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -286,6 +320,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'LastBonus' THEN JSON_EXTRACT(events.experiments,'$.last_bonus_20201105')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -308,6 +343,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'UntimedMode' THEN JSON_EXTRACT(events.experiments,'$.untimed_20200918')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -330,6 +366,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'EarlyContent' THEN JSON_EXTRACT(events.experiments,'$.content_20201005')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -352,6 +389,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'SecondsPerRound' THEN JSON_EXTRACT(events.experiments,'$.secondsPerRound_20200922')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -374,6 +412,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'EarlyExit2' THEN JSON_EXTRACT(events.experiments,'$.earlyExitContent_20200909')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -396,6 +435,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'EarlyExit' THEN JSON_EXTRACT(events.experiments,'$.earlyExit_20200828')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -418,6 +458,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'Notifications' THEN JSON_EXTRACT(events.experiments,'$.notifications_20200824')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -440,6 +481,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'LazyLoad' THEN JSON_EXTRACT(events.experiments,'$.lazyLoadOtherTabs_20200901')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -462,6 +504,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'FUETiming' THEN JSON_EXTRACT(events.experiments,'$.tabFueTiming_20200825')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -484,6 +527,7 @@ view: churned_players_aggregated {
                   WHEN JSON_EXTRACT(events.experiments,'$.lowPerformanceMode_20200803') != 'unassigned' THEN 'LowPerformanceMode'
                 END) = 'EasyEarlyBingoCardVariants' THEN JSON_EXTRACT(events.experiments,'$.bingoEasyEarlyVariants_20200608')
                   WHEN (CASE
+                  WHEN JSON_EXTRACT(events.experiments,'$.askForHelp_20210112') != 'unassigned' THEN 'AskForHelp v1'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20210108') != 'unassigned' THEN 'NewUX2'
                   WHEN JSON_EXTRACT(events.experiments,'$.newVsOld_20201218') != 'unassigned' THEN 'NewUX'
                   WHEN JSON_EXTRACT(events.experiments,'$.transitionDelay_20201217') != 'unassigned' THEN 'TransitionTiming'
@@ -510,12 +554,13 @@ view: churned_players_aggregated {
       FROM `eraser-blast.game_data.events` AS events
       WHERE created_at  >= TIMESTAMP('2020-07-06 00:00:00')
           AND user_type = "external"
-      GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12)
+      GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13, 14)
       SELECT
         churned_players.user_id AS churned_players_user_id,
         churned_players.experiment_names AS churned_players_experiment_names,
         churned_players.variants AS churned_players_variants,
         churned_players.install_version AS install_version,
+        churned_players.country AS country,
         MAX(churned_players.current_card_quest) AS churned_players_max_current_card_quest,
         MAX(churned_players.engagement_ticks) AS churned_players_max_engagement_ticks,
         MAX((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.rounds") AS INT64) - CAST(ARRAY_LENGTH(JSON_EXTRACT_ARRAY(extra_json,"$.card_state")) AS INT64)) ) AS churned_players_max_failed_attempts,
@@ -523,7 +568,7 @@ view: churned_players_aggregated {
         AVG((CAST(JSON_EXTRACT_SCALAR(extra_json,"$.load_time") AS INT64)) / 1000) AS churned_players_avg_load_time,
         COUNT(DISTINCT churned_players.session_id) AS churned_players_session_count
       FROM churned_players
-      GROUP BY 1,2,3,4
+      GROUP BY 1,2,3,4,5
       HAVING (MAX(churned_players.consecutive_days) = 0)
       ORDER BY 3 DESC
        ;;
@@ -543,6 +588,11 @@ view: churned_players_aggregated {
   dimension: user_id {
     type: string
     sql: ${TABLE}.churned_players_user_id ;;
+  }
+
+  dimension: country {
+    type: string
+    sql: ${TABLE}.country ;;
   }
 
   dimension: experiment_names {
@@ -584,32 +634,32 @@ view: churned_players_aggregated {
     sql: ${max_failed_attempts} ;;
   }
 
-  measure: max_max_failed_attempts {
+  measure: max_failed_attempts_max {
     type: max
     value_format: "####"
     sql: ${max_failed_attempts} ;;
   }
 
-  measure: min_max_failed_attempts {
+  measure: max_failed_attempts_min {
     type: min
     value_format: "####"
     sql: ${max_failed_attempts} ;;
   }
 
-  measure: med_max_failed_attempts {
+  measure: max_failed_attempts_med {
     type: median
     value_format: "####"
     sql: ${max_failed_attempts} ;;
   }
 
-  measure: quartile_2_max_failed_attempts {
+  measure: max_failed_attempts_25th {
     type: percentile
     percentile: 25
     value_format: "####"
     sql: ${max_failed_attempts} ;;
   }
 
-  measure: quartile_3_max_failed_attempts {
+  measure: max_failed_attempts_75th {
     type: percentile
     percentile: 75
     value_format: "####"

@@ -8,6 +8,7 @@ view: user_fact {
         max(quests_completed) quests_completed,
         sum(ifnull(case when json_extract_scalar(extra_json,"$.transaction_id") is not null then (cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") as numeric) / 100) end,0)) purchase_amt
       from `eraser-blast.game_data.events`
+      where created_at >= '2019-01-01'
       group by user_id
     ;;
   }

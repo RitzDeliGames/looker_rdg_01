@@ -5,6 +5,7 @@ view: user_fact {
         user_id,
         min(created_at) created,
         max(timestamp) last_event,
+        count(distinct session_id) lifetime_sessions,
         max(quests_completed) quests_completed,
         sum(ifnull(case when json_extract_scalar(extra_json,"$.transaction_id") is not null then (cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") as numeric) / 100) end,0)) purchase_amt
       from `eraser-blast.game_data.events`
@@ -36,6 +37,7 @@ view: user_fact {
   }
   dimension: quests_completed {
     type: number
+    hidden: yes
   }
   dimension: purchase_amt {
     type: number
@@ -51,9 +53,21 @@ view: user_fact {
     sql: case when ${last_event_date} <= current_date() then date_diff(current_date(),${last_event_date},day) else null end ;;
   }
   dimension: spend_tier {
+    type: string
+    sql: case when ${purchase_amt} = 0 then '$0.00'
+      when ${purchase_amt} > 0 and ${purchase_amt} < 10 then '$1.00 - $9.99'
+      when ${purchase_amt} >= 10 and ${purchase_amt} < 50 then '$10.00 - $49.99'
+      when ${purchase_amt} >= 50 and ${purchase_amt} < 100 then '$50.00 - $99.99'
+      when ${purchase_amt} >= 100 and ${purchase_amt} then '$100.00 +'
+      end ;;
+  }
+  dimension: lifetime_sessions {
+    type: number
+  }
+  dimension: session_tier {
     type: tier
-    sql: ${purchase_amt} ;;
-    tiers: [1,10,50,100]
+    sql: ${lifetime_sessions} ;;
+    tiers: [1,2,3,5,10,20,50,100]
     style: integer
   }
   measure: count {
@@ -63,5 +77,9 @@ view: user_fact {
     type: sum
     sql: ${purchase_amt} ;;
     value_format_name: usd
+  }
+  measure: completed_quests {
+    type: sum
+    sql: ${quests_completed} ;;
   }
 }

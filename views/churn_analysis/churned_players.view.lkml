@@ -3,6 +3,7 @@ view: churned_players {
     explore_source: events {
       column: user_id {field: events.user_id}
       column: extra_json {field: events.extra_json}
+      column: quests_completed {field: events.quests_completed}
       column: install_version {field: events.install_version}
       column: current_card {field: events.current_card}
       column: experiments {field: events.experiments}
@@ -29,9 +30,16 @@ view: churned_players {
     sql: ${user_id} ;;
     drill_fields: [user_id]
   }
-
   dimension: created_at {}
   dimension: current_card {}
+  dimension: current_card_no {
+    type: number
+    sql: @{current_card_numbered} ;;
+  }
+  measure: current_card_no_max  {
+    type: max
+    sql: ${current_card_no} ;;
+  }
   dimension: event_name {}
   dimension: extra_json {}
   dimension: platform {}
@@ -173,6 +181,14 @@ view: churned_players {
   dimension: quest_complete {
     type: string
     sql: JSON_EXTRACT_SCALAR(extra_json,"$.quest_complete");;
+  }
+
+  dimension: quests_completed {}
+
+  measure: quests_completed_max {
+    type: max
+    sql: ${quests_completed} ;;
+    drill_fields: [timestamp, minutes_since_install, engagement_ticks, quests_completed, current_card, current_card_quest, quest_complete, lives, failed_attempts, event_name, button_click, load_time, extra_json, experiments]
   }
 
   dimension: button_click {

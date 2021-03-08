@@ -53,6 +53,12 @@ explore: events {
               ;;
       relationship: one_to_one
     }
+
+    join: supported_devices {
+      sql_on: ${events.device_model_number} = ${supported_devices.retail_model} ;;
+      type: left_outer
+      relationship: one_to_one
+    }
 }
 
 explore: churned_players {}
@@ -119,6 +125,8 @@ explore: ask_for_help {
 }
 
 explore: afh_hack {}
+
+explore: supported_devices {}
 
 ###############
 

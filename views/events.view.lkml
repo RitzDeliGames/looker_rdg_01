@@ -141,7 +141,7 @@ view: events {
   dimension: device_model_number {
     group_label: "Device & OS Dimensions"
     label:  "Device Model (Ungrouped)"
-    sql:${TABLE}.hardware ;;
+    sql:LOWER(${TABLE}.hardware) ;;
   }
 
   dimension: device_model {

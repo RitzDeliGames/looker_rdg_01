@@ -575,6 +575,11 @@ view: events {
     sql: ${TABLE}.timestamp_insert ;;
   }
 
+  dimension: clock_hacker {
+    type: yesno
+    sql: (${timestamp_raw} > ${timestamp_insert_raw}) ;;
+  }
+
   dimension: session_id {
     type: string
     sql: ${TABLE}.session_id ;;

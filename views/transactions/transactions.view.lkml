@@ -177,7 +177,7 @@ view: transactions {
 
   dimension:  currency_spent_amount {
     type: number
-    sql: CAST(JSON_EXTRACT_SCALAR(transactions.extra_json,"$.transaction_purchase_amount") AS INT64) / 100;;
+    sql: CAST(JSON_EXTRACT_SCALAR(transactions.extra_json,"$.transaction_purchase_amount") AS INT64);;
   }
 
   measure: currency_spent_amount_sum {

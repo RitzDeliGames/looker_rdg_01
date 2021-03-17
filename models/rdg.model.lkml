@@ -131,6 +131,9 @@ explore: ask_for_help {
   }
 }
 
+
+explore: button_clicks {}
+
 explore: afh_hack {}
 
 explore: supported_devices {}

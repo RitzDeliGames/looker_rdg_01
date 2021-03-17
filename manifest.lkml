@@ -543,15 +543,39 @@ constant: purchase_source {
               WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_ManageLives.QuickPurchase.%' THEN 'Lives Quick Purchase Sheet'
               WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_CurrencyPack.QuickPurchase.%' THEN 'Coins Quick Purchase Sheet'
               WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Panel_Store.Purchase.%' THEN 'Store'
+              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE '%BuyMoreTime%' THEN 'Mini-Game'
               ELSE 'OTHER'
           END"
 }
 
 constant: purchase_iap_strings {
   value: "CASE
-              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_008' THEN 'Peewee Gem Capsule'
-              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_009' THEN 'Small Gem Capsule'
-              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_010' THEN 'Medium Gem Capsule'
-              ELSE 'OTHER'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_001%' THEN 'Free Ticket Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_017%' THEN 'Free Coin Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_018%' THEN 'Free Boost Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_002%' THEN 'Housepets Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_003%' THEN 'Fun Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_019%' THEN 'Super Fun Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_022%' THEN 'Jumbo Fun Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_004%' THEN 'Peewee Coin Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_005%' THEN 'Small Coin Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_006%' THEN 'Medium Coin Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_007%' THEN 'Large Coin Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_020%' THEN 'Huge Coin Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_021%' THEN 'Jumbo Coin Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_008%' THEN 'Peewee Gem Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_009%' THEN 'Small Gem Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_010%' THEN 'Medium Gem Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_011%' THEN 'Large Gem Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_012%' THEN 'Huge Gem Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_013%' THEN 'Jumbo Gem Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_023%' THEN 'Peewee Life Pack'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_014%' THEN 'Small Life Pack'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_015%' THEN 'Medium Life Pack'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_016%' THEN 'Large Life Pack'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_024%' THEN 'Huge Life Pack'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_025%' THEN 'Jumbo Life Pack'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%BuyMoreTime%' THEN 'More Time'
+            ELSE 'OTHER'
           END"
 }

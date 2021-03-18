@@ -14,8 +14,19 @@ view: button_clicks {
   }
 
   dimension: user_id {}
-  dimension: timestamp {
-    type: date_time
+  dimension: timestamp {}
+  dimension_group: button_click_date {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${timestamp} ;;
   }
   dimension: install_version {}
   dimension: install_release_version_minor {

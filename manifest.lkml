@@ -579,3 +579,17 @@ constant: purchase_iap_strings {
             ELSE 'OTHER'
           END"
 }
+  constant:  iam_ui_actions {
+    value: "CASE
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Conecte%' THEN 'Connect'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Conéctate%' THEN 'Connect'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Connect%' THEN 'Connect'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Califícanos%' THEN 'Rate Us'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Avalie-nos%' THEN 'Rate Us'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Rate Us%' THEN 'Rate Us'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%tarde%' THEN 'Later'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Permitir%' THEN 'Enable'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Habilitar%' THEN 'Enable'
+              ELSE JSON_EXTRACT_SCALAR(extra_json,'$.ui_action')
+          END"
+}

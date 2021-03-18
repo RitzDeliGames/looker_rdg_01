@@ -1,4 +1,4 @@
-view: button_clicks {
+view: iam {
   derived_table: {
     explore_source: events
     {
@@ -9,7 +9,7 @@ view: button_clicks {
       column: current_card_quest {field: events.current_card_quest}
       column: extra_json {field: events.extra_json}
 
-      filters: [events.event_name: "ButtonClicked"]
+      filters: [events.event_name: "InAppMessaging"]
     }
   }
 
@@ -21,9 +21,24 @@ view: button_clicks {
   dimension: install_release_version_minor {
     sql: @{install_release_version_minor};;
   }
-  dimension: button_tag  {
+  dimension: campaign_id  {
     type: string
-    sql:  JSON_EXTRACT_SCALAR(extra_json,"$.button_tag");;
+    sql:  JSON_EXTRACT_SCALAR(extra_json,"$.campaign_id");;
+  }
+  dimension: campaign_name  {
+    type: string
+    sql:  JSON_EXTRACT_SCALAR(extra_json,"$.campaign_name");;
+  }
+  dimension: template_id  {
+    type: string
+    sql:  JSON_EXTRACT_SCALAR(extra_json,"$.template_id");;
+  }
+  dimension: ui_action  {
+    type: string
+    sql:  JSON_EXTRACT_SCALAR(extra_json,"$.ui_action");;
+  }
+  dimension: iam_ui_actions {
+    sql: @{iam_ui_actions} ;;
   }
   measure: players {
     type: count_distinct

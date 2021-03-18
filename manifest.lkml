@@ -588,8 +588,12 @@ constant: purchase_iap_strings {
               WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Avalie-nos%' THEN 'Rate Us'
               WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Rate Us%' THEN 'Rate Us'
               WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%tarde%' THEN 'Later'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Luego%' THEN 'Later'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Depois%' THEN 'Later'
               WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Permitir%' THEN 'Enable'
               WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Habilitar%' THEN 'Enable'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Si%' THEN 'Yes'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Sim%' THEN 'Yes'
               ELSE JSON_EXTRACT_SCALAR(extra_json,'$.ui_action')
           END"
 }

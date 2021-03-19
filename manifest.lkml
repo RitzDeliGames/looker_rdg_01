@@ -300,6 +300,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '8000' THEN '1.8'
             WHEN ${TABLE}.version LIKE '8100' THEN '1.8'
             WHEN ${TABLE}.version LIKE '8200' THEN '1.8'
+            WHEN ${TABLE}.version LIKE '8300' THEN '1.8'
         END"
 }
 
@@ -329,6 +330,7 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '8000' THEN '1.8'
             WHEN ${TABLE}.install_version LIKE '8100' THEN '1.8'
             WHEN ${TABLE}.install_version LIKE '8200' THEN '1.8'
+            WHEN ${TABLE}.install_version LIKE '8300' THEN '1.8'
         END"
 }
 
@@ -358,6 +360,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '8000' THEN '1.8.000'
             WHEN ${TABLE}.version LIKE '8100' THEN '1.8.100'
             WHEN ${TABLE}.version LIKE '8200' THEN '1.8.200'
+            WHEN ${TABLE}.version LIKE '8300' THEN '1.8.300'
           END"
 }
 
@@ -387,11 +390,13 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '8000' THEN '1.8.000'
             WHEN ${TABLE}.install_version LIKE '8100' THEN '1.8.100'
             WHEN ${TABLE}.install_version LIKE '8200' THEN '1.8.200'
+            WHEN ${TABLE}.install_version LIKE '8300' THEN '1.8.300'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.dailyRewards_20210302') != 'unassigned' THEN 'DailyRewards v2'
             WHEN JSON_EXTRACT(${experiments},'$.card002_20210301') != 'unassigned' THEN 'Alt 407'
             WHEN JSON_EXTRACT(${experiments},'$.card002_20210222') != 'unassigned' THEN 'Alt Card 4'
             WHEN JSON_EXTRACT(${experiments},'$.newUX_20210223') != 'unassigned' THEN 'New UX v4'
@@ -424,6 +429,7 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
+            WHEN ${experiment_names} = 'DailyRewards v2' THEN JSON_EXTRACT_SCALAR(${experiments},'$.dailyRewards_20210302')
             WHEN ${experiment_names} = 'Alt 407' THEN JSON_EXTRACT_SCALAR(${experiments},'$.card002_20210301')
             WHEN ${experiment_names} = 'Alt Card 4' THEN JSON_EXTRACT_SCALAR(${experiments},'$.card002_20210222')
             WHEN ${experiment_names} = 'New UX v4' THEN JSON_EXTRACT_SCALAR(${experiments},'$.newUX_20210223')

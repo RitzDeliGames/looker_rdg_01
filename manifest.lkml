@@ -590,6 +590,7 @@ constant: purchase_iap_strings {
               WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Conecte%' THEN 'Connect'
               WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Conéctate%' THEN 'Connect'
               WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Connect%' THEN 'Connect'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%MISSING%' THEN 'Connect'
               WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Califícanos%' THEN 'Rate Us'
               WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Avalie-nos%' THEN 'Rate Us'
               WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Rate Us%' THEN 'Rate Us'

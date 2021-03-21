@@ -140,6 +140,8 @@ explore: afh_hack {}
 
 explore: supported_devices {}
 
+explore: facebook_daily_export {}
+
 ###############
 
 explore: sessions_per_player {}

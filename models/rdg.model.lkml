@@ -59,6 +59,12 @@ explore: events {
       type: left_outer
       relationship: one_to_one
     }
+
+    join: facebook_daily_export {
+      sql_on: ${events.user_first_seen_date} = ${facebook_daily_export.date}
+      AND ${events.country} = ${facebook_daily_export.country};;
+      relationship: many_to_one
+    }
 }
 
 explore: churned_players {}

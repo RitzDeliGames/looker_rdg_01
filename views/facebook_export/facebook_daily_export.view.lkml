@@ -16,6 +16,13 @@ view: facebook_daily_export {
       ORDER BY 1 ASC, 3 DESC ;;
   }
 
+  dimension: compound_primary_key {
+    primary_key: yes
+    hidden: yes
+    type: string
+    sql: CONCAT(${TABLE}.date, ' ', ${TABLE}.country, ' ', ${TABLE}.campaign_id) ;;
+  }
+
   dimension: date {
     type: date
   }

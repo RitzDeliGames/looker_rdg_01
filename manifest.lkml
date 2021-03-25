@@ -37,6 +37,7 @@ constant: device_model_mapping {
           WHEN ${TABLE}.hardware = 'iPad7,5' THEN 'iPad - 6th Gen'
           WHEN ${TABLE}.hardware = 'iPad7,11' THEN 'iPad - 7th Gen'
           WHEN ${TABLE}.hardware = 'iPad5,1' THEN 'iPad Mini - 4th Gen'
+          WHEN ${TABLE}.hardware = 'samsung SM-A013M' THEN 'Samsung Galaxy A01 Core'
           WHEN ${TABLE}.hardware = 'samsung SM-A520F' THEN 'Samsung Galaxy A5'
           WHEN ${TABLE}.hardware = 'samsung SM-A750G' THEN 'Samsung Galaxy A7'
           WHEN ${TABLE}.hardware = 'samsung SM-A530F' THEN 'Samsung Galaxy A8'
@@ -51,6 +52,7 @@ constant: device_model_mapping {
           WHEN ${TABLE}.hardware = 'samsung SM-A305G' THEN 'Samsung Galaxy A30'
           WHEN ${TABLE}.hardware = 'samsung SM-A307G' THEN 'Samsung Galaxy A30'
           WHEN ${TABLE}.hardware = 'samsung SM-A307GT' THEN 'Samsung Galaxy A30'
+          WHEN ${TABLE}.hardware = 'samsung SM-A315G' THEN 'Samsung Galaxy A30'
           WHEN ${TABLE}.hardware = 'samsung SM-A505G' THEN 'Samsung Galaxy A50'
           WHEN ${TABLE}.hardware = 'samsung SM-A505U' THEN 'Samsung Galaxy A50'
           WHEN ${TABLE}.hardware = 'samsung SM-A505GT' THEN 'Samsung Galaxy A50'
@@ -65,6 +67,7 @@ constant: device_model_mapping {
           WHEN ${TABLE}.hardware = 'samsung SM-G950U' THEN 'Samsung Galaxy S8'
           WHEN ${TABLE}.hardware = 'samsung SM-G955U' THEN 'Samsung Galaxy S8+'
           WHEN ${TABLE}.hardware = 'samsung SM-G955F' THEN 'Samsung Galaxy S8+'
+          WHEN ${TABLE}.hardware = 'samsung SM-G955U1' THEN 'Samsung Galaxy S8+'
           WHEN ${TABLE}.hardware = 'samsung SM-G960U1' THEN 'Samsung Galaxy S9'
           WHEN ${TABLE}.hardware = 'samsung SM-G960U' THEN 'Samsung Galaxy S9'
           WHEN ${TABLE}.hardware = 'samsung SM-G9600' THEN 'Samsung Galaxy S9'
@@ -74,6 +77,7 @@ constant: device_model_mapping {
           WHEN ${TABLE}.hardware = 'samsung SM-G970U' THEN 'Samsung Galaxy S10'
           WHEN ${TABLE}.hardware = 'samsung SM-G975F' THEN 'Samsung Galaxy S10+'
           WHEN ${TABLE}.hardware = 'samsung SM-G981U' THEN 'Samsung Galaxy S20'
+          WHEN ${TABLE}.hardware = 'samsung SM-G988B' THEN 'Samsung Galaxy S20 Ultra'
           WHEN ${TABLE}.hardware = 'samsung SM-G986U' THEN 'Samsung Galaxy S20+'
           WHEN ${TABLE}.hardware = 'samsung SM-J105B' THEN 'Samsung Galaxy J1'
           WHEN ${TABLE}.hardware = 'samsung SM-J111M' THEN 'Samsung Galaxy J1'
@@ -158,11 +162,15 @@ constant: device_os_version_mapping {
           WHEN ${TABLE}.platform LIKE '%iOS 11%' THEN 'iOS 11'
           WHEN ${TABLE}.platform LIKE '%iOS 10%' THEN 'iOS 10'
           WHEN ${TABLE}.platform LIKE '%iOS 10%' THEN 'iOS 10'
-          WHEN ${TABLE}.platform LIKE '%Android OS 10%' THEN 'Android 11'
+          WHEN ${TABLE}.platform LIKE '%Android OS 12%' THEN 'Android 12'
+          WHEN ${TABLE}.platform LIKE '%Android OS 11%' THEN 'Android 11'
           WHEN ${TABLE}.platform LIKE '%Android OS 10%' THEN 'Android 10'
           WHEN ${TABLE}.platform LIKE '%Android OS 9%' THEN 'Android 9'
           WHEN ${TABLE}.platform LIKE '%Android OS 8%' THEN 'Android 8'
           WHEN ${TABLE}.platform LIKE '%Android OS 7%' THEN 'Android 7'
+          WHEN ${TABLE}.platform LIKE '%Android OS 6%' THEN 'Android 6'
+          WHEN ${TABLE}.platform LIKE '%Android OS 5%' THEN 'Android 5'
+          WHEN ${TABLE}.platform LIKE '%Android OS 4%' THEN 'Android 4'
         END"
   }
 
@@ -292,6 +300,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '8000' THEN '1.8'
             WHEN ${TABLE}.version LIKE '8100' THEN '1.8'
             WHEN ${TABLE}.version LIKE '8200' THEN '1.8'
+            WHEN ${TABLE}.version LIKE '8300' THEN '1.8'
         END"
 }
 
@@ -321,6 +330,7 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '8000' THEN '1.8'
             WHEN ${TABLE}.install_version LIKE '8100' THEN '1.8'
             WHEN ${TABLE}.install_version LIKE '8200' THEN '1.8'
+            WHEN ${TABLE}.install_version LIKE '8300' THEN '1.8'
         END"
 }
 
@@ -350,6 +360,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '8000' THEN '1.8.000'
             WHEN ${TABLE}.version LIKE '8100' THEN '1.8.100'
             WHEN ${TABLE}.version LIKE '8200' THEN '1.8.200'
+            WHEN ${TABLE}.version LIKE '8300' THEN '1.8.300'
           END"
 }
 
@@ -379,11 +390,13 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '8000' THEN '1.8.000'
             WHEN ${TABLE}.install_version LIKE '8100' THEN '1.8.100'
             WHEN ${TABLE}.install_version LIKE '8200' THEN '1.8.200'
+            WHEN ${TABLE}.install_version LIKE '8300' THEN '1.8.300'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.dailyRewards_20210302') != 'unassigned' THEN 'DailyRewards v2'
             WHEN JSON_EXTRACT(${experiments},'$.card002_20210301') != 'unassigned' THEN 'Alt 407'
             WHEN JSON_EXTRACT(${experiments},'$.card002_20210222') != 'unassigned' THEN 'Alt Card 4'
             WHEN JSON_EXTRACT(${experiments},'$.newUX_20210223') != 'unassigned' THEN 'New UX v4'
@@ -416,6 +429,7 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
+            WHEN ${experiment_names} = 'DailyRewards v2' THEN JSON_EXTRACT_SCALAR(${experiments},'$.dailyRewards_20210302')
             WHEN ${experiment_names} = 'Alt 407' THEN JSON_EXTRACT_SCALAR(${experiments},'$.card002_20210301')
             WHEN ${experiment_names} = 'Alt Card 4' THEN JSON_EXTRACT_SCALAR(${experiments},'$.card002_20210222')
             WHEN ${experiment_names} = 'New UX v4' THEN JSON_EXTRACT_SCALAR(${experiments},'$.newUX_20210223')
@@ -535,15 +549,58 @@ constant: purchase_source {
               WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_ManageLives.QuickPurchase.%' THEN 'Lives Quick Purchase Sheet'
               WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_CurrencyPack.QuickPurchase.%' THEN 'Coins Quick Purchase Sheet'
               WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Panel_Store.Purchase.%' THEN 'Store'
+              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE '%BuyMoreTime%' THEN 'Mini-Game'
               ELSE 'OTHER'
           END"
 }
 
 constant: purchase_iap_strings {
   value: "CASE
-              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_008' THEN 'Peewee Gem Capsule'
-              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_009' THEN 'Small Gem Capsule'
-              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_010' THEN 'Medium Gem Capsule'
-              ELSE 'OTHER'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_001%' THEN 'Free Ticket Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_017%' THEN 'Free Coin Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_018%' THEN 'Free Boost Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_002%' THEN 'Housepets Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_003%' THEN 'Fun Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_019%' THEN 'Super Fun Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_022%' THEN 'Jumbo Fun Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_004%' THEN 'Peewee Coin Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_005%' THEN 'Small Coin Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_006%' THEN 'Medium Coin Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_007%' THEN 'Large Coin Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_020%' THEN 'Huge Coin Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_021%' THEN 'Jumbo Coin Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_008%' THEN 'Peewee Gem Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_009%' THEN 'Small Gem Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_010%' THEN 'Medium Gem Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_011%' THEN 'Large Gem Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_012%' THEN 'Huge Gem Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_013%' THEN 'Jumbo Gem Capsule'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_023%' THEN 'Peewee Life Pack'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_014%' THEN 'Small Life Pack'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_015%' THEN 'Medium Life Pack'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_016%' THEN 'Large Life Pack'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_024%' THEN 'Huge Life Pack'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_025%' THEN 'Jumbo Life Pack'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%BuyMoreTime%' THEN 'More Time'
+            ELSE 'OTHER'
+          END"
+}
+  constant:  iam_ui_actions {
+    value: "CASE
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Conecte%' THEN 'Connect'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Conéctate%' THEN 'Connect'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Connect%' THEN 'Connect'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%MISSING%' THEN 'Connect'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Califícanos%' THEN 'Rate Us'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Avalie-nos%' THEN 'Rate Us'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Rate Us%' THEN 'Rate Us'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%tarde%' THEN 'Later'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Luego%' THEN 'Later'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Depois%' THEN 'Later'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Permitir%' THEN 'Enable'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Habilitar%' THEN 'Enable'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Si%' THEN 'Yes'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Sim%' THEN 'Yes'
+              ELSE JSON_EXTRACT_SCALAR(extra_json,'$.ui_action')
           END"
 }

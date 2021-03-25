@@ -52,6 +52,18 @@ explore: events {
               ;;
       relationship: one_to_one
     }
+
+    join: supported_devices {
+      sql_on: ${events.device_model_number} = ${supported_devices.retail_model} ;;
+      type: left_outer
+      relationship: one_to_one
+    }
+
+    join: facebook_daily_export {
+      sql_on: ${events.user_first_seen_date} = ${facebook_daily_export.date}
+      AND ${events.country} = ${facebook_daily_export.country};;
+      relationship: many_to_one
+    }
 }
 
 explore: churned_players {}
@@ -87,6 +99,13 @@ explore: transactions {
     sql_on: ${events.timestamp_date} = ${transactions.transaction_date_date};;
     relationship: one_to_one
   }
+
+  join: supported_devices {
+    sql_on: ${transactions.device_model_number} = ${supported_devices.retail_model} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+
 }
 
 explore: bingo_card_attempts {}
@@ -117,7 +136,16 @@ explore: ask_for_help {
   }
 }
 
+
+explore: button_clicks {}
+
+explore: iam {}
+
 explore: afh_hack {}
+
+explore: supported_devices {}
+
+explore: facebook_daily_export {}
 
 ###############
 

@@ -18,7 +18,7 @@ view: bingo_card_attempts {
   dimension: timestamp {}
 
   dimension: extra_json {
-    hidden: yes
+    hidden: no
   }
 
   dimension: install_release_version_minor {

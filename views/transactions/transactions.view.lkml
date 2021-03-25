@@ -3,6 +3,7 @@ view: transactions {
     explore_source: events {
       column: user_id {field: events.user_id}
       column: created_at {field: events.user_first_seen_date}
+      column: device_model_number {field: events.device_model_number}
       column: extra_json {field: events.extra_json}
       column: country {field: events.country}
       column: install_release_version_minor {field: events.install_release_version_minor}
@@ -30,12 +31,11 @@ view: transactions {
   }
 
   dimension: user_id {}
-
   measure: spender_count {
     type: count_distinct
     sql: ${user_id} ;;
   }
-
+  dimension: device_model_number {}
   dimension: created_at {}
 
   dimension_group: created_at_date {
@@ -177,7 +177,7 @@ view: transactions {
 
   dimension:  currency_spent_amount {
     type: number
-    sql: CAST(JSON_EXTRACT_SCALAR(transactions.extra_json,"$.transaction_purchase_amount") AS INT64) / 100;;
+    sql: CAST(JSON_EXTRACT_SCALAR(transactions.extra_json,"$.transaction_purchase_amount") AS INT64);;
   }
 
   measure: currency_spent_amount_sum {

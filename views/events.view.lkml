@@ -141,7 +141,7 @@ view: events {
   dimension: device_model_number {
     group_label: "Device & OS Dimensions"
     label:  "Device Model (Ungrouped)"
-    sql:${TABLE}.hardware ;;
+    sql:LOWER(${TABLE}.hardware) ;;
   }
 
   dimension: device_model {
@@ -575,6 +575,11 @@ view: events {
     sql: ${TABLE}.timestamp_insert ;;
   }
 
+  dimension: clock_hacker {
+    type: yesno
+    sql: (${timestamp_raw} > ${timestamp_insert_raw}) ;;
+  }
+
   dimension: session_id {
     type: string
     sql: ${TABLE}.session_id ;;
@@ -818,7 +823,7 @@ view: events {
     label: "Player Count"
     type: count_distinct
     sql: ${user_id} ;;
-    drill_fields: [user_id, user_first_seen_date, current_card_quest]
+    drill_fields: [user_id, user_first_seen_date, current_card_quest, device_model, device_model_number]
   }
 
 

@@ -5,6 +5,7 @@ view: ask_for_help {
       column: user_id {field: events.user_id}
       column: rdg_id {field: events.rdg_id}
       column: timestamp {field: events.timestamp_raw}
+      column: clock_hacker {field: events.clock_hacker}
       column: country {field: events.country}
       column: region {field: events.region}
       column: install_version {field: events.install_version}
@@ -13,7 +14,7 @@ view: ask_for_help {
       column: quests_completed {field: events.quests_completed}
       column: extra_json_afh {field: events.extra_json}
 
-      filters: [events.event_name: "afh"]
+      filters: [events.event_name: "afh",events.clock_hacker: "no"]
     }
   }
 

@@ -587,6 +587,40 @@ view: events {
     type: number
     sql: ${TABLE}.engagement_ticks ;;
   }
+  measure:  engagement_tick_5th {
+    group_label: "Engagment Ticks"
+    label: "Engagement Ticks - 5%"
+    type: percentile
+    percentile: 5
+    sql: ${engagement_ticks} ;;
+  }
+  measure:  engagement_tick_25th {
+    group_label: "Engagment Ticks"
+    label: "Engagement Ticks - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${engagement_ticks} ;;
+  }
+  measure:  engagement_tick_med {
+    group_label: "Engagment Ticks"
+    label: "Engagement Ticks - Median"
+    type: median
+    sql: ${engagement_ticks} ;;
+  }
+  measure:  engagement_tick_75th {
+    group_label: "Engagment Ticks"
+    label: "Engagement Ticks - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${engagement_ticks} ;;
+  }
+  measure:  engagement_tick_95th {
+    group_label: "Engagment Ticks"
+    label: "Engagement Ticks - 95%"
+    type: percentile
+    percentile: 95
+    sql: ${engagement_ticks} ;;
+  }
 
   dimension: quests_completed {
     label: "Quests Completed"

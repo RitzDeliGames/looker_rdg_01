@@ -396,18 +396,17 @@ view: events {
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_02'),'"','') as NUMERIC) ;;
   }
-
-  measure:  gems_5th {
+  measure:  gems_025th {
     group_label: "Currency Percentiles"
-    label: "Gems - 5th Percentile"
-    percentile: 5
+    label: "Gems - 2.5%"
+    percentile: 2.5
     type: percentile
     sql: ${gems} ;;
     drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
   }
   measure:  gems_25th {
     group_label: "Currency Percentiles"
-    label: "Gems - 25th Percentile"
+    label: "Gems - 25%"
     percentile: 25
     type: percentile
     sql: ${gems} ;;
@@ -422,16 +421,16 @@ view: events {
   }
   measure:  gems_75th {
     group_label: "Currency Percentiles"
-    label: "Gems - 75th Percentile"
+    label: "Gems - 75%"
     percentile: 75
     type: percentile
     sql: ${gems} ;;
     drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
   }
-  measure:  gems_95th {
+  measure:  gems_975th {
     group_label: "Currency Percentiles"
-    label: "Gems - 95th Percentile"
-    percentile: 95
+    label: "Gems - 97.5%"
+    percentile: 97.5
     type: percentile
     sql: ${gems} ;;
     drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
@@ -442,24 +441,62 @@ view: events {
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_03'),'"','') as NUMERIC);;
   }
-
+  measure:  coins_025th {
+    group_label: "Currency Percentiles"
+    label: "Coins - 2.5%"
+    percentile: 2.5
+    type: percentile
+    sql: ${coins} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  coins_25th {
+    group_label: "Currency Percentiles"
+    label: "Coins - 25%"
+    percentile: 25
+    type: percentile
+    sql: ${coins} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  coins_50th {
+    group_label: "Currency Percentiles"
+    label: "Coins - Median"
+    type: median
+    sql: ${coins} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  coins_75th {
+    group_label: "Currency Percentiles"
+    label: "Coins - 75%"
+    percentile: 75
+    type: percentile
+    sql: ${coins} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  coins_975th {
+    group_label: "Currency Percentiles"
+    label: "Coins - 97.5%"
+    percentile: 97.5
+    type: percentile
+    sql: ${coins} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
   dimension: lives {
     group_label: "Currency Balances"
     label: "Lives"
     type: number
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.currencies,'$.CURRENCY_04'),'"','') as NUMERIC);;
   }
-  measure:  lives_5th {
+  measure:  lives_025th {
     group_label: "Currency Percentiles"
-    label: "Lives - 5th Percentile"
-    percentile: 5
+    label: "Lives - 2.5%"
+    percentile: 2.5
     type: percentile
     sql: ${lives} ;;
     drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
   }
   measure:  lives_25th {
     group_label: "Currency Percentiles"
-    label: "Lives - 25th Percentile"
+    label: "Lives - 25%"
     percentile: 25
     type: percentile
     sql: ${lives} ;;
@@ -474,22 +511,64 @@ view: events {
   }
   measure:  lives_75th {
     group_label: "Currency Percentiles"
-    label: "Lives - 75th Percentile"
+    label: "Lives - 75%"
     percentile: 75
     type: percentile
     sql: ${lives} ;;
     drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
   }
-  measure:  lives_95th {
+  measure:  lives_975th {
     group_label: "Currency Percentiles"
-    label: "Lives - 95th Percentile"
-    percentile: 95
+    label: "Lives - 97.5%"
+    percentile: 97.5
     type: percentile
     sql: ${lives} ;;
     drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
   }
 
-
+  dimension: collection_size {
+    type: number
+    sql: ARRAY_LENGTH(JSON_EXTRACT_ARRAY(extra_json,"$.characters")) ;;
+  }
+  measure:  collection_size_025 {
+    group_label: "Collection Percentiles"
+    label: "Collection - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${collection_size} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  collection_size_25 {
+    group_label: "Collection Percentiles"
+    label: "Collection - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${collection_size};;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  collection_size_med {
+    group_label: "Collection Percentiles"
+    label: "Collection - Median"
+    type: median
+    sql: ${collection_size};;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  collection_size_75 {
+    group_label: "Collection Percentiles"
+    label: "Collection - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${collection_size};;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  collection_size_975 {
+    group_label: "Collection Percentiles"
+    label: "Collection - 97.5% Percentile"
+    type: percentile
+    percentile: 97.5
+    sql: ${collection_size};;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
   dimension: box_001_tickets {
     group_label: "Capsule Tickets"
     label: "box 001 tickets"
@@ -587,11 +666,11 @@ view: events {
     type: number
     sql: ${TABLE}.engagement_ticks ;;
   }
-  measure:  engagement_tick_5th {
+  measure:  engagement_tick_025th {
     group_label: "Engagment Ticks"
-    label: "Engagement Ticks - 5%"
+    label: "Engagement Ticks - 2.5%"
     type: percentile
-    percentile: 5
+    percentile: 2.5
     sql: ${engagement_ticks} ;;
   }
   measure:  engagement_tick_25th {
@@ -614,11 +693,11 @@ view: events {
     percentile: 75
     sql: ${engagement_ticks} ;;
   }
-  measure:  engagement_tick_95th {
+  measure:  engagement_tick_975th {
     group_label: "Engagment Ticks"
-    label: "Engagement Ticks - 95%"
+    label: "Engagement Ticks - 97.5%"
     type: percentile
-    percentile: 95
+    percentile: 97.5
     sql: ${engagement_ticks} ;;
   }
 

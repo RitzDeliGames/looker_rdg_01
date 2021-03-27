@@ -743,7 +743,7 @@ view: events {
     group_label: "Current Card"
     label: "Current Quest"
     type: number
-    sql: CAST(REPLACE(JSON_VALUE(${TABLE}.extra_json,'$.current_quest'),'"','') AS NUMERIC);;
+    sql: IFNULL(${TABLE}.current_quest, CAST(REPLACE(JSON_VALUE(${TABLE}.extra_json,'$.current_quest'),'"','') AS NUMERIC));;
   }
 
   dimension: current_card_quest {

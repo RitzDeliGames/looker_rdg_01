@@ -302,6 +302,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '8200' THEN '1.8'
             WHEN ${TABLE}.version LIKE '8300' THEN '1.8'
             WHEN ${TABLE}.version LIKE '8400' THEN '1.8'
+            WHEN ${TABLE}.version LIKE '9100' THEN '1.9'
         END"
 }
 
@@ -333,6 +334,7 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '8200' THEN '1.8'
             WHEN ${TABLE}.install_version LIKE '8300' THEN '1.8'
             WHEN ${TABLE}.install_version LIKE '8400' THEN '1.8'
+            WHEN ${TABLE}.install_version LIKE '9100' THEN '1.9'
         END"
 }
 
@@ -364,6 +366,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '8200' THEN '1.8.200'
             WHEN ${TABLE}.version LIKE '8300' THEN '1.8.300'
             WHEN ${TABLE}.version LIKE '8400' THEN '1.8.400'
+            WHEN ${TABLE}.version LIKE '9100' THEN '1.9.100'
           END"
 }
 
@@ -395,11 +398,15 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '8200' THEN '1.8.200'
             WHEN ${TABLE}.install_version LIKE '8300' THEN '1.8.300'
             WHEN ${TABLE}.install_version LIKE '8400' THEN '1.8.400'
+            WHEN ${TABLE}.install_version LIKE '9100' THEN '1.9.100'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.rapidProgression_20200325') != 'unassigned' THEN 'Rapid Progression v1'
+            WHEN JSON_EXTRACT(${experiments},'$.moreTimeBingo_20210330') != 'unassigned' THEN 'More Time v3'
+            WHEN JSON_EXTRACT(${experiments},'$.disableAutoSelect_20210330') != 'unassigned' THEN 'Disable Auto-Select v1'
             WHEN JSON_EXTRACT(${experiments},'$.v3PreGameScreen_20210316') != 'unassigned' THEN 'Pre-Game v3'
             WHEN JSON_EXTRACT(${experiments},'$.moreTimeBingo_20210322') != 'unassigned' THEN 'More Time v2'
             WHEN JSON_EXTRACT(${experiments},'$.dailyRewards_20210302') != 'unassigned' THEN 'DailyRewards v2'
@@ -435,6 +442,9 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
+            WHEN ${experiment_names} = 'Rapid Progression v1' THEN JSON_EXTRACT_SCALAR(${experiments},'$.rapidProgression_20200325')
+            WHEN ${experiment_names} = 'More Time v3' THEN JSON_EXTRACT_SCALAR(${experiments},'$.moreTimeBingo_20210330')
+            WHEN ${experiment_names} = 'Disable Auto-Select v1' THEN JSON_EXTRACT_SCALAR(${experiments},'$.disableAutoSelect_20210330')
             WHEN ${experiment_names} = 'Pre-Game v3' THEN JSON_EXTRACT_SCALAR(${experiments},'$.v3PreGameScreen_20210316')
             WHEN ${experiment_names} = 'More Time v2' THEN JSON_EXTRACT_SCALAR(${experiments},'$.moreTimeBingo_20210322')
             WHEN ${experiment_names} = 'DailyRewards v2' THEN JSON_EXTRACT_SCALAR(${experiments},'$.dailyRewards_20210302')

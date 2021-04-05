@@ -608,56 +608,290 @@ view: events {
     group_label: "Boost Inventory"
     label: "Score Boost"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.SCORE'),'"','') as NUMERIC);;
+    sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.SCORE') as NUMERIC);;
+  }
+  measure:  score_tickets_025th {
+    group_label: "Boost Inventory Percentiles - Score"
+    label: "Score Boost - 2.5%"
+    percentile: 2.5
+    type: percentile
+    sql: ${score_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  score_tickets_25th {
+    group_label: "Boost Inventory Percentiles - Score"
+    label: "Score Boost - 25%"
+    percentile: 25
+    type: percentile
+    sql: ${score_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  score_tickets_50th {
+    group_label: "Boost Inventory Percentiles - Score"
+    label: "Score Boost - Median"
+    type: median
+    sql: ${score_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  score_tickets_75th {
+    group_label: "Boost Inventory Percentiles - Score"
+    label: "Score Boost - 75%"
+    percentile: 75
+    type: percentile
+    sql: ${score_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  score_tickets_975th {
+    group_label: "Boost Inventory Percentiles - Score"
+    label: "Score Boost - 97.5%"
+    percentile: 97.5
+    type: percentile
+    sql: ${score_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
   }
 
   dimension: bubble_tickets {
     group_label: "Boost Inventory"
     label: "Bubble Boost"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.BUBBLE'),'"','') as NUMERIC);;
+    sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.BUBBLE') as NUMERIC);;
+  }
+  measure:  bubble_tickets_tickets_025th {
+    group_label: "Boost Inventory Percentiles - Bubble"
+    label: "Bubble Boost - 2.5%"
+    percentile: 2.5
+    type: percentile
+    sql: ${bubble_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  bubble_tickets_tickets_25th {
+    group_label: "Boost Inventory Percentiles - Bubble"
+    label: "Bubble Boost - 25%"
+    percentile: 25
+    type: percentile
+    sql: ${bubble_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  bubble_tickets_tickets_50th {
+    group_label: "Boost Inventory Percentiles - Bubble"
+    label: "Bubble Boost - Median"
+    type: median
+    sql: ${bubble_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  bubble_tickets_tickets_75th {
+    group_label: "Boost Inventory Percentiles - Bubble"
+    label: "Bubble Boost - 75%"
+    percentile: 75
+    type: percentile
+    sql: ${bubble_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  bubble_tickets_tickets_975th {
+    group_label: "Boost Inventory Percentiles - Bubble"
+    label: "Bubble Boost - 97.5%"
+    percentile: 97.5
+    type: percentile
+    sql: ${bubble_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
   }
 
   dimension: time_tickets {
     group_label: "Boost Inventory"
     label: "Time Boost"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.TIME'),'"','') as NUMERIC);;
+    sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.TIME') as NUMERIC);;
+  }
+  measure:  time_tickets_tickets_025th {
+    group_label: "Boost Inventory Percentiles - Time"
+    label: "Time Boost - 2.5%"
+    percentile: 2.5
+    type: percentile
+    sql: ${time_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  time_tickets_tickets_25th {
+    group_label: "Boost Inventory Percentiles - Time"
+    label: "Time Boost - 25%"
+    percentile: 25
+    type: percentile
+    sql: ${time_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  time_tickets_tickets_50th {
+    group_label: "Boost Inventory Percentiles - Time"
+    label: "Time Boost - Median"
+    type: median
+    sql: ${time_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  time_tickets_tickets_75th {
+    group_label: "Boost Inventory Percentiles - Time"
+    label: "Time Boost - 75%"
+    percentile: 75
+    type: percentile
+    sql: ${time_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  time_tickets_tickets_975th {
+    group_label: "Boost Inventory Percentiles - Time"
+    label: "Time Boost - 97.5%"
+    percentile: 97.5
+    type: percentile
+    sql: ${time_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
   }
 
   dimension: five_to_four_tickets {
     group_label: "Boost Inventory"
     label: "5-to-4 Boost"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.FIVE_TO_FOUR'),'"','') as NUMERIC);;
+    sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.FIVE_TO_FOUR') as NUMERIC);;
+  }
+  measure:  five_to_four_tickets_025th {
+    group_label: "Boost Inventory Percentiles - 5-to-4"
+    label: "5-to-4 Boost - 2.5%"
+    percentile: 2.5
+    type: percentile
+    sql: ${five_to_four_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  five_to_four_tickets_25th {
+    group_label: "Boost Inventory Percentiles - 5-to-4"
+    label: "5-to-4 Boost - 25%"
+    percentile: 25
+    type: percentile
+    sql: ${five_to_four_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  five_to_four_tickets_50th {
+    group_label: "Boost Inventory Percentiles - 5-to-4"
+    label: "5-to-4 Boost - Median"
+    type: median
+    sql: ${five_to_four_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  five_to_four_tickets_75th {
+    group_label: "Boost Inventory Percentiles - 5-to-4"
+    label: "5-to-4 Boost - 75%"
+    percentile: 75
+    type: percentile
+    sql: ${five_to_four_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  five_to_four_tickets_975th {
+    group_label: "Boost Inventory Percentiles - 5-to-4"
+    label: "5-to-4 Boost - 97.5%"
+    percentile: 97.5
+    type: percentile
+    sql: ${five_to_four_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
   }
 
   dimension: exp_tickets {
     group_label: "Boost Inventory"
     label: "XP Boost"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.EXP'),'"','') as NUMERIC);;
+    sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.EXP') as NUMERIC);;
+  }
+  measure:  exp_tickets_025th {
+    group_label: "Boost Inventory Percentiles - XP"
+    label: "XP Boost - 2.5%"
+    percentile: 2.5
+    type: percentile
+    sql: ${exp_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  exp_tickets_25th {
+    group_label: "Boost Inventory Percentiles - XP"
+    label: "XP Boost - 25%"
+    percentile: 25
+    type: percentile
+    sql: ${exp_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  exp_tickets_50th {
+    group_label: "Boost Inventory Percentiles - XP"
+    label: "XP Boost - Median"
+    type: median
+    sql: ${exp_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  exp_tickets_75th {
+    group_label: "Boost Inventory Percentiles - XP"
+    label: "XP Boost - 75%"
+    percentile: 75
+    type: percentile
+    sql: ${exp_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  exp_tickets_975th {
+    group_label: "Boost Inventory Percentiles - XP"
+    label: "XP Boost - 97.5%"
+    percentile: 97.5
+    type: percentile
+    sql: ${exp_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
   }
 
   dimension: coin_tickets {
     group_label: "Boost Inventory"
     label: "Coin Boost"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.Coin'),'"','') as NUMERIC);;
+    sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.COIN') as NUMERIC);;
+  }
+  measure:  coin_tickets_025th {
+    group_label: "Boost Inventory Percentiles - Coin"
+    label: "Coin Boost - 2.5%"
+    percentile: 2.5
+    type: percentile
+    sql: ${coin_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  coin_tickets_25th {
+    group_label: "Boost Inventory Percentiles - Coin"
+    label: "Coin Boost - 25%"
+    percentile: 25
+    type: percentile
+    sql: ${coin_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  coin_tickets_50th {
+    group_label: "Boost Inventory Percentiles - Coin"
+    label: "Coin Boost - Median"
+    type: median
+    sql: ${coin_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  coin_tickets_75th {
+    group_label: "Boost Inventory Percentiles - Coin"
+    label: "Coin Boost - 75%"
+    percentile: 75
+    type: percentile
+    sql: ${coin_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  coin_tickets_975th {
+    group_label: "Boost Inventory Percentiles - Coin"
+    label: "Coin Boost - 97.5%"
+    percentile: 97.5
+    type: percentile
+    sql: ${coin_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
   }
 
   dimension: skill {
     group_label: "missing"
     label: "Skill"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(tickets,'$.SKILL'),'"','') as NUMERIC) ;;
+    sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.SKILL') as NUMERIC);;
   }
 
   dimension: level {
     group_label: "missing"
     label: "Level"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(tickets,'$.LEVEL'),'"','') as NUMERIC) ;;
+    sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.LEVEL') as NUMERIC);;
   }
 
   dimension: engagement_ticks {
@@ -934,6 +1168,45 @@ view: events {
   measure: avg_round_count {
     label: "Avg. Round Count"
     type: average
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
+  }
+
+  measure: round_count_025 {
+    group_label: "Round Percentiles"
+    label: "Rounds Played - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
+  }
+
+  measure: round_count_25 {
+    group_label: "Round Percentiles"
+    label: "Rounds Played - 25%"
+    type: percentile
+    percentile: 25
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
+  }
+
+  measure: round_count_med {
+    group_label: "Round Percentiles"
+    label: "Rounds Played - Median"
+    type: median
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
+  }
+
+  measure: round_count_75 {
+    group_label: "Round Percentiles"
+    label: "Rounds Played - 75%"
+    type: percentile
+    percentile: 75
+    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
+  }
+
+  measure: round_count_975 {
+    group_label: "Round Percentiles"
+    label: "Rounds Played - 97.5%"
+    type: percentile
+    percentile: 97.5
     sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.extra_json,'$.round_id'),'"','') AS NUMERIC);;
   }
 

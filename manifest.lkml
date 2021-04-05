@@ -628,3 +628,16 @@ constant: purchase_iap_strings {
               ELSE JSON_EXTRACT_SCALAR(extra_json,'$.ui_action')
           END"
 }
+
+  constant: button_tags {
+    value: "CASE
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Panel_BuyMoreTime_V3.Confirm' THEN 'BuyMoreTime - Confirm'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BuyMoreTime.Confirm' THEN 'BuyMoreTime - Confirm'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Panel_BuyMoreTime_V3.Close' THEN 'BuyMoreTime - Close'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BuyMoreTime.Close' THEN 'BuyMoreTime - Close'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Panel_PreGame_V3.PlayFromQuest' THEN 'PlayFromQuest'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BingoQuestDetails.PlayFromQuest' THEN 'PlayFromQuest'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BingoQuestDetails_Legacy.PlayFromQuest' THEN 'PlayFromQuest'
+              ELSE JSON_EXTRACT_SCALAR(extra_json,'$.button_tag')
+            END"
+  }

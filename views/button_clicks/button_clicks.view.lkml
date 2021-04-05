@@ -34,7 +34,7 @@ view: button_clicks {
   }
   dimension: button_tag  {
     type: string
-    sql:  JSON_EXTRACT_SCALAR(extra_json,"$.button_tag");;
+    sql:  @{button_tags};;
   }
   measure: players {
     type: count_distinct

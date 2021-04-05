@@ -54,6 +54,10 @@ view: transactions {
 
   dimension: install_release_version_minor {}
   dimension: current_card {}
+  dimension: current_card_no {
+    type: number
+    sql: @{current_card_numbered} ;;
+  }
   dimension: event_name {}
   dimension: country {}
   dimension: extra_json {}

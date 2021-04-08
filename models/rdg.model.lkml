@@ -57,7 +57,7 @@ explore: events {
     join: supported_devices {
       sql_on: ${events.device_model_number} = ${supported_devices.retail_model} ;;
       type: left_outer
-      relationship: one_to_one
+      relationship: many_to_one
     }
 
     join: facebook_daily_export {

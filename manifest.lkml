@@ -301,6 +301,8 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '8100' THEN '1.8'
             WHEN ${TABLE}.version LIKE '8200' THEN '1.8'
             WHEN ${TABLE}.version LIKE '8300' THEN '1.8'
+            WHEN ${TABLE}.version LIKE '8400' THEN '1.8'
+            WHEN ${TABLE}.version LIKE '9100' THEN '1.9'
         END"
 }
 
@@ -331,6 +333,8 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '8100' THEN '1.8'
             WHEN ${TABLE}.install_version LIKE '8200' THEN '1.8'
             WHEN ${TABLE}.install_version LIKE '8300' THEN '1.8'
+            WHEN ${TABLE}.install_version LIKE '8400' THEN '1.8'
+            WHEN ${TABLE}.install_version LIKE '9100' THEN '1.9'
         END"
 }
 
@@ -361,6 +365,8 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '8100' THEN '1.8.100'
             WHEN ${TABLE}.version LIKE '8200' THEN '1.8.200'
             WHEN ${TABLE}.version LIKE '8300' THEN '1.8.300'
+            WHEN ${TABLE}.version LIKE '8400' THEN '1.8.400'
+            WHEN ${TABLE}.version LIKE '9100' THEN '1.9.100'
           END"
 }
 
@@ -391,11 +397,18 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '8100' THEN '1.8.100'
             WHEN ${TABLE}.install_version LIKE '8200' THEN '1.8.200'
             WHEN ${TABLE}.install_version LIKE '8300' THEN '1.8.300'
+            WHEN ${TABLE}.install_version LIKE '8400' THEN '1.8.400'
+            WHEN ${TABLE}.install_version LIKE '9100' THEN '1.9.100'
           END"
 }
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.moreTimeBingo_20210330') != 'unassigned' THEN 'More Time v3'
+            WHEN JSON_EXTRACT(${experiments},'$.rapidProgression_20200325') != 'unassigned' THEN 'Rapid Progression v1'
+            WHEN JSON_EXTRACT(${experiments},'$.disableAutoSelect_20210330') != 'unassigned' THEN 'Disable Auto-Select v1'
+            WHEN JSON_EXTRACT(${experiments},'$.v3PreGameScreen_20210316') != 'unassigned' THEN 'Pre-Game v3'
+            WHEN JSON_EXTRACT(${experiments},'$.moreTimeBingo_20210322') != 'unassigned' THEN 'More Time v2'
             WHEN JSON_EXTRACT(${experiments},'$.dailyRewards_20210302') != 'unassigned' THEN 'DailyRewards v2'
             WHEN JSON_EXTRACT(${experiments},'$.card002_20210301') != 'unassigned' THEN 'Alt 407'
             WHEN JSON_EXTRACT(${experiments},'$.card002_20210222') != 'unassigned' THEN 'Alt Card 4'
@@ -429,6 +442,11 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
+            WHEN ${experiment_names} = 'More Time v3' THEN JSON_EXTRACT_SCALAR(${experiments},'$.moreTimeBingo_20210330')
+            WHEN ${experiment_names} = 'Rapid Progression v1' THEN JSON_EXTRACT_SCALAR(${experiments},'$.rapidProgression_20200325')
+            WHEN ${experiment_names} = 'Disable Auto-Select v1' THEN JSON_EXTRACT_SCALAR(${experiments},'$.disableAutoSelect_20210330')
+            WHEN ${experiment_names} = 'Pre-Game v3' THEN JSON_EXTRACT_SCALAR(${experiments},'$.v3PreGameScreen_20210316')
+            WHEN ${experiment_names} = 'More Time v2' THEN JSON_EXTRACT_SCALAR(${experiments},'$.moreTimeBingo_20210322')
             WHEN ${experiment_names} = 'DailyRewards v2' THEN JSON_EXTRACT_SCALAR(${experiments},'$.dailyRewards_20210302')
             WHEN ${experiment_names} = 'Alt 407' THEN JSON_EXTRACT_SCALAR(${experiments},'$.card002_20210301')
             WHEN ${experiment_names} = 'Alt Card 4' THEN JSON_EXTRACT_SCALAR(${experiments},'$.card002_20210222')
@@ -474,6 +492,9 @@ constant: current_card_numbered {
   value: "CASE
               WHEN ${TABLE}.current_card = 'card_001_a' THEN 100
               WHEN ${TABLE}.current_card = 'card_001_untimed' THEN 100
+              WHEN ${TABLE}.current_card = 'card_001_b' THEN 100
+              WHEN ${TABLE}.current_card = 'card_002_b' THEN 120
+              WHEN ${TABLE}.current_card = 'card_003_b' THEN 150
               WHEN ${TABLE}.current_card = 'card_002_a' THEN 200
               WHEN ${TABLE}.current_card = 'card_002_untimed' THEN 200
               WHEN ${TABLE}.current_card = 'card_003_a' THEN 300
@@ -512,6 +533,9 @@ constant: request_card_numbered {
   value: "CASE
             WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_001_a' THEN 100
             WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_001_untimed' THEN 100
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_001_b' THEN 100
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_002_b' THEN 120
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_003_b' THEN 150
             WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_002_a' THEN 200
             WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_003_a' THEN 300
             WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_003_untimed' THEN 300
@@ -604,3 +628,16 @@ constant: purchase_iap_strings {
               ELSE JSON_EXTRACT_SCALAR(extra_json,'$.ui_action')
           END"
 }
+
+  constant: button_tags {
+    value: "CASE
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Panel_BuyMoreTime_V3.Confirm' THEN 'BuyMoreTime - Confirm'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BuyMoreTime.Confirm' THEN 'BuyMoreTime - Confirm'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Panel_BuyMoreTime_V3.Close' THEN 'BuyMoreTime - Close'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BuyMoreTime.Close' THEN 'BuyMoreTime - Close'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Panel_PreGame_V3.PlayFromQuest' THEN 'PlayFromQuest'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BingoQuestDetails.PlayFromQuest' THEN 'PlayFromQuest'
+              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BingoQuestDetails_Legacy.PlayFromQuest' THEN 'PlayFromQuest'
+              ELSE JSON_EXTRACT_SCALAR(extra_json,'$.button_tag')
+            END"
+  }

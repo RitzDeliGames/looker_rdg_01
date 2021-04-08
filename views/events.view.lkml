@@ -3,6 +3,72 @@ view: events {
 
 ###DIMENSIONS###
 
+## New Version ##
+
+
+  dimension: version {
+    type: string
+    hidden: yes
+    sql: ${TABLE}.version ;;
+  }
+  dimension: derived_install_minor_release_version {
+    hidden: yes
+    type: string
+    sql:
+      case
+        when ${version} = '1579' then '1.0.100'
+        when ${version} = '2047' then '1.1.001'
+        when ${version} = '2100' then '1.1.100'
+        when ${version} = '3028' then '1.2.028'
+        when ${version} = '3043' then '1.2.043'
+        when ${version} = '3100' then '1.2.100'
+        when ${version} = '4017' then '1.3.017'
+        when ${version} = '4100' then '1.3.100'
+        else null
+      end
+    ;;
+  }
+  dimension: install_minor_release_version {
+    hidden: yes
+    type: string
+    sql:
+      case
+        when ${install_version} = '1568' then '1.0.001'
+        when ${install_version} = '1579' then '1.0.100'
+        when ${install_version} = '2047' then '1.1.001'
+        when ${install_version} = '2100' then '1.1.100'
+        when ${install_version} = '3028' then '1.2.028'
+        when ${install_version} = '3043' then '1.2.043'
+        when ${install_version} = '3100' then '1.2.100'
+        when ${install_version} = '4017' then '1.3.017'
+        when ${install_version} = '4100' then '1.3.100'
+        when ${install_version} = '5006' then '1.5.006'
+        when ${install_version} = '5100' then '1.5.100'
+        when ${install_version} = '6100' then '1.6.100'
+        when ${install_version} = '6200' then '1.6.200'
+        when ${install_version} = '6300' then '1.6.300'
+        when ${install_version} = '6400' then '1.6.400'
+        when ${install_version} = '7100' then '1.7.100'
+        when ${install_version} = '7200' then '1.7.200'
+        when ${install_version} = '7300' then '1.7.300'
+        when ${install_version} = '7400' then '1.7.400'
+        when ${install_version} = '7500' then '1.7.500'
+        when ${install_version} = '7600' then '1.7.600'
+        when ${install_version} = '8000' then '1.8.000'
+        when ${install_version} = '8100' then '1.8.100'
+        when ${install_version} = '8200' then '1.8.200'
+        else null
+      end
+    ;;
+  }
+  dimension: release_version_all {
+    group_label: "Versions"
+    label: "Release Version"
+    type: string
+    sql: coalesce(${install_minor_release_version},${derived_install_minor_release_version}) ;;
+  }
+
+
 ###GAME DIMENSIONS###
 
   dimension: game_name {

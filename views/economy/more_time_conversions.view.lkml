@@ -1,5 +1,3 @@
-explore: more_time_conversions {}
-
 view: more_time_conversions {
   derived_table: {
     sql: WITH rounds_tbl AS (

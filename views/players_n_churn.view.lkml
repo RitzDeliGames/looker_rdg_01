@@ -1,5 +1,3 @@
-explore: players_n_churn {}
-
 view: players_n_churn {
   derived_table: {
     sql: SELECT JSON_EXTRACT(events.experiments,'$.content_20201106') AS experiment,

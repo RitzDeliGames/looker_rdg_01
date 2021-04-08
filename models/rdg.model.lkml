@@ -1,7 +1,8 @@
 connection: "eraser_blast_gbq"
 
 # include all the views
-include: "/views/**/*.view"
+# include: "/views/**/*.view"
+include: "/**/*.view"
 
 # include all the dashboards
 include: "/dashboards/**/*.dashboard"
@@ -607,3 +608,9 @@ explore: user_retention {
     relationship: one_to_many
   }
 }
+
+explore: players_n_churn {}
+
+explore: distribution_of_completed_cards_by_time_n_user {}
+
+explore: more_time_conversions {}

@@ -14,7 +14,7 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
             ,event_name
             ,max(timestamp) last_ts
           from game_data.events
-          where timestamp >= timestamp(current_date() - 30)
+          where timestamp >= timestamp(current_date() - 90)
           and timestamp < timestamp(current_date())
           and rdg_id is not null
           and user_type = 'external'
@@ -22,14 +22,15 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
         ) x
       )
       select distinct
-         last_user_event.user_id
+        last_user_event.user_id
         ,events.experiments
+        ,events.device_model_number
       from last_user_event
       inner join game_data.events
         on last_user_event.user_id = events.rdg_id
         and last_user_event.last_ts = events.timestamp
         and last_user_event.event_name = events.event_name
-        and events.timestamp >= timestamp(current_date() - 30)
+        and events.timestamp >= timestamp(current_date() - 90)
         and events.timestamp < timestamp(current_date())
         and events.user_type = 'external'
       where last_user_event.rnk = 1
@@ -47,6 +48,11 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     type: string
     sql: ${TABLE}.experiments ;;
     hidden: yes
+  }
+  dimension: device_model_number {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.device_model_number ;;
   }
   dimension: alt_407 {
     group_label: "Experiments"

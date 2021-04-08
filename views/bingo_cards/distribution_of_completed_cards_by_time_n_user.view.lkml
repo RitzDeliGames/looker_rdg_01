@@ -1,5 +1,3 @@
-explore: distribution_of_completed_cards_by_time_n_user {}
-
 view: distribution_of_completed_cards_by_time_n_user {
   derived_table: {
     sql: SELECT

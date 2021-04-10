@@ -97,6 +97,50 @@ view: user_fact {
   dimension: current_card {
     type: string
   }
+  dimension: current_card_no {
+    type: number
+    value_format: "####"
+    sql:
+      case
+        when ${current_card} = 'card_001_a' THEN 100
+        when ${current_card} = 'card_001_untimed' THEN 100
+        when ${current_card} = 'card_001_b' THEN 100
+        when ${current_card} = 'card_002_b' THEN 120
+        when ${current_card} = 'card_003_b' THEN 150
+        when ${current_card} = 'card_002_a' THEN 200
+        when ${current_card} = 'card_002_untimed' THEN 200
+        when ${current_card} = 'card_003_a' THEN 300
+        when ${current_card} = 'card_003_untimed' THEN 300
+        when ${current_card} = 'card_002' THEN 400
+        when ${current_card} = 'card_002_inverted' THEN 400
+        when ${current_card} = 'card_039' THEN 400
+        when ${current_card} = 'card_004_untimed' THEN 400
+        when ${current_card} = 'card_003' THEN 500
+        when ${current_card} = 'card_040' THEN 500
+        when ${current_card} = 'card_005_untimed' THEN 500
+        when ${current_card} = 'card_004' THEN 600
+        when ${current_card} = 'card_041' THEN 600
+        when ${current_card} = 'card_006_untimed' THEN 600
+        when ${current_card} = 'card_005' THEN 700
+        when ${current_card} = 'card_006' THEN 800
+        when ${current_card} = 'card_007' THEN 900
+        when ${current_card} = 'card_008' THEN 1000
+        when ${current_card} = 'card_009' THEN 1100
+        when ${current_card} = 'card_010' THEN 1200
+        when ${current_card} = 'card_011' THEN 1300
+        when ${current_card} = 'card_012' THEN 1400
+        when ${current_card} = 'card_013' THEN 1500
+        when ${current_card} = 'card_014' THEN 1600
+        when ${current_card} = 'card_015' THEN 1700
+        when ${current_card} = 'card_016' THEN 1800
+        when ${current_card} = 'card_017' THEN 1900
+        when ${current_card} = 'card_018' THEN 2000
+        when ${current_card} = 'card_019' THEN 2100
+        when ${current_card} = 'card_020' THEN 2200
+        else null
+      end
+    ;;
+  }
   dimension: session_tier {
     type: tier
     sql: ${lifetime_sessions} ;;
@@ -165,6 +209,7 @@ view: user_fact {
     ;;
   }
   dimension: minor_release_version {
+    label: "Install Minor Release Version"
     type: string
     sql: coalesce(${install_minor_release_version},${derived_install_minor_release_version}) ;;
   }

@@ -3,6 +3,7 @@ view: user_fact {
     sql:
       select
         rdg_id user_id,
+        platform,
         country,
         min(created_at) created,
         max(timestamp) last_event,
@@ -15,7 +16,7 @@ view: user_fact {
       from `eraser-blast.game_data.events`
       where created_at >= '2019-01-01'
       and user_type = 'external'
-      group by user_id, country
+      group by user_id, country, platform
     ;;
     datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
@@ -44,11 +45,21 @@ view: user_fact {
     ]
   }
   dimension: country {
+    group_label: "Device & OS Dimensions"
+    label: "Device Country"
     type: string
   }
   dimension: region {
+    group_label: "Device & OS Dimensions"
+    label: "Device Region"
     type: string
     sql: @{country_region} ;;
+  }
+  dimension: platform {
+    group_label: "Device & OS Dimensions"
+    label: "Device Platform"
+    type: string
+    #sql: @{device_platform_mapping} ;;
   }
   dimension: quests_completed {
     type: number

@@ -46,6 +46,10 @@ view: user_fact {
   dimension: country {
     type: string
   }
+  dimension: region {
+    type: string
+    sql: @{country_region} ;;
+  }
   dimension: quests_completed {
     type: number
     hidden: yes
@@ -142,6 +146,9 @@ view: user_fact {
         when ${install_version} = '8000' then '1.8.000'
         when ${install_version} = '8100' then '1.8.100'
         when ${install_version} = '8200' then '1.8.200'
+        when ${install_version} = '8300' then '1.8.300'
+        when ${install_version} = '8400' then '1.8.400'
+        when ${install_version} = '9100' then '1.9.100'
         else null
       end
     ;;

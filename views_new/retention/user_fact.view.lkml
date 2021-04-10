@@ -59,7 +59,7 @@ view: user_fact {
     group_label: "Device & OS Dimensions"
     label: "Device Platform"
     type: string
-    #sql: @{device_platform_mapping} ;;
+    sql: @{device_platform_mapping} ;;
   }
   dimension: quests_completed {
     type: number

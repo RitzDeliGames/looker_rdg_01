@@ -178,7 +178,7 @@ constant: device_platform_mapping {
   value: "CASE
           WHEN ${TABLE}.platform LIKE '%iOS%' THEN 'Apple'
           WHEN ${TABLE}.platform LIKE '%Android%' THEN 'Google'
-          WHEN ${TABLE}.hardware LIKE '%Chrome%' AND ${TABLE}.user_id LIKE '%facebook%' THEN 'Facebook'
+          ELSE 'Other'
         END"
 
 }

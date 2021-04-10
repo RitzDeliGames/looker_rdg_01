@@ -54,6 +54,36 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     type: string
     sql: ${TABLE}.device_model_number ;;
   }
+  dimension: rapid_progression_v1 {
+    group_label: "Experiments"
+    label: "Rapid Progression v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.rapidProgression_20200325'),'unassigned') ;;
+  }
+  dimension: disable_auto_select_v1 {
+    group_label: "Experiments"
+    label: "Disable Auto-Select v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.disableAutoSelect_20210330'),'unassigned') ;;
+  }
+  dimension: pre_game_v3 {
+    group_label: "Experiments"
+    label: "Pre-Game v3"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.v3PreGameScreen_20210316'),'unassigned') ;;
+  }
+  dimension: more_time_v3 {
+    group_label: "Experiments"
+    label: "More Time v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.moreTimeBingo_20210330'),'unassigned') ;;
+  }
+  dimension: more_time_v2 {
+    group_label: "Experiments"
+    label: "More Time v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.moreTimeBingo_20210322'),'unassigned') ;;
+  }
   dimension: alt_407 {
     group_label: "Experiments"
     label: "Alt 407"

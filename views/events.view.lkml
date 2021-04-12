@@ -637,37 +637,114 @@ view: events {
   }
   dimension: box_001_tickets {
     group_label: "Capsule Tickets"
-    label: "box 001 tickets"
+    label: "Fun Capsule Tickets"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_001'),'"','') as NUMERIC);;
+    sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.box_001') as NUMERIC);;
   }
-
+  measure:  box_001_tickets_025th {
+    group_label: "Ticket Percentiles"
+    label: "Fun Capsule - 2.5%"
+    percentile: 2.5
+    type: percentile
+    sql: ${box_001_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  box_001_tickets_25th {
+    group_label: "Ticket Percentiles"
+    label: "Fun Capsule - 25%"
+    percentile: 25
+    type: percentile
+    sql: ${box_001_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  box_001_tickets_50th {
+    group_label: "Ticket Percentiles"
+    label: "Fun Capsule - Median"
+    type: median
+    sql: ${box_001_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  box_001_tickets_75th {
+    group_label: "Ticket Percentiles"
+    label: "Fun Capsule - 75%"
+    percentile: 75
+    type: percentile
+    sql: ${box_001_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  box_001_tickets_975th {
+    group_label: "Ticket Percentiles"
+    label: "Fun Capsule - 97.5%"
+    percentile: 97.5
+    type: percentile
+    sql: ${box_001_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
   dimension: box_002_tickets {
     group_label: "Capsule Tickets"
-    label: "box 002 tickets"
+    label: "Super Fun Tickets"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_002'),'"','') as NUMERIC);;
+    sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.box_002') as NUMERIC);;
+  }
+  measure:  box_002_tickets_025th {
+    group_label: "Ticket Percentiles"
+    label: "Super Fun Capsule - 2.5%"
+    percentile: 2.5
+    type: percentile
+    sql: ${box_002_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  box_002_tickets_25th {
+    group_label: "Ticket Percentiles"
+    label: "Super Fun Capsule - 25%"
+    percentile: 25
+    type: percentile
+    sql: ${box_002_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  box_002_tickets_50th {
+    group_label: "Ticket Percentiles"
+    label: "Super Fun Capsule - Median"
+    type: median
+    sql: ${box_002_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  box_002_tickets_75th {
+    group_label: "Ticket Percentiles"
+    label: "Super Fun Capsule - 75%"
+    percentile: 75
+    type: percentile
+    sql: ${box_002_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  box_002_tickets_975th {
+    group_label: "Ticket Percentiles"
+    label: "Super Fun Capsule - 97.5%"
+    percentile: 97.5
+    type: percentile
+    sql: ${box_002_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
   }
 
   dimension: box_003_tickets {
     group_label: "Capsule Tickets"
     label: "box 003 tickets"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_003'),'"','') as NUMERIC);;
+    sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.box_003') as NUMERIC);;
   }
 
   dimension: box_006_tickets {
     group_label: "Capsule Tickets"
     label: "box 006 tickets"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_006'),'"','') as NUMERIC);;
+    sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.box_006') as NUMERIC);;
   }
 
   dimension: box_007_tickets {
     group_label: "Capsule Tickets"
     label: "box 007 tickets"
     type: number
-    sql: CAST(REPLACE(JSON_EXTRACT(${TABLE}.tickets,'$.box_007'),'"','') as NUMERIC);;
+    sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.box_007') as NUMERIC);;
   }
 
   dimension: score_tickets {

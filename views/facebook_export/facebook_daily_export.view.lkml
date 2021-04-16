@@ -11,7 +11,7 @@ view: facebook_daily_export {
                 frequency,
                 CAST(spend AS FLOAT64) AS spend,
                 CAST(installs AS INT64) AS installs
-      FROM `eraser-blast.game_data.fb_daily_ad_export`
+      FROM `eraser-blast.game_data.facebook_daily_ad_export`
       WHERE campaign_name LIKE "%Android%"
       ORDER BY 1 ASC, 3 DESC ;;
   }

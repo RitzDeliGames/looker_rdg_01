@@ -24,7 +24,7 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
       select distinct
         last_user_event.user_id
         ,events.experiments
-        ,events.device_model_number
+        ,lower(events.hardware) device_model_number
       from last_user_event
       inner join game_data.events
         on last_user_event.user_id = events.rdg_id

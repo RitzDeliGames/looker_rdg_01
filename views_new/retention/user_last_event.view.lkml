@@ -54,6 +54,18 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     type: string
     sql: ${TABLE}.device_model_number ;;
   }
+  dimension: bingo_rewards_v1 {
+    group_label: "Experiments"
+    label: "Bingo Rewards v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.rewards_v1_20210415'),'unassigned') ;;
+  }
+  dimension: early_exit3 {
+    group_label: "Experiments"
+    label: "Early Exit v3"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.earlyExitRedux_20210414'),'unassigned') ;;
+  }
   dimension: rapid_progression_v1 {
     group_label: "Experiments"
     label: "Rapid Progression v1"
@@ -212,13 +224,13 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
   }
   dimension: early_exit2 {
     group_label: "Experiments"
-    label: "EarlyExit2"
+    label: "Early Exit v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.earlyExitContent_20200909'),'unassigned') ;;
   }
   dimension: early_exit {
     group_label: "Experiments"
-    label: "EarlyExit"
+    label: "Early Exit v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.earlyExit_20200828'),'unassigned') ;;
   }

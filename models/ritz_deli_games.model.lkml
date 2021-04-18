@@ -24,6 +24,11 @@ explore: user_retention {
     sql_on: ${user_retention.user_id} = ${user_activity.user_id} ;;
     relationship: one_to_many
   }
+  join: user_activity_engagement_min {
+    type: left_outer
+    sql_on: ${user_retention.user_id} = ${user_activity_engagement_min.user_id} ;;
+    relationship: one_to_many
+  }
   join: user_last_event {
     type: left_outer
     sql_on: ${user_retention.user_id} = ${user_last_event.user_id} ;;

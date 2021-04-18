@@ -11,6 +11,7 @@ view: user_fact {
         max(quests_completed) quests_completed,
         -- sum(ifnull(case when json_extract_scalar(extra_json,"$.transaction_id") is not null then (cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") as numeric) / 100) end,0)) purchase_amt,
         max(json_extract_scalar(extra_json,"$.card_id")) current_card,
+        --max(coalesce(events.last_unlocked_card,events.current_card)) current_card,
         min(version) version,
         max(install_version) install_version
       from `eraser-blast.game_data.events`

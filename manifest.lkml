@@ -276,7 +276,6 @@ constant: bingo_card_mapping_5x5_X {
 
 constant: release_version_major {
   value: "CASE
-            WHEN ${TABLE}.version LIKE '1568' THEN '1.0'
             WHEN ${TABLE}.version LIKE '1579' THEN '1.0'
             WHEN ${TABLE}.version LIKE '2047' THEN '1.1'
             WHEN ${TABLE}.version LIKE '2100' THEN '1.1'
@@ -308,7 +307,6 @@ constant: release_version_major {
 
 constant: install_release_version_major {
   value: "CASE
-            WHEN ${TABLE}.install_version LIKE '1568' THEN '1.0'
             WHEN ${TABLE}.install_version LIKE '1579' THEN '1.0'
             WHEN ${TABLE}.install_version LIKE '2047' THEN '1.1'
             WHEN ${TABLE}.install_version LIKE '2100' THEN '1.1'
@@ -340,7 +338,6 @@ constant: install_release_version_major {
 
 constant: release_version_minor {
   value: "CASE
-            WHEN ${TABLE}.version LIKE '1568' THEN '1.0.001'
             WHEN ${TABLE}.version LIKE '1579' THEN '1.0.100'
             WHEN ${TABLE}.version LIKE '2047' THEN '1.1.001'
             WHEN ${TABLE}.version LIKE '2100' THEN '1.1.100'
@@ -372,7 +369,6 @@ constant: release_version_minor {
 
 constant: install_release_version_minor {
   value: "CASE
-            WHEN ${TABLE}.install_version LIKE '1568' THEN '1.0.001'
             WHEN ${TABLE}.install_version LIKE '1579' THEN '1.0.100'
             WHEN ${TABLE}.install_version LIKE '2047' THEN '1.1.001'
             WHEN ${TABLE}.install_version LIKE '2100' THEN '1.1.100'
@@ -404,6 +400,7 @@ constant: install_release_version_minor {
 
 constant: experiment_ids {
   value: "CASE
+            WHEN JSON_EXTRACT(${experiments},'$.earlyExitRedux_20210414') != 'unassigned' THEN 'Early Exit v3'
             WHEN JSON_EXTRACT(${experiments},'$.moreTimeBingo_20210330') != 'unassigned' THEN 'More Time v3'
             WHEN JSON_EXTRACT(${experiments},'$.rapidProgression_20200325') != 'unassigned' THEN 'Rapid Progression v1'
             WHEN JSON_EXTRACT(${experiments},'$.disableAutoSelect_20210330') != 'unassigned' THEN 'Disable Auto-Select v1'
@@ -430,8 +427,8 @@ constant: experiment_ids {
             WHEN JSON_EXTRACT(${experiments},'$.untimed_20200918') != 'unassigned' THEN 'UntimedMode'
             WHEN JSON_EXTRACT(${experiments},'$.content_20201005') != 'unassigned' THEN 'EarlyContent'
             WHEN JSON_EXTRACT(${experiments},'$.secondsPerRound_20200922') != 'unassigned' THEN 'SecondsPerRound'
-            WHEN JSON_EXTRACT(${experiments},'$.earlyExitContent_20200909') != 'unassigned' THEN 'EarlyExit2'
-            WHEN JSON_EXTRACT(${experiments},'$.earlyExit_20200828') != 'unassigned' THEN 'EarlyExit'
+            WHEN JSON_EXTRACT(${experiments},'$.earlyExitContent_20200909') != 'unassigned' THEN 'EarlyExit v2'
+            WHEN JSON_EXTRACT(${experiments},'$.earlyExit_20200828') != 'unassigned' THEN 'EarlyExit v1'
             WHEN JSON_EXTRACT(${experiments},'$.notifications_20200824') != 'unassigned' THEN 'Notifications'
             WHEN JSON_EXTRACT(${experiments},'$.lazyLoadOtherTabs_20200901') != 'unassigned' THEN 'LazyLoad'
             WHEN JSON_EXTRACT(${experiments},'$.tabFueTiming_20200825') != 'unassigned' THEN 'FUETiming'
@@ -442,6 +439,7 @@ constant: experiment_ids {
 
 constant: variant_ids {
   value: "CASE
+            WHEN ${experiment_names} = 'Early Exit v3' THEN JSON_EXTRACT_SCALAR(${experiments},'$.earlyExitRedux_20210414')
             WHEN ${experiment_names} = 'More Time v3' THEN JSON_EXTRACT_SCALAR(${experiments},'$.moreTimeBingo_20210330')
             WHEN ${experiment_names} = 'Rapid Progression v1' THEN JSON_EXTRACT_SCALAR(${experiments},'$.rapidProgression_20200325')
             WHEN ${experiment_names} = 'Disable Auto-Select v1' THEN JSON_EXTRACT_SCALAR(${experiments},'$.disableAutoSelect_20210330')
@@ -468,8 +466,8 @@ constant: variant_ids {
             WHEN ${experiment_names} = 'UntimedMode' THEN JSON_EXTRACT_SCALAR(${experiments},'$.untimed_20200918')
             WHEN ${experiment_names} = 'EarlyContent' THEN JSON_EXTRACT_SCALAR(${experiments},'$.content_20201005')
             WHEN ${experiment_names} = 'SecondsPerRound' THEN JSON_EXTRACT_SCALAR(${experiments},'$.secondsPerRound_20200922')
-            WHEN ${experiment_names} = 'EarlyExit2' THEN JSON_EXTRACT_SCALAR(${experiments},'$.earlyExitContent_20200909')
-            WHEN ${experiment_names} = 'EarlyExit' THEN JSON_EXTRACT_SCALAR(${experiments},'$.earlyExit_20200828')
+            WHEN ${experiment_names} = 'Early Exit v2' THEN JSON_EXTRACT_SCALAR(${experiments},'$.earlyExitContent_20200909')
+            WHEN ${experiment_names} = 'Early Exit v1' THEN JSON_EXTRACT_SCALAR(${experiments},'$.earlyExit_20200828')
             WHEN ${experiment_names} = 'Notifications' THEN JSON_EXTRACT_SCALAR(${experiments},'$.notifications_20200824')
             WHEN ${experiment_names} = 'LazyLoad' THEN JSON_EXTRACT_SCALAR(${experiments},'$.lazyLoadOtherTabs_20200901')
             WHEN ${experiment_names} = 'FUETiming' THEN JSON_EXTRACT_SCALAR(${experiments},'$.tabFueTiming_20200825')

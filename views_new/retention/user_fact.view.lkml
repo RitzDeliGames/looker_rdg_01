@@ -119,8 +119,9 @@ view: user_fact {
     sql: @{release_version_minor} ;;
   }
   dimension: install_version {
-    type: string
-    hidden: yes
+    type: number
+    hidden: no
+    sql: cast(${TABLE}.install_version as int64) ;;
   }
   dimension: install_minor_release_version {
     hidden: yes

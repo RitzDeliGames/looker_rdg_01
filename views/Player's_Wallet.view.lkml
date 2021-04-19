@@ -478,9 +478,9 @@ group_label: "4. Player's Wallet - Skill & Level"
 type: median
 sql: CASE
       WHEN  {% parameter 4_skill_n_level_type %} = 'Skill'
-      THEN ${skill}
+      THEN ${skill_tickets}
       WHEN  {% parameter 4_skill_n_level_type %} = 'Level'
-      THEN ${level}
+      THEN ${level_tickets}
     END ;;
 }
 
@@ -503,9 +503,9 @@ type: percentile
 percentile: 25
 sql: CASE
       WHEN  {% parameter 4_skill_n_level_type %} = 'Skill'
-      THEN ${skill}
+      THEN ${skill_tickets}
       WHEN  {% parameter 4_skill_n_level_type %} = 'Level'
-      THEN ${level}
+      THEN ${level_tickets}
     END ;;
 }
 
@@ -528,9 +528,9 @@ type: percentile
 percentile: 75
 sql: CASE
       WHEN  {% parameter 4_skill_n_level_type %} = 'Skill'
-      THEN ${skill}
+      THEN ${skill_tickets}
       WHEN  {% parameter 4_skill_n_level_type %} = 'Level'
-      THEN ${level}
+      THEN ${level_tickets}
     END ;;
 }
 

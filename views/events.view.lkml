@@ -748,7 +748,7 @@ view: events {
   }
 
   dimension: score_tickets {
-    group_label: "Boost Inventory"
+    group_label: "Boost/Ticket Inventory"
     label: "Score Boost"
     type: number
     sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.SCORE') as NUMERIC);;
@@ -794,7 +794,7 @@ view: events {
   }
 
   dimension: bubble_tickets {
-    group_label: "Boost Inventory"
+    group_label: "Boost/Ticket Inventory"
     label: "Bubble Boost"
     type: number
     sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.BUBBLE') as NUMERIC);;
@@ -840,7 +840,7 @@ view: events {
   }
 
   dimension: time_tickets {
-    group_label: "Boost Inventory"
+    group_label: "Boost/Ticket Inventory"
     label: "Time Boost"
     type: number
     sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.TIME') as NUMERIC);;
@@ -886,7 +886,7 @@ view: events {
   }
 
   dimension: five_to_four_tickets {
-    group_label: "Boost Inventory"
+    group_label: "Boost/Ticket Inventory"
     label: "5-to-4 Boost"
     type: number
     sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.FIVE_TO_FOUR') as NUMERIC);;
@@ -932,7 +932,7 @@ view: events {
   }
 
   dimension: exp_tickets {
-    group_label: "Boost Inventory"
+    group_label: "Boost/Ticket Inventory"
     label: "XP Boost"
     type: number
     sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.EXP') as NUMERIC);;
@@ -978,7 +978,7 @@ view: events {
   }
 
   dimension: coin_tickets {
-    group_label: "Boost Inventory"
+    group_label: "Boost/Ticket Inventory"
     label: "Coin Boost"
     type: number
     sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.COIN') as NUMERIC);;
@@ -1023,18 +1023,96 @@ view: events {
     drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
   }
 
-  dimension: skill {
-    group_label: "missing"
-    label: "Skill"
+  dimension: skill_tickets {
+    group_label: "Boost/Ticket Inventory"
+    label: "Skill Ticket"
     type: number
     sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.SKILL') as NUMERIC);;
   }
+  measure:  skill_tickets_025th {
+    group_label: "Boost Inventory Percentiles - Skill"
+    label: "Skill Tickets - 2.5%"
+    percentile: 2.5
+    type: percentile
+    sql: ${skill_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  skill_tickets_25th {
+    group_label: "Boost Inventory Percentiles - Skill"
+    label: "Skill Tickets - 25%"
+    percentile: 25
+    type: percentile
+    sql: ${skill_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  skill_tickets_50th {
+    group_label: "Boost Inventory Percentiles - Skill"
+    label: "Skill Tickets - Median"
+    type: median
+    sql: ${skill_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  skill_tickets_75th {
+    group_label: "Boost Inventory Percentiles - Skill"
+    label: "Skill Tickets - 75%"
+    percentile: 75
+    type: percentile
+    sql: ${skill_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  skill_tickets_975th {
+    group_label: "Boost Inventory Percentiles - Skill"
+    label: "Skill Tickets - 97.5%"
+    percentile: 97.5
+    type: percentile
+    sql: ${skill_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
 
-  dimension: level {
-    group_label: "missing"
-    label: "Level"
+  dimension: level_tickets {
+    group_label: "Boost/Ticket Inventory"
+    label: "Level Ticket"
     type: number
     sql: CAST(JSON_EXTRACT_SCALAR(${TABLE}.tickets,'$.LEVEL') as NUMERIC);;
+  }
+  measure:  level_tickets_025th {
+    group_label: "Boost Inventory Percentiles - Level"
+    label: "Level Tickets - 2.5%"
+    percentile: 2.5
+    type: percentile
+    sql: ${level_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  level_tickets_25th {
+    group_label: "Boost Inventory Percentiles - Level"
+    label: "Level Tickets - 25%"
+    percentile: 25
+    type: percentile
+    sql: ${level_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  level_tickets_50th {
+    group_label: "Boost Inventory Percentiles - Level"
+    label: "Level Tickets - Median"
+    type: median
+    sql: ${level_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  level_tickets_75th {
+    group_label: "Boost Inventory Percentiles - Level"
+    label: "Level Tickets - 75%"
+    percentile: 75
+    type: percentile
+    sql: ${level_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+  }
+  measure:  level_tickets_975th {
+    group_label: "Boost Inventory Percentiles - Level"
+    label: "Level Tickets - 97.5%"
+    percentile: 97.5
+    type: percentile
+    sql: ${level_tickets} ;;
+    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
   }
 
   dimension: engagement_ticks {
@@ -1185,6 +1263,13 @@ view: events {
     label: "Current Card ID"
     type: string
     sql: ${TABLE}.current_card ;;
+  }
+
+  dimension: last_unlocked_card {
+    group_label: "Current Card"
+    label: "Last Unlocked Card ID"
+    type: string
+    sql: ${TABLE}.last_unlocked_card ;;
   }
 
   dimension: current_card_no {

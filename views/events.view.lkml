@@ -1388,81 +1388,81 @@ view: events {
 ###BOOST USED DIMENSIONS###
   dimension: score_boost_used {
     group_label: "Boosts Used"
-    label: "Score Boost"
-    type: number
-    sql:CAST(JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.score_boost') AS NUMERIC);;
+    hidden: no
+    type: string
+    sql:if(json_extract_scalar(${TABLE}.extra_json,'$.score_boost') >= "1", "TRUE", "FALSE");;
   }
-  measure:  score_boost_used_count {
+  measure: score_boost_used_round_count {
     group_label: "Boosts Used"
-    label: "Score Boost"
-    type: count_distinct
-    sql: ${score_boost_used} ;;
-    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+    label: "Score Boost - Rounds Used Count"
+    type: sum
+    sql: if(${score_boost_used} = "TRUE", 1, 0);;
+    drill_fields: [user_id, round_id, extra_json]
   }
   dimension: coin_boost_used {
     group_label: "Boosts Used"
-    label: "Coin Boost"
-    type: number
-    sql:CAST(JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.coin_boost') AS NUMERIC);;
+    hidden: no
+    type: string
+    sql:if(json_extract_scalar(${TABLE}.extra_json,'$.coin_boost') >= "1", "TRUE", "FALSE");;
   }
-  measure:  coin_boost_used_count {
+  measure: coin_boost_used_round_count {
     group_label: "Boosts Used"
-    label: "Coin Boost"
-    type: count_distinct
-    sql: ${coin_boost_used} ;;
-    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+    label: "Coin Boost - Rounds Used Count"
+    type: sum
+    sql: if(${coin_boost_used} = "TRUE", 1, 0);;
+    drill_fields: [coin_boost_used, user_id, round_id, extra_json]
   }
   dimension: exp_boost_used {
     group_label: "Boosts Used"
-    label: "XP Boost"
-    type: number
-    sql:CAST(JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.exp_boost') AS NUMERIC);;
+    hidden: no
+    type: string
+    sql:if(json_extract_scalar(${TABLE}.extra_json,'$.exp_boost') >= "1", "TRUE", "FALSE");;
   }
   measure:  exp_boost_used_count {
     group_label: "Boosts Used"
-    label: "XP Boost"
-    type: count_distinct
-    sql: ${exp_boost_used} ;;
-    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+    label: "XP Boost - Use Count"
+    type: sum
+    sql: if(${exp_boost_used} = "TRUE", 1, 0);;
+    drill_fields: [exp_boost_used, user_id, round_id, extra_json]
   }
   dimension: time_boost_used {
     group_label: "Boosts Used"
-    label: "Time Boost"
-    type: number
-    sql:CAST(JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.time_boost') AS NUMERIC);;
+    hidden: no
+    type: string
+    sql:if(json_extract_scalar(${TABLE}.extra_json,'$.time_boost') >= "1", "TRUE", "FALSE");;
   }
   measure:  time_boost_used_count {
     group_label: "Boosts Used"
-    label: "Time Boost"
-    type: count_distinct
-    sql: ${time_boost_used} ;;
-    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+    label: "Time Boost - Use Count"
+    type: sum
+    sql: if(${time_boost_used} = "TRUE", 1, 0);;
+    drill_fields: [time_boost_used, user_id, round_id, extra_json]
   }
   dimension: bubble_boost_used {
     group_label: "Boosts Used"
-    label: "Bubble Boost"
-    type: number
-    sql:CAST(JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.bubble_boost') AS NUMERIC);;
+    hidden: no
+    type: string
+    sql:if(json_extract_scalar(${TABLE}.extra_json,'$.bubble_boost') >= "1", "TRUE", "FALSE");;
   }
   measure:  bubble_boost_used_count {
     group_label: "Boosts Used"
-    label: "Bubble Boost"
-    type: count_distinct
-    sql: ${bubble_boost_used} ;;
-    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+    label: "Bubble Boost - Use Count"
+    type: sum
+    sql: if(${bubble_boost_used} = "TRUE", 1, 0);;
+    drill_fields: [bubble_boost_used, user_id, round_id, extra_json]
   }
   dimension: five_to_four_boost_used {
     group_label: "Boosts Used"
-    label: "5-to-4 Boost"
-    type: number
-    sql:CAST(JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.five_to_four_boost') AS NUMERIC);;
+    hidden: no
+    type: string
+    sql:if(json_extract_scalar(${TABLE}.extra_json,'$.five_to_four_boost') >= "1", "TRUE", "FALSE");;
   }
   measure:  five_to_four_boost_used_count {
     group_label: "Boosts Used"
-    label: "5-to-4 Boost"
-    type: count_distinct
-    sql: ${five_to_four_boost_used} ;;
-    drill_fields: [user_id, user_first_seen_date, gems, coins, round_id, current_card_quest]
+    label: "5-to-4 Boost - Use Count"
+    type: sum
+    sql: if(${five_to_four_boost_used} = "TRUE", 1, 0);;
+    drill_fields: [five_to_four_boost_used, user_id, round_id, extra_json]
   }
 ###
 
@@ -1516,6 +1516,16 @@ view: events {
   }
 
   #######
+  dimension: round_start_timestamp {
+    hidden: yes
+    type: string
+    sql: json_extract_scalar(${extra_json},"$.start_time") ;;
+  }
+  measure: round_count {
+    type: count_distinct
+    sql: ${round_start_timestamp} ;;
+    drill_fields: [user_id, round_start_timestamp]
+  }
 
   measure: max_round_count {
     label: "Max Round Count"
@@ -1526,6 +1536,11 @@ view: events {
   dimension: rounds {
     type: number
     sql: CAST(REPLACE(JSON_VALUE(${TABLE}.extra_json,'$.rounds'),'"','') AS NUMERIC) ;;
+  }
+  measure: rounds_per_card_sum {
+    label: "Sum of Rounds Played per Card"
+    type: sum
+    sql: ${rounds} ;;
   }
 
   ########

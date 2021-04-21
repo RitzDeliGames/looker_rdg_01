@@ -5,6 +5,7 @@ view: user_fact {
         rdg_id user_id,
         platform,
         country,
+        ltv,
         min(created_at) created,
         max(timestamp) last_event,
         count(distinct session_id) lifetime_sessions,
@@ -13,11 +14,12 @@ view: user_fact {
         max(json_extract_scalar(extra_json,"$.card_id")) current_card,
         --max(coalesce(events.last_unlocked_card,events.current_card)) current_card,
         min(version) version,
-        max(install_version) install_version
+        max(install_version) install_version,
+        max(player_level_xp) player_level_xp
       from `eraser-blast.game_data.events`
       where created_at >= '2019-01-01'
       and user_type = 'external'
-      group by user_id, country, platform
+      group by user_id, country, platform, country, ltv
     ;;
     datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
@@ -34,6 +36,17 @@ view: user_fact {
       date,
       month,
       year
+    ]
+  }
+  dimension_group: created_at_pst {
+    group_label: "Created Date - PST"
+    type: time
+    sql: datetime(${TABLE}.created_at,'US/Pacific') ;;
+    timeframes: [
+      raw
+      ,date
+      ,month
+      ,year
     ]
   }
   dimension_group: last_event {
@@ -82,6 +95,14 @@ view: user_fact {
   dimension: churned {
     type: yesno
     sql: ${days_since_last_event} > 1 ;;
+  }
+  dimension: ltv {
+    label: "LTV"
+    type: number
+  }
+  dimension: payer {
+    type: yesno
+    sql:  ${ltv} > 0;;
   }
   # dimension: spend_tier {
   #   type: string
@@ -132,6 +153,43 @@ view: user_fact {
     label: "Install Minor Release Version"
     type: string
     sql: coalesce(${install_minor_release_version},${derived_install_minor_release_version}) ;;
+  }
+  dimension: player_level_xp {
+    hidden: yes
+  }
+  measure: player_level_xp_025 {
+    group_label: "Player XP"
+    label: "Player XP - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${player_level_xp} ;;
+  }
+  measure: player_level_xp_25 {
+    group_label: "Player XP"
+    label: "Player XP - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${player_level_xp} ;;
+  }
+  measure: player_level_xp_med {
+    group_label: "Player XP"
+    label: "Player XP - Median"
+    type: median
+    sql: ${player_level_xp} ;;
+  }
+  measure: player_level_xp_75 {
+    group_label: "Player XP"
+    label: "Player XP - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${player_level_xp} ;;
+  }
+  measure: player_level_xp_975 {
+    group_label: "Player XP"
+    label: "Player XP - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${player_level_xp} ;;
   }
   measure: count {
     type: count

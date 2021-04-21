@@ -712,7 +712,55 @@ view: user_card {
     filters: [
       is_complete: "yes"
     ]
-    value_format_name: decimal_1
+  }
+  measure: rounds_to_complete_025 {
+    group_label: "Rounds to Complete"
+    label: "Rounds to Complete - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${total_rounds} ;;
+    filters: [
+      is_complete: "yes"
+    ]
+  }
+  measure: rounds_to_complete_25 {
+    group_label: "Rounds to Complete"
+    label: "Rounds to Complete - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${total_rounds} ;;
+    filters: [
+      is_complete: "yes"
+    ]
+  }
+  measure: rounds_to_complete_med {
+    group_label: "Rounds to Complete"
+    label: "Rounds to Complete - Median"
+    type: median
+    sql: ${total_rounds} ;;
+    filters: [
+      is_complete: "yes"
+    ]
+  }
+  measure: rounds_to_complete_75 {
+    group_label: "Rounds to Complete"
+    label: "Rounds to Complete - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${total_rounds} ;;
+    filters: [
+      is_complete: "yes"
+    ]
+  }
+  measure: rounds_to_complete_975 {
+    group_label: "Rounds to Complete"
+    label: "Rounds to Complete - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${total_rounds} ;;
+    filters: [
+      is_complete: "yes"
+    ]
   }
   measure: average_node_1_completion_time {
     group_label: "Completion Time Averages"

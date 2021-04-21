@@ -54,11 +54,18 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     type: string
     sql: ${TABLE}.device_model_number ;;
   }
+
   dimension: bingo_rewards_v1 {
     group_label: "Experiments"
     label: "Bingo Rewards v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.rewards_v1_20210415'),'unassigned') ;;
+  }
+  dimension: mini_game_ui_v1 {
+    group_label: "Experiments"
+    label: "Mini-Game UI v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.miniGame_v3_20210407'),'unassigned') ;;
   }
   dimension: early_exit3 {
     group_label: "Experiments"

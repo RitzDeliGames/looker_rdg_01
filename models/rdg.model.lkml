@@ -37,7 +37,7 @@ explore: events {
   sql_always_where:
     created_at  >= TIMESTAMP('2020-07-06 00:00:00')
     AND user_type = "external"
-    AND ${user_id} NOT IN ("anon-c39ef24b-bb78-4339-9e42-befd5532a5d4");;
+    AND ${user_id} NOT IN ("anon-c39ef24b-bb78-4339-9e42-befd5532a5d4", "anon-efe60f6f-f82f-4ef9-8edc-daa931b5fdea","anon-57642d8c-c48f-485c-9b85-4421586a9836");;
     join: retention {
       sql_on: ${events.player_id} = ${retention.user_id}
                 and ${events.user_first_seen_date} = ${retention.signup_day_date};;

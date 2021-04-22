@@ -66,4 +66,9 @@ explore: events {
 
 explore: user_card_completion {
   from: user_card
+  join: user_fact {
+    type: left_outer
+    sql_on: ${user_card_completion.rdg_id} = ${user_fact.user_id} ;;
+    relationship: many_to_one
+  }
 }

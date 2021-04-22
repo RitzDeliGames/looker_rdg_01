@@ -54,6 +54,12 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     type: string
     sql: ${TABLE}.device_model_number ;;
   }
+  dimension: rewards_v2_20210417 {
+    group_label: "Experiments"
+    label: "Alt Card Rewards v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.rewards_v2_20210417'),'unassigned') ;;
+  }
   dimension: alt_card_003_v1 {
     group_label: "Experiments"
     label: "Alt Card_003 v1"

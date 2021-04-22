@@ -352,20 +352,20 @@ view: user_card {
     sql: ${node_9_explicit} + ${node_9_passive} ;;
   }
   dimension: node_10_completed_round {
-    group_label: "Node 10"
+    group_label: " Node 10"
   }
   dimension: node_10_time_to_complete {
-    group_label: "Node 10"
+    group_label: " Node 10"
     description: "Time to complete Node 10 in minutes"
     type: number
     sql: ${TABLE}.node_10_end_tick * .5 ;;
   }
   dimension: node_10_explicit {
-    group_label: "Node 10"
+    group_label: " Node 10"
     type: number
   }
   dimension: node_10_passive {
-    group_label: "Node 10"
+    group_label: " Node 10"
     type: number
   }
   dimension: node_10_progress_attempts {
@@ -377,17 +377,17 @@ view: user_card {
     group_label: "Node 11"
   }
   dimension: node_11_time_to_complete {
-    group_label: "Node 11"
+    group_label: " Node 11"
     description: "Time to complete Node 11 in minutes"
     type: number
     sql: ${TABLE}.node_11_end_tick * .5 ;;
   }
   dimension: node_11_explicit {
-    group_label: "Node 11"
+    group_label: " Node 11"
     type: number
   }
   dimension: node_11_passive {
-    group_label: "Node 11"
+    group_label: " Node 11"
     type: number
   }
   dimension: node_11_progress_attempts {
@@ -396,20 +396,20 @@ view: user_card {
     sql: ${node_11_explicit} + ${node_11_passive} ;;
   }
   dimension: node_12_completed_round {
-    group_label: "Node 12"
+    group_label: " Node 12"
   }
   dimension: node_12_time_to_complete {
-    group_label: "Node 12"
+    group_label: " Node 12"
     description: "Time to complete Node 12 in minutes"
     type: number
     sql: ${TABLE}.node_12_end_tick * .5 ;;
   }
   dimension: node_12_explicit {
-    group_label: "Node 12"
+    group_label: " Node 12"
     type: number
   }
   dimension: node_12_passive {
-    group_label: "Node 12"
+    group_label: " Node 12"
     type: number
   }
   dimension: node_12_progress_attempts {
@@ -418,20 +418,20 @@ view: user_card {
     sql: ${node_12_explicit} + ${node_12_passive} ;;
   }
   dimension: node_13_completed_round {
-    group_label: "Node 13"
+    group_label: " Node 13"
   }
   dimension: node_13_time_to_complete {
-    group_label: "Node 13"
+    group_label: " Node 13"
     description: "Time to complete Node 13 in minutes"
     type: number
     sql: ${TABLE}.node_13_end_tick * .5 ;;
   }
   dimension: node_13_explicit {
-    group_label: "Node 13"
+    group_label: " Node 13"
     type: number
   }
   dimension: node_13_passive {
-    group_label: "Node 13"
+    group_label: " Node 13"
     type: number
   }
   dimension: node_13_progress_attempts {
@@ -714,8 +714,8 @@ view: user_card {
     ]
   }
   measure: rounds_to_complete_025 {
-    group_label: "Rounds to Complete"
-    label: "Rounds to Complete - 2.5%"
+    group_label: "Rounds to Complete Card"
+    label: "Rounds to Complete Card - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${total_rounds} ;;
@@ -724,8 +724,8 @@ view: user_card {
     ]
   }
   measure: rounds_to_complete_25 {
-    group_label: "Rounds to Complete"
-    label: "Rounds to Complete - 25%"
+    group_label: "Rounds to Complete Card"
+    label: "Rounds to Complete Card - 25%"
     type: percentile
     percentile: 25
     sql: ${total_rounds} ;;
@@ -734,8 +734,8 @@ view: user_card {
     ]
   }
   measure: rounds_to_complete_med {
-    group_label: "Rounds to Complete"
-    label: "Rounds to Complete - Median"
+    group_label: "Rounds to Complete Card"
+    label: "Rounds to Complete Card - Median"
     type: median
     sql: ${total_rounds} ;;
     filters: [
@@ -743,8 +743,8 @@ view: user_card {
     ]
   }
   measure: rounds_to_complete_75 {
-    group_label: "Rounds to Complete"
-    label: "Rounds to Complete - 75%"
+    group_label: "Rounds to Complete Card"
+    label: "Rounds to Complete Card - 75%"
     type: percentile
     percentile: 75
     sql: ${total_rounds} ;;
@@ -753,8 +753,8 @@ view: user_card {
     ]
   }
   measure: rounds_to_complete_975 {
-    group_label: "Rounds to Complete"
-    label: "Rounds to Complete - 97.5%"
+    group_label: "Rounds to Complete Card"
+    label: "Rounds to Complete Card - 97.5%"
     type: percentile
     percentile: 97.5
     sql: ${total_rounds} ;;
@@ -1191,6 +1191,150 @@ view: user_card {
   measure: average_node_24_progress_count {
     group_label: "Node Progress Count Averages"
     type: average
+    sql: ${node_24_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_1_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_1_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_2_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_2_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_3_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_3_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_4_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_4_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_5_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_5_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_6_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_6_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_7_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_7_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_8_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_8_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_9_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_9_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_10_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_10_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_11_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_11_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_12_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_12_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_13_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_13_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_14_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_14_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_15_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_15_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_16_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_16_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_17_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_17_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_18_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_18_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_19_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_19_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_20_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_20_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_21_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_21_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_22_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_22_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_23_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
+    sql: ${node_23_progress_attempts} ;;
+    value_format_name: decimal_1
+  }
+  measure: median_node_24_progress_count {
+    group_label: "Node Progress Count - Median"
+    type: median
     sql: ${node_24_progress_attempts} ;;
     value_format_name: decimal_1
   }

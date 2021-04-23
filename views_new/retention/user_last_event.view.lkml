@@ -56,9 +56,15 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
   }
   dimension: rewards_v2_20210417 {
     group_label: "Experiments"
-    label: "Alt Card Rewards v1"
+    label: "Alt Card Rewards v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.rewards_v2_20210417'),'unassigned') ;;
+  }
+  dimension: rewards_v1_20210415 {
+    group_label: "Experiments"
+    label: "Alt Card Rewards v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.rewards_v1_20210415'),'unassigned') ;;
   }
   dimension: alt_card_003_v1 {
     group_label: "Experiments"

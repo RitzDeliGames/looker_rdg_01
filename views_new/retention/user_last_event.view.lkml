@@ -54,17 +54,11 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     type: string
     sql: ${TABLE}.device_model_number ;;
   }
-  dimension: rewards_v2_20210417 {
+  dimension: bingo_rewards_v2 {
     group_label: "Experiments"
     label: "Alt Card Rewards v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.rewards_v2_20210417'),'unassigned') ;;
-  }
-  dimension: rewards_v1_20210415 {
-    group_label: "Experiments"
-    label: "Alt Card Rewards v2"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.rewards_v1_20210415'),'unassigned') ;;
   }
   dimension: alt_card_003_v1 {
     group_label: "Experiments"
@@ -80,7 +74,7 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
   }
   dimension: bingo_rewards_v1 {
     group_label: "Experiments"
-    label: "Bingo Rewards v1"
+    label: "Bingo Rewards v1 (Lives)"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.rewards_v1_20210415'),'unassigned') ;;
   }

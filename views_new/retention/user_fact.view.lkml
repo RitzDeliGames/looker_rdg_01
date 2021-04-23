@@ -38,10 +38,10 @@ view: user_fact {
       year
     ]
   }
-  dimension_group: created_at_pst {
+  dimension_group: created_pst {
     group_label: "Created Date - PST"
     type: time
-    sql: datetime(${TABLE}.created_at,'US/Pacific') ;;
+    sql: datetime(${TABLE}.created,'US/Pacific') ;;
     timeframes: [
       raw
       ,date

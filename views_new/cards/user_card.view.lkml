@@ -138,6 +138,10 @@ view: user_card {
     sql: ${rdg_id} || ${card_id} ;;
   }
   dimension: rdg_id {}
+  measure: player_count {
+    type: count_distinct
+    sql: ${rdg_id} ;;
+  }
   dimension: card_id {}
   dimension: card_start_time {}
   dimension: card_end_time {}

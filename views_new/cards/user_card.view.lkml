@@ -151,7 +151,6 @@ view: user_card {
     description: "Total time spent in minutes"
     type: number
     sql: ${TABLE}.time_spent * .5 ;;
-    value_format_name: decimal_1
   }
   dimension: node_1_completed_round {
     group_label: " Node 1"
@@ -697,6 +696,55 @@ view: user_card {
       is_complete: "yes"
     ]
     value_format_name: decimal_1
+  }
+  measure: time_to_complete_025 {
+    group_label: "Time to Complete Card"
+    label: "Time to Complete Card - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${time_spent} ;;
+    filters: [
+      is_complete: "yes"
+    ]
+  }
+  measure: time_to_complete_25 {
+    group_label: "Time to Complete Card"
+    label: "Time to Complete Card - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${time_spent} ;;
+    filters: [
+      is_complete: "yes"
+    ]
+  }
+  measure: time_to_complete_med {
+    group_label: "Time to Complete Card"
+    label: "Time to Complete Card - Median"
+    type: median
+    sql: ${time_spent} ;;
+    filters: [
+      is_complete: "yes"
+    ]
+  }
+  measure: time_to_complete_75 {
+    group_label: "Time to Complete Card"
+    label: "Time to Complete Card - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${time_spent} ;;
+    filters: [
+      is_complete: "yes"
+    ]
+  }
+  measure: time_to_complete_975 {
+    group_label: "Time to Complete Card"
+    label: "Time to Complete Card - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${time_spent} ;;
+    filters: [
+      is_complete: "yes"
+    ]
   }
   measure: average_sessions_to_complete {
     type: average

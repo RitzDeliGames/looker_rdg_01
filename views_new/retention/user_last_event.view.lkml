@@ -56,7 +56,7 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
   }
   dimension: bingo_rewards_v2 {
     group_label: "Experiments"
-    label: "Alt Card Rewards v2"
+    label: "Alt Card Rewards v2 (Characters)"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.rewards_v2_20210417'),'unassigned') ;;
   }

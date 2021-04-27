@@ -39,6 +39,11 @@ explore: user_retention {
     type: left_outer
     relationship: many_to_one
   }
+  join: facebook_daily_export {
+    sql_on: ${user_retention.created_pst_date} = ${facebook_daily_export.date}
+      AND ${user_retention.country} = ${facebook_daily_export.country};;
+    relationship: many_to_many
+  }
 }
 
 explore: events {
@@ -66,4 +71,9 @@ explore: events {
 
 explore: user_card_completion {
   from: user_card
+  join: user_fact {
+    type: left_outer
+    sql_on: ${user_card_completion.rdg_id} = ${user_fact.user_id} ;;
+    relationship: many_to_one
+  }
 }

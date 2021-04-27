@@ -12,7 +12,7 @@ view: user_fact {
         max(quests_completed) quests_completed,
         -- sum(ifnull(case when json_extract_scalar(extra_json,"$.transaction_id") is not null then (cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") as numeric) / 100) end,0)) purchase_amt,
         max(json_extract_scalar(extra_json,"$.card_id")) current_card,
-        --max(coalesce(events.last_unlocked_card,events.current_card)) current_card,
+        max(last_unlocked_card) last_unlocked_card,
         min(version) version,
         max(install_version) install_version,
         max(player_level_xp) player_level_xp
@@ -38,7 +38,7 @@ view: user_fact {
       year
     ]
   }
-  dimension_group: created_at_pst {
+  dimension_group: created_pst {
     group_label: "Created Date - PST"
     type: time
     sql: datetime(${TABLE}.created,'US/Pacific') ;;
@@ -117,6 +117,9 @@ view: user_fact {
     type: number
   }
   dimension: current_card {
+    type: string
+  }
+  dimension: last_unlocked_card {
     type: string
   }
   dimension: current_card_no {

@@ -4,7 +4,7 @@ view: cards {
       select
         rdg_id
         ,event_name
-        ,timestamp
+        ,timestamp,
         ,json_extract_scalar(extra_json,'$.card_id') card_id
         ,timestamp_millis(cast(json_extract_scalar(extra_json,'$.card_start_time') as int64)) card_start_time
         ,timestamp_millis(cast(json_extract_scalar(extra_json,'$.card_update_time') as int64)) card_update_time

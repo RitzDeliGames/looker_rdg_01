@@ -34,15 +34,29 @@ explore: user_retention {
     sql_on: ${user_retention.user_id} = ${user_last_event.user_id} ;;
     relationship: one_to_one
   }
+  # join: transactions_new {
+  #   type: left_outer
+  #   sql_on: ${user_retention.user_id} = ${transactions_new.rdg_id} ;;
+  #   relationship: many_to_one
+  # }
   join: supported_devices {
-    sql_on: ${user_last_event.device_model_number} = ${supported_devices.retail_model} ;;
     type: left_outer
+    sql_on: ${user_last_event.device_model_number} = ${supported_devices.retail_model} ;;
     relationship: many_to_one
   }
   join: facebook_daily_export {
     sql_on: ${user_retention.created_pst_date} = ${facebook_daily_export.date}
       AND ${user_retention.country} = ${facebook_daily_export.country};;
     relationship: many_to_many
+  }
+}
+
+explore: user_card_completion {
+  from: user_card
+  join: user_fact {
+    type: left_outer
+    sql_on: ${user_card_completion.rdg_id} = ${user_fact.user_id} ;;
+    relationship: many_to_one
   }
 }
 
@@ -66,14 +80,5 @@ explore: events {
     view_label: "Cards" ## to keep within cards grouping
     sql: left outer join unnest(${cards.node_data}) as node_data ;;
     relationship: one_to_many
-  }
-}
-
-explore: user_card_completion {
-  from: user_card
-  join: user_fact {
-    type: left_outer
-    sql_on: ${user_card_completion.rdg_id} = ${user_fact.user_id} ;;
-    relationship: many_to_one
   }
 }

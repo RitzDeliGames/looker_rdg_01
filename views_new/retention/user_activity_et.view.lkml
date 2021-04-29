@@ -2,12 +2,13 @@ view: user_activity_engagement_min {
   derived_table: {
     sql:
       select
-        rdg_id user_id,
-        engagement_ticks
+        rdg_id user_id
+        ,timestamp_trunc(timestamp,day) activity
+        ,engagement_ticks
       from `eraser-blast.game_data.events`
       where created_at >= '2019-01-01'
       and user_type = 'external'
-      group by 1,2
+      group by 1,2,3
     ;;
     #datagroup_trigger: default_datagroup
     publish_as_db_view: yes
@@ -23,7 +24,17 @@ view: user_activity_engagement_min {
     type: string
     hidden: yes
   }
+  dimension_group: activity {
+    type: time
+    timeframes: [
+      date,
+      month,
+      quarter,
+      year
+    ]
+  }
   dimension: engagement_min {
+    label: "Minutes Played"
     type: number
     sql: ${TABLE}.engagement_ticks / 2 ;;
   }
@@ -32,8 +43,9 @@ view: user_activity_engagement_min {
   #   sql: date_diff(${activity_date},${user_retention.created_date},day) ;;
   # }
   dimension: engagement_min_cohort {
+    label: "Minutes Played Cohort"
     type: string
-    sql: 'D' || cast((${engagement_min}) as string) ;;
+    sql: 'MP' || cast((${engagement_min}) as string) ;;
     order_by_field: engagement_min
   }
   measure: active_user_count {

@@ -489,6 +489,7 @@ constant: country_region {
             WHEN ${TABLE}.country LIKE 'ZZ' THEN 'N/A'
             WHEN ${TABLE}.country IN ('AR','BO', 'CO','MX', 'PE', 'UY', 'VE', 'NI', 'PY', 'CR', 'SV', 'CL', 'BZ', 'HN', 'GT', 'EC', 'PA') THEN 'LATAM-ES'
             WHEN ${TABLE}.country LIKE 'BR' THEN 'LATAM-BR'
+            WHEN ${TABLE}.country IN ('SE', 'NO', 'DK','SE', 'NO', 'IS','FI') THEN 'Scandinavia'
             WHEN ${TABLE}.country IN ('GB', 'IE', 'ES') THEN 'UK-EU'
             ELSE 'OTHER'
           END"

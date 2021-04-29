@@ -3,7 +3,11 @@ view: user_fact {
     sql:
       select
         rdg_id user_id,
-        platform,
+        case
+          when platform LIKE '%iOS%' THEN 'Apple'
+          WHEN platform LIKE '%Android%' THEN 'Google'
+          ELSE 'Other'
+        END platform,
         country,
         ltv,
         min(created_at) created,
@@ -73,7 +77,7 @@ view: user_fact {
     group_label: "Device & OS Dimensions"
     label: "Device Platform"
     type: string
-    sql: @{device_platform_mapping} ;;
+    sql: ${TABLE}.platform ;;
   }
   dimension: quests_completed {
     type: number

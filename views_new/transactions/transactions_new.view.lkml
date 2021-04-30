@@ -23,6 +23,7 @@ view: transactions_new {
       where event_name = 'transaction'
         and user_type = 'external'
         and country != 'ZZ'
+        and rdg_id not in ('daf7c573-13dc-41b8-a173-915faf888c71','891b3c15-9451-45d0-a7b8-1459e4252f6c','9a804252-3902-43fb-8cab-9f1876420b5a','8824596a-5182-4287-bcd9-9154c1c70514','891b3c15-9451-45d0-a7b8-1459e4252f6c','ce4e1795-6a2b-4642-94f2-36acc148853e','1c54bae7-da32-4e68-b510-ef6e8c459ac8','c0e75463-850c-4a25-829e-6c6324178622','3f2eddee-3070-4966-8d51-495605ec2352','e4590cf5-244c-425d-bf7e-4ebf0416e9c5','c83b1dc7-24cd-40b8-931f-d73c69c949a9','39786fde-b372-4814-a488-bfb1bf89af8a','7f98585f-34ca-4322-beda-fa4ff51a8721')
     ;;
   }
 
@@ -68,6 +69,11 @@ view: transactions_new {
   dimension: card_id {
     type: string
     sql: coalesce(${last_unlocked_card},${current_card}) ;;
+  }
+  dimension: current_card_numbered {
+    type: number
+    sql: @{current_card_numbered} ;;
+    value_format: "####"
   }
   dimension: current_quest {}
   measure: spender_count {

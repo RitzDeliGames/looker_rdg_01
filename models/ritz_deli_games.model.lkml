@@ -62,11 +62,11 @@ explore: user_card_completion {
 
 explore: transactions {
   from: transactions_new
-  join: user_fact {
-    type: left_outer
-    sql_on: ${transactions.rdg_id} = ${user_fact.user_id} ;;
-    relationship: many_to_one
-  }
+  # join: user_fact {
+  #   type: left_outer
+  #   sql_on: ${transactions.rdg_id} = ${user_fact.user_id} ;;
+  #   relationship: many_to_one
+  # }
 }
 
 explore: events {

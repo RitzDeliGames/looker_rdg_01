@@ -104,6 +104,7 @@ view: user_fact {
   dimension: ltv {
     label: "LTV"
     type: number
+    sql: ${TABLE}.ltv / 100 ;;
   }
   dimension: payer {
     type: yesno

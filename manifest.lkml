@@ -303,6 +303,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '8400' THEN '1.8'
             WHEN ${TABLE}.version LIKE '9100' THEN '1.9'
             WHEN ${TABLE}.version LIKE '9200' THEN '1.9'
+            WHEN ${TABLE}.version LIKE '9300' THEN '1.9'
         END"
 }
 
@@ -335,6 +336,7 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '8400' THEN '1.8'
             WHEN ${TABLE}.install_version LIKE '9100' THEN '1.9'
             WHEN ${TABLE}.install_version LIKE '9200' THEN '1.9'
+            WHEN ${TABLE}.install_version LIKE '9300' THEN '1.9'
         END"
 }
 
@@ -367,6 +369,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '8400' THEN '1.8.400'
             WHEN ${TABLE}.version LIKE '9100' THEN '1.9.100'
             WHEN ${TABLE}.version LIKE '9200' THEN '1.9.200'
+            WHEN ${TABLE}.version LIKE '9300' THEN '1.9.300'
           END"
 }
 
@@ -399,6 +402,7 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '8400' THEN '1.8.400'
             WHEN ${TABLE}.install_version LIKE '9100' THEN '1.9.100'
             WHEN ${TABLE}.install_version LIKE '9200' THEN '1.9.200'
+            WHEN ${TABLE}.install_version LIKE '9300' THEN '1.9.300'
           END"
 }
 

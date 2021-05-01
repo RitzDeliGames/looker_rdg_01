@@ -80,6 +80,7 @@ view: transactions_new {
     label: "Unique Spenders"
     type: count_distinct
     sql: ${rdg_id} ;;
+    drill_fields: [rdg_id, timestamp, iap_id, iap_purchase_item]
   }
   dimension: sheet_raw {}
   dimension: sheet {

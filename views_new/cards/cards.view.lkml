@@ -50,6 +50,11 @@ view: cards {
     type: string
     sql: ${TABLE}.card_id ;;
   }
+  dimension: current_card_numbered {
+    type: number
+    sql: @{current_card_numbered} ;;
+    value_format: "####"
+  }
   dimension: card_start_time {
     type: date_time
     sql: ${TABLE}.card_start_time ;;

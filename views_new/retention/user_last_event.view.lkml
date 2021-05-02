@@ -18,6 +18,7 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
           and timestamp < timestamp(current_date())
           and rdg_id is not null
           and user_type = 'external'
+          and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
           group by 1,2
         ) x
       )
@@ -33,6 +34,7 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
         and events.timestamp >= timestamp(current_date() - 90)
         and events.timestamp < timestamp(current_date())
         and events.user_type = 'external'
+        and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
       where last_user_event.rnk = 1
     ;;
     datagroup_trigger: change_at_midnight

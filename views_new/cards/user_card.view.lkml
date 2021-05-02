@@ -4,6 +4,8 @@ view: user_card {
       select
         rdg_id
         ,card_id
+        ,card_id as current_card
+        ,last_unlocked_card
         ,min(card_start_time) card_start_time
         ,max(card_end_time) card_end_time
         ,max(session) total_sessions
@@ -108,6 +110,7 @@ view: user_card {
       from (
         select
           rdg_id
+          ,json_extract_scalar(extra_json,'$.card_id') last_unlocked_card --this is field is a hack
           ,json_extract_scalar(extra_json,'$.card_id') card_id
           ,timestamp_millis(cast(json_extract_scalar(extra_json,'$.card_start_time') as int64)) card_start_time
           ,timestamp_millis(cast(json_extract_scalar(extra_json,'$.card_end_time') as int64)) card_end_time
@@ -128,7 +131,7 @@ view: user_card {
           -- and rdg_id = 'de47b3ed-6b5a-4824-b19a-53b2ea2bc453'
           -- and json_extract_scalar(extra_json,'$.card_id') = 'card_003'
       ) x
-      group by 1,2
+      group by 1,2,3,4
     ;;
     datagroup_trigger: change_at_midnight
     # indexes: ["card_id"]
@@ -144,6 +147,17 @@ view: user_card {
     sql: ${rdg_id} ;;
   }
   dimension: card_id {}
+  dimension: last_unlocked_card { #this is a hack
+    hidden: yes
+  }
+  dimension: current_card { #this is a hack
+    hidden: yes
+  }
+  dimension: current_card_numbered {
+    type: number
+    sql: @{current_card_numbered} ;;
+    value_format: "####"
+  }
   dimension: card_start_time {}
   dimension: card_end_time {}
   dimension: is_complete {

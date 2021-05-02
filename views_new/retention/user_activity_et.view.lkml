@@ -8,6 +8,7 @@ view: user_activity_engagement_min {
       from `eraser-blast.game_data.events`
       where created_at >= '2019-01-01'
       and user_type = 'external'
+      and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
       group by 1,2,3
     ;;
     #datagroup_trigger: default_datagroup

@@ -5,11 +5,12 @@ view: user_fact {
         rdg_id user_id,
         case
           when platform LIKE '%iOS%' THEN 'Apple'
-          WHEN platform LIKE '%Android%' THEN 'Google'
-          ELSE 'Other'
+          when platform LIKE '%iPhone%' THEN 'Apple'
+          when platform LIKE '%Android%' THEN 'Google'
+          else 'Other'
         END platform,
         country,
-        ltv,
+        max(ltv) ltv,
         min(created_at) created,
         max(timestamp) last_event,
         count(distinct session_id) lifetime_sessions,
@@ -24,7 +25,9 @@ view: user_fact {
       where created_at >= '2019-01-01'
       and user_type = 'external'
       and country != 'ZZ'
-      group by user_id, country, platform, country, ltv
+      and install_version != "-1"
+      and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
+      group by user_id, country, platform, country
     ;;
     datagroup_trigger: change_at_midnight
     publish_as_db_view: yes

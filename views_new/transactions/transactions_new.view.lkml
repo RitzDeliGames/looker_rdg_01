@@ -82,6 +82,7 @@ view: transactions_new {
   }
   dimension: current_quest {
     type: number
+    sql: ${TABLE}.current_quest ;;
   }
   dimension: sheet_raw {}
   dimension: sheet {

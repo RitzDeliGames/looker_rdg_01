@@ -524,6 +524,41 @@ constant: purchase_iap_strings {
             ELSE 'OTHER'
           END"
 }
+
+constant: iap_id_strings {
+  value: "case
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_001' then 'Free Ticket Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_017' then 'Free Coin Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_018' then 'Free Boost Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_002' then 'Housepets Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_003' then 'Fun Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_019' then 'Super Fun Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_022' then 'Jumbo Fun Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_004' then 'Peewee Coin Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_005' then 'Small Coin Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_006' then 'Medium Coin Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_007' then 'Large Coin Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_020' then 'Huge Coin Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_021' then 'Jumbo Coin Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_008' then 'Peewee Gem Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_026' then 'Peewee Gem Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_009' then 'Small Gem Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_010' then 'Medium Gem Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_011' then 'Large Gem Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_012' then 'Huge Gem Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_013' then 'Jumbo Gem Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_023' then 'Peewee Life Pack'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_014' then 'Small Life Pack'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_015' then 'Medium Life Pack'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_016' then 'Large Life Pack'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_024' then 'Huge Life Pack'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_025' then 'Jumbo Life Pack'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'more_time_highscore' then 'More Time - Score'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'more_time_quest' then 'More Time - Quest'
+          else 'other'
+          end"
+}
+
   constant:  iam_ui_actions {
     value: "CASE
               WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Conecte%' THEN 'Connect'

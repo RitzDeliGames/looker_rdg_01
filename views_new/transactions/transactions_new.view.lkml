@@ -80,12 +80,8 @@ view: transactions_new {
     sql: @{current_card_numbered} ;;
     value_format: "####"
   }
-  dimension: current_quest {}
-  measure: spender_count {
-    label: "Unique Spenders"
-    type: count_distinct
-    sql: ${rdg_id} ;;
-    drill_fields: [rdg_id, timestamp, iap_id, iap_purchase_item]
+  dimension: current_quest {
+    type: number
   }
   dimension: sheet_raw {}
   dimension: sheet {
@@ -102,17 +98,33 @@ view: transactions_new {
     type: number
   }
   measure: currency_spent_amount_sum {
-    label: "Currency Spent - Sum"
+    label: "Total Currency Spent"
     type: sum
     value_format: "#,###"
     sql: if(${currency_spent} = 'CURRENCY_01', ${currency_spent_amount}/100, ${currency_spent_amount}) ;;
-    drill_fields: [rdg_id, transaction_date_date]
+    drill_fields: [rdg_id, transaction_date_date, timestamp, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
+  }
+  measure: spender_count {
+    label: "Unique Spenders"
+    type: count_distinct
+    sql: ${rdg_id} ;;
+    drill_fields: [rdg_id, timestamp, iap_id, iap_purchase_item, iap_id]
   }
   measure: currency_spent_amount_sum_per_spender {
-    label: "Currency Spent - Transaction Amount"
+    label: "Avg. Transaction Size"
     type: number
     value_format: "#,###"
     sql: ${currency_spent_amount_sum} / ${spender_count} ;;
+  }
+  measure: transaction_count {
+    label: "Transaction Count"
+    type: count_distinct
+    sql:  ${timestamp};;
+  }
+  measure: transactions_per_spender {
+    label: "Transactions per Spender"
+    type: number
+    sql: ${transaction_count} / ${spender_count} ;;
   }
   measure: currency_spent_amount_025 {
     group_label: "Currency Spent"
@@ -149,6 +161,10 @@ view: transactions_new {
     sql: ${currency_spent_amount} ;;
   }
   dimension:  iap_id {}
+  dimension: iap_id_strings {
+    label: "IAP Names"
+    sql: @{iap_id_strings} ;;
+  }
   dimension: iap_purchase_item {}
   dimension: iap_purchase_qty {
     type: number

@@ -19,42 +19,42 @@ view: node_data {
     type: number
     sql: cast(json_extract_scalar(node_data,'$.node_attempts_passive') as int64) ;;
   }
-  measure: rounds_to_complete_025 {
+  measure: explicit_attempts_to_complete_025 {
     type: percentile
     percentile: 2.5
-    sql: ${rounds} ;;
+    sql: ${node_attempts_explicit} ;;
     filters: [
       cards.card_end_time: "NOT NULL"
     ]
   }
-  measure: rounds_to_complete_25 {
+  measure: explicit_attempts_to_complete_25 {
     type: percentile
     percentile: 25
-    sql: ${rounds} ;;
+    sql: ${node_attempts_explicit} ;;
     filters: [
       cards.card_end_time: "NOT NULL"
     ]
   }
-  measure: rounds_to_complete_median {
+  measure: explicit_attempts_to_complete_median {
     type: percentile
     percentile: 50
-    sql: ${rounds} ;;
+    sql: ${node_attempts_explicit} ;;
     filters: [
       cards.card_end_time: "NOT NULL"
     ]
   }
-  measure: rounds_to_complete_75 {
+  measure: explicit_attempts_to_complete_75 {
     type: percentile
     percentile: 75
-    sql: ${rounds} ;;
+    sql: ${node_attempts_explicit} ;;
     filters: [
       cards.card_end_time: "NOT NULL"
     ]
   }
-  measure: rounds_to_complete_975 {
+  measure: explicit_attempts_to_complete_975 {
     type: percentile
     percentile: 97.5
-    sql: ${rounds} ;;
+    sql: ${node_attempts_explicit} ;;
     filters: [
       cards.card_end_time: "NOT NULL"
     ]

@@ -44,6 +44,12 @@ explore: user_retention {
       AND ${user_retention.country} = ${facebook_daily_export.country};;
     relationship: many_to_many
   }
+  join: transactions_new {
+    view_label: "Transactions"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${user_retention.user_id} = ${transactions_new.rdg_id} ;;
+  }
 }
 
 explore: user_card_completion {
@@ -52,6 +58,14 @@ explore: user_card_completion {
     type: left_outer
     sql_on: ${user_card_completion.rdg_id} = ${user_fact.user_id} ;;
     relationship: many_to_one
+  }
+  join: transactions_new {
+    view_label: "Transactions"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${user_card_completion.rdg_id} = ${transactions_new.rdg_id}
+      and ${user_card_completion.card_id} = ${transactions_new.card_id}
+    ;;
   }
 }
 

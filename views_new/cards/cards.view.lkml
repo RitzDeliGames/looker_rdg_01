@@ -4,10 +4,11 @@ view: cards {
       select
         rdg_id
         ,event_name
-        ,timestamp,
+        ,timestamp
         ,json_extract_scalar(extra_json,'$.card_id') card_id
         ,timestamp_millis(cast(json_extract_scalar(extra_json,'$.card_start_time') as int64)) card_start_time
         ,timestamp_millis(cast(json_extract_scalar(extra_json,'$.card_update_time') as int64)) card_update_time
+        ,timestamp_millis(cast(json_extract_scalar(extra_json,'$.card_end_time') as int64)) card_end_time
         ,json_extract_scalar(extra_json,'$.round_id') round_id
         ,json_extract_scalar(extra_json,'$.rounds') rounds
         ,json_extract_scalar(extra_json,'$.sessions') sessions
@@ -20,7 +21,7 @@ view: cards {
         ,json_extract_array(extra_json,'$.node_data') node_data
         ,json_extract_scalar(extra_json,'$.card_id') current_quest
       from game_data.events
-      where timestamp >= timestamp(current_date() - 30)
+      where timestamp >= timestamp(current_date() - 90)
         and timestamp < timestamp(current_date())
         and event_name = 'cards'
         and user_type = 'external'
@@ -62,6 +63,10 @@ view: cards {
   dimension: card_update_time {
     type: date_time
     sql: ${TABLE}.card_update_time ;;
+  }
+  dimension: card_end_time {
+    type: date_time
+    sql: ${TABLE}.card_end_time ;;
   }
   dimension: round_id {
     type: number

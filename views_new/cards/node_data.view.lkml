@@ -20,6 +20,8 @@ view: node_data {
     sql: cast(json_extract_scalar(node_data,'$.node_attempts_passive') as int64) ;;
   }
   measure: explicit_attempts_to_complete_025 {
+    group_label: "Explicit Attempts"
+    label: "Explicit Attempts - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${node_attempts_explicit} ;;
@@ -28,6 +30,8 @@ view: node_data {
     ]
   }
   measure: explicit_attempts_to_complete_25 {
+    group_label: "Explicit Attempts"
+    label: "Explicit Attempts - 25%"
     type: percentile
     percentile: 25
     sql: ${node_attempts_explicit} ;;
@@ -36,6 +40,8 @@ view: node_data {
     ]
   }
   measure: explicit_attempts_to_complete_median {
+    group_label: "Explicit Attempts"
+    label: "Explicit Attempts - Median"
     type: percentile
     percentile: 50
     sql: ${node_attempts_explicit} ;;
@@ -44,7 +50,9 @@ view: node_data {
     ]
   }
   measure: explicit_attempts_to_complete_75 {
+    group_label: "Explicit Attempts"
     type: percentile
+    label: "Explicit Attempts - 75%"
     percentile: 75
     sql: ${node_attempts_explicit} ;;
     filters: [
@@ -52,9 +60,61 @@ view: node_data {
     ]
   }
   measure: explicit_attempts_to_complete_975 {
+    group_label: "Explicit Attempts"
+    label: "Explicit Attempts - 97.5%"
     type: percentile
     percentile: 97.5
     sql: ${node_attempts_explicit} ;;
+    filters: [
+      cards.card_end_time: "NOT NULL"
+    ]
+  }
+  measure: total_attempts_to_complete_025 {
+    group_label: "Total Attempts"
+    label: "Total Attempts - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${node_attempts_explicit} + ${node_attempts_passive} ;;
+    filters: [
+      cards.card_end_time: "NOT NULL"
+    ]
+  }
+  measure: total_attempts_to_complete_25 {
+    group_label: "Total Attempts"
+    label: "Total Attempts - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${node_attempts_explicit} + ${node_attempts_passive} ;;
+    filters: [
+      cards.card_end_time: "NOT NULL"
+    ]
+  }
+  measure: total_attempts_to_complete_median {
+    group_label: "Total Attempts"
+    label: "Total Attempts - Median"
+    type: percentile
+    percentile: 50
+    sql: ${node_attempts_explicit} + ${node_attempts_passive} ;;
+    filters: [
+      cards.card_end_time: "NOT NULL"
+    ]
+  }
+  measure: total_attempts_to_complete_75 {
+    group_label: "Total Attempts"
+    type: percentile
+    label: "Total Attempts - 75%"
+    percentile: 75
+    sql: ${node_attempts_explicit} + ${node_attempts_passive} ;;
+    filters: [
+      cards.card_end_time: "NOT NULL"
+    ]
+  }
+  measure: total_attempts_to_complete_975 {
+    group_label: "Total Attempts"
+    label: "Total Attempts - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${node_attempts_explicit} + ${node_attempts_passive} ;;
     filters: [
       cards.card_end_time: "NOT NULL"
     ]

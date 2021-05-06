@@ -6,6 +6,7 @@ view: user_card {
         ,card_id
         ,card_id as current_card
         ,last_unlocked_card
+        ,cast(current_quest as int64) current_quest
         ,min(card_start_time) card_start_time
         ,max(card_end_time) card_end_time
         ,max(session) total_sessions
@@ -112,6 +113,7 @@ view: user_card {
           rdg_id
           ,json_extract_scalar(extra_json,'$.card_id') last_unlocked_card --this is field is a hack
           ,json_extract_scalar(extra_json,'$.card_id') card_id
+          ,current_quest
           ,timestamp_millis(cast(json_extract_scalar(extra_json,'$.card_start_time') as int64)) card_start_time
           ,timestamp_millis(cast(json_extract_scalar(extra_json,'$.card_end_time') as int64)) card_end_time
           ,cast(json_extract_scalar(extra_json,'$.rounds') as int64) round
@@ -131,7 +133,7 @@ view: user_card {
           -- and rdg_id = 'de47b3ed-6b5a-4824-b19a-53b2ea2bc453'
           -- and json_extract_scalar(extra_json,'$.card_id') = 'card_003'
       ) x
-      group by 1,2,3,4
+      group by 1,2,3,4,5
     ;;
     datagroup_trigger: change_at_midnight
     # indexes: ["card_id"]
@@ -157,6 +159,9 @@ view: user_card {
     type: number
     sql: @{current_card_numbered} ;;
     value_format: "####"
+  }
+  dimension: current_quest {
+    type: number
   }
   dimension: card_start_time {}
   dimension: card_end_time {}

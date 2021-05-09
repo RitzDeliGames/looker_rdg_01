@@ -84,6 +84,10 @@ explore: transactions {
 
 }
 
+explore: churn {
+  from: temp_churn_by_tile_by_attempt
+}
+
 explore: events {
   view_label: " Events" ## space to bring to top of Explore
   join: supported_devices {

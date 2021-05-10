@@ -19,7 +19,7 @@ view: cards {
         ,array_to_string(json_extract_array(extra_json,'$.card_state_completed'),',') card_state_completed
         ,array_length(json_extract_array(extra_json,'$.card_state_completed')) completed_nodes
         ,json_extract_array(extra_json,'$.node_data') node_data
-        ,json_extract_scalar(extra_json,'$.card_id') current_quest
+        --,json_extract_scalar(extra_json,'$.card_id') current_quest
       from game_data.events
       where timestamp >= timestamp(current_date() - 90)
         and timestamp < timestamp(current_date())
@@ -109,8 +109,8 @@ view: cards {
     type: string
     sql: ${TABLE}.node_data ;;
   }
-  dimension: current_quest {
-    type: string
-    sql: ${TABLE}.current_quest ;;
-  }
+  # dimension: current_quest {
+  #   type: string
+  #   sql: ${TABLE}.current_quest ;;
+  # }
 }

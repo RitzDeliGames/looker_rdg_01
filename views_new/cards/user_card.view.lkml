@@ -7,6 +7,7 @@ view: user_card {
         ,card_id as current_card
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
+        ,cast(quests_completed as int64) quests_completed
         ,min(card_start_time) card_start_time
         ,max(card_end_time) card_end_time
         ,max(session) total_sessions
@@ -37,6 +38,7 @@ view: user_card {
         ,max(case when node_id = 6 then node_attempts_explicit end) node_6_explicit
         ,max(case when node_id = 6 then node_attempts_passive end) node_6_passive
         ,max(case when node_id = 7 and node_end_tick is not null then node_round end) node_7_completed_round
+        ,max(case when node_id = 7 then node_is_completed end) node_7_is_completed
         ,max(case when node_id = 7 then node_end_tick end) node_7_end_tick
         ,max(case when node_id = 7 then node_attempts_explicit end) node_7_explicit
         ,max(case when node_id = 7 then node_attempts_passive end) node_7_passive
@@ -114,11 +116,13 @@ view: user_card {
           ,json_extract_scalar(extra_json,'$.card_id') last_unlocked_card --this is field is a hack
           ,json_extract_scalar(extra_json,'$.card_id') card_id
           ,current_quest
+          ,quests_completed
           ,timestamp_millis(cast(json_extract_scalar(extra_json,'$.card_start_time') as int64)) card_start_time
           ,timestamp_millis(cast(json_extract_scalar(extra_json,'$.card_end_time') as int64)) card_end_time
           ,cast(json_extract_scalar(extra_json,'$.rounds') as int64) round
           ,cast(json_extract_scalar(extra_json,'$.sessions') as int64) session
           ,cast(json_extract_scalar(node_data,'$.node_id') as int64) node_id
+          ,cast(json_extract_scalar(node_data,'$.isCompleted') as bool) node_is_completed
           ,cast(json_extract_scalar(node_data,'$.node_end_tick') as int64) node_end_tick
           ,cast(json_extract_scalar(node_data,'$.rounds') as int64) node_round
           ,cast(json_extract_scalar(node_data,'$.node_attempts_explicit') as int64) node_attempts_explicit
@@ -133,7 +137,7 @@ view: user_card {
           -- and rdg_id = 'de47b3ed-6b5a-4824-b19a-53b2ea2bc453'
           -- and json_extract_scalar(extra_json,'$.card_id') = 'card_003'
       ) x
-      group by 1,2,3,4,5
+      group by 1,2,3,4,5,6
     ;;
     datagroup_trigger: change_at_midnight
     # indexes: ["card_id"]
@@ -147,6 +151,7 @@ view: user_card {
   measure: player_count {
     type: count_distinct
     sql: ${rdg_id} ;;
+    drill_fields: [rdg_id]
   }
   dimension: card_id {}
   dimension: last_unlocked_card { #this is a hack
@@ -161,6 +166,9 @@ view: user_card {
     value_format: "####"
   }
   dimension: current_quest {
+    type: number
+  }
+  dimension: quests_completed {
     type: number
   }
   dimension: card_start_time {}

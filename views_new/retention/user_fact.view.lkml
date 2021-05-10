@@ -85,7 +85,7 @@ view: user_fact {
   }
   dimension: quests_completed {
     type: number
-    hidden: yes
+    hidden: no
   }
   # dimension: purchase_amt {
   #   type: number

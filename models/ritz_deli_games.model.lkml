@@ -90,13 +90,13 @@ explore: economy {
   join: rewards {
     type: left_outer
     relationship: one_to_many
-    sql_on: ${economy.date_day} = ${rewards.reward_date} ;;
+    sql_on: ${economy.dimension_date} = ${rewards.reward_date} ;;
   }
 
   join: transactions_new {
     type: left_outer
     relationship: one_to_many
-    sql_on: ${economy.date_day} = ${transactions_new.transaction_date} ;;
+    sql_on: ${economy.dimension_date} = ${transactions_new.transaction_date} ;;
   }
 }
 

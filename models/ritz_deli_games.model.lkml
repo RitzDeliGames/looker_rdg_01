@@ -86,21 +86,22 @@ explore: transactions {
 }
 
 explore: economy {
-  always_filter: {
-    filters: [economy.dimension_date: "7 days"]
-  }
-  from: date_dimension
-  join: rewards {
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${economy.dimension_date} = ${rewards.reward_date} ;;
-  }
+  from: rewards
+  # always_filter: {
+  #   filters: [economy.dimension_date: "7 days"]
+  # }
+  # from: date_dimension
+  # join: rewards {
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${economy.dimension_date} = ${rewards.reward_date} ;;
+  # }
 
-  join: transactions_new {
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${economy.dimension_date} = ${transactions_new.transaction_date} ;;
-  }
+  # join: transactions_new {
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${economy.dimension_date} = ${transactions_new.transaction_date} ;;
+  # }
 }
 
 explore: churn {

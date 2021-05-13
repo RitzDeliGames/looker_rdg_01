@@ -98,9 +98,67 @@ view: rewards {
   measure: rewards_count {
     type: count
   }
-  measure: currency_earned {
-    label: "Total Currency Earned"
+  measure: currency_rewarded_amount_sum {
+    label: "Total Currency Rewarded"
     type: sum
-    sql:  ${reward_amount};;
+    value_format: "#,###"
+    sql: ${reward_amount} ;;
+    drill_fields: [rdg_id, reward_date, reward_count, reward_event, reward_amount]
+  }
+  measure: player_count {
+    label: "Unique Players"
+    type: count_distinct
+    sql: ${rdg_id} ;;
+    drill_fields: [rdg_id]
+  }
+  measure: currency_rewarded_amount_sum_per_player {
+    label: "Avg. Amount Earned"
+    type: number
+    value_format: "#,###"
+    sql: ${currency_rewarded_amount_sum} / ${player_count} ;;
+  }
+  measure: reward_count {
+    label: "Reward Count"
+    type: count_distinct
+    sql:  ${reward_raw};;
+  }
+  measure: rewards_per_player {
+    label: "Rewards per Player"
+    type: number
+    sql: ${reward_count} / ${player_count} ;;
+  }
+  measure: currency_rewarded_amount_025 {
+    group_label: "Currency Rewards"
+    label: "Currency Rewards - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${reward_amount} ;;
+  }
+  measure: currency_rewarded_amount_25th {
+    group_label: "Currency Rewards"
+    label: "Currency Rewards - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${reward_amount} ;;
+  }
+  measure: currency_rewarded_amount_med {
+    group_label: "Currency Rewards"
+    label: "Currency Rewards - Median"
+    type: median
+    sql: ${reward_amount} ;;
+  }
+  measure: currency_rewarded_amount_75th {
+    group_label: "Currency Rewards"
+    label: "Currency Rewards - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${reward_amount} ;;
+  }
+  measure: currency_rewarded_amount_max {
+    group_label: "Currency Rewards"
+    label: "Currency Rewards - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${reward_amount} ;;
   }
 }

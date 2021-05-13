@@ -6,7 +6,6 @@ view: transactions_new {
         ,event_name
         ,timestamp
         ,lower(hardware) device_model_number
-        ,cast(ltv as int64) / 100 ltv
         ,round(cast(engagement_ticks as int64) / 2) minutes_played
         ,current_card
         ,last_unlocked_card
@@ -19,7 +18,7 @@ view: transactions_new {
         ,json_extract_scalar(extra_json,'$.iap_purchase_item') iap_purchase_item
         ,cast(json_extract_scalar(extra_json,'$.iap_purchase_qty') as int64) iap_purchase_qty
         ,json_extract_scalar(extra_json,'$.transaction_id') transaction_id
-        ,extra_json
+        ,case when extra_json like '%GPA%' then false else true end fraud
       from game_data.events
       where event_name = 'transaction'
         and user_type = 'external'
@@ -176,14 +175,8 @@ view: transactions_new {
   dimension: transaction_id {}
   dimension: extra_json {}
   dimension: fraud {
-    type: string
-    sql: if(${extra_json} like '%GPA%','no','yes');;
-  }
-  dimension: ltv {}
-  measure: ltv_sum {
-    label: "LTV"
-    type: max
-    sql: ${ltv} ;;
+    type: yesno
+    sql: ${TABLE}.fraud ;;
   }
   measure: spenders {
     type: count_distinct

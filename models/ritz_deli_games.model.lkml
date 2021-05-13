@@ -18,6 +18,7 @@ datagroup: change_at_midnight {
 }
 
 explore: user_retention {
+  label: "Users"
   from: user_fact
   join: user_activity {
     type: left_outer

@@ -1,4 +1,5 @@
 view: user_fact {
+  view_label: "Users"
   derived_table: {
     sql:
       select
@@ -25,7 +26,7 @@ view: user_fact {
       where created_at >= '2019-01-01'
       and user_type = 'external'
       and country != 'ZZ'
-      and install_version != "-1"
+      and coalesce(install_version,'null') <> '-1'
       and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
       group by user_id, country, platform, country
     ;;

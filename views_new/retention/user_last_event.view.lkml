@@ -1,5 +1,5 @@
 view: user_last_event { ## pulls the most recent event of the user to get current experiments
-  view_label: "User Retention"
+  view_label: "Users"
   derived_table: {
     sql:
       with last_user_event as (

@@ -6,7 +6,6 @@ view: rewards {
         ,event_name
         ,timestamp
         ,lower(hardware) device_model_number
-        ,cast(ltv as int64) / 100 ltv
         ,round(cast(engagement_ticks as int64) / 2) minutes_played
         ,current_card
         ,last_unlocked_card
@@ -19,7 +18,7 @@ view: rewards {
       where event_name = 'reward'
       and user_type = 'external'
       and country != 'ZZ'
-      and install_version != '-1'
+      and coalesce(install_version,'null') <> '-1'
     ;;
   }
   dimension: primary_key {
@@ -51,10 +50,6 @@ view: rewards {
   dimension: device_model_number {
     type: string
     sql: ${TABLE}.device_model_number ;;
-  }
-  dimension: ltv {
-    type: number
-    sql: ${TABLE}.ltv ;;
   }
   dimension: minutes_played {
     type: number

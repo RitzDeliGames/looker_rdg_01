@@ -35,6 +35,7 @@ view: transactions_new {
 
   dimension: primary_key {
     hidden: yes
+    primary_key: yes
     type: string
     sql: ${rdg_id} || ${event_name} || ${timestamp} ;;
   }
@@ -65,6 +66,16 @@ view: transactions_new {
       year
     ]
     sql: ${TABLE}.timestamp  ;;
+  }
+  dimension_group: transaction_pst {
+    type: time
+    timeframes: [
+      date,
+      month,
+      quarter,
+      year
+    ]
+    sql: datetime(${TABLE}.timestamp,'US/Pacific') ;;
   }
   dimension: minutes_played {
     type: number

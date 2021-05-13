@@ -12,8 +12,8 @@ view: rewards {
         ,cast(current_quest as int64) current_quest
         ,json_extract_scalar(extra_json,'$.reward_event') reward_event
         ,json_extract_scalar(extra_json,'$.reward_type') reward_type
-        ,json_extract_scalar(extra_json,'$.reward_amount') reward_amount
-        ,json_extract_scalar(extra_json,'$.round_id') round_id
+        ,cast(json_extract_scalar(extra_json,'$.reward_amount') as int64) reward_amount
+        ,cast(json_extract_scalar(extra_json,'$.round_id') as int64) round_id
       from game_data.events
       where event_name = 'reward'
       and user_type = 'external'
@@ -23,6 +23,7 @@ view: rewards {
   }
   dimension: primary_key {
     hidden: yes
+    primary_key: yes
     type: string
     sql: ${rdg_id} || ${event_name} || ${reward_raw} ;;
   }
@@ -96,5 +97,10 @@ view: rewards {
   }
   measure: rewards_count {
     type: count
+  }
+  measure: currency_earned {
+    label: "Total Currency Earned"
+    type: sum
+    sql:  ${reward_amount};;
   }
 }

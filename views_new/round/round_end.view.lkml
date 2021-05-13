@@ -110,11 +110,29 @@ view: round_end {
   dimension: coins_earned {}
   dimension: total_chains {}
   dimension: all_chains {}
+  dimension: skill_used {
+    type: string
+    sql:
+      case
+        when ${TABLE}.primary_team_slot = 'character_001'
+          then ${TABLE}.character_001_skill_used
+        when ${TABLE}.primary_team_slot = 'character_004'
+          then ${TABLE}.character_004_skill_used
+        when ${TABLE}.primary_team_slot = 'character_007'
+          then ${TABLE}.character_007_skill_used
+        when ${TABLE}.primary_team_slot = 'character_010'
+          then ${TABLE}.character_010_skill_used
+        when ${TABLE}.primary_team_slot = 'character_012'
+          then ${TABLE}.character_012_skill_used
+        else null
+      end
+    ;;
+  }
   dimension: character_007_skill_used {}
   dimension: character_012_skill_used {}
   dimension: character_004_skill_used {}
   dimension: character_010_skill_used {}
   dimension: character_001_skill_used {}
   dimension: skill_available {}
-  dimension: skill_used {}
+  # dimension: skill_used {}
 }

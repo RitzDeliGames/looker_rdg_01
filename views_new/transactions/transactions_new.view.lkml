@@ -1,4 +1,5 @@
 view: transactions_new {
+  label: "Transactions"
   derived_table: {
     sql:
       select
@@ -55,7 +56,7 @@ view: transactions_new {
     type: date_time
     sql: ${TABLE}.timestamp ;;
   }
-  dimension_group: transaction_date {
+  dimension_group: transaction {
     type: time
     timeframes: [
       date,
@@ -106,7 +107,7 @@ view: transactions_new {
     type: sum
     value_format: "#,###"
     sql: if(${currency_spent} = 'CURRENCY_01', ${currency_spent_amount}/100, ${currency_spent_amount}) ;;
-    drill_fields: [rdg_id, transaction_date_date, timestamp, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
+    drill_fields: [rdg_id, transaction_date, timestamp, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
   measure: spender_count {
     label: "Unique Spenders"

@@ -85,6 +85,21 @@ explore: transactions {
 
 }
 
+explore: economy {
+  from: date_dimension
+  join: rewards {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${economy.date_day} = ${rewards.reward_date} ;;
+  }
+
+  join: transactions_new {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${economy.date_day} = ${transactions_new.transaction_date} ;;
+  }
+}
+
 explore: churn {
   from: temp_churn_by_tile_by_attempt
 }

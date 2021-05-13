@@ -6,7 +6,7 @@ view: date_dimension {
     ;;
   }
   dimension: date_day {
-    type: date
+    type: date_time
     sql: ${TABLE}.date_day ;;
   }
 }

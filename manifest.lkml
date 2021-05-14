@@ -505,7 +505,7 @@ constant: iap_id_strings {
               when json_extract_scalar(extra_json,'$.ui_action') like '%Habilitar%' THEN 'Enable'
               when json_extract_scalar(extra_json,'$.ui_action') like '%Si%' THEN 'Yes'
               when json_extract_scalar(extra_json,'$.ui_action') like '%Sim%' THEN 'Yes'
-              when json_extract_scalar(extra_json,'$.ui_action') = 'Ok' THEN 'OK'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'Ok' THEN 'Yes'
             else JSON_EXTRACT_SCALAR(extra_json,'$.ui_action')
           end"
 }

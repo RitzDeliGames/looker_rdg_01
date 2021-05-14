@@ -104,6 +104,8 @@ explore: economy {
   # }
 }
 
+explore: temp_rewards_agg {}
+
 explore: churn {
   from: temp_churn_by_tile_by_attempt
 }

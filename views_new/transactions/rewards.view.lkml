@@ -28,7 +28,7 @@ view: rewards {
     sql: ${rdg_id} || ${event_name} || ${reward_raw} ;;
   }
   dimension: rdg_id {
-    hidden: yes
+    hidden: no
     type: string
     sql: ${TABLE}.rdg_id ;;
   }
@@ -112,7 +112,7 @@ view: rewards {
     drill_fields: [rdg_id]
   }
   measure: currency_rewarded_amount_sum_per_player {
-    label: "Avg. Amount Earned"
+    label: "Avg. Amount Earned per Player"
     type: number
     value_format: "#,###"
     sql: ${currency_rewarded_amount_sum} / ${player_count} ;;

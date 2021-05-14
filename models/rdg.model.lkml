@@ -152,12 +152,12 @@ explore: facebook_daily_export {}
 
 explore: sessions_per_player {}
 
-explore: z_churn_analysis_install_cohort {
-  description: "deprecated"
-  sql_always_where:
-    churn_analysis_install_cohort.created_at  >= TIMESTAMP('2020-07-06 00:00:00')
-    AND churn_analysis_install_cohort.user_type = "external";;
-}
+# explore: z_churn_analysis_install_cohort {
+#   description: "deprecated"
+#   sql_always_where:
+#     churn_analysis_install_cohort.created_at  >= TIMESTAMP('2020-07-06 00:00:00')
+#     AND churn_analysis_install_cohort.user_type = "external";;
+# }
 
 explore: player_s_wallet {}
 

@@ -151,48 +151,48 @@ view: _000_bingo_cards_comp {
               THEN 'diagonal_02' END ;;
   }
 
-  dimension: rcd_mapping {
-    type: string
-    sql: CASE
-          WHEN ${card_id} = 'card_001'
-            THEN @{bingo_card_mapping_3x3}
-          WHEN ${card_id} = 'card_002'
-            THEN @{bingo_card_mapping_3x3}
-          WHEN ${card_id} = 'card_003'
-            THEN @{bingo_card_mapping_5x5_X}
-          WHEN ${card_id} = 'card_004'
-            THEN @{bingo_card_mapping_5x5_X}
-          WHEN ${card_id} = 'card_005'
-            THEN @{bingo_card_mapping_5x5_X}
-          WHEN ${card_id} = 'card_006'
-            THEN @{bingo_card_mapping_5x5_X}
-          WHEN ${card_id} = 'card_007'
-            THEN @{bingo_card_mapping_5x5_X}
-          WHEN ${card_id} = 'card_008'
-            THEN @{bingo_card_mapping_5x5}
-          WHEN ${card_id} = 'card_009'
-            THEN @{bingo_card_mapping_5x5}
-          WHEN ${card_id} = 'card_010'
-            THEN @{bingo_card_mapping_5x5}
-          WHEN ${card_id} = 'card_011'
-            THEN @{bingo_card_mapping_5x5}
-          WHEN ${card_id} = 'card_012'
-            THEN @{bingo_card_mapping_5x5}
-          WHEN ${card_id} = 'card_013'
-            THEN @{bingo_card_mapping_5x5}
-          WHEN ${card_id} = 'card_014'
-            THEN @{bingo_card_mapping_5x5}
-          WHEN ${card_id} = 'card_015'
-            THEN @{bingo_card_mapping_5x5}
-          WHEN ${card_id} = 'card_016'
-            THEN @{bingo_card_mapping_5x5}
-          WHEN ${card_id} = 'card_017'
-            THEN @{bingo_card_mapping_5x5}
-          WHEN ${card_id} = 'card_018'
-            THEN @{bingo_card_mapping_5x5}
-        ELSE 'other'
-        END;;
-  }
+  # dimension: rcd_mapping {
+  #   type: string
+  #   sql: CASE
+  #         WHEN ${card_id} = 'card_001'
+  #           THEN @{bingo_card_mapping_3x3}
+  #         WHEN ${card_id} = 'card_002'
+  #           THEN @{bingo_card_mapping_3x3}
+  #         WHEN ${card_id} = 'card_003'
+  #           THEN @{bingo_card_mapping_5x5_X}
+  #         WHEN ${card_id} = 'card_004'
+  #           THEN @{bingo_card_mapping_5x5_X}
+  #         WHEN ${card_id} = 'card_005'
+  #           THEN @{bingo_card_mapping_5x5_X}
+  #         WHEN ${card_id} = 'card_006'
+  #           THEN @{bingo_card_mapping_5x5_X}
+  #         WHEN ${card_id} = 'card_007'
+  #           THEN @{bingo_card_mapping_5x5_X}
+  #         WHEN ${card_id} = 'card_008'
+  #           THEN @{bingo_card_mapping_5x5}
+  #         WHEN ${card_id} = 'card_009'
+  #           THEN @{bingo_card_mapping_5x5}
+  #         WHEN ${card_id} = 'card_010'
+  #           THEN @{bingo_card_mapping_5x5}
+  #         WHEN ${card_id} = 'card_011'
+  #           THEN @{bingo_card_mapping_5x5}
+  #         WHEN ${card_id} = 'card_012'
+  #           THEN @{bingo_card_mapping_5x5}
+  #         WHEN ${card_id} = 'card_013'
+  #           THEN @{bingo_card_mapping_5x5}
+  #         WHEN ${card_id} = 'card_014'
+  #           THEN @{bingo_card_mapping_5x5}
+  #         WHEN ${card_id} = 'card_015'
+  #           THEN @{bingo_card_mapping_5x5}
+  #         WHEN ${card_id} = 'card_016'
+  #           THEN @{bingo_card_mapping_5x5}
+  #         WHEN ${card_id} = 'card_017'
+  #           THEN @{bingo_card_mapping_5x5}
+  #         WHEN ${card_id} = 'card_018'
+  #           THEN @{bingo_card_mapping_5x5}
+  #       ELSE 'other'
+  #       END;;
+  # }
 
 
   ###CARD_STATE###

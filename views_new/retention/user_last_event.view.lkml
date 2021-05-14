@@ -104,6 +104,12 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard002_20210505'),'unassigned') ;;
   }
+  dimension: boostSurvey_20210420 {
+    group_label: "Experiments"
+    label: "Boost Survey v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.boostSurvey_20210420'),'unassigned') ;;
+  }
   dimension: bingo_rewards_v2 {
     group_label: "Experiments"
     label: "Bingo Rewards v2 (Characters)"

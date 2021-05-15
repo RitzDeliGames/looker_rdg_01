@@ -99,81 +99,6 @@ constant: device_internal_tester_mapping {
         END"
 }
 
-constant: bingo_card_mapping_3x3 {
-  value:"(CASE
-    WHEN ${card_state_str} LIKE '[%7%,%8%,%9%]'
-    THEN 'row_02'
-    WHEN ${card_state_str} LIKE '[%1%2%,%1%3%]'
-    THEN 'row_03'
-    WHEN ${card_state_str} LIKE '[%1%6%,%1%7%,%1%8%]'
-    THEN 'row_04'
-    WHEN ${card_state_str} LIKE '[%7%,%1%2%,%1%6%]'
-    THEN 'column_02'
-    WHEN ${card_state_str} LIKE '[%8%,%1%7%]'
-    THEN 'column_03'
-    WHEN ${card_state_str} LIKE '[%9%,%1%3%,%1%8%]'
-    THEN 'column_04'
-    WHEN ${card_state_str} LIKE '[%7%,%1%8%]'
-    THEN 'diagonal_01'
-    WHEN ${card_state_str} LIKE '[%9%,%1%6%]'
-    THEN 'diagonal_02'
-  END)"
-}
-
-constant: bingo_card_mapping_5x5 {
-  value:"(CASE
-    WHEN ${card_state_str} LIKE '[%1%,%2%,%3%,%4%,%5%]'
-    THEN 'row_01'
-    WHEN ${card_state_str} LIKE '[%6%,%7%,%8%,%9%,1%0]'
-    THEN 'row_02'
-    WHEN ${card_state_str} LIKE '[%1%1%,%1%2%,%1%3%,%1%4%]'
-    THEN 'row_03'
-    WHEN ${card_state_str} LIKE '[%1%5%,%1%6%,%1%7%,%1%8%,%1%9%]'
-    THEN 'row_04'
-    WHEN ${card_state_str} LIKE '[%2%0%,%2%1%,%2%2%,%2%3%,%2%4%]'
-    THEN 'row_05'
-    WHEN ${card_state_str} LIKE '[%1%,%6%,%1%1%,%1%5%,%2%0%]'
-    THEN 'column_01'
-    WHEN ${card_state_str} LIKE '[%2%,%7%,%1%2%,%1%6%,%2%1%]'
-    THEN 'column_02'
-    WHEN ${card_state_str} LIKE '[%3%,%8%,%1%7%,%2%2%]'
-    THEN 'column_03'
-    WHEN ${card_state_str} LIKE '[%4%,%9%,%1%3%,%1%8%,%2%3%]'
-    THEN 'column_04'
-    WHEN ${card_state_str} LIKE '[%5%,%1%0%,%1%4%,%1%9%,%2%4%]'
-    THEN 'column_05'
-    WHEN ${card_state_str} LIKE '[%1%,%7%,%1%8%,%2%4%]'
-    THEN 'diagonal_01'
-    WHEN ${card_state_str} LIKE '[%5%,%9%,%1%6%,%2%0%]'
-    THEN 'diagonal_02'
-  END)"
-}
-
-constant: bingo_card_mapping_5x5_X {
-  value:"(CASE
-  WHEN ${card_state_str} LIKE '[%1%,%5%]'
-  THEN 'row_01'
-  WHEN ${card_state_str} LIKE '[%7%,%9%]'
-  THEN 'row_02'
-  WHEN ${card_state_str} LIKE '[%1%6%,%1%8%]'
-  THEN 'row_04'
-  WHEN ${card_state_str} LIKE '[%2%0%,%2%4%]'
-  THEN 'row_05'
-  WHEN ${card_state_str} LIKE '[%1%,%2%0%]'
-  THEN 'column_01'
-  WHEN ${card_state_str} LIKE '[%7%,%1%6%]'
-  THEN 'column_02'
-  WHEN ${card_state_str} LIKE '[%9%,%1%8%]'
-  THEN 'column_04'
-  WHEN ${card_state_str} LIKE '[%5%,%2%4%]'
-  THEN 'column_05'
-  WHEN ${card_state_str} LIKE '[%1%,%7%,%1%8%,%2%4%]'
-  THEN 'diagonal_01'
-  WHEN ${card_state_str} LIKE '[%5%,%9%,%1%6%,%2%0%]'
-  THEN 'diagonal_02'
-  END)"
-}
-
 constant: release_version_major {
   value: "CASE
             WHEN ${TABLE}.version LIKE '1579' THEN '1.0'
@@ -204,6 +129,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '9100' THEN '1.9'
             WHEN ${TABLE}.version LIKE '9200' THEN '1.9'
             WHEN ${TABLE}.version LIKE '9300' THEN '1.9'
+            WHEN ${TABLE}.version LIKE '9400' THEN '1.9'
         END"
 }
 
@@ -237,6 +163,7 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '9100' THEN '1.9'
             WHEN ${TABLE}.install_version LIKE '9200' THEN '1.9'
             WHEN ${TABLE}.install_version LIKE '9300' THEN '1.9'
+            WHEN ${TABLE}.install_version LIKE '9400' THEN '1.9'
         END"
 }
 
@@ -270,6 +197,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '9100' THEN '1.9.100'
             WHEN ${TABLE}.version LIKE '9200' THEN '1.9.200'
             WHEN ${TABLE}.version LIKE '9300' THEN '1.9.300'
+            WHEN ${TABLE}.version LIKE '9400' THEN '1.9.400'
           END"
 }
 
@@ -303,6 +231,7 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '9100' THEN '1.9.100'
             WHEN ${TABLE}.install_version LIKE '9200' THEN '1.9.200'
             WHEN ${TABLE}.install_version LIKE '9300' THEN '1.9.300'
+            WHEN ${TABLE}.install_version LIKE '9400' THEN '1.9.400'
           END"
 }
 
@@ -560,23 +489,25 @@ constant: iap_id_strings {
 }
 
   constant:  iam_ui_actions {
-    value: "CASE
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Conecte%' THEN 'Connect'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Conéctate%' THEN 'Connect'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Connect%' THEN 'Connect'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%MISSING%' THEN 'Connect'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Califícanos%' THEN 'Rate Us'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Avalie-nos%' THEN 'Rate Us'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Rate Us%' THEN 'Rate Us'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%tarde%' THEN 'Later'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Luego%' THEN 'Later'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Depois%' THEN 'Later'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Permitir%' THEN 'Enable'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Habilitar%' THEN 'Enable'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Si%' THEN 'Yes'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.ui_action') LIKE '%Sim%' THEN 'Yes'
-              ELSE JSON_EXTRACT_SCALAR(extra_json,'$.ui_action')
-          END"
+    value: "case
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Conectar%' THEN 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Conecte%' THEN 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Conéctate%' THEN 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Connect%' THEN 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%MISSING%' THEN 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Califícanos%' THEN 'Rate Us'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Avalie-nos%' THEN 'Rate Us'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Rate Us%' THEN 'Rate Us'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%tarde%' THEN 'Later'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Luego%' THEN 'Later'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Depois%' THEN 'Later'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Permitir%' THEN 'Enable'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Habilitar%' THEN 'Enable'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Si%' THEN 'Yes'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Sim%' THEN 'Yes'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'Ok' THEN 'Yes'
+            else JSON_EXTRACT_SCALAR(extra_json,'$.ui_action')
+          end"
 }
 
   constant: button_tags {

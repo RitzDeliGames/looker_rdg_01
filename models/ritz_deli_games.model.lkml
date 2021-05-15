@@ -60,6 +60,11 @@ explore: user_card_completion {
     sql_on: ${user_card_completion.rdg_id} = ${user_fact.user_id} ;;
     relationship: many_to_one
   }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${user_card_completion.rdg_id} = ${user_last_event.user_id} ;;
+    relationship: one_to_one
+  }
   join: transactions_new {
     view_label: "Transactions"
     type: left_outer
@@ -110,6 +115,17 @@ explore: temp_in_app_messages {}
 
 explore: churn {
   from: temp_churn_by_tile_by_attempt
+  view_label: "temp churn"
+  join: user_fact {
+    type: left_outer
+    sql_on: ${churn.rdg_id} = ${user_fact.user_id} ;;
+    relationship: one_to_one
+  }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${churn.rdg_id} = ${user_last_event.user_id} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: events {

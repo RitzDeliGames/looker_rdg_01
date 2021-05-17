@@ -19,7 +19,10 @@ view: rewards {
       and user_type = 'external'
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'
+      and timestamp >= timestamp(current_date() - 90)
     ;;
+    datagroup_trigger: change_at_midnight
+    publish_as_db_view: yes
   }
   dimension: primary_key {
     hidden: yes
@@ -95,7 +98,7 @@ view: rewards {
     sql: @{current_card_numbered} ;;
     value_format: "####"
   }
-  measure: rewards_count {
+  measure: reward_count {
     type: count
   }
   measure: currency_rewarded_amount_sum {
@@ -117,11 +120,12 @@ view: rewards {
     value_format: "#,###"
     sql: ${currency_rewarded_amount_sum} / ${player_count} ;;
   }
-  measure: reward_count {
-    label: "Reward Count"
-    type: count_distinct
-    sql:  ${reward_raw};;
-  }
+  ## don't think we need this one here, already above as a type count ##
+  # measure: reward_count {
+  #   label: "Reward Count"
+  #   type: count_distinct
+  #   sql:  ${reward_raw};;
+  # }
   measure: rewards_per_player {
     label: "Rewards per Player"
     type: number

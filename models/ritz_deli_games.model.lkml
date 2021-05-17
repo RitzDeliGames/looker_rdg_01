@@ -150,3 +150,27 @@ explore: events {
     relationship: one_to_many
   }
 }
+
+
+explore: round_end {}
+
+
+
+explore: economy_testing {
+  # from: rewards
+  # always_filter: {
+  #   filters: [economy.dimension_date: "7 days"]
+  # }
+  from: date_dimension
+  join: rewards {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${economy_testing.dimension_date} = ${rewards.reward_date} ;;
+  }
+
+  join: transactions_new {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${economy_testing.dimension_date} = ${transactions_new.transaction_date} ;;
+  }
+}

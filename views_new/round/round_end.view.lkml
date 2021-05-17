@@ -11,27 +11,27 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.request_help') as boolean) request_help
         ,json_extract_scalar(extra_json,'$.team_slot_0') primary_team_slot
         ,json_extract_scalar(extra_json,'$.team_slot_skill_0') primary_team_slot_skill
-        ,json_extract_scalar(extra_json,'$.team_slot_level_0') primary_team_slot_level
-        ,json_extract_scalar(extra_json,'$.score_boost') score_boost
-        ,json_extract_scalar(extra_json,'$.coin_boost') coin_boost
-        ,json_extract_scalar(extra_json,'$.exp_boost') exp_boost
-        ,json_extract_scalar(extra_json,'$.time_boost') time_boost
-        ,json_extract_scalar(extra_json,'$.bubble_boost') bubble_boost
-        ,json_extract_scalar(extra_json,'$.five_to_four_boost') five_to_four_boost
-        ,json_extract_scalar(extra_json,'$.score_earned') score_earned
-        ,json_extract_scalar(extra_json,'$.fever_count') fever_count
-        ,json_extract_scalar(extra_json,'$.time_added') time_added
-        ,json_extract_scalar(extra_json,'$.xp_earned') xp_earned
-        ,json_extract_scalar(extra_json,'$.coins_earned') coins_earned
-        ,json_extract_scalar(extra_json,'$.total_chains') total_chains
+        ,cast(json_extract_scalar(extra_json,'$.team_slot_level_0') as int64) primary_team_slot_level
+        ,cast(json_extract_scalar(extra_json,'$.score_boost') as int64) score_boost
+        ,cast(json_extract_scalar(extra_json,'$.coin_boost') as int64) coin_boost
+        ,cast(json_extract_scalar(extra_json,'$.exp_boost') as int64) exp_boost
+        ,cast(json_extract_scalar(extra_json,'$.time_boost') as int64) time_boost
+        ,cast(json_extract_scalar(extra_json,'$.bubble_boost') as int64) bubble_boost
+        ,cast(json_extract_scalar(extra_json,'$.five_to_four_boost') as int64) five_to_four_boost
+        ,cast(json_extract_scalar(extra_json,'$.score_earned') as int64) score_earned
+        ,cast(json_extract_scalar(extra_json,'$.fever_count') as int64) fever_count
+        ,cast(json_extract_scalar(extra_json,'$.time_added') as boolean) time_added
+        ,cast(json_extract_scalar(extra_json,'$.xp_earned') as int64) xp_earned
+        ,cast(json_extract_scalar(extra_json,'$.coins_earned') as int64) coins_earned
+        ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
         ,json_extract_scalar(extra_json,'$.all_chains') all_chains
         ,json_extract_scalar(extra_json,'$.character_007_skill_used') character_007_skill_used
         ,json_extract_scalar(extra_json,'$.character_012_skill_used') character_012_skill_used
         ,json_extract_scalar(extra_json,'$.character_004_skill_used') character_004_skill_used
         ,json_extract_scalar(extra_json,'$.character_010_skill_used') character_010_skill_used
         ,json_extract_scalar(extra_json,'$.character_001_skill_used') character_001_skill_used
-        ,json_extract_scalar(extra_json,'$.skill_available') skill_available
-        ,json_extract_scalar(extra_json,'$.skill_used') skill_used
+        ,cast(json_extract_scalar(extra_json,'$.skill_available') as int64) skill_available
+        ,cast(json_extract_scalar(extra_json,'$.skill_used') as int64) skill_used
       from game_data.events
       where event_name = 'round_end'
       and timestamp >= '2019-01-01'
@@ -39,6 +39,8 @@ view: round_end {
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'
     ;;
+    datagroup_trigger: change_at_midnight
+    publish_as_db_view: yes
   }
   dimension: primary_key {
     type: string
@@ -91,30 +93,114 @@ view: round_end {
     sql: ${TABLE}.primary_team_slot_skill ;;
   }
   dimension: primary_team_slot_level {
-    type: string
+    type: number
     sql: ${TABLE}.primary_team_slot_level ;;
   }
   dimension: score_boost {
     type: number
     sql: ${TABLE}.score_boost ;;
   }
-  dimension: coin_boost {}
-  dimension: exp_boost {}
-  dimension: time_boost {}
-  dimension: bubble_boost {}
-  dimension: five_to_four_boost {}
-  dimension: score_earned {}
-  dimension: fever_count {}
-  dimension: time_added {}
-  dimension: xp_earned {}
-  dimension: coins_earned {}
-  dimension: total_chains {}
-  dimension: all_chains {}
-  dimension: character_007_skill_used {}
-  dimension: character_012_skill_used {}
-  dimension: character_004_skill_used {}
-  dimension: character_010_skill_used {}
-  dimension: character_001_skill_used {}
-  dimension: skill_available {}
-  dimension: skill_used {}
+  dimension: coin_boost {
+    type: number
+    sql: ${TABLE}.coin_boost ;;
+  }
+  dimension: exp_boost {
+    type: number
+    sql: ${TABLE}.exp_boost ;;
+  }
+  dimension: time_boost {
+    type: number
+    sql: ${TABLE}.time_boost ;;
+  }
+  dimension: bubble_boost {
+    type: number
+    sql: ${TABLE}.bubble_boost ;;
+  }
+  dimension: five_to_four_boost {
+    type: number
+    sql: ${TABLE}.five_to_four_boost ;;
+  }
+  dimension: score_earned {
+    type: number
+    sql: ${TABLE}.score_earned ;;
+  }
+  dimension: fever_count {
+    type: number
+    sql: ${TABLE}.fever_count ;;
+  }
+  dimension: time_added {
+    type: yesno
+    sql: ${TABLE}.time_added ;;
+  }
+  dimension: xp_earned {
+    type: number
+    sql: ${TABLE}.xp_earned ;;
+  }
+  dimension: coins_earned {
+    type: number
+    sql: ${TABLE}.coins_earned ;;
+  }
+  dimension: total_chains {
+    type: number
+    sql: ${TABLE}.total_chains ;;
+  }
+  dimension: all_chains {
+    type: string
+    sql: ${TABLE}.all_chains ;;
+  }
+  dimension: skill_used_dynamic_test {
+    type: string
+    sql:
+      case
+        when ${TABLE}.primary_team_slot = 'character_001'
+          then ${TABLE}.character_001_skill_used
+        when ${TABLE}.primary_team_slot = 'character_004'
+          then ${TABLE}.character_004_skill_used
+        when ${TABLE}.primary_team_slot = 'character_007'
+          then ${TABLE}.character_007_skill_used
+        when ${TABLE}.primary_team_slot = 'character_010'
+          then ${TABLE}.character_010_skill_used
+        when ${TABLE}.primary_team_slot = 'character_012'
+          then ${TABLE}.character_012_skill_used
+        else null
+      end
+    ;;
+  }
+  dimension: character_007_skill_used {
+    type: string
+    sql: ${TABLE}.character_007_skill_used ;;
+  }
+  dimension: character_012_skill_used {
+    type: string
+    sql: ${TABLE}.character_012_skill_used ;;
+  }
+  dimension: character_004_skill_used {
+    type: string
+    sql: ${TABLE}.character_004_skill_used ;;
+  }
+  dimension: character_010_skill_used {
+    type: string
+    sql: ${TABLE}.character_010_skill_used ;;
+  }
+  dimension: character_001_skill_used {
+    type: string
+    sql: ${TABLE}.character_001_skill_used ;;
+  }
+  dimension: skills_available {
+    type: number
+    sql: ${TABLE}.skill_available ;;
+  }
+  dimension: skills_used {
+    type: number
+    sql: ${TABLE}.skill_used ;;
+  }
+  measure: round_end_count {
+    type: count
+  }
+  measure: percent_of_skills_used {
+    type: number
+    sql: ${skills_used} / ${skills_available} ;;
+    value_format_name: percent_1
+    description: "Skills Used / Skills Available"
+  }
 }

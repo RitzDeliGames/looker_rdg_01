@@ -27,7 +27,10 @@ view: transactions_new {
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
         and rdg_id not in ('daf7c573-13dc-41b8-a173-915faf888c71','891b3c15-9451-45d0-a7b8-1459e4252f6c','9a804252-3902-43fb-8cab-9f1876420b5a','8824596a-5182-4287-bcd9-9154c1c70514','891b3c15-9451-45d0-a7b8-1459e4252f6c','ce4e1795-6a2b-4642-94f2-36acc148853e','1c54bae7-da32-4e68-b510-ef6e8c459ac8','c0e75463-850c-4a25-829e-6c6324178622','3f2eddee-3070-4966-8d51-495605ec2352','e4590cf5-244c-425d-bf7e-4ebf0416e9c5','c83b1dc7-24cd-40b8-931f-d73c69c949a9','39786fde-b372-4814-a488-bfb1bf89af8a','7f98585f-34ca-4322-beda-fa4ff51a8721')
+      and timestamp >= timestamp(current_date() - 90)
     ;;
+    datagroup_trigger: change_at_midnight
+    publish_as_db_view: yes
   }
   filter: spenders_currency_filter {
     suggest_dimension: currency_spent
@@ -37,7 +40,7 @@ view: transactions_new {
     hidden: yes
     primary_key: yes
     type: string
-    sql: ${rdg_id} || ${event_name} || ${timestamp} ;;
+    sql: ${rdg_id} || ${event_name} || ${transaction_raw} ;;
   }
   dimension: rdg_id {
     hidden: no
@@ -52,28 +55,25 @@ view: transactions_new {
     type: string
     sql: ${TABLE}.event_name ;;
   }
-  dimension: timestamp {
-    hidden: yes
-    type: date_time
-    sql: ${TABLE}.timestamp ;;
-  }
   dimension_group: transaction {
     type: time
     timeframes: [
-      date,
-      month,
-      quarter,
-      year
+      raw
+      ,date
+      ,month
+      ,quarter
+      ,year
     ]
     sql: ${TABLE}.timestamp  ;;
   }
   dimension_group: transaction_pst {
     type: time
     timeframes: [
-      date,
-      month,
-      quarter,
-      year
+      raw
+      ,date
+      ,month
+      ,quarter
+      ,year
     ]
     sql: datetime(${TABLE}.timestamp,'US/Pacific') ;;
   }
@@ -118,13 +118,13 @@ view: transactions_new {
     type: sum
     value_format: "#,###"
     sql: if(${currency_spent} = 'CURRENCY_01', ${currency_spent_amount}/100, ${currency_spent_amount}) ;;
-    drill_fields: [rdg_id, transaction_date, timestamp, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
+    drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
   measure: spender_count {
     label: "Unique Spenders"
     type: count_distinct
     sql: ${rdg_id} ;;
-    drill_fields: [rdg_id, timestamp, iap_id, iap_purchase_item, iap_id]
+    drill_fields: [rdg_id, transaction_date, iap_id, iap_purchase_item, iap_id]
   }
   measure: currency_spent_amount_sum_per_spender {
     label: "Avg. Transaction Size"
@@ -132,10 +132,9 @@ view: transactions_new {
     value_format: "#,###"
     sql: ${currency_spent_amount_sum} / ${spender_count} ;;
   }
+  ## don't need count distinct here, the count will do that with the primary key and aggregate awareness
   measure: transaction_count {
-    label: "Transaction Count"
-    type: count_distinct
-    sql:  ${timestamp};;
+    type: count
   }
   measure: transactions_per_spender {
     label: "Transactions per Spender"

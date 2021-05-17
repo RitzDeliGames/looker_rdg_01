@@ -367,6 +367,7 @@ constant: current_card_numbered {
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_019' THEN 2100
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_020' THEN 2200
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_001_b' THEN 100
+              WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_021' THEN 2300
           END"
 }
 
@@ -409,6 +410,7 @@ constant: request_card_numbered {
             WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_018' THEN 2000
             WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_019' THEN 2100
             WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_020' THEN 2200
+            WHEN JSON_EXTRACT_SCALAR(extra_json_afh,'$.request_card_id') = 'card_021' THEN 2300
         END"
 }
 

@@ -66,7 +66,8 @@ view: _001_coins_xp_score {
       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
     }
     group_label: "BoxPlot Measures"
-    type: min
+    type: percentile
+    percentile: 2.5
     sql: CASE
       WHEN  {% parameter boxplot_type %} = 'Coins'
       THEN ${coins_earned}
@@ -92,7 +93,8 @@ view: _001_coins_xp_score {
       url: "{{ link }}&sorts=_001_coins_xp_score.score_earned+desc"
     }
     group_label: "BoxPlot Measures"
-    type: max
+    type: percentile
+    percentile: 97.5
     sql: CASE
       WHEN  {% parameter boxplot_type %} = 'Coins'
       THEN ${coins_earned}

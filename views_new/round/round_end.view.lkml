@@ -25,11 +25,13 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.coins_earned') as int64) coins_earned
         ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
         ,json_extract_scalar(extra_json,'$.all_chains') all_chains
-        ,json_extract_scalar(extra_json,'$.character_007_skill_used') character_007_skill_used
-        ,json_extract_scalar(extra_json,'$.character_012_skill_used') character_012_skill_used
-        ,json_extract_scalar(extra_json,'$.character_004_skill_used') character_004_skill_used
-        ,json_extract_scalar(extra_json,'$.character_010_skill_used') character_010_skill_used
         ,json_extract_scalar(extra_json,'$.character_001_skill_used') character_001_skill_used
+        ,json_extract_scalar(extra_json,'$.character_002_skill_used') character_002_skill_used
+        ,json_extract_scalar(extra_json,'$.character_003_skill_used') character_002_skill_used
+        ,json_extract_scalar(extra_json,'$.character_004_skill_used') character_004_skill_used
+        ,json_extract_scalar(extra_json,'$.character_007_skill_used') character_007_skill_used
+        ,json_extract_scalar(extra_json,'$.character_010_skill_used') character_010_skill_used
+        ,json_extract_scalar(extra_json,'$.character_012_skill_used') character_012_skill_used
         ,cast(json_extract_scalar(extra_json,'$.skill_available') as int64) skill_available
         ,cast(json_extract_scalar(extra_json,'$.skill_used') as int64) skill_used
       from game_data.events
@@ -148,43 +150,25 @@ view: round_end {
     type: string
     sql: ${TABLE}.all_chains ;;
   }
-  dimension: skill_used_dynamic_test {
+  dimension: skill_used {
     type: string
     sql:
       case
         when ${TABLE}.primary_team_slot = 'character_001'
           then ${TABLE}.character_001_skill_used
+        when ${TABLE}.primary_team_slot = 'character_002'
+          then ${TABLE}.character_002_skill_used
+        when ${TABLE}.primary_team_slot = 'character_003'
+          then ${TABLE}.character_003_skill_used
         when ${TABLE}.primary_team_slot = 'character_004'
           then ${TABLE}.character_004_skill_used
-        when ${TABLE}.primary_team_slot = 'character_007'
-          then ${TABLE}.character_007_skill_used
-        when ${TABLE}.primary_team_slot = 'character_010'
-          then ${TABLE}.character_010_skill_used
-        when ${TABLE}.primary_team_slot = 'character_012'
-          then ${TABLE}.character_012_skill_used
+        when ${TABLE}.primary_team_slot = 'character_005'
+          then ${TABLE}.character_005_skill_used
+        when ${TABLE}.primary_team_slot = 'character_006'
+          then ${TABLE}.character_006_skill_used
         else null
       end
     ;;
-  }
-  dimension: character_007_skill_used {
-    type: string
-    sql: ${TABLE}.character_007_skill_used ;;
-  }
-  dimension: character_012_skill_used {
-    type: string
-    sql: ${TABLE}.character_012_skill_used ;;
-  }
-  dimension: character_004_skill_used {
-    type: string
-    sql: ${TABLE}.character_004_skill_used ;;
-  }
-  dimension: character_010_skill_used {
-    type: string
-    sql: ${TABLE}.character_010_skill_used ;;
-  }
-  dimension: character_001_skill_used {
-    type: string
-    sql: ${TABLE}.character_001_skill_used ;;
   }
   dimension: skills_available {
     type: number

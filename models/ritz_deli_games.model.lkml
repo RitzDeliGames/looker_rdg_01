@@ -91,7 +91,17 @@ explore: transactions {
 }
 
 explore: economy {
-  from: rewards
+  from: rewards_bingo_cards_and_gameplay
+  join: user_fact {
+    type: left_outer
+    sql_on: ${economy.rdg_id} = ${user_fact.user_id} ;;
+    relationship: many_to_one
+  }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${economy.rdg_id} = ${user_last_event.user_id} ;;
+    relationship: one_to_one
+  }
   # always_filter: {
   #   filters: [economy.dimension_date: "7 days"]
   # }
@@ -108,8 +118,6 @@ explore: economy {
   #   sql_on: ${economy.dimension_date} = ${transactions_new.transaction_date} ;;
   # }
 }
-
-explore: temp_rewards_agg {}
 
 explore: temp_in_app_messages {}
 
@@ -149,6 +157,16 @@ explore: events {
     sql: left outer join unnest(${cards.node_data}) as node_data ;;
     relationship: one_to_many
   }
+  join: user_fact {
+    type: left_outer
+    sql_on: ${events.rdg_id} = ${user_fact.user_id} ;;
+    relationship: many_to_one
+  }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${user_fact.user_id} = ${user_last_event.user_id} ;;
+    relationship: one_to_one
+  }
 }
 
 
@@ -156,21 +174,21 @@ explore: round_end {}
 
 
 
-explore: economy_testing {
-  # from: rewards
-  # always_filter: {
-  #   filters: [economy.dimension_date: "7 days"]
-  # }
-  from: date_dimension
-  join: rewards {
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${economy_testing.dimension_date} = ${rewards.reward_date} ;;
-  }
+# explore: economy_testing {
+#   # from: rewards
+#   # always_filter: {
+#   #   filters: [economy.dimension_date: "7 days"]
+#   # }
+#   from: date_dimension
+#   join: rewards_new {
+#     type: left_outer
+#     relationship: one_to_many
+#     sql_on: ${economy_testing.dimension_date} = $rewards_new ;;
+#   }
 
-  join: transactions_new {
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${economy_testing.dimension_date} = ${transactions_new.transaction_date} ;;
-  }
-}
+#   join: transactions_new {
+#     type: left_outer
+#     relationship: one_to_many
+#     sql_on: ${economy_testing.dimension_date} = ${transactions_new.transaction_date} ;;
+#   }
+# }

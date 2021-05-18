@@ -136,6 +136,20 @@ explore: churn {
   }
 }
 
+explore: gameplay {
+  from: round_end
+  join: user_fact {
+    type: left_outer
+    sql_on: ${gameplay.rdg_id} = ${user_fact.user_id} ;;
+    relationship: many_to_one
+  }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${gameplay.rdg_id} = ${user_last_event.user_id} ;;
+    relationship: one_to_one
+  }
+}
+
 explore: events {
   view_label: " Events" ## space to bring to top of Explore
   join: supported_devices {
@@ -168,27 +182,3 @@ explore: events {
     relationship: one_to_one
   }
 }
-
-
-explore: round_end {}
-
-
-
-# explore: economy_testing {
-#   # from: rewards
-#   # always_filter: {
-#   #   filters: [economy.dimension_date: "7 days"]
-#   # }
-#   from: date_dimension
-#   join: rewards_new {
-#     type: left_outer
-#     relationship: one_to_many
-#     sql_on: ${economy_testing.dimension_date} = $rewards_new ;;
-#   }
-
-#   join: transactions_new {
-#     type: left_outer
-#     relationship: one_to_many
-#     sql_on: ${economy_testing.dimension_date} = ${transactions_new.transaction_date} ;;
-#   }
-# }

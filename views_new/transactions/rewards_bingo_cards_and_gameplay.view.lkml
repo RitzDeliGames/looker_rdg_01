@@ -8,6 +8,7 @@ view: rewards_bingo_cards_and_gameplay {
         ,last_unlocked_card
         ,json_extract_scalar(extra_json,'$.reward_type') reward_type
         ,sum(cast(json_extract_scalar(extra_json,'$.reward_amount') as int64)) reward_amount_sum
+        ,sum(if(json_extract_scalar(extra_json,'$.reward_type') = 'CURRENCY_03',cast(json_extract_scalar(extra_json,'$.reward_amount') as int64),cast(json_extract_scalar(extra_json,'$.reward_amount') as int64) * 600)) system_value_sum
       from game_data.events
       where event_name = 'reward'
       and user_type = 'external'
@@ -59,9 +60,10 @@ view: rewards_bingo_cards_and_gameplay {
     type: string
     sql: ${TABLE}.reward_type ;;
   }
-  dimension: reward_amount_sum {
-    type: number
-    sql: ${TABLE}.reward_amount_sum ;;
+  measure: player_count {
+    label: "Unique Players"
+    type: count_distinct
+    sql: ${rdg_id} ;;
   }
   measure: reward_count {
     type: count
@@ -71,11 +73,6 @@ view: rewards_bingo_cards_and_gameplay {
     type: sum
     value_format: "#,###"
     sql: ${reward_amount_sum} ;;
-  }
-  measure: player_count {
-    label: "Unique Players"
-    type: count_distinct
-    sql: ${rdg_id} ;;
   }
   measure: currency_rewarded_amount_sum_per_player {
     label: "Avg. Amount Earned per Player"
@@ -87,6 +84,10 @@ view: rewards_bingo_cards_and_gameplay {
     label: "Rewards per Player"
     type: number
     sql: ${reward_count} / ${player_count} ;;
+  }
+  dimension: reward_amount_sum {
+    type: number
+    sql: ${TABLE}.reward_amount_sum ;;
   }
   measure: currency_rewarded_amount_025 {
     group_label: "Currency Rewards"
@@ -115,63 +116,55 @@ view: rewards_bingo_cards_and_gameplay {
     percentile: 75
     sql: ${reward_amount_sum} ;;
   }
-  measure: currency_rewarded_amount_max {
+  measure: currency_rewarded_amount_975x {
     group_label: "Currency Rewards"
     label: "Currency Rewards - 97.5%"
     type: percentile
     percentile: 97.5
     sql: ${reward_amount_sum} ;;
   }
-
-  dimension: system_value_rewarded_amount_sum {
+  dimension: system_value_sum {
     type: number
-    sql:
-      case
-          when ${TABLE}.reward_type = 'CURRENCY_02' then ${TABLE}.reward_amount_sum * 600
-          when ${TABLE}.reward_type = 'CURRENCY_03' then ${TABLE}.reward_amount_sum * 1
-          when ${TABLE}.reward_type = 'CURRENCY_04' then ${TABLE}.reward_amount_sum * 600
-          when ${TABLE}.reward_type = 'CURRENCY_05' then ${TABLE}.reward_amount_sum * 600
-         else ${TABLE}.reward_amount_sum
-      end;;
+    sql:  ${TABLE}.system_value_sum ;;
   }
   measure:  system_value_amount_sum{
     label: "Total System Value Rewarded"
     type: sum
-    sql: ${system_value_rewarded_amount_sum} ;;
+    sql: ${system_value_sum} ;;
   }
   measure: system_value_rewarded_amount_025 {
     group_label: "System Value Rewards"
     label: "System Value Rewards - 2.5%"
     type: percentile
     percentile: 2.5
-    sql: ${system_value_rewarded_amount_sum} ;;
+    sql: ${system_value_sum} ;;
   }
   measure: system_value_rewarded_amount_25th {
     group_label: "System Value Rewards"
     label: "System Value Rewards - 25%"
     type: percentile
     percentile: 25
-    sql: ${system_value_rewarded_amount_sum} ;;
+    sql: ${system_value_sum} ;;
   }
   measure: system_value_rewarded_amount_med {
     group_label: "System Value Rewards"
     label: "System Value Rewards - Median"
     type: median
-    sql: ${system_value_rewarded_amount_sum} ;;
+    sql: ${system_value_sum} ;;
   }
   measure: system_value_rewarded_amount_75th {
     group_label: "System Value Rewards"
     label: "System Value Rewards - 75%"
     type: percentile
     percentile: 75
-    sql: ${system_value_rewarded_amount_sum} ;;
+    sql: ${system_value_sum} ;;
   }
   measure: system_value_rewarded_amount_max {
     group_label: "System Value Rewards"
     label: "System Value Rewards - 97.5%"
     type: percentile
     percentile: 97.5
-    sql: ${system_value_rewarded_amount_sum} ;;
+    sql: ${system_value_sum} ;;
   }
 
   drill_fields: [rdg_id,reward_type,reward_amount_sum]

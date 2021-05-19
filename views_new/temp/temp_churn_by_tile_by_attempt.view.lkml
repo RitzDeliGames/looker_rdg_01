@@ -4,23 +4,23 @@ view: temp_churn_by_tile_by_attempt {
       with card_data as (
         select
           --json_query(extra_json,'$.node_data[12]') current_node_entry,
-          json_query(extra_json,{% parameter churn.node_selector %}) current_node_entry,
-          *
+          json_query(extra_json,{% parameter churn.node_selector %}) current_node_entry
+          ,*
         from game_data.events
-        where user_type = "external"
-          and event_name = "cards"
+        where user_type = 'external'
+          and event_name = 'cards'
         order by timestamp desc
       )
         select
-          rdg_id,
-          timestamp,
-          current_card,
-          current_quest,
-          --cast(regexp_extract({% parameter churn.node_selector %}, r"\[(.*?)\]") as int64) + 1 current_quest,
-          cast(json_extract(current_node_entry, "$.node_attempts_explicit") as int64) node_attempts_explicit,
-          json_extract(current_node_entry, "$.node_end_time") node_end_time,
-          cast(json_extract(extra_json, "$.round_id") as int64) round_id,
-          cast(last_value(json_extract(extra_json, "$.round_id"))
+          rdg_id
+          ,timestamp
+          ,current_card
+          ,current_quest
+          --,cast(regexp_extract({% parameter churn.node_selector %}, r"\[(.*?)\]") as int64) + 1 current_quest
+          ,cast(json_extract(current_node_entry, "$.node_attempts_explicit") as int64) node_attempts_explicit
+          ,json_extract(current_node_entry, "$.node_end_time") node_end_time
+          ,cast(json_extract(extra_json, "$.round_id") as int64) round_id
+          ,cast(last_value(json_extract(extra_json, "$.round_id"))
               over (
                   partition by rdg_id
                   order by timestamp

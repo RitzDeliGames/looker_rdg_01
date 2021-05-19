@@ -168,7 +168,11 @@ view: user_fact {
     sql: coalesce(${install_minor_release_version},${derived_install_minor_release_version}) ;;
   }
   dimension: player_level_xp {
-    hidden: yes
+    hidden: no
+  }
+  dimension: player_xp {
+    type: number
+    sql: trunc(${player_level_xp}) ;;
   }
   measure: player_level_xp_025 {
     group_label: "Player XP"

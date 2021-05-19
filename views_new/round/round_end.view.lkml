@@ -599,7 +599,8 @@ view: round_end {
 
   dimension: all_chains {
     type: string
-    sql: ${TABLE}.all_chains ;;
+    sql: ${TABLE}.all_chains ;; #TAKE THE AVERAGE OR MEDIAN
+    #sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.all_chains')))
   }
   measure: round_end_count {
     type: count

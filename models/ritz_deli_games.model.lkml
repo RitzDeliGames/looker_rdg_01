@@ -123,7 +123,7 @@ explore: temp_in_app_messages {}
 
 explore: churn {
   from: temp_churn_by_tile_by_attempt
-  view_label: "temp churn"
+  view_label: "temp churn by tile"
   join: user_fact {
     type: left_outer
     sql_on: ${churn.rdg_id} = ${user_fact.user_id} ;;
@@ -132,6 +132,21 @@ explore: churn {
   join: user_last_event {
     type: left_outer
     sql_on: ${churn.rdg_id} = ${user_last_event.user_id} ;;
+    relationship: one_to_one
+  }
+}
+
+explore: churn_by_card {
+  from: temp_churn_by_card_by_attempt
+  view_label: "temp churn by card"
+  join: user_fact {
+    type: left_outer
+    sql_on: ${churn_by_card.rdg_id} = ${user_fact.user_id} ;;
+    relationship: one_to_one
+  }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${churn_by_card.rdg_id} = ${user_last_event.user_id} ;;
     relationship: one_to_one
   }
 }

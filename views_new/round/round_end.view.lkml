@@ -156,28 +156,70 @@ view: round_end {
     sql: ${TABLE}.primary_team_slot_level ;;
   }
   dimension: score_boost {
+    group_label: "Boost Impact"
+    label: "Score Boost"
     type: number
     sql: ${TABLE}.score_boost ;;
   }
+  dimension: score_boost_used {
+    group_label: "Boosts Used"
+    label: "Score Boost"
+    sql: if(${TABLE}.score_boost>0,"yes","no") ;;
+  }
   dimension: coin_boost {
+    group_label: "Boost Impact"
+    label: "Coin Boost"
     type: number
     sql: ${TABLE}.coin_boost ;;
   }
+  dimension: coin_boost_used {
+    group_label: "Boosts Used"
+    label: "Coin Boost"
+    sql: if(${TABLE}.coin_boost>0,"yes","no") ;;
+  }
   dimension: exp_boost {
+    group_label: "Boost Impact"
+    label: "XP Boost"
     type: number
     sql: ${TABLE}.exp_boost ;;
   }
+  dimension: exp_boost_used {
+    group_label: "Boosts Used"
+    label: "XP Boost"
+    sql: if(${TABLE}.exp_boost>0,"yes","no") ;;
+  }
   dimension: time_boost {
+    group_label: "Boost Impact"
+    label: "Time Boost"
     type: number
     sql: ${TABLE}.time_boost ;;
   }
+  dimension: time_boost_used {
+    group_label: "Boosts Used"
+    label: "Time Boost"
+    sql: if(${TABLE}.time_boost>0,"yes","no") ;;
+  }
   dimension: bubble_boost {
+    group_label: "Boost Impact"
+    label: "Bubble Boost"
     type: number
     sql: ${TABLE}.bubble_boost ;;
   }
+  dimension: bubble_boost_used {
+    group_label: "Boosts Used"
+    label: "Bubble Boost"
+    sql: if(${TABLE}.bubble_boost>0,"yes","no") ;;
+  }
   dimension: five_to_four_boost {
+    group_label: "Boost Impact"
+    label: "5-to-4 Boost"
     type: number
     sql: ${TABLE}.five_to_four_boost ;;
+  }
+  dimension: five_to_four_boost_used {
+    group_label: "Boosts Used"
+    label: "5-to-4 Boost"
+    sql: if(${TABLE}.five_to_four_boost>0,"yes","no") ;;
   }
   dimension: time_added {
     type: yesno

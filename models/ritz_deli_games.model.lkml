@@ -82,6 +82,11 @@ explore: transactions {
     sql_on: ${transactions.rdg_id} = ${user_fact.user_id} ;;
     relationship: many_to_one
   }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${transactions.rdg_id} = ${user_last_event.user_id} ;;
+    relationship: one_to_one
+  }
   join: supported_devices {
     type: left_outer
     sql_on: ${transactions.device_model_number} = ${supported_devices.retail_model} ;;

@@ -56,6 +56,30 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     type: string
     sql: ${TABLE}.device_model_number ;;
   }
+  dimension: altCard003_b_20210517 {
+    group_label: "Experiments"
+    label: "Alt Card_003_b / Tile 9"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard003_b_20210517'),'unassigned') ;;
+  }
+  dimension: altCard002_20210517 {
+    group_label: "Experiments"
+    label: "Alt Card_002 / Tile 18 v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard002_20210517'),'unassigned') ;;
+  }
+  dimension: laterLinear_20210517 {
+    group_label: "Experiments"
+    label: "Later Linear v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.laterLinear_20210517'),'unassigned') ;;
+  }
+  dimension: laterFiveToFour_20210517 {
+    group_label: "Experiments"
+    label: "Later 5-to-4 v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.laterFiveToFour_20210517'),'unassigned') ;;
+  }
   dimension: boostShop_20210420 {
     group_label: "Experiments"
     label: "Boost Shop UX v1"

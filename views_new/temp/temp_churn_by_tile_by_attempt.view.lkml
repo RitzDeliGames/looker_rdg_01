@@ -9,6 +9,7 @@ view: temp_churn_by_tile_by_attempt {
         from game_data.events
         where user_type = 'external'
           and event_name = 'cards'
+          and timestamp >= timestamp(current_date() - 90)
         order by timestamp desc
       )
         select

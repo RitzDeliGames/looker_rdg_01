@@ -274,7 +274,7 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
   }
   dimension: world_map {
     group_label: "Experiments"
-    label: "WorldMap"
+    label: "WorldMap v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.worldmap_20201028'),'unassigned') ;;
   }

@@ -56,6 +56,12 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     type: string
     sql: ${TABLE}.device_model_number ;;
   }
+  dimension: worldMap_v2_20210413 {
+    group_label: "Experiments"
+    label: "World Map v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.worldMap_v2_20210413'),'unassigned') ;;
+  }
   dimension: altCard003_b_20210517 {
     group_label: "Experiments"
     label: "Alt Card_003_b / Tile 9"
@@ -274,7 +280,7 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
   }
   dimension: world_map {
     group_label: "Experiments"
-    label: "WorldMap v2"
+    label: "WorldMap"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.worldmap_20201028'),'unassigned') ;;
   }

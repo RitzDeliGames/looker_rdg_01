@@ -492,6 +492,12 @@ constant: iap_id_strings {
             when json_extract_scalar(extra_json,'$.iap_id') like 'item_025' then 'Jumbo Life Pack'
             when json_extract_scalar(extra_json,'$.iap_id') like 'more_time_highscore' then 'More Time - Score'
             when json_extract_scalar(extra_json,'$.iap_id') like 'more_time_quest' then 'More Time - Quest'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'boost_001' then 'Score Boost'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'boost_002' then 'Coin Boost'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'boost_003' then 'XP Boost'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'boost_004' then 'Time Boost'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'boost_005' then 'Bubble Boost'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'boost_006' then '5-to-4 Boost'
           else 'other'
           end"
 }

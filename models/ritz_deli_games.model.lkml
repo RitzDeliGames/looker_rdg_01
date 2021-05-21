@@ -168,6 +168,11 @@ explore: gameplay {
     sql_on: ${gameplay.rdg_id} = ${user_last_event.user_id} ;;
     relationship: one_to_one
   }
+  join: erasers {
+    type: left_outer
+    sql: ${gameplay.primary_team_slot} = ${erasers.character_id} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: events {

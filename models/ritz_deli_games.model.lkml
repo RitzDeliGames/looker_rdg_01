@@ -170,7 +170,7 @@ explore: gameplay {
   }
   join: erasers {
     type: left_outer
-    sql: ${gameplay.primary_team_slot} = ${erasers.character_id} ;;
+    sql_on: ${gameplay.primary_team_slot} = ${erasers.character_id} ;;
     relationship: one_to_one
   }
 }

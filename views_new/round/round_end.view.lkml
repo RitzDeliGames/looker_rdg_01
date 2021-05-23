@@ -25,7 +25,19 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.xp_earned') as int64) xp_earned
         ,cast(json_extract_scalar(extra_json,'$.coins_earned') as int64) coins_earned
         ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
-        ,json_extract(extra_json,'$.all_chains') all_chains
+        ,json_extract_scalar(extra_json,'$.all_chains') all_chains
+        ,array_length(case when json_value(extra_json, '$.bubble_normal') = "0" then null else split(json_value(extra_json, '$.bubble_normal'),',') end) bubbles_popped_normal
+        ,array_length(case when json_value(extra_json, '$.bubble_coins') = "" then null else split(json_value(extra_json, '$.bubble_coins'),',') end) bubbles_popped_coins
+        ,array_length(case when json_value(extra_json, '$.bubble_xp') = "" then null else split(json_value(extra_json, '$.bubble_xp'),',') end) bubbles_popped_xp
+        ,array_length(case when json_value(extra_json, '$.bubble_time') = "" then null else split(json_value(extra_json, '$.bubble_time'),',') end) bubbles_popped_time
+        ,array_length(case when json_value(extra_json, '$.bubble_score') = "" then null else split(json_value(extra_json, '$.bubble_score'),',') end) bubbles_popped_score
+        ,array_length(case when json_value(extra_json, '$.bubble_h_burst') = "" then null else split(json_value(extra_json, '$.bubble_h_burst'),',') end) bubbles_h_burst_score
+        ,array_length(case when json_value(extra_json, '$.bubble_v_burst') = "" then null else split(json_value(extra_json, '$.bubble_v_burst'),',') end) bubbles_v_burst_score
+        ,array_length(case when json_value(extra_json, '$.bubble_x_burst') = "" then null else split(json_value(extra_json, '$.bubble_x_burst'),',') end) bubbles_x_burst_score
+        ,array_length(case when json_value(extra_json, '$.bubble_multi_burst') = "" then null else split(json_value(extra_json, '$.bubble_multi_burst'),',') end) bubbles_multi_burst_score
+        ,array_length(case when json_value(extra_json, '$.bubble_convert_random') = "" then null else split(json_value(extra_json, '$.bubble_convert_random'),',') end) bubbles_convert_random_score
+        ,array_length(case when json_value(extra_json, '$.bubble_stop_time') = "" then null else split(json_value(extra_json, '$.bubble_stop_time'),',') end) bubbles_stop_time_score
+        ,array_length(case when json_value(extra_json, '$.bubble_instant_fever') = "" then null else split(json_value(extra_json, '$.bubble_instant_fever'),',') end) bubbles_instant_fever_score
         ,json_extract_scalar(extra_json,'$.character_001_matched') character_001_matched
         ,json_extract_scalar(extra_json,'$.character_002_matched') character_002_matched
         ,json_extract_scalar(extra_json,'$.character_003_matched') character_003_matched
@@ -637,7 +649,61 @@ view: round_end {
     percentile: 97.5
     sql: ${efficient_skill_matches} ;;
   }
-
+  dimension: bubbles_popped_normal {
+    group_label: "Bubbles"
+    label: "Normal"
+    type: number
+  }
+  dimension: bubbles_popped_coins {
+    group_label: "Bubbles"
+    label: "Coins"
+    type: number
+  }
+  dimension: bubbles_popped_score {
+    group_label: "Bubbles"
+    label: "Score"
+    type: number
+  }
+  dimension: bubbles_popped_all {
+    group_label: "Bubbles"
+    label: "All"
+    type: number
+    sql: ${bubbles_popped_normal} + ${bubbles_popped_coins} + ${bubbles_popped_score} ;;
+  }
+  measure: bubbles_popped_all_025 {
+    group_label: "Bubbles Popped"
+    label: "All Bubbles - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${bubbles_popped_all} ;;
+  }
+  measure: bubbles_popped_all_25 {
+    group_label: "Bubbles Popped"
+    label: "All Bubbles - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${bubbles_popped_all} ;;
+  }
+  measure: bubbles_popped_all_med {
+    group_label: "Bubbles Popped"
+    label: "All Bubbles - Median"
+    type: median
+    sql: ${bubbles_popped_all} ;;
+  }
+  measure: bubbles_popped_all_75 {
+    group_label: "Bubbles Popped"
+    label: "All Bubbles - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${bubbles_popped_all} ;;
+  }
+  measure: bubbles_popped_all_975 {
+    group_label: "Bubbles Popped"
+    label: "All Bubbles - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${bubbles_popped_all} ;;
+  }
 
   dimension: all_chains {
     type: string

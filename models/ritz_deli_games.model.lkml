@@ -92,7 +92,10 @@ explore: transactions {
     sql_on: ${transactions.device_model_number} = ${supported_devices.retail_model} ;;
     relationship: many_to_one
   }
-
+  join: facebook_daily_export {
+    sql_on: ${transactions.transaction_pst_date} = ${facebook_daily_export.date};;
+    relationship: many_to_many
+  }
 }
 
 explore: economy {

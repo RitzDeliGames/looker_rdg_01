@@ -13,6 +13,7 @@ view: user_fact {
         country,
         max(ltv) ltv,
         min(created_at) created,
+        min(datetime(created_at,'US/Pacific')) created_pst,
         max(timestamp) last_event,
         count(distinct session_id) lifetime_sessions,
         max(quests_completed) quests_completed,
@@ -49,10 +50,10 @@ view: user_fact {
   }
   dimension_group: created_pst {
     group_label: "Created Date - PST"
+    datatype: datetime
     type: time
-    sql: datetime(${TABLE}.created,'US/Pacific') ;;
     timeframes: [
-      raw
+      time
       ,date
       ,month
       ,year
@@ -61,12 +62,11 @@ view: user_fact {
   dimension_group: last_event {
     type: time
     timeframes: [
-      time,
+      raw,
       date,
       month,
       year
-    ]
-  }
+    ]}
   dimension: country {
     group_label: "Device & OS Dimensions"
     label: "Device Country"

@@ -88,6 +88,8 @@ view: round_end {
         ,json_extract_scalar(extra_json,'$.character_048_matched') character_048_matched
         ,cast(json_extract_scalar(extra_json,'$.skill_available') as int64) skill_available
         ,cast(json_extract_scalar(extra_json,'$.skill_used') as int64) skill_used
+        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_001") as int64) boxes_popped
+        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_027") as int64) smog_popped
       from game_data.events
       where event_name = 'round_end'
       and timestamp >= '2019-01-01'
@@ -703,6 +705,84 @@ view: round_end {
     type: percentile
     percentile: 97.5
     sql: ${bubbles_popped_all} ;;
+  }
+  dimension: boxes_popped {
+    group_label: "Elements"
+    label: "Boxes"
+    type: number
+  }
+  measure: boxes_popped_all_025 {
+    group_label: "Boxes Popped"
+    label: "Boxes Popped - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${boxes_popped} ;;
+  }
+  measure: boxes_popped_all_25 {
+    group_label: "Boxes Popped"
+    label: "Boxes Popped - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${boxes_popped} ;;
+  }
+  measure: boxes_popped_all_med {
+    group_label: "Boxes Popped"
+    label: "Boxes Popped - Median"
+    type: median
+    sql: ${boxes_popped} ;;
+  }
+  measure: boxes_popped_all_75 {
+    group_label: "Boxes Popped"
+    label: "Boxes Popped - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${boxes_popped} ;;
+  }
+  measure: boxes_popped_all_975 {
+    group_label: "Boxes Popped"
+    label: "Boxes Popped - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${boxes_popped} ;;
+  }
+  dimension: smog_popped {
+    group_label: "Elements"
+    label: "Smog"
+    type: number
+  }
+  measure: smog_popped_all_025 {
+    group_label: "Smog Popped"
+    label: "Smog Popped - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${smog_popped} ;;
+  }
+  measure: smog_popped_all_25 {
+    group_label: "Smog Popped"
+    label: "Smog Popped - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${smog_popped} ;;
+  }
+  measure: smog_popped_all_med {
+    group_label: "Smog Popped"
+    label: "Smog Popped - Median"
+    type: median
+    sql: ${smog_popped} ;;
+  }
+  measure: smog_popped_all_75 {
+    group_label: "Smog Popped"
+    label: "Smog Popped - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${smog_popped} ;;
+  }
+  measure: smog_popped_all_975 {
+    group_label: "Smog Popped"
+    label: "Smog Popped - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${smog_popped} ;;
   }
 
   dimension: all_chains {

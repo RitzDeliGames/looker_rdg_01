@@ -73,7 +73,7 @@ view: facebook_daily_export {
   measure: total_spend {
     label: "Total UA Spend"
     type: sum
-    value_format:"$#.00"
+    value_format:"$#,###"
     sql: ${spend} ;;
   }
   measure: cpi {

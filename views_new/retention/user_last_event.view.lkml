@@ -82,7 +82,7 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
   }
   dimension: laterFiveToFour_20210517 {
     group_label: "Experiments"
-    label: "Later 5-to-4 v2"
+    label: "Later 4-to-5 v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.laterFiveToFour_20210517'),'unassigned') ;;
   }

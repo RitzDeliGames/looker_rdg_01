@@ -93,6 +93,7 @@ explore: transactions {
     relationship: many_to_one
   }
   join: facebook_daily_export {
+    type: left_outer
     sql_on: ${transactions.transaction_pst_date} = ${facebook_daily_export.date};;
     relationship: many_to_many
   }

@@ -56,6 +56,30 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     type: string
     sql: ${TABLE}.device_model_number ;;
   }
+  dimension: altCard002_a_8_20210525 {
+    group_label: "Experiments"
+    label: "Alt Card_002_a / Tile 8 v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard002_a_8_20210525'),'unassigned') ;;
+  }
+  dimension: altCard002_a_18_20210525 {
+    group_label: "Experiments"
+    label: "Alt Card_002_a / Tile 18 v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard002_a_18_20210525'),'unassigned') ;;
+  }
+  dimension: altCard003_a_18_20210525 {
+    group_label: "Experiments"
+    label: "Alt Card_003_a / Tile 18 v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard003_a_18_20210525'),'unassigned') ;;
+  }
+  dimension: laterLinear_20210524 {
+    group_label: "Experiments"
+    label: "Later Linear v3"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.laterLinear_20210524'),'unassigned') ;;
+  }
   dimension: worldMap_v2_20210413 {
     group_label: "Experiments"
     label: "World Map v2"

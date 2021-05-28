@@ -26,6 +26,7 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.coins_earned') as int64) coins_earned
         ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
         ,json_extract(extra_json,'$.all_chains') all_chains
+        ,json_extract_scalar(extra_json,'$.all_chains') unnest_all_chains
         ,json_extract_scalar(extra_json,'$.character_001_matched') character_001_matched
         ,json_extract_scalar(extra_json,'$.character_002_matched') character_002_matched
         ,json_extract_scalar(extra_json,'$.character_003_matched') character_003_matched
@@ -643,6 +644,11 @@ view: round_end {
     type: string
     sql: ${TABLE}.all_chains ;; #TAKE THE AVERAGE OR MEDIAN
     #sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.all_chains')))
+  }
+  dimension: unnest_all_chains {
+    hidden: yes
+    type: string
+    sql: '[' || ${TABLE}.unnest_all_chains || ']' ;;
   }
   measure: round_end_count {
     type: count

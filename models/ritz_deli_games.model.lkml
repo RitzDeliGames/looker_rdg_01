@@ -173,6 +173,11 @@ explore: gameplay {
     sql: ${gameplay.primary_team_slot} = ${erasers.character_id} ;;
     relationship: one_to_one
   }
+  join: chain_length {
+    view_label: "Gameplay"
+    sql: left join unnest(json_extract_array(${gameplay.unnest_all_chains})) chain_length ;;
+    relationship: one_to_many
+  }
 }
 
 explore: events {

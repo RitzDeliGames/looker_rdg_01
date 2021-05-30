@@ -29,6 +29,7 @@ view: user_activity {
     type: time
     timeframes: [
       date,
+      hour_of_day,
       month,
       quarter,
       year

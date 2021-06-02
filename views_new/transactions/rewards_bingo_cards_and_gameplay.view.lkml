@@ -16,7 +16,7 @@ view: rewards_bingo_cards_and_gameplay {
       and coalesce(install_version,'null') <> '-1'
       and current_card = last_unlocked_card
       and (json_extract_scalar(extra_json,'$.reward_event') like '%bingo%' or json_extract_scalar(extra_json,'$.reward_event') like '%round%')
-      group by 1,2,3,4--,5
+      group by 1,2,3,4,5
     ;;
     datagroup_trigger: change_at_midnight
     publish_as_db_view: yes

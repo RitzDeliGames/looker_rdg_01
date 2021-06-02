@@ -115,11 +115,18 @@ view: transactions_new {
   dimension:  currency_spent_amount {
     type: number
   }
+  measure: dollars_spent_amount_sum {
+    label: "Gross Dollars Spent"
+    type: sum
+    value_format: "$#,###"
+    sql: if(${currency_spent} = 'CURRENCY_01',${currency_spent_amount}/100, 0) ;;
+    drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
+  }
   measure: currency_spent_amount_sum {
     label: "Total Currency Spent"
     type: sum
     value_format: "#,###"
-    sql: if(${currency_spent} = 'CURRENCY_01', ${currency_spent_amount}/100, ${currency_spent_amount}) ;;
+    sql: if(${currency_spent} = 'CURRENCY_01',0,${currency_spent_amount}) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
   measure: spender_count {

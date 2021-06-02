@@ -92,7 +92,11 @@ explore: transactions {
     sql_on: ${transactions.device_model_number} = ${supported_devices.retail_model} ;;
     relationship: many_to_one
   }
-
+  join: facebook_daily_export {
+    type: left_outer
+    sql_on: ${transactions.transaction_pst_date} = ${facebook_daily_export.date};;
+    relationship: many_to_many
+  }
 }
 
 explore: economy {
@@ -170,7 +174,7 @@ explore: gameplay {
   }
   join: erasers {
     type: left_outer
-    sql: ${gameplay.primary_team_slot} = ${erasers.character_id} ;;
+    sql_on: ${gameplay.primary_team_slot} = ${erasers.character_id} ;;
     relationship: one_to_one
   }
   join: chain_length {

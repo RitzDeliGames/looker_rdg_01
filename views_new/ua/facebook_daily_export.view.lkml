@@ -10,7 +10,8 @@ view: facebook_daily_export {
                 CAST(impressions AS INT64) AS impressions,
                 frequency,
                 CAST(spend AS FLOAT64) AS spend,
-                CAST(installs AS INT64) AS installs
+                CAST(installs AS INT64) AS installs,
+                timestamp(date) date_time
       FROM `eraser-blast.game_data.facebook_daily_ad_export`
       WHERE campaign_name LIKE "%Android%"
       ORDER BY 1 ASC, 3 DESC ;;
@@ -25,6 +26,14 @@ view: facebook_daily_export {
 
   dimension: date {
     type: date
+    hidden: yes
+  }
+  dimension_group: facebook_export {
+    type: time
+    timeframes: [
+      date
+    ]
+    sql: ${TABLE}.date_time ;;
   }
   dimension: country {}
   dimension: campaign_name {}
@@ -62,8 +71,9 @@ view: facebook_daily_export {
     value_format:"$#.00"
   }
   measure: total_spend {
+    label: "Total UA Spend"
     type: sum
-    value_format:"$#.00"
+    value_format:"$#,###"
     sql: ${spend} ;;
   }
   measure: cpi {

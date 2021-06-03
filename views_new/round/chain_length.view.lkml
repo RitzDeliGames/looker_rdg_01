@@ -8,14 +8,14 @@ view: chain_length {
 
   measure: chain_length_025 {
     group_label: "Chain Length"
-    label: "Chain Length - 2.5th"
+    label: "Chain Length - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${chain_length} ;;
   }
   measure: chain_length_25 {
     group_label: "Chain Length"
-    label: "Chain Length - 25th"
+    label: "Chain Length - 25%"
     type: percentile
     percentile: 25
     sql: ${chain_length} ;;
@@ -28,14 +28,14 @@ view: chain_length {
   }
   measure: chain_length_75 {
     group_label: "Chain Length"
-    label: "Chain Length - 75th"
+    label: "Chain Length - 75%"
     type: percentile
     percentile: 75
     sql: ${chain_length} ;;
   }
   measure: chain_length_975 {
     group_label: "Chain Length"
-    label: "Chain Length - 97.5th"
+    label: "Chain Length - 97.5%"
     type: percentile
     percentile: 97.5
     sql: ${chain_length} ;;

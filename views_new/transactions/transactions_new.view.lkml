@@ -4,6 +4,8 @@ view: transactions_new {
     sql:
       select
         rdg_id
+        ,created_at created
+        ,datetime(created_at,'US/Pacific') created_pst
         ,event_name
         ,timestamp
         ,lower(hardware) device_model_number
@@ -46,6 +48,27 @@ view: transactions_new {
     hidden: no
     type: string
     sql: ${TABLE}.rdg_id ;;
+  }
+  dimension_group: created {
+    type: time
+    timeframes: [
+      time,
+      hour_of_day,
+      date,
+      month,
+      year
+    ]
+  }
+  dimension_group: created_pst {
+    group_label: "Created Date - PST"
+    datatype: datetime
+    type: time
+    timeframes: [
+      time
+      ,date
+      ,month
+      ,year
+    ]
   }
   dimension: device_model_number {
     hidden: yes
@@ -116,10 +139,10 @@ view: transactions_new {
     type: number
   }
   measure: dollars_spent_amount_sum {
-    label: "Gross Dollars Spent"
+    label: "Net Revenue"
     type: sum
     value_format: "$#,###"
-    sql: if(${currency_spent} = 'CURRENCY_01',${currency_spent_amount}/100, 0) ;;
+    sql: if(${currency_spent} = 'CURRENCY_01',(${currency_spent_amount}/100 * .7), 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
   measure: currency_spent_amount_sum {

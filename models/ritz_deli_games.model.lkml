@@ -9,6 +9,7 @@ include: "/**/*.view"
 # include: "/dashboards/**/*.dashboard"
 
 datagroup: default_datagroup {
+  #sql_trigger: select floor((timestamp_diff(CURRENT_TIMESTAMP(),'2021-01-01 00:00:00',SECOND)) / (3*60*60)) ;;
   max_cache_age: "1 hour"
 }
 
@@ -94,7 +95,7 @@ explore: transactions {
   }
   join: facebook_daily_export {
     type: left_outer
-    sql_on: ${transactions.transaction_pst_date} = ${facebook_daily_export.date};;
+    sql_on: ${transactions.created_pst_date} = ${facebook_daily_export.date};;
     relationship: many_to_many
   }
 }

@@ -7,25 +7,35 @@ view: chain_length {
   }
 
   measure: chain_length_025 {
+    group_label: "Chain Length"
+    label: "Chain Length - 2.5th"
     type: percentile
     percentile: 2.5
     sql: ${chain_length} ;;
   }
   measure: chain_length_25 {
+    group_label: "Chain Length"
+    label: "Chain Length - 25th"
     type: percentile
     percentile: 25
     sql: ${chain_length} ;;
   }
   measure: chain_length_med {
+    group_label: "Chain Length"
+    label: "Chain Length - Median"
     type: median
     sql: ${chain_length} ;;
   }
   measure: chain_length_75 {
+    group_label: "Chain Length"
+    label: "Chain Length - 75th"
     type: percentile
     percentile: 75
     sql: ${chain_length} ;;
   }
   measure: chain_length_975 {
+    group_label: "Chain Length"
+    label: "Chain Length - 97.5th"
     type: percentile
     percentile: 97.5
     sql: ${chain_length} ;;

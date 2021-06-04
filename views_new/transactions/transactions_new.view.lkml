@@ -141,7 +141,7 @@ view: transactions_new {
   measure: dollars_spent_amount_sum {
     label: "Net Revenue"
     type: sum
-    value_format: "$#,###"
+    value_format: "$#.00"
     sql: if(${currency_spent} = 'CURRENCY_01',(${currency_spent_amount}/100 * .7), 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }

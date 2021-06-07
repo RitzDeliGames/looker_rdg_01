@@ -26,6 +26,7 @@ view: cards {
         and event_name = 'cards'
         and user_type = 'external'
     ;;
+    datagroup_trigger: change_3_hrs
   }
   dimension: primary_key {
     hidden: yes

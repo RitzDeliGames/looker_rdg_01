@@ -30,6 +30,7 @@ view: temp_churn_by_tile_by_attempt {
         from card_data
         order by timestamp desc
     ;;
+    datagroup_trigger: change_3_hrs
   }
   dimension: primary_key {
     hidden: yes

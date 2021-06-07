@@ -139,7 +139,7 @@ view: user_card {
       ) x
       group by 1,2,3,4,5,6
     ;;
-    datagroup_trigger: change_at_midnight
+    datagroup_trigger: change_3_hrs
     # indexes: ["card_id"]
   }
   dimension: primary_key {

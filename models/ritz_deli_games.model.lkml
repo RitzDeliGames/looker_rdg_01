@@ -129,7 +129,9 @@ explore: economy {
   # }
 }
 
-explore: temp_in_app_messages {}
+explore: in_app_messages {
+  from: new_iam
+}
 
 explore: churn {
   from: temp_churn_by_tile_by_attempt

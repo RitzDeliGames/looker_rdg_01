@@ -3,26 +3,26 @@ view: user_fact {
   derived_table: {
     sql:
       select
-        rdg_id user_id,
-        case
+        rdg_id user_id
+        ,case
           when platform LIKE '%iOS%' THEN 'Apple'
           when platform LIKE '%iPhone%' THEN 'Apple'
           when platform LIKE '%Android%' THEN 'Google'
           else 'Other'
-        END platform,
-        country,
-        max(ltv) ltv,
-        min(created_at) created,
-        min(datetime(created_at,'US/Pacific')) created_pst,
-        max(timestamp) last_event,
-        count(distinct session_id) lifetime_sessions,
-        max(quests_completed) quests_completed,
-        -- sum(ifnull(case when json_extract_scalar(extra_json,"$.transaction_id") is not null then (cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") as numeric) / 100) end,0)) purchase_amt,
-        max(json_extract_scalar(extra_json,"$.card_id")) current_card,
-        max(last_unlocked_card) last_unlocked_card,
-        min(version) version,
-        max(install_version) install_version,
-        max(player_level_xp) player_level_xp
+        END platform
+        ,country
+        ,max(ltv) ltv
+        ,min(created_at) created
+        ,min(datetime(created_at,'US/Pacific')) created_pst
+        ,max(timestamp) last_event
+        ,count(distinct session_id) lifetime_sessions
+        ,max(quests_completed) quests_completed
+        ,max(json_extract_scalar(extra_json,"$.card_id")) current_card
+        ,max(last_unlocked_card) last_unlocked_card
+        ,min(version) version
+        ,max(install_version) install_version
+        ,max(player_level_xp) player_level_xp
+        ,max(days_played_past_week) days_played_past_week
       from `eraser-blast.game_data.events`
       where created_at >= '2019-01-01'
       and user_type = 'external'
@@ -89,11 +89,6 @@ view: user_fact {
     type: number
     hidden: no
   }
-  # dimension: purchase_amt {
-  #   type: number
-  #   value_format_name: usd
-  #   hidden: yes
-  # }
   dimension: days_between_first_and_last_event {
     type: number
     sql: case when ${created_date} >= ${last_event_date} then date_diff(${last_event_date},${created_date},day) else null end ;;
@@ -106,8 +101,13 @@ view: user_fact {
     type: yesno
     sql: ${days_since_last_event} > 1 ;;
   }
+  dimension: days_played_past_week {
+    label: "Number of Days Played Over Last 7 Days"
+    type: number
+  }
   dimension: ltv {
     label: "LTV"
+    value_format: "$#.00"
     type: number
     sql: ${TABLE}.ltv / 100 ;;
   }
@@ -115,15 +115,6 @@ view: user_fact {
     type: yesno
     sql:  ${ltv} > 0;;
   }
-  # dimension: spend_tier {
-  #   type: string
-  #   sql: case when ${purchase_amt} = 0 then '$0.00'
-  #     when ${purchase_amt} > 0 and ${purchase_amt} < 10 then '$1.00 - $9.99'
-  #     when ${purchase_amt} >= 10 and ${purchase_amt} < 50 then '$10.00 - $49.99'
-  #     when ${purchase_amt} >= 50 and ${purchase_amt} < 100 then '$50.00 - $99.99'
-  #     when ${purchase_amt} >= 100 and ${purchase_amt} then '$100.00 +'
-  #     end ;;
-  # }
   dimension: lifetime_sessions {
     type: number
   }

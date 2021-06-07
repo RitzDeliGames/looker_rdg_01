@@ -98,7 +98,7 @@ view: round_end {
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'
     ;;
-    datagroup_trigger: change_at_midnight
+    datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
   }
   dimension: primary_key {

@@ -13,6 +13,11 @@ datagroup: default_datagroup {
   max_cache_age: "1 hour"
 }
 
+datagroup: change_3_hrs {
+  sql_trigger: select floor((timestamp_diff(current_timestamp(),'2021-01-01 00:00:00',second)) / (3*60*60)) ;;
+  max_cache_age: "2 hours"
+}
+
 datagroup: change_at_midnight {
   sql_trigger: select current_date() ;;
   max_cache_age: "23 hours"

@@ -72,7 +72,21 @@ view: new_afh {
   }
   dimension: rdg_afh_id {}
   dimension: request_card_id {}
-  dimension: request_tile_id {}
+  dimension: request_card_numbered {
+    label: "Request Card Numbered"
+    type: number
+    value_format: "####"
+    sql: @{request_card_numbered} ;;
+  }
+  dimension: request_tile_id {
+    type: number
+  }
+  dimension: request_card_quest {
+    label: "Request Card + Quest"
+    type: number
+    value_format: "####"
+    sql: cast(${request_card_numbered} as int64) + cast(${request_tile_id} as int64);;
+  }
   dimension: request_sent_timestamp {}
   dimension: afh_action {}
   dimension: requesting_player_id {}
@@ -83,7 +97,7 @@ view: new_afh {
     sql: ${requesting_player_id} ;;
   }
   measure:  providing_player_distinct_count {
-    label: "Unique Providing Player Count"
+    label: "Unique Helping Player Count"
     type: count_distinct
     sql: ${providing_player_id};;
   }

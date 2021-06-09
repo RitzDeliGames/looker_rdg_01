@@ -106,10 +106,10 @@ view: user_fact {
     type: number
   }
   dimension: ltv {
-    label: "LTV"
+    label: "Net LTV"
     value_format: "$#.00"
     type: number
-    sql: ${TABLE}.ltv / 100 ;;
+    sql: (${TABLE}.ltv / 100) * 0.7 ;;
   }
   dimension: payer {
     type: yesno
@@ -211,5 +211,11 @@ view: user_fact {
   measure: completed_quests {
     type: sum
     sql: ${quests_completed} ;;
+  }
+  measure: sum_net_ltv {
+    label: "Net LTV"
+    value_format: "$#.00"
+    type: sum
+    sql: ${ltv} ;;
   }
 }

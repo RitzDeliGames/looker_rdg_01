@@ -138,6 +138,10 @@ explore: in_app_messages {
   from: new_iam
 }
 
+explore: ask_for_help {
+  from: new_afh
+}
+
 explore: churn {
   from: temp_churn_by_tile_by_attempt
   view_label: "temp churn by tile"

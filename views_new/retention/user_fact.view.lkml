@@ -109,7 +109,7 @@ view: user_fact {
     label: "Net LTV"
     value_format: "$#.00"
     type: number
-    sql: (${TABLE}.ltv / 100) * 0.7 ;;
+    sql: (${TABLE}.ltv / 100) * 0.85 ;;
   }
   dimension: payer {
     type: yesno

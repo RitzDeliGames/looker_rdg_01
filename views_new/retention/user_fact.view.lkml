@@ -31,7 +31,7 @@ view: user_fact {
       and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
       group by user_id, country, platform, country
     ;;
-    datagroup_trigger: change_at_midnight
+    datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
     partition_keys: ["created"]
   }

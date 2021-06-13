@@ -196,6 +196,10 @@ explore: gameplay {
   }
 }
 
+explore: sessions {
+  from: temp_session
+}
+
 explore: events {
   view_label: " Events" ## space to bring to top of Explore
   join: supported_devices {

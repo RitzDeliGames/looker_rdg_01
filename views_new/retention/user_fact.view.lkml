@@ -201,6 +201,7 @@ view: user_fact {
     sql: ${player_level_xp} ;;
   }
   measure: count {
+    label: "Count of Players"
     type: count
   }
   # measure: spend_amount {

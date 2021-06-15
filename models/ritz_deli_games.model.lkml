@@ -196,9 +196,8 @@ explore: gameplay {
   }
 }
 
-explore: sessions {
-  from: temp_session
-}
+explore: temp_session {}
+explore: temp_rounds_per_day {}
 
 explore: events {
   view_label: " Events" ## space to bring to top of Explore

@@ -64,6 +64,7 @@ view: user_fact {
     type: time
     timeframes: [
       raw,
+      hour_of_day,
       date,
       month,
       year

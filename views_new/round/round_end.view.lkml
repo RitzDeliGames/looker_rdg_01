@@ -4,6 +4,7 @@ view: round_end {
       select
         rdg_id
         ,timestamp
+        ,session_id
         ,current_card
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
@@ -123,6 +124,7 @@ view: round_end {
       ,year
     ]
   }
+  dimension: session_id {}
   dimension: current_card {
     hidden: yes
     type: string

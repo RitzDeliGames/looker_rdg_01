@@ -1,19 +1,22 @@
 view: rounds_per_day_per_player {
-    derived_table: {
-      explore_source: gameplay {
-        column: event_date {}
-        column: round_end_count {}
-        column: user_id { field: user_fact.user_id }
-      }
+  derived_table: {
+    explore_source: gameplay {
+      column: event_date {}
+      column: round_end_count {}
+      column: user_id { field: user_fact.user_id }
     }
-    dimension: event_date {
-      type: date
-    }
-    dimension: round_end_count {
-      type: number
-    }
-    dimension: user_id {
-    }
+  }
+  dimension: event_date {
+    hidden: yes
+    type: date
+  }
+  dimension: round_end_count {
+    hidden: yes
+    type: number
+  }
+  dimension: user_id {
+    hidden: yes
+  }
   measure: rounds_per_day_025 {
     group_label: "Rounds per Day"
     label: "Rounds per Day - 2.5%"
@@ -28,13 +31,13 @@ view: rounds_per_day_per_player {
     percentile: 25
     sql: ${round_end_count} ;;
   }
-    measure: rounds_per_day_med {
-      group_label: "Rounds per Day"
-      label: "Rounds per Day - Median"
-      type: percentile
-      percentile: 50
-      sql: ${round_end_count} ;;
-    }
+  measure: rounds_per_day_med {
+    group_label: "Rounds per Day"
+    label: "Rounds per Day - Median"
+    type: percentile
+    percentile: 50
+    sql: ${round_end_count} ;;
+  }
   measure: rounds_per_day_75 {
     group_label: "Rounds per Day"
     label: "Rounds per Day - 75%"
@@ -49,4 +52,4 @@ view: rounds_per_day_per_player {
     percentile: 97.5
     sql: ${round_end_count} ;;
   }
-  }
+}

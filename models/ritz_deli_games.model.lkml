@@ -203,6 +203,14 @@ explore: gameplay {
       and ${gameplay.event_date} = ${rounds_per_day_per_player.event_date};;
     relationship: many_to_one ## let's test this
   }
+  join: rounds_per_session_per_player {
+    view_label: "Gameplay"
+    type: left_outer
+    sql_on: ${gameplay.rdg_id} =  ${rounds_per_session_per_player.user_id}
+      and ${gameplay.event_date} = ${rounds_per_session_per_player.event_date}
+      and ${gameplay.session_id} = ${rounds_per_session_per_player.session_id};;
+    relationship: many_to_one ## let's test this
+  }
 }
 
 explore: temp_session {}

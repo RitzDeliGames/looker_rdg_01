@@ -31,7 +31,7 @@ view: user_fact {
       and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
       group by user_id, country, platform, country
     ;;
-    datagroup_trigger: change_at_midnight
+    datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
     partition_keys: ["created"]
   }
@@ -64,6 +64,7 @@ view: user_fact {
     type: time
     timeframes: [
       raw,
+      hour_of_day,
       date,
       month,
       year
@@ -106,10 +107,10 @@ view: user_fact {
     type: number
   }
   dimension: ltv {
-    label: "LTV"
+    label: "Net LTV"
     value_format: "$#.00"
     type: number
-    sql: ${TABLE}.ltv / 100 ;;
+    sql: (${TABLE}.ltv / 100) * 0.85 ;;
   }
   dimension: payer {
     type: yesno
@@ -201,6 +202,7 @@ view: user_fact {
     sql: ${player_level_xp} ;;
   }
   measure: count {
+    label: "Count of Players"
     type: count
   }
   # measure: spend_amount {
@@ -211,5 +213,11 @@ view: user_fact {
   measure: completed_quests {
     type: sum
     sql: ${quests_completed} ;;
+  }
+  measure: sum_net_ltv {
+    label: "Net LTV"
+    value_format: "$#.00"
+    type: sum
+    sql: ${ltv} ;;
   }
 }

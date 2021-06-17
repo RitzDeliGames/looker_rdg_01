@@ -140,6 +140,10 @@ explore: in_app_messages {
   from: new_iam
 }
 
+explore: ask_for_help {
+  from: new_afh
+}
+
 explore: churn {
   from: temp_churn_by_tile_by_attempt
   view_label: "temp churn by tile"
@@ -193,6 +197,9 @@ explore: gameplay {
     relationship: one_to_many
   }
 }
+
+explore: temp_session {}
+explore: temp_rounds_per_day {}
 
 explore: events {
   view_label: " Events" ## space to bring to top of Explore

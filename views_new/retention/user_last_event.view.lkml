@@ -37,7 +37,7 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
         and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
       where last_user_event.rnk = 1
     ;;
-    datagroup_trigger: change_at_midnight
+    datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
   }
   dimension: user_id {
@@ -55,6 +55,24 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     hidden: yes
     type: string
     sql: ${TABLE}.device_model_number ;;
+  }
+  dimension: altCard002_9_20210528 {
+    group_label: "Experiments"
+    label: "Alt Card_002 / Tile 9 v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard002_9_20210528'),'unassigned') ;;
+  }
+  dimension: altCard002_13_20210528 {
+    group_label: "Experiments"
+    label: "Alt Card_002 / Tile 13 v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard002_13_20210528'),'unassigned') ;;
+  }
+  dimension: altCard002_18_20210528 {
+    group_label: "Experiments"
+    label: "Alt Card_002 / Tile 18 v3"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard002_18_20210528'),'unassigned') ;;
   }
   dimension: altCard002_a_8_20210525 {
     group_label: "Experiments"
@@ -98,30 +116,6 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard002_20210517'),'unassigned') ;;
   }
-  dimension: laterLinear_20210517 {
-    group_label: "Experiments"
-    label: "Later Linear v2"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.laterLinear_20210517'),'unassigned') ;;
-  }
-  dimension: laterFiveToFour_20210517 {
-    group_label: "Experiments"
-    label: "Later 4-to-5 v2"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.laterFiveToFour_20210517'),'unassigned') ;;
-  }
-  dimension: boostShop_20210420 {
-    group_label: "Experiments"
-    label: "Boost Shop UX v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.boostShop_20210420'),'unassigned') ;;
-  }
-  dimension: lowCostIAP_20210426 {
-    group_label: "Experiments"
-    label: "Low Cost IAP v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.lowCostIAP_20210426'),'unassigned') ;;
-  }
   dimension: altCard021_20210506 {
     group_label: "Experiments"
     label: "Card_021 v1"
@@ -154,9 +148,39 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
   }
   dimension: altCard002_20210505 {
     group_label: "Experiments"
-    label: "Alt Card_002 / Tile 18"
+    label: "Alt Card_002 / Tile 18 v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard002_20210505'),'unassigned') ;;
+  }
+  dimension: ask_for_help_v1 {
+    group_label: "Experiments"
+    label: "AskForHelp v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.askForHelp_20210112'),'unassigned') ;;
+  }
+  dimension: laterLinear_20210517 {
+    group_label: "Experiments"
+    label: "Later Linear v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.laterLinear_20210517'),'unassigned') ;;
+  }
+  dimension: laterFiveToFour_20210517 {
+    group_label: "Experiments"
+    label: "Later 4-to-5 v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.laterFiveToFour_20210517'),'unassigned') ;;
+  }
+  dimension: boostShop_20210420 {
+    group_label: "Experiments"
+    label: "Boost Shop UX v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.boostShop_20210420'),'unassigned') ;;
+  }
+  dimension: lowCostIAP_20210426 {
+    group_label: "Experiments"
+    label: "Low Cost IAP v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.lowCostIAP_20210426'),'unassigned') ;;
   }
   dimension: boostSurvey_20210420 {
     group_label: "Experiments"
@@ -248,12 +272,6 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.newUX_20210223'),'unassigned') ;;
   }
-  dimension: ask_for_help_v1 {
-    group_label: "Experiments"
-    label: "AskForHelp v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.askForHelp_20210112'),'unassigned') ;;
-  }
   dimension: daily_rewards_v1 {
     group_label: "Experiments"
     label: "DailyRewards v1"
@@ -271,6 +289,12 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     label: "FUE/Story v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.fueStory_20210215'),'unassigned') ;;
+  }
+  dimension: storyFUE_v2_20210608 {
+    group_label: "Experiments"
+    label: "FUE/Story v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.storyFUE_v2_20210608'),'unassigned') ;;
   }
   dimension: skill_reminder_v2 {
     group_label: "Experiments"

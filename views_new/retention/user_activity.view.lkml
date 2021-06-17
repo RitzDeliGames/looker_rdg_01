@@ -11,7 +11,7 @@ view: user_activity {
       and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
       group by 1,2,3
     ;;
-    datagroup_trigger: change_at_midnight
+    datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
     partition_keys: ["activity"]
   }

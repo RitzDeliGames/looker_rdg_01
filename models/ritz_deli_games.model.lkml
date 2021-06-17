@@ -14,10 +14,10 @@ datagroup: default_datagroup {
 }
 
 datagroup: change_3_hrs {
-  sql_trigger: select current_date() ;;
-  max_cache_age: "23 hours"
-  # sql_trigger: select floor((timestamp_diff(current_timestamp(),'2021-01-01 00:00:00',second)) / (3*60*60)) ;;
-  # max_cache_age: "2 hours"
+  # sql_trigger: select current_date() ;;
+  # max_cache_age: "23 hours"
+  sql_trigger: select floor((timestamp_diff(current_timestamp(),'2021-01-01 00:00:00',second)) / (3*60*60)) ;;
+  max_cache_age: "2 hours"
 }
 
 datagroup: change_at_midnight {
@@ -195,6 +195,11 @@ explore: gameplay {
     view_label: "Gameplay"
     sql: left join unnest(json_extract_array(${gameplay.unnest_all_chains})) chain_length ;;
     relationship: one_to_many
+  }
+  join: test_round_end_count_by_user {
+    view_label: "Gameplay"
+    sql_on:  ;; ## join on user id from user fact and on event date from round end (gameplay)
+    relationship: many_to_one ## let's test this
   }
 }
 

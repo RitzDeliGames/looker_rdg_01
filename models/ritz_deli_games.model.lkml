@@ -196,15 +196,16 @@ explore: gameplay {
     sql: left join unnest(json_extract_array(${gameplay.unnest_all_chains})) chain_length ;;
     relationship: one_to_many
   }
-  join: test_round_end_count_by_user {
+  join: rounds_per_day_per_player {
     view_label: "Gameplay"
-    sql_on:  ;; ## join on user id from user fact and on event date from round end (gameplay)
+    type: left_outer
+    sql_on: ${gameplay.rdg_id} =  ${rounds_per_day_per_player.user_id}
+      and ${gameplay.event_date} = ${rounds_per_day_per_player.event_date};;
     relationship: many_to_one ## let's test this
   }
 }
 
 explore: temp_session {}
-explore: temp_rounds_per_day {}
 
 explore: events {
   view_label: " Events" ## space to bring to top of Explore

@@ -137,15 +137,16 @@ view: user_fact {
     style: integer
   }
   dimension: version {
+    label: "Release Version"
     type: string
-    hidden: yes
   }
   dimension: derived_install_minor_release_version {
-    hidden: yes
+    label: "Minor Release Version"
     type: string
     sql: @{release_version_minor} ;;
   }
   dimension: install_version {
+    label: "Install Version"
     type: number
     hidden: no
     sql: cast(${TABLE}.install_version as int64) ;;

@@ -799,7 +799,13 @@ view: round_end {
     sql: '[' || ${TABLE}.unnest_all_chains || ']' ;;
   }
   measure: round_end_count {
+    label: "Rounds Played"
     type: count
+  }
+  measure: session_count {
+    label: "Sessions Played"
+    type: count_distinct
+    sql: ${TABLE}.session_id ;;
   }
   measure: percent_of_skills_used {
     type: number

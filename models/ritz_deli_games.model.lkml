@@ -196,6 +196,13 @@ explore: gameplay {
     sql: left join unnest(json_extract_array(${gameplay.unnest_all_chains})) chain_length ;;
     relationship: one_to_many
   }
+  join: sessions_per_day_per_player {
+    view_label: "Gameplay"
+    type: left_outer
+    sql_on: ${gameplay.rdg_id} =  ${sessions_per_day_per_player.user_id}
+      and ${gameplay.event_date} = ${sessions_per_day_per_player.event_date};;
+    relationship: many_to_one ## let's test this
+  }
   join: rounds_per_day_per_player {
     view_label: "Gameplay"
     type: left_outer

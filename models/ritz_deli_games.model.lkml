@@ -220,6 +220,15 @@ explore: gameplay {
   }
 }
 
+explore: temp_fps {
+  view_label: "temp fps"
+  join: user_fact {
+    type: left_outer
+    sql_on: ${temp_fps.rdg_id} = ${user_fact.user_id} ;;
+    relationship: many_to_one
+  }
+}
+
 explore: events {
   view_label: " Events" ## space to bring to top of Explore
   join: supported_devices {

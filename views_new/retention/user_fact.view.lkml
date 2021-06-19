@@ -138,7 +138,9 @@ view: user_fact {
   }
   dimension: version {
     label: "Release Version"
-    type: string
+    value_format: "0"
+    type: number
+    sql: cast(${TABLE}.version as int64) ;;
   }
   dimension: derived_install_minor_release_version {
     label: "Minor Release Version"
@@ -149,6 +151,7 @@ view: user_fact {
     label: "Install Version"
     type: number
     hidden: no
+    value_format: "0"
     sql: cast(${TABLE}.install_version as int64) ;;
   }
   dimension: install_minor_release_version {
@@ -160,6 +163,12 @@ view: user_fact {
     label: "Install Minor Release Version"
     type: string
     sql: coalesce(${install_minor_release_version},${derived_install_minor_release_version}) ;;
+  }
+  dimension: minor_release_version_x {
+    label: "Install Release Version"
+    type: number
+    value_format: "0"
+    sql: coalesce(${install_version},${version}) ;;
   }
   dimension: player_level_xp {
     hidden: no

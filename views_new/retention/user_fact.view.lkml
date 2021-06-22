@@ -17,8 +17,8 @@ view: user_fact {
         ,max(timestamp) last_event
         ,count(distinct session_id) lifetime_sessions
         ,max(quests_completed) quests_completed
-        ,max(json_extract_scalar(extra_json,"$.card_id")) current_card
-        ,max(last_unlocked_card) last_unlocked_card
+        ,max(json_extract_scalar(extra_json,"$.card_id")) current_card  -- need to do the max on the current card num, card_003_b (150) is coming through instead of card_002 (400)
+        ,max(last_unlocked_card) last_unlocked_card -- need to do the max on the last unlocked card num, card_003_b (150) is coming through instead of card_002 (400)
         ,min(version) version
         ,max(install_version) install_version
         ,max(player_level_xp) player_level_xp

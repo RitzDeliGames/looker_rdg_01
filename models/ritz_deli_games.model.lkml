@@ -144,10 +144,6 @@ explore: ask_for_help {
   from: new_afh
 }
 
-explore: community_events_1 {
-  from: temp_user_community_events
-}
-
 explore: community_events {
   from: temp_community_events
   view_label: "Communtiy Events"

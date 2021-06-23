@@ -4,6 +4,7 @@ view: temp_community_events {
       with community_event_by_player as (
       select
         rdg_id
+        ,timestamp
         ,json_extract_scalar(extra_json,"$.event_id") event_id
         ,json_extract_scalar(extra_json,"$.team_id") team_id
         ,cast(json_extract_scalar(extra_json,"$.score") as int64) score
@@ -21,6 +22,7 @@ view: temp_community_events {
         ,community_event_by_player.team_id
         ,max(community_event_by_player.score) score
         ,max(community_event_by_player.player_rank) player_rank
+        ,count(community_event_by_player.timestamp) rounds_played
       from community_event_by_player
       group by 1,2,3
     ;;
@@ -28,7 +30,7 @@ view: temp_community_events {
   }
   dimension: primary_key {
     type: string
-    sql: ${rdg_id} || '_' || ${event_raw} ;;
+    sql: ${rdg_id} || '_' || ${event_id} ;;
     primary_key: yes
     hidden: yes
   }
@@ -36,18 +38,6 @@ view: temp_community_events {
     type: string
     sql: ${TABLE}.rdg_id ;;
     hidden: yes
-  }
-  dimension_group: event {
-    type: time
-    sql: ${TABLE}.timestamp ;;
-    timeframes: [
-      raw
-      ,hour_of_day
-      ,time
-      ,date
-      ,month
-      ,year
-    ]
   }
   dimension: event_id {
     label: "Event ID"
@@ -77,5 +67,15 @@ view: temp_community_events {
     label: "Player Count"
     type: count_distinct
     sql: ${rdg_id} ;;
+  }
+  dimension: rounds_played {
+    type: number
+    sql: ${TABLE}.rounds_played ;;
+    hidden: yes
+  }
+  measure: rounds_played_sum {
+    label: "Rounds Played"
+    type: sum
+    sql: ${rounds_played} ;;
   }
 }

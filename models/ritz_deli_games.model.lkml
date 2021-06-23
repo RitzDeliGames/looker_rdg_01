@@ -144,6 +144,33 @@ explore: ask_for_help {
   from: new_afh
 }
 
+explore: community_events_1 {
+  from: temp_user_community_events
+}
+
+explore: community_events {
+  from: temp_community_events
+  view_label: "Communtiy Events"
+  # join: user_fact {
+  #   type: left_outer
+  #   sql_on: ${community_events.rdg_id} = ${user_fact.user_id} ;;
+  #   relationship: many_to_one
+  # }
+  # join: user_last_event {
+  #   type: left_outer
+  #   sql_on: ${community_events.rdg_id} = ${user_last_event.user_id} ;;
+  #   relationship: one_to_one
+  # }
+  # join: transactions_new {
+  #   view_label: "Transactions"
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${community_events.rdg_id} = ${transactions_new.rdg_id}
+  #     and ${community_events.card_id} = ${transactions_new.card_id}
+  #   ;;
+  # }
+}
+
 explore: churn {
   from: temp_churn_by_tile_by_attempt
   view_label: "temp churn by tile"

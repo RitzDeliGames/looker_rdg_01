@@ -14,7 +14,6 @@ view: temp_community_events {
       and timestamp >= '2019-01-01'
       and user_type = 'external'
       and country != 'ZZ'
-      and coalesce(install_version,'null') <> '-1'
       )
       select
         community_event_by_player.rdg_id

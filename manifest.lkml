@@ -345,6 +345,7 @@ constant: country_region {
 constant: current_card_numbered {
   value: "CASE
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_001_a' THEN 100
+              WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_001_b' THEN 100
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_001_untimed' THEN 100
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_002_b' THEN 120
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_003_b' THEN 150
@@ -380,7 +381,6 @@ constant: current_card_numbered {
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_018' THEN 2000
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_019' THEN 2100
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_020' THEN 2200
-              WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_001_b' THEN 100
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_021' THEN 2300
           END"
 }
@@ -389,7 +389,7 @@ constant: current_card_numbered {
 constant: request_card_numbered {
   value: "case
             when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_a' then 100
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_a' then 100
+            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_b' then 100
             when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_untimed' then 100
             when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_b' then 100
             when json_extract_scalar(extra_json,'$.request_card_id') = 'card_002_b' then 120
@@ -513,35 +513,48 @@ constant: iap_id_strings {
 
   constant:  iam_ui_actions {
     value: "case
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Conectar%' THEN 'Connect'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Conecte%' THEN 'Connect'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Conéctate%' THEN 'Connect'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Connect%' THEN 'Connect'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%MISSING%' THEN 'Connect'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Califícanos%' THEN 'Rate Us'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Avalie-nos%' THEN 'Rate Us'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Rate Us%' THEN 'Rate Us'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%tarde%' THEN 'Later'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Luego%' THEN 'Later'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Depois%' THEN 'Later'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Permitir%' THEN 'Enable'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Habilitar%' THEN 'Enable'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Si%' THEN 'Yes'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Sim%' THEN 'Yes'
-              when json_extract_scalar(extra_json,'$.ui_action') = 'Ok' THEN 'Yes'
-            else JSON_EXTRACT_SCALAR(extra_json,'$.ui_action')
-          end"
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Conectar%' then 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Conecte%' then 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Conéctate%' then 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Connect%' then 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%MISSING%' then 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Califícanos%' then 'Rate Us'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Avalie-nos%' then 'Rate Us'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Rate Us%' then 'Rate Us'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%tarde%' then 'Later'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Luego%' then 'Later'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Depois%' then 'Later'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Permitir%' then 'Enable'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Habilitar%' then 'Enable'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Si%' then 'Yes'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Sim%' then 'Yes'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'Ok' then 'Yes'
+              else json_extract_scalar(extra_json,'$.ui_action')
+            end"
+}
+
+  constant: ce_ui_actions {
+    value: "case
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamOk' then '1. How To Play / Tap OK'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamSelect%' then '2a. Choose Team / Select Team'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.NoTeamSelected%' then '2b. Choose Team / Join Team (No Team Selected)'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityEventInfo%' then '2c. Choose Team / Tap Event Info'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamJoin%' then '3. Choose Team / Tap OK'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventPlay' then '4. Leaderboard / Tap Play'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_CommunityEvents_Bingo.QuestNode.ce_%' then '5. Bingo Card / Tap Bingo Card Tile'
+              else json_extract_scalar(extra_json,'$.button_tag')
+            end"
 }
 
   constant: button_tags {
-    value: "CASE
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Panel_BuyMoreTime_V3.Confirm' THEN 'BuyMoreTime - Confirm'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BuyMoreTime.Confirm' THEN 'BuyMoreTime - Confirm'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Panel_BuyMoreTime_V3.Close' THEN 'BuyMoreTime - Close'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BuyMoreTime.Close' THEN 'BuyMoreTime - Close'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Panel_PreGame_V3.PlayFromQuest' THEN 'PlayFromQuest'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BingoQuestDetails.PlayFromQuest' THEN 'PlayFromQuest'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BingoQuestDetails_Legacy.PlayFromQuest' THEN 'PlayFromQuest'
-              ELSE JSON_EXTRACT_SCALAR(extra_json,'$.button_tag')
-            END"
+    value: "case
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BuyMoreTime_V3.Confirm' then 'BuyMoreTime - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BuyMoreTime.Confirm' then 'BuyMoreTime - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BuyMoreTime_V3.Close' then 'BuyMoreTime - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BuyMoreTime.Close' then 'BuyMoreTime - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_PreGame_V3.PlayFromQuest' then 'PlayFromQuest'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BingoQuestDetails.PlayFromQuest' then 'PlayFromQuest'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BingoQuestDetails_Legacy.PlayFromQuest' then 'PlayFromQuest'
+              else json_extract_scalar(extra_json,'$.button_tag')
+            end"
   }

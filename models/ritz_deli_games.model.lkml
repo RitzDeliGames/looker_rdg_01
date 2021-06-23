@@ -167,6 +167,8 @@ explore: community_events {
   # }
 }
 
+explore: temp_community_events_funnels {}
+
 explore: churn {
   from: temp_churn_by_tile_by_attempt
   view_label: "temp churn by tile"

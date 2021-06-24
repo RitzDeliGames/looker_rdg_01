@@ -1,4 +1,6 @@
 view: user_card {
+# this table flattens out the card event and the nested node data. very flat and wide. this is at the user and card level, all
+# completed cards and currently in progress card
   derived_table: {
     sql:
       select

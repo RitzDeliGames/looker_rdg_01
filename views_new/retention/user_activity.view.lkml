@@ -1,4 +1,5 @@
 view: user_activity {
+# this is used to build the retention datasets. at the grain of user and day
   derived_table: {
     sql:
       select

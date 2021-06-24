@@ -1,4 +1,5 @@
 view: user_fact {
+# this is at the grain of the user
   view_label: "Users"
   derived_table: {
     sql:

@@ -1,4 +1,5 @@
 view: round_end {
+# this table builds the fact table for the round end events - this is at the user and round grain, setup for unnesting the chain length as well
   derived_table: {
     sql:
       select

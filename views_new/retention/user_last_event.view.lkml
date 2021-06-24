@@ -62,6 +62,11 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     type: string
     sql: ${TABLE}.last_unlocked_card ;;
   }
+  dimension: last_unlocked_card_no {
+    type: number
+    value_format: "####"
+    sql: @{last_unlocked_card_numbered};;
+  }
   dimension: current_card {
     type: string
     sql: ${TABLE}.current_card ;;

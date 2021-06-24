@@ -167,7 +167,26 @@ explore: community_events {
   # }
 }
 
-explore: temp_community_events_funnels {}
+explore: temp_community_events_funnels {
+  join: user_fact {
+    type: left_outer
+    sql_on: ${temp_community_events_funnels.rdg_id} = ${user_fact.user_id} ;;
+    relationship: many_to_one
+  }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${temp_community_events_funnels.rdg_id} = ${user_last_event.user_id} ;;
+    relationship: one_to_one
+  }
+  # join: transactions_new {
+  #   view_label: "Transactions"
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${temp_community_events_funnels.rdg_id} = ${transactions_new.rdg_id}
+  #     and ${community_events.card_id} = ${transactions_new.card_id}
+  #  ;;
+  #}
+}
 
 explore: churn {
   from: temp_churn_by_tile_by_attempt

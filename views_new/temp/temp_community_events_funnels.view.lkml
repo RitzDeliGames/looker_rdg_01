@@ -60,6 +60,11 @@ view: temp_community_events_funnels {
     sql: @{current_card_numbered} ;;
     value_format: "####"
   }
+  dimension: last_unlocked_card_numbered {
+    type: number
+    sql: @{last_unlocked_card_numbered} ;;
+    value_format: "####"
+  }
   dimension: current_quest {
     type: number
     sql: ${TABLE}.current_quest ;;
@@ -73,6 +78,7 @@ view: temp_community_events_funnels {
     label: "Count of Players"
     type: count_distinct
     sql: ${rdg_id} ;;
+    drill_fields: [last_unlocked_card, rdg_id]
   }
   measure: button_clicks {
     label: "Count of Clicks"

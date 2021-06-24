@@ -147,16 +147,16 @@ explore: ask_for_help {
 explore: community_events {
   from: temp_community_events
   view_label: "Communtiy Events"
-  # join: user_fact {
-  #   type: left_outer
-  #   sql_on: ${community_events.rdg_id} = ${user_fact.user_id} ;;
-  #   relationship: many_to_one
-  # }
-  # join: user_last_event {
-  #   type: left_outer
-  #   sql_on: ${community_events.rdg_id} = ${user_last_event.user_id} ;;
-  #   relationship: one_to_one
-  # }
+  join: user_fact {
+    type: left_outer
+    sql_on: ${community_events.rdg_id} = ${user_fact.user_id} ;;
+    relationship: many_to_one
+  }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${community_events.rdg_id} = ${user_last_event.user_id} ;;
+    relationship: one_to_one
+  }
   # join: transactions_new {
   #   view_label: "Transactions"
   #   type: left_outer

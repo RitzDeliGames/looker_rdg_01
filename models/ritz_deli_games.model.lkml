@@ -85,7 +85,7 @@ explore: user_card_completion {
     type: left_outer
     relationship: one_to_many
     sql_on: ${user_card_completion.rdg_id} = ${transactions_new.rdg_id}
-      and ${user_card_completion.current_card} = ${transactions_new.card_id}
+      and ${user_card_completion.current_card} = ${transactions_new.current_card}
     ;;
   }
 }

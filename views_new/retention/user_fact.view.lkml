@@ -4,12 +4,7 @@ view: user_fact {
     sql:
       select
         rdg_id user_id
-        ,case
-          when platform LIKE '%iOS%' THEN 'Apple'
-          when platform LIKE '%iPhone%' THEN 'Apple'
-          when platform LIKE '%Android%' THEN 'Google'
-          else 'Other'
-        END platform
+        ,platform
         ,country
         ,max(ltv) ltv
         ,min(created_at) created
@@ -84,7 +79,7 @@ view: user_fact {
     group_label: "Device & OS Dimensions"
     label: "Device Platform"
     type: string
-    sql: ${TABLE}.platform ;;
+    sql: @{device_platform_mapping} ;;
   }
   dimension: quests_completed {
     type: number
@@ -119,17 +114,23 @@ view: user_fact {
   dimension: lifetime_sessions {
     type: number
   }
-  dimension: current_card {
-    type: string
-  }
-  dimension: last_unlocked_card {
-    type: string
-  }
-  dimension: current_card_no {
-    type: number
-    value_format: "####"
-    sql: @{current_card_numbered};;
-  }
+  # dimension: current_card {
+  #   group_label: "Card Dimensions"
+  #   label: "Player Current Card"
+  #   type: string
+  # }
+  # dimension: last_unlocked_card {
+  #   group_label: "Card Dimensions"
+  #   label: "Player Last Unlocked Card"
+  #   type: string
+  # }
+  # dimension: current_card_no {
+  #   group_label: "Card Dimensions"
+  #   label: "Player Current Card (Numbered)"
+  #   type: number
+  #   value_format: "####"
+  #   sql: @{current_card_numbered};;
+  # }
   dimension: session_tier {
     type: tier
     sql: ${lifetime_sessions} ;;

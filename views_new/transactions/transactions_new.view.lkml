@@ -106,21 +106,28 @@ view: transactions_new {
     type: number
   }
   dimension: current_card {
-    hidden: yes
-  }
-  dimension: last_unlocked_card {
-    hidden: yes
-  }
-  dimension: card_id {
-    type: string
-    sql: coalesce(${last_unlocked_card},${current_card}) ;;
+    group_label: "Card Dimensions"
+    label: "Player Current Card"
   }
   dimension: current_card_numbered {
+    group_label: "Card Dimensions"
+    label: "Player Current Card (Numbered)"
     type: number
     sql: @{current_card_numbered} ;;
     value_format: "####"
   }
+  dimension: last_unlocked_card {
+    group_label: "Card Dimensions"
+    label: "Player Last Unlocked Card"
+  }
+  dimension: card_id {
+    group_label: "Card Dimensions"
+    label: "Player Last Unlocked Card (Coalesced)"
+    type: string
+    sql: coalesce(${last_unlocked_card},${current_card}) ;;
+  }
   dimension: current_quest {
+    group_label: "Card Dimensions"
     type: number
     sql: ${TABLE}.current_quest ;;
   }

@@ -75,11 +75,11 @@ constant: device_os_version_mapping {
   }
 
 constant: device_platform_mapping {
-  value: "CASE
-          WHEN ${TABLE}.platform LIKE '%iOS%' THEN 'Apple'
-          WHEN ${TABLE}.platform LIKE '%Android%' THEN 'Google'
-          ELSE 'Other'
-        END"
+  value: "case
+            when ${TABLE}.platform like '%iOS%' then 'Apple'
+            when ${TABLE}.platform like '%Android%' then 'Google'
+            else 'Other'
+          end"
 
 }
 
@@ -342,7 +342,7 @@ constant: country_region {
           END"
 }
 
-constant: current_card_numbered {
+constant: current_card_numbered_coalesced {
   value: "CASE
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_001_a' THEN 100
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_001_b' THEN 100
@@ -383,52 +383,97 @@ constant: current_card_numbered {
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_020' THEN 2200
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_021' THEN 2300
               when coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'ce_001_card_001' then 20210601
-              when coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'ce_001_card_002' then 20210601
-              when coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'ce_001_card_003' then 20210601
+              when coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'ce_001_card_002' then 20210602
+              when coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'ce_001_card_003' then 20210603
           END"
+}
+constant: current_card_numbered {
+  value: "case
+      when ${TABLE}.current_card = 'card_001_a' then 100
+      when ${TABLE}.current_card = 'card_001_b' then 100
+      when ${TABLE}.current_card = 'card_001_untimed' then 100
+      when ${TABLE}.current_card = 'card_002_b' then 120
+      when ${TABLE}.current_card = 'card_003_b' then 150
+      when ${TABLE}.current_card = 'card_002_a' then 200
+      when ${TABLE}.current_card = 'card_002_untimed' then 200
+      when ${TABLE}.current_card = 'card_003_a' then 300
+      when ${TABLE}.current_card = 'card_003_untimed' then 300
+      when ${TABLE}.current_card = 'card_002' then 400
+      when ${TABLE}.current_card = 'card_002_inverted' then 400
+      when ${TABLE}.current_card = 'card_039' then 400
+      when ${TABLE}.current_card = 'card_004_untimed' then 400
+      when ${TABLE}.current_card = 'card_003' then 500
+      when ${TABLE}.current_card = 'card_003_20210329' then 500
+      when ${TABLE}.current_card = 'card_040' then 500
+      when ${TABLE}.current_card = 'card_005_untimed' then 500
+      when ${TABLE}.current_card = 'card_004' then 600
+      when ${TABLE}.current_card = 'card_004_20210329' then 600
+      when ${TABLE}.current_card = 'card_041' then 600
+      when ${TABLE}.current_card = 'card_006_untimed' then 600
+      when ${TABLE}.current_card = 'card_005' then 700
+      when ${TABLE}.current_card = 'card_006' then 800
+      when ${TABLE}.current_card = 'card_007' then 900
+      when ${TABLE}.current_card = 'card_008' then 1000
+      when ${TABLE}.current_card = 'card_009' then 1100
+      when ${TABLE}.current_card = 'card_010' then 1200
+      when ${TABLE}.current_card = 'card_011' then 1300
+      when ${TABLE}.current_card = 'card_012' then 1400
+      when ${TABLE}.current_card = 'card_013' then 1500
+      when ${TABLE}.current_card = 'card_014' then 1600
+      when ${TABLE}.current_card = 'card_015' then 1700
+      when ${TABLE}.current_card = 'card_016' then 1800
+      when ${TABLE}.current_card = 'card_017' then 1900
+      when ${TABLE}.current_card = 'card_018' then 2000
+      when ${TABLE}.current_card = 'card_019' then 2100
+      when ${TABLE}.current_card = 'card_020' then 2200
+      when ${TABLE}.current_card = 'card_021' then 2300
+      when ${TABLE}.current_card = 'ce_001_card_001' then 20210601
+      when ${TABLE}.current_card = 'ce_001_card_002' then 20210602
+      when ${TABLE}.current_card = 'ce_001_card_003' then 20210603
+    end"
 }
 
 constant: last_unlocked_card_numbered {
   value: "case
-            when ${TABLE}.last_unlocked_card = 'card_001_a' then 100
-            when ${TABLE}.last_unlocked_card = 'card_001_b' then 100
-            when ${TABLE}.last_unlocked_card = 'card_001_untimed' then 100
-            when ${TABLE}.last_unlocked_card = 'card_002_b' then 120
-            when ${TABLE}.last_unlocked_card = 'card_003_b' then 150
-            when ${TABLE}.last_unlocked_card = 'card_002_a' then 200
-            when ${TABLE}.last_unlocked_card = 'card_002_untimed' then 200
-            when ${TABLE}.last_unlocked_card = 'card_003_a' then 300
-            when ${TABLE}.last_unlocked_card = 'card_003_untimed' then 300
-            when ${TABLE}.last_unlocked_card = 'card_002' then 400
-            when ${TABLE}.last_unlocked_card = 'card_002_inverted' then 400
-            when ${TABLE}.last_unlocked_card = 'card_039' then 400
-            when ${TABLE}.last_unlocked_card = 'card_004_untimed' then 400
-            when ${TABLE}.last_unlocked_card = 'card_003' then 500
-            when ${TABLE}.last_unlocked_card = 'card_003_20210329' then 500
-            when ${TABLE}.last_unlocked_card = 'card_040' then 500
-            when ${TABLE}.last_unlocked_card = 'card_005_untimed' then 500
-            when ${TABLE}.last_unlocked_card = 'card_004' then 600
-            when ${TABLE}.last_unlocked_card = 'card_004_20210329' then 600
-            when ${TABLE}.last_unlocked_card = 'card_041' then 600
-            when ${TABLE}.last_unlocked_card = 'card_006_untimed' then 600
-            when ${TABLE}.last_unlocked_card = 'card_005' then 700
-            when ${TABLE}.last_unlocked_card = 'card_006' then 800
-            when ${TABLE}.last_unlocked_card = 'card_007' then 900
-            when ${TABLE}.last_unlocked_card = 'card_008' then 1000
-            when ${TABLE}.last_unlocked_card = 'card_009' then 1100
-            when ${TABLE}.last_unlocked_card = 'card_010' then 1200
-            when ${TABLE}.last_unlocked_card = 'card_011' then 1300
-            when ${TABLE}.last_unlocked_card = 'card_012' then 1400
-            when ${TABLE}.last_unlocked_card = 'card_013' then 1500
-            when ${TABLE}.last_unlocked_card = 'card_014' then 1600
-            when ${TABLE}.last_unlocked_card = 'card_015' then 1700
-            when ${TABLE}.last_unlocked_card = 'card_016' then 1800
-            when ${TABLE}.last_unlocked_card = 'card_017' then 1900
-            when ${TABLE}.last_unlocked_card = 'card_018' then 2000
-            when ${TABLE}.last_unlocked_card = 'card_019' then 2100
-            when ${TABLE}.last_unlocked_card = 'card_020' then 2200
-            when ${TABLE}.last_unlocked_card = 'card_021' then 2300
-          end"
+      when ${TABLE}.last_unlocked_card = 'card_001_a' then 100
+      when ${TABLE}.last_unlocked_card = 'card_001_b' then 100
+      when ${TABLE}.last_unlocked_card = 'card_001_untimed' then 100
+      when ${TABLE}.last_unlocked_card = 'card_002_b' then 120
+      when ${TABLE}.last_unlocked_card = 'card_003_b' then 150
+      when ${TABLE}.last_unlocked_card = 'card_002_a' then 200
+      when ${TABLE}.last_unlocked_card = 'card_002_untimed' then 200
+      when ${TABLE}.last_unlocked_card = 'card_003_a' then 300
+      when ${TABLE}.last_unlocked_card = 'card_003_untimed' then 300
+      when ${TABLE}.last_unlocked_card = 'card_002' then 400
+      when ${TABLE}.last_unlocked_card = 'card_002_inverted' then 400
+      when ${TABLE}.last_unlocked_card = 'card_039' then 400
+      when ${TABLE}.last_unlocked_card = 'card_004_untimed' then 400
+      when ${TABLE}.last_unlocked_card = 'card_003' then 500
+      when ${TABLE}.last_unlocked_card = 'card_003_20210329' then 500
+      when ${TABLE}.last_unlocked_card = 'card_040' then 500
+      when ${TABLE}.last_unlocked_card = 'card_005_untimed' then 500
+      when ${TABLE}.last_unlocked_card = 'card_004' then 600
+      when ${TABLE}.last_unlocked_card = 'card_004_20210329' then 600
+      when ${TABLE}.last_unlocked_card = 'card_041' then 600
+      when ${TABLE}.last_unlocked_card = 'card_006_untimed' then 600
+      when ${TABLE}.last_unlocked_card = 'card_005' then 700
+      when ${TABLE}.last_unlocked_card = 'card_006' then 800
+      when ${TABLE}.last_unlocked_card = 'card_007' then 900
+      when ${TABLE}.last_unlocked_card = 'card_008' then 1000
+      when ${TABLE}.last_unlocked_card = 'card_009' then 1100
+      when ${TABLE}.last_unlocked_card = 'card_010' then 1200
+      when ${TABLE}.last_unlocked_card = 'card_011' then 1300
+      when ${TABLE}.last_unlocked_card = 'card_012' then 1400
+      when ${TABLE}.last_unlocked_card = 'card_013' then 1500
+      when ${TABLE}.last_unlocked_card = 'card_014' then 1600
+      when ${TABLE}.last_unlocked_card = 'card_015' then 1700
+      when ${TABLE}.last_unlocked_card = 'card_016' then 1800
+      when ${TABLE}.last_unlocked_card = 'card_017' then 1900
+      when ${TABLE}.last_unlocked_card = 'card_018' then 2000
+      when ${TABLE}.last_unlocked_card = 'card_019' then 2100
+      when ${TABLE}.last_unlocked_card = 'card_020' then 2200
+      when ${TABLE}.last_unlocked_card = 'card_021' then 2300
+    end"
 }
 
 constant: request_card_numbered {

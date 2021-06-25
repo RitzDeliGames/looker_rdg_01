@@ -59,19 +59,27 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     sql: ${TABLE}.device_model_number ;;
   }
   dimension: last_unlocked_card {
+    group_label: "Card Dimensions"
+    label: "Player Last Unlocked Card"
     type: string
     sql: ${TABLE}.last_unlocked_card ;;
   }
   dimension: last_unlocked_card_no {
+    group_label: "Card Dimensions"
+    label: "Player Last Unlocked Card (Numbered)"
     type: number
     value_format: "####"
     sql: @{last_unlocked_card_numbered};;
   }
   dimension: current_card {
+    group_label: "Card Dimensions"
+    label: "Player Current Card"
     type: string
     sql: ${TABLE}.current_card ;;
   }
   dimension: current_card_no {
+    group_label: "Card Dimensions"
+    label: "Player Current Card (Numbered)"
     type: number
     value_format: "####"
     sql: @{current_card_numbered};;
@@ -231,6 +239,12 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     label: "Bingo Rewards v1 (Lives)"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.rewards_v1_20210415'),'unassigned') ;;
+  }
+  dimension: communityEvents_20200316 {
+    group_label: "Experiments"
+    label: "Community Event - 202106_a"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.communityEvents_20200316'),'unassigned') ;;
   }
   dimension: mini_game_ui_v1 {
     group_label: "Experiments"

@@ -49,10 +49,14 @@ view: cards {
     sql: ${TABLE}.timestamp ;;
   }
   dimension: card_id {
+    group_label: "Card Dimensions"
+    label: "Player Current Card"
     type: string
     sql: ${TABLE}.card_id ;;
   }
   dimension: current_card_numbered {
+    group_label: "Card Dimensions"
+    label: "Player Current Card (Numbered)"
     type: number
     sql: @{current_card_numbered} ;;
     value_format: "####"

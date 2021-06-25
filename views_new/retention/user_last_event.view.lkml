@@ -1,4 +1,5 @@
-view: user_last_event { ## pulls the most recent event of the user to get current experiments
+view: user_last_event {
+# pulls the most recent event of the user to get current experiments, at the grain of the user
   view_label: "Users"
   derived_table: {
     sql:

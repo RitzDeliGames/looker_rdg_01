@@ -5,13 +5,13 @@ view: user_last_event {
     sql:
       with last_user_event as (
         select
-           user_id
+           rdg_id
           ,event_name
           ,last_ts
-          ,rank() over (partition by user_id order by last_ts desc, event_name) rnk
+          ,rank() over (partition by rdg_id order by last_ts desc, event_name) rnk
         from (
           select
-             rdg_id user_id
+             rdg_id rdg_id
             ,event_name
             ,max(timestamp) last_ts
           from game_data.events
@@ -24,14 +24,14 @@ view: user_last_event {
         ) x
       )
       select distinct
-        last_user_event.user_id
+        last_user_event.rdg_id
         ,events.experiments
         ,lower(events.hardware) device_model_number
         ,last_unlocked_card
         ,current_card
       from last_user_event
       inner join game_data.events
-        on last_user_event.user_id = events.rdg_id
+        on last_user_event.rdg_id = events.rdg_id
         and last_user_event.last_ts = events.timestamp
         and last_user_event.event_name = events.event_name
         -- events.timestamp >= timestamp(current_date() - 90)
@@ -43,9 +43,9 @@ view: user_last_event {
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
   }
-  dimension: user_id {
+  dimension: rdg_id {
     type: string
-    sql: ${TABLE}.user_id ;;
+    sql: ${TABLE}.rdg_id ;;
     primary_key: yes
     hidden: yes
   }

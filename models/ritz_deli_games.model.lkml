@@ -26,21 +26,22 @@ datagroup: change_at_midnight {
 }
 
 explore: user_retention {
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   label: "Users"
   from: user_fact
   join: user_activity {
     type: left_outer
-    sql_on: ${user_retention.user_id} = ${user_activity.user_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${user_activity.rdg_id} ;;
     relationship: one_to_many
   }
   join: user_activity_engagement_min {
     type: left_outer
-    sql_on: ${user_retention.user_id} = ${user_activity_engagement_min.user_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${user_activity_engagement_min.rdg_id} ;;
     relationship: one_to_many
   }
   join: user_last_event {
     type: left_outer
-    sql_on: ${user_retention.user_id} = ${user_last_event.user_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
   join: supported_devices {
@@ -57,13 +58,13 @@ explore: user_retention {
     view_label: "Transactions"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${user_retention.user_id} = ${transactions_new.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${transactions_new.rdg_id} ;;
   }
   join: community_events_activity {
     view_label: "Community Events"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${user_retention.user_id} = ${community_events_activity.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${community_events_activity.rdg_id} ;;
   }
 }
 
@@ -72,12 +73,12 @@ explore: user_card_completion {
   from: user_card
   join: user_fact {
     type: left_outer
-    sql_on: ${user_card_completion.rdg_id} = ${user_fact.user_id} ;;
+    sql_on: ${user_card_completion.rdg_id} = ${user_fact.rdg_id} ;;
     relationship: many_to_one
   }
   join: user_last_event {
     type: left_outer
-    sql_on: ${user_card_completion.rdg_id} = ${user_last_event.user_id} ;;
+    sql_on: ${user_card_completion.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
   join: transactions_new {
@@ -94,12 +95,12 @@ explore: transactions {
   from: transactions_new
   join: user_fact {
     type: left_outer
-    sql_on: ${transactions.rdg_id} = ${user_fact.user_id} ;;
+    sql_on: ${transactions.rdg_id} = ${user_fact.rdg_id} ;;
     relationship: many_to_one
   }
   join: user_last_event {
     type: left_outer
-    sql_on: ${transactions.rdg_id} = ${user_last_event.user_id} ;;
+    sql_on: ${transactions.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
   join: supported_devices {
@@ -118,12 +119,12 @@ explore: economy {
   from: rewards_bingo_cards_and_gameplay
   join: user_fact {
     type: left_outer
-    sql_on: ${economy.rdg_id} = ${user_fact.user_id} ;;
+    sql_on: ${economy.rdg_id} = ${user_fact.rdg_id} ;;
     relationship: many_to_one
   }
   join: user_last_event {
     type: left_outer
-    sql_on: ${economy.rdg_id} = ${user_last_event.user_id} ;;
+    sql_on: ${economy.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
   # always_filter: {
@@ -159,12 +160,12 @@ explore: community_events {
 explore: temp_community_events_funnels {
   join: user_fact {
     type: left_outer
-    sql_on: ${temp_community_events_funnels.rdg_id} = ${user_fact.user_id} ;;
+    sql_on: ${temp_community_events_funnels.rdg_id} = ${user_fact.rdg_id} ;;
     relationship: many_to_one
   }
   join: user_last_event {
     type: left_outer
-    sql_on: ${temp_community_events_funnels.rdg_id} = ${user_last_event.user_id} ;;
+    sql_on: ${temp_community_events_funnels.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
   # join: transactions_new {
@@ -182,12 +183,12 @@ explore: churn {
   view_label: "temp churn by tile"
   join: user_fact {
     type: left_outer
-    sql_on: ${churn.rdg_id} = ${user_fact.user_id} ;;
+    sql_on: ${churn.rdg_id} = ${user_fact.rdg_id} ;;
     relationship: one_to_one
   }
   join: user_last_event {
     type: left_outer
-    sql_on: ${churn.rdg_id} = ${user_last_event.user_id} ;;
+    sql_on: ${churn.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
 }
@@ -197,12 +198,12 @@ explore: churn_by_card {
   view_label: "temp churn by card"
   join: user_fact {
     type: left_outer
-    sql_on: ${churn_by_card.rdg_id} = ${user_fact.user_id} ;;
+    sql_on: ${churn_by_card.rdg_id} = ${user_fact.rdg_id} ;;
     relationship: one_to_one
   }
   join: user_last_event {
     type: left_outer
-    sql_on: ${churn_by_card.rdg_id} = ${user_last_event.user_id} ;;
+    sql_on: ${churn_by_card.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
 }
@@ -211,12 +212,12 @@ explore: gameplay {
   from: round_end
   join: user_fact {
     type: left_outer
-    sql_on: ${gameplay.rdg_id} = ${user_fact.user_id} ;;
+    sql_on: ${gameplay.rdg_id} = ${user_fact.rdg_id} ;;
     relationship: many_to_one
   }
   join: user_last_event {
     type: left_outer
-    sql_on: ${gameplay.rdg_id} = ${user_last_event.user_id} ;;
+    sql_on: ${gameplay.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
   join: erasers {
@@ -232,21 +233,21 @@ explore: gameplay {
   join: sessions_per_day_per_player {
     view_label: "Gameplay"
     type: left_outer
-    sql_on: ${gameplay.rdg_id} =  ${sessions_per_day_per_player.user_id}
+    sql_on: ${gameplay.rdg_id} =  ${sessions_per_day_per_player.rdg_id}
       and ${gameplay.event_date} = ${sessions_per_day_per_player.event_date};;
     relationship: many_to_one ## let's test this
   }
   join: rounds_per_day_per_player {
     view_label: "Gameplay"
     type: left_outer
-    sql_on: ${gameplay.rdg_id} =  ${rounds_per_day_per_player.user_id}
+    sql_on: ${gameplay.rdg_id} =  ${rounds_per_day_per_player.rdg_id}
       and ${gameplay.event_date} = ${rounds_per_day_per_player.event_date};;
     relationship: many_to_one ## let's test this
   }
   join: rounds_per_session_per_player {
     view_label: "Gameplay"
     type: left_outer
-    sql_on: ${gameplay.rdg_id} =  ${rounds_per_session_per_player.user_id}
+    sql_on: ${gameplay.rdg_id} =  ${rounds_per_session_per_player.rdg_id}
       and ${gameplay.event_date} = ${rounds_per_session_per_player.event_date}
       and ${gameplay.session_id} = ${rounds_per_session_per_player.session_id};;
     relationship: many_to_one ## let's test this
@@ -257,7 +258,7 @@ explore: temp_fps {
   view_label: "temp fps"
   join: user_fact {
     type: left_outer
-    sql_on: ${temp_fps.rdg_id} = ${user_fact.user_id} ;;
+    sql_on: ${temp_fps.rdg_id} = ${user_fact.rdg_id} ;;
     relationship: many_to_one
   }
 }
@@ -286,12 +287,12 @@ explore: events {
   }
   join: user_fact {
     type: left_outer
-    sql_on: ${events.rdg_id} = ${user_fact.user_id} ;;
+    sql_on: ${events.rdg_id} = ${user_fact.rdg_id} ;;
     relationship: many_to_one
   }
   join: user_last_event {
     type: left_outer
-    sql_on: ${user_fact.user_id} = ${user_last_event.user_id} ;;
+    sql_on: ${user_fact.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
 }

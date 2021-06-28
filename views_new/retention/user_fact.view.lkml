@@ -5,23 +5,17 @@ view: user_fact {
     sql:
        with first_activity as (select
         rdg_id
-        ,case
-          when platform LIKE '%iOS%' THEN 'Apple'
-          when platform LIKE '%iPhone%' THEN 'Apple'
-          when platform LIKE '%Android%' THEN 'Google'
-          else 'Other'
-        END platform
+        ,platform
         ,country
         ,row_number() over (partition by rdg_id order by timestamp asc) rn
       from `eraser-blast.game_data.events`
       where created_at >= '2019-01-01'
       and user_type = 'external'
       and country != 'ZZ'
-      and coalesce(install_version,'null') <> '-1'
-      and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e'))
-      -- group by user_id, country, platform
+      and coalesce(install_version,'null') <> '-1')
+      -- group by rdg_id, country, platform
       select
-        fa.rdg_id user_id
+        fa.rdg_id
         ,fa.platform
         ,fa.country
         ,max(ltv) ltv
@@ -43,7 +37,6 @@ view: user_fact {
       and gde.user_type = 'external'
       and gde.country != 'ZZ'
       and coalesce(gde.install_version,'null') <> '-1'
-      and fa.rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
       and fa.rn = 1
       group by 1, 2, 3
     ;;
@@ -51,7 +44,7 @@ view: user_fact {
     publish_as_db_view: yes
     partition_keys: ["created"]
   }
-  dimension: user_id {
+  dimension: rdg_id {
     type: string
     primary_key: yes
   }

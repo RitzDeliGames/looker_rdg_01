@@ -2,7 +2,7 @@ view: user_activity_engagement_min {
   derived_table: {
     sql:
       select
-        rdg_id user_id
+        rdg_id
         ,timestamp_trunc(timestamp,day) activity
         ,engagement_ticks
       from `eraser-blast.game_data.events`
@@ -18,10 +18,10 @@ view: user_activity_engagement_min {
   dimension: primary_key {
     type: string
     primary_key: yes
-    sql: cast(${engagement_min} as string) || '_' || ${user_id} ;;
+    sql: cast(${engagement_min} as string) || '_' || ${rdg_id} ;;
     hidden: yes
   }
-  dimension: user_id {
+  dimension: rdg_id {
     type: string
     hidden: yes
   }
@@ -51,6 +51,6 @@ view: user_activity_engagement_min {
   }
   measure: active_user_count {
     type: count_distinct
-    sql: ${user_id} ;;
+    sql: ${rdg_id} ;;
   }
 }

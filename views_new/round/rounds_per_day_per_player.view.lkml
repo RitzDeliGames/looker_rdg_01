@@ -3,7 +3,7 @@ view: rounds_per_day_per_player {
     explore_source: gameplay {
       column: event_date {}
       column: round_end_count {}
-      column: user_id { field: user_fact.user_id }
+      column: rdg_id { field: user_fact.rdg_id }
     }
   }
   dimension: event_date {
@@ -14,7 +14,7 @@ view: rounds_per_day_per_player {
     hidden: yes
     type: number
   }
-  dimension: user_id {
+  dimension: rdg_id {
     hidden: yes
   }
   measure: rounds_per_day_025 {

@@ -3,7 +3,7 @@ view: user_activity {
   derived_table: {
     sql:
       select
-        rdg_id user_id
+        rdg_id
         ,timestamp_trunc(timestamp,day) activity
         ,timestamp_trunc(datetime(timestamp,'US/Pacific'),day) activity_pst
       from `eraser-blast.game_data.events`
@@ -19,10 +19,10 @@ view: user_activity {
   dimension: primary_key {
     type: string
     primary_key: yes
-    sql: cast(format_date("%Y%m%d",${activity_date}) as string) || '_' || ${user_id} ;;
+    sql: cast(format_date("%Y%m%d",${activity_date}) as string) || '_' || ${rdg_id} ;;
     hidden: yes
   }
-  dimension: user_id {
+  dimension: rdg_id {
     type: string
     hidden: yes
   }
@@ -66,6 +66,6 @@ view: user_activity {
   }
   measure: active_user_count {
     type: count_distinct
-    sql: ${user_id} ;;
+    sql: ${rdg_id} ;;
   }
 }

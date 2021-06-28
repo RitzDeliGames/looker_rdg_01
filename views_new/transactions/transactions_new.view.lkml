@@ -8,6 +8,8 @@ view: transactions_new {
         ,datetime(created_at,'US/Pacific') created_pst
         ,event_name
         ,timestamp
+        ,country --can remove once Will makes user_first_event table
+        ,platform --can remove once Will makes user_first_event table
         ,lower(hardware) device_model_number
         ,round(cast(engagement_ticks as int64) / 2) minutes_played
         ,current_card
@@ -73,6 +75,26 @@ view: transactions_new {
   dimension: device_model_number {
     hidden: yes
   }
+  ##REMOVE ONCE WILL ADDS USER_FIRST_EVENT TABLE
+  dimension: platform {
+    hidden: no
+    group_label: "Device & OS Dimensions"
+    label: "Device Platform"
+    type: string
+    sql: @{device_platform_mapping} ;;
+  }
+  dimension: country {
+    group_label: "Device & OS Dimensions"
+    label: "Device Country"
+    type: string
+  }
+  dimension: region {
+    group_label: "Device & OS Dimensions"
+    label: "Device Region"
+    type: string
+    sql: @{country_region} ;;
+  }
+  ##REMOVE ONCE WILL ADDS USER_FIRST_EVENT TABLE
   dimension: event_name {
     hidden: yes
     type: string

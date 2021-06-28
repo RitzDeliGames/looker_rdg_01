@@ -25,7 +25,7 @@ view: user_fact {
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'
       and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
-      group by user_id, country, platform, country
+      group by user_id, platform, country
     ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes

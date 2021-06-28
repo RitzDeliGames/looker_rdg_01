@@ -26,7 +26,7 @@ datagroup: change_at_midnight {
 }
 
 explore: user_retention {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   label: "Users"
   from: user_fact
   join: user_activity {
@@ -69,6 +69,7 @@ explore: user_retention {
 }
 
 explore: user_card_completion {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   label: "Card Completion (User)"
   from: user_card
   join: user_fact {
@@ -92,6 +93,7 @@ explore: user_card_completion {
 }
 
 explore: transactions {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: transactions_new
   join: user_fact {
     type: left_outer
@@ -116,6 +118,7 @@ explore: transactions {
 }
 
 explore: economy {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: rewards_bingo_cards_and_gameplay
   join: user_fact {
     type: left_outer
@@ -145,19 +148,23 @@ explore: economy {
 }
 
 explore: in_app_messages {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: new_iam
 }
 
 explore: ask_for_help {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: new_afh
 }
 
 explore: community_events {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: community_events_activity
   view_label: "Communtiy Events"
 }
 
 explore: temp_community_events_funnels {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   join: user_fact {
     type: left_outer
     sql_on: ${temp_community_events_funnels.rdg_id} = ${user_fact.rdg_id} ;;
@@ -179,6 +186,7 @@ explore: temp_community_events_funnels {
 }
 
 explore: churn {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: temp_churn_by_tile_by_attempt
   view_label: "temp churn by tile"
   join: user_fact {
@@ -194,6 +202,7 @@ explore: churn {
 }
 
 explore: churn_by_card {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: temp_churn_by_card_by_attempt
   view_label: "temp churn by card"
   join: user_fact {
@@ -209,6 +218,7 @@ explore: churn_by_card {
 }
 
 explore: gameplay {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: round_end
   join: user_fact {
     type: left_outer
@@ -255,6 +265,7 @@ explore: gameplay {
 }
 
 explore: temp_fps {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   view_label: "temp fps"
   join: user_fact {
     type: left_outer
@@ -264,6 +275,7 @@ explore: temp_fps {
 }
 
 explore: events {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   view_label: " Card Data" ## space to bring to top of Explore
   label: "Card Event"
   join: supported_devices {

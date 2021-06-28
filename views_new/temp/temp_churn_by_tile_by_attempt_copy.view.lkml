@@ -1,3 +1,5 @@
+## WORK IN PROGRESS
+
 # If necessary, uncomment the line below to include explore_source.
 # include: "ritz_deli_games.model.lkml"
 

@@ -2,8 +2,8 @@ view: user_fact {
   view_label: "Users"
   derived_table: {
     sql:
-      select
-        rdg_id user_id
+       with first_activity as (select
+        rdg_id
         ,case
           when platform LIKE '%iOS%' THEN 'Apple'
           when platform LIKE '%iPhone%' THEN 'Apple'
@@ -11,6 +11,18 @@ view: user_fact {
           else 'Other'
         END platform
         ,country
+        ,row_number() over (partition by rdg_id order by timestamp asc) rn
+      from `eraser-blast.game_data.events`
+      where created_at >= '2019-01-01'
+      and user_type = 'external'
+      and country != 'ZZ'
+      and coalesce(install_version,'null') <> '-1'
+      and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e'))
+      -- group by user_id, country, platform
+      select
+        fa.rdg_id user_id
+        ,fa.platform
+        ,fa.country
         ,max(ltv) ltv
         ,min(created_at) created
         ,min(datetime(created_at,'US/Pacific')) created_pst
@@ -23,13 +35,16 @@ view: user_fact {
         ,max(install_version) install_version
         ,max(player_level_xp) player_level_xp
         ,max(days_played_past_week) days_played_past_week
-      from `eraser-blast.game_data.events`
-      where created_at >= '2019-01-01'
-      and user_type = 'external'
-      and country != 'ZZ'
-      and coalesce(install_version,'null') <> '-1'
-      and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
-      group by user_id, country, platform, country
+      from first_activity fa
+      left join `eraser-blast.game_data.events` gde
+        on fa.rdg_id = gde.rdg_id
+      where gde.created_at >= '2019-01-01'
+      and gde.user_type = 'external'
+      and gde.country != 'ZZ'
+      and coalesce(gde.install_version,'null') <> '-1'
+      and fa.rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
+      and fa.rn = 1
+      group by 1, 2, 3
     ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes

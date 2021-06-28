@@ -1,3 +1,5 @@
+## WORK IN PROGRESS
+
 view: temp_card_data {
   derived_table: {
     datagroup_trigger: change_at_midnight

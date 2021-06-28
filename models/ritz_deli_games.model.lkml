@@ -261,7 +261,3 @@ explore: events {
     relationship: one_to_one
   }
 }
-
-explore: temp_card_data {}
-
-explore: temp_churn_by_tile_by_attempt_copy {}

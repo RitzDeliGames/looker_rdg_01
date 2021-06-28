@@ -1,4 +1,5 @@
 view: round_end {
+# this table builds the fact table for the round end events - this is at the user and round grain, setup for unnesting the chain length as well
   derived_table: {
     sql:
       select
@@ -126,25 +127,32 @@ view: round_end {
   }
   dimension: session_id {}
   dimension: current_card {
-    hidden: yes
+    group_label: "Card Dimensions"
+    label: "Player Current Card"
     type: string
     sql: ${TABLE}.current_card ;;
   }
   dimension: last_unlocked_card {
-    hidden: no
+    group_label: "Card Dimensions"
+    label: "Player Last Unlocked Card"
     type: string
     sql: ${TABLE}.last_unlocked_card ;;
   }
   dimension: card_id {
+    group_label: "Card Dimensions"
+    label: "Player Last Unlocked Card (Coalesced)"
     type: string
     sql: coalesce(${last_unlocked_card},${current_card}) ;;
   }
   dimension: current_card_numbered {
+    group_label: "Card Dimensions"
+    label: "Player Current Card (Numbered)"
     type: number
     sql: @{current_card_numbered} ;;
     value_format: "####"
   }
   dimension: current_quest {
+    group_label: "Card Dimensions"
     type: number
     sql: ${TABLE}.current_quest ;;
   }

@@ -605,15 +605,15 @@ explore: gaming_block_session_facts {
 #     filters: [current_period_filter: "1 days ago for 1 day"]
 #   }
 # }
-explore: user_fact {}
-explore: user_retention {
-  from: user_fact
-  join: user_activity {
-    type: left_outer
-    sql_on: ${user_retention.user_id} = ${user_activity.user_id} ;;
-    relationship: one_to_many
-  }
-}
+# explore: user_fact {}
+# explore: user_retention {
+#   from: user_fact
+#   join: user_activity {
+#     type: left_outer
+#     sql_on: ${user_retention.user_id} = ${user_activity.user_id} ;;
+#     relationship: one_to_many
+#   }
+# }
 
 explore: players_n_churn {}
 

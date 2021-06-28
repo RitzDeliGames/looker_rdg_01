@@ -1,4 +1,5 @@
 view: user_fact {
+# this is at the grain of the user
   view_label: "Users"
   derived_table: {
     sql:
@@ -29,8 +30,8 @@ view: user_fact {
         ,max(timestamp) last_event
         ,count(distinct session_id) lifetime_sessions
         ,max(quests_completed) quests_completed
-        ,max(json_extract_scalar(extra_json,"$.card_id")) current_card
-        ,max(last_unlocked_card) last_unlocked_card
+        ,max(json_extract_scalar(extra_json,"$.card_id")) current_card  -- need to do the max on the current card num, card_003_b (150) is coming through instead of card_002 (400)
+        ,max(last_unlocked_card) last_unlocked_card -- need to do the max on the last unlocked card num, card_003_b (150) is coming through instead of card_002 (400)
         ,min(version) version
         ,max(install_version) install_version
         ,max(player_level_xp) player_level_xp
@@ -99,7 +100,7 @@ view: user_fact {
     group_label: "Device & OS Dimensions"
     label: "Device Platform"
     type: string
-    sql: ${TABLE}.platform ;;
+    sql: @{device_platform_mapping} ;;
   }
   dimension: quests_completed {
     type: number
@@ -134,17 +135,23 @@ view: user_fact {
   dimension: lifetime_sessions {
     type: number
   }
-  dimension: current_card {
-    type: string
-  }
-  dimension: last_unlocked_card {
-    type: string
-  }
-  dimension: current_card_no {
-    type: number
-    value_format: "####"
-    sql: @{current_card_numbered};;
-  }
+  # dimension: current_card {
+  #   group_label: "Card Dimensions"
+  #   label: "Player Current Card"
+  #   type: string
+  # }
+  # dimension: last_unlocked_card {
+  #   group_label: "Card Dimensions"
+  #   label: "Player Last Unlocked Card"
+  #   type: string
+  # }
+  # dimension: current_card_no {
+  #   group_label: "Card Dimensions"
+  #   label: "Player Current Card (Numbered)"
+  #   type: number
+  #   value_format: "####"
+  #   sql: @{current_card_numbered};;
+  # }
   dimension: session_tier {
     type: tier
     sql: ${lifetime_sessions} ;;

@@ -59,9 +59,16 @@ explore: user_retention {
     relationship: one_to_many
     sql_on: ${user_retention.user_id} = ${transactions_new.rdg_id} ;;
   }
+  join: community_events_activity {
+    view_label: "Community Events"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${user_retention.user_id} = ${community_events_activity.rdg_id} ;;
+  }
 }
 
 explore: user_card_completion {
+  label: "Card Completion (User)"
   from: user_card
   join: user_fact {
     type: left_outer
@@ -78,7 +85,7 @@ explore: user_card_completion {
     type: left_outer
     relationship: one_to_many
     sql_on: ${user_card_completion.rdg_id} = ${transactions_new.rdg_id}
-      and ${user_card_completion.card_id} = ${transactions_new.card_id}
+      and ${user_card_completion.current_card} = ${transactions_new.current_card}
     ;;
   }
 }
@@ -142,6 +149,32 @@ explore: in_app_messages {
 
 explore: ask_for_help {
   from: new_afh
+}
+
+explore: community_events {
+  from: community_events_activity
+  view_label: "Communtiy Events"
+}
+
+explore: temp_community_events_funnels {
+  join: user_fact {
+    type: left_outer
+    sql_on: ${temp_community_events_funnels.rdg_id} = ${user_fact.user_id} ;;
+    relationship: many_to_one
+  }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${temp_community_events_funnels.rdg_id} = ${user_last_event.user_id} ;;
+    relationship: one_to_one
+  }
+  # join: transactions_new {
+  #   view_label: "Transactions"
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${temp_community_events_funnels.rdg_id} = ${transactions_new.rdg_id}
+  #     and ${community_events.card_id} = ${transactions_new.card_id}
+  #  ;;
+  #}
 }
 
 explore: churn {
@@ -230,7 +263,8 @@ explore: temp_fps {
 }
 
 explore: events {
-  view_label: " Events" ## space to bring to top of Explore
+  view_label: " Card Data" ## space to bring to top of Explore
+  label: "Card Event"
   join: supported_devices {
     sql_on: ${events.device_model_number} = ${supported_devices.retail_model} ;;
     type: left_outer

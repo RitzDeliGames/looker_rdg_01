@@ -1,4 +1,5 @@
-view: user_last_event { ## pulls the most recent event of the user to get current experiments
+view: user_last_event {
+# pulls the most recent event of the user to get current experiments, at the grain of the user
   view_label: "Users"
   derived_table: {
     sql:
@@ -14,8 +15,8 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
             ,event_name
             ,max(timestamp) last_ts
           from game_data.events
-          where timestamp >= timestamp(current_date() - 90)
-          and timestamp < timestamp(current_date())
+          where timestamp < timestamp(current_date())
+          -- and timestamp >= timestamp(current_date() - 90)
           and rdg_id is not null
           and user_type = 'external'
           and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
@@ -26,12 +27,14 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
         last_user_event.user_id
         ,events.experiments
         ,lower(events.hardware) device_model_number
+        ,last_unlocked_card
+        ,current_card
       from last_user_event
       inner join game_data.events
         on last_user_event.user_id = events.rdg_id
         and last_user_event.last_ts = events.timestamp
         and last_user_event.event_name = events.event_name
-        and events.timestamp >= timestamp(current_date() - 90)
+        -- events.timestamp >= timestamp(current_date() - 90)
         and events.timestamp < timestamp(current_date())
         and events.user_type = 'external'
         and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
@@ -55,6 +58,32 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     hidden: yes
     type: string
     sql: ${TABLE}.device_model_number ;;
+  }
+  dimension: last_unlocked_card {
+    group_label: "Card Dimensions"
+    label: "Player Last Unlocked Card"
+    type: string
+    sql: ${TABLE}.last_unlocked_card ;;
+  }
+  dimension: last_unlocked_card_no {
+    group_label: "Card Dimensions"
+    label: "Player Last Unlocked Card (Numbered)"
+    type: number
+    value_format: "####"
+    sql: @{last_unlocked_card_numbered};;
+  }
+  dimension: current_card {
+    group_label: "Card Dimensions"
+    label: "Player Current Card"
+    type: string
+    sql: ${TABLE}.current_card ;;
+  }
+  dimension: current_card_no {
+    group_label: "Card Dimensions"
+    label: "Player Current Card (Numbered)"
+    type: number
+    value_format: "####"
+    sql: @{current_card_numbered};;
   }
   dimension: altCard002_9_20210528 {
     group_label: "Experiments"
@@ -211,6 +240,12 @@ view: user_last_event { ## pulls the most recent event of the user to get curren
     label: "Bingo Rewards v1 (Lives)"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.rewards_v1_20210415'),'unassigned') ;;
+  }
+  dimension: communityEvents_20200316 {
+    group_label: "Experiments"
+    label: "Community Event - 202106_a"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.communityEvents_20200316'),'unassigned') ;;
   }
   dimension: mini_game_ui_v1 {
     group_label: "Experiments"

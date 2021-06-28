@@ -75,11 +75,11 @@ constant: device_os_version_mapping {
   }
 
 constant: device_platform_mapping {
-  value: "CASE
-          WHEN ${TABLE}.platform LIKE '%iOS%' THEN 'Apple'
-          WHEN ${TABLE}.platform LIKE '%Android%' THEN 'Google'
-          ELSE 'Other'
-        END"
+  value: "case
+            when ${TABLE}.platform like '%iOS%' then 'Apple'
+            when ${TABLE}.platform like '%Android%' then 'Google'
+            else 'Other'
+          end"
 
 }
 
@@ -132,6 +132,7 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '9400' THEN '1.9'
             WHEN ${TABLE}.version LIKE '9500' THEN '1.9'
             WHEN ${TABLE}.version LIKE '10100' THEN '1.10'
+            WHEN ${TABLE}.version LIKE '10200' THEN '1.20'
         END"
 }
 
@@ -168,6 +169,7 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '9400' THEN '1.9'
             WHEN ${TABLE}.install_version LIKE '9500' THEN '1.9'
             WHEN ${TABLE}.install_version LIKE '10100' THEN '1.10'
+            WHEN ${TABLE}.install_version LIKE '10200' THEN '1.20'
         END"
 }
 
@@ -204,6 +206,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '9400' THEN '1.9.400'
             WHEN ${TABLE}.version LIKE '9500' THEN '1.9.500'
             WHEN ${TABLE}.version LIKE '10100' THEN '1.10.100'
+            WHEN ${TABLE}.version LIKE '10200' THEN '1.10.200'
           END"
 }
 
@@ -240,6 +243,7 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '9400' THEN '1.9.400'
             WHEN ${TABLE}.install_version LIKE '9500' THEN '1.9.500'
             WHEN ${TABLE}.install_version LIKE '10100' THEN '1.10.100'
+            WHEN ${TABLE}.install_version LIKE '10200' THEN '1.10.200'
           END"
 }
 
@@ -338,9 +342,10 @@ constant: country_region {
           END"
 }
 
-constant: current_card_numbered {
+constant: current_card_numbered_coalesced {
   value: "CASE
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_001_a' THEN 100
+              WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_001_b' THEN 100
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_001_untimed' THEN 100
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_002_b' THEN 120
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_003_b' THEN 150
@@ -376,16 +381,105 @@ constant: current_card_numbered {
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_018' THEN 2000
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_019' THEN 2100
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_020' THEN 2200
-              WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_001_b' THEN 100
               WHEN coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_021' THEN 2300
+              when coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'ce_001_card_001' then 20210601
+              when coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'ce_001_card_002' then 20210602
+              when coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'ce_001_card_003' then 20210603
           END"
 }
+constant: current_card_numbered {
+  value: "case
+      when ${TABLE}.current_card = 'card_001_a' then 100
+      when ${TABLE}.current_card = 'card_001_b' then 100
+      when ${TABLE}.current_card = 'card_001_untimed' then 100
+      when ${TABLE}.current_card = 'card_002_b' then 120
+      when ${TABLE}.current_card = 'card_003_b' then 150
+      when ${TABLE}.current_card = 'card_002_a' then 200
+      when ${TABLE}.current_card = 'card_002_untimed' then 200
+      when ${TABLE}.current_card = 'card_003_a' then 300
+      when ${TABLE}.current_card = 'card_003_untimed' then 300
+      when ${TABLE}.current_card = 'card_002' then 400
+      when ${TABLE}.current_card = 'card_002_inverted' then 400
+      when ${TABLE}.current_card = 'card_039' then 400
+      when ${TABLE}.current_card = 'card_004_untimed' then 400
+      when ${TABLE}.current_card = 'card_003' then 500
+      when ${TABLE}.current_card = 'card_003_20210329' then 500
+      when ${TABLE}.current_card = 'card_040' then 500
+      when ${TABLE}.current_card = 'card_005_untimed' then 500
+      when ${TABLE}.current_card = 'card_004' then 600
+      when ${TABLE}.current_card = 'card_004_20210329' then 600
+      when ${TABLE}.current_card = 'card_041' then 600
+      when ${TABLE}.current_card = 'card_006_untimed' then 600
+      when ${TABLE}.current_card = 'card_005' then 700
+      when ${TABLE}.current_card = 'card_006' then 800
+      when ${TABLE}.current_card = 'card_007' then 900
+      when ${TABLE}.current_card = 'card_008' then 1000
+      when ${TABLE}.current_card = 'card_009' then 1100
+      when ${TABLE}.current_card = 'card_010' then 1200
+      when ${TABLE}.current_card = 'card_011' then 1300
+      when ${TABLE}.current_card = 'card_012' then 1400
+      when ${TABLE}.current_card = 'card_013' then 1500
+      when ${TABLE}.current_card = 'card_014' then 1600
+      when ${TABLE}.current_card = 'card_015' then 1700
+      when ${TABLE}.current_card = 'card_016' then 1800
+      when ${TABLE}.current_card = 'card_017' then 1900
+      when ${TABLE}.current_card = 'card_018' then 2000
+      when ${TABLE}.current_card = 'card_019' then 2100
+      when ${TABLE}.current_card = 'card_020' then 2200
+      when ${TABLE}.current_card = 'card_021' then 2300
+      when ${TABLE}.current_card = 'ce_001_card_001' then 20210601
+      when ${TABLE}.current_card = 'ce_001_card_002' then 20210602
+      when ${TABLE}.current_card = 'ce_001_card_003' then 20210603
+    end"
+}
 
+constant: last_unlocked_card_numbered {
+  value: "case
+      when ${TABLE}.last_unlocked_card = 'card_001_a' then 100
+      when ${TABLE}.last_unlocked_card = 'card_001_b' then 100
+      when ${TABLE}.last_unlocked_card = 'card_001_untimed' then 100
+      when ${TABLE}.last_unlocked_card = 'card_002_b' then 120
+      when ${TABLE}.last_unlocked_card = 'card_003_b' then 150
+      when ${TABLE}.last_unlocked_card = 'card_002_a' then 200
+      when ${TABLE}.last_unlocked_card = 'card_002_untimed' then 200
+      when ${TABLE}.last_unlocked_card = 'card_003_a' then 300
+      when ${TABLE}.last_unlocked_card = 'card_003_untimed' then 300
+      when ${TABLE}.last_unlocked_card = 'card_002' then 400
+      when ${TABLE}.last_unlocked_card = 'card_002_inverted' then 400
+      when ${TABLE}.last_unlocked_card = 'card_039' then 400
+      when ${TABLE}.last_unlocked_card = 'card_004_untimed' then 400
+      when ${TABLE}.last_unlocked_card = 'card_003' then 500
+      when ${TABLE}.last_unlocked_card = 'card_003_20210329' then 500
+      when ${TABLE}.last_unlocked_card = 'card_040' then 500
+      when ${TABLE}.last_unlocked_card = 'card_005_untimed' then 500
+      when ${TABLE}.last_unlocked_card = 'card_004' then 600
+      when ${TABLE}.last_unlocked_card = 'card_004_20210329' then 600
+      when ${TABLE}.last_unlocked_card = 'card_041' then 600
+      when ${TABLE}.last_unlocked_card = 'card_006_untimed' then 600
+      when ${TABLE}.last_unlocked_card = 'card_005' then 700
+      when ${TABLE}.last_unlocked_card = 'card_006' then 800
+      when ${TABLE}.last_unlocked_card = 'card_007' then 900
+      when ${TABLE}.last_unlocked_card = 'card_008' then 1000
+      when ${TABLE}.last_unlocked_card = 'card_009' then 1100
+      when ${TABLE}.last_unlocked_card = 'card_010' then 1200
+      when ${TABLE}.last_unlocked_card = 'card_011' then 1300
+      when ${TABLE}.last_unlocked_card = 'card_012' then 1400
+      when ${TABLE}.last_unlocked_card = 'card_013' then 1500
+      when ${TABLE}.last_unlocked_card = 'card_014' then 1600
+      when ${TABLE}.last_unlocked_card = 'card_015' then 1700
+      when ${TABLE}.last_unlocked_card = 'card_016' then 1800
+      when ${TABLE}.last_unlocked_card = 'card_017' then 1900
+      when ${TABLE}.last_unlocked_card = 'card_018' then 2000
+      when ${TABLE}.last_unlocked_card = 'card_019' then 2100
+      when ${TABLE}.last_unlocked_card = 'card_020' then 2200
+      when ${TABLE}.last_unlocked_card = 'card_021' then 2300
+    end"
+}
 
 constant: request_card_numbered {
   value: "case
             when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_a' then 100
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_a' then 100
+            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_b' then 100
             when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_untimed' then 100
             when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_b' then 100
             when json_extract_scalar(extra_json,'$.request_card_id') = 'card_002_b' then 120
@@ -509,35 +603,48 @@ constant: iap_id_strings {
 
   constant:  iam_ui_actions {
     value: "case
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Conectar%' THEN 'Connect'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Conecte%' THEN 'Connect'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Conéctate%' THEN 'Connect'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Connect%' THEN 'Connect'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%MISSING%' THEN 'Connect'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Califícanos%' THEN 'Rate Us'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Avalie-nos%' THEN 'Rate Us'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Rate Us%' THEN 'Rate Us'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%tarde%' THEN 'Later'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Luego%' THEN 'Later'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Depois%' THEN 'Later'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Permitir%' THEN 'Enable'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Habilitar%' THEN 'Enable'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Si%' THEN 'Yes'
-              when json_extract_scalar(extra_json,'$.ui_action') like '%Sim%' THEN 'Yes'
-              when json_extract_scalar(extra_json,'$.ui_action') = 'Ok' THEN 'Yes'
-            else JSON_EXTRACT_SCALAR(extra_json,'$.ui_action')
-          end"
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Conectar%' then 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Conecte%' then 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Conéctate%' then 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Connect%' then 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%MISSING%' then 'Connect'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Califícanos%' then 'Rate Us'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Avalie-nos%' then 'Rate Us'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Rate Us%' then 'Rate Us'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%tarde%' then 'Later'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Luego%' then 'Later'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Depois%' then 'Later'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Permitir%' then 'Enable'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Habilitar%' then 'Enable'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Si%' then 'Yes'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Sim%' then 'Yes'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'Ok' then 'Yes'
+              else json_extract_scalar(extra_json,'$.ui_action')
+            end"
+}
+
+  constant: ce_ui_actions {
+    value: "case
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamOk' then '1. How To Play / Tap OK'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamSelect%' then '2a. Choose Team / Select Team'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.NoTeamSelected%' then '2b. Choose Team / Join Team (No Team Selected)'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityEventInfo%' then '2c. Choose Team / Tap Event Info'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamJoin%' then '3. Choose Team / Tap OK'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventPlay' then '4. Leaderboard / Tap Play'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_CommunityEvents_Bingo.QuestNode.ce_%' then '5. Bingo Card / Tap Bingo Card Tile'
+              else json_extract_scalar(extra_json,'$.button_tag')
+            end"
 }
 
   constant: button_tags {
-    value: "CASE
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Panel_BuyMoreTime_V3.Confirm' THEN 'BuyMoreTime - Confirm'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BuyMoreTime.Confirm' THEN 'BuyMoreTime - Confirm'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Panel_BuyMoreTime_V3.Close' THEN 'BuyMoreTime - Close'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BuyMoreTime.Close' THEN 'BuyMoreTime - Close'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Panel_PreGame_V3.PlayFromQuest' THEN 'PlayFromQuest'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BingoQuestDetails.PlayFromQuest' THEN 'PlayFromQuest'
-              WHEN JSON_EXTRACT_SCALAR(extra_json,'$.button_tag') LIKE 'Sheet_BingoQuestDetails_Legacy.PlayFromQuest' THEN 'PlayFromQuest'
-              ELSE JSON_EXTRACT_SCALAR(extra_json,'$.button_tag')
-            END"
+    value: "case
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BuyMoreTime_V3.Confirm' then 'BuyMoreTime - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BuyMoreTime.Confirm' then 'BuyMoreTime - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BuyMoreTime_V3.Close' then 'BuyMoreTime - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BuyMoreTime.Close' then 'BuyMoreTime - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_PreGame_V3.PlayFromQuest' then 'PlayFromQuest'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BingoQuestDetails.PlayFromQuest' then 'PlayFromQuest'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BingoQuestDetails_Legacy.PlayFromQuest' then 'PlayFromQuest'
+              else json_extract_scalar(extra_json,'$.button_tag')
+            end"
   }

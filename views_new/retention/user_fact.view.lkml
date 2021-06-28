@@ -47,6 +47,7 @@ view: user_fact {
   dimension: rdg_id {
     type: string
     primary_key: yes
+    sql: ${TABLE}.rdg_id ;;
   }
   dimension_group: created {
     type: time
@@ -228,7 +229,8 @@ view: user_fact {
   }
   measure: count {
     label: "Count of Players"
-    type: count
+    type: count_distinct
+    sql: ${rdg_id} ;;
   }
   # measure: spend_amount {
   #   type: sum

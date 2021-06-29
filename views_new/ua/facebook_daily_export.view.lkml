@@ -21,9 +21,8 @@ view: facebook_daily_export {
     primary_key: yes
     hidden: yes
     type: string
-    sql: CONCAT(${TABLE}.date, ' ', ${TABLE}.country, ' ', ${TABLE}.campaign_id) ;;
+    sql: CONCAT(${TABLE}.date, ' ', ${TABLE}.country, ' ', ${TABLE}.campaign_id, ' ', ${TABLE}.ad_set_id, ' ', ${TABLE}.spend) ;;
   }
-
   dimension: date {
     type: date
     hidden: yes

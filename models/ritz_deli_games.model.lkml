@@ -66,12 +66,12 @@ explore: user_retention {
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${community_events_activity.rdg_id} ;;
   }
-  join: new_afh {
-    view_label: "Ask for Help"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${user_retention.rdg_id} = ${new_afh.rdg_id} ;;
-  }
+  # join: new_afh {
+  #   view_label: "Ask for Help"
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${user_retention.rdg_id} = ${new_afh.rdg_id} ;;
+  # }
 }
 
 explore: user_card_completion {
@@ -161,33 +161,33 @@ explore: in_app_messages {
 explore: ask_for_help {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: new_afh
-  view_label: "Ask for Help"
-  join: user_fact {
-    type: left_outer
-    sql_on: ${ask_for_help.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: many_to_one
-  }
-  join: user_last_event {
-    type: left_outer
-    sql_on: ${ask_for_help.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: one_to_one
-  }
+  # view_label: "Ask for Help"
+  # join: user_fact {
+  #   type: left_outer
+  #   sql_on: ${ask_for_help.rdg_id} = ${user_fact.rdg_id} ;;
+  #   relationship: many_to_one
+  # }
+  # join: user_last_event {
+  #   type: left_outer
+  #   sql_on: ${ask_for_help.rdg_id} = ${user_last_event.rdg_id} ;;
+  #   relationship: one_to_one
+  # }
 }
 
 explore: community_events {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: community_events_activity
-  view_label: "Communtiy Events"
-  join: user_fact {
-    type: left_outer
-    sql_on: ${community_events.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: many_to_one
-  }
-  join: user_last_event {
-    type: left_outer
-    sql_on: ${community_events.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: one_to_one
-  }
+  # view_label: "Communtiy Events"
+  # join: user_fact {
+  #   type: left_outer
+  #   sql_on: ${community_events.rdg_id} = ${user_fact.rdg_id} ;;
+  #   relationship: many_to_one
+  # }
+  # join: user_last_event {
+  #   type: left_outer
+  #   sql_on: ${community_events.rdg_id} = ${user_last_event.rdg_id} ;;
+  #   relationship: one_to_one
+  # }
 }
 
 explore: temp_community_events_funnels {

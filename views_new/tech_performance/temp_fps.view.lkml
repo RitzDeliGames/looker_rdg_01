@@ -22,13 +22,19 @@ view: temp_fps {
   dimension: primary_key {
     hidden: yes
     type: string
-    sql: ${rdg_id} || ${timestamp} ;;
+    sql: ${rdg_id} || ${event_raw} ;;
   }
   dimension: rdg_id {}
-  dimension: timestamp {
-    hidden: yes
-    type: date_time
+  dimension_group: event {
+    type: time
     sql: ${TABLE}.timestamp ;;
+    timeframes: [
+      raw
+      ,time
+      ,date
+      ,month
+      ,year
+    ]
   }
   dimension: ms_per_frame {
     type: number

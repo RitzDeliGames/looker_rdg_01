@@ -2,6 +2,7 @@ view: cohorted_players {
   derived_table: {
     explore_source: events {
       column: user_id {field: events.user_id}
+      column: current_card {field: events.current_card}
       column: timestamp {field: events.timestamp_raw}
       column: install_version {field: events.install_version}
       column: experiments {field: events.experiments}
@@ -40,5 +41,10 @@ view: cohorted_players {
   }
   dimension: variant_ids {
     sql: @{variant_ids} ;;
+  }
+  dimension: current_card {}
+  dimension: current_card_no {
+    type: number
+    sql: @{current_card_numbered} ;;
   }
 }

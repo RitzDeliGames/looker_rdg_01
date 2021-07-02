@@ -19,6 +19,11 @@ view: node_data {
     type: number
     sql: cast(json_extract_scalar(node_data,'$.node_attempts_passive') as int64) ;;
   }
+  dimension: node_last_update_tick {
+    group_label: "Node Data"
+    type: number
+    sql: cast(json_extract_scalar(node_data,'$.node_last_update_tick') as int64) ;;
+  }
   measure: explicit_attempts_to_complete_025 {
     group_label: "Explicit Attempts"
     label: "Explicit Attempts - 2.5%"
@@ -115,6 +120,56 @@ view: node_data {
     type: percentile
     percentile: 97.5
     sql: ${node_attempts_explicit} + ${node_attempts_passive} ;;
+    filters: [
+      cards.card_end_time: "NOT NULL"
+    ]
+  }
+  measure: node_last_update_tick_025 {
+    group_label: "Minutes to Complete"
+    label: "Minutes to Complete - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${node_last_update_tick} / 2 ;;
+    filters: [
+      cards.card_end_time: "NOT NULL"
+    ]
+  }
+  measure: node_last_update_tick_25 {
+    group_label: "Minutes to Complete"
+    label: "Minutes to Complete - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${node_last_update_tick} / 2 ;;
+    filters: [
+      cards.card_end_time: "NOT NULL"
+    ]
+  }
+  measure: node_last_update_tick_median {
+    group_label: "Minutes to Complete"
+    label: "Minutes to Complete - Median"
+    type: percentile
+    percentile: 50
+    sql: ${node_last_update_tick} / 2 ;;
+    filters: [
+      cards.card_end_time: "NOT NULL"
+    ]
+  }
+  measure: node_last_update_tick_75 {
+    group_label: "Minutes to Complete"
+    label: "Minutes to Complete - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${node_last_update_tick} / 2 ;;
+    filters: [
+      cards.card_end_time: "NOT NULL"
+    ]
+  }
+  measure: node_last_update_tick_975 {
+    group_label: "Minutes to Complete"
+    label: "Minutes to Complete - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${node_last_update_tick} / 2 ;;
     filters: [
       cards.card_end_time: "NOT NULL"
     ]

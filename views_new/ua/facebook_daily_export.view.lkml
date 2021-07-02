@@ -23,7 +23,6 @@ view: facebook_daily_export {
     type: string
     sql: CONCAT(${TABLE}.date, ' ', ${TABLE}.country, ' ', ${TABLE}.campaign_id, ' ', ${TABLE}.ad_set_id, ' ', ${TABLE}.spend) ;;
   }
-
   dimension: date {
     type: date
     hidden: yes

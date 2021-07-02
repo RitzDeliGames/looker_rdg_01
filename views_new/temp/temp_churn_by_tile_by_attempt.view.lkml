@@ -17,6 +17,8 @@ view: temp_churn_by_tile_by_attempt {
           ,timestamp
           ,current_card
           ,current_quest
+          ,extra_json
+          ,current_node_entry
           --,cast(regexp_extract({% parameter churn.node_selector %}, r"\[(.*?)\]") as int64) + 1 current_quest
           ,cast(json_extract(current_node_entry, "$.node_attempts_explicit") as int64) node_attempts_explicit
           ,json_extract(current_node_entry, "$.node_end_time") node_end_time
@@ -30,7 +32,7 @@ view: temp_churn_by_tile_by_attempt {
         from card_data
         order by timestamp desc
     ;;
-    datagroup_trigger: change_3_hrs
+    datagroup_trigger: change_at_midnight
   }
   dimension: primary_key {
     hidden: yes
@@ -47,6 +49,7 @@ view: temp_churn_by_tile_by_attempt {
     type: date_time
   }
   dimension: current_card {}
+  dimension: current_node_entry {}
   dimension: current_quest {
     type: number
   }
@@ -59,8 +62,6 @@ view: temp_churn_by_tile_by_attempt {
     type: string
     sql: if(${round_id} < ${greater_round_id},'played_again','stuck') ;;
   }
-
-
 
   parameter: node_selector {
     type: string

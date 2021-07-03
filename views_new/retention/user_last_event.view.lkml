@@ -83,6 +83,13 @@ view: user_last_event {
     value_format: "####"
     sql: @{current_card_numbered};;
   }
+
+  dimension: bouncingArrow_20210526 {
+    group_label: "Experiments"
+    label: "Bouncing Arrow v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.bouncingArrow_20210526'),'unassigned') ;;
+  }
   dimension: altCard002_9_20210528 {
     group_label: "Experiments"
     label: "Alt Card_002 / Tile 9 v1"

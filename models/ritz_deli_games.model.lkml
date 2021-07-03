@@ -164,6 +164,12 @@ explore: in_app_messages {
   from: new_iam
 }
 
+explore: click_stream {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  from: temp_click_stream
+  view_label: "Temp Button Clicks"
+}
+
 explore: ask_for_help {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: new_afh

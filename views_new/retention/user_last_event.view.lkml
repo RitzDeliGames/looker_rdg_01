@@ -83,7 +83,6 @@ view: user_last_event {
     value_format: "####"
     sql: @{current_card_numbered};;
   }
-
   dimension: bouncingArrow_20210526 {
     group_label: "Experiments"
     label: "Bouncing Arrow v1"

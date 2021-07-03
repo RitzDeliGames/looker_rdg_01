@@ -226,17 +226,20 @@ explore: temp_community_events_funnels {
 
 explore: churn {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  always_filter: {
+    filters: [churn.node_selector: "Node 1"]
+  }
   from: temp_churn_by_tile_by_attempt
   view_label: "temp churn by tile"
   join: user_fact {
     type: left_outer
     sql_on: ${churn.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: one_to_one
+    relationship: many_to_one
   }
   join: user_last_event {
     type: left_outer
     sql_on: ${churn.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: one_to_one
+    relationship: many_to_one
   }
 }
 
@@ -344,6 +347,25 @@ explore: events {
   join: user_last_event {
     type: left_outer
     sql_on: ${user_fact.rdg_id} = ${user_last_event.rdg_id} ;;
+    relationship: one_to_one
+  }
+}
+
+explore: temp_card_data {
+  always_filter: {
+    filters: [temp_card_data.node_selector: "0"]
+  }
+  sql_always_where: ${temp_card_data.rdg_id} not in @{device_internal_tester_mapping}
+                    and ${node_is_selected} ;;
+  #view_label: "temp churn by tile"
+  join: user_fact {
+    type: left_outer
+    sql_on: ${temp_card_data.rdg_id} = ${user_fact.rdg_id} ;;
+    relationship: one_to_one
+  }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${temp_card_data.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
 }

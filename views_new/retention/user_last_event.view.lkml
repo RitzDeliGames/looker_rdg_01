@@ -209,6 +209,12 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.boostShop_20210420'),'unassigned') ;;
   }
+  dimension: boostShop_20210604 {
+    group_label: "Experiments"
+    label: "Boost Shop UX v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.boostShop_20210604'),'unassigned') ;;
+  }
   dimension: lowCostIAP_20210426 {
     group_label: "Experiments"
     label: "Low Cost IAP v1"

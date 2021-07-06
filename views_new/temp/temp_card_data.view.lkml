@@ -45,7 +45,9 @@ dimension: timestamp {
   type: date_time
 }
 
-dimension: node_attempts_explicit {}
+dimension: node_attempts_explicit {
+  type: number
+}
 
 dimension: node_attempts_passive {}
 

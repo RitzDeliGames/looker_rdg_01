@@ -72,12 +72,12 @@ explore: user_retention {
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${loading_times.rdg_id} ;;
   }
-  # join: new_afh {
-  #   view_label: "Ask for Help"
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${user_retention.rdg_id} = ${new_afh.rdg_id} ;;
-  # }
+  join: new_afh {
+    view_label: "Ask for Help"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${user_retention.rdg_id} = ${new_afh.rdg_id} ;;
+  }
 }
 
 explore: user_card_completion {

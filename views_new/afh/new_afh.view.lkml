@@ -34,7 +34,7 @@ view: new_afh {
   dimension: rdg_id {
     type: string
     sql: ${TABLE}.rdg_id ;;
-    hidden: no
+    hidden: yes
   }
   dimension_group: event {
     type: time

@@ -374,19 +374,19 @@ explore: events {
 explore: churn_card_data {
   from: churn_card_data
   always_filter: {
-    filters: [churn_card_data.node_selector: "0"]
+    filters: [churn_card_data.node_selector: "0", churn_card_data.node_is_selected: "yes"]
   }
   sql_always_where: ${churn_card_data.rdg_id} not in @{device_internal_tester_mapping};;
   #view_label: "temp churn by tile"
   join: user_fact {
     type: left_outer
     sql_on: ${churn_card_data.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: one_to_one
+    relationship: many_to_one
   }
   join: user_last_event {
     type: left_outer
     sql_on: ${churn_card_data.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: one_to_one
+    relationship: many_to_one
   }
 }
 

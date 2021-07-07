@@ -317,6 +317,13 @@ explore: gameplay {
       and ${gameplay.session_id} = ${rounds_per_session_per_player.session_id};;
     relationship: many_to_one ## let's test this
   }
+  join: temp_churn_by_tile_by_attempt_copy {
+    view_label: "Churn"
+    type: left_outer
+    relationship: one_to_one
+    sql_on:  ${gameplay.rdg_id} = ${temp_churn_by_tile_by_attempt_copy.rdg_id}
+      and ${gameplay.round_id} = ${temp_churn_by_tile_by_attempt_copy.round_id};;
+  }
 }
 
 explore: temp_fps {

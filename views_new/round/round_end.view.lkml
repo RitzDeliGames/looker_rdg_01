@@ -27,6 +27,8 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.xp_earned') as int64) xp_earned
         ,cast(json_extract_scalar(extra_json,'$.coins_earned') as int64) coins_earned
         ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
+        ,cast(replace(json_extract_scalar(extra_json,'$.proximity_to_completion'),',','') as float64) proximity_to_completion
+        --,cast(json_extract_scalar(extra_json,'$.requirement_amount') as int64) requirement_amount
         ,json_extract(extra_json,'$.all_chains') all_chains
         ,json_extract_scalar(extra_json,'$.all_chains') unnest_all_chains
         ,array_length(case when json_value(extra_json, '$.bubble_normal') = "0" then null else split(json_value(extra_json, '$.bubble_normal'),',') end) bubbles_popped_normal
@@ -99,6 +101,7 @@ view: round_end {
       and user_type = 'external'
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'
+      --and json_extract_scalar(extra_json,'$.proximity_to_completion') not in ('50,612.40','45,660.00','2,585.27','2.45','2.77','20.31','24.14','25,392.00','29.60','5.00','6.40','178,576.00','24,047.20')
     ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
@@ -180,6 +183,14 @@ view: round_end {
     type: number
     sql: ${TABLE}.primary_team_slot_level ;;
   }
+  dimension: proximity_to_completion {
+    label: "Proximity to Completion"
+    type:  number
+    sql: ${TABLE}.proximity_to_completion ;;
+  }
+  # dimension: requirement_amount {
+  #   hidden: yes
+  # }
   dimension: score_boost {
     group_label: "Boost Impact"
     label: "Score Boost"

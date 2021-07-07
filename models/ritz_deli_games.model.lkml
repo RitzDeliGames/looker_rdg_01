@@ -317,12 +317,12 @@ explore: gameplay {
       and ${gameplay.session_id} = ${rounds_per_session_per_player.session_id};;
     relationship: many_to_one ## let's test this
   }
-  join: temp_churn_by_tile_by_attempt_copy {
+  join: churn_by_tile_by_attempt {
     view_label: "Churn"
     type: left_outer
     relationship: one_to_one
-    sql_on:  ${gameplay.rdg_id} = ${temp_churn_by_tile_by_attempt_copy.rdg_id}
-      and ${gameplay.round_id} = ${temp_churn_by_tile_by_attempt_copy.round_id};;
+    sql_on:  ${gameplay.rdg_id} = ${churn_by_tile_by_attempt.rdg_id}
+      and ${gameplay.round_id} = ${churn_by_tile_by_attempt.round_id};;
   }
 }
 

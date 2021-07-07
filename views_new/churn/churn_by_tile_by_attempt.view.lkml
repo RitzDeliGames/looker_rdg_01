@@ -5,7 +5,7 @@
 
 view: churn_by_tile_by_attempt {
   derived_table: {
-    explore_source: temp_card_data {
+    explore_source: churn_card_data {
       #column: extra_json {}
       column: rdg_id {}
       column: timestamp {}

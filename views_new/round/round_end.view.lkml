@@ -101,7 +101,6 @@ view: round_end {
       and user_type = 'external'
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'
-      --and json_extract_scalar(extra_json,'$.proximity_to_completion') not in ('50,612.40','45,660.00','2,585.27','2.45','2.77','20.31','24.14','25,392.00','29.60','5.00','6.40','178,576.00','24,047.20')
     ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes

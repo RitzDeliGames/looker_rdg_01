@@ -3,7 +3,7 @@
 # If necessary, uncomment the line below to include explore_source.
 # include: "ritz_deli_games.model.lkml"
 
-view: temp_churn_by_tile_by_attempt_copy {
+view: churn_by_tile_by_attempt {
   derived_table: {
     explore_source: temp_card_data {
       #column: extra_json {}

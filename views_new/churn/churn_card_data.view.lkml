@@ -1,6 +1,6 @@
 ## WORK IN PROGRESS
 
-view: temp_card_data {
+view: churn_card_data {
   derived_table: {
     datagroup_trigger: change_at_midnight
     sql: select
@@ -27,6 +27,7 @@ view: temp_card_data {
         from game_data.events
         where user_type = 'external'
           and event_name = 'cards'
+          and current_quest = {% parameter node_selector %}+1
           and timestamp >= timestamp(current_date() - 90)
         order by timestamp desc
   ;;}

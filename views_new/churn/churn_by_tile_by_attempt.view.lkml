@@ -5,6 +5,7 @@
 
 view: churn_by_tile_by_attempt {
   derived_table: {
+    datagroup_trigger: change_at_midnight
     explore_source: churn_card_data {
       #column: extra_json {}
       column: rdg_id {}

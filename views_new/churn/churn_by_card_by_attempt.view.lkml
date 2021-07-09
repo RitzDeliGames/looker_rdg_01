@@ -19,7 +19,7 @@ view: churn_by_card_by_attempt {
         and timestamp >= timestamp(current_date() - 90)
       order by 1, 2 desc
     ;;
-    datagroup_trigger: change_3_hrs
+    datagroup_trigger: change_at_midnight
   }
   dimension: primary_key {
     hidden: yes

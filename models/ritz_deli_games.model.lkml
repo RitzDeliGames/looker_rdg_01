@@ -391,3 +391,5 @@ explore: churn_card_data {
 }
 
 explore: id_helper {}
+
+explore: temp_churn_by_card_by_attempt {}

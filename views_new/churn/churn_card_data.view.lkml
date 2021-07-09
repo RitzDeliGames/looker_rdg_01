@@ -79,6 +79,10 @@ dimension: current_quest {
   type: number
 }
 
+dimension: extra_json {
+  type: string
+}
+
 measure: player_count {
   type: count_distinct
   sql: ${rdg_id} ;;

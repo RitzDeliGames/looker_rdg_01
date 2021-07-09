@@ -237,28 +237,27 @@ explore: temp_community_events_funnels {
   #}
 }
 
-explore: churn {
+explore: churn_by_tile_by_attempt {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   always_filter: {
-    filters: [churn.node_selector: "Node 1"]
+    filters: [churn_by_tile_by_attempt.node_selector: "0"]
   }
-  from: temp_churn_by_tile_by_attempt
-  view_label: "temp churn by tile"
+  view_label: "churn by tile"
   join: user_fact {
     type: left_outer
-    sql_on: ${churn.rdg_id} = ${user_fact.rdg_id} ;;
+    sql_on: ${churn_by_tile_by_attempt.rdg_id} = ${user_fact.rdg_id} ;;
     relationship: many_to_one
   }
   join: user_last_event {
     type: left_outer
-    sql_on: ${churn.rdg_id} = ${user_last_event.rdg_id} ;;
+    sql_on: ${churn_by_tile_by_attempt.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: many_to_one
   }
 }
 
 explore: churn_by_card {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
-  from: temp_churn_by_card_by_attempt
+  from: churn_by_card_by_attempt
   view_label: "temp churn by card"
   join: user_fact {
     type: left_outer
@@ -391,5 +390,3 @@ explore: churn_card_data {
 }
 
 explore: id_helper {}
-
-explore: temp_churn_by_card_by_attempt {}

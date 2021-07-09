@@ -12,11 +12,6 @@ view: churn_by_tile_by_attempt {
       column: card_id {}
       column: current_card {}
       column: current_quest {}
-      derived_column: current_node_entry
-      # This extracts the json for the selected node
-      {
-        sql: json_query(extra_json,"$.node_data[{% parameter node_selector %}]")  ;;
-      }
       derived_column: node_attempts_explicit {
         # To Summarize all the columns below, we are running two queries, one to identify the node, and another to identify each field contained within that node
         sql: cast(json_query(json_query(extra_json,"$.node_data[{% parameter node_selector %}]"),"$.node_attempts_explicit") as int64) ;;
@@ -93,11 +88,11 @@ view: churn_by_tile_by_attempt {
   }
 
   dimension: is_completed {
-    group_label: "JSON Extract"
     type: yesno
   }
 
   dimension: node_is_selected {
+    hidden: yes
     type: yesno
     sql: ${current_quest} = {% parameter node_selector %}+1 ;;
   }

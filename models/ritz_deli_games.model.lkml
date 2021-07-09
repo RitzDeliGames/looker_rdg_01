@@ -242,7 +242,7 @@ explore: churn_by_tile_by_attempt {
   always_filter: {
     filters: [churn_by_tile_by_attempt.node_selector: "0"]
   }
-  view_label: "churn by tile"
+  view_label: "Churn"
   join: user_fact {
     type: left_outer
     sql_on: ${churn_by_tile_by_attempt.rdg_id} = ${user_fact.rdg_id} ;;
@@ -258,7 +258,7 @@ explore: churn_by_tile_by_attempt {
 explore: churn_by_card {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: churn_by_card_by_attempt
-  view_label: "temp churn by card"
+  view_label: "Churn"
   join: user_fact {
     type: left_outer
     sql_on: ${churn_by_card.rdg_id} = ${user_fact.rdg_id} ;;

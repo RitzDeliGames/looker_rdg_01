@@ -79,10 +79,6 @@ dimension: current_quest {
   type: number
 }
 
-dimension: extra_json {
-  type: string
-}
-
 measure: player_count {
   type: count_distinct
   sql: ${rdg_id} ;;
@@ -90,6 +86,7 @@ measure: player_count {
 }
 
 dimension: node_is_selected {
+  hidden: yes
   type: yesno
   sql: ${current_quest} = {% parameter node_selector %}+1 ;;
 }

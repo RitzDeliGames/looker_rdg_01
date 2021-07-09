@@ -116,6 +116,10 @@ view: round_end {
     sql: ${TABLE}.rdg_id ;;
     hidden: yes
   }
+  measure: player_count {
+    type: count_distinct
+    sql: ${rdg_id} ;;
+  }
   dimension_group: event {
     type: time
     sql: ${TABLE}.timestamp ;;
@@ -188,13 +192,19 @@ view: round_end {
     type:  number
     sql: ${TABLE}.proximity_to_completion ;;
   }
+  dimension: proximity_to_completion_int {
+    group_label: "Proximity to Completion"
+    label: "Proximity to Completion (Integer)"
+    type:  number
+    sql: ${TABLE}.proximity_to_completion * 100;;
+  }
   dimension: proximity_to_completion_tiers {
     group_label: "Proximity to Completion"
     label: "Proximity to Completion Tiers"
     type: tier
-    style: interval
-    tiers: [0,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00]
-    sql: ${proximity_to_completion} ;;
+    style: integer
+    tiers: [-1,0,1,6,11,16,21,26,31,36,41,46,51,56,61,66,71,76,81,86,91,96,100,101]
+    sql: ${proximity_to_completion_int} ;;
   }
   # dimension: requirement_amount {
   #   hidden: yes
@@ -841,5 +851,5 @@ view: round_end {
     description: "Skills Used / Skills Available"
   }
 
-  drill_fields: [rdg_id,current_card_numbered,score_earned,coins_earned,fever_count]
+  drill_fields: [proximity_to_completion,rdg_id,current_card_numbered]
 }

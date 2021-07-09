@@ -60,7 +60,9 @@ dimension: node_end {}
     sql: if(${round_id} < ${greater_round_id},'played_again','stuck') ;;
   }
 
-dimension: round_id {}
+dimension: round_id {
+  type: number
+}
 
 dimension: rounds {}
 

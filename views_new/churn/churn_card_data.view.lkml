@@ -7,6 +7,7 @@ view: churn_card_data {
            cast(json_query(json_query(extra_json,"$.node_data[{% parameter node_selector %}]"),"$.node_attempts_explicit") as int64) as node_attempts_explicit
           ,TIMESTAMP_MILLIS(cast(json_query(json_query(extra_json,"$.node_data[{% parameter node_selector %}]"),"$.node_end_time") as int64)) as node_end
           ,cast(json_extract(extra_json, "$.round_id") as int64) as round_id
+          ,extra_json
           --,json_query(json_query(extra_json,"$.node_data[{% parameter node_selector %}]"),"$.isCompleted") = 'true' as is_completed
           ,json_query(json_query(extra_json,"$.node_data[{% parameter node_selector %}]"),"$.rounds") as rounds
           ,json_query(json_query(extra_json,"$.node_data[{% parameter node_selector %}]"),"$.node_attempts_passive") as node_attempts_passive
@@ -89,6 +90,10 @@ dimension: node_is_selected {
   hidden: yes
   type: yesno
   sql: ${current_quest} = {% parameter node_selector %}+1 ;;
+}
+
+dimension: extra_json {
+  type: string
 }
 
 parameter: node_selector {

@@ -7,7 +7,7 @@ view: churn_by_tile_by_attempt {
   derived_table: {
     datagroup_trigger: change_at_midnight
     explore_source: churn_card_data {
-      #column: extra_json {}
+      column: extra_json {}
       column: rdg_id {}
       column: timestamp {}
       column: card_id {}
@@ -59,9 +59,9 @@ view: churn_by_tile_by_attempt {
     sql: ${rdg_id} || ${timestamp} ;;
   }
 
-  # dimension: extra_json {
-  #   #hidden: yes
-  # }
+  dimension: extra_json {
+    #hidden: yes
+  }
 
   dimension: rdg_id {}
 
@@ -81,8 +81,6 @@ view: churn_by_tile_by_attempt {
   dimension: current_quest {
     type: number
   }
-
-  dimension: current_node_entry {}
 
   dimension: greater_round_id {
     type: number

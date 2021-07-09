@@ -316,12 +316,13 @@ explore: gameplay {
       and ${gameplay.session_id} = ${rounds_per_session_per_player.session_id};;
     relationship: many_to_one ## let's test this
   }
-  join: churn_by_tile_by_attempt {
+  join: churn_card_data {
     view_label: "Churn"
     type: left_outer
     relationship: one_to_one
-    sql_on:  ${gameplay.rdg_id} = ${churn_by_tile_by_attempt.rdg_id}
-      and ${gameplay.round_id} = ${churn_by_tile_by_attempt.round_id};;
+    sql_on:  ${gameplay.rdg_id} = ${churn_card_data.rdg_id}
+      and ${gameplay.round_id} = ${churn_card_data.round_id}
+      and ${gameplay.current_quest} = ${churn_card_data.current_quest};;
   }
 }
 

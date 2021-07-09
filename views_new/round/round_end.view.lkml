@@ -114,7 +114,7 @@ view: round_end {
   dimension: rdg_id {
     type: string
     sql: ${TABLE}.rdg_id ;;
-    hidden: yes
+    # hidden: yes
   }
   measure: player_count {
     type: count_distinct

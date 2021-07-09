@@ -97,6 +97,7 @@ view: churn_by_tile_by_attempt {
   }
 
   dimension: node_selected {
+    hidden: yes
     sql: {% parameter node_selector %} ;;
   }
 
@@ -136,7 +137,9 @@ view: churn_by_tile_by_attempt {
 
   dimension: node_last_update_tick {}
 
-  dimension: round_id {}
+  dimension: round_id {
+    type: number
+  }
 
   dimension: rounds {}
 

@@ -548,6 +548,7 @@ constant: purchase_iap_strings {
             WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_016%' THEN 'Large Life Pack'
             WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_024%' THEN 'Huge Life Pack'
             WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_025%' THEN 'Jumbo Life Pack'
+            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_028%' THEN '24h Infinite Lives'
             WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%BuyMoreTime%' THEN 'More Time'
             ELSE 'OTHER'
           END"
@@ -581,6 +582,7 @@ constant: iap_id_strings {
             when json_extract_scalar(extra_json,'$.iap_id') like 'item_016' then 'Large Life Pack'
             when json_extract_scalar(extra_json,'$.iap_id') like 'item_024' then 'Huge Life Pack'
             when json_extract_scalar(extra_json,'$.iap_id') like 'item_025' then 'Jumbo Life Pack'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_028' then '24h Infinite Lives'
             when json_extract_scalar(extra_json,'$.iap_id') like 'more_time_highscore' then 'More Time - Score'
             when json_extract_scalar(extra_json,'$.iap_id') like 'more_time_quest' then 'More Time - Quest'
             when json_extract_scalar(extra_json,'$.iap_id') like 'boost_001' then 'Score Boost'

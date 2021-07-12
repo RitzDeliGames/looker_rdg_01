@@ -19,7 +19,7 @@ view: transactions_new {
         ,json_extract_scalar(extra_json,'$.source_id') soure_raw
         ,if(json_extract_scalar(extra_json,'$.transaction_purchase_currency') like 'more_time_%', 'CURRENCY_02', json_extract_scalar(extra_json,'$.transaction_purchase_currency')) currency_spent --this is a workaround because More Time is not reported correctly
         ,cast(if(json_extract_scalar(extra_json,'$.transaction_purchase_currency') like 'more_time_%','10',json_extract_scalar(extra_json,"$.transaction_purchase_amount")) as int64) currency_spent_amount --see above
-        ,json_extract_scalar(extra_json,'$.iap_id') iap_id
+        ,if(json_extract_scalar(extra_json,'$.transaction_purchase_currency') like 'more_time_%','item_029',json_extract_scalar(extra_json,'$.iap_id')) iap_id --see above
         ,json_extract_scalar(extra_json,'$.iap_purchase_item') iap_purchase_item
         ,cast(json_extract_scalar(extra_json,'$.iap_purchase_qty') as int64) iap_purchase_qty
         ,json_extract_scalar(extra_json,'$.transaction_id') transaction_id

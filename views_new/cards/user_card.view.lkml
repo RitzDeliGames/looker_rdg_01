@@ -158,6 +158,7 @@ view: user_card {
   dimension: current_card {
     group_label: "Card Dimensions"
     label: "Player Current Card"
+    drill_fields: [rdg_id]
   }
   # dimension: last_unlocked_card { #this is a hack
   #   hidden: yes

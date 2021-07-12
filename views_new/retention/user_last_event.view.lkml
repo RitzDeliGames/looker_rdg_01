@@ -83,6 +83,12 @@ view: user_last_event {
     value_format: "####"
     sql: @{current_card_numbered};;
   }
+  dimension: listViewTest_20210630 {
+    group_label: "Experiments"
+    label: "List View v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.listViewTest_20210630'),'unassigned') ;;
+  }
   dimension: bouncingArrow_20210526 {
     group_label: "Experiments"
     label: "Bouncing Arrow v1"

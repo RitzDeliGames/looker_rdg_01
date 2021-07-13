@@ -30,6 +30,10 @@ view: user_fact {
         ,max(install_version) install_version
         ,max(player_level_xp) player_level_xp
         ,max(days_played_past_week) days_played_past_week
+        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric)) currency_02_balance
+        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance
+        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance
+        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric)) currency_05_balance
       from first_activity fa
       left join `eraser-blast.game_data.events` gde
         on fa.rdg_id = gde.rdg_id
@@ -247,4 +251,161 @@ view: user_fact {
     type: sum
     sql: ${ltv} ;;
   }
+  dimension: currency_02_balance_max {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.currency_02_balance ;;
+  }
+  measure: currency_02_balance_025 {
+    group_label: "Gem Balance"
+    label: "Max Daily Gem Balance - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${currency_02_balance_max} ;;
+  }
+  measure: currency_02_balance_25 {
+    group_label: "Gem Balance"
+    label: "Max Daily Gem Balance - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${currency_02_balance_max} ;;
+  }
+  measure: currency_02_balance_med {
+    group_label: "Gem Balance"
+    label: "Max Daily Gem Balance - Median"
+    type: median
+    sql: ${currency_02_balance_max} ;;
+  }
+  measure: currency_02_balance_75 {
+    group_label: "Gem Balance"
+    label: "Max Daily Gem Balance - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${currency_02_balance_max} ;;
+  }
+  measure: currency_02_balance_975 {
+    group_label: "Gem Balance"
+    label: "Max Daily Gem Balance - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${currency_02_balance_max} ;;
+  }
+  dimension: currency_03_balance_max {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.currency_03_balance ;;
+  }
+  measure: currency_03_balance_025 {
+    group_label: "Coin Balance"
+    label: "Max Daily Coin Balance - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${currency_03_balance_max} ;;
+  }
+  measure: currency_03_balance_25 {
+    group_label: "Coin Balance"
+    label: "Max Daily Coin Balance - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${currency_03_balance_max} ;;
+  }
+  measure: currency_03_balance_med {
+    group_label: "Coin Balance"
+    label: "Max Daily Coin Balance - Median"
+    type: median
+    sql: ${currency_03_balance_max} ;;
+  }
+  measure: currency_03_balance_75 {
+    group_label: "Coin Balance"
+    label: "Max Daily Coin Balance - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${currency_03_balance_max} ;;
+  }
+  measure: currency_03_balance_975 {
+    group_label: "Coin Balance"
+    label: "Max Daily Coin Balance - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${currency_03_balance_max} ;;
+  }
+  dimension: currency_04_balance_max {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.currency_04_balance ;;
+  }
+  measure: currency_04_balance_025 {
+    group_label: "Lives Balance"
+    label: "Max Daily Lives Balance - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${currency_04_balance_max} ;;
+  }
+  measure: currency_04_balance_25 {
+    group_label: "Lives Balance"
+    label: "Max Daily Lives Balance - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${currency_04_balance_max} ;;
+  }
+  measure: currency_04_balance_med {
+    group_label: "Lives Balance"
+    label: "Max Daily Lives Balance - Median"
+    type: median
+    sql: ${currency_04_balance_max} ;;
+  }
+  measure: currency_04_balance_75 {
+    group_label: "Lives Balance"
+    label: "Max Daily Lives Balance - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${currency_04_balance_max} ;;
+  }
+  measure: currency_04_balance_975 {
+    group_label: "Lives Balance"
+    label: "Max Daily Lives Balance - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${currency_04_balance_max} ;;
+  }
+  dimension: currency_05_balance_max {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.currency_05_balance ;;
+  }
+  measure: currency_05_balance_025 {
+    group_label: "AFH Token Balance"
+    label: "Max Daily AFH Token Balance - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${currency_05_balance_max} ;;
+  }
+  measure: currency_05_balance_25 {
+    group_label: "AFH Token Balance"
+    label: "Max Daily AFH Token Balance - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${currency_05_balance_max} ;;
+  }
+  measure: currency_05_balance_med {
+    group_label: "AFH Token Balance"
+    label: "Max Daily AFH Token Balance - Median"
+    type: median
+    sql: ${currency_05_balance_max} ;;
+  }
+  measure: currency_05_balance_75 {
+    group_label: "AFH Token Balance"
+    label: "Max Daily AFH Token Balance - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${currency_05_balance_max} ;;
+  }
+  measure: currency_05_balance_975 {
+    group_label: "AFH Token Balance"
+    label: "Max Daily AFH Token Balance - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${currency_05_balance_max} ;;
+  }
+
 }

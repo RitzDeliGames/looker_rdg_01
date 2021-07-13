@@ -28,6 +28,7 @@ view: user_last_event {
         ,lower(events.hardware) device_model_number
         ,last_unlocked_card
         ,current_card
+        ,current_quest
       from last_user_event
       inner join game_data.events
         on last_user_event.rdg_id = events.rdg_id
@@ -75,6 +76,12 @@ view: user_last_event {
     label: "Player Current Card"
     type: string
     sql: ${TABLE}.current_card ;;
+  }
+  dimension: current_quest {
+    group_label: "Card Dimensions"
+    label: "Player Current Quest"
+    type: string
+    sql: ${TABLE}.current_quest ;;
   }
   dimension: current_card_no {
     group_label: "Card Dimensions"

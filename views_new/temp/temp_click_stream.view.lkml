@@ -10,6 +10,7 @@ view: temp_click_stream {
         ,engagement_ticks
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
+        ,cast(quests_completed as int64) quests_completed
         --,json_extract_scalar(extra_json,"$.button_tag") button_tag
         --,count(timestamp) click_count
       from `eraser-blast.game_data.events`
@@ -87,6 +88,10 @@ view: temp_click_stream {
   dimension: current_quest {
     type: number
     sql: ${TABLE}.current_quest ;;
+  }
+  dimension: quests_completed {
+    type: number
+    sql: ${TABLE}.quests_completed ;;
   }
   dimension: button_tag {}
   measure: player_count {

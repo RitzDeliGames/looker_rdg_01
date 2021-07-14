@@ -253,7 +253,7 @@ view: user_fact {
   }
   dimension: currency_02_balance_max {
     type: number
-    hidden: no
+    hidden: yes
     sql: ${TABLE}.currency_02_balance ;;
   }
   measure: currency_02_balance_025 {

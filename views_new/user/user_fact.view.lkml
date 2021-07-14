@@ -32,7 +32,7 @@ view: user_fact {
         ,max(days_played_past_week) days_played_past_week
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric)) currency_02_balance
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance
-        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance
+        ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric)) currency_05_balance
       from first_activity fa
       left join `eraser-blast.game_data.events` gde
@@ -253,7 +253,7 @@ view: user_fact {
   }
   dimension: currency_02_balance_max {
     type: number
-    hidden: yes
+    hidden: no
     sql: ${TABLE}.currency_02_balance ;;
   }
   measure: currency_02_balance_025 {
@@ -353,6 +353,7 @@ view: user_fact {
     label: "Max Daily Lives Balance - Median"
     type: median
     sql: ${currency_04_balance_max} ;;
+    drill_fields: [rdg_id,currency_04_balance_max]
   }
   measure: currency_04_balance_75 {
     group_label: "Lives Balance"

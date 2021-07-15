@@ -28,6 +28,7 @@ view: user_last_event {
         ,lower(events.hardware) device_model_number
         ,last_unlocked_card
         ,current_card
+        ,cast(current_quest as int64) current_quest
       from last_user_event
       inner join game_data.events
         on last_user_event.rdg_id = events.rdg_id
@@ -76,12 +77,24 @@ view: user_last_event {
     type: string
     sql: ${TABLE}.current_card ;;
   }
+  dimension: current_quest {
+    group_label: "Card Dimensions"
+    label: "Player Current Quest"
+    type: number
+    sql: ${TABLE}.current_quest ;;
+  }
   dimension: current_card_no {
     group_label: "Card Dimensions"
     label: "Player Current Card (Numbered)"
     type: number
     value_format: "####"
     sql: @{current_card_numbered};;
+  }
+  dimension: listViewTest_20210630 {
+    group_label: "Experiments"
+    label: "List View v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.listViewTest_20210630'),'unassigned') ;;
   }
   dimension: bouncingArrow_20210526 {
     group_label: "Experiments"

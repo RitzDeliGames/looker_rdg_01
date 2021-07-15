@@ -120,7 +120,8 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '9400' THEN '1.9'
             WHEN ${TABLE}.version LIKE '9500' THEN '1.9'
             WHEN ${TABLE}.version LIKE '10100' THEN '1.10'
-            WHEN ${TABLE}.version LIKE '10200' THEN '1.20'
+            WHEN ${TABLE}.version LIKE '10200' THEN '1.10'
+            WHEN ${TABLE}.version LIKE '10300' THEN '1.10'
         END"
 }
 
@@ -157,7 +158,8 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '9400' THEN '1.9'
             WHEN ${TABLE}.install_version LIKE '9500' THEN '1.9'
             WHEN ${TABLE}.install_version LIKE '10100' THEN '1.10'
-            WHEN ${TABLE}.install_version LIKE '10200' THEN '1.20'
+            WHEN ${TABLE}.install_version LIKE '10200' THEN '1.10'
+            WHEN ${TABLE}.install_version LIKE '10300' THEN '1.10'
         END"
 }
 
@@ -195,6 +197,7 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '9500' THEN '1.9.500'
             WHEN ${TABLE}.version LIKE '10100' THEN '1.10.100'
             WHEN ${TABLE}.version LIKE '10200' THEN '1.10.200'
+            WHEN ${TABLE}.version LIKE '10200' THEN '1.10.300'
           END"
 }
 
@@ -232,6 +235,7 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '9500' THEN '1.9.500'
             WHEN ${TABLE}.install_version LIKE '10100' THEN '1.10.100'
             WHEN ${TABLE}.install_version LIKE '10200' THEN '1.10.200'
+            WHEN ${TABLE}.install_version LIKE '10300' THEN '1.10.300'
           END"
 }
 
@@ -509,44 +513,47 @@ constant: request_card_numbered {
 
 constant: purchase_source {
   value: "CASE
-              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_ManageLives.QuickPurchase.%' THEN 'Lives Quick Purchase Sheet'
-              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_CurrencyPack.QuickPurchase.%' THEN 'Coins Quick Purchase Sheet'
-              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE 'Panel_Store.Purchase.%' THEN 'Store'
-              WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.source_id') LIKE '%BuyMoreTime%' THEN 'Mini-Game'
+              WHEN json_extract_scalar(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_ManageLives.QuickPurchase.%' THEN 'Lives Quick Purchase Sheet'
+              WHEN json_extract_scalar(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_CurrencyPack.QuickPurchase.%' THEN 'Coins Quick Purchase Sheet'
+              WHEN json_extract_scalar(${TABLE}.extra_json,'$.source_id') LIKE 'Panel_Store.Purchase.%' THEN 'Store'
+              WHEN json_extract_scalar(${TABLE}.extra_json,'$.source_id') LIKE '%BuyMoreTime%' THEN 'Mini-Game'
               ELSE 'OTHER'
           END"
 }
 
 constant: purchase_iap_strings {
-  value: "CASE
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_001%' THEN 'Free Ticket Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_017%' THEN 'Free Coin Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_018%' THEN 'Free Boost Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_002%' THEN 'Housepets Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_003%' THEN 'Fun Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_019%' THEN 'Super Fun Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_022%' THEN 'Jumbo Fun Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_004%' THEN 'Peewee Coin Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_005%' THEN 'Small Coin Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_006%' THEN 'Medium Coin Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_007%' THEN 'Large Coin Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_020%' THEN 'Huge Coin Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_021%' THEN 'Jumbo Coin Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_008%' THEN 'Peewee Gem Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_009%' THEN 'Small Gem Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_010%' THEN 'Medium Gem Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_011%' THEN 'Large Gem Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_012%' THEN 'Huge Gem Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_013%' THEN 'Jumbo Gem Capsule'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_023%' THEN 'Peewee Life Pack'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_014%' THEN 'Small Life Pack'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_015%' THEN 'Medium Life Pack'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_016%' THEN 'Large Life Pack'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_024%' THEN 'Huge Life Pack'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%item_025%' THEN 'Jumbo Life Pack'
-            WHEN JSON_EXTRACT_SCALAR(${TABLE}.extra_json,'$.sheet_id') LIKE '%BuyMoreTime%' THEN 'More Time'
-            ELSE 'OTHER'
-          END"
+  value: "case
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_001%' then 'Free Ticket Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_017%' then 'Free Coin Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_018%' then 'Free Boost Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_002%' then 'Housepets Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_003%' then 'Fun Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_019%' then 'Super Fun Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_022%' then 'Jumbo Fun Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_004%' then 'Peewee Coin Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_005%' then 'Small Coin Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_006%' then 'Medium Coin Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_007%' then 'Large Coin Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_020%' then 'Huge Coin Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_021%' then 'Jumbo Coin Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_008%' then 'Peewee Gem Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_009%' then 'Small Gem Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_010%' then 'Medium Gem Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_011%' then 'Large Gem Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_012%' then 'Huge Gem Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_013%' then 'Jumbo Gem Capsule'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_023%' then 'Peewee Life Pack'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_014%' then 'Small Life Pack'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_015%' then 'Medium Life Pack'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_016%' then 'Large Life Pack'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_024%' then 'Huge Life Pack'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_025%' then 'Jumbo Life Pack'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_028%' then '24h Infinite Lives'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_029%' then 'More Time - Quest'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_030%' then 'More Time - Score'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%BuyMoreTime%' then 'More Time'
+          else 'OTHER'
+          end"
 }
 
 constant: iap_id_strings {
@@ -577,6 +584,9 @@ constant: iap_id_strings {
             when json_extract_scalar(extra_json,'$.iap_id') like 'item_016' then 'Large Life Pack'
             when json_extract_scalar(extra_json,'$.iap_id') like 'item_024' then 'Huge Life Pack'
             when json_extract_scalar(extra_json,'$.iap_id') like 'item_025' then 'Jumbo Life Pack'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_028' then '24h Infinite Lives'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_029' then 'More Time - Quest'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_030' then 'More Time - Score'
             when json_extract_scalar(extra_json,'$.iap_id') like 'more_time_highscore' then 'More Time - Score'
             when json_extract_scalar(extra_json,'$.iap_id') like 'more_time_quest' then 'More Time - Quest'
             when json_extract_scalar(extra_json,'$.iap_id') like 'boost_001' then 'Score Boost'
@@ -636,3 +646,22 @@ constant: iap_id_strings {
               else json_extract_scalar(extra_json,'$.button_tag')
             end"
   }
+  constant: event_names {
+    value: "case
+              when json_extract_scalar(extra_json,'$.event_id') = 'ce_202106_a' then 'Spring'
+              when json_extract_scalar(extra_json,'$.event_id') = 'ce_202107_a' then 'Summer'
+              when json_extract_scalar(extra_json,'$.event_id') = 'ce_202107_b' then 'Olympics'
+              else json_extract_scalar(extra_json,'$.event_id')
+            end"
+  }
+constant: event_team_names {
+    value: "case
+            when json_extract_scalar(extra_json,'$.team_id') = 'team_007' then 'Team 1'
+            when json_extract_scalar(extra_json,'$.team_id') = 'team_008' then 'Team 2'
+            when json_extract_scalar(extra_json,'$.team_id') = 'team_009' then 'Team 3'
+            when json_extract_scalar(extra_json,'$.team_id') = 'team_010' then 'Team BBQ - Ned'
+            when json_extract_scalar(extra_json,'$.team_id') = 'team_011' then 'Team Beach - Frank'
+            when json_extract_scalar(extra_json,'$.team_id') = 'team_012' then 'Team Pool - Claire'
+            else json_extract_scalar(extra_json,'$.team_id')
+          end"
+}

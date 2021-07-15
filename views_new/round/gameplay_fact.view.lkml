@@ -4,6 +4,8 @@
 # Link to original explore:
 # https://ritzdeligames.looker.com/explore/ritz_deli_games/gameplay?qid=BKN63Xqngl9ffcjHsSUwNx
 
+#
+
 view: gameplay_fact {
   derived_table: {
     explore_source: gameplay {
@@ -24,7 +26,7 @@ view: gameplay_fact {
     sql: ${rdg_id} || '_' || ${round_id} ;;
   }
   dimension: greater_round_id {
-    description: "The total number of plays for a player so far"
+    description: "The next round_id for the player in sequence"
     type: number
   }
   dimension: rdg_id {

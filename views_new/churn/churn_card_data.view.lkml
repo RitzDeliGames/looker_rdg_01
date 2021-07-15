@@ -39,39 +39,13 @@ dimension: primary_key {
   sql: ${rdg_id} || ${timestamp} ;;
 }
 
-
-
-dimension: rdg_id {}
-
-dimension: timestamp {
-  type: date_time
-}
-
-dimension: node_attempts_explicit {
-  type: number
-}
-
-dimension: node_attempts_passive {}
-
-dimension: node_end {}
-
-  dimension: churn {
-    type: string
-    sql: if(${round_id} < ${greater_round_id},'played_again','stuck') ;;
-  }
-
-dimension: round_id {
-  type: number
-}
-
-dimension: rounds {}
-
-dimension: greater_round_id {
-  type: number
-}
-
 dimension: card_id {
   type: string
+}
+
+dimension: churn {
+  type: string
+  sql: if(${round_id} < ${greater_round_id},'played_again','stuck') ;;
 }
 
 dimension: current_card {
@@ -82,10 +56,38 @@ dimension: current_quest {
   type: number
 }
 
-measure: player_count {
-  type: count_distinct
-  sql: ${rdg_id} ;;
-  drill_fields: [rdg_id,node_attempts_explicit]
+dimension: extra_json {
+  type: string
+}
+
+dimension: greater_round_id {
+  type: number
+}
+
+dimension: is_churn {
+  hidden: yes
+  type: yesno
+  sql:  ${round_id} < ${greater_round_id};;
+}
+
+dimension: node_attempts_explicit {
+  type: number
+}
+
+dimension: node_attempts_passive {
+  type: number
+}
+
+dimension_group: node_end {
+  type: time
+  timeframes: [
+    time,
+    date,
+    week,
+    month,
+    quarter,
+    year
+  ]
 }
 
 dimension: node_is_selected {
@@ -94,8 +96,26 @@ dimension: node_is_selected {
   sql: ${current_quest} = {% parameter node_selector %}+1 ;;
 }
 
-dimension: extra_json {
+dimension: rdg_id {
   type: string
+}
+
+dimension: round_id {
+  type: number
+}
+
+dimension: rounds {
+  type: number
+}
+
+dimension: timestamp {
+  type: date_time
+}
+
+measure: player_count {
+  type: count_distinct
+  sql: ${rdg_id} ;;
+  drill_fields: [rdg_id,node_attempts_explicit,current_card,current_quest,round_id,greater_round_id]
 }
 
 parameter: node_selector {

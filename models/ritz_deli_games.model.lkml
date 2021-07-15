@@ -394,6 +394,14 @@ explore: churn_card_data {
     sql_on: ${churn_card_data.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: many_to_one
   }
+  join: gameplay_fact {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${churn_card_data.rdg_id} = ${gameplay_fact.rdg_id}
+      and ${churn_card_data.round_id} = ${gameplay_fact.round_id};;
+  }
 }
 
 explore: id_helper {}
+
+explore: gameplay_fact {}

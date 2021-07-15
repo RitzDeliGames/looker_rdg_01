@@ -117,14 +117,18 @@ explore: user_card_completion {
   join: system_value_aggregated {
     view_label: "System Value"
     type: left_outer
-    relationship: one_to_many
-    sql_on: ${user_card_completion.rdg_id} = ${system_value_aggregated.system_value_rdg_id}
+    relationship: one_to_one
+    sql_on: ${user_card_completion.rdg_id} = ${system_value_aggregated.rdg_id}
       and ${user_card_completion.current_card} = ${system_value_aggregated.current_card};;
   }
 }
 
-explore: system_value {}
-explore: system_value_aggregated {}
+explore: system_value {
+  hidden: yes
+}
+explore: system_value_aggregated {
+  hidden: yes
+}
 
 explore: transactions {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list};;

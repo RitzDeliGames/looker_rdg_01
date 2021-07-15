@@ -95,12 +95,12 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.skill_used') as int64) skill_used
         ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_001") as int64) boxes_popped
         ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_027") as int64) smog_popped
-      from game_data.events
-      where event_name = 'round_end'
-      and timestamp >= '2019-01-01'
-      and user_type = 'external'
-      and country != 'ZZ'
-      and coalesce(install_version,'null') <> '-1'
+    from game_data.events
+   where event_name = 'round_end'
+     and timestamp >= '2019-01-01'
+     and user_type = 'external'
+     and country != 'ZZ'
+     and coalesce(install_version,'null') <> '-1'
     ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes

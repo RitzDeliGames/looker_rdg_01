@@ -119,7 +119,7 @@ explore: user_card_completion {
     type: left_outer
     relationship: one_to_many
     sql_on: ${user_card_completion.rdg_id} = ${system_value_aggregated.system_value_rdg_id}
-      and ${user_card_completion.current_card} = ${system_value_aggregated.system_value_current_card};;
+      and ${user_card_completion.current_card} = ${system_value_aggregated.current_card};;
   }
 }
 

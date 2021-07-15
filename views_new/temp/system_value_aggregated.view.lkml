@@ -2,8 +2,8 @@ view: system_value_aggregated {
   derived_table: {
     sql: -- use existing system_value in `eraser-blast.looker_scratch.LR_6YPD91626324537280_system_value`
       SELECT
-          system_value.rdg_id  AS system_value_rdg_id,
-          system_value.current_card  AS system_value_current_card,
+          system_value.rdg_id as system_value_rdg_id,
+          system_value.current_card as current_card,
           COALESCE(SUM(( cast(case
                     when system_value.reward_type = 'CURRENCY_02' then '600'
                     when system_value.reward_type = 'CURRENCY_03' then '1'
@@ -34,11 +34,15 @@ view: system_value_aggregated {
     sql: ${TABLE}.system_value_rdg_id ;;
   }
 
-  dimension: system_value_current_card {
+  dimension: current_card {
     type: string
-    sql: ${TABLE}.system_value_current_card ;;
+    sql: ${TABLE}.current_card ;;
   }
-
+  dimension: system_value_current_card_numbered {
+    type: number
+    value_format: "####"
+    sql: @{current_card_numbered} ;;
+  }
   dimension: system_value_system_value_sum {
     hidden: yes
     type: number
@@ -80,6 +84,6 @@ view: system_value_aggregated {
     sql: ${system_value_system_value_sum} ;;
   }
   set: detail {
-    fields: [system_value_rdg_id, system_value_current_card, system_value_system_value_sum]
+    fields: [system_value_rdg_id, current_card, system_value_system_value_sum]
   }
 }

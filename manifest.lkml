@@ -87,6 +87,10 @@ constant: device_internal_tester_mapping {
   value: "('596c5959-d64b-4b9a-92e2-02ac0da551db','052c6660-1668-40bc-938e-b35472d61d28','d766305b-e03b-433c-abe2-78fa6d4f827d','617c0432-a178-476c-b394-68abe694b54e')"
 }
 
+constant: purchase_exclusion_list {
+  value: "('7721b79b-d8c6-4f6a-9ebb-d6afa43daed7','7acaf400-0343-4cb8-be6c-8707dd8d1efa','daf7c573-13dc-41b8-a173-915faf888c71','891b3c15-9451-45d0-a7b8-1459e4252f6c','9a804252-3902-43fb-8cab-9f1876420b5a','8824596a-5182-4287-bcd9-9154c1c70514','891b3c15-9451-45d0-a7b8-1459e4252f6c','ce4e1795-6a2b-4642-94f2-36acc148853e','1c54bae7-da32-4e68-b510-ef6e8c459ac8','c0e75463-850c-4a25-829e-6c6324178622','3f2eddee-3070-4966-8d51-495605ec2352','e4590cf5-244c-425d-bf7e-4ebf0416e9c5','c83b1dc7-24cd-40b8-931f-d73c69c949a9','39786fde-b372-4814-a488-bfb1bf89af8a','7f98585f-34ca-4322-beda-fa4ff51a8721','e699b639-924f-4854-8856-54f3019ecca1','397322b8-1459-4da7-a807-bc0d0404990d')"
+}
+
 constant: release_version_major {
   value: "CASE
             WHEN ${TABLE}.version LIKE '1579' THEN '1.0'
@@ -422,6 +426,10 @@ constant: current_card_numbered {
       when ${TABLE}.current_card = 'ce_001_card_001' then 20210601
       when ${TABLE}.current_card = 'ce_001_card_002' then 20210602
       when ${TABLE}.current_card = 'ce_001_card_003' then 20210603
+      when ${TABLE}.current_card = 'ce_002_card_001' then 20210701
+      when ${TABLE}.current_card = 'ce_002_card_002' then 20210702
+      when ${TABLE}.current_card = 'ce_002_card_003' then 20210703
+
     end"
 }
 
@@ -470,45 +478,45 @@ constant: last_unlocked_card_numbered {
 
 constant: request_card_numbered {
   value: "case
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_a' then 100
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_b' then 100
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_untimed' then 100
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_b' then 100
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_002_b' then 120
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_003_b' then 150
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_002_a' then 200
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_003_a' then 300
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_003_untimed' then 300
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_002' then 400
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_002_inverted' then 400
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_039' then 400
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_004_untimed' then 400
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_003' then 500
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_003_20210329' then 500
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_040' then 500
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_005_untimed' then 500
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_004' then 600
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_004_20210329' then 600
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_041' then 600
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_006_untimed' then 600
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_005' then 700
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_006' then 800
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_007' then 900
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_008' then 1000
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_009' then 1100
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_010' then 1200
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_011' then 1300
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_012' then 1400
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_013' then 1500
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_014' then 1600
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_015' then 1700
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_016' then 1800
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_017' then 1900
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_018' then 2000
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_019' then 2100
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_020' then 2200
-            when json_extract_scalar(extra_json,'$.request_card_id') = 'card_021' then 2300
-      end"
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_a' then 100
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_b' then 100
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_untimed' then 100
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_b' then 100
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_002_b' then 120
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_003_b' then 150
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_002_a' then 200
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_003_a' then 300
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_003_untimed' then 300
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_002' then 400
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_002_inverted' then 400
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_039' then 400
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_004_untimed' then 400
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_003' then 500
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_003_20210329' then 500
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_040' then 500
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_005_untimed' then 500
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_004' then 600
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_004_20210329' then 600
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_041' then 600
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_006_untimed' then 600
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_005' then 700
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_006' then 800
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_007' then 900
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_008' then 1000
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_009' then 1100
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_010' then 1200
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_011' then 1300
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_012' then 1400
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_013' then 1500
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_014' then 1600
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_015' then 1700
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_016' then 1800
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_017' then 1900
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_018' then 2000
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_019' then 2100
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_020' then 2200
+      when json_extract_scalar(extra_json,'$.request_card_id') = 'card_021' then 2300
+    end"
 }
 
 constant: purchase_source {
@@ -617,19 +625,26 @@ constant: iap_id_strings {
               when json_extract_scalar(extra_json,'$.ui_action') like '%Si%' then 'Yes'
               when json_extract_scalar(extra_json,'$.ui_action') like '%Sim%' then 'Yes'
               when json_extract_scalar(extra_json,'$.ui_action') = 'Ok' then 'Yes'
+              when json_extract_scalar(extra_json,'$.ui_action') = '¡Juega ahora!' then 'Play Now'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'Jogue agora!' then 'Play Now'
               else json_extract_scalar(extra_json,'$.ui_action')
             end"
 }
 
   constant: ce_ui_actions {
     value: "case
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamOk' then '1. How To Play / Tap OK'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamSelect%' then '2a. Choose Team / Select Team'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.NoTeamSelected%' then '2b. Choose Team / Join Team (No Team Selected)'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityEventInfo%' then '2c. Choose Team / Tap Event Info'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamJoin%' then '3. Choose Team / Tap OK'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventPlay' then '4. Leaderboard / Tap Play'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_CommunityEvents_Bingo.QuestNode.ce_%' then '5. Bingo Card / Tap Bingo Card Tile'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamOk' then '01. How To Play / Tap OK'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamSelect%' then '02a. Choose Team / Select Team'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.NoTeamSelected%' then '02b. Choose Team / Join Team (No Team Selected)'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityEventInfo%' then '02c. Choose Team / Tap Event Info'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamJoin%' then '03. Choose Team / Tap OK'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventPlay' then '04. Leaderboard / Tap Play'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_CommunityEvents_Bingo.QuestNode.ce_%' then '05. Bingo Card / Tap Bingo Card Tile'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_CommunityEvents_Bingo.TileProgress.ce_%' then '05. Bingo Card / Tap Bingo Card Tile'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_CollectCommunityEvent.Collect' then '06. Bingo Card / Collect Item'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventIndividualClaim' then '08. Claim Reward / Player'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventTeamsClaim' then '09. Claim Reward / Teams'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventTeamClaim' then '10. Claim Reward / Team'
               else json_extract_scalar(extra_json,'$.button_tag')
             end"
 }
@@ -654,14 +669,46 @@ constant: iap_id_strings {
               else json_extract_scalar(extra_json,'$.event_id')
             end"
   }
-constant: event_team_names {
+  constant: event_team_names {
     value: "case
-            when json_extract_scalar(extra_json,'$.team_id') = 'team_007' then 'Team 1'
-            when json_extract_scalar(extra_json,'$.team_id') = 'team_008' then 'Team 2'
-            when json_extract_scalar(extra_json,'$.team_id') = 'team_009' then 'Team 3'
-            when json_extract_scalar(extra_json,'$.team_id') = 'team_010' then 'Team BBQ - Ned'
-            when json_extract_scalar(extra_json,'$.team_id') = 'team_011' then 'Team Beach - Frank'
-            when json_extract_scalar(extra_json,'$.team_id') = 'team_012' then 'Team Pool - Claire'
-            else json_extract_scalar(extra_json,'$.team_id')
+              when json_extract_scalar(extra_json,'$.team_id') = 'team_007' then 'Team 1'
+              when json_extract_scalar(extra_json,'$.team_id') = 'team_008' then 'Team 2'
+              when json_extract_scalar(extra_json,'$.team_id') = 'team_009' then 'Team 3'
+              when json_extract_scalar(extra_json,'$.team_id') = 'team_010' then 'Team BBQ - Ned'
+              when json_extract_scalar(extra_json,'$.team_id') = 'team_011' then 'Team Beach - Frank'
+              when json_extract_scalar(extra_json,'$.team_id') = 'team_012' then 'Team Pool - Claire'
+              else json_extract_scalar(extra_json,'$.team_id')
           end"
-}
+  }
+  constant: system_value_conversion {
+    value: "case
+              when ${TABLE}.reward_type = 'CURRENCY_02' then '600'
+              when ${TABLE}.reward_type = 'CURRENCY_03' then '1'
+              when ${TABLE}.reward_type = 'CURRENCY_04' then '600'
+              when ${TABLE}.reward_type = 'CURRENCY_05' then '600'
+              when ${TABLE}.reward_type = 'boost_001' then '500'
+              when ${TABLE}.reward_type = 'boost_002' then '500'
+              when ${TABLE}.reward_type = 'boost_003' then '500'
+              when ${TABLE}.reward_type = 'boost_004' then '1000'
+              when ${TABLE}.reward_type = 'boost_005' then '1500'
+              when ${TABLE}.reward_type = 'boost_006' then '1800'
+              when ${TABLE}.reward_type = 'LEVEL' then '6000'
+              when ${TABLE}.reward_type = 'SKILL' then '30000'
+            end"
+  }
+  constant: reward_types {
+    value: "case
+              when ${TABLE}.reward_type = 'CURRENCY_02' then 'Gems'
+              when ${TABLE}.reward_type = 'CURRENCY_03' then 'Coins'
+              when ${TABLE}.reward_type = 'CURRENCY_04' then 'Lives'
+              when ${TABLE}.reward_type = 'CURRENCY_05' then 'AFH Tokens'
+              when ${TABLE}.reward_type = 'boost_001' then 'Score Boost'
+              when ${TABLE}.reward_type = 'boost_002' then 'Coin Boost'
+              when ${TABLE}.reward_type = 'boost_003' then 'XP Boost'
+              when ${TABLE}.reward_type = 'boost_004' then 'Time Boost'
+              when ${TABLE}.reward_type = 'boost_005' then 'Bubble Boost'
+              when ${TABLE}.reward_type = 'boost_006' then '5-to-4 Boost'
+              when ${TABLE}.reward_type = 'LEVEL' then 'Level Ticket'
+              when ${TABLE}.reward_type = 'SKILL' then 'Skill Ticket'
+            end"
+  }

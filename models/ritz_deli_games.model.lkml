@@ -112,13 +112,22 @@ explore: user_card_completion {
     type: left_outer
     relationship: one_to_many
     sql_on: ${user_card_completion.rdg_id} = ${transactions_new.rdg_id}
-      and ${user_card_completion.current_card} = ${transactions_new.current_card}
-    ;;
+      and ${user_card_completion.current_card} = ${transactions_new.current_card};;
+  }
+  join: system_value_aggregated {
+    view_label: "System Value"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${user_card_completion.rdg_id} = ${system_value_aggregated.system_value_rdg_id}
+      and ${user_card_completion.current_card} = ${system_value_aggregated.current_card};;
   }
 }
 
+explore: system_value {}
+explore: system_value_aggregated {}
+
 explore: transactions {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list};;
   from: transactions_new
   join: user_fact {
     type: left_outer
@@ -142,19 +151,19 @@ explore: transactions {
   }
 }
 
-explore: economy {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
-  from: rewards_bingo_cards_and_gameplay
-  join: user_fact {
-    type: left_outer
-    sql_on: ${economy.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: many_to_one
-  }
-  join: user_last_event {
-    type: left_outer
-    sql_on: ${economy.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: one_to_one
-  }
+# explore: economy {
+#   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list};;
+#   from: rewards_bingo_cards_and_gameplay
+#   join: user_fact {
+#     type: left_outer
+#     sql_on: ${economy.rdg_id} = ${user_fact.rdg_id} ;;
+#     relationship: many_to_one
+#   }
+#   join: user_last_event {
+#     type: left_outer
+#     sql_on: ${economy.rdg_id} = ${user_last_event.rdg_id} ;;
+#     relationship: one_to_one
+#   }
   # always_filter: {
   #   filters: [economy.dimension_date: "7 days"]
   # }
@@ -170,10 +179,10 @@ explore: economy {
   #   relationship: one_to_many
   #   sql_on: ${economy.dimension_date} = ${transactions_new.transaction_date} ;;
   # }
-}
+#}
 
 explore: in_app_messages {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: new_iam
 }
 

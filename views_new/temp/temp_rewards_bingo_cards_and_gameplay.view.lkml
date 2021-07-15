@@ -1,4 +1,4 @@
-view: rewards_bingo_cards_and_gameplay {
+view: temp_rewards_bingo_cards_and_gameplay {
   derived_table: {
     sql:
       select
@@ -6,6 +6,7 @@ view: rewards_bingo_cards_and_gameplay {
         ,event_name
         ,current_card
         ,last_unlocked_card
+        ,json_extract_scalar(extra_json,'$.reward_event') reward_event
         ,json_extract_scalar(extra_json,'$.reward_type') reward_type
         ,sum(cast(json_extract_scalar(extra_json,'$.reward_amount') as int64)) reward_amount_sum
         ,sum(if(json_extract_scalar(extra_json,'$.reward_type') = 'CURRENCY_03',cast(json_extract_scalar(extra_json,'$.reward_amount') as int64),cast(json_extract_scalar(extra_json,'$.reward_amount') as int64) * 600)) system_value_sum
@@ -16,7 +17,7 @@ view: rewards_bingo_cards_and_gameplay {
       and coalesce(install_version,'null') <> '-1'
       and current_card = last_unlocked_card
       and (json_extract_scalar(extra_json,'$.reward_event') like '%bingo%' or json_extract_scalar(extra_json,'$.reward_event') like '%round%')
-      group by 1,2,3,4,5
+      group by 1,2,3,4,5,6
     ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
@@ -56,9 +57,19 @@ view: rewards_bingo_cards_and_gameplay {
     sql: @{current_card_numbered} ;;
     value_format: "####"
   }
+  dimension: reward_event {
+    type: string
+    sql: ${TABLE}.reward_event ;;
+  }
   dimension: reward_type {
     type: string
+    hidden: yes
     sql: ${TABLE}.reward_type ;;
+  }
+  dimension: reward_type_clean {
+    label: "Reward Type"
+    type: string
+    sql: @{reward_types} ;;
   }
   measure: player_count {
     label: "Unique Players"

@@ -124,7 +124,7 @@ explore: user_card_completion {
 }
 
 explore: system_value {
-  hidden: yes
+  hidden: no
 }
 explore: system_value_aggregated {
   hidden: yes

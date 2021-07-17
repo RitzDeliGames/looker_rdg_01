@@ -14,8 +14,7 @@ view: system_value {
       and user_type = 'external'
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'
-      --and current_card = last_unlocked_card do we still need this condition???
-      and (json_extract_scalar(extra_json,'$.reward_event') like '%bingo%' or json_extract_scalar(extra_json,'$.reward_event') like '%round%')--or json_extract_scalar(extra_json,'$.reward_event') like '%level_up%'
+      and (json_extract_scalar(extra_json,'$.reward_event') like '%bingo%' or json_extract_scalar(extra_json,'$.reward_event') like '%round%'or json_extract_scalar(extra_json,'$.reward_event') like '%level_up%')
     ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
@@ -87,16 +86,28 @@ view: system_value {
     type: number
     sql: ${TABLE}.reward_amount ;;
   }
-  dimension: system_value {
+  dimension: system_value_consumed {
+    type: number
+    sql: cast(if(${reward_event} like '%round%',1,0) as int64) * 600;;
+  }
+  measure: system_value_consumed_sum {
+    type: sum
+    sql: ${system_value_consumed} ;;
+  }
+  dimension: system_value_earned {
     type: number
     sql: cast(@{system_value_conversion} as int64) * ${TABLE}.reward_amount;;
   }
-  measure: reward_amount_sum {
+  measure: system_value_earned_sum {
     type: sum
-    sql: ${reward_amount} ;;
+    sql: ${system_value_earned} ;;
   }
-  measure: system_value_sum {
+  dimension: system_value_net {
+    type: number
+    sql: ${system_value_earned} - ${system_value_consumed} ;;
+  }
+  measure: system_value_net_sum {
     type: sum
-    sql: ${system_value} ;;
+    sql: ${system_value_net} ;;
   }
 }

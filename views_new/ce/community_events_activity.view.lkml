@@ -35,7 +35,7 @@ view: community_events_activity {
     sql: ${TABLE}.event_id ;;
   }
   dimension: event_names {
-    label: "Event"
+    label: "Event Name"
     sql: @{event_names} ;;
   }
   dimension_group: event {
@@ -90,5 +90,6 @@ view: community_events_activity {
   }
   dimension: extra_json {
     hidden: yes
+    sql: ${TABLE}.extra_json ;;
   }
 }

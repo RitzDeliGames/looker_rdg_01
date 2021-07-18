@@ -663,21 +663,21 @@ constant: iap_id_strings {
   }
   constant: event_names {
     value: "case
-              when json_extract_scalar(extra_json,'$.event_id') = 'ce_202106_a' then 'Spring'
-              when json_extract_scalar(extra_json,'$.event_id') = 'ce_202107_a' then 'Summer'
-              when json_extract_scalar(extra_json,'$.event_id') = 'ce_202107_b' then 'Olympics'
-              else json_extract_scalar(extra_json,'$.event_id')
+              when json_extract_scalar(${TABLE}.extra_json,'$.event_id') = 'event_id_202106_a' then 'Spring'
+              when json_extract_scalar(${TABLE}.extra_json,'$.event_id') = 'event_id_202107_a' then 'Summer'
+              when json_extract_scalar(${TABLE}.extra_json,'$.event_id') = 'event_id_202107_b' then 'Olympics'
+              else json_extract_scalar(${TABLE}.extra_json,'$.event_id')
             end"
   }
   constant: event_team_names {
     value: "case
-              when json_extract_scalar(extra_json,'$.team_id') = 'team_007' then 'Team 1'
-              when json_extract_scalar(extra_json,'$.team_id') = 'team_008' then 'Team 2'
-              when json_extract_scalar(extra_json,'$.team_id') = 'team_009' then 'Team 3'
-              when json_extract_scalar(extra_json,'$.team_id') = 'team_010' then 'Team BBQ - Ned'
-              when json_extract_scalar(extra_json,'$.team_id') = 'team_011' then 'Team Beach - Frank'
-              when json_extract_scalar(extra_json,'$.team_id') = 'team_012' then 'Team Pool - Claire'
-              else json_extract_scalar(extra_json,'$.team_id')
+              when json_extract_scalar(${TABLE}.extra_json,'$.team_id') = 'team_007' then 'Team 1'
+              when json_extract_scalar(${TABLE}.extra_json,'$.team_id') = 'team_008' then 'Team 2'
+              when json_extract_scalar(${TABLE}.extra_json,'$.team_id') = 'team_009' then 'Team 3'
+              when json_extract_scalar(${TABLE}.extra_json,'$.team_id') = 'team_010' then 'Team BBQ - Ned'
+              when json_extract_scalar(${TABLE}.extra_json,'$.team_id') = 'team_011' then 'Team Beach - Frank'
+              when json_extract_scalar(${TABLE}.extra_json,'$.team_id') = 'team_012' then 'Team Pool - Claire'
+              else json_extract_scalar(${TABLE}.extra_json,'$.team_id')
           end"
   }
   constant: system_value_conversion {

@@ -143,11 +143,11 @@ explore: transactions {
     sql_on: ${transactions.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
-  join: supported_devices {
-    type: left_outer
-    sql_on: ${transactions.device_model_number} = ${supported_devices.retail_model} ;;
-    relationship: many_to_one
-  }
+  # join: supported_devices {
+  #   type: left_outer
+  #   sql_on: ${transactions.device_model_number} = ${supported_devices.retail_model} ;;
+  #   relationship: many_to_one
+  # }
   join: facebook_daily_export {
     type: left_outer
     sql_on: ${transactions.created_pst_date} = ${facebook_daily_export.date};;

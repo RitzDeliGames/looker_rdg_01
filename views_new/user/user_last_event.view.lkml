@@ -364,7 +364,7 @@ view: user_last_event {
     group_label: "Experiments"
     label: "FUE/Story v3"
     type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.altStory_20210705 '),'unassigned') ;;
+    sql: nullif(json_extract_scalar(${experiments},'$.altStory_20210705'),'unassigned') ;;
   }
   dimension: skill_reminder_v2 {
     group_label: "Experiments"

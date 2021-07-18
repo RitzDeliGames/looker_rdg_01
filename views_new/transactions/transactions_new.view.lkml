@@ -30,7 +30,7 @@ view: transactions_new {
         and user_type = 'external'
         and country != 'ZZ'
         and timestamp >= '2019-01-01'
-        and coalesce(install_version,'null') <> '-1'
+        --and coalesce(install_version,'null') <> '-1'
     ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes

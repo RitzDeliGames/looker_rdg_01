@@ -4,9 +4,6 @@ connection: "eraser_blast_gbq"
 # include: "/views/**/*.view"
 include: "/**/*.view"
 
-# include all the dashboards
-include: "/dashboards/**/*.dashboard"
-
 ##########MODEL##########
 datagroup: rdg_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -510,93 +507,6 @@ explore: z_transactions_query {
     AND user_type = "external";;
 }
 
-
-##########GAMING BLOCK EXPLORES##########
-
-explore: gaming_block_events {
-  persist_with: events_raw
-
-  sql_always_where:
-    user_type = "external";;
-
-  #always_filter: {
-    #filters: {
-      #field: event_date
-      #value: "last 7 days"
-    #}
-  #}
-
-  join: gaming_block_session_facts {
-    relationship: many_to_one
-    sql_on: ${gaming_block_events.unique_session_id} = ${gaming_block_session_facts.unique_session_id} ;;
-  }
-
-  join: gaming_block_user_facts {
-    view_label: "User Lifetime Values"
-    relationship: many_to_one
-    sql_on: ${gaming_block_events.user_id} = ${gaming_block_user_facts.user_id} ;;
-  }
-
-  join: gaming_block_user_tiering {
-    view_label: "User Lifetime Values"
-    relationship: many_to_one
-    sql_on: ${gaming_block_events.user_id}  = ${gaming_block_user_tiering.user_id} ;;
-  }
-}
-
-explore: gaming_block_funnel_explorer {
-  description: "Player Session Funnels"
-  persist_for: "24 hours"
-
-  sql_always_where:
-    user_type = "external";;
-
-
-  always_filter: {
-    filters: {
-      field: event_time
-      value: "30 days"
-    }
-    filters: {
-      field: game_name
-      value: "Eraser Blast"
-    }
-  }
-  join: gaming_block_session_facts {
-    sql_on: ${gaming_block_funnel_explorer.unique_session_id} = ${gaming_block_session_facts.unique_session_id} ;;
-    relationship: many_to_one
-  }
-
-  join: gaming_block_user_facts {
-    sql_on: ${gaming_block_funnel_explorer.user_id} = ${gaming_block_user_facts.user_id} ;;
-    relationship: many_to_one
-  }
-
-  join: gaming_block_user_tiering {
-    view_label: "User Facts"
-    sql_on: ${gaming_block_funnel_explorer.user_id} = ${gaming_block_user_tiering.user_id} ;;
-    relationship: many_to_one
-  }
-}
-
-explore: gaming_block_session_facts {
-  label: "Sessions and Users"
-  description: "Use this to look at a compressed view of Users and Sessions (without event level data)"
-
-  sql_always_where:
-    user_type NOT IN ("internal_editor", "unit_test","ugs","bot");;
-
-
-  join: gaming_block_user_facts {
-    relationship: many_to_one
-    sql_on: ${gaming_block_session_facts.user_id} = ${gaming_block_user_facts.user_id} ;;
-  }
-  join: gaming_block_user_tiering {
-    view_label: "User Facts"
-    relationship: many_to_one
-    sql_on: ${gaming_block_session_facts.user_id} = ${gaming_block_user_tiering.user_id} ;;
-  }
-}
 
 # week_start_day: sunday ## remove me
 # explore: test_retention {}

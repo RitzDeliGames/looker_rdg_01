@@ -377,7 +377,9 @@ explore: gameplay {
   join: gameplay_fact {
     type: left_outer
     relationship: one_to_one
-    sql_on: ${gameplay.session_id} = ${gameplay_fact.session_id};;
+    sql_on: ${gameplay.rdg_id} = ${gameplay_fact.rdg_id}
+         and ${gameplay.round_id} = ${gameplay_fact.round_id}
+         and ${gameplay.event_time} = ${gameplay_fact.event_time};;
   }
   # join: round_start {
   #   view_label: "Round Start"

@@ -4,20 +4,21 @@
 # Link to original explore:
 # https://ritzdeligames.looker.com/explore/ritz_deli_games/gameplay?qid=JHwfRG9Cfs1LZ6Wcd6LM0u&toggle=fil
 
-#
+# If necessary, uncomment the line below to include explore_source.
+# include: "ritz_deli_games.model.lkml"
 
 view: gameplay_fact {
   derived_table: {
     explore_source: gameplay {
       column: rdg_id {}
-      column: session_id {}
       column: round_id {}
-      column: game_mode {}
       column: event_time {}
       column: request_help {}
+      column: session_id {}
+      column: game_mode {}
       derived_column: greater_round_id {
         sql: LAG(round_id)
-    OVER (PARTITION BY rdg_id ORDER BY round_id DESC) ;;
+          OVER (PARTITION BY rdg_id ORDER BY round_id DESC) ;;
       }
       filters: {
         field: gameplay.request_help
@@ -30,7 +31,7 @@ view: gameplay_fact {
     primary_key: yes
     hidden: yes
     type: string
-    sql: ${rdg_id} || '_' || ${round_id} ;;
+    sql: ${rdg_id} || '_' || ${round_id} || '_' || ${event_time} ;;
   }
   dimension: greater_round_id {
     description: "The next round_id for the player in sequence"
@@ -46,7 +47,9 @@ view: gameplay_fact {
     description: "Incremented value that increases each time a player plays the game"
     type: number
   }
-  dimension: request_help {}
+  dimension: request_help {
+    type: yesno
+  }
   dimension: event_time {
     description: "Timestamp of the play"
     type: date_time
@@ -55,7 +58,7 @@ view: gameplay_fact {
     description: "Identifies if a greater_round_id exists for the rdg_id (player), if the greater_round_id is NULL, they did not play again and are considered churned"
     type: yesno
     sql: ${greater_round_id} is NULL
-         and ${request_help} is FALSE ;;
+        and ${request_help} is FALSE ;;
   }
   measure: count {
     description: "A count of gameplays found for the player (there are round_ids missing from the data, so this calculates only the round_ids that exist)"
@@ -67,9 +70,7 @@ view: gameplay_fact {
     fields: [
       rdg_id,
       round_id,
-      greater_round_id,
       event_time,
-      is_churn,
       count
     ]
   }

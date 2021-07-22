@@ -108,7 +108,7 @@ view: round_end {
   }
   dimension: primary_key {
     type: string
-    sql: ${rdg_id} || '_' || ${event_raw} ;;
+    sql: ${rdg_id} || '_' || ${round_id} || '_' || ${event_time} ;;
     primary_key: yes
     hidden: yes
   }

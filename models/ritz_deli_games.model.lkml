@@ -377,8 +377,7 @@ explore: gameplay {
   join: gameplay_fact {
     type: left_outer
     relationship: one_to_one
-    sql_on: ${gameplay.rdg_id} = ${gameplay_fact.rdg_id}
-          and ${gameplay.round_id} = ${gameplay_fact.round_id};;
+    sql_on: ${gameplay.session_id} = ${gameplay_fact.session_id};;
   }
   # join: round_start {
   #   view_label: "Round Start"
@@ -468,3 +467,5 @@ explore: churn_card_data {
 }
 
 explore: id_helper {}
+
+explore: gameplay_fact {}

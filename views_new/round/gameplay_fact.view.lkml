@@ -10,6 +10,7 @@ view: gameplay_fact {
   derived_table: {
     explore_source: gameplay {
       column: rdg_id {}
+      column: session_id {}
       column: round_id {}
       column: game_mode {}
       column: event_time {}
@@ -35,6 +36,7 @@ view: gameplay_fact {
     description: "The next round_id for the player in sequence"
     type: number
   }
+  dimension: session_id {}
   dimension: game_mode {}
   dimension: rdg_id {
     description: "Unique identifier of a player in the game"
@@ -52,7 +54,8 @@ view: gameplay_fact {
   dimension: is_churn {
     description: "Identifies if a greater_round_id exists for the rdg_id (player), if the greater_round_id is NULL, they did not play again and are considered churned"
     type: yesno
-    sql: ${greater_round_id} is NULL ;;
+    sql: ${greater_round_id} is NULL
+         and ${request_help} is FALSE ;;
   }
   measure: count {
     description: "A count of gameplays found for the player (there are round_ids missing from the data, so this calculates only the round_ids that exist)"

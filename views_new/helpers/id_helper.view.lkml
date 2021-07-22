@@ -14,10 +14,10 @@ view: id_helper {
       }
 
     dimension: rdg_id {
-      hidden: yes
+     # hidden: yes
     }
     dimension: user_id {
-      hidden: yes
+      # hidden: yes
     }
     measure: rdg_id_count {
       hidden: yes

@@ -11,17 +11,18 @@ view: temp_click_stream {
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
         ,cast(quests_completed as int64) quests_completed
-        --,json_extract_scalar(extra_json,"$.button_tag") button_tag
-        --,count(timestamp) click_count
+        ,json_extract_scalar(extra_json,"$.button_tag") button_tag
+        ,lag(timestamp)
+            over (partition by rdg_id order by timestamp desc) greater_quests_completed
       from `eraser-blast.game_data.events`
       where
-        event_name in ('round_end','round_start')
-        --event_name = 'ButtonClicked'
+        event_name = 'ButtonClicked'
         and timestamp >= '2019-01-01'
         and user_type = 'external'
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
-      --group by 1,2,3,4,5,6,7;;
+      group by 1,2,3,4,5,6,7,8,9,10
+      ;;
     datagroup_trigger: change_3_hrs
   }
   dimension: primary_key {
@@ -33,7 +34,7 @@ view: temp_click_stream {
   dimension: rdg_id {
     type: string
     sql: ${TABLE}.rdg_id ;;
-    #hidden: yes
+    hidden: no
   }
   dimension_group: event {
     type: time
@@ -45,6 +46,11 @@ view: temp_click_stream {
       ,month
       ,year
     ]
+  }
+  dimension: greater_quests_completed {}#RENAME!!!
+  dimension: is_churned {
+    type: yesno
+    sql: ${greater_quests_completed} is null ;;
   }
   dimension: install_version {}
   dimension: event_name {}
@@ -62,7 +68,7 @@ view: temp_click_stream {
     sql:  ${engagement_minutes};;
   }
   dimension: current_card {
-    hidden: yes
+    hidden: no
     type: string
     sql: ${TABLE}.current_card ;;
   }
@@ -78,6 +84,11 @@ view: temp_click_stream {
   dimension: current_card_numbered {
     type: number
     sql: @{current_card_numbered} ;;
+    value_format: "####"
+  }
+  dimension: current_card_quest {
+    type: number
+    sql: ${current_card_numbered} + ${current_quest};;
     value_format: "####"
   }
   dimension: last_unlocked_card_numbered {

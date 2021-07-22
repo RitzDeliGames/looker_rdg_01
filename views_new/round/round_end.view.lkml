@@ -852,6 +852,92 @@ view: round_end {
     value_format_name: percent_1
     description: "Skills Used / Skills Available"
   }
+  dimension: erasers_cleared {
+    type: number
+    sql:  cast(coalesce(${TABLE}.character_001_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_002_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_003_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_004_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_005_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_006_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_007_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_008_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_009_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_010_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_011_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_012_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_013_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_014_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_015_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_016_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_017_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_018_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_019_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_020_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_021_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_022_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_023_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_024_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_025_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_026_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_027_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_028_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_029_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_030_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_031_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_032_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_033_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_034_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_035_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_036_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_037_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_038_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_039_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_040_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_041_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_042_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_043_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_044_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_045_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_046_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_047_matched,'0') as int64)
+          + cast(coalesce(${TABLE}.character_048_matched,'0') as int64)
+    ;;
+  }
+  measure: erasers_cleared_025 {
+    group_label: "Erasers Cleared"
+    label: "Erasers Cleared - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${erasers_cleared} ;;
+  }
+  measure: erasers_cleared_25 {
+    group_label: "Erasers Cleared"
+    label: "Erasers Cleared - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${erasers_cleared} ;;
+  }
+  measure: erasers_cleared_med {
+    group_label: "Erasers Cleared"
+    label: "Erasers Cleared - Median"
+    type: median
+    sql: ${erasers_cleared} ;;
+  }
+  measure: erasers_cleared_75 {
+    group_label: "Erasers Cleared"
+    label: "Erasers Cleared - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${erasers_cleared} ;;
+  }
+  measure: erasers_cleared_975 {
+    group_label: "Erasers Cleared"
+    label: "Erasers Cleared - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${erasers_cleared} ;;
+  }
 
   drill_fields: [proximity_to_completion,rdg_id,current_card_numbered]
 }

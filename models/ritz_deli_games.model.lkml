@@ -205,6 +205,11 @@ explore: click_stream {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: temp_click_stream
   view_label: "Temp Button Clicks"
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${click_stream.rdg_id} = ${user_last_event.rdg_id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: ask_for_help {
@@ -374,6 +379,21 @@ explore: gameplay {
     relationship: one_to_one
     sql_on: ${gameplay.rdg_id} = ${gameplay_fact.rdg_id}
           and ${gameplay.round_id} = ${gameplay_fact.round_id};;
+  }
+  # join: round_start {
+  #   view_label: "Round Start"
+  #   type: left_outer
+  #   sql_on: ${gameplay.rdg_id} = ${round_start.rdg_id}
+  #     and ${gameplay.round_id} = ${round_start.round_id} ;;
+  #   relationship: one_to_one
+  # }
+}
+explore: round_start {
+  join: round_end {
+  type: left_outer
+  relationship: one_to_one
+  sql_on: ${round_start.rdg_id} = ${round_end.rdg_id}
+    and ${round_start.round_id} = ${round_end.round_id};;
   }
 }
 

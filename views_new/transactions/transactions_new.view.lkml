@@ -8,9 +8,9 @@ view: transactions_new {
         ,datetime(created_at,'US/Pacific') created_pst
         ,event_name
         ,timestamp
-        ,country --can remove once Will makes user_first_event table
-        ,platform --can remove once Will makes user_first_event table
-        ,lower(hardware) device_model_number
+        --,country --can remove once Will makes user_first_event table
+        --,platform --can remove once Will makes user_first_event table
+        --,lower(hardware) device_model_number
         ,round(cast(engagement_ticks as int64) / 2) minutes_played
         ,current_card
         ,last_unlocked_card
@@ -30,7 +30,7 @@ view: transactions_new {
         and user_type = 'external'
         and country != 'ZZ'
         and timestamp >= '2019-01-01'
-        and coalesce(install_version,'null') <> '-1'
+        --and coalesce(install_version,'null') <> '-1'
     ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
@@ -43,7 +43,7 @@ view: transactions_new {
     hidden: yes
     primary_key: yes
     type: string
-    sql: ${rdg_id} || ${event_name} || ${transaction_raw} ;;
+    sql: ${rdg_id} || ${transaction_raw} ;;
   }
   dimension: rdg_id {
     hidden: no
@@ -71,34 +71,34 @@ view: transactions_new {
       ,year
     ]
   }
-  dimension: device_model_number {
-    hidden: yes
-  }
-  ##REMOVE ONCE WILL ADDS USER_FIRST_EVENT TABLE
-  dimension: platform {
-    hidden: no
-    group_label: "Device & OS Dimensions"
-    label: "Device Platform"
-    type: string
-    sql: @{device_platform_mapping} ;;
-  }
-  dimension: country {
-    group_label: "Device & OS Dimensions"
-    label: "Device Country"
-    type: string
-  }
-  dimension: region {
-    group_label: "Device & OS Dimensions"
-    label: "Device Region"
-    type: string
-    sql: @{country_region} ;;
-  }
-  ##REMOVE ONCE WILL ADDS USER_FIRST_EVENT TABLE
-  dimension: event_name {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.event_name ;;
-  }
+  # dimension: device_model_number {
+  #   hidden: yes
+  # }
+  # ##REMOVE ONCE WILL ADDS USER_FIRST_EVENT TABLE
+  # dimension: platform {
+  #   hidden: no
+  #   group_label: "Device & OS Dimensions"
+  #   label: "Device Platform"
+  #   type: string
+  #   sql: @{device_platform_mapping} ;;
+  # }
+  # dimension: country {
+  #   group_label: "Device & OS Dimensions"
+  #   label: "Device Country"
+  #   type: string
+  # }
+  # dimension: region {
+  #   group_label: "Device & OS Dimensions"
+  #   label: "Device Region"
+  #   type: string
+  #   sql: @{country_region} ;;
+  # }
+  # ##REMOVE ONCE WILL ADDS USER_FIRST_EVENT TABLE
+  # dimension: event_name {
+  #   hidden: yes
+  #   type: string
+  #   sql: ${TABLE}.event_name ;;
+  # }
   dimension_group: transaction {
     type: time
     timeframes: [

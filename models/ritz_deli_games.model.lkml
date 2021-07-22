@@ -381,6 +381,39 @@ explore: gameplay {
          and ${gameplay.round_id} = ${gameplay_fact.round_id}
          and ${gameplay.event_time} = ${gameplay_fact.event_time};;
   }
+  join: new_afh {
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${gameplay.rdg_id} = ${new_afh.rdg_id}
+        and ${gameplay.event_time} = ${new_afh.event_time};;
+  }
+  join: id_helper_requesting {
+    from: id_helper
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${new_afh.requesting_player_id} = ${id_helper_requesting.user_id} ;;
+  }
+  join: id_helper_providing {
+    from: id_helper
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${new_afh.providing_player_id} = ${id_helper_providing.user_id} ;;
+  }
+  join: user_fact_requesting {
+    view_label: "Requesting Player"
+    from: user_fact
+    type: left_outer
+    sql_on: ${id_helper_requesting.rdg_id} = ${user_fact_requesting.rdg_id} ;;
+    relationship: many_to_one
+  }
+  join: user_fact_providing {
+    view_label: "Providing Player"
+    from: user_fact
+    type: left_outer
+    sql_on: ${id_helper_providing.rdg_id} = ${user_fact_providing.rdg_id} ;;
+    relationship: many_to_one
+  }
+  join: gameplay_explore_mixed_fields {}
   # join: round_start {
   #   view_label: "Round Start"
   #   type: left_outer

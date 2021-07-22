@@ -2,7 +2,7 @@
 # include: "ritz_deli_games.model.lkml"
 
 # Link to original explore:
-# https://ritzdeligames.looker.com/explore/ritz_deli_games/gameplay?qid=BKN63Xqngl9ffcjHsSUwNx
+# https://ritzdeligames.looker.com/explore/ritz_deli_games/gameplay?qid=JHwfRG9Cfs1LZ6Wcd6LM0u&toggle=fil
 
 #
 
@@ -11,10 +11,16 @@ view: gameplay_fact {
     explore_source: gameplay {
       column: rdg_id {}
       column: round_id {}
+      column: game_mode {}
       column: event_time {}
+      column: request_help {}
       derived_column: greater_round_id {
         sql: LAG(round_id)
     OVER (PARTITION BY rdg_id ORDER BY round_id DESC) ;;
+      }
+      filters: {
+        field: gameplay.request_help
+        value: "No"
       }
     }
   }
@@ -29,6 +35,7 @@ view: gameplay_fact {
     description: "The next round_id for the player in sequence"
     type: number
   }
+  dimension: game_mode {}
   dimension: rdg_id {
     description: "Unique identifier of a player in the game"
     type: string
@@ -37,6 +44,7 @@ view: gameplay_fact {
     description: "Incremented value that increases each time a player plays the game"
     type: number
   }
+  dimension: request_help {}
   dimension: event_time {
     description: "Timestamp of the play"
     type: date_time

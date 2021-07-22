@@ -33,7 +33,7 @@ view: temp_click_stream {
   dimension: rdg_id {
     type: string
     sql: ${TABLE}.rdg_id ;;
-    hidden: yes
+    #hidden: yes
   }
   dimension_group: event {
     type: time

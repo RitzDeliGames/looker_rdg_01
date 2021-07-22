@@ -211,10 +211,31 @@ explore: ask_for_help {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: new_afh
   view_label: "Ask for Help"
-  join: user_fact {
+  join: id_helper_requesting {
+    from: id_helper
     type: left_outer
-    sql_on: ${ask_for_help.rdg_id} = ${user_fact.rdg_id} ;;
     relationship: many_to_one
+    sql_on: ${ask_for_help.requesting_player_id} = ${id_helper_requesting.user_id} ;;
+  }
+  join: id_helper_providing {
+    from: id_helper
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ask_for_help.providing_player_id} = ${id_helper_providing.user_id} ;;
+  }
+  join: user_fact_requesting {
+    view_label: "Requesting Player"
+    from: user_fact
+    type: left_outer
+    sql_on: ${id_helper_requesting.rdg_id} = ${user_fact_requesting.rdg_id} ;;
+    relationship: many_to_one
+  }
+  join: user_fact_providing {
+    view_label: "Providing Player"
+   from: user_fact
+   type: left_outer
+   sql_on: ${id_helper_providing.rdg_id} = ${user_fact_providing.rdg_id} ;;
+   relationship: many_to_one
   }
   join: user_last_event {
     type: left_outer
@@ -427,5 +448,3 @@ explore: churn_card_data {
 }
 
 explore: id_helper {}
-
-explore: gameplay_fact {}

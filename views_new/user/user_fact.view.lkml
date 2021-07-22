@@ -21,8 +21,9 @@ view: user_fact {
         ,max(ltv) ltv
         ,min(created_at) created
         ,min(datetime(created_at,'US/Pacific')) created_pst
+        ,max(current_quest) highest_quest_reached
+        ,max(session_id) last_session
         ,max(timestamp) last_event
-        ,max(round_id) last_round_id
         ,count(distinct session_id) lifetime_sessions
         ,cast(max(quests_completed) as int64) quests_completed
         ,max(json_extract_scalar(extra_json,"$.card_id")) current_card  -- need to do the max on the current card num, card_003_b (150) is coming through instead of card_002 (400)

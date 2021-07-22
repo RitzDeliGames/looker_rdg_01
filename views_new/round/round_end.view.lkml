@@ -11,6 +11,7 @@ view: round_end {
         ,cast(current_quest as int64) current_quest
         ,cast(json_extract_scalar(extra_json,'$.round_id') as int64) round_id
         ,cast(json_extract_scalar(extra_json,'$.quest_complete') as boolean) quest_complete
+        ,json_extract_scalar(extra_json,'$.game_mode') game_mode
         ,cast(json_extract_scalar(extra_json,'$.request_help') as boolean) request_help
         ,json_extract_scalar(extra_json,'$.team_slot_0') primary_team_slot
         ,json_extract_scalar(extra_json,'$.team_slot_skill_0') primary_team_slot_skill
@@ -132,6 +133,7 @@ view: round_end {
     ]
   }
   dimension: session_id {}
+  dimension: game_mode {}
   dimension: current_card {
     group_label: "Card Dimensions"
     label: "Player Current Card"

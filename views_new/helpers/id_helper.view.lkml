@@ -13,13 +13,19 @@ view: id_helper {
           order by 2 desc;;
       }
 
-    dimension: rdg_id {}
-    dimension: user_id {}
+    dimension: rdg_id {
+      hidden: yes
+    }
+    dimension: user_id {
+      hidden: yes
+    }
     measure: rdg_id_count {
+      hidden: yes
       type: count_distinct
       sql: ${TABLE}.rdg_id ;;
     }
     measure: user_id_count {
+      hidden: yes
       type: count_distinct
       sql: ${TABLE}.user_id ;;
     }

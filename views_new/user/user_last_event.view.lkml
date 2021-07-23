@@ -1,44 +1,44 @@
 view: user_last_event {
-# pulls the most recent event of the user to get current experiments, at the grain of the user
+  # pulls the most recent event of the user to get current experiments, at the grain of the user
   view_label: "Users"
   derived_table: {
     sql:
-      with last_user_event as (
-        select
-           rdg_id
-          ,event_name
-          ,last_ts
-          ,rank() over (partition by rdg_id order by last_ts desc, event_name) rnk
-        from (
-          select
-             rdg_id rdg_id
-            ,event_name
-            ,max(timestamp) last_ts
-          from game_data.events
-          where timestamp < timestamp(current_date())
-          -- and timestamp >= timestamp(current_date() - 90)
-          and rdg_id is not null
-          and user_type = 'external'
-          group by 1,2
-        ) x
-      )
-      select distinct
-        last_user_event.rdg_id
-        ,events.experiments
-        ,lower(events.hardware) device_model_number
-        ,last_unlocked_card
-        ,current_card
-        ,cast(current_quest as int64) current_quest
-      from last_user_event
-      inner join game_data.events
-        on last_user_event.rdg_id = events.rdg_id
-        and last_user_event.last_ts = events.timestamp
-        and last_user_event.event_name = events.event_name
-        -- events.timestamp >= timestamp(current_date() - 90)
-        and events.timestamp < timestamp(current_date())
-        and events.user_type = 'external'
-      where last_user_event.rnk = 1
-    ;;
+          with last_user_event as (
+            select
+               rdg_id
+              ,event_name
+              ,last_ts
+              ,rank() over (partition by rdg_id order by last_ts desc, event_name) rnk
+            from (
+              select
+                 rdg_id rdg_id
+                ,event_name
+                ,max(timestamp) last_ts
+              from game_data.events
+              where timestamp < timestamp(current_date())
+              -- and timestamp >= timestamp(current_date() - 90)
+              and rdg_id is not null
+              and user_type = 'external'
+              group by 1,2
+            ) x
+          )
+          select distinct
+            last_user_event.rdg_id
+            ,events.experiments
+            ,lower(events.hardware) device_model_number
+            ,last_unlocked_card
+            ,current_card
+            ,cast(current_quest as int64) current_quest
+          from last_user_event
+          inner join game_data.events
+            on last_user_event.rdg_id = events.rdg_id
+            and last_user_event.last_ts = events.timestamp
+            and last_user_event.event_name = events.event_name
+            -- events.timestamp >= timestamp(current_date() - 90)
+            and events.timestamp < timestamp(current_date())
+            and events.user_type = 'external'
+          where last_user_event.rnk = 1
+        ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
   }
@@ -90,6 +90,26 @@ view: user_last_event {
     value_format: "####"
     sql: @{current_card_numbered};;
   }
+  ###EXPERIMENT IDS###
+
+  dimension: totd_iam_003_a_9 {
+    group_label: "Experiments"
+    label: "ToTD Card_003_a / Tile 9 v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.totd_iam_003_a_9'),'unassigned') ;;
+  }
+  dimension: totd_iam_002_a_9 {
+    group_label: "Experiments"
+    label: "ToTD Card_002_a / Tile 9 v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.totd_iam_002_a_9'),'unassigned') ;;
+  }
+  dimension: listViewTest_20210713 {
+    group_label: "Experiments"
+    label: "List View v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.listViewTest_20210713'),'unassigned') ;;
+  }
   dimension: listViewTest_20210630 {
     group_label: "Experiments"
     label: "List View v1"
@@ -107,6 +127,18 @@ view: user_last_event {
     label: "Alt Card_002 / Tile 9 & 17 v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_20210702'),'unassigned') ;;
+  }
+  dimension: altCard_002_a_13_20210722 {
+    group_label: "Experiments"
+    label: "Alt Card_002_a / Tile 13 v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_a_13_20210722'),'unassigned') ;;
+  }
+  dimension: altCard_002_a_17_20210722 {
+    group_label: "Experiments"
+    label: "Alt Card_002_a / Tile 17 v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_a_17_20210722'),'unassigned') ;;
   }
   dimension: altCard002_9_20210528 {
     group_label: "Experiments"

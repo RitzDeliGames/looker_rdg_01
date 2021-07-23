@@ -126,7 +126,8 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '10100' THEN '1.10'
             WHEN ${TABLE}.version LIKE '10200' THEN '1.10'
             WHEN ${TABLE}.version LIKE '10300' THEN '1.10'
-        END"
+            WHEN ${TABLE}.version LIKE '10400' THEN '1.10'
+          END"
 }
 
 constant: install_release_version_major {
@@ -164,7 +165,8 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '10100' THEN '1.10'
             WHEN ${TABLE}.install_version LIKE '10200' THEN '1.10'
             WHEN ${TABLE}.install_version LIKE '10300' THEN '1.10'
-        END"
+            WHEN ${TABLE}.install_version LIKE '10400' THEN '1.10'
+          END"
 }
 
 constant: release_version_minor {
@@ -201,7 +203,8 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '9500' THEN '1.9.500'
             WHEN ${TABLE}.version LIKE '10100' THEN '1.10.100'
             WHEN ${TABLE}.version LIKE '10200' THEN '1.10.200'
-            WHEN ${TABLE}.version LIKE '10200' THEN '1.10.300'
+            WHEN ${TABLE}.version LIKE '10300' THEN '1.10.300'
+            WHEN ${TABLE}.version LIKE '10400' THEN '1.10.400'
           END"
 }
 
@@ -240,6 +243,7 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '10100' THEN '1.10.100'
             WHEN ${TABLE}.install_version LIKE '10200' THEN '1.10.200'
             WHEN ${TABLE}.install_version LIKE '10300' THEN '1.10.300'
+            WHEN ${TABLE}.install_version LIKE '10400' THEN '1.10.400'
           END"
 }
 

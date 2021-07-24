@@ -146,6 +146,13 @@ view: round_end {
     type: string
     sql: ${TABLE}.last_unlocked_card ;;
   }
+  dimension: last_unlocked_card_numbered {
+    group_label: "Card Dimensions"
+    label: "Player Last Unlocked Card (Numbered)"
+    type: number
+    value_format: "####"
+    sql: @{last_unlocked_card_numbered} ;;
+  }
   dimension: card_id {
     group_label: "Card Dimensions"
     label: "Player Last Unlocked Card (Coalesced)"
@@ -156,8 +163,8 @@ view: round_end {
     group_label: "Card Dimensions"
     label: "Player Current Card (Numbered)"
     type: number
-    sql: @{current_card_numbered} ;;
     value_format: "####"
+    sql: @{current_card_numbered} ;;
   }
   dimension: current_quest {
     group_label: "Card Dimensions"

@@ -423,6 +423,7 @@ explore: gameplay {
   # }
 }
 explore: round_start {
+  hidden: yes
   join: round_end {
   type: left_outer
   relationship: one_to_one
@@ -432,6 +433,7 @@ explore: round_start {
 }
 
 explore: temp_fps {
+  hidden: yes
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   view_label: "temp fps"
   join: user_fact {

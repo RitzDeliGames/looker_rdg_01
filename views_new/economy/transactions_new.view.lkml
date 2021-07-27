@@ -71,34 +71,6 @@ view: transactions_new {
       ,year
     ]
   }
-  # dimension: device_model_number {
-  #   hidden: yes
-  # }
-  # ##REMOVE ONCE WILL ADDS USER_FIRST_EVENT TABLE
-  # dimension: platform {
-  #   hidden: no
-  #   group_label: "Device & OS Dimensions"
-  #   label: "Device Platform"
-  #   type: string
-  #   sql: @{device_platform_mapping} ;;
-  # }
-  # dimension: country {
-  #   group_label: "Device & OS Dimensions"
-  #   label: "Device Country"
-  #   type: string
-  # }
-  # dimension: region {
-  #   group_label: "Device & OS Dimensions"
-  #   label: "Device Region"
-  #   type: string
-  #   sql: @{country_region} ;;
-  # }
-  # ##REMOVE ONCE WILL ADDS USER_FIRST_EVENT TABLE
-  # dimension: event_name {
-  #   hidden: yes
-  #   type: string
-  #   sql: ${TABLE}.event_name ;;
-  # }
   dimension_group: transaction {
     type: time
     timeframes: [
@@ -140,6 +112,13 @@ view: transactions_new {
   dimension: last_unlocked_card {
     group_label: "Card Dimensions"
     label: "Player Last Unlocked Card"
+  }
+  dimension: last_unlocked_card_numbered {
+    group_label: "Card Dimensions"
+    label: "Player Last Unlocked Card (Numbered)"
+    type: number
+    sql: @{last_unlocked_card_numbered} ;;
+    value_format: "####"
   }
   dimension: card_id { #change this dimension name but check for dependencies first!
     group_label: "Card Dimensions"

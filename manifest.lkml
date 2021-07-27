@@ -782,6 +782,7 @@ constant: reward_events {
     value: "case
               when ${TABLE}.reward_event like '%initial%' then 'Initial Reward'
               when ${TABLE}.reward_event like '%level%' then 'Level Up'
+              when ${TABLE}.reward_event = 'bingo_reward_COMP' then 'Bingo Card Completion'
               when ${TABLE}.reward_event like '%bingo_reward_C%' then 'Bingo Card Column'
               when ${TABLE}.reward_event like '%bingo_reward_R%' then 'Bingo Card Row'
               when ${TABLE}.reward_event like '%bingo_reward_D%' then 'Bingo Card Diagonal'

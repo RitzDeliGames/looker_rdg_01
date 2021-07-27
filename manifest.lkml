@@ -143,7 +143,8 @@ constant: cheaters {
             '405f1162-7667-4f6c-a8a7-7a79c15b4734',
             'ecea8541-944b-4a56-bbc1-92f2e7045d08',
             '1d10d0e4-f217-4910-84de-44a01884df6d',
-            'e3c0347d-8aa8-431e-9aed-b210a11c3f3f')"
+            'e3c0347d-8aa8-431e-9aed-b210a11c3f3f',
+            '6142a709-9a93-4f46-b071-20170d7cfe56')"
 }
 
 constant: release_version_major {

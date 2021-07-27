@@ -15,7 +15,7 @@ view: rewards {
       and user_type = 'external'
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'
-      and current_card = last_unlocked_card
+      --and current_card = last_unlocked_card
     ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes

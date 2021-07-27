@@ -1,11 +1,5 @@
-# If necessary, uncomment the line below to include explore_source.
-# include: "ritz_deli_games.model.lkml"
-
 # Link to original explore:
 # https://ritzdeligames.looker.com/explore/ritz_deli_games/gameplay?qid=JHwfRG9Cfs1LZ6Wcd6LM0u&toggle=fil
-
-# If necessary, uncomment the line below to include explore_source.
-# include: "ritz_deli_games.model.lkml"
 
 view: gameplay_fact {
   derived_table: {

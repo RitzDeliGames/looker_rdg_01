@@ -95,7 +95,12 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.skill_available') as int64) skill_available
         ,cast(json_extract_scalar(extra_json,'$.skill_used') as int64) skill_used
         ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_001") as int64) boxes_popped
-        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_027") as int64) smog_popped
+        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_027") as int64) smog_spawing_popped
+        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_028") as int64) smog_fixed_8_popped
+        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_038") as int64) smog_fixed_enclosed_popped
+        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_039") as int64) smog_spawning_enclosed_popped
+        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_040") as int64) smog_fixed_gaps_popped
+        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_041") as int64) smog_spawing_gaps_popped
     from game_data.events
    where event_name = 'round_end'
      and timestamp >= '2019-01-01'
@@ -794,10 +799,35 @@ view: round_end {
     percentile: 97.5
     sql: ${boxes_popped} ;;
   }
+  dimension: smog_spawing_popped {
+    hidden: yes
+    type: number
+  }
+  dimension: smog_fixed_8_popped {
+    hidden: yes
+    type: number
+  }
+  dimension: smog_fixed_enclosed_popped {
+    hidden: yes
+    type: number
+  }
+  dimension: smog_spawning_enclosed_popped {
+    hidden: yes
+    type: number
+  }
+  dimension: smog_fixed_gaps_popped {
+    hidden: yes
+    type: number
+  }
+  dimension: smog_spawing_gaps_popped {
+    hidden: yes
+    type: number
+  }
   dimension: smog_popped {
     group_label: "Elements"
     label: "Smog"
     type: number
+    sql:  ${smog_spawing_popped};;
   }
   measure: smog_popped_all_025 {
     group_label: "Smog Popped"

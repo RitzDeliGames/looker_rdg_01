@@ -27,7 +27,7 @@ datagroup: change_at_midnight {
 }
 
 explore: user_retention {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   label: "Users"
   from: user_fact
   join: user_activity {
@@ -94,7 +94,7 @@ explore: user_retention {
 }
 
 explore: user_card_completion {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   label: "Card Completion (User)"
   from: user_card
   join: user_fact {
@@ -201,7 +201,7 @@ explore: rewards {
 #}
 
 explore: in_app_messages {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: new_iam
   join: user_fact {
     type: left_outer
@@ -217,7 +217,7 @@ explore: in_app_messages {
 }
 
 explore: click_stream {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: temp_click_stream
   view_label: "Temp Button Clicks"
   join: user_last_event {
@@ -228,7 +228,7 @@ explore: click_stream {
 }
 
 explore: ask_for_help {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: new_afh
   view_label: "Ask for Help"
   join: id_helper_requesting {
@@ -265,7 +265,7 @@ explore: ask_for_help {
 }
 
 explore: community_events {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: community_events_activity
   # view_label: "Communtiy Events"
   # join: user_fact {
@@ -281,7 +281,7 @@ explore: community_events {
 }
 
 explore: temp_community_events_funnels {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   join: user_fact {
     type: left_outer
     sql_on: ${temp_community_events_funnels.rdg_id} = ${user_fact.rdg_id} ;;
@@ -303,7 +303,7 @@ explore: temp_community_events_funnels {
 }
 
 explore: churn_by_tile_by_attempt {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   always_filter: {
     filters: [churn_by_tile_by_attempt.node_selector: "0"]
   }
@@ -321,7 +321,7 @@ explore: churn_by_tile_by_attempt {
 }
 
 explore: churn_by_card {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: churn_by_card_by_attempt
   view_label: "Churn"
   join: user_fact {
@@ -337,7 +337,7 @@ explore: churn_by_card {
 }
 
 explore: gameplay {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: round_end
   join: user_fact {
     type: left_outer
@@ -449,7 +449,7 @@ explore: round_start {
 
 explore: temp_fps {
   hidden: yes
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: "temp fps"
   join: user_fact {
     type: left_outer
@@ -459,7 +459,7 @@ explore: temp_fps {
 }
 
 explore: events {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: " Card Data" ## space to bring to top of Explore
   label: "Card Event"
   join: supported_devices {
@@ -498,7 +498,7 @@ explore: churn_card_data {
   always_filter: {
     filters: [churn_card_data.node_selector: "0", churn_card_data.node_is_selected: "yes"]
   }
-  sql_always_where: ${churn_card_data.rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${churn_card_data.rdg_id} not in @{device_internal_tester_mapping};;
   #view_label: "temp churn by tile"
   join: user_fact {
     type: left_outer

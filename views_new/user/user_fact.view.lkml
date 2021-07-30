@@ -11,7 +11,7 @@ view: user_fact {
       from `eraser-blast.game_data.events`
       where created_at >= '2019-01-01'
       and user_type = 'external'
-      and country != 'ZZ')
+      and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1')
       -- group by rdg_id, country, platform
       select

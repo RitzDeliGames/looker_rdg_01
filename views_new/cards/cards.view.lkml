@@ -3,6 +3,8 @@ view: cards {
     sql:
       select
         rdg_id
+        ,current_card
+        ,current_quest
         ,event_name
         ,timestamp
         ,json_extract_scalar(extra_json,'$.card_id') card_id
@@ -48,11 +50,17 @@ view: cards {
     type: date_time
     sql: ${TABLE}.timestamp ;;
   }
-  dimension: card_id {
+  dimension: current_card {
     group_label: "Card Dimensions"
-    label: "Player Current Card"
+    label: "Player Current Card (Extracted)"
     type: string
     sql: ${TABLE}.card_id ;;
+  }
+  dimension: current_card_schema {
+    group_label: "Card Dimensions"
+    label: "Player Current Card (Schema)"
+    type: string
+    sql: ${TABLE}.current_card ;;
   }
   dimension: current_card_numbered {
     group_label: "Card Dimensions"

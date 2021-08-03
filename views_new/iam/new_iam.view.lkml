@@ -69,7 +69,7 @@ view: new_iam {
   dimension: campaign_id {}
   dimension: campaign_name {}
   dimension: ui_action {
-    hidden: yes
+    hidden: no
   }
   dimension: iam_ui_actions {
     label: "IAM Actions"

@@ -109,6 +109,12 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_b_08_20210728'),'unassigned') ;;
   }
+  dimension: altCard_002_a_07_20210728   {
+    group_label: "Experiments - Live"
+    label: "Alt Card_002_a / Tile 7 v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_a_07_20210728'),'unassigned') ;;
+  }
   dimension: altCard_002_a_08_20210728   {
     group_label: "Experiments - Live"
     label: "Alt Card_002_a / Tile 8 v2"

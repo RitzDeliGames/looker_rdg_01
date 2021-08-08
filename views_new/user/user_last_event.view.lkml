@@ -92,43 +92,43 @@ view: user_last_event {
   }
   ###EXPERIMENT IDS###
   dimension: altCard_002_open_20210727   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_002 (No Reqs)"
     type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_open_20210727 '),'unassigned') ;;
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_open_20210727'),'unassigned') ;;
   }
   dimension: altCard_002_b_07_20210728 {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_002_b / Tile 7 v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_b_07_20210728'),'unassigned') ;;
   }
   dimension: altCard_002_b_08_20210728   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_002_b / Tile 8 v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_b_08_20210728'),'unassigned') ;;
   }
   dimension: altCard_002_a_07_20210728   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_002_a / Tile 7 v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_a_07_20210728'),'unassigned') ;;
   }
   dimension: altCard_002_a_08_20210728   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_002_a / Tile 8 v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_a_08_20210728'),'unassigned') ;;
   }
   dimension: altCard_003_a_07_20210728 {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_003_a / Tile 7 v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_a_07_20210728'),'unassigned') ;;
   }
   dimension: altCard_003_a_17_20210727 {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_003_a / Tile 17 v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_a_17_20210727'),'unassigned') ;;

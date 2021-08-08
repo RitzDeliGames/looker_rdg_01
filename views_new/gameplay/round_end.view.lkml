@@ -32,18 +32,18 @@ view: round_end {
         --,cast(json_extract_scalar(extra_json,'$.requirement_amount') as int64) requirement_amount
         ,json_extract(extra_json,'$.all_chains') all_chains
         ,json_extract_scalar(extra_json,'$.all_chains') unnest_all_chains
-        ,array_length(case when json_value(extra_json, '$.bubble_normal') = "0" then null else split(json_value(extra_json, '$.bubble_normal'),',') end) bubbles_popped_normal
+        ,array_length(case when json_value(extra_json, '$.bubble_normal') = "" then null else split(json_value(extra_json, '$.bubble_normal'),',') end) bubbles_popped_normal
         ,array_length(case when json_value(extra_json, '$.bubble_coins') = "" then null else split(json_value(extra_json, '$.bubble_coins'),',') end) bubbles_popped_coins
         ,array_length(case when json_value(extra_json, '$.bubble_xp') = "" then null else split(json_value(extra_json, '$.bubble_xp'),',') end) bubbles_popped_xp
-        ,array_length(case when json_value(extra_json, '$.bubble_time') = "" then null else split(json_value(extra_json, '$.bubble_time'),',') end) bubbles_popped_time
+        ,array_length(case when json_value(extra_json, '$.bubble_time') = "" then null else split(json_value(extra_json, '$.bubble_time'),',') end) bubbles_popped_add_time
         ,array_length(case when json_value(extra_json, '$.bubble_score') = "" then null else split(json_value(extra_json, '$.bubble_score'),',') end) bubbles_popped_score
-        ,array_length(case when json_value(extra_json, '$.bubble_h_burst') = "" then null else split(json_value(extra_json, '$.bubble_h_burst'),',') end) bubbles_h_burst_score
-        ,array_length(case when json_value(extra_json, '$.bubble_v_burst') = "" then null else split(json_value(extra_json, '$.bubble_v_burst'),',') end) bubbles_v_burst_score
-        ,array_length(case when json_value(extra_json, '$.bubble_x_burst') = "" then null else split(json_value(extra_json, '$.bubble_x_burst'),',') end) bubbles_x_burst_score
-        ,array_length(case when json_value(extra_json, '$.bubble_multi_burst') = "" then null else split(json_value(extra_json, '$.bubble_multi_burst'),',') end) bubbles_multi_burst_score
-        ,array_length(case when json_value(extra_json, '$.bubble_convert_random') = "" then null else split(json_value(extra_json, '$.bubble_convert_random'),',') end) bubbles_convert_random_score
-        ,array_length(case when json_value(extra_json, '$.bubble_stop_time') = "" then null else split(json_value(extra_json, '$.bubble_stop_time'),',') end) bubbles_stop_time_score
-        ,array_length(case when json_value(extra_json, '$.bubble_instant_fever') = "" then null else split(json_value(extra_json, '$.bubble_instant_fever'),',') end) bubbles_instant_fever_score
+        ,array_length(case when json_value(extra_json, '$.bubble_h_burst') = "" then null else split(json_value(extra_json, '$.bubble_h_burst'),',') end) bubbles_popped_h_burst
+        ,array_length(case when json_value(extra_json, '$.bubble_v_burst') = "" then null else split(json_value(extra_json, '$.bubble_v_burst'),',') end) bubbles_popped_v_burst
+        ,array_length(case when json_value(extra_json, '$.bubble_x_burst') = "" then null else split(json_value(extra_json, '$.bubble_x_burst'),',') end) bubbles_popped_x_burst
+        ,array_length(case when json_value(extra_json, '$.bubble_multi_burst') = "" then null else split(json_value(extra_json, '$.bubble_multi_burst'),',') end) bubbles_popped_multi_burst
+        ,array_length(case when json_value(extra_json, '$.bubble_convert_random') = "" then null else split(json_value(extra_json, '$.bubble_convert_random'),',') end) bubbles_popped_convert_random
+        ,array_length(case when json_value(extra_json, '$.bubble_stop_time') = "" then null else split(json_value(extra_json, '$.bubble_stop_time'),',') end) bubbles_popped_stop_time
+        ,array_length(case when json_value(extra_json, '$.bubble_instant_fever') = "" then null else split(json_value(extra_json, '$.bubble_instant_fever'),',') end) bubbles_popped_instant_fever
         ,json_extract_scalar(extra_json,'$.character_001_matched') character_001_matched
         ,json_extract_scalar(extra_json,'$.character_002_matched') character_002_matched
         ,json_extract_scalar(extra_json,'$.character_003_matched') character_003_matched
@@ -720,11 +720,56 @@ view: round_end {
     label: "Score"
     type: number
   }
+  dimension: bubbles_popped_xp {
+    group_label: "Bubbles"
+    label: "XP"
+    type: number
+  }
+  dimension: bubbles_popped_add_time {
+    group_label: "Bubbles"
+    label: "Time"
+    type: number
+  }
+  dimension: bubbles_popped_stop_time {
+    group_label: "Bubbles"
+    label: "Time"
+    type: number
+  }
+  dimension: bubbles_popped_h_burst {
+    group_label: "Bubbles"
+    label: "Horizontal Burst"
+    type: number
+  }
+  dimension: bubbles_popped_v_burst {
+    group_label: "Bubbles"
+    label: "Vertical Burst"
+    type: number
+  }
+  dimension: bubbles_popped_x_burst {
+    group_label: "Bubbles"
+    label: "X Burst"
+    type: number
+  }
+  dimension: bubbles_popped_multi_burst {
+    group_label: "Bubbles"
+    label: "Multi Burst"
+    type: number
+  }
+  dimension: bubbles_popped_convert_random {
+    group_label: "Bubbles"
+    label: "Convert Random"
+    type: number
+  }
+  dimension: bubbles_popped_instant_fever {
+    group_label: "Bubbles"
+    label: "Instant Fever"
+    type: number
+  }
   dimension: bubbles_popped_all {
     group_label: "Bubbles"
     label: "All"
     type: number
-    sql: ${bubbles_popped_normal} + ${bubbles_popped_coins} + ${bubbles_popped_score} ;;
+    sql: ${bubbles_popped_normal} + ${bubbles_popped_coins} + ${bubbles_popped_xp} + ${bubbles_popped_stop_time} + ${bubbles_popped_add_time} + ${bubbles_popped_score} + ${bubbles_popped_h_burst} + ${bubbles_popped_v_burst} + ${bubbles_popped_x_burst} + ${bubbles_popped_multi_burst} + ${bubbles_popped_convert_random} + ${bubbles_popped_instant_fever};;
   }
   measure: bubbles_popped_all_025 {
     group_label: "Bubbles Popped"

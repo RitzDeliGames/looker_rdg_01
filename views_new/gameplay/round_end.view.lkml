@@ -709,67 +709,79 @@ view: round_end {
     group_label: "Bubbles"
     label: "Normal"
     type: number
+    sql: if( ${TABLE}.bubbles_popped_normal is null, 0, ${TABLE}.bubbles_popped_normal ) ;;
   }
   dimension: bubbles_popped_coins {
     group_label: "Bubbles"
     label: "Coins"
     type: number
+    sql: if( ${TABLE}.bubbles_popped_coins is null, 0, ${TABLE}.bubbles_popped_coins ) ;;
   }
   dimension: bubbles_popped_score {
     group_label: "Bubbles"
     label: "Score"
     type: number
+    sql: if( ${TABLE}.bubbles_popped_score is null, 0, ${TABLE}.bubbles_popped_score ) ;;
   }
   dimension: bubbles_popped_xp {
     group_label: "Bubbles"
     label: "XP"
     type: number
+    sql: if( ${TABLE}.bubbles_popped_xp is null, 0, ${TABLE}.bubbles_popped_xp ) ;;
   }
   dimension: bubbles_popped_add_time {
     group_label: "Bubbles"
     label: "Time"
     type: number
+    sql: if( ${TABLE}.bubbles_popped_add_time is null, 0, ${TABLE}.bubbles_popped_add_time ) ;;
   }
   dimension: bubbles_popped_stop_time {
     group_label: "Bubbles"
     label: "Time"
     type: number
+    sql: if( ${TABLE}.bubbles_popped_stop_time is null, 0, ${TABLE}.bubbles_popped_stop_time ) ;;
   }
   dimension: bubbles_popped_h_burst {
     group_label: "Bubbles"
     label: "Horizontal Burst"
     type: number
+    sql: if( ${TABLE}.bubbles_popped_h_burst is null, 0, ${TABLE}.bubbles_popped_h_burst ) ;;
   }
   dimension: bubbles_popped_v_burst {
     group_label: "Bubbles"
     label: "Vertical Burst"
     type: number
+    sql: if( ${TABLE}.bubbles_popped_v_burst is null, 0, ${TABLE}.bubbles_popped_v_burst ) ;;
   }
   dimension: bubbles_popped_x_burst {
     group_label: "Bubbles"
     label: "X Burst"
     type: number
+    sql: if( ${TABLE}.bubbles_popped_x_burst is null, 0, ${TABLE}.bubbles_popped_x_burst ) ;;
   }
   dimension: bubbles_popped_multi_burst {
     group_label: "Bubbles"
     label: "Multi Burst"
     type: number
+    sql: if( ${TABLE}.bubbles_popped_multi_burst is null, 0, ${TABLE}.bubbles_popped_multi_burst ) ;;
   }
   dimension: bubbles_popped_convert_random {
     group_label: "Bubbles"
     label: "Convert Random"
     type: number
+    sql: if( ${TABLE}.bubbles_popped_convert_random is null, 0, ${TABLE}.bubbles_popped_convert_random ) ;;
   }
   dimension: bubbles_popped_instant_fever {
     group_label: "Bubbles"
     label: "Instant Fever"
     type: number
+    sql: if( ${TABLE}.bubbles_popped_instant_fever is null, 0, ${TABLE}.bubbles_popped_instant_fever ) ;;
   }
   dimension: bubbles_popped_all {
     group_label: "Bubbles"
     label: "All"
     type: number
-    sql: ${bubbles_popped_normal} + ${bubbles_popped_coins} + ${bubbles_popped_xp} + ${bubbles_popped_stop_time} + ${bubbles_popped_add_time} + ${bubbles_popped_score} + ${bubbles_popped_h_burst} + ${bubbles_popped_v_burst} + ${bubbles_popped_x_burst} + ${bubbles_popped_multi_burst} + ${bubbles_popped_convert_random} + ${bubbles_popped_instant_fever};;
+    sql: ${bubbles_popped_normal} + ${bubbles_popped_coins} + ${bubbles_popped_xp} + ${bubbles_popped_score} + ${bubbles_popped_add_time} + ${bubbles_popped_h_burst} + ${bubbles_popped_v_burst} + ${bubbles_popped_x_burst} + ${bubbles_popped_multi_burst} + ${bubbles_popped_convert_random} + ${bubbles_popped_instant_fever} + ${bubbles_popped_stop_time} ;;
   }
   measure: bubbles_popped_all_025 {
     group_label: "Bubbles Popped"

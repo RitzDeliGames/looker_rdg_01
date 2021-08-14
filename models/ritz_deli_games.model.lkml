@@ -45,9 +45,9 @@ explore: user_retention {
     sql_on: ${user_retention.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
-  join: supported_devices {
+  join: android_device_helper {
     type: left_outer
-    sql_on: ${user_last_event.device_model_number} = ${supported_devices.retail_model} ;;
+    sql_on: ${user_last_event.device_model_number} = ${android_device_helper.retail_model} ;;
     relationship: many_to_one
   }
   join: facebook_daily_export {
@@ -131,7 +131,7 @@ explore: system_value_aggregated {
 }
 
 explore: transactions {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list};;
   from: transactions_new
   join: user_fact {
     type: left_outer
@@ -156,7 +156,7 @@ explore: transactions {
 }
 
 explore: rewards {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} and ${rdg_id} not in @{cheaters};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list};;
   from: rewards
   join: user_fact {
     type: left_outer
@@ -462,8 +462,8 @@ explore: events {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: " Card Data" ## space to bring to top of Explore
   label: "Card Event"
-  join: supported_devices {
-    sql_on: ${events.device_model_number} = ${supported_devices.retail_model} ;;
+  join: android_device_helper {
+    sql_on: ${events.device_model_number} = ${android_device_helper.retail_model} ;;
     type: left_outer
     relationship: many_to_one
   }

@@ -18,6 +18,7 @@ view: user_fact {
         fa.rdg_id
         ,fa.platform
         ,fa.country
+        ,hardware
         ,max(ltv) ltv
         ,min(created_at) created
         ,min(datetime(created_at,'US/Pacific')) created_pst
@@ -71,7 +72,7 @@ view: user_fact {
       and gde.country != 'ZZ'
       and coalesce(gde.install_version,'null') <> '-1'
       and fa.rn = 1
-      group by 1, 2, 3
+      group by 1, 2, 3, 4
     ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
@@ -128,6 +129,12 @@ view: user_fact {
     label: "Device Platform"
     type: string
     sql: @{device_platform_mapping} ;;
+  }
+  dimension: hardware {
+    group_label: "Device & OS Dimensions"
+    label: "Device Hardware"
+    type: string
+    sql: ${TABLE}.hardware ;;
   }
   dimension: quests_completed {
     type: number

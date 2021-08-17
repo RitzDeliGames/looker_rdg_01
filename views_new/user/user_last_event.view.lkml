@@ -90,7 +90,45 @@ view: user_last_event {
     value_format: "####"
     sql: @{current_card_numbered};;
   }
-  ###EXPERIMENT IDS###
+
+  ###EXPERIMENT IDS - LIVE###
+  dimension: altCard_002_a_17_20210811   {
+    group_label: "Experiments - Live"
+    label: "Alt Card_002_a / Tile 17 v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_a_17_20210811'),'unassigned') ;;
+  }
+  dimension: altCard_003_a_7_20210811  {
+    group_label: "Experiments - Live"
+    label: "Alt Card_003_a / Tile 7 v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_a_7_20210811'),'unassigned') ;;
+  }
+  dimension: altCard_003_20210329_07_20210728  {
+    group_label: "Experiments - Live"
+    label: "Alt Card_003 / Tile 7 v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_20210329_07_20210728'),'unassigned') ;;
+  }
+  dimension: altCard_003_20210329_08_20210728  {
+    group_label: "Experiments - Live"
+    label: "Alt Card_003 / Tile 8 v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_20210329_08_20210728'),'unassigned') ;;
+  }
+  dimension: altCard_003_20210329_09_20210728  {
+    group_label: "Experiments - Live"
+    label: "Alt Card_003 / Tile 9 v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_20210329_09_20210728'),'unassigned') ;;
+  }
+  dimension: iconSurvey_20210729  {
+    group_label: "Experiments - Live"
+    label: "Icon Survey v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.iconSurvey_20210729'),'unassigned') ;;
+  }
+  ###EXPERIMENT IDS - CLOSED###
   dimension: altCard_002_open_20210727   {
     group_label: "Experiments - Closed"
     label: "Alt Card_002 (No Reqs)"
@@ -132,24 +170,6 @@ view: user_last_event {
     label: "Alt Card_003_a / Tile 17 v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_a_17_20210727'),'unassigned') ;;
-  }
-  dimension: altCard_003_20210329_07_20210728  {
-    group_label: "Experiments - Live"
-    label: "Alt Card_003 / Tile 7 v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_20210329_07_20210728'),'unassigned') ;;
-  }
-  dimension: altCard_003_20210329_08_20210728  {
-    group_label: "Experiments - Live"
-    label: "Alt Card_003 / Tile 8 v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_20210329_08_20210728'),'unassigned') ;;
-  }
-  dimension: altCard_003_20210329_09_20210728  {
-    group_label: "Experiments - Live"
-    label: "Alt Card_003 / Tile 9 v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_20210329_09_20210728'),'unassigned') ;;
   }
   dimension: totd_iam_003_a_9 {
     group_label: "Experiments - Closed"

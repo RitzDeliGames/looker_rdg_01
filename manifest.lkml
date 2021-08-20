@@ -670,13 +670,29 @@ constant: iap_id_strings {
 
   constant: button_tags {
     value: "case
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BuyMoreTime_V3.Confirm' then 'BuyMoreTime - Confirm'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BuyMoreTime.Confirm' then 'BuyMoreTime - Confirm'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BuyMoreTime_V3.Close' then 'BuyMoreTime - Close'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BuyMoreTime.Close' then 'BuyMoreTime - Close'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_PreGame_V3.PlayFromQuest' then 'PlayFromQuest'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BingoQuestDetails.PlayFromQuest' then 'PlayFromQuest'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BingoQuestDetails_Legacy.PlayFromQuest' then 'PlayFromQuest'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BuyMoreTime_V3.Confirm' then 'Buy More Time - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BuyMoreTime.Confirm' then 'Buy More Time - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BuyMoreTime_V4.Confirm' then 'Buy More Time - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BuyMoreTime_V3.Close' then 'Buy More Time - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BuyMoreTime.Close' then 'Buy More Time - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_PreGame_V3.PlayFromQuest' then 'PG - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BingoQuestDetails.PlayFromQuest' then 'PG - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BingoQuestDetails_Legacy.PlayFromQuest' then 'PG - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_EndOfRound_legacy.Back' then 'PG - Back'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_EndOfRound_v3.Continue' then 'EoR - Continue'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_EndOfRound_v3.TryAgain' then 'EoR - Try Again'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_EndOfRound_v3.Back' then 'EoR - Back'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_Boosts_V3.Close' then 'PG - Close Boost Dialog'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_CameraScroller_Fixed-TopDown.PlayNavigation' then 'WM - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BingoHome_V3.QuestNode%' then 'WM - Tap Bingo Card Tile'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_PreGame_V3.QuestEraserSelection%' then 'PG - Select / Deselect Eraser'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_PreGame_V3.RequestHelp' then 'PG - AFH'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'UseHeroPower.character_%' then 'MG - Eraser Skill'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_QuickPurchase.Close' then 'QP - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_QuickPurchase.Purchase%' then 'QP - Select IAP'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_Purchase.Close' then 'QP - Close Purchase Panel'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BingoHome_V3.TileProgress.Free%' then 'WM - Tap Free Bingo Card Tile'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_Character_Dialogue%' then 'WM - Dialog'
               else json_extract_scalar(extra_json,'$.button_tag')
             end"
   }

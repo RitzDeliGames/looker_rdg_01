@@ -73,6 +73,12 @@ explore: user_retention {
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${loading_times.rdg_id} ;;
   }
+  join: temp_click_stream {
+    view_label: "Click Stream"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${user_retention.rdg_id} = ${temp_click_stream.rdg_id} ;;
+  }
   # join: new_afh {
   #   view_label: "Ask for Help"
   #   type: left_outer
@@ -219,7 +225,12 @@ explore: in_app_messages {
 explore: click_stream {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: temp_click_stream
-  view_label: "Temp Button Clicks"
+  view_label: "Click Stream"
+  join: user_fact {
+    type: left_outer
+    sql_on: ${click_stream.rdg_id} = ${user_fact.rdg_id} ;;
+    relationship: many_to_one
+  }
   join: user_last_event {
     type: left_outer
     sql_on: ${click_stream.rdg_id} = ${user_last_event.rdg_id} ;;
@@ -437,6 +448,7 @@ explore: gameplay {
   #   relationship: one_to_one
   # }
 }
+
 explore: round_start {
   hidden: yes
   join: round_end {

@@ -90,6 +90,14 @@ view: user_last_event {
     value_format: "####"
     sql: @{current_card_numbered};;
   }
+  dimension: current_card_quest {
+    group_label: "Card Dimensions"
+    label: "Player Current Card + Quest (Numbered)"
+    type: number
+    value_format: "####"
+    sql: ${current_card_no} + ${current_quest};;
+  }
+
 
   ###EXPERIMENT IDS - LIVE###
   dimension: altCard_002_a_17_20210811   {

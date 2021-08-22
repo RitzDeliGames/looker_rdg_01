@@ -16,7 +16,7 @@ view: transactions_new {
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
         ,json_extract_scalar(extra_json,'$.sheet_id') sheet_raw
-        ,json_extract_scalar(extra_json,'$.source_id') soure_raw
+        ,json_extract_scalar(extra_json,'$.source_id') source_raw
         ,if(json_extract_scalar(extra_json,'$.transaction_purchase_currency') like 'more_time_%', 'CURRENCY_02', json_extract_scalar(extra_json,'$.transaction_purchase_currency')) currency_spent --this is a workaround because More Time is not reported correctly
         ,cast(if(json_extract_scalar(extra_json,'$.transaction_purchase_currency') like 'more_time_%','10',json_extract_scalar(extra_json,"$.transaction_purchase_amount")) as int64) currency_spent_amount --see above
         ,if(json_extract_scalar(extra_json,'$.transaction_purchase_currency') like 'more_time_%','item_029',json_extract_scalar(extra_json,'$.iap_id')) iap_id --see above

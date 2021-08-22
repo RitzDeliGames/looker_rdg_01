@@ -227,9 +227,12 @@ view: user_fact {
     sql: coalesce(${install_version},${version}) ;;
   }
   dimension: player_level_xp {
-    hidden: no
+    group_label: "XP Dimensions"
+    label: "Player XP (Raw)"
   }
   dimension: player_xp {
+    group_label: "XP Dimensions"
+    label: "Player XP"
     type: number
     sql: trunc(${player_level_xp}) ;;
   }

@@ -43,26 +43,33 @@ view: new_iam {
       ,year
     ]
   }
-  dimension: current_card {
+  dimension: extra_json {
     hidden: yes
+  }
+  dimension: current_card {
+    group_label: "Card Dimensions"
     type: string
     sql: ${TABLE}.current_card ;;
   }
   dimension: last_unlocked_card {
-    hidden: no
+    group_label: "Card Dimensions"
     type: string
     sql: ${TABLE}.last_unlocked_card ;;
   }
   dimension: card_id {
+    group_label: "Card Dimensions"
+    label: "Current Card (Parsed Card ID)"
     type: string
     sql: coalesce(${last_unlocked_card},${current_card}) ;;
   }
   dimension: current_card_numbered {
+    group_label: "Card Dimensions"
     type: number
     sql: @{current_card_numbered} ;;
     value_format: "####"
   }
   dimension: current_quest {
+    group_label: "Card Dimensions"
     type: number
     sql: ${TABLE}.current_quest ;;
   }

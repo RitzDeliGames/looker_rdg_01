@@ -444,6 +444,10 @@ constant: current_card_numbered {
             when ${TABLE}.current_card = 'ce_002_card_001' then 20210701
             when ${TABLE}.current_card = 'ce_002_card_002' then 20210702
             when ${TABLE}.current_card = 'ce_002_card_003' then 20210703
+            when ${TABLE}.current_card = 'ce_003_card_001' then 20210711
+            when ${TABLE}.current_card = 'ce_003_card_002' then 20210712
+            when ${TABLE}.current_card = 'ce_003_card_003' then 20210713
+            when ${TABLE}.current_card = 'tu_001_card_001' then 30210801
           end"
 }
 
@@ -538,6 +542,7 @@ constant: purchase_source {
               WHEN json_extract_scalar(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_ManageLives.QuickPurchase.%' THEN 'Lives Quick Purchase Sheet'
               WHEN json_extract_scalar(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_CurrencyPack.QuickPurchase.%' THEN 'Coins Quick Purchase Sheet'
               WHEN json_extract_scalar(${TABLE}.extra_json,'$.source_id') LIKE 'Panel_Store.Purchase.%' THEN 'Store'
+              WHEN json_extract_scalar(${TABLE}.extra_json,'$.source_id') LIKE 'Panel_QuickPurchase.Purchase.%' THEN 'Quick Purchase'
               WHEN json_extract_scalar(${TABLE}.extra_json,'$.source_id') LIKE '%BuyMoreTime%' THEN 'Mini-Game'
               ELSE 'OTHER'
           END"

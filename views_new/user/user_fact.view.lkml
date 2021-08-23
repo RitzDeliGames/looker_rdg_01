@@ -229,6 +229,8 @@ view: user_fact {
   dimension: player_level_xp {
     group_label: "XP Dimensions"
     label: "Player XP (Raw)"
+    type: number
+    sql: ${TABLE}.player_level_xp ;;
   }
   dimension: player_xp {
     group_label: "XP Dimensions"
@@ -274,6 +276,7 @@ view: user_fact {
     label: "Count of Players"
     type: count_distinct
     sql: ${rdg_id} ;;
+    drill_fields: [rdg_id, player_level_xp, created_date]
   }
   # measure: spend_amount {
   #   type: sum

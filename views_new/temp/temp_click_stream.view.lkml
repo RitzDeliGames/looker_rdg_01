@@ -6,8 +6,8 @@ view: temp_click_stream {
         ,install_version
         ,timestamp
         ,event_name
-        ,current_card
         ,engagement_ticks
+        ,current_card
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
         ,cast(quests_completed as int64) quests_completed
@@ -69,35 +69,41 @@ view: temp_click_stream {
     sql:  ${engagement_minutes};;
   }
   dimension: current_card {
-    hidden: no
+    group_label: "Card Dimensions"
     type: string
     sql: ${TABLE}.current_card ;;
   }
-  dimension: last_unlocked_card {
-    hidden: no
-    type: string
-    sql: ${TABLE}.last_unlocked_card ;;
-  }
-  dimension: card_id {
-    type: string
-    sql: coalesce(${last_unlocked_card},${current_card}) ;;
-  }
   dimension: current_card_numbered {
+    group_label: "Card Dimensions"
     type: number
     sql: @{current_card_numbered} ;;
     value_format: "####"
   }
+  # dimension: card_id {
+  #   group_label: "Card Dimensions"
+  #   type: string
+  #   sql: coalesce(${last_unlocked_card},${current_card}) ;;
+  # }
   dimension: current_card_quest {
+    group_label: "Card Dimensions"
+    label: "Current Card + Quest"
     type: number
     sql: ${current_card_numbered} + ${current_quest};;
     value_format: "####"
   }
+  dimension: last_unlocked_card {
+    group_label: "Card Dimensions"
+    type: string
+    sql: ${TABLE}.last_unlocked_card ;;
+  }
   dimension: last_unlocked_card_numbered {
+    group_label: "Card Dimensions"
     type: number
     sql: @{last_unlocked_card_numbered} ;;
     value_format: "####"
   }
   dimension: current_quest {
+    group_label: "Card Dimensions"
     type: number
     sql: ${TABLE}.current_quest ;;
   }

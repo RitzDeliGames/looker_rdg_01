@@ -24,8 +24,8 @@ view: user_fact {
         ,min(datetime(created_at,'US/Pacific')) created_pst
         ,max(current_quest) highest_quest_reached
         ,max(session_id) last_session
-        ,max(timestamp) last_event
         ,max(session_count) lifetime_sessions
+        ,max(timestamp) last_event
         ,cast(max(quests_completed) as int64) quests_completed
         ,max(json_extract_scalar(extra_json,"$.card_id")) current_card  -- need to do the max on the current card num, card_003_b (150) is coming through instead of card_002 (400)
         ,max(last_unlocked_card) last_unlocked_card -- need to do the max on the last unlocked card num, card_003_b (150) is coming through instead of card_002 (400)
@@ -183,27 +183,27 @@ view: user_fact {
     sql: ${lifetime_sessions} ;;
   }
   measure: lifetime_sessions_25 {
-    group_label: "Player XP"
+    group_label: "Lifetime Sessions"
     label: "Lifetime Sessions - 25%"
     type: percentile
     percentile: 25
     sql: ${lifetime_sessions} ;;
   }
   measure: lifetime_sessions_med {
-    group_label: "Player XP"
+    group_label: "Lifetime Sessions"
     label: "Lifetime Sessions - Median"
     type: median
     sql: ${lifetime_sessions} ;;
   }
   measure: lifetime_sessions_75 {
-    group_label: "Player XP"
+    group_label: "Lifetime Sessions"
     label: "Lifetime Sessions - 75%"
     type: percentile
     percentile: 75
     sql: ${lifetime_sessions} ;;
   }
   measure: lifetime_sessions_975 {
-    group_label: "Player XP"
+    group_label: "Lifetime Sessions"
     label: "Lifetime Sessions - 97.5%"
     type: percentile
     percentile: 97.5

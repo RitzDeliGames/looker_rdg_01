@@ -272,6 +272,14 @@ view: user_fact {
     type: number
     sql: trunc(${player_level_xp}) ;;
   }
+  dimension: player_level_xp_tiers {
+    group_label: "XP Dimensions"
+    label: "Player XP Tiers"
+    type: tier
+    style: integer
+    tiers: [0,1,2,3,4,5,10,15,20,30,40,50,60,70,80,90,100]
+    sql: ${player_xp} ;;        # Shouldn't be player_level_xp?
+  }
   measure: player_level_xp_025 {
     group_label: "Player XP"
     label: "Player XP - 2.5%"

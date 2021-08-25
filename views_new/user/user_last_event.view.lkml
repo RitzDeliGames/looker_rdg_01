@@ -100,6 +100,24 @@ view: user_last_event {
 
 
   ###EXPERIMENT IDS - LIVE###
+  dimension: gachatimers_20210815   {
+    group_label: "Experiments - Live"
+    label: "Gacha Timers"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.gachatimers_20210815'),'unassigned') ;;
+  }
+  dimension: experiment_altCard_002_a_20210810   {
+    group_label: "Experiments - Live"
+    label: "Alt Card_002_a / Tile 18 v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_a_20210810'),'unassigned') ;;
+  }
+  dimension: altCard_002_20210816   {
+    group_label: "Experiments - Live"
+    label: "Alt Card_002 (Olympic Reqs)"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_20210816'),'unassigned') ;;
+  }
   dimension: altCard_002_a_17_20210811   {
     group_label: "Experiments - Live"
     label: "Alt Card_002_a / Tile 17 v2"
@@ -130,13 +148,14 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_20210329_09_20210728'),'unassigned') ;;
   }
+
+  ###EXPERIMENT IDS - CLOSED###
   dimension: iconSurvey_20210729  {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Icon Survey v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.iconSurvey_20210729'),'unassigned') ;;
   }
-  ###EXPERIMENT IDS - CLOSED###
   dimension: altCard_002_open_20210727   {
     group_label: "Experiments - Closed"
     label: "Alt Card_002 (No Reqs)"

@@ -25,7 +25,7 @@ view: user_fact {
         ,max(current_quest) highest_quest_reached
         ,max(session_id) last_session
         ,max(timestamp) last_event
-        ,count(distinct session_id) lifetime_sessions
+        ,max(session_count) lifetime_sessions
         ,cast(max(quests_completed) as int64) quests_completed
         ,max(json_extract_scalar(extra_json,"$.card_id")) current_card  -- need to do the max on the current card num, card_003_b (150) is coming through instead of card_002 (400)
         ,max(last_unlocked_card) last_unlocked_card -- need to do the max on the last unlocked card num, card_003_b (150) is coming through instead of card_002 (400)
@@ -169,6 +169,46 @@ view: user_fact {
   dimension: lifetime_sessions {
     type: number
   }
+  dimension: session_tier {
+    type: tier
+    sql: ${lifetime_sessions} ;;
+    tiers: [1,2,3,5,10,20,50,100]
+    style: integer
+  }
+  measure: lifetime_sessions_025 {
+    group_label: "Lifetime Sessions"
+    label: "Lifetime Sessions - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${lifetime_sessions} ;;
+  }
+  measure: lifetime_sessions_25 {
+    group_label: "Player XP"
+    label: "Lifetime Sessions - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${lifetime_sessions} ;;
+  }
+  measure: lifetime_sessions_med {
+    group_label: "Player XP"
+    label: "Lifetime Sessions - Median"
+    type: median
+    sql: ${lifetime_sessions} ;;
+  }
+  measure: lifetime_sessions_75 {
+    group_label: "Player XP"
+    label: "Lifetime Sessions - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${lifetime_sessions} ;;
+  }
+  measure: lifetime_sessions_975 {
+    group_label: "Player XP"
+    label: "Lifetime Sessions - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${lifetime_sessions} ;;
+  }
   # dimension: current_card {
   #   group_label: "Card Dimensions"
   #   label: "Player Current Card"
@@ -186,12 +226,6 @@ view: user_fact {
   #   value_format: "####"
   #   sql: @{current_card_numbered};;
   # }
-  dimension: session_tier {
-    type: tier
-    sql: ${lifetime_sessions} ;;
-    tiers: [1,2,3,5,10,20,50,100]
-    style: integer
-  }
   dimension: version {
     label: "Release Version"
     value_format: "0"

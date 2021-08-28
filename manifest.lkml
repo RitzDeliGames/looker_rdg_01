@@ -132,6 +132,8 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '10400' THEN '1.10'
             WHEN ${TABLE}.version LIKE '10500' THEN '1.10'
             WHEN ${TABLE}.version LIKE '10600' THEN '1.10'
+            WHEN ${TABLE}.version LIKE '10700' THEN '1.10'
+            WHEN ${TABLE}.version LIKE '10800' THEN '1.10'
           END"
 }
 
@@ -173,6 +175,8 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '10400' THEN '1.10'
             WHEN ${TABLE}.install_version LIKE '10500' THEN '1.10'
             WHEN ${TABLE}.install_version LIKE '10600' THEN '1.10'
+            WHEN ${TABLE}.install_version LIKE '10700' THEN '1.10'
+            WHEN ${TABLE}.install_version LIKE '10800' THEN '1.10'
           END"
 }
 
@@ -214,6 +218,8 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '10400' THEN '1.10.400'
             WHEN ${TABLE}.version LIKE '10500' THEN '1.10.500'
             WHEN ${TABLE}.version LIKE '10600' THEN '1.10.600'
+            WHEN ${TABLE}.version LIKE '10700' THEN '1.10.700'
+            WHEN ${TABLE}.version LIKE '10800' THEN '1.10.800'
           END"
 }
 
@@ -255,6 +261,8 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '10400' THEN '1.10.400'
             WHEN ${TABLE}.install_version LIKE '10500' THEN '1.10.500'
             WHEN ${TABLE}.install_version LIKE '10600' THEN '1.10.600'
+            WHEN ${TABLE}.install_version LIKE '10700' THEN '1.10.700'
+            WHEN ${TABLE}.install_version LIKE '10800' THEN '1.10.800'
           END"
 }
 
@@ -692,7 +700,8 @@ constant: iap_id_strings {
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_legacy.Continue' then 'EoR - Continue'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_v3.Continue' then 'EoR - Continue'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_v3.TryAgain' then 'EoR - Try Again'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRoundReward_V3.Close' then 'EoR - Close Reward Sheet'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRoundReward_V3.Close' then 'EoR - Reward - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EraserReward.Continue' then 'EoR - Reward - Continue'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_CollectHelpRequest.TryAgain' then 'EoR - AFH - Try Again'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_CollectHelpRequest.Back' then 'EoR - AFH - Back'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_CollectHelpRequest.Collect' then 'EoR - AFH - Collect Token'
@@ -700,6 +709,8 @@ constant: iap_id_strings {
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BingoQuestDetails_Legacy.PlayFromQuest' then 'PG - Play'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.PlayFromQuest' then 'PG - Play'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.EmptyTeam' then 'PG - Play (No Eraser Selected)'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.Boosts' then 'PG - Open Boost Shop'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Boosts_V3.OverlayClose' then 'PG - Close Boost Shop'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BingoQuestDetails.PlayFromQuest' then 'PG - Play'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_PreGame_V3.QuestEraserSelection%' then 'PG - Select / Deselect Eraser'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Boosts_V3.Close' then 'PG - Close Boost Dialog'
@@ -709,7 +720,10 @@ constant: iap_id_strings {
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_Home.QuestNode.%' then 'WM - Tap Bingo Card Tile'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.RequestHelp' then 'PG - AFH'
               when json_extract_scalar(extra_json,'$.button_tag') like 'UseHeroPower.character_%' then 'MG - Eraser Skill'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Pause' then 'MG - Pause'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Pause_V2.Close' then 'MG - Pause - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Pause_V2.Quit' then 'MG - Pause - Quit'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_QuitConfirm_V2.Close' then 'MG - Pause - Close'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_QuickPurchase.Close' then 'QP - Close'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_QuickPurchase.Purchase%' then 'QP - Select IAP'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_Purchase.Close' then 'QP - Close Purchase Panel'

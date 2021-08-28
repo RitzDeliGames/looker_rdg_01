@@ -176,6 +176,12 @@ view: user_card {
     group_label: "Card Dimensions"
     type: number
   }
+  dimension: current_card_quest {
+    group_label: "Card Dimensions"
+    label: "Current Card + Quest"
+    type: number
+    sql:  ${current_card_numbered} + ${current_quest};;
+  }
   dimension: quests_completed {
     type: number
   }

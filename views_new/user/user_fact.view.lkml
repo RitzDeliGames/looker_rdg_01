@@ -227,17 +227,20 @@ view: user_fact {
   #   sql: @{current_card_numbered};;
   # }
   dimension: version {
+    group_label: "Version Dimensions"
     label: "Release Version"
     value_format: "0"
     type: number
     sql: cast(${TABLE}.version as int64) ;;
   }
   dimension: derived_install_minor_release_version {
+    group_label: "Version Dimensions"
     label: "Minor Release Version"
     type: string
     sql: @{release_version_minor} ;;
   }
   dimension: install_version {
+    group_label: "Version Dimensions"
     label: "Install Version"
     type: number
     hidden: no
@@ -245,16 +248,19 @@ view: user_fact {
     sql: cast(${TABLE}.install_version as int64) ;;
   }
   dimension: install_minor_release_version {
+    group_label: "Version Dimensions"
     hidden: yes
     type: string
     sql: @{install_release_version_minor};;
   }
   dimension: minor_release_version {
+    group_label: "Version Dimensions"
     label: "Install Minor Release Version"
     type: string
     sql: coalesce(${install_minor_release_version},${derived_install_minor_release_version}) ;;
   }
   dimension: minor_release_version_x {
+    group_label: "Version Dimensions"
     label: "Install Release Version"
     type: number
     value_format: "0"

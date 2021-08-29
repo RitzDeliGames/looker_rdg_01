@@ -100,6 +100,30 @@ view: user_last_event {
 
 
   ###EXPERIMENT IDS - LIVE###
+  dimension: loseLifeOnPlay_20210810   {
+    group_label: "Experiments - Live"
+    label: "Lose Life v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.loseLifeOnPlay_20210810'),'unassigned') ;;
+  }
+  dimension: autoselecteraser_20210803   {
+    group_label: "Experiments - Live"
+    label: "Auto-Select v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.autoselecteraser_20210803'),'unassigned') ;;
+  }
+  dimension: altRewards20210811   {
+    group_label: "Experiments - Live"
+    label: "Alt Rewards v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altRewards20210811'),'unassigned') ;;
+  }
+  dimension: featureunlocks_20210804   {
+    group_label: "Experiments - Live"
+    label: "Store Unlock v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.featureunlocks_20210804'),'unassigned') ;;
+  }
   dimension: gachatimers_20210815   {
     group_label: "Experiments - Live"
     label: "Gacha Timers"

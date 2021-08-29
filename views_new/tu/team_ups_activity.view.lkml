@@ -8,13 +8,12 @@ view: team_ups_activity {
         ,json_extract_scalar(extra_json,"$.team_id") team_id
         ,cast(json_extract_scalar(extra_json,"$.difficulty_level") as int64) difficulty_level
         ,extra_json
-        ,count(timestamp) rounds_played
       from game_data.events
       where event_name = 'team_ups_join'
         and timestamp >= '2019-01-01'
         and user_type = 'external'
         and country != 'ZZ'
-      group by 1,2,3,4,5
+      group by 1,2,3,4,5,6
     ;;
     datagroup_trigger: change_3_hrs
   }
@@ -27,15 +26,10 @@ view: team_ups_activity {
   dimension: rdg_id {
     type: string
     sql: ${TABLE}.rdg_id ;;
-    hidden: yes
   }
   dimension: event_id {
     label: "Event ID"
     sql: ${TABLE}.event_id ;;
-  }
-  dimension: event_names {
-    label: "Event Name"
-    sql: @{event_names} ;;
   }
   dimension_group: event {
     type: time
@@ -61,16 +55,6 @@ view: team_ups_activity {
     label: "Player Count"
     type: count_distinct
     sql: ${rdg_id} ;;
-  }
-  dimension: rounds_played {
-    type: number
-    sql: ${TABLE}.rounds_played ;;
-    hidden: yes
-  }
-  measure: rounds_played_sum {
-    label: "Rounds Played"
-    type: sum
-    sql: ${rounds_played} ;;
   }
   dimension: extra_json {
     hidden: yes

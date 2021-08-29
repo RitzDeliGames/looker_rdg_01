@@ -27,6 +27,7 @@ view: cards {
         and timestamp < timestamp(current_date())
         and event_name = 'cards'
         and user_type = 'external'
+        and current_card = json_extract_scalar(extra_json,'$.card_id') --this is necessary to exclude the edge cases where the schema and extra_json get out of alignment
     ;;
     datagroup_trigger: change_3_hrs
   }

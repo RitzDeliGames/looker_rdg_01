@@ -70,6 +70,17 @@ view: cards {
     sql: @{current_card_numbered} ;;
     value_format: "####"
   }
+  dimension: current_quest {
+    group_label: "Card Dimensions"
+    type: number
+    sql: ${TABLE}.current_quest ;;
+  }
+  dimension: current_card_quest {
+    group_label: "Card Dimensions"
+    label: "Player Current Card + Quest"
+    type: number
+    sql: ${current_card_numbered} + ${current_quest} ;;
+  }
   dimension: card_start_time {
     type: date_time
     sql: ${TABLE}.card_start_time ;;
@@ -123,8 +134,4 @@ view: cards {
     type: string
     sql: ${TABLE}.node_data ;;
   }
-  # dimension: current_quest {
-  #   type: string
-  #   sql: ${TABLE}.current_quest ;;
-  # }
 }

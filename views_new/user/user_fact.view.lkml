@@ -31,6 +31,8 @@ view: user_fact {
         ,max(last_unlocked_card) last_unlocked_card -- need to do the max on the last unlocked card num, card_003_b (150) is coming through instead of card_002 (400)
         ,min(version) version
         ,max(install_version) install_version
+        ,max(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) config_timestamp
+        ,min(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) install_config_timestamp
         ,max(player_level_xp) player_level_xp
         ,max(days_played_past_week) days_played_past_week
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric)) currency_02_balance_max
@@ -265,6 +267,20 @@ view: user_fact {
     type: number
     value_format: "0"
     sql: coalesce(${install_version},${version}) ;;
+  }
+  dimension: config_version {
+    group_label: "Version Dimensions"
+    label: "Config Version"
+    type: number
+    value_format: "0"
+    sql: ${TABLE}.config_timestamp;;
+  }
+  dimension: install_config_timestamp {
+    group_label: "Version Dimensions"
+    label: "Install Config Version"
+    type: number
+    value_format: "0"
+    sql: ${TABLE}.install_config_timestamp;;
   }
   dimension: player_level_xp {
     group_label: "XP Dimensions"

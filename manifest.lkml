@@ -777,18 +777,6 @@ constant: ce_ui_actions {
             end"
 }
 
-constant: tu_ui_actions {
-    value: "case
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_Join.Join' then '1. WM - TeamUp - FUE - Join'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_FUE.Next' then '2. WM - TeamUp - FUE - Next'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUp_Main.Join' then '3. TeamUp - Main - Join Team'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUp_Main.Play' then '4. TeamUp - Main - Play Card'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_TeamUps_Bingo.QuestNode%' then '5. TeamUp - Bingo Card - Tap Tile'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.PlayFromQuest' then '6. TeamUp - PG - Play'
-            else json_extract_scalar(extra_json,'$.button_tag')
-    end"
-}
-
   constant: event_names {
     value: "case
               when json_extract_scalar(${TABLE}.extra_json,'$.event_id') = 'event_id_202106_a' then 'Spring'

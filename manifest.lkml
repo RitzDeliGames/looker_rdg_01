@@ -685,24 +685,6 @@ constant: iap_id_strings {
             end"
 }
 
-  constant: ce_ui_actions {
-    value: "case
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamOk' then '01. How To Play / Tap OK'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamSelect%' then '02a. Choose Team / Select Team'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.NoTeamSelected%' then '02b. Choose Team / Join Team (No Team Selected)'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityEventInfo%' then '02c. Choose Team / Tap Event Info'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamJoin%' then '03. Choose Team / Tap OK'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventPlay' then '04. Leaderboard / Tap Play'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_CommunityEvents_Bingo.QuestNode.ce_%' then '05. Bingo Card / Tap Bingo Card Tile'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_CommunityEvents_Bingo.TileProgress.ce_%' then '05. Bingo Card / Tap Bingo Card Tile'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_CollectCommunityEvent.Collect' then '06. Bingo Card / Collect Item'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventIndividualClaim' then '08. Claim Reward / Player'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventTeamsClaim' then '09. Claim Reward / Teams'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventTeamClaim' then '10. Claim Reward / Team'
-              else json_extract_scalar(extra_json,'$.button_tag')
-            end"
-}
-
   constant: button_tags {
     value: "case
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V3.Confirm' then 'MG - Buy More Time - Confirm'
@@ -724,19 +706,10 @@ constant: iap_id_strings {
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_CollectHelpRequest.Back' then 'EoR - AFH - Back'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_CollectHelpRequest.Collect' then 'EoR - AFH - Collect Token'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_v3.Back' then 'EoR - Back'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BingoQuestDetails_Legacy.PlayFromQuest' then 'PG - Play'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.PlayFromQuest' then 'PG - Play'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.EmptyTeam' then 'PG - Play (No Eraser Selected)'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.Boosts' then 'PG - Open Boost Shop'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Boosts_V3.OverlayClose' then 'PG - Close Boost Shop'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BingoQuestDetails.PlayFromQuest' then 'PG - Play'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_PreGame_V3.QuestEraserSelection%' then 'PG - Select / Deselect Eraser'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Boosts_V3.Close' then 'PG - Close Boost Dialog'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_CameraScroller_Fixed-TopDown.WorldTapDispatcher' then 'WM - Tap Map'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_CameraScroller_Fixed-TopDown.PlayNavigation' then 'WM - Play'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BingoHome_V3.QuestNode%' then 'WM - Tap Bingo Card Tile'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_Home.QuestNode.%' then 'WM - Tap Bingo Card Tile'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.RequestHelp' then 'PG - AFH'
               when json_extract_scalar(extra_json,'$.button_tag') like 'UseHeroPower.character_%' then 'MG - Eraser Skill'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Pause' then 'MG - Pause'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Pause_V2.Close' then 'MG - Pause - Close'
@@ -747,13 +720,75 @@ constant: iap_id_strings {
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_Purchase.Close' then 'QP - Close Purchase Panel'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BingoHome_V3.TileProgress.Free%' then 'WM - Tap Free Bingo Card Tile'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_Character_Dialogue%' then 'WM - Dialog'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_Join.Join' then 'WM - TeamUp - FUE - Join'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_FUE.Next' then 'WM - TeamUp - FUE - Next'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_FUE.Skip' then 'WM - TeamUp - FUE - Skip'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'TeamUpSelect' then 'WM - TeamUp - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUp_Main.Join' then 'TeamUp - Main - Join Team'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUp_Main.Play' then 'TeamUp - Main - Play Card'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUp_Main.Home' then 'TeamUp - Main - Back to World Map'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_TeamUps_Bingo.QuestNode%' then 'TeamUp - Bingo Card - Tap Tile'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Back' then 'TeamUp - Bingo Card - Back to Main'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Home' then 'TeamUp - Bingo Card - Back to World Map'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Activity' then 'TeamUp - Bingo Card - Tap Activity Feed'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Claim' then 'TeamUp - Activity - Claim Any Reward'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Request' then 'TeamUp - Activity - Request Energy'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Donate' then 'TeamUp - Activity - Donate Energy'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_Refill.Refill' then 'TeamUp - Out of Energy - Buy'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_Refill.Ok' then 'TeamUp - Out of Energy - Buy - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Chat' then 'TeamUp - Bingo Card - Tap Chat Feed'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_TeamUp_Chat.ChatEmoji.%' then 'TeamUp - Chat - Type'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_Chat.Submit' then 'TeamUp - Chat - Send'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_Chat.Delete' then 'TeamUp - Chat - Delete'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_Chat.Close' then 'TeamUp - Chat - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Like' then 'TeamUp - Chat - Like'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.PlayFromQuest' and current_card like 'tu%' then 'TeamUp - PG - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BingoQuestDetails_Legacy.PlayFromQuest' then 'PG - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.PlayFromQuest' then 'PG - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.EmptyTeam' then 'PG - Play (No Eraser Selected)'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.Boosts' then 'PG - Open Boost Shop'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Boosts_V3.OverlayClose' then 'PG - Close Boost Shop'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BingoQuestDetails.PlayFromQuest' then 'PG - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_PreGame_V3.QuestEraserSelection%' then 'PG - Select / Deselect Eraser'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Boosts_V3.Close' then 'PG - Close Boost Dialog'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.RequestHelp' then 'PG - AFH'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_AddEraser_V3.QuestEraserSelection.%' then 'PG - Add Eraser'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_EraserDetail.Use.character_%' then 'PG - Use Eraser'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_EraserDetail.Remove.character_%' then 'PG - Remove Eraser'
-
               else json_extract_scalar(extra_json,'$.button_tag')
             end"
   }
+
+constant: ce_ui_actions {
+  value: "case
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamOk' then '01. How To Play / Tap OK'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamSelect%' then '02a. Choose Team / Select Team'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.NoTeamSelected%' then '02b. Choose Team / Join Team (No Team Selected)'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityEventInfo%' then '02c. Choose Team / Tap Event Info'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamJoin%' then '03. Choose Team / Tap OK'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventPlay' then '04. Leaderboard / Tap Play'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_CommunityEvents_Bingo.QuestNode.ce_%' then '05. Bingo Card / Tap Bingo Card Tile'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_CommunityEvents_Bingo.TileProgress.ce_%' then '05. Bingo Card / Tap Bingo Card Tile'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_CollectCommunityEvent.Collect' then '06. Bingo Card / Collect Item'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventIndividualClaim' then '08. Claim Reward / Player'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventTeamsClaim' then '09. Claim Reward / Teams'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_Leaderboards.CommunityEventTeamClaim' then '10. Claim Reward / Team'
+              else json_extract_scalar(extra_json,'$.button_tag')
+            end"
+}
+
+constant: tu_ui_actions {
+    value: "case
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_Join.Join' then '1. WM - TeamUp - FUE - Join'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_FUE.Next' then '2. WM - TeamUp - FUE - Next'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUp_Main.Join' then '3. TeamUp - Main - Join Team'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUp_Main.Play' then '4. TeamUp - Main - Play Card'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_TeamUps_Bingo.QuestNode%' then '5. TeamUp - Bingo Card - Tap Tile'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.PlayFromQuest' then '6. TeamUp - PG - Play'
+            else json_extract_scalar(extra_json,'$.button_tag')
+    end"
+}
+
   constant: event_names {
     value: "case
               when json_extract_scalar(${TABLE}.extra_json,'$.event_id') = 'event_id_202106_a' then 'Spring'

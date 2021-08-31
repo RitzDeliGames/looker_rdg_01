@@ -8,9 +8,6 @@ view: transactions_new {
         ,datetime(created_at,'US/Pacific') created_pst
         ,event_name
         ,timestamp
-        --,country --can remove once Will makes user_first_event table
-        --,platform --can remove once Will makes user_first_event table
-        --,lower(hardware) device_model_number
         ,round(cast(engagement_ticks as int64) / 2) minutes_played
         ,current_card
         ,last_unlocked_card

@@ -289,6 +289,23 @@ explore: community_events {
 explore: team_ups {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: team_ups_activity
+  view_label: "Team Ups"
+}
+
+explore: temp_tu_events_funnel {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  from: tu_events_funnel
+  view_label: "Team Up Event Funnel"
+  join: user_fact {
+    type: left_outer
+    sql_on: ${temp_tu_events_funnel.rdg_id} = ${user_fact.rdg_id} ;;
+    relationship: many_to_one
+  }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${temp_tu_events_funnel.rdg_id} = ${user_last_event.rdg_id} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: temp_community_events_funnels {

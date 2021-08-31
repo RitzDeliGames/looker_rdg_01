@@ -130,5 +130,6 @@ view: temp_click_stream {
   measure: button_clicks {
     label: "Count of Clicks"
     type: count
+    drill_fields: [rdg_id,event_time,button_tag]
   }
 }

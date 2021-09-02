@@ -178,35 +178,36 @@ view: transactions_new {
     sql: ${transaction_count} / ${spender_count} ;;
   }
   measure: currency_spent_amount_025 {
-    group_label: "Currency Spent"
-    label: "Currency Spent - 2.5%"
+    group_label: "Transaction Size"
+    label: "Transaction Size - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${currency_spent_amount} ;;
   }
   measure: currency_spent_amount_25th {
-    group_label: "Currency Spent"
-    label: "Currency Spent - 25%"
+    group_label: "Transaction Size"
+    label: "Transaction Size - 25%"
     type: percentile
     percentile: 25
     sql: ${currency_spent_amount} ;;
   }
   measure: currency_spent_amount_med {
-    group_label: "Currency Spent"
-    label: "Currency Spent - Median"
+    group_label: "Transaction Size"
+    label: "Transaction Size - Median"
     type: median
     sql: ${currency_spent_amount} ;;
+    drill_fields: [rdg_id,currency_spent,currency_spent_amount,transaction_date]
   }
   measure: currency_spent_amount_75th {
-    group_label: "Currency Spent"
-    label: "Currency Spent - 75%"
+    group_label: "Transaction Size"
+    label: "Transaction Size - 75%"
     type: percentile
     percentile: 75
     sql: ${currency_spent_amount} ;;
   }
   measure: currency_spent_amount_max {
-    group_label: "Currency Spent"
-    label: "Currency Spent - 97.5%"
+    group_label: "Transaction Size"
+    label: "Transaction Size - 97.5%"
     type: percentile
     percentile: 97.5
     sql: ${currency_spent_amount} ;;
@@ -237,4 +238,5 @@ view: transactions_new {
     ;;
     drill_fields: [rdg_id, created_date, created_pst_date]
   }
+
 }

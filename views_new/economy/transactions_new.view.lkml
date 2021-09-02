@@ -37,10 +37,10 @@ view: transactions_new {
   }
 
   dimension: primary_key {
-    hidden: yes
+    hidden: no
     primary_key: yes
     type: string
-    sql: ${rdg_id} || ${transaction_raw} || ${source_raw};;
+    sql: ${rdg_id} || ${transaction_raw} || ${source_raw} || ${sheet_raw};;
   }
   dimension: rdg_id {
     hidden: no

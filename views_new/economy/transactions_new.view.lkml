@@ -40,7 +40,7 @@ view: transactions_new {
     hidden: yes
     primary_key: yes
     type: string
-    sql: ${rdg_id} || ${transaction_raw} ;;
+    sql: ${rdg_id} || ${transaction_raw} || ${source_raw};;
   }
   dimension: rdg_id {
     hidden: no
@@ -149,6 +149,14 @@ view: transactions_new {
     sql: if(${currency_spent} = 'CURRENCY_01',(${currency_spent_amount}/100 * .85), 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
+  measure: gem_spent_amount_sum {
+    group_label: "Gem Spend"
+    label: "Total Gems Spent"
+    type: sum
+    value_format: "#,###"
+    sql: if(${currency_spent} = 'CURRENCY_02',${currency_spent_amount}, 0) ;;
+    drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
+  }
   measure: currency_spent_amount_sum {
     label: "Total Currency Spent"
     type: sum
@@ -178,36 +186,36 @@ view: transactions_new {
     sql: ${transaction_count} / ${spender_count} ;;
   }
   measure: currency_spent_amount_025 {
-    group_label: "Transaction Size"
-    label: "Transaction Size - 2.5%"
+    group_label: "Currency Spent"
+    label: "Currency Spent - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${currency_spent_amount} ;;
   }
   measure: currency_spent_amount_25th {
-    group_label: "Transaction Size"
-    label: "Transaction Size - 25%"
+    group_label: "Currency Spent"
+    label: "Currency Spent - 25%"
     type: percentile
     percentile: 25
     sql: ${currency_spent_amount} ;;
   }
   measure: currency_spent_amount_med {
-    group_label: "Transaction Size"
-    label: "Transaction Size - Median"
+    group_label: "Currency Spent"
+    label: "Currency Spent - Median"
     type: median
     sql: ${currency_spent_amount} ;;
     drill_fields: [rdg_id,currency_spent,currency_spent_amount,transaction_date]
   }
   measure: currency_spent_amount_75th {
-    group_label: "Transaction Size"
-    label: "Transaction Size - 75%"
+    group_label: "Currency Spent"
+    label: "Currency Spent - 75%"
     type: percentile
     percentile: 75
     sql: ${currency_spent_amount} ;;
   }
   measure: currency_spent_amount_max {
-    group_label: "Transaction Size"
-    label: "Transaction Size - 97.5%"
+    group_label: "Currency Spent"
+    label: "Currency Spent - 97.5%"
     type: percentile
     percentile: 97.5
     sql: ${currency_spent_amount} ;;

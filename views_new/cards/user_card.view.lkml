@@ -6,8 +6,6 @@ view: user_card {
       select
         rdg_id
         ,card_id current_card
-        --,card_id current_card
-        --,last_unlocked_card
         ,cast(current_quest as int64) current_quest
         ,cast(quests_completed as int64) quests_completed
         ,min(card_start_time) card_start_time
@@ -115,7 +113,6 @@ view: user_card {
       from (
         select
           rdg_id
-          --,json_extract_scalar(extra_json,'$.card_id') last_unlocked_card --this is field is a hack
           ,json_extract_scalar(extra_json,'$.card_id') card_id
           ,current_quest
           ,quests_completed
@@ -133,11 +130,6 @@ view: user_card {
         left join unnest(json_extract_array(extra_json,'$.node_data')) node_data
         where event_name = 'cards'
           and user_type = 'external'
-          -- and current_card = last_unlocked_card
-          -- and timestamp >= timestamp(current_date() - 30)
-          -- and timestamp < timestamp(current_date())
-          -- and rdg_id = 'de47b3ed-6b5a-4824-b19a-53b2ea2bc453'
-          -- and json_extract_scalar(extra_json,'$.card_id') = 'card_003'
       ) x
       group by 1,2,3,4--,5,6
     ;;
@@ -157,17 +149,12 @@ view: user_card {
   }
   dimension: current_card {
     group_label: "Card Dimensions"
-    label: "Player Current Card"
+    label: "Current Card (Extracted)"
     drill_fields: [rdg_id]
   }
-  # dimension: last_unlocked_card { #this is a hack
-  #   hidden: yes
-  # }
-  # dimension: current_card { #this is a hack
-  #   hidden: yes
-  # }
   dimension: current_card_numbered {
     group_label: "Card Dimensions"
+    label: "Current Card Numbered (Extracted)"
     type: number
     sql: @{current_card_numbered} ;;
     value_format: "####"
@@ -178,7 +165,7 @@ view: user_card {
   }
   dimension: current_card_quest {
     group_label: "Card Dimensions"
-    label: "Current Card + Quest"
+    label: "Current Card (Extracted) + Quest"
     type: number
     sql:  ${current_card_numbered} + ${current_quest};;
   }

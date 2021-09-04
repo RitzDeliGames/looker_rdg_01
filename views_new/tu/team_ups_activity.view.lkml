@@ -46,6 +46,11 @@ view: team_ups_activity {
     label: "Team ID"
     sql: ${TABLE}.team_id ;;
   }
+  measure: team_count {
+    label: "Team Count"
+    type: count_distinct
+    sql: ${team_id} ;;
+  }
   dimension: difficulty_level {
     label: "Difficulty Level"
     type: number

@@ -424,6 +424,7 @@ constant: current_card_numbered_coalesced {
               when coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'ce_001_card_003' then 20210603
           END"
 }
+
 constant: current_card_numbered {
   value: "case
             when ${TABLE}.current_card = 'card_001_a' then 100
@@ -474,6 +475,63 @@ constant: current_card_numbered {
             when ${TABLE}.current_card = 'ce_003_card_002' then 20210712
             when ${TABLE}.current_card = 'ce_003_card_003' then 20210713
             when ${TABLE}.current_card = 'tu_001_card_001' then 30210801
+            when ${TABLE}.current_card = 'tu_001_card_002' then 30210802
+            when ${TABLE}.current_card = 'tu_001_card_003' then 30210803
+          end"
+}
+
+constant: card_id_numbered {
+    value: "case
+            when ${TABLE}.card_id = 'card_001_a' then 100
+            when ${TABLE}.card_id = 'card_001_b' then 100
+            when ${TABLE}.card_id = 'card_001_untimed' then 100
+            when ${TABLE}.card_id = 'card_002_b' then 120
+            when ${TABLE}.card_id = 'card_003_b' then 150
+            when ${TABLE}.card_id = 'card_002_a' then 200
+            when ${TABLE}.card_id = 'card_002_untimed' then 200
+            when ${TABLE}.card_id = 'card_003_a' then 300
+            when ${TABLE}.card_id = 'card_003_untimed' then 300
+            when ${TABLE}.card_id = 'card_002' then 400
+            when ${TABLE}.card_id = 'card_002_inverted' then 400
+            when ${TABLE}.card_id = 'card_039' then 400
+            when ${TABLE}.card_id = 'card_004_untimed' then 400
+            when ${TABLE}.card_id = 'card_003' then 500
+            when ${TABLE}.card_id = 'card_003_20210329' then 500
+            when ${TABLE}.card_id = 'card_040' then 500
+            when ${TABLE}.card_id = 'card_005_untimed' then 500
+            when ${TABLE}.card_id = 'card_004' then 600
+            when ${TABLE}.card_id = 'card_004_20210329' then 600
+            when ${TABLE}.card_id = 'card_041' then 600
+            when ${TABLE}.card_id = 'card_006_untimed' then 600
+            when ${TABLE}.card_id = 'card_005' then 700
+            when ${TABLE}.card_id = 'card_006' then 800
+            when ${TABLE}.card_id = 'card_007' then 900
+            when ${TABLE}.card_id = 'card_008' then 1000
+            when ${TABLE}.card_id = 'card_009' then 1100
+            when ${TABLE}.card_id = 'card_010' then 1200
+            when ${TABLE}.card_id = 'card_011' then 1300
+            when ${TABLE}.card_id = 'card_012' then 1400
+            when ${TABLE}.card_id = 'card_013' then 1500
+            when ${TABLE}.card_id = 'card_014' then 1600
+            when ${TABLE}.card_id = 'card_015' then 1700
+            when ${TABLE}.card_id = 'card_016' then 1800
+            when ${TABLE}.card_id = 'card_017' then 1900
+            when ${TABLE}.card_id = 'card_018' then 2000
+            when ${TABLE}.card_id = 'card_019' then 2100
+            when ${TABLE}.card_id = 'card_020' then 2200
+            when ${TABLE}.card_id = 'card_021' then 2300
+            when ${TABLE}.card_id = 'ce_001_card_001' then 20210601
+            when ${TABLE}.card_id = 'ce_001_card_002' then 20210602
+            when ${TABLE}.card_id = 'ce_001_card_003' then 20210603
+            when ${TABLE}.card_id = 'ce_002_card_001' then 20210701
+            when ${TABLE}.card_id = 'ce_002_card_002' then 20210702
+            when ${TABLE}.card_id = 'ce_002_card_003' then 20210703
+            when ${TABLE}.card_id = 'ce_003_card_001' then 20210711
+            when ${TABLE}.card_id = 'ce_003_card_002' then 20210712
+            when ${TABLE}.card_id = 'ce_003_card_003' then 20210713
+            when ${TABLE}.card_id = 'tu_001_card_001' then 30210801
+            when ${TABLE}.card_id = 'tu_001_card_002' then 30210802
+            when ${TABLE}.card_id = 'tu_001_card_003' then 30210803
           end"
 }
 

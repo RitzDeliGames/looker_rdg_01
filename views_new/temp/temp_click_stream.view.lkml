@@ -8,6 +8,10 @@ view: temp_click_stream {
         ,event_name
         ,engagement_ticks
         ,current_card
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric) currency_02_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric) currency_05_balance
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
         ,cast(quests_completed as int64) quests_completed
@@ -22,7 +26,7 @@ view: temp_click_stream {
         and user_type = 'external'
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
-      group by 1,2,3,4,5,6,7,8,9,10,11
+      group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
       ;;
     datagroup_trigger: change_3_hrs
   }
@@ -62,6 +66,26 @@ view: temp_click_stream {
   dimension: engagement_minutes {
     type: number
     sql: ${TABLE}.engagement_ticks / 2 ;;
+  }
+  dimension: currency_02_balance {
+    group_label: "Currencies"
+    label: "Gems"
+    type: number
+  }
+  dimension: currency_03_balance {
+    group_label: "Currencies"
+    label: "Coins"
+    type: number
+  }
+  dimension: currency_04_balance {
+    group_label: "Currencies"
+    label: "Lives"
+    type: number
+  }
+  dimension: currency_05_balance {
+    group_label: "Currencies"
+    label: "AFH Tokens"
+    type: number
   }
   measure: engagement_minutes_med {
     label: "Engagement Minutes - Median"

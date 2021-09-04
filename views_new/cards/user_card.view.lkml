@@ -5,7 +5,9 @@ view: user_card {
     sql:
       select
         rdg_id
-        ,card_id current_card
+        ,card_id
+        ,current_card
+        ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
         ,cast(quests_completed as int64) quests_completed
         ,min(card_start_time) card_start_time
@@ -114,6 +116,8 @@ view: user_card {
         select
           rdg_id
           ,json_extract_scalar(extra_json,'$.card_id') card_id
+          ,current_card
+          ,last_unlocked_card
           ,current_quest
           ,quests_completed
           ,timestamp_millis(cast(json_extract_scalar(extra_json,'$.card_start_time') as int64)) card_start_time
@@ -131,7 +135,7 @@ view: user_card {
         where event_name = 'cards'
           and user_type = 'external'
       ) x
-      group by 1,2,3,4--,5,6
+      group by 1,2,3,4,5,6
     ;;
     datagroup_trigger: change_3_hrs
     # indexes: ["card_id"]
@@ -139,7 +143,7 @@ view: user_card {
   dimension: primary_key {
     hidden: yes
     primary_key: yes
-    sql: ${rdg_id} || ${current_card} ;;
+    sql: ${rdg_id} || ${card_id} ;;
   }
   dimension: rdg_id {}
   measure: player_count {
@@ -147,14 +151,26 @@ view: user_card {
     sql: ${rdg_id} ;;
     drill_fields: [rdg_id]
   }
-  dimension: current_card {
+  dimension: card_id {
     group_label: "Card Dimensions"
     label: "Current Card (Extracted)"
     drill_fields: [rdg_id]
   }
-  dimension: current_card_numbered {
+  dimension: card_id_numbered {
     group_label: "Card Dimensions"
     label: "Current Card Numbered (Extracted)"
+    type: number
+    sql: @{card_id_numbered} ;;
+    value_format: "####"
+  }
+  dimension: current_card {
+    group_label: "Card Dimensions"
+    label: "Current Card (Schema)"
+    drill_fields: [rdg_id]
+  }
+  dimension: current_card_numbered {
+    group_label: "Card Dimensions"
+    label: "Current Card Numbered (Schema)"
     type: number
     sql: @{current_card_numbered} ;;
     value_format: "####"
@@ -163,9 +179,15 @@ view: user_card {
     group_label: "Card Dimensions"
     type: number
   }
-  dimension: current_card_quest {
+  dimension: card_id_quest {
     group_label: "Card Dimensions"
     label: "Current Card (Extracted) + Quest"
+    type: number
+    sql:  ${card_id_numbered} + ${current_quest};;
+  }
+  dimension: current_card_quest {
+    group_label: "Card Dimensions"
+    label: "Current Card (Schema) + Quest"
     type: number
     sql:  ${current_card_numbered} + ${current_quest};;
   }

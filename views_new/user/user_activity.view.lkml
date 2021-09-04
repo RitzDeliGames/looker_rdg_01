@@ -19,11 +19,11 @@ view: user_activity {
     type: string
     primary_key: yes
     sql: cast(format_date("%Y%m%d",${activity_date}) as string) || '_' || ${rdg_id} ;;
-    hidden: yes
+    hidden: no
   }
   dimension: rdg_id {
     type: string
-    hidden: yes
+    hidden: no
   }
   dimension_group: activity {
     type: time

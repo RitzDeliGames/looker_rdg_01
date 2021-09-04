@@ -60,39 +60,39 @@ view: user_last_event {
   }
   dimension: last_unlocked_card {
     group_label: "Card Dimensions"
-    label: "Player Last Unlocked Card"
+    label: "Last Unlocked Card"
     type: string
     sql: ${TABLE}.last_unlocked_card ;;
   }
   dimension: last_unlocked_card_no {
     group_label: "Card Dimensions"
-    label: "Player Last Unlocked Card (Numbered)"
+    label: "Last Unlocked Card Numbered"
     type: number
     value_format: "####"
     sql: @{last_unlocked_card_numbered};;
   }
   dimension: current_card {
     group_label: "Card Dimensions"
-    label: "Player Current Card"
+    label: "Current Card"
     type: string
     sql: ${TABLE}.current_card ;;
   }
   dimension: current_quest {
     group_label: "Card Dimensions"
-    label: "Player Current Quest"
+    label: "Current Quest"
     type: number
     sql: ${TABLE}.current_quest ;;
   }
   dimension: current_card_no {
     group_label: "Card Dimensions"
-    label: "Player Current Card (Numbered)"
+    label: "Current Card Numbered"
     type: number
     value_format: "####"
     sql: @{current_card_numbered};;
   }
   dimension: current_card_quest {
     group_label: "Card Dimensions"
-    label: "Player Current Card + Quest (Numbered)"
+    label: "Current Card + Quest"
     type: number
     value_format: "####"
     sql: ${current_card_no} + ${current_quest};;
@@ -100,6 +100,18 @@ view: user_last_event {
 
 
   ###EXPERIMENT IDS - LIVE###
+  dimension: fue_infinitelives_20210806   {
+    group_label: "Experiments - Live"
+    label: "Infinite Lives v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.fue_infinitelives_20210806'),'unassigned') ;;
+  }
+  dimension: teamups_20210824   {
+    group_label: "Experiments - Live"
+    label: "TeamUps v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.teamups_20210824'),'unassigned') ;;
+  }
   dimension: loseLifeOnPlay_20210810   {
     group_label: "Experiments - Live"
     label: "Lose Life v1"

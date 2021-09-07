@@ -148,12 +148,12 @@ view: temp_click_stream {
     label: "Count of Players"
     type: count_distinct
     sql: ${rdg_id} ;;
-    drill_fields: [last_unlocked_card, rdg_id]
+    drill_fields: [rdg_id,event_time,button_tag,button_tag_raw]
   }
   dimension: click_count {}
   measure: button_clicks {
     label: "Count of Clicks"
     type: count
-    drill_fields: [rdg_id,event_time,button_tag]
+    drill_fields: [rdg_id,event_time,button_tag,button_tag_raw]
   }
 }

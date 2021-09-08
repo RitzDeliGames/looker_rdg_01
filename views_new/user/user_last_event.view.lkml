@@ -100,6 +100,12 @@ view: user_last_event {
 
 
   ###EXPERIMENT IDS - LIVE###
+  dimension: rewardPreview_20210817   {
+    group_label: "Experiments - Live"
+    label: "Reward Preview v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.rewardPreview_20210817'),'unassigned') ;;
+  }
   dimension: fue_infinitelives_20210806   {
     group_label: "Experiments - Live"
     label: "Infinite Lives v1"

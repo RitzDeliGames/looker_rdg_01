@@ -112,18 +112,6 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.fue_infinitelives_20210806'),'unassigned') ;;
   }
-  dimension: teamups_20210824   {
-    group_label: "Experiments - Live"
-    label: "TeamUps v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.teamups_20210824'),'unassigned') ;;
-  }
-  dimension: loseLifeOnPlay_20210810   {
-    group_label: "Experiments - Live"
-    label: "Lose Life v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.loseLifeOnPlay_20210810'),'unassigned') ;;
-  }
   dimension: autoselecteraser_20210803   {
     group_label: "Experiments - Live"
     label: "Auto-Select v2"
@@ -136,62 +124,74 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altRewards20210811'),'unassigned') ;;
   }
-  dimension: featureunlocks_20210804   {
-    group_label: "Experiments - Live"
-    label: "Store Unlock v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.featureunlocks_20210804'),'unassigned') ;;
-  }
   dimension: gachatimers_20210815   {
     group_label: "Experiments - Live"
     label: "Gacha Timers"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.gachatimers_20210815'),'unassigned') ;;
   }
+
+  ###EXPERIMENT IDS - CLOSED###
+  dimension: featureunlocks_20210804   {
+    group_label: "Experiments - Closed"
+    label: "Store Unlock v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.featureunlocks_20210804'),'unassigned') ;;
+  }
+  dimension: teamups_20210824   {
+    group_label: "Experiments - Closed"
+    label: "TeamUps v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.teamups_20210824'),'unassigned') ;;
+  }
+  dimension: loseLifeOnPlay_20210810   {
+    group_label: "Experiments - Closed"
+    label: "Lose Life v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.loseLifeOnPlay_20210810'),'unassigned') ;;
+  }
   dimension: experiment_altCard_002_a_20210810   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_002_a / Tile 18 v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_a_20210810'),'unassigned') ;;
   }
   dimension: altCard_002_20210816   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_002 (Olympic Reqs)"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_20210816'),'unassigned') ;;
   }
   dimension: altCard_002_a_17_20210811   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_002_a / Tile 17 v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_a_17_20210811'),'unassigned') ;;
   }
   dimension: altCard_003_a_7_20210811  {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_003_a / Tile 7 v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_a_7_20210811'),'unassigned') ;;
   }
   dimension: altCard_003_20210329_07_20210728  {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_003 / Tile 7 v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_20210329_07_20210728'),'unassigned') ;;
   }
   dimension: altCard_003_20210329_08_20210728  {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_003 / Tile 8 v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_20210329_08_20210728'),'unassigned') ;;
   }
   dimension: altCard_003_20210329_09_20210728  {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_003 / Tile 9 v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_20210329_09_20210728'),'unassigned') ;;
   }
-
-  ###EXPERIMENT IDS - CLOSED###
   dimension: iconSurvey_20210729  {
     group_label: "Experiments - Closed"
     label: "Icon Survey v1"

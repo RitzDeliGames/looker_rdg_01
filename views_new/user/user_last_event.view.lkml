@@ -101,6 +101,18 @@ view: user_last_event {
 
   ###EXPERIMENT IDS - LIVE###
 
+  dimension: ce_bundle_livescoins   {
+    group_label: "Experiments - Live"
+    label: "ce_bundle_livescoins"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.ce_bundle_livescoins'),'unassigned') ;;
+  }
+  dimension: experiment_featureunlocks_20210901_leaderboard   {
+    group_label: "Experiments - Live"
+    label: "Feature Unlocks"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.featureunlocks_20210901_leaderboard'),'unassigned') ;;
+  }
   dimension: experiment_altCard_002_20210830   {
     group_label: "Experiments - Live"
     label: "Alt Card_002_20210830"

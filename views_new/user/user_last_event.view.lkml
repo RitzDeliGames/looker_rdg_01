@@ -100,6 +100,19 @@ view: user_last_event {
 
 
   ###EXPERIMENT IDS - LIVE###
+
+  dimension: experiment_altCard_003_a_20210903   {
+    group_label: "Experiments - Live"
+    label: "Alt Card_003_a_20210903 ('title')"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_a_20210903'),'unassigned') ;;
+  }
+  dimension: experiment_altCard_003_20210329_08_20210901   {
+    group_label: "Experiments - Live"
+    label: "Alt Card_003_20210329 / Tile 8"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_20210329_08_20210901'),'unassigned') ;;
+  }
   dimension: rewardPreview_20210817   {
     group_label: "Experiments - Live"
     label: "Reward Preview v1"

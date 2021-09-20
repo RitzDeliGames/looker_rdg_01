@@ -101,6 +101,12 @@ view: user_last_event {
 
   ###EXPERIMENT IDS - LIVE###
 
+  dimension: experiment_altCard_002_20210830   {
+    group_label: "Experiments - Live"
+    label: "Alt Card_002_20210830"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_20210830'),'unassigned') ;;
+  }
   dimension: experiment_altCard_003_a_20210903   {
     group_label: "Experiments - Live"
     label: "Alt Card_003_a_20210903 ('title')"

@@ -111,7 +111,7 @@ view: temp_click_stream {
     sql: ${rdg_id} ;;
     drill_fields: [last_unlocked_card, rdg_id]
   }
-  dimension: click_count {}
+  # dimension: click_count {}
   measure: button_clicks {
     label: "Count of Clicks"
     type: count

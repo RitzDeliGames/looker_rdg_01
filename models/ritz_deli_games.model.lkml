@@ -506,3 +506,22 @@ explore: churn_card_data {
 explore: id_helper {}
 
 explore: gameplay_fact {}
+
+explore: click_stream_testing {
+  hidden: yes
+  from: temp_click_stream
+  join: user_fact {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${user_fact.rdg_id} = ${click_stream_testing.rdg_id} ;;
+  }
+}
+
+explore: click_sequence {
+  join: next_click_in_sequence {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${click_sequence.click_sequence_num} = ${next_click_in_sequence.click_sequence_num} + 1 ;;
+  }
+}

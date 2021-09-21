@@ -9,7 +9,6 @@ view: user_activity {
       from `eraser-blast.game_data.events`
       where created_at >= '2019-01-01'
       and user_type = 'external'
-      and rdg_id not in ('accf512f-6b54-4275-95dd-2b0dd7142e9e')
       group by 1,2,3
     ;;
     datagroup_trigger: change_3_hrs
@@ -20,11 +19,11 @@ view: user_activity {
     type: string
     primary_key: yes
     sql: cast(format_date("%Y%m%d",${activity_date}) as string) || '_' || ${rdg_id} ;;
-    hidden: yes
+    hidden: no
   }
   dimension: rdg_id {
     type: string
-    hidden: yes
+    hidden: no
   }
   dimension_group: activity {
     type: time

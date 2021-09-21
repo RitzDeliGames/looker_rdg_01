@@ -30,7 +30,7 @@ view: churn_by_card_by_attempt {
   measure: player_count {
     type: count_distinct
     sql: ${rdg_id} ;;
-    drill_fields: [rdg_id,rounds]
+    drill_fields: [rdg_id,rounds,round_id,greater_round_id]
   }
   dimension: timestamp {
     type: date_time

@@ -88,7 +88,28 @@ constant: device_internal_tester_mapping {
 }
 
 constant: purchase_exclusion_list {
-  value: "('7721b79b-d8c6-4f6a-9ebb-d6afa43daed7','7acaf400-0343-4cb8-be6c-8707dd8d1efa','daf7c573-13dc-41b8-a173-915faf888c71','891b3c15-9451-45d0-a7b8-1459e4252f6c','9a804252-3902-43fb-8cab-9f1876420b5a','8824596a-5182-4287-bcd9-9154c1c70514','891b3c15-9451-45d0-a7b8-1459e4252f6c','ce4e1795-6a2b-4642-94f2-36acc148853e','1c54bae7-da32-4e68-b510-ef6e8c459ac8','c0e75463-850c-4a25-829e-6c6324178622','3f2eddee-3070-4966-8d51-495605ec2352','e4590cf5-244c-425d-bf7e-4ebf0416e9c5','c83b1dc7-24cd-40b8-931f-d73c69c949a9','39786fde-b372-4814-a488-bfb1bf89af8a','7f98585f-34ca-4322-beda-fa4ff51a8721','e699b639-924f-4854-8856-54f3019ecca1','397322b8-1459-4da7-a807-bc0d0404990d','a8092c91-4a71-45f8-8366-0b198adf1219')"
+  value: "('7721b79b-d8c6-4f6a-9ebb-d6afa43daed7'
+            ,'7acaf400-0343-4cb8-be6c-8707dd8d1efa'
+            ,'daf7c573-13dc-41b8-a173-915faf888c71'
+            ,'891b3c15-9451-45d0-a7b8-1459e4252f6c'
+            ,'9a804252-3902-43fb-8cab-9f1876420b5a'
+            ,'8824596a-5182-4287-bcd9-9154c1c70514'
+            ,'891b3c15-9451-45d0-a7b8-1459e4252f6c'
+            ,'ce4e1795-6a2b-4642-94f2-36acc148853e'
+            ,'1c54bae7-da32-4e68-b510-ef6e8c459ac8'
+            ,'c0e75463-850c-4a25-829e-6c6324178622'
+            ,'3f2eddee-3070-4966-8d51-495605ec2352'
+            ,'e4590cf5-244c-425d-bf7e-4ebf0416e9c5'
+            ,'c83b1dc7-24cd-40b8-931f-d73c69c949a9'
+            ,'39786fde-b372-4814-a488-bfb1bf89af8a'
+            ,'7f98585f-34ca-4322-beda-fa4ff51a8721'
+            ,'e699b639-924f-4854-8856-54f3019ecca1'
+            ,'397322b8-1459-4da7-a807-bc0d0404990d'
+            ,'a8092c91-4a71-45f8-8366-0b198adf1219'
+            ,'b045fdff-9f95-4c95-9421-5f676c11df13')"
+}
+constant: cheaters {
+  value: "('')"
 }
 
 constant: release_version_major {
@@ -127,6 +148,10 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '10200' THEN '1.10'
             WHEN ${TABLE}.version LIKE '10300' THEN '1.10'
             WHEN ${TABLE}.version LIKE '10400' THEN '1.10'
+            WHEN ${TABLE}.version LIKE '10500' THEN '1.10'
+            WHEN ${TABLE}.version LIKE '10600' THEN '1.10'
+            WHEN ${TABLE}.version LIKE '10700' THEN '1.10'
+            WHEN ${TABLE}.version LIKE '10800' THEN '1.10'
           END"
 }
 
@@ -166,6 +191,10 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '10200' THEN '1.10'
             WHEN ${TABLE}.install_version LIKE '10300' THEN '1.10'
             WHEN ${TABLE}.install_version LIKE '10400' THEN '1.10'
+            WHEN ${TABLE}.install_version LIKE '10500' THEN '1.10'
+            WHEN ${TABLE}.install_version LIKE '10600' THEN '1.10'
+            WHEN ${TABLE}.install_version LIKE '10700' THEN '1.10'
+            WHEN ${TABLE}.install_version LIKE '10800' THEN '1.10'
           END"
 }
 
@@ -205,6 +234,10 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '10200' THEN '1.10.200'
             WHEN ${TABLE}.version LIKE '10300' THEN '1.10.300'
             WHEN ${TABLE}.version LIKE '10400' THEN '1.10.400'
+            WHEN ${TABLE}.version LIKE '10500' THEN '1.10.500'
+            WHEN ${TABLE}.version LIKE '10600' THEN '1.10.600'
+            WHEN ${TABLE}.version LIKE '10700' THEN '1.10.700'
+            WHEN ${TABLE}.version LIKE '10800' THEN '1.10.800'
           END"
 }
 
@@ -244,6 +277,10 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '10200' THEN '1.10.200'
             WHEN ${TABLE}.install_version LIKE '10300' THEN '1.10.300'
             WHEN ${TABLE}.install_version LIKE '10400' THEN '1.10.400'
+            WHEN ${TABLE}.install_version LIKE '10500' THEN '1.10.500'
+            WHEN ${TABLE}.install_version LIKE '10600' THEN '1.10.600'
+            WHEN ${TABLE}.install_version LIKE '10700' THEN '1.10.700'
+            WHEN ${TABLE}.install_version LIKE '10800' THEN '1.10.800'
           END"
 }
 
@@ -387,6 +424,7 @@ constant: current_card_numbered_coalesced {
               when coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'ce_001_card_003' then 20210603
           END"
 }
+
 constant: current_card_numbered {
   value: "case
             when ${TABLE}.current_card = 'card_001_a' then 100
@@ -433,6 +471,67 @@ constant: current_card_numbered {
             when ${TABLE}.current_card = 'ce_002_card_001' then 20210701
             when ${TABLE}.current_card = 'ce_002_card_002' then 20210702
             when ${TABLE}.current_card = 'ce_002_card_003' then 20210703
+            when ${TABLE}.current_card = 'ce_003_card_001' then 20210711
+            when ${TABLE}.current_card = 'ce_003_card_002' then 20210712
+            when ${TABLE}.current_card = 'ce_003_card_003' then 20210713
+            when ${TABLE}.current_card = 'tu_001_card_001' then 30210801
+            when ${TABLE}.current_card = 'tu_001_card_002' then 30210802
+            when ${TABLE}.current_card = 'tu_001_card_003' then 30210803
+          end"
+}
+
+constant: card_id_numbered {
+    value: "case
+            when ${TABLE}.card_id = 'card_001_a' then 100
+            when ${TABLE}.card_id = 'card_001_b' then 100
+            when ${TABLE}.card_id = 'card_001_untimed' then 100
+            when ${TABLE}.card_id = 'card_002_b' then 120
+            when ${TABLE}.card_id = 'card_003_b' then 150
+            when ${TABLE}.card_id = 'card_002_a' then 200
+            when ${TABLE}.card_id = 'card_002_untimed' then 200
+            when ${TABLE}.card_id = 'card_003_a' then 300
+            when ${TABLE}.card_id = 'card_003_untimed' then 300
+            when ${TABLE}.card_id = 'card_002' then 400
+            when ${TABLE}.card_id = 'card_002_inverted' then 400
+            when ${TABLE}.card_id = 'card_039' then 400
+            when ${TABLE}.card_id = 'card_004_untimed' then 400
+            when ${TABLE}.card_id = 'card_003' then 500
+            when ${TABLE}.card_id = 'card_003_20210329' then 500
+            when ${TABLE}.card_id = 'card_040' then 500
+            when ${TABLE}.card_id = 'card_005_untimed' then 500
+            when ${TABLE}.card_id = 'card_004' then 600
+            when ${TABLE}.card_id = 'card_004_20210329' then 600
+            when ${TABLE}.card_id = 'card_041' then 600
+            when ${TABLE}.card_id = 'card_006_untimed' then 600
+            when ${TABLE}.card_id = 'card_005' then 700
+            when ${TABLE}.card_id = 'card_006' then 800
+            when ${TABLE}.card_id = 'card_007' then 900
+            when ${TABLE}.card_id = 'card_008' then 1000
+            when ${TABLE}.card_id = 'card_009' then 1100
+            when ${TABLE}.card_id = 'card_010' then 1200
+            when ${TABLE}.card_id = 'card_011' then 1300
+            when ${TABLE}.card_id = 'card_012' then 1400
+            when ${TABLE}.card_id = 'card_013' then 1500
+            when ${TABLE}.card_id = 'card_014' then 1600
+            when ${TABLE}.card_id = 'card_015' then 1700
+            when ${TABLE}.card_id = 'card_016' then 1800
+            when ${TABLE}.card_id = 'card_017' then 1900
+            when ${TABLE}.card_id = 'card_018' then 2000
+            when ${TABLE}.card_id = 'card_019' then 2100
+            when ${TABLE}.card_id = 'card_020' then 2200
+            when ${TABLE}.card_id = 'card_021' then 2300
+            when ${TABLE}.card_id = 'ce_001_card_001' then 20210601
+            when ${TABLE}.card_id = 'ce_001_card_002' then 20210602
+            when ${TABLE}.card_id = 'ce_001_card_003' then 20210603
+            when ${TABLE}.card_id = 'ce_002_card_001' then 20210701
+            when ${TABLE}.card_id = 'ce_002_card_002' then 20210702
+            when ${TABLE}.card_id = 'ce_002_card_003' then 20210703
+            when ${TABLE}.card_id = 'ce_003_card_001' then 20210711
+            when ${TABLE}.card_id = 'ce_003_card_002' then 20210712
+            when ${TABLE}.card_id = 'ce_003_card_003' then 20210713
+            when ${TABLE}.card_id = 'tu_001_card_001' then 30210801
+            when ${TABLE}.card_id = 'tu_001_card_002' then 30210802
+            when ${TABLE}.card_id = 'tu_001_card_003' then 30210803
           end"
 }
 
@@ -527,6 +626,7 @@ constant: purchase_source {
               WHEN json_extract_scalar(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_ManageLives.QuickPurchase.%' THEN 'Lives Quick Purchase Sheet'
               WHEN json_extract_scalar(${TABLE}.extra_json,'$.source_id') LIKE 'Sheet_CurrencyPack.QuickPurchase.%' THEN 'Coins Quick Purchase Sheet'
               WHEN json_extract_scalar(${TABLE}.extra_json,'$.source_id') LIKE 'Panel_Store.Purchase.%' THEN 'Store'
+              WHEN json_extract_scalar(${TABLE}.extra_json,'$.source_id') LIKE 'Panel_QuickPurchase.Purchase.%' THEN 'Quick Purchase'
               WHEN json_extract_scalar(${TABLE}.extra_json,'$.source_id') LIKE '%BuyMoreTime%' THEN 'Mini-Game'
               ELSE 'OTHER'
           END"
@@ -560,8 +660,10 @@ constant: purchase_iap_strings {
             when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_024%' then 'Huge Life Pack'
             when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_025%' then 'Jumbo Life Pack'
             when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_028%' then '24h Infinite Lives'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_029%' then 'More Time - Quest'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_030%' then 'More Time - Score'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_029%' then 'More Time for 24 Hours'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_030%' then 'More Time - High Score'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_031%' then 'More Time - Quest'
+            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_037%' then 'CE 202109_a - Lives & Coins Bundle'
             when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%BuyMoreTime%' then 'More Time'
           else 'OTHER'
           end"
@@ -596,8 +698,11 @@ constant: iap_id_strings {
             when json_extract_scalar(extra_json,'$.iap_id') like 'item_024' then 'Huge Life Pack'
             when json_extract_scalar(extra_json,'$.iap_id') like 'item_025' then 'Jumbo Life Pack'
             when json_extract_scalar(extra_json,'$.iap_id') like 'item_028' then '24h Infinite Lives'
-            when json_extract_scalar(extra_json,'$.iap_id') like 'item_029' then 'More Time - Quest'
-            when json_extract_scalar(extra_json,'$.iap_id') like 'item_030' then 'More Time - Score'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_029' then 'More Time for 24 Hours'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_030' then 'More Time - High Score'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_031' then 'More Time - Quest'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_036' then 'TU Energy Refill'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_037' then 'CE 202109_a - Lives & Coins Bundle'
             when json_extract_scalar(extra_json,'$.iap_id') like 'more_time_highscore' then 'More Time - Score'
             when json_extract_scalar(extra_json,'$.iap_id') like 'more_time_quest' then 'More Time - Quest'
             when json_extract_scalar(extra_json,'$.iap_id') like 'boost_001' then 'Score Boost'
@@ -606,6 +711,13 @@ constant: iap_id_strings {
             when json_extract_scalar(extra_json,'$.iap_id') like 'boost_004' then 'Time Boost'
             when json_extract_scalar(extra_json,'$.iap_id') like 'boost_005' then 'Bubble Boost'
             when json_extract_scalar(extra_json,'$.iap_id') like 'boost_006' then '5-to-4 Boost'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'box_000' then 'Free Ticket Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'box_001' then 'Fun Capsule Ticket'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'box_002' then 'Super Fun Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'box_004' then 'Free Coin Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'box_005' then 'Free Boost Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'box_006' then 'Jumbo Fun Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'box_007' then 'Housepets Capsule Ticket'
           else 'other'
           end"
 }
@@ -634,8 +746,86 @@ constant: iap_id_strings {
             end"
 }
 
-  constant: ce_ui_actions {
+  constant: button_tags {
     value: "case
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V3.Confirm' then 'MG - Buy More Time - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V3.Confirm.quest' then 'MG - Buy More Time - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V3.Close' then 'MG - Buy More Time - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BuyMoreTime.Confirm' then 'MG - Buy More Time - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V4.Confirm' then 'MG - Buy More Time - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BuyMoreTime.V4.Close' then 'MG - Buy More Time - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V4.Close' then 'MG - Buy More Time - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BuyMoreTime.Close' then 'MG - Buy More Time - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_legacy.TryAgain' then 'EoR - Try Again'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_legacy.Back' then 'EoR - Back'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_legacy.Continue' then 'EoR - Continue'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_v3.Continue' then 'EoR - Continue'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_v3.TryAgain' then 'EoR - Try Again'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRoundReward_V3.Close' then 'EoR - Reward - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EraserReward.Continue' then 'EoR - Reward - Continue'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_CollectHelpRequest.TryAgain' then 'EoR - AFH - Try Again'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_CollectHelpRequest.Back' then 'EoR - AFH - Back'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_CollectHelpRequest.Collect' then 'EoR - AFH - Collect Token'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_v3.Back' then 'EoR - Back'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_CameraScroller_Fixed-TopDown.WorldTapDispatcher' then 'WM - Tap Map'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_CameraScroller_Fixed-TopDown.PlayNavigation' then 'WM - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BingoHome_V3.QuestNode%' then 'WM - Tap Bingo Card Tile'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_Home.QuestNode.%' then 'WM - Tap Bingo Card Tile'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'UseHeroPower.character_%' then 'MG - Eraser Skill'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Pause' then 'MG - Pause'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Pause_V2.Close' then 'MG - Pause - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Pause_V2.Quit' then 'MG - Pause - Quit'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_QuitConfirm_V2.Close' then 'MG - Pause - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_QuickPurchase.Close' then 'QP - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_QuickPurchase.Purchase%' then 'QP - Select IAP'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_Purchase.Close' then 'QP - Close Purchase Panel'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BingoHome_V3.TileProgress.Free%' then 'WM - Tap Free Bingo Card Tile'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_Character_Dialogue%' then 'WM - Dialog'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_Join.Join' then 'WM - TeamUp - FUE - Join'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_FUE.Next' then 'WM - TeamUp - FUE - Next'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_FUE.Skip' then 'WM - TeamUp - FUE - Skip'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_FUE.Back' then 'WM - TeamUp - FUE - Back'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_FUE.Close' then 'WM - TeamUp - FUE - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps.Home' then 'TeamUp - FUE - Home'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'TeamUpSelect' then 'WM - TeamUp - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUp_Main.Join' then 'TeamUp - Main - Join Team'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUp_Main.Play' then 'TeamUp - Main - Play Card'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUp_Main.Home' then 'TeamUp - Main - Back to World Map'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_TeamUps_Bingo.QuestNode%' then 'TeamUp - Bingo Card - Tap Tile'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Back' then 'TeamUp - Bingo Card - Back to Main'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Home' then 'TeamUp - Bingo Card - Back to World Map'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Activity' then 'TeamUp - Bingo Card - Tap Activity Feed'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Claim' then 'TeamUp - Activity - Claim Any Reward'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Request' then 'TeamUp - Activity - Request Energy'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Donate' then 'TeamUp - Activity - Donate Energy'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_Refill.Refill' then 'TeamUp - Out of Energy - Buy'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_Refill.Ok' then 'TeamUp - Out of Energy - Buy - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Chat' then 'TeamUp - Bingo Card - Tap Chat Feed'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_TeamUp_Chat.ChatEmoji.%' then 'TeamUp - Chat - Type'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_Chat.Submit' then 'TeamUp - Chat - Send'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_Chat.Delete' then 'TeamUp - Chat - Delete'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TeamUp_Chat.Close' then 'TeamUp - Chat - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_TeamUps_Bingo.Like' then 'TeamUp - Chat - Like'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.PlayFromQuest' and ${TABLE}.current_card like 'tu%' then 'TeamUp - PG - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BingoQuestDetails_Legacy.PlayFromQuest' then 'PG - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.PlayFromQuest' then 'PG - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.EmptyTeam' then 'PG - Play (No Eraser Selected)'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.Boosts' then 'PG - Open Boost Shop'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Boosts_V3.OverlayClose' then 'PG - Close Boost Shop'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BingoQuestDetails.PlayFromQuest' then 'PG - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_PreGame_V3.QuestEraserSelection%' then 'PG - Select / Deselect Eraser'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Boosts_V3.Close' then 'PG - Close Boost Dialog'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_InAppMessaging_CE.' then 'PG - ToTD'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.RequestHelp' then 'PG - AFH'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_AddEraser_V3.QuestEraserSelection.%' then 'PG - Add Eraser'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_EraserDetail.Use.character_%' then 'PG - Use Eraser'
+              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_EraserDetail.Remove.character_%' then 'PG - Remove Eraser'
+              else json_extract_scalar(extra_json,'$.button_tag')
+            end"
+  }
+
+constant: ce_ui_actions {
+  value: "case
               when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamOk' then '01. How To Play / Tap OK'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.CommunityTeamSelect%' then '02a. Choose Team / Select Team'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_CommunityEvent_SelectTeam.NoTeamSelected%' then '02b. Choose Team / Join Team (No Team Selected)'
@@ -652,18 +842,6 @@ constant: iap_id_strings {
             end"
 }
 
-  constant: button_tags {
-    value: "case
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BuyMoreTime_V3.Confirm' then 'BuyMoreTime - Confirm'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BuyMoreTime.Confirm' then 'BuyMoreTime - Confirm'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BuyMoreTime_V3.Close' then 'BuyMoreTime - Close'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BuyMoreTime.Close' then 'BuyMoreTime - Close'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_PreGame_V3.PlayFromQuest' then 'PlayFromQuest'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BingoQuestDetails.PlayFromQuest' then 'PlayFromQuest'
-              when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BingoQuestDetails_Legacy.PlayFromQuest' then 'PlayFromQuest'
-              else json_extract_scalar(extra_json,'$.button_tag')
-            end"
-  }
   constant: event_names {
     value: "case
               when json_extract_scalar(${TABLE}.extra_json,'$.event_id') = 'event_id_202106_a' then 'Spring'
@@ -766,3 +944,20 @@ constant: iap_id_strings {
               when ${TABLE}.reward_type = 'SKILL' then 'Skill Ticket'
             end"
   }
+constant: reward_events {
+    value: "case
+              when ${TABLE}.reward_event like '%initial%' then 'Initial Reward'
+              when ${TABLE}.reward_event like '%level%' then 'Level Up'
+              when ${TABLE}.reward_event = 'bingo_reward_COMP' then 'Bingo Card Completion'
+              when ${TABLE}.reward_event like '%bingo_reward_C%' then 'Bingo Card Column'
+              when ${TABLE}.reward_event like '%bingo_reward_R%' then 'Bingo Card Row'
+              when ${TABLE}.reward_event like '%bingo_reward_D%' then 'Bingo Card Diagonal'
+              when ${TABLE}.reward_event = 'round_end' then 'Round End'
+              when ${TABLE}.reward_event = 'facebook_connect' then 'Facebook Connect'
+              when ${TABLE}.reward_event = 'global_leaderboard' then 'Global Leaderboard Reward'
+              when ${TABLE}.reward_event = 'gacha_box_000' then 'Free Ticket Capsule'
+              when ${TABLE}.reward_event = 'gacha_box_004' then 'Free Coin Capsule'
+              when ${TABLE}.reward_event = 'gacha_box_005' then 'Free Boost Capsule'
+              else ${TABLE}.reward_event
+            end"
+}

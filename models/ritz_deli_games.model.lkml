@@ -27,7 +27,7 @@ datagroup: change_at_midnight {
 }
 
 explore: user_retention {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   label: "Users"
   from: user_fact
   join: user_activity {
@@ -45,9 +45,9 @@ explore: user_retention {
     sql_on: ${user_retention.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
-  join: supported_devices {
+  join: android_device_helper {
     type: left_outer
-    sql_on: ${user_last_event.device_model_number} = ${supported_devices.retail_model} ;;
+    sql_on: ${user_last_event.device_model_number} = ${android_device_helper.retail_model} ;;
     relationship: many_to_one
   }
   join: facebook_daily_export {
@@ -67,11 +67,23 @@ explore: user_retention {
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${community_events_activity.rdg_id} ;;
   }
+  join: team_ups_activity {
+    view_label: "Team Ups"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${user_retention.rdg_id} = ${team_ups_activity.rdg_id} ;;
+  }
   join: loading_times {
     view_label: "Scene Loading Times"
     type: left_outer
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${loading_times.rdg_id} ;;
+  }
+  join: temp_click_stream {
+    view_label: "Click Stream"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${user_retention.rdg_id} = ${temp_click_stream.rdg_id} ;;
   }
   # join: new_afh {
   #   view_label: "Ask for Help"
@@ -94,7 +106,7 @@ explore: user_retention {
 }
 
 explore: user_card_completion {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   label: "Card Completion (User)"
   from: user_card
   join: user_fact {
@@ -155,6 +167,21 @@ explore: transactions {
   }
 }
 
+explore: rewards {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list};;
+  from: rewards
+  join: user_fact {
+    type: left_outer
+    sql_on: ${rewards.rdg_id} = ${user_fact.rdg_id} ;;
+    relationship: many_to_one
+  }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${rewards.rdg_id} = ${user_last_event.rdg_id} ;;
+    relationship: one_to_one
+  }
+}
+
 # explore: economy {
 #   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list};;
 #   from: rewards_bingo_cards_and_gameplay
@@ -202,9 +229,14 @@ explore: in_app_messages {
 }
 
 explore: click_stream {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: temp_click_stream
-  view_label: "Temp Button Clicks"
+  view_label: "Click Stream"
+  join: user_fact {
+    type: left_outer
+    sql_on: ${click_stream.rdg_id} = ${user_fact.rdg_id} ;;
+    relationship: many_to_one
+  }
   join: user_last_event {
     type: left_outer
     sql_on: ${click_stream.rdg_id} = ${user_last_event.rdg_id} ;;
@@ -213,7 +245,7 @@ explore: click_stream {
 }
 
 explore: ask_for_help {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: new_afh
   view_label: "Ask for Help"
   join: id_helper_requesting {
@@ -250,23 +282,18 @@ explore: ask_for_help {
 }
 
 explore: community_events {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: community_events_activity
-  # view_label: "Communtiy Events"
-  # join: user_fact {
-  #   type: left_outer
-  #   sql_on: ${community_events.rdg_id} = ${user_fact.rdg_id} ;;
-  #   relationship: many_to_one
-  # }
-  # join: user_last_event {
-  #   type: left_outer
-  #   sql_on: ${community_events.rdg_id} = ${user_last_event.rdg_id} ;;
-  #   relationship: one_to_one
-  # }
+}
+
+explore: team_ups {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  from: team_ups_activity
+  view_label: "Team Ups"
 }
 
 explore: temp_community_events_funnels {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   join: user_fact {
     type: left_outer
     sql_on: ${temp_community_events_funnels.rdg_id} = ${user_fact.rdg_id} ;;
@@ -288,7 +315,7 @@ explore: temp_community_events_funnels {
 }
 
 explore: churn_by_tile_by_attempt {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   always_filter: {
     filters: [churn_by_tile_by_attempt.node_selector: "0"]
   }
@@ -306,7 +333,7 @@ explore: churn_by_tile_by_attempt {
 }
 
 explore: churn_by_card {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: churn_by_card_by_attempt
   view_label: "Churn"
   join: user_fact {
@@ -322,7 +349,7 @@ explore: churn_by_card {
 }
 
 explore: gameplay {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: round_end
   join: user_fact {
     type: left_outer
@@ -422,6 +449,7 @@ explore: gameplay {
   #   relationship: one_to_one
   # }
 }
+
 explore: round_start {
   hidden: yes
   join: round_end {
@@ -434,7 +462,7 @@ explore: round_start {
 
 explore: temp_fps {
   hidden: yes
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: "temp fps"
   join: user_fact {
     type: left_outer
@@ -444,11 +472,11 @@ explore: temp_fps {
 }
 
 explore: events {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: " Card Data" ## space to bring to top of Explore
   label: "Card Event"
-  join: supported_devices {
-    sql_on: ${events.device_model_number} = ${supported_devices.retail_model} ;;
+  join: android_device_helper {
+    sql_on: ${events.device_model_number} = ${android_device_helper.retail_model} ;;
     type: left_outer
     relationship: many_to_one
   }

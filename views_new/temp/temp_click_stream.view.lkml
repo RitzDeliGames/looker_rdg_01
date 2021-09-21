@@ -6,12 +6,17 @@ view: temp_click_stream {
         ,install_version
         ,timestamp
         ,event_name
-        ,current_card
         ,engagement_ticks
+        ,current_card
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric) currency_02_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric) currency_05_balance
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
         ,cast(quests_completed as int64) quests_completed
         ,json_extract_scalar(extra_json,"$.button_tag") button_tag
+        ,extra_json
         ,lag(timestamp)
             over (partition by rdg_id order by timestamp desc) greater_quests_completed
       from `eraser-blast.game_data.events`
@@ -21,7 +26,7 @@ view: temp_click_stream {
         and user_type = 'external'
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
-      group by 1,2,3,4,5,6,7,8,9,10
+      group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
       ;;
     datagroup_trigger: change_3_hrs
   }
@@ -62,41 +67,67 @@ view: temp_click_stream {
     type: number
     sql: ${TABLE}.engagement_ticks / 2 ;;
   }
+  dimension: currency_02_balance {
+    group_label: "Currencies"
+    label: "Gems"
+    type: number
+  }
+  dimension: currency_03_balance {
+    group_label: "Currencies"
+    label: "Coins"
+    type: number
+  }
+  dimension: currency_04_balance {
+    group_label: "Currencies"
+    label: "Lives"
+    type: number
+  }
+  dimension: currency_05_balance {
+    group_label: "Currencies"
+    label: "AFH Tokens"
+    type: number
+  }
   measure: engagement_minutes_med {
     label: "Engagement Minutes - Median"
     type: median
     sql:  ${engagement_minutes};;
   }
   dimension: current_card {
-    hidden: no
+    group_label: "Card Dimensions"
     type: string
     sql: ${TABLE}.current_card ;;
   }
-  dimension: last_unlocked_card {
-    hidden: no
-    type: string
-    sql: ${TABLE}.last_unlocked_card ;;
-  }
-  dimension: card_id {
-    type: string
-    sql: coalesce(${last_unlocked_card},${current_card}) ;;
-  }
   dimension: current_card_numbered {
+    group_label: "Card Dimensions"
     type: number
     sql: @{current_card_numbered} ;;
     value_format: "####"
   }
+  # dimension: card_id {
+  #   group_label: "Card Dimensions"
+  #   type: string
+  #   sql: coalesce(${last_unlocked_card},${current_card}) ;;
+  # }
   dimension: current_card_quest {
+    group_label: "Card Dimensions"
+    label: "Current Card + Quest"
     type: number
     sql: ${current_card_numbered} + ${current_quest};;
     value_format: "####"
   }
+  dimension: last_unlocked_card {
+    group_label: "Card Dimensions"
+    type: string
+    sql: ${TABLE}.last_unlocked_card ;;
+  }
   dimension: last_unlocked_card_numbered {
+    group_label: "Card Dimensions"
     type: number
     sql: @{last_unlocked_card_numbered} ;;
     value_format: "####"
   }
   dimension: current_quest {
+    group_label: "Card Dimensions"
     type: number
     sql: ${TABLE}.current_quest ;;
   }
@@ -104,16 +135,25 @@ view: temp_click_stream {
     type: number
     sql: ${TABLE}.quests_completed ;;
   }
-  dimension: button_tag {}
+  dimension: extra_json {
+    hidden: yes
+  }
+  dimension: button_tag_raw {
+    sql: ${TABLE}.button_tag ;;
+  }
+  dimension: button_tag {
+    sql: @{button_tags} ;;
+  }
   measure: player_count {
     label: "Count of Players"
     type: count_distinct
     sql: ${rdg_id} ;;
-    drill_fields: [last_unlocked_card, rdg_id]
+    drill_fields: [rdg_id,event_time,button_tag,button_tag_raw]
   }
   # dimension: click_count {}
   measure: button_clicks {
     label: "Count of Clicks"
     type: count
+    drill_fields: [rdg_id,event_time,button_tag,button_tag_raw]
   }
 }

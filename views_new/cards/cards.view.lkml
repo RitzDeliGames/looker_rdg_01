@@ -3,6 +3,8 @@ view: cards {
     sql:
       select
         rdg_id
+        ,current_card
+        ,current_quest
         ,event_name
         ,timestamp
         ,json_extract_scalar(extra_json,'$.card_id') card_id
@@ -21,10 +23,11 @@ view: cards {
         ,json_extract_array(extra_json,'$.node_data') node_data
         --,json_extract_scalar(extra_json,'$.card_id') current_quest
       from game_data.events
-      where timestamp >= timestamp(current_date() - 90)
+      where timestamp >= timestamp(current_date() - 90) --should we go back past 90 days?
         and timestamp < timestamp(current_date())
         and event_name = 'cards'
         and user_type = 'external'
+        and current_card = json_extract_scalar(extra_json,'$.card_id') --this is necessary to exclude the edge cases where the schema and extra_json get out of alignment
     ;;
     datagroup_trigger: change_3_hrs
   }
@@ -48,11 +51,17 @@ view: cards {
     type: date_time
     sql: ${TABLE}.timestamp ;;
   }
-  dimension: card_id {
+  dimension: current_card {
     group_label: "Card Dimensions"
-    label: "Player Current Card"
+    label: "Player Current Card (Extracted)"
     type: string
     sql: ${TABLE}.card_id ;;
+  }
+  dimension: current_card_schema {
+    group_label: "Card Dimensions"
+    label: "Player Current Card (Schema)"
+    type: string
+    sql: ${TABLE}.current_card ;;
   }
   dimension: current_card_numbered {
     group_label: "Card Dimensions"
@@ -60,6 +69,17 @@ view: cards {
     type: number
     sql: @{current_card_numbered} ;;
     value_format: "####"
+  }
+  dimension: current_quest {
+    group_label: "Card Dimensions"
+    type: number
+    sql: ${TABLE}.current_quest ;;
+  }
+  dimension: current_card_quest {
+    group_label: "Card Dimensions"
+    label: "Player Current Card + Quest"
+    type: number
+    sql: ${current_card_numbered} + ${current_quest} ;;
   }
   dimension: card_start_time {
     type: date_time
@@ -114,8 +134,4 @@ view: cards {
     type: string
     sql: ${TABLE}.node_data ;;
   }
-  # dimension: current_quest {
-  #   type: string
-  #   sql: ${TABLE}.current_quest ;;
-  # }
 }

@@ -56,6 +56,13 @@ view: user_activity_engagement_min {
     style: integer
     sql: ${engagement_min} ;;
   }
+  dimension: engagement_15_min_interval {
+    label: "Minutes Played - 15 Min Tiers"
+    type: tier
+    tiers: [0,15,30,45,60,75,90,105,120,135,150,165,180,195,210,225,240]
+    style: integer
+    sql: ${engagement_min} ;;
+  }
   measure: active_user_count {
     type: count_distinct
     sql: ${rdg_id} ;;

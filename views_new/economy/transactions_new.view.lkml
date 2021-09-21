@@ -8,15 +8,12 @@ view: transactions_new {
         ,datetime(created_at,'US/Pacific') created_pst
         ,event_name
         ,timestamp
-        --,country --can remove once Will makes user_first_event table
-        --,platform --can remove once Will makes user_first_event table
-        --,lower(hardware) device_model_number
         ,round(cast(engagement_ticks as int64) / 2) minutes_played
         ,current_card
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
         ,json_extract_scalar(extra_json,'$.sheet_id') sheet_raw
-        ,json_extract_scalar(extra_json,'$.source_id') soure_raw
+        ,json_extract_scalar(extra_json,'$.source_id') source_raw
         ,if(json_extract_scalar(extra_json,'$.transaction_purchase_currency') like 'more_time_%', 'CURRENCY_02', json_extract_scalar(extra_json,'$.transaction_purchase_currency')) currency_spent --this is a workaround because More Time is not reported correctly
         ,cast(if(json_extract_scalar(extra_json,'$.transaction_purchase_currency') like 'more_time_%','10',json_extract_scalar(extra_json,"$.transaction_purchase_amount")) as int64) currency_spent_amount --see above
         ,if(json_extract_scalar(extra_json,'$.transaction_purchase_currency') like 'more_time_%','item_029',json_extract_scalar(extra_json,'$.iap_id')) iap_id --see above
@@ -40,10 +37,10 @@ view: transactions_new {
   }
 
   dimension: primary_key {
-    hidden: yes
+    hidden: no
     primary_key: yes
     type: string
-    sql: ${rdg_id} || ${transaction_raw} ;;
+    sql: ${rdg_id} || ${transaction_raw} || ${source_raw} || ${sheet_raw};;
   }
   dimension: rdg_id {
     hidden: no
@@ -71,34 +68,6 @@ view: transactions_new {
       ,year
     ]
   }
-  # dimension: device_model_number {
-  #   hidden: yes
-  # }
-  # ##REMOVE ONCE WILL ADDS USER_FIRST_EVENT TABLE
-  # dimension: platform {
-  #   hidden: no
-  #   group_label: "Device & OS Dimensions"
-  #   label: "Device Platform"
-  #   type: string
-  #   sql: @{device_platform_mapping} ;;
-  # }
-  # dimension: country {
-  #   group_label: "Device & OS Dimensions"
-  #   label: "Device Country"
-  #   type: string
-  # }
-  # dimension: region {
-  #   group_label: "Device & OS Dimensions"
-  #   label: "Device Region"
-  #   type: string
-  #   sql: @{country_region} ;;
-  # }
-  # ##REMOVE ONCE WILL ADDS USER_FIRST_EVENT TABLE
-  # dimension: event_name {
-  #   hidden: yes
-  #   type: string
-  #   sql: ${TABLE}.event_name ;;
-  # }
   dimension_group: transaction {
     type: time
     timeframes: [
@@ -141,6 +110,13 @@ view: transactions_new {
     group_label: "Card Dimensions"
     label: "Player Last Unlocked Card"
   }
+  dimension: last_unlocked_card_numbered {
+    group_label: "Card Dimensions"
+    label: "Player Last Unlocked Card (Numbered)"
+    type: number
+    sql: @{last_unlocked_card_numbered} ;;
+    value_format: "####"
+  }
   dimension: card_id { #change this dimension name but check for dependencies first!
     group_label: "Card Dimensions"
     label: "Player Last Unlocked Card (Coalesced)"
@@ -171,6 +147,14 @@ view: transactions_new {
     type: sum
     value_format: "$#.00"
     sql: if(${currency_spent} = 'CURRENCY_01',(${currency_spent_amount}/100 * .85), 0) ;;
+    drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
+  }
+  measure: gem_spent_amount_sum {
+    group_label: "Gem Spend"
+    label: "Total Gems Spent"
+    type: sum
+    value_format: "#,###"
+    sql: if(${currency_spent} = 'CURRENCY_02',${currency_spent_amount}, 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
   measure: currency_spent_amount_sum {
@@ -220,6 +204,7 @@ view: transactions_new {
     label: "Currency Spent - Median"
     type: median
     sql: ${currency_spent_amount} ;;
+    drill_fields: [rdg_id,currency_spent,currency_spent_amount,transaction_date]
   }
   measure: currency_spent_amount_75th {
     group_label: "Currency Spent"
@@ -261,4 +246,5 @@ view: transactions_new {
     ;;
     drill_fields: [rdg_id, created_date, created_pst_date]
   }
+
 }

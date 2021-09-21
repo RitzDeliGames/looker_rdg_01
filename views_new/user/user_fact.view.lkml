@@ -18,24 +18,54 @@ view: user_fact {
         fa.rdg_id
         ,fa.platform
         ,fa.country
+        ,hardware
         ,max(ltv) ltv
         ,min(created_at) created
         ,min(datetime(created_at,'US/Pacific')) created_pst
         ,max(current_quest) highest_quest_reached
         ,max(session_id) last_session
+        ,max(session_count) lifetime_sessions
         ,max(timestamp) last_event
-        ,count(distinct session_id) lifetime_sessions
         ,cast(max(quests_completed) as int64) quests_completed
         ,max(json_extract_scalar(extra_json,"$.card_id")) current_card  -- need to do the max on the current card num, card_003_b (150) is coming through instead of card_002 (400)
         ,max(last_unlocked_card) last_unlocked_card -- need to do the max on the last unlocked card num, card_003_b (150) is coming through instead of card_002 (400)
         ,min(version) version
         ,max(install_version) install_version
+        ,max(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) config_timestamp
+        ,min(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) install_config_timestamp
         ,max(player_level_xp) player_level_xp
         ,max(days_played_past_week) days_played_past_week
-        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric)) currency_02_balance
-        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance
-        ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance
-        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric)) currency_05_balance
+        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric)) currency_02_balance_max
+        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_max
+        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_max
+        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric)) currency_05_balance_max
+        ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric)) currency_02_balance_min
+        ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_min
+        ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_min
+        ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric)) currency_05_balance_min
+        ,max(cast(json_extract_scalar(tickets,"$.box_001") as numeric)) box_001_balance_max
+        ,max(cast(json_extract_scalar(tickets,"$.box_002") as numeric)) box_002_balance_max
+        ,max(cast(json_extract_scalar(tickets,"$.box_007") as numeric)) box_007_balance_max
+        ,max(cast(json_extract_scalar(tickets,"$.COIN") as numeric)) coin_boost_balance_max
+        ,max(cast(json_extract_scalar(tickets,"$.TIME") as numeric)) time_boost_balance_max
+        ,max(cast(json_extract_scalar(tickets,"$.FIVE_TO_FOUR") as numeric)) five_to_four_boost_balance_max
+        ,max(cast(json_extract_scalar(tickets,"$.BUBBLE") as numeric)) bubble_boost_balance_max
+        ,max(cast(json_extract_scalar(tickets,"$.SCORE") as numeric)) score_boost_balance_max
+        ,max(cast(json_extract_scalar(tickets,"$.EXP") as numeric)) xp_boost_balance_max
+        ,max(cast(json_extract_scalar(tickets,"$.SKILL") as numeric)) skill_ticket_balance_max
+        ,max(cast(json_extract_scalar(tickets,"$.LEVEL") as numeric)) level_ticket_balance_max
+        ,min(cast(json_extract_scalar(tickets,"$.box_001") as numeric)) box_001_balance_min
+        ,min(cast(json_extract_scalar(tickets,"$.box_002") as numeric)) box_002_balance_min
+        ,min(cast(json_extract_scalar(tickets,"$.box_007") as numeric)) box_007_balance_min
+        ,min(cast(json_extract_scalar(tickets,"$.COIN") as numeric)) coin_boost_balance_min
+        ,min(cast(json_extract_scalar(tickets,"$.TIME") as numeric)) time_boost_balance_min
+        ,min(cast(json_extract_scalar(tickets,"$.FIVE_TO_FOUR") as numeric)) five_to_four_boost_balance_min
+        ,min(cast(json_extract_scalar(tickets,"$.BUBBLE") as numeric)) bubble_boost_balance_min
+        ,min(cast(json_extract_scalar(tickets,"$.SCORE") as numeric)) score_boost_balance_min
+        ,min(cast(json_extract_scalar(tickets,"$.EXP") as numeric)) xp_boost_balance_min
+        ,min(cast(json_extract_scalar(tickets,"$.SKILL") as numeric)) skill_ticket_balance_min
+        ,min(cast(json_extract_scalar(tickets,"$.LEVEL") as numeric)) level_ticket_balance_min
+
       from first_activity fa
       left join `eraser-blast.game_data.events` gde
         on fa.rdg_id = gde.rdg_id
@@ -44,7 +74,7 @@ view: user_fact {
       and gde.country != 'ZZ'
       and coalesce(gde.install_version,'null') <> '-1'
       and fa.rn = 1
-      group by 1, 2, 3
+      group by 1, 2, 3, 4
     ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
@@ -102,6 +132,12 @@ view: user_fact {
     type: string
     sql: @{device_platform_mapping} ;;
   }
+  dimension: hardware {
+    group_label: "Device & OS Dimensions"
+    label: "Device Hardware"
+    type: string
+    sql: ${TABLE}.hardware ;;
+  }
   dimension: quests_completed {
     type: number
     hidden: no
@@ -135,6 +171,46 @@ view: user_fact {
   dimension: lifetime_sessions {
     type: number
   }
+  dimension: session_tier {
+    type: tier
+    sql: ${lifetime_sessions} ;;
+    tiers: [1,2,3,5,10,20,50,100]
+    style: integer
+  }
+  measure: lifetime_sessions_025 {
+    group_label: "Lifetime Sessions"
+    label: "Lifetime Sessions - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${lifetime_sessions} ;;
+  }
+  measure: lifetime_sessions_25 {
+    group_label: "Lifetime Sessions"
+    label: "Lifetime Sessions - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${lifetime_sessions} ;;
+  }
+  measure: lifetime_sessions_med {
+    group_label: "Lifetime Sessions"
+    label: "Lifetime Sessions - Median"
+    type: median
+    sql: ${lifetime_sessions} ;;
+  }
+  measure: lifetime_sessions_75 {
+    group_label: "Lifetime Sessions"
+    label: "Lifetime Sessions - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${lifetime_sessions} ;;
+  }
+  measure: lifetime_sessions_975 {
+    group_label: "Lifetime Sessions"
+    label: "Lifetime Sessions - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${lifetime_sessions} ;;
+  }
   # dimension: current_card {
   #   group_label: "Card Dimensions"
   #   label: "Player Current Card"
@@ -152,24 +228,21 @@ view: user_fact {
   #   value_format: "####"
   #   sql: @{current_card_numbered};;
   # }
-  dimension: session_tier {
-    type: tier
-    sql: ${lifetime_sessions} ;;
-    tiers: [1,2,3,5,10,20,50,100]
-    style: integer
-  }
   dimension: version {
+    group_label: "Version Dimensions"
     label: "Release Version"
     value_format: "0"
     type: number
     sql: cast(${TABLE}.version as int64) ;;
   }
   dimension: derived_install_minor_release_version {
+    group_label: "Version Dimensions"
     label: "Minor Release Version"
     type: string
     sql: @{release_version_minor} ;;
   }
   dimension: install_version {
+    group_label: "Version Dimensions"
     label: "Install Version"
     type: number
     hidden: no
@@ -177,27 +250,57 @@ view: user_fact {
     sql: cast(${TABLE}.install_version as int64) ;;
   }
   dimension: install_minor_release_version {
+    group_label: "Version Dimensions"
     hidden: yes
     type: string
     sql: @{install_release_version_minor};;
   }
   dimension: minor_release_version {
+    group_label: "Version Dimensions"
     label: "Install Minor Release Version"
     type: string
     sql: coalesce(${install_minor_release_version},${derived_install_minor_release_version}) ;;
   }
   dimension: minor_release_version_x {
+    group_label: "Version Dimensions"
     label: "Install Release Version"
     type: number
     value_format: "0"
     sql: coalesce(${install_version},${version}) ;;
   }
+  dimension: config_version {
+    group_label: "Version Dimensions"
+    label: "Config Version"
+    type: number
+    value_format: "0"
+    sql: ${TABLE}.config_timestamp;;
+  }
+  dimension: install_config_timestamp {
+    group_label: "Version Dimensions"
+    label: "Install Config Version"
+    type: number
+    value_format: "0"
+    sql: ${TABLE}.install_config_timestamp;;
+  }
   dimension: player_level_xp {
-    hidden: no
+    group_label: "XP Dimensions"
+    label: "Player XP (Raw)"
+    type: number
+    sql: ${TABLE}.player_level_xp ;;
   }
   dimension: player_xp {
+    group_label: "XP Dimensions"
+    label: "Player XP"
     type: number
     sql: trunc(${player_level_xp}) ;;
+  }
+  dimension: player_level_xp_tiers {
+    group_label: "XP Dimensions"
+    label: "Player XP Tiers"
+    type: tier
+    style: integer
+    tiers: [0,1,2,3,4,5,10,15,20,30,40,50,60,70,80,90,100]
+    sql: ${player_xp} ;;        # Shouldn't be player_level_xp?
   }
   measure: player_level_xp_025 {
     group_label: "Player XP"
@@ -237,6 +340,7 @@ view: user_fact {
     label: "Count of Players"
     type: count_distinct
     sql: ${rdg_id} ;;
+    drill_fields: [rdg_id, player_level_xp, created_date]
   }
   # measure: spend_amount {
   #   type: sum
@@ -256,85 +360,163 @@ view: user_fact {
   dimension: currency_02_balance_max {
     type: number
     hidden: yes
-    sql: ${TABLE}.currency_02_balance ;;
+    sql: ${TABLE}.currency_02_balance_max ;;
   }
   measure: currency_02_balance_025 {
-    group_label: "Gem Balance"
+    group_label: "Gem Balance - Max"
     label: "Max Daily Gem Balance - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${currency_02_balance_max} ;;
   }
   measure: currency_02_balance_25 {
-    group_label: "Gem Balance"
+    group_label: "Gem Balance - Max"
     label: "Max Daily Gem Balance - 25%"
     type: percentile
     percentile: 25
     sql: ${currency_02_balance_max} ;;
   }
   measure: currency_02_balance_med {
-    group_label: "Gem Balance"
+    group_label: "Gem Balance - Max"
     label: "Max Daily Gem Balance - Median"
     type: median
     sql: ${currency_02_balance_max} ;;
   }
   measure: currency_02_balance_75 {
-    group_label: "Gem Balance"
+    group_label: "Gem Balance - Max"
     label: "Max Daily Gem Balance - 75%"
     type: percentile
     percentile: 75
     sql: ${currency_02_balance_max} ;;
   }
   measure: currency_02_balance_975 {
-    group_label: "Gem Balance"
+    group_label: "Gem Balance - Max"
     label: "Max Daily Gem Balance - 97.5%"
     type: percentile
     percentile: 97.5
     sql: ${currency_02_balance_max} ;;
   }
+  dimension: currency_02_balance_min {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.currency_02_balance_min ;;
+  }
+  measure: currency_02_balance_min_025 {
+    group_label: "Gem Balance - Min"
+    label: "Min Daily Gem Balance - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${currency_02_balance_min} ;;
+  }
+  measure: currency_02_balance_min_25 {
+    group_label: "Gem Balance - Min"
+    label: "Min Daily Gem Balance - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${currency_02_balance_min} ;;
+  }
+  measure: currency_02_balance_min_med {
+    group_label: "Gem Balance - Min"
+    label: "Min Daily Gem Balance - Median"
+    type: median
+    sql: ${currency_02_balance_min} ;;
+  }
+  measure: currency_02_balance_min_75 {
+    group_label: "Gem Balance - Min"
+    label: "Min Daily Gem Balance - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${currency_02_balance_min} ;;
+  }
+  measure: currency_02_balance_min_975 {
+    group_label: "Gem Balance - Min"
+    label: "Min Daily Gem Balance - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${currency_02_balance_min} ;;
+  }
   dimension: currency_03_balance_max {
     type: number
     hidden: yes
-    sql: ${TABLE}.currency_03_balance ;;
+    sql: ${TABLE}.currency_03_balance_max ;;
   }
   measure: currency_03_balance_025 {
-    group_label: "Coin Balance"
+    group_label: "Coin Balance - Max"
     label: "Max Daily Coin Balance - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${currency_03_balance_max} ;;
   }
   measure: currency_03_balance_25 {
-    group_label: "Coin Balance"
+    group_label: "Coin Balance - Max"
     label: "Max Daily Coin Balance - 25%"
     type: percentile
     percentile: 25
     sql: ${currency_03_balance_max} ;;
   }
   measure: currency_03_balance_med {
-    group_label: "Coin Balance"
+    group_label: "Coin Balance - Max"
     label: "Max Daily Coin Balance - Median"
     type: median
     sql: ${currency_03_balance_max} ;;
   }
   measure: currency_03_balance_75 {
-    group_label: "Coin Balance"
+    group_label: "Coin Balance - Max"
     label: "Max Daily Coin Balance - 75%"
     type: percentile
     percentile: 75
     sql: ${currency_03_balance_max} ;;
   }
   measure: currency_03_balance_975 {
-    group_label: "Coin Balance"
+    group_label: "Coin Balance - Max"
     label: "Max Daily Coin Balance - 97.5%"
     type: percentile
     percentile: 97.5
     sql: ${currency_03_balance_max} ;;
   }
+  dimension: currency_03_balance_min {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.currency_03_balance_min ;;
+  }
+  measure: currency_03_balance_min_025 {
+    group_label: "Coin Balance - Min"
+    label: "Min Daily Coin Balance - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${currency_03_balance_min} ;;
+  }
+  measure: currency_03_balance_min_25 {
+    group_label: "Coin Balance - Min"
+    label: "Min Daily Coin Balance - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${currency_03_balance_min} ;;
+  }
+  measure: currency_03_balance_min_med {
+    group_label: "Coin Balance - Min"
+    label: "Min Daily Coin Balance - Median"
+    type: median
+    sql: ${currency_03_balance_min} ;;
+  }
+  measure: currency_03_balance_min_75 {
+    group_label: "Coin Balance - Min"
+    label: "Min Daily Coin Balance - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${currency_03_balance_min} ;;
+  }
+  measure: currency_03_balance_min_975 {
+    group_label: "Coin Balance - Min"
+    label: "Min Daily Coin Balance - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${currency_03_balance_min} ;;
+  }
   dimension: currency_04_balance_max {
     type: number
     hidden: yes
-    sql: ${TABLE}.currency_04_balance ;;
+    sql: ${TABLE}.currency_04_balance_max ;;
   }
   measure: currency_04_balance_025 {
     group_label: "Lives Balance"
@@ -374,7 +556,7 @@ view: user_fact {
   dimension: currency_05_balance_max {
     type: number
     hidden: yes
-    sql: ${TABLE}.currency_05_balance ;;
+    sql: ${TABLE}.currency_05_balance_max ;;
   }
   measure: currency_05_balance_025 {
     group_label: "AFH Token Balance"

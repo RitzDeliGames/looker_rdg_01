@@ -84,7 +84,10 @@ constant: device_platform_mapping {
 }
 
 constant: device_internal_tester_mapping {
-  value: "('596c5959-d64b-4b9a-92e2-02ac0da551db','052c6660-1668-40bc-938e-b35472d61d28','d766305b-e03b-433c-abe2-78fa6d4f827d','617c0432-a178-476c-b394-68abe694b54e')"
+  value: "('596c5959-d64b-4b9a-92e2-02ac0da551db'
+            ,'052c6660-1668-40bc-938e-b35472d61d28'
+            ,'d766305b-e03b-433c-abe2-78fa6d4f827d'
+            ,'617c0432-a178-476c-b394-68abe694b54e')"
 }
 
 constant: purchase_exclusion_list {
@@ -106,7 +109,8 @@ constant: purchase_exclusion_list {
             ,'e699b639-924f-4854-8856-54f3019ecca1'
             ,'397322b8-1459-4da7-a807-bc0d0404990d'
             ,'a8092c91-4a71-45f8-8366-0b198adf1219'
-            ,'b045fdff-9f95-4c95-9421-5f676c11df13')"
+            ,'b045fdff-9f95-4c95-9421-5f676c11df13'
+            ,'f95ac130-e521-4538-8497-4c39abc78a14')"
 }
 constant: cheaters {
   value: "('')"
@@ -742,6 +746,7 @@ constant: iap_id_strings {
               when json_extract_scalar(extra_json,'$.ui_action') = 'Ok' then 'Yes'
               when json_extract_scalar(extra_json,'$.ui_action') = '¡Juega ahora!' then 'Play Now'
               when json_extract_scalar(extra_json,'$.ui_action') = 'Jogue agora!' then 'Play Now'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'item_037' then 'Purchase - CE 202109_a - Lives & Coins Bundle'
               else json_extract_scalar(extra_json,'$.ui_action')
             end"
 }

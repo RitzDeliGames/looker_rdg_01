@@ -225,6 +225,10 @@ view: transactions_new {
     label: "IAP Names"
     sql: @{iap_id_strings} ;;
   }
+  dimension: iap_id_strings_grouped {
+    label: "IAP Names (Grouped)"
+    sql: @{iap_id_strings_grouped} ;;
+  }
   dimension: iap_purchase_item {}
   dimension: iap_purchase_qty {
     type: number
@@ -244,7 +248,7 @@ view: transactions_new {
         then ${rdg_id}
       end
     ;;
-    drill_fields: [rdg_id, created_date, created_pst_date]
+    drill_fields: [rdg_id,created_date,created_pst_date,iap_id_strings]
   }
 
 }

@@ -101,6 +101,13 @@ view: user_last_event {
 
   ###EXPERIMENT IDS - LIVE###
 
+
+  dimension: experiment_teamups_20210824_p3   {
+    group_label: "Experiments - Live"
+    label: "TeamUps v"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.teamups_20210824_p3'),'unassigned') ;;
+  }
   dimension: experiment_featureunlocks_20210901_leaderboard   {
     group_label: "Experiments - Live"
     label: "Feature Unlocks"

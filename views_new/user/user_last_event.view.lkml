@@ -101,6 +101,12 @@ view: user_last_event {
 
   ###EXPERIMENT IDS - LIVE###
 
+  dimension: experiment_machinefue_20210922   {
+    group_label: "Experiments - Live"
+    label: "Machine FUE v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.machinefue_20210922'),'unassigned') ;;
+  }
   dimension: experiment_bundletest_20210921   {
     group_label: "Experiments - Live"
     label: "Bundle Test v1"

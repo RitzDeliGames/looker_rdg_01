@@ -809,7 +809,12 @@ constant: iap_id_strings_grouped {
               when json_extract_scalar(extra_json,'$.ui_action') = 'Ok' then 'Yes'
               when json_extract_scalar(extra_json,'$.ui_action') = '¡Juega ahora!' then 'Play Now'
               when json_extract_scalar(extra_json,'$.ui_action') = 'Jogue agora!' then 'Play Now'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'item_035' then 'Purchase - 24 Hours Infinite Lives'
               when json_extract_scalar(extra_json,'$.ui_action') = 'item_037' then 'Purchase - CE 202109_a - Lives & Coins Bundle'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'Actualizar' then 'Update'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'Atualizar' then 'Update'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'close' then 'Close'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'OverlayClose' then 'Close'
               else json_extract_scalar(extra_json,'$.ui_action')
             end"
 }

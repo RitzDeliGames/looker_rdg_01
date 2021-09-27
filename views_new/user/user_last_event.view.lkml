@@ -101,7 +101,12 @@ view: user_last_event {
 
   ###EXPERIMENT IDS - LIVE###
 
-
+  dimension: experiment_characterUnlockSequence_20210921   {
+    group_label: "Experiments - Live"
+    label: "Character Unlock Sequence v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.characterUnlockSequence_20210921'),'unassigned') ;;
+  }
   dimension: experiment_teamups_20210824_p3   {
     group_label: "Experiments - Live"
     label: "TeamUps v"

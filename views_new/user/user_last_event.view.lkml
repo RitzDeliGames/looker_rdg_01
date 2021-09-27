@@ -101,6 +101,30 @@ view: user_last_event {
 
   ###EXPERIMENT IDS - LIVE###
 
+  dimension: experiment_machinefue_20210922   {
+    group_label: "Experiments - Live"
+    label: "Machine FUE v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.machinefue_20210922'),'unassigned') ;;
+  }
+  dimension: experiment_bundletest_20210921   {
+    group_label: "Experiments - Live"
+    label: "Bundle Test v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.bundletest_20210921'),'unassigned') ;;
+  }
+  dimension: experiment_characterUnlockSequence_20210921   {
+    group_label: "Experiments - Live"
+    label: "Character Unlock Sequence v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.characterUnlockSequence_20210921'),'unassigned') ;;
+  }
+  dimension: experiment_teamups_20210824_p3   {
+    group_label: "Experiments - Live"
+    label: "TeamUps v"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.teamups_20210824_p3'),'unassigned') ;;
+  }
   dimension: experiment_featureunlocks_20210901_leaderboard   {
     group_label: "Experiments - Live"
     label: "Feature Unlocks"

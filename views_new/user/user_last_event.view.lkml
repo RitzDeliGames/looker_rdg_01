@@ -121,7 +121,7 @@ view: user_last_event {
   }
   dimension: experiment_teamups_20210824_p3   {
     group_label: "Experiments - Live"
-    label: "TeamUps v"
+    label: "TeamUps v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.teamups_20210824_p3'),'unassigned') ;;
   }

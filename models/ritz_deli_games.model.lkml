@@ -33,7 +33,7 @@ explore: user_retention {
   join: user_activity {
     type: left_outer
     sql_on: ${user_retention.rdg_id} = ${user_activity.rdg_id} ;;
-    relationship: one_to_many
+  relationship: one_to_many
   }
   join: user_activity_engagement_min {
     type: left_outer
@@ -59,6 +59,7 @@ explore: user_retention {
     view_label: "Transactions"
     type: left_outer
     relationship: one_to_many
+    # relationship: many_to_many
     sql_on: ${user_retention.rdg_id} = ${transactions_new.rdg_id} ;;
   }
   join: community_events_activity {
@@ -123,6 +124,7 @@ explore: user_card_completion {
     view_label: "Transactions"
     type: left_outer
     relationship: one_to_many
+    # relationship: many_to_many
     sql_on: ${user_card_completion.rdg_id} = ${transactions_new.rdg_id}
       and ${user_card_completion.current_card} = ${transactions_new.current_card};;
   }
@@ -149,6 +151,7 @@ explore: transactions {
     type: left_outer
     sql_on: ${transactions.rdg_id} = ${user_fact.rdg_id} ;;
     relationship: many_to_one
+    # relationship: many_to_many
   }
   join: user_last_event {
     type: left_outer

@@ -1,6 +1,7 @@
 view: transactions {
   derived_table: {
     explore_source: events {
+      column: rdg_id {field: events.rdg_id}
       column: user_id {field: events.user_id}
       column: created_at {field: events.user_first_seen_date}
       column: device_model_number {field: events.device_model_number}
@@ -30,7 +31,15 @@ view: transactions {
     }
   }
 
+  dimension: rdg_id {
+    type: string
+    sql: ${TABLE}.rdg_id ;;
+    primary_key: yes
+    hidden: yes
+  }
+
   dimension: user_id {}
+
   measure: spender_count {
     type: count_distinct
     sql: ${user_id} ;;

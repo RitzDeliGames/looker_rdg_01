@@ -126,8 +126,8 @@ view: user_last_event {
     sql: nullif(json_extract_scalar(${experiments},'$.teamups_20210824_p3'),'unassigned') ;;
   }
   dimension: experiment_featureunlocks_20210901_leaderboard   {
-    group_label: "Experiments - Live"
-    label: "Feature Unlocks"
+    group_label: "Experiments - Closed"
+    label: "Leaderboard Unlock v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.featureunlocks_20210901_leaderboard'),'unassigned') ;;
   }
@@ -661,9 +661,9 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.last_bonus_20201105'),'unassigned') ;;
   }
-  dimension: untimed_mode {
+  dimension: untimed_20200918 {
     group_label: "Experiments - Closed"
-    label: "UntimedMode"
+    label: "Untimed Mode v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.untimed_20200918'),'unassigned') ;;
   }
@@ -721,4 +721,5 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.lowPerformanceMode_20200803'),'unassigned') ;;
   }
+
 }

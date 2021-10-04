@@ -286,6 +286,11 @@ explore: community_events {
   from: community_events_activity
 }
 
+explore: ce_aggregated_scores {
+  view_label: "Community Event Aggregated - TEMP"
+  from: ce_aggregated_scores
+}
+
 explore: team_ups {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: team_ups_activity

@@ -101,49 +101,49 @@ view: user_last_event {
 
   ###EXPERIMENT IDS - LIVE###
 
-  dimension: experiment_machinefue_20210922   {
+  dimension: dailyRewards_20210920_p2   {
+    group_label: "Experiments - Live"
+    label: "Daily Rewards v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.dailyRewards_20210920_p2'),'unassigned') ;;
+  }
+  dimension: machinefue_20210922   {
     group_label: "Experiments - Live"
     label: "Machine FUE v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.machinefue_20210922'),'unassigned') ;;
   }
-  dimension: experiment_bundletest_20210921   {
+  dimension: bundletest_20210921   {
     group_label: "Experiments - Live"
     label: "Bundle Test v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.bundletest_20210921'),'unassigned') ;;
   }
-  dimension: experiment_characterUnlockSequence_20210921   {
+  dimension: characterUnlockSequence_20210921   {
     group_label: "Experiments - Live"
     label: "Character Unlock Sequence v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.characterUnlockSequence_20210921'),'unassigned') ;;
   }
-  dimension: experiment_teamups_20210824_p3   {
+  dimension: teamups_20210824_p3   {
     group_label: "Experiments - Live"
     label: "TeamUps v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.teamups_20210824_p3'),'unassigned') ;;
   }
-  dimension: experiment_featureunlocks_20210901_leaderboard   {
-    group_label: "Experiments - Closed"
-    label: "Leaderboard Unlock v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.featureunlocks_20210901_leaderboard'),'unassigned') ;;
-  }
-  dimension: experiment_altCard_002_20210830   {
+  dimension: altCard_002_20210830   {
     group_label: "Experiments - Live"
     label: "Alt Card_002_20210830"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_20210830'),'unassigned') ;;
   }
-  dimension: experiment_altCard_003_a_20210903   {
+  dimension: altCard_003_a_20210903   {
     group_label: "Experiments - Live"
     label: "Alt Card_003_a v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_a_20210903'),'unassigned') ;;
   }
-  dimension: experiment_altCard_003_20210329_08_20210901   {
+  dimension: altCard_003_20210329_08_20210901   {
     group_label: "Experiments - Live"
     label: "Alt Card_003 / Tile 8 v1"
     type: string
@@ -186,6 +186,12 @@ view: user_last_event {
     label: "Store Unlock v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.featureunlocks_20210804'),'unassigned') ;;
+  }
+  dimension: experiment_featureunlocks_20210901_leaderboard   {
+    group_label: "Experiments - Closed"
+    label: "Leaderboard Unlock v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.featureunlocks_20210901_leaderboard'),'unassigned') ;;
   }
   dimension: teamups_20210824   {
     group_label: "Experiments - Closed"
@@ -567,13 +573,13 @@ view: user_last_event {
   }
   dimension: daily_rewards_v1 {
     group_label: "Experiments - Closed"
-    label: "DailyRewards v1"
+    label: "Daily Rewards v1a"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.dailyRewards_20210112'),'unassigned') ;;
   }
   dimension: daily_rewards_v2 { ## is this right?
     group_label: "Experiments - Closed"
-    label: "DailyRewards v2"
+    label: "Daily Rewards v1b"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.dailyRewards_20210302'),'unassigned') ;;
   }

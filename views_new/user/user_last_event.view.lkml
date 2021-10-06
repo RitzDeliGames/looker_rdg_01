@@ -119,6 +119,12 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.bundletest_20210921'),'unassigned') ;;
   }
+  dimension: characterUnlockSequence_20211005   {
+    group_label: "Experiments - Live"
+    label: "Character Unlock Sequence v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.characterUnlockSequence_20211005'),'unassigned') ;;
+  }
   dimension: characterUnlockSequence_20210921   {
     group_label: "Experiments - Live"
     label: "Character Unlock Sequence v1"

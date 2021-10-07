@@ -3,8 +3,9 @@
 
 view: click_sequence {
   derived_table: {
-    explore_source: click_stream_testing {
+    explore_source: click_stream {
       column: button_tag {}
+      column: button_tag_raw {}
       column: event_time {}
       column: card_id {}
       column: current_card_numbered {}
@@ -23,8 +24,11 @@ view: click_sequence {
         sql: row_number() over (partition by rdg_id order by event_time) ;;
       }
     }
+    datagroup_trigger: change_at_midnight
   }
-  dimension: button_tag {}
+  dimension: button_tag {
+  }
+  dimension: button_tag_raw {}
   dimension: event_time {
     type: date_time
   }
@@ -65,6 +69,12 @@ view: click_sequence {
   }
   dimension: install_version {}
   measure: count {
-    type: count
+    type: count_distinct
+    sql: ${rdg_id} ;;
+    drill_fields: [
+      rdg_id,
+      button_tag,
+      button_tag_raw,
+      event_time]
   }
 }

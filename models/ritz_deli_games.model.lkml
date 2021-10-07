@@ -535,21 +535,81 @@ explore: id_helper {}
 
 explore: gameplay_fact {}
 
-explore: click_stream_testing {
-  hidden: yes
-  from: temp_click_stream
-  join: user_fact {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${user_fact.rdg_id} = ${click_stream_testing.rdg_id} ;;
-  }
-}
-
 explore: click_sequence {
-  join: next_click_in_sequence {
+  view_label: "First in Sequence"
+  description: "Identifies the common paths players take after triggering an event "
+  join: next_in_sequence {
     from: click_sequence
     type: left_outer
     relationship: one_to_one
-    sql_on: ${click_sequence.click_sequence_num} = ${next_click_in_sequence.click_sequence_num} + 1 ;;
+    sql_on: ${click_sequence.click_sequence_num} <= ${next_in_sequence.click_sequence_num}
+        and ${click_sequence.rdg_id} = ${next_in_sequence.rdg_id} ;;
+  }
+  join: step_2 {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${click_sequence.click_sequence_num} + 1 = ${step_2.click_sequence_num}
+    and ${click_sequence.rdg_id} = ${step_2.rdg_id};;
+  }
+  join: step_3 {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_2.click_sequence_num} + 1 = ${step_3.click_sequence_num}
+      and ${step_2.rdg_id} = ${step_3.rdg_id};;
+  }
+  join: step_4 {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_3.click_sequence_num} + 1 = ${step_4.click_sequence_num}
+      and ${step_3.rdg_id} = ${step_4.rdg_id};;
+  }
+  join: step_5 {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_4.click_sequence_num} + 1 = ${step_5.click_sequence_num}
+      and ${step_4.rdg_id} = ${step_5.rdg_id};;
+  }
+  join: step_6 {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_5.click_sequence_num} + 1 = ${step_6.click_sequence_num}
+      and ${step_5.rdg_id} = ${step_6.rdg_id};;
+  }
+  join: step_7 {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_6.click_sequence_num} + 1 = ${step_7.click_sequence_num}
+      and ${step_6.rdg_id} = ${step_7.rdg_id};;
+  }
+  join: step_8 {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_7.click_sequence_num} + 1 = ${step_8.click_sequence_num}
+      and ${step_7.rdg_id} = ${step_8.rdg_id};;
+  }
+  join: step_9 {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_8.click_sequence_num} + 1 = ${step_9.click_sequence_num}
+      and ${step_8.rdg_id} = ${step_9.rdg_id};;
+  }
+  join: step_10 {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_9.click_sequence_num} + 1 = ${step_10.click_sequence_num}
+      and ${step_9.rdg_id} = ${step_10.rdg_id};;
+  }
+  join: click_sequence_joined_fields {
+    relationship: one_to_one
+    sql:  ;;
   }
 }

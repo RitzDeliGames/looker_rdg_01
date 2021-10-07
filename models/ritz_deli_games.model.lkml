@@ -59,7 +59,9 @@ explore: user_retention {
     view_label: "Transactions"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${user_retention.rdg_id} = ${transactions_new.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${transactions_new.rdg_id}
+    and ${user_activity.activity_date} = ${transactions_new.transaction_date} --#TEMP: added to (try) build LTV curves
+    and ${user_activity_engagement_min.engagement_min} = ${transactions_new.minutes_played};; #TEMP: added to (try) build LTV curves
   }
   join: community_events_activity {
     view_label: "Community Events"
@@ -145,15 +147,28 @@ explore: system_value_aggregated {
 explore: transactions {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list};;
   from: transactions_new
-  join: user_fact {
+  join: user_retention {
+    from: user_fact
     type: left_outer
-    sql_on: ${transactions.rdg_id} = ${user_fact.rdg_id} ;;
+    sql_on: ${transactions.rdg_id} = ${user_retention.rdg_id} ;;
     relationship: many_to_one
   }
   join: user_last_event {
     type: left_outer
     sql_on: ${transactions.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
+  }
+  join: user_activity {
+    type: left_outer
+    sql_on: ${transactions.rdg_id} = ${user_activity.rdg_id}
+    and ${transactions.transaction_date} = ${user_activity.activity_date};;
+    relationship: many_to_many
+  }
+  join: user_activity_engagement_min {
+    type: left_outer
+    sql_on: ${transactions.rdg_id} = ${user_activity_engagement_min.rdg_id}
+    and ${transactions.minutes_played} = ${user_activity_engagement_min.engagement_min};;
+    relationship: many_to_many
   }
   # join: supported_devices {
   #   type: left_outer

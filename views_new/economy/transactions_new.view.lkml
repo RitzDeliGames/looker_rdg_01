@@ -8,6 +8,7 @@ view: transactions_new {
         ,datetime(created_at,'US/Pacific') created_pst
         ,event_name
         ,timestamp
+        ,engagement_ticks
         ,round(cast(engagement_ticks as int64) / 2) minutes_played
         ,current_card
         ,last_unlocked_card

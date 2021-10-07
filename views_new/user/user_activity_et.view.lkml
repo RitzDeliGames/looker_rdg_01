@@ -39,10 +39,6 @@ view: user_activity_engagement_min {
     type: number
     sql: ${TABLE}.engagement_ticks / 2 ;;
   }
-  # dimension: days_since_created {
-  #   type: number
-  #   sql: date_diff(${activity_date},${user_retention.created_date},day) ;;
-  # }
   dimension: engagement_min_cohort {
     label: "Minutes Played Cohort"
     type: string

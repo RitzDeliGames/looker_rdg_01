@@ -6,7 +6,7 @@ view: community_events_activity {
         ,timestamp
         ,json_extract_scalar(extra_json,"$.event_id") event_id
         ,json_extract_scalar(extra_json,"$.team_id") team_id
-        --,cast(json_extract_scalar(extra_json,"$.score") as int64) score
+        ,cast(json_extract_scalar(extra_json,"$.score") as int64) score
         --,cast(json_extract_scalar(extra_json,"$.player_rank") as int64) player_rank
         ,extra_json
         ,count(timestamp) rounds_played
@@ -15,7 +15,7 @@ view: community_events_activity {
         and timestamp >= '2019-01-01'
         and user_type = 'external'
         and country != 'ZZ'
-      group by 1,2,3,4,5
+      group by 1,2,3,4,5,6
     ;;
     datagroup_trigger: change_3_hrs
   }
@@ -28,7 +28,7 @@ view: community_events_activity {
   dimension: rdg_id {
     type: string
     sql: ${TABLE}.rdg_id ;;
-    hidden: yes
+    hidden: no
   }
   dimension: event_id {
     label: "Event ID"
@@ -57,12 +57,17 @@ view: community_events_activity {
     label: "Team Names"
     sql: @{event_team_names} ;;
   }
-  # dimension: score {
-  #   label: "Score"
-  #   hidden: yes
-  #   type: number
-  #   sql: ${TABLE}.score ;;
-  # }
+  dimension: score {
+    label: "Score"
+    hidden: yes
+    type: number
+    sql: ${TABLE}.score ;;
+  }
+  measure: score_max {
+    label: "Max Score"
+    type: max
+    sql: ${score} ;;
+  }
   # measure: score_sum {
   #   label: "Total Score"
   #   type: sum

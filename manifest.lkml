@@ -84,7 +84,10 @@ constant: device_platform_mapping {
 }
 
 constant: device_internal_tester_mapping {
-  value: "('596c5959-d64b-4b9a-92e2-02ac0da551db','052c6660-1668-40bc-938e-b35472d61d28','d766305b-e03b-433c-abe2-78fa6d4f827d','617c0432-a178-476c-b394-68abe694b54e')"
+  value: "('596c5959-d64b-4b9a-92e2-02ac0da551db'
+            ,'052c6660-1668-40bc-938e-b35472d61d28'
+            ,'d766305b-e03b-433c-abe2-78fa6d4f827d'
+            ,'617c0432-a178-476c-b394-68abe694b54e')"
 }
 
 constant: purchase_exclusion_list {
@@ -106,7 +109,8 @@ constant: purchase_exclusion_list {
             ,'e699b639-924f-4854-8856-54f3019ecca1'
             ,'397322b8-1459-4da7-a807-bc0d0404990d'
             ,'a8092c91-4a71-45f8-8366-0b198adf1219'
-            ,'b045fdff-9f95-4c95-9421-5f676c11df13')"
+            ,'b045fdff-9f95-4c95-9421-5f676c11df13'
+            ,'f95ac130-e521-4538-8497-4c39abc78a14')"
 }
 constant: cheaters {
   value: "('')"
@@ -152,6 +156,8 @@ constant: release_version_major {
             WHEN ${TABLE}.version LIKE '10600' THEN '1.10'
             WHEN ${TABLE}.version LIKE '10700' THEN '1.10'
             WHEN ${TABLE}.version LIKE '10800' THEN '1.10'
+            WHEN ${TABLE}.version LIKE '10900' THEN '1.10'
+            WHEN ${TABLE}.version LIKE '10950' THEN '1.10'
           END"
 }
 
@@ -195,6 +201,8 @@ constant: install_release_version_major {
             WHEN ${TABLE}.install_version LIKE '10600' THEN '1.10'
             WHEN ${TABLE}.install_version LIKE '10700' THEN '1.10'
             WHEN ${TABLE}.install_version LIKE '10800' THEN '1.10'
+            WHEN ${TABLE}.install_version LIKE '10900' THEN '1.10'
+            WHEN ${TABLE}.install_version LIKE '10950' THEN '1.10'
           END"
 }
 
@@ -238,6 +246,8 @@ constant: release_version_minor {
             WHEN ${TABLE}.version LIKE '10600' THEN '1.10.600'
             WHEN ${TABLE}.version LIKE '10700' THEN '1.10.700'
             WHEN ${TABLE}.version LIKE '10800' THEN '1.10.800'
+            WHEN ${TABLE}.version LIKE '10900' THEN '1.10.900'
+            WHEN ${TABLE}.version LIKE '10950' THEN '1.10.950'
           END"
 }
 
@@ -281,6 +291,8 @@ constant: install_release_version_minor {
             WHEN ${TABLE}.install_version LIKE '10600' THEN '1.10.600'
             WHEN ${TABLE}.install_version LIKE '10700' THEN '1.10.700'
             WHEN ${TABLE}.install_version LIKE '10800' THEN '1.10.800'
+            WHEN ${TABLE}.install_version LIKE '10900' THEN '1.10.900'
+            WHEN ${TABLE}.install_version LIKE '10950' THEN '1.10.950'
           END"
 }
 
@@ -722,6 +734,61 @@ constant: iap_id_strings {
           end"
 }
 
+constant: iap_id_strings_grouped {
+  value: "case
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_001' then 'Free Machine'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_017' then 'Free Machine'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_018' then 'Free Machine'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_002' then 'Eraser Machine'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_003' then 'Eraser Machine'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_019' then 'Eraser Machine'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_022' then 'Eraser Machine'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_004' then 'Coin Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_005' then 'Coin Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_006' then 'Coin Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_007' then 'Coin Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_020' then 'Coin Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_021' then 'Coin Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_008' then 'Gem Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_026' then 'Gem Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_009' then 'Gem Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_010' then 'Gem Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_011' then 'Gem Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_012' then 'Gem Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_013' then 'Gem Capsule'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_023' then 'Life Pack'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_014' then 'Life Pack'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_015' then 'Life Pack'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_016' then 'Life Pack'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_024' then 'Life Pack'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_025' then 'Life Pack'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_028' then '24h Infinite Lives'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_029' then 'More Time'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_030' then 'More Time'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_031' then 'More Time'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'more_time_highscore' then 'More Time'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'more_time_quest' then 'More Time'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_036' then 'TU Energy'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'item_037' then 'Lives & Coins Bundle'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'boost_001' then 'Boosts'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'boost_002' then 'Boosts'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'boost_003' then 'Boosts'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'boost_004' then 'Boosts'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'boost_005' then 'Boosts'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'boost_006' then 'Boosts'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'box_000' then 'Free Machine'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'box_001' then 'Eraser Machine Ticket'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'box_002' then 'Eraser Machine Ticket'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'box_004' then 'Free Machine'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'box_005' then 'Free Machine'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'box_006' then 'Eraser Machine Ticket'
+            when json_extract_scalar(extra_json,'$.iap_id') like 'box_007' then 'Eraser Machine Ticket'
+            else 'other'
+          end"
+          }
+
+
+
   constant:  iam_ui_actions {
     value: "case
               when json_extract_scalar(extra_json,'$.ui_action') like '%Conectar%' then 'Connect'
@@ -742,6 +809,12 @@ constant: iap_id_strings {
               when json_extract_scalar(extra_json,'$.ui_action') = 'Ok' then 'Yes'
               when json_extract_scalar(extra_json,'$.ui_action') = '¡Juega ahora!' then 'Play Now'
               when json_extract_scalar(extra_json,'$.ui_action') = 'Jogue agora!' then 'Play Now'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'item_035' then 'Purchase - 24 Hours Infinite Lives'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'item_037' then 'Purchase - CE 202109_a - Lives & Coins Bundle'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'Actualizar' then 'Update'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'Atualizar' then 'Update'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'close' then 'Close'
+              when json_extract_scalar(extra_json,'$.ui_action') = 'OverlayClose' then 'Close'
               else json_extract_scalar(extra_json,'$.ui_action')
             end"
 }
@@ -847,6 +920,7 @@ constant: ce_ui_actions {
               when json_extract_scalar(${TABLE}.extra_json,'$.event_id') = 'event_id_202106_a' then 'Spring'
               when json_extract_scalar(${TABLE}.extra_json,'$.event_id') = 'event_id_202107_a' then 'Summer'
               when json_extract_scalar(${TABLE}.extra_json,'$.event_id') = 'event_id_202107_b' then 'Olympics'
+              when json_extract_scalar(${TABLE}.extra_json,'$.event_id') = 'event_id_202109_a' then 'Back-to-School'
               else json_extract_scalar(${TABLE}.extra_json,'$.event_id')
             end"
   }
@@ -948,16 +1022,18 @@ constant: reward_events {
     value: "case
               when ${TABLE}.reward_event like '%initial%' then 'Initial Reward'
               when ${TABLE}.reward_event like '%level%' then 'Level Up'
-              when ${TABLE}.reward_event = 'bingo_reward_COMP' then 'Bingo Card Completion'
-              when ${TABLE}.reward_event like '%bingo_reward_C%' then 'Bingo Card Column'
-              when ${TABLE}.reward_event like '%bingo_reward_R%' then 'Bingo Card Row'
-              when ${TABLE}.reward_event like '%bingo_reward_D%' then 'Bingo Card Diagonal'
+              when ${TABLE}.reward_event like '%bingo%' then 'Bingo Card'
+              --when ${TABLE}.reward_event = 'bingo_reward_COMP' then 'Bingo Card Completion'
+              --when ${TABLE}.reward_event like '%bingo_reward_C%' then 'Bingo Card Column'
+              --when ${TABLE}.reward_event like '%bingo_reward_R%' then 'Bingo Card Row'
+              --when ${TABLE}.reward_event like '%bingo_reward_D%' then 'Bingo Card Diagonal'
               when ${TABLE}.reward_event = 'round_end' then 'Round End'
               when ${TABLE}.reward_event = 'facebook_connect' then 'Facebook Connect'
               when ${TABLE}.reward_event = 'global_leaderboard' then 'Global Leaderboard Reward'
-              when ${TABLE}.reward_event = 'gacha_box_000' then 'Free Ticket Capsule'
-              when ${TABLE}.reward_event = 'gacha_box_004' then 'Free Coin Capsule'
-              when ${TABLE}.reward_event = 'gacha_box_005' then 'Free Boost Capsule'
+              when ${TABLE}.reward_event like '%gacha_box%' then 'Free Machine'
+              --when ${TABLE}.reward_event = 'gacha_box_000' then 'Free Ticket Capsule'
+              --when ${TABLE}.reward_event = 'gacha_box_004' then 'Free Coin Capsule'
+              --when ${TABLE}.reward_event = 'gacha_box_005' then 'Free Boost Capsule'
               else ${TABLE}.reward_event
             end"
 }

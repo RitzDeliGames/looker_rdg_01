@@ -1,4 +1,4 @@
-view: temp_click_stream {
+view: click_stream {
   derived_table: {
     sql:
       select

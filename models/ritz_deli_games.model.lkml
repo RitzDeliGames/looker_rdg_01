@@ -81,11 +81,11 @@ explore: user_retention {
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${loading_times.rdg_id} ;;
   }
-  join: temp_click_stream {
+  join: click_stream {
     view_label: "Click Stream"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${user_retention.rdg_id} = ${temp_click_stream.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${click_stream.rdg_id} ;;
   }
   # join: new_afh {
   #   view_label: "Ask for Help"
@@ -245,7 +245,7 @@ explore: in_app_messages {
 
 explore: click_stream {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
-  from: temp_click_stream
+  from: click_stream
   view_label: "Click Stream"
   join: user_fact {
     type: left_outer

@@ -110,7 +110,10 @@ constant: purchase_exclusion_list {
             ,'397322b8-1459-4da7-a807-bc0d0404990d'
             ,'a8092c91-4a71-45f8-8366-0b198adf1219'
             ,'b045fdff-9f95-4c95-9421-5f676c11df13'
-            ,'f95ac130-e521-4538-8497-4c39abc78a14')"
+            ,'f95ac130-e521-4538-8497-4c39abc78a14'
+            ,'e1c576c2-e424-40f2-bad9-33e1d0e0c172'
+            ,'12e6ee11-5190-418f-88bd-c61c5206025f'
+            ,'d85e4635-c0a7-450c-999f-c2220154e351')"
 }
 constant: cheaters {
   value: "('')"
@@ -809,7 +812,10 @@ constant: iap_id_strings_grouped {
               when json_extract_scalar(extra_json,'$.ui_action') like '%Permitir%' then 'Enable'
               when json_extract_scalar(extra_json,'$.ui_action') like '%Habilitar%' then 'Enable'
               when json_extract_scalar(extra_json,'$.ui_action') like '%Si%' then 'Yes'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Sí%' then 'Yes'
               when json_extract_scalar(extra_json,'$.ui_action') like '%Sim%' then 'Yes'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%Não%' then 'No'
+              when json_extract_scalar(extra_json,'$.ui_action') like '%No%' then 'No'
               when json_extract_scalar(extra_json,'$.ui_action') = 'Ok' then 'Yes'
               when json_extract_scalar(extra_json,'$.ui_action') = '¡Juega ahora!' then 'Play Now'
               when json_extract_scalar(extra_json,'$.ui_action') = 'Jogue agora!' then 'Play Now'

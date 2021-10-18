@@ -1,4 +1,4 @@
-view: temp_click_stream {
+view: click_stream {
   derived_table: {
     sql:
       select
@@ -103,11 +103,11 @@ view: temp_click_stream {
     sql: @{current_card_numbered} ;;
     value_format: "####"
   }
-  # dimension: card_id {
-  #   group_label: "Card Dimensions"
-  #   type: string
-  #   sql: coalesce(${last_unlocked_card},${current_card}) ;;
-  # }
+  dimension: card_id {
+    group_label: "Card Dimensions"
+    type: string
+    sql: coalesce(${last_unlocked_card},${current_card}) ;;
+  }
   dimension: current_card_quest {
     group_label: "Card Dimensions"
     label: "Current Card + Quest"
@@ -150,7 +150,7 @@ view: temp_click_stream {
     sql: ${rdg_id} ;;
     drill_fields: [rdg_id,event_time,button_tag,button_tag_raw]
   }
-  dimension: click_count {}
+  # dimension: click_count {}
   measure: button_clicks {
     label: "Count of Clicks"
     type: count

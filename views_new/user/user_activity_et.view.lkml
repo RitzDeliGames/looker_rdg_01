@@ -39,15 +39,18 @@ view: user_activity_engagement_min {
     type: number
     sql: ${TABLE}.engagement_ticks / 2 ;;
   }
-  # dimension: days_since_created {
-  #   type: number
-  #   sql: date_diff(${activity_date},${user_retention.created_date},day) ;;
-  # }
   dimension: engagement_min_cohort {
     label: "Minutes Played Cohort"
     type: string
     sql: 'MP' || cast((${engagement_min}) as string) ;;
     order_by_field: engagement_min
+  }
+  dimension: engagement_2_min_interval {
+    label: "Minutes Played - 2 Min Tiers"
+    type: tier
+    tiers: [0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60]
+    style: integer
+    sql: ${engagement_min} ;;
   }
   dimension: engagement_min_interval {
     label: "Minutes Played - 5 Min Tiers"
@@ -66,5 +69,10 @@ view: user_activity_engagement_min {
   measure: active_user_count {
     type: count_distinct
     sql: ${rdg_id} ;;
+  }
+  measure: engagement_min_max {
+    label: "Max Minutes Played"
+    type: max
+    sql: ${engagement_min} ;;
   }
 }

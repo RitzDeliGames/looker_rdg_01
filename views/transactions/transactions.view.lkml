@@ -1,6 +1,7 @@
 view: transactions {
   derived_table: {
     explore_source: events {
+      # column: activity {field: events.date}
       column: rdg_id {field: events.rdg_id}
       column: user_id {field: events.user_id}
       column: created_at {field: events.user_first_seen_date}
@@ -31,11 +32,17 @@ view: transactions {
     }
   }
 
+
+  dimension: primary_key {
+    type: string
+    primary_key: yes
+    sql: cast(format_date("%Y%m%d",${timestamp}) as string) || '_' || ${rdg_id} ;;
+    hidden: no
+  }
+
   dimension: rdg_id {
     type: string
-    sql: ${TABLE}.rdg_id ;;
-    primary_key: yes
-    hidden: yes
+    hidden: no
   }
 
   dimension: user_id {}

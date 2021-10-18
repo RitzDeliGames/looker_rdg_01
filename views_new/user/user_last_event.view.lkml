@@ -116,25 +116,25 @@ view: user_last_event {
   }
   dimension: characterUnlockSequence_20211005_p3   {
     group_label: "Experiments - Live"
-    label: "Character Unlock Sequence V3"
+    label: "Character Unlock Sequence v3"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.characterUnlockSequence_20211005_p3'),'unassigned') ;;
   }
   dimension: FUESkip_20211012   {
     group_label: "Experiments - Live"
-    label: "FUE Skip (20211012)"
+    label: "FUE - Skip v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.FUESkip_20211012'),'unassigned') ;;
   }
   dimension: FUEpace_20211011   {
     group_label: "Experiments - Live"
-    label: "FUE Pacing (20211011)"
+    label: "FUE - Pacing  v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.FUEpace_20211011'),'unassigned') ;;
   }
   dimension: featureunlocks_20211004_afh   {
     group_label: "Experiments - Live"
-    label: "Feature Unlocks 20211004"
+    label: "AFH Unlock v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.featureunlocks_20211004_afh'),'unassigned') ;;
   }

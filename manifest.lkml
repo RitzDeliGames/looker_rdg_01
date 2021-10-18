@@ -398,7 +398,7 @@ constant: country_region {
             when ${TABLE}.country like 'BR' THEN 'LATAM-BR'
             when ${TABLE}.country IN ('SE', 'NO', 'DK','SE', 'NO', 'IS','FI') THEN 'Scandinavia'
             when ${TABLE}.country IN ('GB', 'IE', 'ES') THEN 'UK-EU'
-            when ${TABLE}.country IN ('US', 'CA') THEN 'North America'
+            when ${TABLE}.country IN ('US', 'CA') THEN 'NA-EN'
             else 'OTHER'
           end"
 }

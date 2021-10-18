@@ -102,12 +102,19 @@ view: user_last_event {
   ###EXPERIMENT IDS - LIVE###
 
 
+  dimension: FUEpace_20211011   {
+    group_label: "Experiments - Live"
+    label: "FUE (20211011)"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.FUEpace_20211011'),'unassigned') ;;
+  }
   dimension: featureunlocks_20211004_afh   {
     group_label: "Experiments - Live"
     label: "Feature Unlocks 20211004"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.featureunlocks_20211004_afh'),'unassigned') ;;
   }
+
   dimension: experiment_machinefue_20210922   {}
 
   dimension: worldMap_20211007_p3   {

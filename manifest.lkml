@@ -392,14 +392,15 @@ constant: variant_ids {
 }
 
 constant: country_region {
-  value: "CASE
+  value: "case
             when ${TABLE}.country like 'ZZ' THEN 'N/A'
-            when ${TABLE}.country IN ('AR','BO', 'CO','MX', 'PE', 'UY', 'VE', 'NI', 'PY', 'CR', 'SV', 'CL', 'BZ', 'HN', 'GT', 'EC', 'PA') THEN 'LATAM-ES'
+            when ${TABLE}.country IN ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE') THEN 'LATAM-ES'
             when ${TABLE}.country like 'BR' THEN 'LATAM-BR'
             when ${TABLE}.country IN ('SE', 'NO', 'DK','SE', 'NO', 'IS','FI') THEN 'Scandinavia'
             when ${TABLE}.country IN ('GB', 'IE', 'ES') THEN 'UK-EU'
-            ELSE 'OTHER'
-          END"
+            when ${TABLE}.country IN ('US', 'CA') THEN 'North America'
+            else 'OTHER'
+          end"
 }
 
 constant: current_card_numbered_coalesced {

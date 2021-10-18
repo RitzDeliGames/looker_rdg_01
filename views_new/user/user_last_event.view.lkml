@@ -102,6 +102,12 @@ view: user_last_event {
   ###EXPERIMENT IDS - LIVE###
 
 
+  dimension: worldMap_20211007_p4   {
+    group_label: "Experiments - Live"
+    label: "World Map v4"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.worldMap_20211007_p4'),'unassigned') ;;
+  }
   dimension: dailyRewards_20210920_p4   {
     group_label: "Experiments - Live"
     label: "Daily Rewards v3"

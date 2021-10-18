@@ -101,10 +101,15 @@ view: user_last_event {
 
   ###EXPERIMENT IDS - LIVE###
 
-
+  dimension: FUESkip_20211012   {
+    group_label: "Experiments - Live"
+    label: "FUE Skip (20211012)"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.FUESkip_20211012'),'unassigned') ;;
+  }
   dimension: FUEpace_20211011   {
     group_label: "Experiments - Live"
-    label: "FUE (20211011)"
+    label: "FUE Pacing (20211011)"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.FUEpace_20211011'),'unassigned') ;;
   }

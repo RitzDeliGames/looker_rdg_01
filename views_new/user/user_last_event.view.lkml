@@ -141,98 +141,97 @@ view: user_last_event {
 
   dimension: experiment_machinefue_20210922   {}
 
-  dimension: worldMap_20211007_p3   {
-    group_label: "Experiments - Live"
-    label: "World Map v3"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.worldMap_20211007_p3'),'unassigned') ;;
-  }
+###EXPERIMENT IDS - CLOSED###
   dimension: dailyRewards_20210920_p2   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Daily Rewards v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.dailyRewards_20210920_p2'),'unassigned') ;;
   }
   dimension: machinefue_20210922   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Machine FUE v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.machinefue_20210922'),'unassigned') ;;
   }
   dimension: bundletest_20210921   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Bundle Test v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.bundletest_20210921'),'unassigned') ;;
   }
   dimension: characterUnlockSequence_20211005   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Character Unlock Sequence v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.characterUnlockSequence_20211005'),'unassigned') ;;
   }
   dimension: characterUnlockSequence_20210921   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Character Unlock Sequence v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.characterUnlockSequence_20210921'),'unassigned') ;;
   }
   dimension: teamups_20210824_p3   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "TeamUps v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.teamups_20210824_p3'),'unassigned') ;;
   }
   dimension: altCard_002_20210830   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_002_20210830"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_002_20210830'),'unassigned') ;;
   }
   dimension: altCard_003_a_20210903   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_003_a v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_a_20210903'),'unassigned') ;;
   }
   dimension: altCard_003_20210329_08_20210901   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Card_003 / Tile 8 v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altCard_003_20210329_08_20210901'),'unassigned') ;;
   }
   dimension: rewardPreview_20210817   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Reward Preview v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.rewardPreview_20210817'),'unassigned') ;;
   }
   dimension: fue_infinitelives_20210806   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Infinite Lives v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.fue_infinitelives_20210806'),'unassigned') ;;
   }
   dimension: autoselecteraser_20210803   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Auto-Select v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.autoselecteraser_20210803'),'unassigned') ;;
   }
   dimension: altRewards20210811   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Alt Rewards v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altRewards20210811'),'unassigned') ;;
   }
   dimension: gachatimers_20210815   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Gacha Timers"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.gachatimers_20210815'),'unassigned') ;;
   }
-
-  ###EXPERIMENT IDS - CLOSED###
+  dimension: worldMap_20211007_p3   {
+    group_label: "Experiments - Closed"
+    label: "World Map v3"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.worldMap_20211007_p3'),'unassigned') ;;
+  }
   dimension: featureunlocks_20210804   {
     group_label: "Experiments - Closed"
     label: "Store Unlock v1"

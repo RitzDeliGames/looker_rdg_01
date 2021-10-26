@@ -952,6 +952,9 @@ constant: iap_id_strings_grouped {
               when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_EraserDetail.Use.character_%' then 'PG - Use Eraser'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_EraserDetail.Remove.character_%' then 'PG - Remove Eraser'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_CommunityEvents_Bingo.QuestNode%' then 'Community Event - Bingo Card - Tap Tile '
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Eraser_Dialogue.Confirm' then 'WM - Story'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Narrator_Dialogue.Confirm' then 'WM - Story'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_DailyRewards.Claim' then 'Daily Rewards - Claim'
               else json_extract_scalar(extra_json,'$.button_tag')
             end"
   }

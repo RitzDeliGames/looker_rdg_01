@@ -138,10 +138,15 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.featureunlocks_20211004_afh'),'unassigned') ;;
   }
+  dimension: experiment_machinefue_20210922 {
+    group_label: "Experiments - Live"
+    label: "Machine FUE v2"
+    type: string
 
-  dimension: experiment_machinefue_20210922   {}
+  }
 
 ###EXPERIMENT IDS - CLOSED###
+
   dimension: dailyRewards_20210920_p2   {
     group_label: "Experiments - Closed"
     label: "Daily Rewards v2"

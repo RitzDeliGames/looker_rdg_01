@@ -62,7 +62,7 @@ view: singular_daily_agg_export {
     label: "ipm"
     type: number
     value_format: "#.00"
-    sql: ${total_installs}/(${total_impressions}/1000) ;;
+    sql: safe_divide(${total_installs},(${total_impressions}/1000)) ;;
   }
   dimension: installs {
     type: number
@@ -85,7 +85,7 @@ view: singular_daily_agg_export {
   measure: cpi {
     label: "cpi"
     type: number
-    value_format: "$.00"
-    sql: ${total_spend}/${total_installs} ;;
+    value_format: "$#.00"
+    sql: safe_divide(${total_spend},${total_installs}) ;;
   }
 }

@@ -55,6 +55,11 @@ explore: user_retention {
       AND ${user_retention.country} = ${facebook_daily_export.country};;
     relationship: many_to_many
   }
+  join: singular_daily_agg_export {
+    sql_on: ${user_retention.created_pst_date} = ${singular_daily_agg_export.date}
+      AND ${user_retention.country} = ${singular_daily_agg_export.country};;
+    relationship: many_to_many
+  }
   join: transactions_new {
     view_label: "Transactions"
     type: left_outer
@@ -182,6 +187,10 @@ explore: transactions {
   join: facebook_daily_export {
     type: left_outer
     sql_on: ${transactions.created_pst_date} = ${facebook_daily_export.date};;
+    relationship: many_to_many
+  }
+  join: singular_daily_agg_export {
+    sql_on: ${transactions.created_pst_date} = ${singular_daily_agg_export.date};;
     relationship: many_to_many
   }
 }

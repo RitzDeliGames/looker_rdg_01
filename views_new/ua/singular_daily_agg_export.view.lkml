@@ -1,0 +1,91 @@
+view: singular_daily_agg_export {
+  derived_table: {
+    sql:
+        with country_code_helper as (
+          select
+            Country country_name
+            ,Alpha_2_code country
+            ,Alpha_3_code
+          from `eraser-blast.singular.country_codes`
+          ),
+        singular_export as (
+          select
+            date
+            ,country_field
+            ,adn_campaign_name campaign_name
+            ,adn_campaign_id campaign_id
+            ,adn_sub_campaign_name ad_set_name
+            ,adn_sub_campaign_id ad_set_id
+            ,cast(adn_impressions as int64) impressions
+            ,cast(adn_cost as float64) AS spend
+            ,cast(adn_installs AS int64) AS installs
+            ,timestamp(date) date_time --is this still needed if we are importing from Singular rather than FB?
+          from `eraser-blast.singular.marketing_data`)
+        select country_code_helper.*, singular_export.*
+        from singular_export
+        join country_code_helper
+        on singular_export.country_field = country_code_helper.Alpha_3_code
+          ;;
+  }
+
+  dimension: compound_primary_key {
+    primary_key: yes
+    hidden: yes
+    type: string
+    sql: CONCAT(${TABLE}.date, ' ', ${TABLE}.country, ' ', ${TABLE}.campaign_id, ' ', ${TABLE}.ad_set_id, ' ', ${TABLE}.spend) ;;
+  }
+  dimension: date {
+    type: date
+    hidden: yes
+  }
+  dimension_group: facebook_export { #is this still needed if we are importing from Singular rather than FB?
+    type: time
+    timeframes: [
+      date
+    ]
+    sql: ${TABLE}.date_time ;;
+  }
+  dimension: country {}
+  dimension: campaign_name {}
+  dimension: campaign_id {}
+  dimension: ad_set_name {}
+  dimension: ad_set_id {}
+  dimension: impressions {
+    type: number
+  }
+  measure: total_impressions {
+    type: sum
+    value_format: "#,###"
+    sql: ${impressions} ;;
+  }
+  measure: ipm {
+    label: "ipm"
+    type: number
+    value_format: "#.00"
+    sql: ${total_installs}/(${total_impressions}/1000) ;;
+  }
+  dimension: installs {
+    type: number
+  }
+  measure: total_installs {
+    type: sum
+    value_format: "#,###"
+    sql: ${installs} ;;
+  }
+  dimension: spend {
+    type: number
+    value_format:"$#.00"
+  }
+  measure: total_spend {
+    label: "Total UA Spend"
+    type: sum
+    value_format:"$#,###"
+    sql: ${spend} ;;
+  }
+  measure: cpi {
+    label: "cpi"
+    type: number
+    value_format: "$.00"
+    sql: ${total_spend}/${total_installs} ;;
+  }
+}

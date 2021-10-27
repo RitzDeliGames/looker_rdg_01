@@ -20,6 +20,7 @@ view: click_sequence {
       column: rdg_id {}
       column: is_churned {}
       column: install_version {}
+      column: worldMap_20211007_p4 {}
       derived_column: click_sequence_num {
         sql: row_number() over (partition by rdg_id order by event_time) ;;
       }
@@ -68,6 +69,10 @@ view: click_sequence {
     type: yesno
   }
   dimension: install_version {}
+  dimension: worldMap_20211007_p4 {
+    group_label: "Experiments"
+    label: "World Map v4"
+  }
   measure: count {
     type: count_distinct
     sql: ${rdg_id} ;;

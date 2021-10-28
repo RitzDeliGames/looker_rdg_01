@@ -11,6 +11,8 @@ view: singular_daily_agg_export {
         singular_export as (
           select
             date
+            ,source
+            ,platform
             ,country_field
             ,adn_campaign_name campaign_name
             ,adn_campaign_id campaign_id
@@ -39,13 +41,30 @@ view: singular_daily_agg_export {
     hidden: yes
   }
   dimension_group: facebook_export { #is this still needed if we are importing from Singular rather than FB?
+    label: "Date"
     type: time
     timeframes: [
       date
     ]
     sql: ${TABLE}.date_time ;;
   }
-  dimension: country {}
+  dimension: source {
+    label: "Ad Network"
+  }
+  dimension: platform {
+    label: "Device Platform"
+    type: string
+    sql: @{device_platform_mapping} ;;
+  }
+  dimension: country {
+    group_label: "Geographic Targeting"
+  }
+  dimension: region {
+    group_label: "Geographic Targeting"
+    label: "Device Region"
+    type: string
+    sql: @{country_region} ;;
+  }
   dimension: campaign_name {}
   dimension: campaign_id {}
   dimension: ad_set_name {}

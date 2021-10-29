@@ -20,6 +20,7 @@ view: singular_daily_agg_export {
             ,adn_sub_campaign_id ad_set_id
             ,cast(adn_impressions as int64) impressions
             ,cast(adn_cost as float64) AS spend
+            ,cast(adn_original_cost as float64) AS original_spend
             ,cast(adn_installs AS int64) AS installs
             ,timestamp(date) date_time --is this still needed if we are importing from Singular rather than FB?
           from `eraser-blast.singular.marketing_data`)
@@ -78,7 +79,7 @@ view: singular_daily_agg_export {
     sql: ${impressions} ;;
   }
   measure: ipm {
-    label: "ipm"
+    label: "IPM"
     type: number
     value_format: "#.00"
     sql: safe_divide(${total_installs},(${total_impressions}/1000)) ;;
@@ -95,16 +96,32 @@ view: singular_daily_agg_export {
     type: number
     value_format:"$#.00"
   }
+  dimension: original_spend {
+    type: number
+    value_format:"$#.00"
+  }
   measure: total_spend {
     label: "Total UA Spend"
     type: sum
     value_format:"$#,###"
     sql: ${spend} ;;
   }
+  measure: total_original_spend {
+    label: "Total Original Spend"
+    type: sum
+    value_format:"$#,###"
+    sql: ${original_spend} ;;
+  }
   measure: cpi {
-    label: "cpi"
+    label: "CPI"
     type: number
     value_format: "$#.00"
     sql: safe_divide(${total_spend},${total_installs}) ;;
+  }
+  measure: ecpi {
+    label: "eCPI"
+    type: number
+    value_format: "$#.00"
+    sql: safe_divide(${total_original_spend},${total_installs}) ;;
   }
 }

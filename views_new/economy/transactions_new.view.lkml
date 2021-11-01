@@ -21,7 +21,10 @@ view: transactions_new {
         ,json_extract_scalar(extra_json,'$.iap_purchase_item') iap_purchase_item
         ,cast(json_extract_scalar(extra_json,'$.iap_purchase_qty') as int64) iap_purchase_qty
         ,json_extract_scalar(extra_json,'$.transaction_id') transaction_id
-        ,case when extra_json like '%GPA%' then false else true end fraud
+        ,case
+            when extra_json like '%GPA%' then false
+            when extra_json like '%AppleAppStore%' then false
+          else true end fraud
         ,extra_json
       from game_data.events
       where event_name = 'transaction'

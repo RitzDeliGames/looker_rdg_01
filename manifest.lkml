@@ -42,16 +42,37 @@ constant: device_model_mapping {
 }
 
 constant: device_manufacturer_mapping{
-  value: "CASE
-          when ${TABLE}.hardware like '%iPhone%' THEN 'Apple'
-          when ${TABLE}.hardware like '%iPad%' THEN 'Apple'
-          when ${TABLE}.hardware like '%Pixel%' THEN 'Google'
-          when ${TABLE}.hardware like '%samsung%' THEN 'Samsung'
-          when ${TABLE}.hardware like '%LG%' THEN 'LG'
-          when ${TABLE}.hardware like '%moto%' THEN 'Motorola'
-          when ${TABLE}.hardware like '%Huawei%' THEN 'Huawei'
-          when ${TABLE}.hardware like '%Lenovo%' THEN 'Lenovo'
-        END"
+  value: "case
+            when ${TABLE}.hardware like '%iPhone%' THEN 'Apple'
+            when ${TABLE}.hardware like '%iPad%' THEN 'Apple'
+            when ${TABLE}.hardware like '%Pixel%' THEN 'Google'
+            when ${TABLE}.hardware like '%samsung%' THEN 'Samsung'
+            when ${TABLE}.hardware like '%LG%' THEN 'LG'
+            when ${TABLE}.hardware like '%moto%' THEN 'Motorola'
+            when ${TABLE}.hardware like '%Huawei%' THEN 'Huawei'
+            when ${TABLE}.hardware like '%HUAWEI%' THEN 'Huawei'
+            when ${TABLE}.hardware like '%Lenovo%' THEN 'Lenovo'
+            when ${TABLE}.hardware like '%Xiaomi%' THEN 'Xiaomi'
+            when ${TABLE}.hardware like '%ZTE%' THEN 'ZTE'
+            when ${TABLE}.hardware like '%zte%' THEN 'ZTE'
+            when ${TABLE}.hardware like '%ZUUM%' THEN 'ZUUM'
+            when ${TABLE}.hardware like '%Asus%' THEN 'Asus'
+            when ${TABLE}.hardware like '%asus%' THEN 'Asus'
+            when ${TABLE}.hardware like '%Acer%' THEN 'Acer'
+            when ${TABLE}.hardware like '%Sony%' THEN 'Sony'
+            when ${TABLE}.hardware like '%Amazon%' THEN 'Amazon Shit Device'
+            when ${TABLE}.hardware like '%TCL%' THEN 'TCL'
+            when ${TABLE}.hardware like '%onn%' THEN 'OnePlus'
+            when ${TABLE}.hardware like '%OnePlus%' THEN 'OnePlus'
+            when ${TABLE}.hardware like '%OPPO%' THEN 'OPPO'
+            when ${TABLE}.hardware like '%Alco%' THEN 'Alco'
+            when ${TABLE}.hardware like '%BLU%' THEN 'BLU'
+            when ${TABLE}.hardware like '%HMD%' THEN 'Nokia'
+            when ${TABLE}.hardware like '%Nokia%' THEN 'Nokia'
+            when ${TABLE}.hardware like '%Hisense%' THEN 'Hisense'
+            when ${TABLE}.hardware like '%HTC%' THEN 'HTC'
+            else ${TABLE}.hardware
+          end"
 }
 
 constant: device_os_version_mapping {
@@ -113,7 +134,18 @@ constant: purchase_exclusion_list {
             ,'f95ac130-e521-4538-8497-4c39abc78a14'
             ,'e1c576c2-e424-40f2-bad9-33e1d0e0c172'
             ,'12e6ee11-5190-418f-88bd-c61c5206025f'
-            ,'d85e4635-c0a7-450c-999f-c2220154e351')"
+            ,'d85e4635-c0a7-450c-999f-c2220154e351'
+            ,'b3be97cd-f7f7-4c9e-aa47-1a0ad2ec4361'
+            ,'8282a558-f3ad-4b47-bee4-8b22e682d258'
+            ,'9c9ad2ed-5356-4926-91a3-831c92a3204e'
+            ,'8587a16b-6e14-445b-9bd6-901c86a49585'
+            ,'577347e2-ae91-4d81-9868-a48398a80986'
+            ,'022c5eec-1bc7-40d8-aa57-04407097d3cb'
+            ,'616c50be-c5f4-4d82-b5df-6e13e3443917'
+            ,'31df8aae-d7ff-49b4-8a37-025807e79f35'
+            ,'aff247e5-3268-424b-9fa7-fc7a31e25cfb'
+            ,'96656ebf-7125-48d5-8ea9-337724173c1a'
+            ,'054bf199-3fd3-4be0-a53b-62256d15d077')"
 }
 constant: cheaters {
   value: "('')"
@@ -520,6 +552,12 @@ constant: current_card_numbered {
             when ${TABLE}.current_card = 'ce_003_card_001' then 20210711
             when ${TABLE}.current_card = 'ce_003_card_002' then 20210712
             when ${TABLE}.current_card = 'ce_003_card_003' then 20210713
+            when ${TABLE}.current_card = 'ce_004_card_001' then 20210901
+            when ${TABLE}.current_card = 'ce_004_card_002' then 20210902
+            when ${TABLE}.current_card = 'ce_004_card_003' then 20210903
+            when ${TABLE}.current_card = 'ce_005_card_001' then 20211001
+            when ${TABLE}.current_card = 'ce_005_card_002' then 20211002
+            when ${TABLE}.current_card = 'ce_005_card_003' then 20211003
             when ${TABLE}.current_card = 'tu_001_card_001' then 30210801
             when ${TABLE}.current_card = 'tu_001_card_002' then 30210802
             when ${TABLE}.current_card = 'tu_001_card_003' then 30210803
@@ -584,6 +622,12 @@ constant: card_id_numbered {
             when ${TABLE}.card_id = 'ce_003_card_001' then 20210711
             when ${TABLE}.card_id = 'ce_003_card_002' then 20210712
             when ${TABLE}.card_id = 'ce_003_card_003' then 20210713
+            when ${TABLE}.card_id = 'ce_004_card_002' then 20210902
+            when ${TABLE}.card_id = 'ce_004_card_003' then 20210903
+            when ${TABLE}.card_id = 'ce_005_card_001' then 20211001
+            when ${TABLE}.card_id = 'ce_004_card_001' then 20210901
+            when ${TABLE}.card_id = 'ce_005_card_002' then 20211002
+            when ${TABLE}.card_id = 'ce_005_card_003' then 20211003
             when ${TABLE}.card_id = 'tu_001_card_001' then 30210801
             when ${TABLE}.card_id = 'tu_001_card_002' then 30210802
             when ${TABLE}.card_id = 'tu_001_card_003' then 30210803

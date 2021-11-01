@@ -21,6 +21,7 @@ view: click_sequence {
       column: is_churned {}
       column: install_version {}
       column: worldMap_20211007_p4 {}
+      column: characterUnlockSequence_20211005_p3 {}
       derived_column: click_sequence_num {
         sql: row_number() over (partition by rdg_id order by event_time) ;;
       }
@@ -72,6 +73,10 @@ view: click_sequence {
   dimension: worldMap_20211007_p4 {
     group_label: "Experiments"
     label: "World Map v4"
+  }
+  dimension: characterUnlockSequence_20211005_p3 {
+    group_label: "Experiments"
+    label: "Character Unlock Sequence"
   }
   measure: count {
     type: count_distinct

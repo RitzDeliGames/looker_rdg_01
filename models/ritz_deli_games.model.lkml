@@ -94,6 +94,12 @@ explore: user_retention {
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${click_stream.rdg_id} ;;
   }
+  join: fue_funnels {
+    view_label: "FUE Funnel"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${user_retention.rdg_id} = ${fue_funnels.rdg_id} ;;
+  }
   # join: new_afh {
   #   view_label: "Ask for Help"
   #   type: left_outer

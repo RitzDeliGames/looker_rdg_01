@@ -4,9 +4,6 @@ view: fue_funnels {
       select
         rdg_id
         ,timestamp
-        ,current_card
-        ,last_unlocked_card
-        ,cast(current_quest as int64) current_quest
         ,json_extract_scalar(extra_json,"$.current_FueStep") fue_step
         ,json_extract_scalar(extra_json,"$.current_ChoreographyStepId") fue_step_choreography
         ,extra_json
@@ -40,34 +37,6 @@ view: fue_funnels {
       ,month
       ,year
     ]
-  }
-  dimension: current_card {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.current_card ;;
-  }
-  dimension: last_unlocked_card {
-    hidden: no
-    type: string
-    sql: ${TABLE}.last_unlocked_card ;;
-  }
-  dimension: card_id {
-    type: string
-    sql: coalesce(${last_unlocked_card},${current_card}) ;;
-  }
-  dimension: current_card_numbered {
-    type: number
-    sql: @{current_card_numbered} ;;
-    value_format: "####"
-  }
-  dimension: last_unlocked_card_numbered {
-    type: number
-    sql: @{last_unlocked_card_numbered} ;;
-    value_format: "####"
-  }
-  dimension: current_quest {
-    type: number
-    sql: ${TABLE}.current_quest ;;
   }
   dimension: fue_step {}
   dimension: fue_step_choreography {}

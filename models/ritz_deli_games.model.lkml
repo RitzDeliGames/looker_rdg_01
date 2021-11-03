@@ -325,6 +325,8 @@ explore: team_ups {
   view_label: "Team Ups"
 }
 
+explore: fue_funnels {}
+
 explore: temp_community_events_funnels {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   join: user_fact {

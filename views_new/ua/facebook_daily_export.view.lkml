@@ -34,7 +34,15 @@ view: facebook_daily_export {
     ]
     sql: ${TABLE}.date_time ;;
   }
-  dimension: country {}
+  dimension: country {
+    group_label: "Geographic Targeting"
+  }
+  dimension: region {
+    group_label: "Geographic Targeting"
+    label: "Device Region"
+    type: string
+    sql: @{country_region} ;;
+  }
   dimension: campaign_name {}
   dimension: campaign_id {}
   dimension: ad_set_name {}

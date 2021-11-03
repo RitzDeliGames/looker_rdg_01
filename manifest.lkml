@@ -1012,6 +1012,7 @@ constant: iap_id_strings_grouped {
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Eraser_Dialogue.Confirm' then 'WM - Story'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Narrator_Dialogue.Confirm' then 'WM - Story'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Narrator_Dialogue.Close' then 'WM - Story'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Eraser_Dialogue.Close' then 'WM - Story'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_DailyRewards.Claim' then 'Daily Rewards - Claim'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BingoHome_V3.Stars' then 'Stars - Bingo Card - Star Jar'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_BingoHome_V3.Restore%' then 'Stars - Restoration - Restore'

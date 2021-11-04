@@ -52,19 +52,19 @@ explore: user_retention {
   }
   join: facebook_daily_export {
     sql_on: ${user_retention.created_pst_date} = ${facebook_daily_export.date}
-      AND ${user_retention.country} = ${facebook_daily_export.country};;
+      and ${user_retention.country} = ${facebook_daily_export.country};;
     relationship: many_to_many
   }
   join: singular_daily_agg_export {
     view_label: "Singular Aggregated"
     sql_on: ${user_retention.created_pst_date} = ${singular_daily_agg_export.date}
-      AND ${user_retention.country} = ${singular_daily_agg_export.country};;
+      and ${user_retention.country} = ${singular_daily_agg_export.country};;
     relationship: many_to_many
   }
   join: singular_daily_user_attribution_export {
     view_label: "Singular User Level"
     type: left_outer
-    sql_on: ${user_retention.advertising_id} = ${singular_daily_user_attribution_export.device_id} ;;
+    sql_on: ${user_retention.advertising_id} = ${singular_daily_user_attribution_export.device_id};;
     relationship: one_to_one
   }
   join: transactions_new {
@@ -654,6 +654,41 @@ explore: click_sequence {
     relationship: one_to_one
     sql_on: ${step_9.click_sequence_num} + 1 = ${step_10.click_sequence_num}
       and ${step_9.rdg_id} = ${step_10.rdg_id};;
+  }
+  join: step_11 {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_10.click_sequence_num} + 1 = ${step_11.click_sequence_num}
+      and ${step_10.rdg_id} = ${step_11.rdg_id};;
+  }
+  join: step_12 {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_11.click_sequence_num} + 1 = ${step_12.click_sequence_num}
+      and ${step_11.rdg_id} = ${step_12.rdg_id};;
+  }
+  join: step_13 {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_12.click_sequence_num} + 1 = ${step_13.click_sequence_num}
+      and ${step_12.rdg_id} = ${step_13.rdg_id};;
+  }
+  join: step_14 {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_13.click_sequence_num} + 1 = ${step_14.click_sequence_num}
+      and ${step_13.rdg_id} = ${step_14.rdg_id};;
+  }
+  join: step_15 {
+    from: click_sequence
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_14.click_sequence_num} + 1 = ${step_15.click_sequence_num}
+      and ${step_14.rdg_id} = ${step_15.rdg_id};;
   }
   join: click_sequence_joined_fields {
     relationship: one_to_one

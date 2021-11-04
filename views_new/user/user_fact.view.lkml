@@ -6,6 +6,7 @@ view: user_fact {
        with first_activity as (select
         rdg_id
         ,device_id
+        ,advertising_id
         ,platform
         ,country
         ,row_number() over (partition by rdg_id order by timestamp asc) rn
@@ -18,6 +19,7 @@ view: user_fact {
       select
         fa.rdg_id
         ,fa.device_id
+        ,fa.advertising_id
         ,fa.platform
         ,fa.country
         ,hardware
@@ -76,7 +78,7 @@ view: user_fact {
       and gde.country != 'ZZ'
       and coalesce(gde.install_version,'null') <> '-1'
       and fa.rn = 1
-      group by 1, 2, 3, 4, 5
+      group by 1,2,3,4,5,6
     ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
@@ -92,6 +94,11 @@ view: user_fact {
     group_label: "Player IDs"
     type: string
     sql: ${TABLE}.device_id ;;
+  }
+  dimension: advertising_id {
+    group_label: "Player IDs"
+    type: string
+    sql: ${TABLE}.advertising_id ;;
   }
   dimension_group: created {
     type: time

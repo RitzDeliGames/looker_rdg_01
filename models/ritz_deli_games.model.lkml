@@ -56,9 +56,16 @@ explore: user_retention {
     relationship: many_to_many
   }
   join: singular_daily_agg_export {
+    view_label: "Singular Aggregated"
     sql_on: ${user_retention.created_pst_date} = ${singular_daily_agg_export.date}
       AND ${user_retention.country} = ${singular_daily_agg_export.country};;
     relationship: many_to_many
+  }
+  join: singular_daily_user_attribution_export {
+    view_label: "Singular User Level"
+    type: left_outer
+    sql_on: ${user_retention.advertising_id} = ${singular_daily_user_attribution_export.device_id} ;;
+    relationship: one_to_one
   }
   join: transactions_new {
     view_label: "Transactions"
@@ -119,7 +126,6 @@ explore: user_retention {
   #   sql_on: ${new_afh.requesting_player_id} = ${id_helper_requestor.user_id} ;;
   # }
 }
-
 explore: user_card_completion {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   label: "Card Completion (User)"

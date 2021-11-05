@@ -589,105 +589,105 @@ explore: click_sequence {
   view_label: "First in Sequence"
   description: "Identifies the common paths players take after triggering an event "
   join: next_in_sequence {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${click_sequence.click_sequence_num} <= ${next_in_sequence.click_sequence_num}
         and ${click_sequence.rdg_id} = ${next_in_sequence.rdg_id} ;;
   }
   join: step_2 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${click_sequence.click_sequence_num} + 1 = ${step_2.click_sequence_num}
     and ${click_sequence.rdg_id} = ${step_2.rdg_id};;
   }
   join: step_3 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_2.click_sequence_num} + 1 = ${step_3.click_sequence_num}
       and ${step_2.rdg_id} = ${step_3.rdg_id};;
   }
   join: step_4 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_3.click_sequence_num} + 1 = ${step_4.click_sequence_num}
       and ${step_3.rdg_id} = ${step_4.rdg_id};;
   }
   join: step_5 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_4.click_sequence_num} + 1 = ${step_5.click_sequence_num}
       and ${step_4.rdg_id} = ${step_5.rdg_id};;
   }
   join: step_6 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_5.click_sequence_num} + 1 = ${step_6.click_sequence_num}
       and ${step_5.rdg_id} = ${step_6.rdg_id};;
   }
   join: step_7 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_6.click_sequence_num} + 1 = ${step_7.click_sequence_num}
       and ${step_6.rdg_id} = ${step_7.rdg_id};;
   }
   join: step_8 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_7.click_sequence_num} + 1 = ${step_8.click_sequence_num}
       and ${step_7.rdg_id} = ${step_8.rdg_id};;
   }
   join: step_9 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_8.click_sequence_num} + 1 = ${step_9.click_sequence_num}
       and ${step_8.rdg_id} = ${step_9.rdg_id};;
   }
   join: step_10 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_9.click_sequence_num} + 1 = ${step_10.click_sequence_num}
       and ${step_9.rdg_id} = ${step_10.rdg_id};;
   }
   join: step_11 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_10.click_sequence_num} + 1 = ${step_11.click_sequence_num}
       and ${step_10.rdg_id} = ${step_11.rdg_id};;
   }
   join: step_12 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_11.click_sequence_num} + 1 = ${step_12.click_sequence_num}
       and ${step_11.rdg_id} = ${step_12.rdg_id};;
   }
   join: step_13 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_12.click_sequence_num} + 1 = ${step_13.click_sequence_num}
       and ${step_12.rdg_id} = ${step_13.rdg_id};;
   }
   join: step_14 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_13.click_sequence_num} + 1 = ${step_14.click_sequence_num}
       and ${step_13.rdg_id} = ${step_14.rdg_id};;
   }
   join: step_15 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_14.click_sequence_num} + 1 = ${step_15.click_sequence_num}
@@ -697,4 +697,14 @@ explore: click_sequence {
     relationship: one_to_one
     sql:  ;;
   }
+}
+
+explore: cohort_analysis {
+  from: user_fact
+  join: transactions_new {
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${cohort_analysis.created_date} = ${transactions_new.created_date} ;;
+  }
+  join: cohort_analysis_mixed_fields {}
 }

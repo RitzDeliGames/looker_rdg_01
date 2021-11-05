@@ -1,6 +1,8 @@
 # If necessary, uncomment the line below to include explore_source.
 # include: "ritz_deli_games.model.lkml"
 
+# Purpose: Places events from the click_stream in chronological order by player (rdg_id)
+
 view: click_sequence {
   derived_table: {
     explore_source: click_stream {
@@ -27,8 +29,13 @@ view: click_sequence {
     datagroup_trigger: change_at_midnight
   }
   dimension: button_tag {
+    type: string
+    description: "Normalized version of button_tag_raw, identifies the specific button pressed in game"
   }
-  dimension: button_tag_raw {}
+  dimension: button_tag_raw {
+    type: string
+    description: "Specific button that was pressed in game"
+  }
   dimension: event_time {
     type: date_time
   }

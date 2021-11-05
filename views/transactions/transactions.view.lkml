@@ -51,6 +51,11 @@ view: transactions {
     ]
     sql: ${created_at} ;;
   }
+  dimension_group: since_created {
+    type: duration
+    sql_start: ${created_at_date_raw} ;;
+    sql_end: ${transaction_date_raw} ;;
+  }
 
   dimension: install_release_version_minor {}
   dimension: current_card {}

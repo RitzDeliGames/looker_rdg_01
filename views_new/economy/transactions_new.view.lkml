@@ -29,6 +29,7 @@ view: transactions_new {
         and country != 'ZZ'
         and timestamp >= '2019-01-01'
         --and coalesce(install_version,'null') <> '-1'
+      order by timestamp
     ;;
     datagroup_trigger: change_3_hrs
     publish_as_db_view: yes
@@ -69,6 +70,13 @@ view: transactions_new {
       ,year
     ]
   }
+
+  dimension_group: since_created {
+    type: duration
+    sql_start: ${created_date} ;;
+    sql_end: ${transaction_date} ;;
+  }
+
   dimension_group: transaction {
     type: time
     timeframes: [
@@ -150,6 +158,11 @@ view: transactions_new {
     sql: if(${currency_spent} = 'CURRENCY_01',(${currency_spent_amount}/100 * .85), 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
+  measure: cumulative_dollars_spent {
+    type: running_total
+    sql: ${dollars_spent_amount_sum} ;;
+    value_format_name: usd
+  }
   measure: gem_spent_amount_sum {
     group_label: "Gem Spend"
     label: "Total Gems Spent"
@@ -158,12 +171,30 @@ view: transactions_new {
     sql: if(${currency_spent} = 'CURRENCY_02',${currency_spent_amount}, 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
+  measure: cumulative_gems_spent {
+    type: running_total
+    sql: ${gem_spent_amount_sum} ;;
+    value_format: "#,###"
+  }
+  measure: coin_spent_amount_sum {
+    group_label: "Coin Spend"
+    label: "Total Coins Spent"
+    type: sum
+    value_format: "#,###"
+    sql: if(${currency_spent} = 'CURRENCY_03',${currency_spent_amount}, 0) ;;
+    drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
+  }
   measure: currency_spent_amount_sum {
     label: "Total Currency Spent"
     type: sum
     value_format: "#,###"
     sql: if(${currency_spent} = 'CURRENCY_01',0,${currency_spent_amount}) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
+  }
+  measure: cumulative_coins_spent {
+    type: running_total
+    sql: ${coin_spent_amount_sum} ;;
+    value_format: "#,###"
   }
   measure: spender_count {
     label: "Unique Spenders"
@@ -239,6 +270,14 @@ view: transactions_new {
   dimension: fraud {
     type: yesno
     sql: ${TABLE}.fraud ;;
+  }
+  measure: total_minutes_played {
+    type: sum
+    sql: ${minutes_played} ;;
+  }
+  measure: cumulative_minutes_played {
+    type: running_total
+    sql: ${total_minutes_played} ;;
   }
   measure: spenders {
     type: count_distinct

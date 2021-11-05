@@ -633,3 +633,13 @@ explore: click_sequence {
     sql:  ;;
   }
 }
+
+explore: cohort_analysis {
+  from: user_fact
+  join: transactions_new {
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${cohort_analysis.created_date} = ${transactions_new.created_date} ;;
+  }
+  join: cohort_analysis_mixed_fields {}
+}

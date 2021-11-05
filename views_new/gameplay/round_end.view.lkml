@@ -28,6 +28,7 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.xp_earned') as int64) xp_earned
         ,cast(json_extract_scalar(extra_json,'$.coins_earned') as int64) coins_earned
         ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
+        ,cast(json_extract_scalar(extra_json,'$.round_length') as int64) round_length
         ,cast(replace(json_extract_scalar(extra_json,'$.proximity_to_completion'),',','') as float64) proximity_to_completion
         --,cast(json_extract_scalar(extra_json,'$.requirement_amount') as int64) requirement_amount
         ,json_extract(extra_json,'$.all_chains') all_chains
@@ -1032,6 +1033,49 @@ view: round_end {
     percentile: 97.5
     sql: ${erasers_cleared} ;;
   }
+  dimension: round_length {
+    type: number
+    sql: ${TABLE}.round_length ;;
+  }
+  dimension: round_length_num {
+    type: number
+    sql: ${TABLE}.round_length / 1000;;
+  }
+  measure: round_length_025 {
+    group_label: "Round Length"
+    label: "Round Length - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${round_length_num} ;;
+  }
+  measure: round_length_25 {
+    group_label: "Round Length"
+    label: "Round Length - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${round_length_num} ;;
+  }
+  measure: round_length_med {
+    group_label: "Round Length"
+    label: "Round Length - Median"
+    type: median
+    sql: ${round_length_num} ;;
+  }
+  measure: round_length_75 {
+    group_label: "Round Length"
+    label: "Round Length - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${round_length_num} ;;
+  }
+  measure: round_length_975 {
+    group_label: "Round Length"
+    label: "Round Length - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${round_length_num} ;;
+  }
+
 
   drill_fields: [proximity_to_completion,rdg_id,current_card_numbered]
 }

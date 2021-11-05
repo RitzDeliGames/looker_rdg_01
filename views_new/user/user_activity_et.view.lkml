@@ -70,4 +70,9 @@ view: user_activity_engagement_min {
     type: count_distinct
     sql: ${rdg_id} ;;
   }
+  measure: engagement_min_max {
+    label: "Max Minutes Played"
+    type: max
+    sql: ${engagement_min} ;;
+  }
 }

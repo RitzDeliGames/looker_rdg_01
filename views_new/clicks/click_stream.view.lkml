@@ -1,4 +1,4 @@
-view: temp_click_stream {
+view: click_stream {
   derived_table: {
     sql:
       select
@@ -16,6 +16,7 @@ view: temp_click_stream {
         ,cast(current_quest as int64) current_quest
         ,cast(quests_completed as int64) quests_completed
         ,json_extract_scalar(extra_json,"$.button_tag") button_tag
+        ,experiments
         ,extra_json
         ,lag(timestamp)
             over (partition by rdg_id order by timestamp desc) greater_quests_completed
@@ -26,7 +27,7 @@ view: temp_click_stream {
         and user_type = 'external'
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
-      group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+      group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
       ;;
     datagroup_trigger: change_3_hrs
   }
@@ -155,5 +156,17 @@ view: temp_click_stream {
     label: "Count of Clicks"
     type: count
     drill_fields: [rdg_id,event_time,button_tag,button_tag_raw]
+  }
+  dimension: worldMap_20211007_p4   {
+    group_label: "Experiments"
+    label: "World Map v4"
+    type: string
+    sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.worldMap_20211007_p4'),'unassigned') ;;
+  }
+  dimension: characterUnlockSequence_20211005_p3   {
+    group_label: "Experiments - Live"
+    label: "Character Unlock Sequence v3"
+    type: string
+    sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.characterUnlockSequence_20211005_p3'),'unassigned') ;;
   }
 }

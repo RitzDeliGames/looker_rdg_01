@@ -1,8 +1,6 @@
 # If necessary, uncomment the line below to include explore_source.
 # include: "ritz_deli_games.model.lkml"
 
-# Purpose: Places events from the click_stream in chronological order by player (rdg_id)
-
 view: click_sequence {
   derived_table: {
     explore_source: click_stream {
@@ -22,6 +20,8 @@ view: click_sequence {
       column: rdg_id {}
       column: is_churned {}
       column: install_version {}
+      column: worldMap_20211007_p4 {}
+      column: characterUnlockSequence_20211005_p3 {}
       derived_column: click_sequence_num {
         sql: row_number() over (partition by rdg_id order by event_time) ;;
       }
@@ -29,13 +29,8 @@ view: click_sequence {
     datagroup_trigger: change_at_midnight
   }
   dimension: button_tag {
-    type: string
-    description: "Normalized version of button_tag_raw, identifies the specific button pressed in game"
   }
-  dimension: button_tag_raw {
-    type: string
-    description: "Specific button that was pressed in game"
-  }
+  dimension: button_tag_raw {}
   dimension: event_time {
     type: date_time
   }
@@ -75,6 +70,14 @@ view: click_sequence {
     type: yesno
   }
   dimension: install_version {}
+  dimension: worldMap_20211007_p4 {
+    group_label: "Experiments"
+    label: "World Map v4"
+  }
+  dimension: characterUnlockSequence_20211005_p3 {
+    group_label: "Experiments"
+    label: "Character Unlock Sequence"
+  }
   measure: count {
     type: count_distinct
     sql: ${rdg_id} ;;

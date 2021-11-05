@@ -33,7 +33,7 @@ explore: user_retention {
   join: user_activity {
     type: left_outer
     sql_on: ${user_retention.rdg_id} = ${user_activity.rdg_id} ;;
-    relationship: one_to_many
+  relationship: one_to_many
   }
   join: user_activity_engagement_min {
     type: left_outer
@@ -52,13 +52,27 @@ explore: user_retention {
   }
   join: facebook_daily_export {
     sql_on: ${user_retention.created_pst_date} = ${facebook_daily_export.date}
-      AND ${user_retention.country} = ${facebook_daily_export.country};;
+      and ${user_retention.country} = ${facebook_daily_export.country};;
     relationship: many_to_many
+  }
+  join: singular_daily_agg_export {
+    view_label: "Singular Aggregated"
+    sql_on: ${user_retention.created_pst_date} = ${singular_daily_agg_export.date}
+      and ${user_retention.country} = ${singular_daily_agg_export.country};;
+    relationship: many_to_many
+  }
+  join: singular_daily_user_attribution_export {
+    view_label: "Singular User Level"
+    type: left_outer
+    sql_on: ${user_retention.advertising_id} = ${singular_daily_user_attribution_export.device_id};;
+    relationship: one_to_one
   }
   join: transactions_new {
     view_label: "Transactions"
     type: left_outer
     relationship: one_to_many
+    # relationship: many_to_many
+    # sql_on: ${user_retention.rdg_id} = ${transactions_new.rdg_id} ;;
     sql_on: ${user_retention.rdg_id} = ${transactions_new.rdg_id}
     and ${user_activity.activity_date} = ${transactions_new.transaction_date} --#TEMP: added to (try) build LTV curves
     and ${user_activity_engagement_min.engagement_min} = ${transactions_new.minutes_played};; #TEMP: added to (try) build LTV curves
@@ -81,11 +95,17 @@ explore: user_retention {
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${loading_times.rdg_id} ;;
   }
-  join: temp_click_stream {
+  join: click_stream {
     view_label: "Click Stream"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${user_retention.rdg_id} = ${temp_click_stream.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${click_stream.rdg_id} ;;
+  }
+  join: fue_funnels {
+    view_label: "FUE Funnel"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${user_retention.rdg_id} = ${fue_funnels.rdg_id} ;;
   }
   # join: new_afh {
   #   view_label: "Ask for Help"
@@ -106,7 +126,6 @@ explore: user_retention {
   #   sql_on: ${new_afh.requesting_player_id} = ${id_helper_requestor.user_id} ;;
   # }
 }
-
 explore: user_card_completion {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   label: "Card Completion (User)"
@@ -125,6 +144,7 @@ explore: user_card_completion {
     view_label: "Transactions"
     type: left_outer
     relationship: one_to_many
+    # relationship: many_to_many
     sql_on: ${user_card_completion.rdg_id} = ${transactions_new.rdg_id}
       and ${user_card_completion.current_card} = ${transactions_new.current_card};;
   }
@@ -152,6 +172,7 @@ explore: transactions {
     type: left_outer
     sql_on: ${transactions.rdg_id} = ${user_retention.rdg_id} ;;
     relationship: many_to_one
+    # relationship: many_to_many
   }
   join: user_last_event {
     type: left_outer
@@ -178,6 +199,10 @@ explore: transactions {
   join: facebook_daily_export {
     type: left_outer
     sql_on: ${transactions.created_pst_date} = ${facebook_daily_export.date};;
+    relationship: many_to_many
+  }
+  join: singular_daily_agg_export {
+    sql_on: ${transactions.created_pst_date} = ${singular_daily_agg_export.date};;
     relationship: many_to_many
   }
 }
@@ -245,7 +270,7 @@ explore: in_app_messages {
 
 explore: click_stream {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
-  from: temp_click_stream
+  from: click_stream
   view_label: "Click Stream"
   join: user_fact {
     type: left_outer
@@ -311,6 +336,8 @@ explore: team_ups {
   from: team_ups_activity
   view_label: "Team Ups"
 }
+
+explore: fue_funnels {}
 
 explore: temp_community_events_funnels {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
@@ -559,74 +586,109 @@ explore: click_sequence {
   view_label: "First in Sequence"
   description: "Identifies the common paths players take after triggering an event "
   join: next_in_sequence {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${click_sequence.click_sequence_num} <= ${next_in_sequence.click_sequence_num}
         and ${click_sequence.rdg_id} = ${next_in_sequence.rdg_id} ;;
   }
   join: step_2 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${click_sequence.click_sequence_num} + 1 = ${step_2.click_sequence_num}
     and ${click_sequence.rdg_id} = ${step_2.rdg_id};;
   }
   join: step_3 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_2.click_sequence_num} + 1 = ${step_3.click_sequence_num}
       and ${step_2.rdg_id} = ${step_3.rdg_id};;
   }
   join: step_4 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_3.click_sequence_num} + 1 = ${step_4.click_sequence_num}
       and ${step_3.rdg_id} = ${step_4.rdg_id};;
   }
   join: step_5 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_4.click_sequence_num} + 1 = ${step_5.click_sequence_num}
       and ${step_4.rdg_id} = ${step_5.rdg_id};;
   }
   join: step_6 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_5.click_sequence_num} + 1 = ${step_6.click_sequence_num}
       and ${step_5.rdg_id} = ${step_6.rdg_id};;
   }
   join: step_7 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_6.click_sequence_num} + 1 = ${step_7.click_sequence_num}
       and ${step_6.rdg_id} = ${step_7.rdg_id};;
   }
   join: step_8 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_7.click_sequence_num} + 1 = ${step_8.click_sequence_num}
       and ${step_7.rdg_id} = ${step_8.rdg_id};;
   }
   join: step_9 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_8.click_sequence_num} + 1 = ${step_9.click_sequence_num}
       and ${step_8.rdg_id} = ${step_9.rdg_id};;
   }
   join: step_10 {
-    from: click_sequence
+    from: click_sequencing
     type: left_outer
     relationship: one_to_one
     sql_on: ${step_9.click_sequence_num} + 1 = ${step_10.click_sequence_num}
       and ${step_9.rdg_id} = ${step_10.rdg_id};;
+  }
+  join: step_11 {
+    from: click_sequencing
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_10.click_sequence_num} + 1 = ${step_11.click_sequence_num}
+      and ${step_10.rdg_id} = ${step_11.rdg_id};;
+  }
+  join: step_12 {
+    from: click_sequencing
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_11.click_sequence_num} + 1 = ${step_12.click_sequence_num}
+      and ${step_11.rdg_id} = ${step_12.rdg_id};;
+  }
+  join: step_13 {
+    from: click_sequencing
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_12.click_sequence_num} + 1 = ${step_13.click_sequence_num}
+      and ${step_12.rdg_id} = ${step_13.rdg_id};;
+  }
+  join: step_14 {
+    from: click_sequencing
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_13.click_sequence_num} + 1 = ${step_14.click_sequence_num}
+      and ${step_13.rdg_id} = ${step_14.rdg_id};;
+  }
+  join: step_15 {
+    from: click_sequencing
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${step_14.click_sequence_num} + 1 = ${step_15.click_sequence_num}
+      and ${step_14.rdg_id} = ${step_15.rdg_id};;
   }
   join: click_sequence_joined_fields {
     relationship: one_to_one

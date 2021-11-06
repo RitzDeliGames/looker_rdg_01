@@ -23,11 +23,11 @@ view: cards {
         ,json_extract_array(extra_json,'$.node_data') node_data
         --,json_extract_scalar(extra_json,'$.card_id') current_quest
       from game_data.events
-      where timestamp >= timestamp(current_date() - 90) --should we go back past 90 days?
-        and timestamp < timestamp(current_date())
-        and event_name = 'cards'
+      where event_name = 'cards'
         and user_type = 'external'
         and current_card = json_extract_scalar(extra_json,'$.card_id') --this is necessary to exclude the edge cases where the schema and extra_json get out of alignment
+        --and timestamp >= timestamp(current_date() - 90) --should we go back past 90 days?
+        --and timestamp < timestamp(current_date())
     ;;
     datagroup_trigger: change_3_hrs
   }

@@ -208,6 +208,11 @@ explore: transactions {
     sql_on: ${transactions.created_pst_date} = ${singular_daily_agg_export.date};;
     relationship: many_to_many
   }
+  join: singular_daily_user_attribution_export {
+    type: left_outer
+    sql_on: ${transactions.advertising_id} = ${singular_daily_user_attribution_export.device_id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: rewards {

@@ -4,6 +4,7 @@ view: transactions_new {
     sql:
       select
         rdg_id
+        ,advertising_id
         ,created_at created
         ,datetime(created_at,'US/Pacific') created_pst
         ,event_name
@@ -48,9 +49,14 @@ view: transactions_new {
     sql: ${rdg_id} || ${transaction_raw} || ${source_raw} || ${sheet_raw};;
   }
   dimension: rdg_id {
-    hidden: no
+    group_label: "Player IDs"
     type: string
     sql: ${TABLE}.rdg_id ;;
+  }
+  dimension: advertising_id {
+    group_label: "Player IDs"
+    type: string
+    sql: ${TABLE}.advertising_id ;;
   }
   dimension_group: created {
     type: time

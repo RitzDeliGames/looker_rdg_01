@@ -710,6 +710,7 @@ explore: cohort_analysis {
     transactions_new.transaction_date,
     transactions_new.days_since_created,
     transactions_new.weeks_since_created,
+    transactions_new.minutes_played,
     cohort_analysis_mixed_fields*,
     -cohort_analysis.days_between_first_and_last_event,
     -cohort_analysis.days_since_last_event]

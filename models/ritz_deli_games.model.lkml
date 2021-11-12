@@ -705,11 +705,21 @@ explore: click_sequence {
 }
 
 explore: cohort_analysis {
+  fields: [
+    cohort_analysis*,
+    transactions_new.transaction_date,
+    transactions_new.days_since_created,
+    transactions_new.weeks_since_created,
+    cohort_analysis_mixed_fields*,
+    -cohort_analysis.days_between_first_and_last_event,
+    -cohort_analysis.days_since_last_event]
   from: user_fact
   join: transactions_new {
     type: left_outer
     relationship: many_to_many
     sql_on: ${cohort_analysis.created_date} = ${transactions_new.created_date} ;;
   }
-  join: cohort_analysis_mixed_fields {}
+  join: cohort_analysis_mixed_fields {
+    view_label: "Currencies"
+  }
 }

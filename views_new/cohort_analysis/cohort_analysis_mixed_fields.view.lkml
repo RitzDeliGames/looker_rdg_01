@@ -2,6 +2,7 @@ view: cohort_analysis_mixed_fields {
   dimension: cohort_analysis_pk {
     type: string
     primary_key: yes
+    hidden: yes
     sql: ${transactions_new.primary_key} ;;
   }
   measure: gem_spend_per_user {

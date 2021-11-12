@@ -94,10 +94,6 @@ explore: experiments_cohorted_players {}
 
 explore: cohorted_players {}
 
-explore: bingo_card_attempts {}
-
-explore: bingo_card_attempts_aggregated {}
-
 explore: skill_used {}
 
 explore: derived_install_version_players {}
@@ -190,69 +186,6 @@ explore: z_bingo_card_funnel {
   sql_always_where:
    user_type = "external";;
 }
-
-##########BINGO CARDS##########
-
-explore: _000_bingo_cards {
-  always_join: [card_mapping]
-  sql_always_where: _000_bingo_cards_comp.event_name IN ("cards", "round_end")
-  AND _000_bingo_cards_comp.user_type NOT IN ("internal_editor", "unit_test") ;;
-  view_name: _000_bingo_cards_comp
-  join: node_data {
-    fields: [node_data.node_data]
-    relationship: one_to_many
-    from: _000_bingo_cards_comp
-    sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.node_data')) as node_data ;;
-    }
-  join: card_mapping {
-    from: _000_bingo_cards_comp
-#     sql: CROSS JOIN card_mapping, UNNEST([
-#        row_1_search
-#       , row_2_search
-#       , row_3_search
-#       , row_4_search
-#       , row_5_search
-#       , column_1_search
-#       , column_2_search
-#       , column_3_search
-#       , column_4_search
-#       , column_5_search
-#       , diagonal_01_search
-#       , diagonal_02_search
-#   ]) as card_id ;;
-
-    sql: CROSS JOIN UNNEST([
-      ${card_mapping.row_1_search}
-      , ${card_mapping.row_2_search}
-      , ${card_mapping.row_3_search}
-      , ${card_mapping.row_4_search}
-      , ${card_mapping.row_5_search}
-      , ${card_mapping.column_1_search}
-      , ${card_mapping.column_2_search}
-      , ${card_mapping.column_3_search}
-      , ${card_mapping.column_4_search}
-      , ${card_mapping.column_5_search}
-      , ${card_mapping.diagonal_01_search}
-      , ${card_mapping.diagonal_02_search}
-      ]) as card_id ;;
-    relationship: many_to_one
-
-#       , ${bing_cards.row_2_search}, ${bing_cards.row_3_search}, ${bing_cards.row_4_search}, ${bing_cards.row_5_search}, ${bing_cards.column_1_search}, ${bing_cards.column_2_search}, ${bing_cards.column_3_search}, ${bing_cards.column_4_search}, ${bing_cards.column_5_search}, ${bing_cards.diagonal_01_search}, ${bing_cards.diagonal_02_search}]) card_id ;;
-  }
-  join: max_rounds_for_card_finished {
-    relationship: many_to_one
-    sql_on: ${_000_bingo_cards_comp.user_id} = ${max_rounds_for_card_finished.user_id}
-      AND ${_000_bingo_cards_comp.session_id} = ${max_rounds_for_card_finished.session_id}
-      AND ${_000_bingo_cards_comp.game_version} = ${max_rounds_for_card_finished.version} ;;
-  }
-  join: round_length_by_tile {
-    relationship: many_to_many
-    sql_on: ${_000_bingo_cards_comp.user_id} = ${round_length_by_tile.user_id}
-      AND ${_000_bingo_cards_comp.round_id} = ${round_length_by_tile.round_id} ;;
-  }
-
-}
-
 
 
 
@@ -353,26 +286,6 @@ explore: _005_bubbles {
   }
 }
 
-
-# ROUND LENGTH EXPLORE:
-
-explore: _006_round_length {
-  sql_always_where: event_name = "round_end"
-  AND JSON_EXTRACT(extra_json,"$.team_slot_0") IS NOT NULL
-  AND user_type = "external"
-  ;;
-  join: _000_bingo_cards_comp {
-    relationship: many_to_many
-    sql_on: ${_006_round_length.user_id} = ${_000_bingo_cards_comp.user_id}
-      AND ${_006_round_length.round_id} = ${_000_bingo_cards_comp.round_id} ;;
-  }
-  join: node_data {
-    fields: [node_data.node_data]
-    relationship: one_to_many
-    from: _000_bingo_cards_comp
-    sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.node_data')) as node_data ;;
-  }
-}
 
 
 # FEVER COUNT EXPLORE:
@@ -477,5 +390,3 @@ explore: iap_query {
 # }
 
 explore: players_n_churn {}
-
-explore: distribution_of_completed_cards_by_time_n_user {}

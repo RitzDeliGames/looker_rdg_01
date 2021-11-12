@@ -134,21 +134,6 @@ view: events {
     sql: ${TABLE}.experiments ;;
   }
 
-  dimension: experiment_names {
-    group_label: "Experiments"
-    label: "Experiment Names"
-    type: string
-    sql: @{experiment_ids} ;;
-  }
-
-  dimension: variants {
-    group_label: "Experiments"
-    label: "Variants"
-    type: string
-    sql: REPLACE(@{variant_ids},'"','') ;;
-  }
-###
-
 ###PLAYER ID DIMENSIONS###
 
   dimension: device_id {
@@ -1677,11 +1662,6 @@ view: events {
     sql: COUNT(DISTINCT ${user_id}) ;;
   }
 
-  measure: churn_decimal {
-    type: number
-    # sql: (((COUNT(DISTINCT ${user_id})) / (LAG(COUNT(DISTINCT ${user_id})) OVER(PARTITION BY MAX(${experiment_names}) ORDER BY MAX(${round_id})))) - 1) * 100 ;;
-    sql: ((LAG(COUNT(DISTINCT ${user_id})) OVER(PARTITION BY MAX(${experiment_names}) ORDER BY MAX(${round_id}))) / (COUNT(DISTINCT ${user_id}))) - 1 ;;
-  }
 
   # THIS IS HELPFUL - PLEASE DON'T ERASE. TO BE CLEANED
   # measure: churn_int_minutes {

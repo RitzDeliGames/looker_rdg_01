@@ -122,8 +122,6 @@ explore: derived_install_version_players {}
 
 explore: button_clicks {}
 
-explore: iam {}
-
 explore: supported_devices {}
 
 explore: facebook_daily_export {}

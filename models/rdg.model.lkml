@@ -114,38 +114,15 @@ explore: transactions {
 
 explore: bingo_card_attempts {}
 
-explore: bingo_card_attempts_aggregated {
-  #REMOVE JOIN?
-  join: ask_for_help {
-    sql_on: ${ask_for_help.request_card_quest} = ${bingo_card_attempts_aggregated.bingo_card_attempts_current_card_quest}
-      AND ${ask_for_help.experiments} = ${bingo_card_attempts_aggregated.experiments};;
-    type: left_outer
-    relationship: one_to_one
-  }
-}
+explore: bingo_card_attempts_aggregated {}
 
 explore: skill_used {}
 
 explore: derived_install_version_players {}
 
-explore: ask_for_help {
-  join: cohorted_players {
-    sql_on: ${ask_for_help.event_timestamp_raw} = ${cohorted_players.event_timestamp_raw} ;;
-    relationship: one_to_one
-  }
-
-  join: events {
-    sql_on: ${ask_for_help.user_id} = ${events.user_id} ;;
-    relationship: one_to_one
-  }
-}
-
-
 explore: button_clicks {}
 
 explore: iam {}
-
-explore: afh_hack {}
 
 explore: supported_devices {}
 

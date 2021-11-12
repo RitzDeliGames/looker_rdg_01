@@ -94,20 +94,6 @@ explore: experiments_cohorted_players {}
 
 explore: cohorted_players {}
 
-explore: transactions {
-  join: events {
-    sql_on: ${events.timestamp_date} = ${transactions.transaction_date_date};;
-    relationship: one_to_one
-  }
-
-  join: supported_devices {
-    sql_on: ${transactions.device_model_number} = ${supported_devices.retail_model} ;;
-    type: left_outer
-    relationship: one_to_one
-  }
-
-}
-
 explore: bingo_card_attempts {}
 
 explore: bingo_card_attempts_aggregated {}

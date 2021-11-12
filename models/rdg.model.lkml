@@ -98,8 +98,6 @@ explore: skill_used {}
 
 explore: derived_install_version_players {}
 
-explore: button_clicks {}
-
 explore: supported_devices {}
 
 explore: facebook_daily_export {}
@@ -322,28 +320,6 @@ explore: player_analysis_view {
   }
 }
 
-
-################
-
-explore: boost_usage {
-  sql_always_where: user_type = "external"
-  ;;
-  join: boost_usage_types_values {
-    relationship: many_to_many
-    sql_on: ${boost_usage.character_used} = ${boost_usage_types_values.character}
-          AND ${boost_usage.timestamp_join} = ${boost_usage_types_values.timestamp_date} ;;
-  }
-#   join: _000_bingo_cards_comp {
-#     relationship: many_to_many
-#     sql_on: ${boost_usage.character_used} = ${_000_bingo_cards_comp.character_used}  ;;
-#   }
-#   join: node_data {
-#     fields: [node_data.node_data]
-#     relationship: one_to_many
-#     from: _000_bingo_cards_comp
-#     sql: CROSS JOIN UNNEST(JSON_EXTRACT_array(extra_json, '$.node_data')) as node_data ;;
-#   }
-}
 
 
 ######LOAD TIME######

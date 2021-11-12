@@ -705,11 +705,29 @@ explore: click_sequence {
 }
 
 explore: cohort_analysis {
+  fields: [
+    cohort_analysis*,
+    transactions_new.transaction_date,
+    transactions_new.days_since_created,
+    transactions_new.weeks_since_created,
+    transactions_new.minutes_played,
+    transactions_new.rdg_id,
+    transactions_new.transaction_count,
+    transactions_new.iap_id,
+    transactions_new.iap_purchase_item,
+    transactions_new.currency_spent,
+    transactions_new.currency_spent_amount,
+    cohort_analysis_mixed_fields*,
+    -cohort_analysis.days_between_first_and_last_event,
+    -cohort_analysis.days_since_last_event
+    ]
   from: user_fact
   join: transactions_new {
     type: left_outer
     relationship: many_to_many
     sql_on: ${cohort_analysis.created_date} = ${transactions_new.created_date} ;;
   }
-  join: cohort_analysis_mixed_fields {}
+  join: cohort_analysis_mixed_fields {
+    view_label: "Currencies"
+  }
 }

@@ -88,10 +88,6 @@ explore: churned_players_aggregated {
 
 explore: non_churned_players_aggregated {}
 
-explore: resources_spent {}
-
-explore: resources_rewarded {}
-
 explore: bingo_card_funnels {}
 
 explore: experiments_cohorted_players {}
@@ -476,12 +472,6 @@ explore: iap_query {
     AND user_type = "external";;
 }
 
-explore: z_transactions_query {
-  description: "ok to deprecate"
-  sql_always_where: event_name = "transaction"
-    AND user_type = "external";;
-}
-
 
 # week_start_day: sunday ## remove me
 # explore: test_retention {}
@@ -503,5 +493,3 @@ explore: z_transactions_query {
 explore: players_n_churn {}
 
 explore: distribution_of_completed_cards_by_time_n_user {}
-
-explore: more_time_conversions {}

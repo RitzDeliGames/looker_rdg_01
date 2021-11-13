@@ -535,7 +535,7 @@ explore: events {
     type: left_outer
     relationship: many_to_one
   }
-  join: cards {
+  join: cards { ###WHAT IS THE ROLE OF THIS JOIN????!!!!
     type: left_outer
     sql_on:
       ${events.timestamp_time} = ${cards.timestamp}

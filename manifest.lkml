@@ -146,7 +146,8 @@ constant: purchase_exclusion_list {
             ,'aff247e5-3268-424b-9fa7-fc7a31e25cfb'
             ,'96656ebf-7125-48d5-8ea9-337724173c1a'
             ,'054bf199-3fd3-4be0-a53b-62256d15d077'
-            ,'a0dce422-3e68-47a3-a475-fc2fe7ed295a')"
+            ,'a0dce422-3e68-47a3-a475-fc2fe7ed295a'
+            ,'766fc669-8ce4-470f-abfe-0ef1f609a0aa')"
 }
 constant: cheaters {
   value: "('')"

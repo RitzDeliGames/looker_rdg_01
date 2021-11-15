@@ -530,12 +530,7 @@ explore: events {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: " Card Data" ## space to bring to top of Explore
   label: "Card Event"
-  join: android_device_helper {
-    sql_on: ${events.device_model_number} = ${android_device_helper.retail_model} ;;
-    type: left_outer
-    relationship: many_to_one
-  }
-  join: cards { ###WHAT IS THE ROLE OF THIS JOIN????!!!!
+  join: cards {
     type: left_outer
     sql_on:
       ${events.timestamp_time} = ${cards.timestamp}
@@ -558,6 +553,11 @@ explore: events {
     type: left_outer
     sql_on: ${user_fact.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
+  }
+  join: android_device_helper {
+    sql_on: ${events.device_model_number} = ${android_device_helper.retail_model} ;;
+    type: left_outer
+    relationship: many_to_one
   }
 }
 

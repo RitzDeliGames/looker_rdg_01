@@ -32,13 +32,34 @@ view: cohort_analysis_mixed_fields {
   measure: dollar_spend_per_user {
     type: number
     sql: ${transactions_new.dollars_spent_amount_sum} / NULLIF(${cohort_analysis.count},0) ;;
-    value_format_name: usd
-    drill_fields: [transactions_new.rdg_id, transactions_new.transaction_date, transactions_new.transaction_count, transactions_new.iap_id, transactions_new.iap_purchase_item, transactions_new.currency_spent, transactions_new.currency_spent_amount]
+    value_format: "$0.0000"
+    drill_fields: [detail*]
   }
   measure: cumulative_dollar_spend_per_user {
     type: running_total
     sql: ${dollar_spend_per_user} ;;
-    value_format_name: usd
-    drill_fields: [transactions_new.rdg_id, transactions_new.transaction_date, transactions_new.transaction_count, transactions_new.iap_id, transactions_new.iap_purchase_item, transactions_new.currency_spent, transactions_new.currency_spent_amount]
+    value_format: "$0.0000"
+    drill_fields: [detail*]
+  }
+  measure: currency_spend_per_user {
+    type: number
+    sql: ${transactions_new.total_currency_spent_amount} / NULLIF(${cohort_analysis.count},0) ;;
+    drill_fields: [detail*]
+  }
+  set: detail {
+    fields: [
+    transactions_new.transaction_date,
+    transactions_new.days_since_created,
+    transactions_new.weeks_since_created,
+    transactions_new.minutes_played,
+    transactions_new.rdg_id,
+    transactions_new.transaction_count,
+    transactions_new.iap_id,
+    transactions_new.iap_purchase_item,
+    transactions_new.currency_spent,
+    transactions_new.currency_spent_amount,
+    transactions_new.total_currency_spent_amount,
+    transactions_new.extra_json
+    ]
   }
 }

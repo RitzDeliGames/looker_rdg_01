@@ -620,6 +620,7 @@ view: user_fact {
     fields: [
       created_date,
       created_week,
+      payer,
       count
     ]
   }

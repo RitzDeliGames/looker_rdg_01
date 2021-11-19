@@ -591,6 +591,7 @@ explore: id_helper {}
 explore: gameplay_fact {}
 
 explore: click_sequence {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: "First in Sequence"
   description: "Identifies the common paths players take after triggering an event "
   join: next_in_sequence {
@@ -705,7 +706,7 @@ explore: click_sequence {
 }
 
 explore: cohort_analysis {
-  sql_always_where: ${transactions_new.days_since_created} >= 0 ;;
+  sql_always_where: ${transactions_new.days_since_created} >= 0 and ${rdg_id} not in @{device_internal_tester_mapping};;
   always_filter: {
     filters: [cohort_analysis.created_date: "30 days ago"]
   }

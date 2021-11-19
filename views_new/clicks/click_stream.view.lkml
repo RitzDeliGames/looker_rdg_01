@@ -158,15 +158,27 @@ view: click_stream {
     drill_fields: [rdg_id,event_time,button_tag,button_tag_raw]
   }
   dimension: worldMap_20211007_p4   {
-    group_label: "Experiments"
+    group_label: "Experiments - Closed"
     label: "World Map v4"
     type: string
     sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.worldMap_20211007_p4'),'unassigned') ;;
   }
   dimension: characterUnlockSequence_20211005_p3   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Character Unlock Sequence v3"
     type: string
     sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.characterUnlockSequence_20211005_p3'),'unassigned') ;;
+  }
+  dimension: listViewTest_20211027_v3   {
+    group_label: "Experiments - Live"
+    label: "List View v3"
+    type: string
+    sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.listViewTest_20211027_v3'),'unassigned') ;;
+  }
+  dimension: storySkip_20211031   {
+    group_label: "Experiments - Live"
+    label: "Story - Skip v1"
+    type: string
+    sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.StorySkip_20211031'),'unassigned') ;;
   }
 }

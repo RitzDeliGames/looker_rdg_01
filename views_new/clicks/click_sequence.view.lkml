@@ -22,6 +22,8 @@ view: click_sequence {
       column: install_version {}
       column: worldMap_20211007_p4 {}
       column: characterUnlockSequence_20211005_p3 {}
+      column: listViewTest_20211027_v3 {}
+      column: storySkip_20211031 {}
       derived_column: click_sequence_num {
         sql: row_number() over (partition by rdg_id order by event_time) ;;
       }
@@ -77,6 +79,14 @@ view: click_sequence {
   dimension: characterUnlockSequence_20211005_p3 {
     group_label: "Experiments"
     label: "Character Unlock Sequence"
+  }
+  dimension: listViewTest_20211027_v3 {
+    group_label: "Experiments"
+    label: "List View v3"
+  }
+  dimension: storySkip_20211031 {
+    group_label: "Experiments"
+    label: "Story - Skip v1"
   }
   measure: count {
     type: count_distinct

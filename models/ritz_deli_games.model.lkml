@@ -705,22 +705,10 @@ explore: click_sequence {
 }
 
 explore: cohort_analysis {
-  fields: [
-    cohort_analysis*,
-    transactions_new.transaction_date,
-    transactions_new.days_since_created,
-    transactions_new.weeks_since_created,
-    transactions_new.minutes_played,
-    transactions_new.rdg_id,
-    transactions_new.transaction_count,
-    transactions_new.iap_id,
-    transactions_new.iap_purchase_item,
-    transactions_new.currency_spent,
-    transactions_new.currency_spent_amount,
-    cohort_analysis_mixed_fields*,
-    -cohort_analysis.days_between_first_and_last_event,
-    -cohort_analysis.days_since_last_event
-    ]
+  sql_always_where: ${transactions_new.days_since_created} >= 0 ;;
+  always_filter: {
+    filters: [cohort_analysis.created_date: "30 days ago"]
+  }
   from: user_fact
   join: transactions_new {
     type: left_outer
@@ -730,4 +718,10 @@ explore: cohort_analysis {
   join: cohort_analysis_mixed_fields {
     view_label: "Currencies"
   }
+  fields: [
+    cohort_analysis.cohort_set*,
+    cohort_analysis_mixed_fields.detail*,
+    transactions_new.transaction_date,
+    cohort_analysis_mixed_fields*
+  ]
 }

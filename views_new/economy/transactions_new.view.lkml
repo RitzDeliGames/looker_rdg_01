@@ -299,5 +299,31 @@ view: transactions_new {
     ;;
     drill_fields: [rdg_id,created_date,created_pst_date,iap_id_strings]
   }
+  measure: total_currency_spent_amount {
+    label: "Sum of All Currencies Spent - Use Only with Currency_Spent filtered"
+    type: sum
+    sql: ${currency_spent_amount} ;;
+    drill_fields: [rdg_id,currency_spent,currency_spent_amount,transaction_date]
+  }
+  measure: cumulative_total_currency_spent_amount {
+    type: running_total
+    sql: ${total_currency_spent_amount} ;;
+  }
+  set: cohort_set {
+    fields: [
+    transaction_date,
+    days_since_created,
+    weeks_since_created,
+    minutes_played,
+    rdg_id,
+    transaction_count,
+    iap_id,
+    iap_purchase_item,
+    currency_spent,
+    currency_spent_amount,
+    total_currency_spent_amount,
+    extra_json
+    ]
+  }
 
 }

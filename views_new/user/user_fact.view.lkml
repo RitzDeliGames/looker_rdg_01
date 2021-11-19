@@ -616,5 +616,12 @@ view: user_fact {
     percentile: 97.5
     sql: ${currency_05_balance_max} ;;
   }
+  set: cohort_set {
+    fields: [
+      created_date,
+      created_week,
+      count
+    ]
+  }
 
 }

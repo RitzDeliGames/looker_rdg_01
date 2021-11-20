@@ -515,13 +515,13 @@ explore: round_start {
   }
 }
 
-explore: temp_fps {
-  hidden: yes
+explore: fps {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
-  view_label: "temp fps"
+  label: "Frame Rate"
+  view_label: "Frame Rate"
   join: user_fact {
     type: left_outer
-    sql_on: ${temp_fps.rdg_id} = ${user_fact.rdg_id} ;;
+    sql_on: ${fps.rdg_id} = ${user_fact.rdg_id} ;;
     relationship: many_to_one
   }
 }

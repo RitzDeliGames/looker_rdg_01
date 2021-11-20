@@ -1,19 +1,19 @@
-view: temp_fps {
+view: fps {
   derived_table: {
   sql:
     select
-      rdg_id,
-      timestamp,
-      sum(cast(frame_time_histogram as int64)) as frame_count,
-        offset as ms_per_frame
+      rdg_id
+      ,timestamp
+      ,sum(cast(frame_time_histogram as int64)) as frame_count
+        ,offset as ms_per_frame
+      ,event_name
     from game_data.events
     cross join unnest(split(json_extract_scalar(extra_json,'$.frame_time_histogram_values'))) as frame_time_histogram with offset
-    where event_name = 'round_end'
-      and timestamp >= '2019-01-01'
+    where timestamp >= '2019-01-01'
       and user_type = 'external'
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'
-   group by 1,2,4
+   group by 1,2,4,5
    order by ms_per_frame asc
   ;;
   datagroup_trigger: change_3_hrs
@@ -36,6 +36,7 @@ view: temp_fps {
       ,year
     ]
   }
+  dimension: event_name {}
   dimension: ms_per_frame {
     type: number
     hidden: yes

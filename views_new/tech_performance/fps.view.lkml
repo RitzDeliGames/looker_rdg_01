@@ -7,13 +7,14 @@ view: fps {
       ,sum(cast(frame_time_histogram as int64)) as frame_count
         ,offset as ms_per_frame
       ,event_name
+      ,json_extract_scalar(extra_json, "$.transition_from") scene_transition_from
     from game_data.events
     cross join unnest(split(json_extract_scalar(extra_json,'$.frame_time_histogram_values'))) as frame_time_histogram with offset
     where timestamp >= '2019-01-01'
       and user_type = 'external'
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'
-   group by 1,2,4,5
+   group by 1,2,4,5,6
    order by ms_per_frame asc
   ;;
   datagroup_trigger: change_3_hrs
@@ -37,6 +38,7 @@ view: fps {
     ]
   }
   dimension: event_name {}
+  dimension: scene_transition_from {}
   dimension: ms_per_frame {
     type: number
     hidden: yes
@@ -56,5 +58,6 @@ view: fps {
   measure: frame_count_sum {
     type: sum
     sql: ${frame_count} ;;
+    drill_fields: [rdg_id]
   }
 }

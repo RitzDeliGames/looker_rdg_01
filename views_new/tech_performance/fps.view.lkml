@@ -51,6 +51,13 @@ view: fps {
           else 'over_22'
         end;;
   }
+  dimension: under_40_ms_per_frame {
+    type: string
+    sql: case
+          when ${ms_per_frame} <= 40 then 'under_40'
+          else 'over_40'
+        end;;
+  }
   dimension: frame_count {
     type: number
     sql: ${TABLE}.frame_count ;;

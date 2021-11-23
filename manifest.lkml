@@ -147,7 +147,8 @@ constant: purchase_exclusion_list {
             ,'96656ebf-7125-48d5-8ea9-337724173c1a'
             ,'054bf199-3fd3-4be0-a53b-62256d15d077'
             ,'a0dce422-3e68-47a3-a475-fc2fe7ed295a'
-            ,'766fc669-8ce4-470f-abfe-0ef1f609a0aa')"
+            ,'766fc669-8ce4-470f-abfe-0ef1f609a0aa'
+            ,'7ad84723-eca2-4343-988a-a3e5bbd3e499')"
 }
 constant: cheaters {
   value: "('')"
@@ -201,6 +202,7 @@ constant: release_version_major {
             when ${TABLE}.version like '11400'then '1.40'
             when ${TABLE}.version like '11500'then '1.50'
             when ${TABLE}.version like '11600'then '1.60'
+            when ${TABLE}.version like '11700'then '1.70'
           end"
 }
 
@@ -252,6 +254,7 @@ constant: install_release_version_major {
             when ${TABLE}.install_version like '11400' then '1.40'
             when ${TABLE}.install_version like '11500' then '1.50'
             when ${TABLE}.install_version like '11600' then '1.60'
+            when ${TABLE}.install_version like '11700' then '1.70'
           end"
 }
 
@@ -303,6 +306,7 @@ constant: release_version_minor {
             when ${TABLE}.version like '11400' then '1.11.400'
             when ${TABLE}.version like '11500' then '1.11.500'
             when ${TABLE}.version like '11600' then '1.11.600'
+            when ${TABLE}.version like '11700' then '1.11.700'
           end"
 }
 
@@ -354,6 +358,7 @@ constant: install_release_version_minor {
             when ${TABLE}.install_version like '11400' then '1.11.400'
             when ${TABLE}.install_version like '11500' then '1.11.500'
             when ${TABLE}.install_version like '11600' then '1.11.600'
+            when ${TABLE}.install_version like '11700' then '1.11.700'
           END"
 }
 

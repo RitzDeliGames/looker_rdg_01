@@ -1,5 +1,5 @@
 
-label: "1 Ritz Deli Games"
+label: "Eraser Blast"
 connection: "eraser_blast_gbq"
 
 # include all the views

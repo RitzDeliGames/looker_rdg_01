@@ -6,6 +6,7 @@ view: cohort_analysis_mixed_fields {
     sql: ${transactions_new.primary_key} ;;
   }
   measure: gem_spend_per_user {
+    label: "Cohorted Gem Spend per Player"
     type: number
     sql: ${transactions_new.gem_spent_amount_sum} / NULLIF(${cohort_analysis.count},0) ;;
     value_format_name: decimal_2
@@ -18,6 +19,7 @@ view: cohort_analysis_mixed_fields {
     drill_fields: [transactions_new.rdg_id, transactions_new.transaction_date, transactions_new.transaction_count, transactions_new.iap_id, transactions_new.iap_purchase_item, transactions_new.currency_spent, transactions_new.currency_spent_amount]
   }
   measure: coin_spend_per_user {
+    label: "Cohorted Coin Spend per Player"
     type: number
     sql: ${transactions_new.coin_spent_amount_sum} / NULLIF(${cohort_analysis.count},0) ;;
     value_format_name: decimal_2
@@ -30,6 +32,7 @@ view: cohort_analysis_mixed_fields {
     drill_fields: [transactions_new.rdg_id, transactions_new.transaction_date, transactions_new.transaction_count, transactions_new.iap_id, transactions_new.iap_purchase_item, transactions_new.currency_spent, transactions_new.currency_spent_amount]
   }
   measure: dollar_spend_per_user {
+    label: "Cohorted Dollar Spend per Player"
     type: number
     sql: ${transactions_new.dollars_spent_amount_sum} / NULLIF(${cohort_analysis.count},0) ;;
     value_format: "$0.0000"

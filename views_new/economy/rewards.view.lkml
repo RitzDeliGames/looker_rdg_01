@@ -3,6 +3,9 @@ view: rewards {
     sql:
       select
         rdg_id
+        ,user_id
+        ,device_id
+        ,advertising_id
         ,timestamp
         ,current_card
         ,last_unlocked_card
@@ -27,9 +30,24 @@ view: rewards {
     sql: ${rdg_id} || ${reward_raw} ;;
   }
   dimension: rdg_id {
-    hidden: no
+    group_label: "Player IDs"
     type: string
     sql: ${TABLE}.rdg_id ;;
+  }
+  dimension: device_id {
+    group_label: "Player IDs"
+    type: string
+    sql: ${TABLE}.device_id ;;
+  }
+  dimension: advertising_id {
+    group_label: "Player IDs"
+    type: string
+    sql: ${TABLE}.advertising_id ;;
+  }
+  dimension: user_id {
+    group_label: "Player IDs"
+    type: string
+    sql: ${TABLE}.user_id ;;
   }
   dimension_group: reward {
     type: time

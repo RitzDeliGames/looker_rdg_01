@@ -15,6 +15,7 @@ view: cohort_analysis_mixed_fields {
   }
   measure: cumulative_gem_spend_per_user {
     group_label: "Cumulative Spend"
+    label: "Cumulative Gem Spend per Player"
     type: running_total
     sql: ${gem_spend_per_user} ;;
     value_format_name: decimal_2
@@ -30,6 +31,7 @@ view: cohort_analysis_mixed_fields {
   }
   measure: cumulative_coin_spend_per_user {
     group_label: "Cumulative Spend"
+    label: "Cumulative Coin Spend per Player"
     type: running_total
     sql: ${coin_spend_per_user} ;;
     value_format_name: decimal_2
@@ -37,7 +39,7 @@ view: cohort_analysis_mixed_fields {
   }
   measure: dollar_spend_per_user {
     group_label: "Cohorted Spend"
-    label: "Cohorted Dollar Spend per Player"
+    label: "Cohorted Net Revenue per Player"
     type: number
     sql: ${transactions_new.dollars_spent_amount_sum} / NULLIF(${cohort_analysis.count},0) ;;
     value_format: "$0.0000"
@@ -45,6 +47,7 @@ view: cohort_analysis_mixed_fields {
   }
   measure: cumulative_dollar_spend_per_user {
     group_label: "Cumulative Spend"
+    label: "Cumulative Net Revenue per Player"
     type: running_total
     sql: ${dollar_spend_per_user} ;;
     value_format: "$0.0000"

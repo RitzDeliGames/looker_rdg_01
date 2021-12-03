@@ -94,9 +94,8 @@ view: rewards {
     type: string
     sql: ${TABLE}.current_quest ;;
   }
-  dimension: reward_event {
+  dimension: reward_event_raw {
     type: string
-    hidden: yes
     sql: ${TABLE}.reward_event ;;
   }
   dimension: reward_event_clean {
@@ -131,6 +130,7 @@ view: rewards {
     type: sum
     value_format: "#,###"
     sql: ${reward_amount} ;;
+    drill_fields: [card_id,reward_event_raw,reward_amount_sum]
   }
   measure: currency_rewarded_amount_025 {
     group_label: "Currency Rewards"

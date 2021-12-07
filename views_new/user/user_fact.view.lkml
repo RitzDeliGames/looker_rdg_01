@@ -590,38 +590,77 @@ view: user_fact {
     sql: ${TABLE}.currency_05_balance_max ;;
   }
   measure: currency_05_balance_025 {
-    group_label: "AFH Token Balance"
+    group_label: "AFH Token Balance - Max"
     label: "Max Daily AFH Token Balance - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${currency_05_balance_max} ;;
   }
   measure: currency_05_balance_25 {
-    group_label: "AFH Token Balance"
+    group_label: "AFH Token Balance - Max"
     label: "Max Daily AFH Token Balance - 25%"
     type: percentile
     percentile: 25
     sql: ${currency_05_balance_max} ;;
   }
   measure: currency_05_balance_med {
-    group_label: "AFH Token Balance"
+    group_label: "AFH Token Balance - Max"
     label: "Max Daily AFH Token Balance - Median"
     type: median
     sql: ${currency_05_balance_max} ;;
   }
   measure: currency_05_balance_75 {
-    group_label: "AFH Token Balance"
+    group_label: "AFH Token Balance - Max"
     label: "Max Daily AFH Token Balance - 75%"
     type: percentile
     percentile: 75
     sql: ${currency_05_balance_max} ;;
   }
   measure: currency_05_balance_975 {
-    group_label: "AFH Token Balance"
+    group_label: "AFH Token Balance - Max"
     label: "Max Daily AFH Token Balance - 97.5%"
     type: percentile
     percentile: 97.5
     sql: ${currency_05_balance_max} ;;
+  }
+  dimension: currency_05_balance_min {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.currency_05_balance_min ;;
+  }
+  measure: currency_05_balance_025_min {
+    group_label: "AFH Token Balance - Min"
+    label: "Min Daily AFH Token Balance - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${currency_05_balance_min} ;;
+  }
+  measure: currency_05_balance_25_min {
+    group_label: "AFH Token Balance - Min"
+    label: "Min Daily AFH Token Balance - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${currency_05_balance_min} ;;
+  }
+  measure: currency_05_balance_med_min {
+    group_label: "AFH Token Balance - Min"
+    label: "Min Daily AFH Token Balance - Median"
+    type: median
+    sql: ${currency_05_balance_min} ;;
+  }
+  measure: currency_05_balance_75_min {
+    group_label: "AFH Token Balance - Min"
+    label: "Min Daily AFH Token Balance - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${currency_05_balance_min} ;;
+  }
+  measure: currency_05_balance_975_min {
+    group_label: "AFH Token Balance - Min"
+    label: "Min Daily AFH Token Balance - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${currency_05_balance_min} ;;
   }
   set: cohort_set {
     fields: [

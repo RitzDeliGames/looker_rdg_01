@@ -7,7 +7,7 @@ view: user_fact {
         rdg_id
         ,device_id
         ,advertising_id
-        --,user_id
+        ,user_id
         ,platform
         ,country
         ,row_number() over (partition by rdg_id order by timestamp asc) rn
@@ -21,7 +21,7 @@ view: user_fact {
         fa.rdg_id
         ,fa.device_id
         ,fa.advertising_id
-        --,fa.user_id
+        ,fa.user_id
         ,fa.platform
         ,fa.country
         ,hardware
@@ -80,9 +80,9 @@ view: user_fact {
       and gde.country != 'ZZ'
       and coalesce(gde.install_version,'null') <> '-1'
       and fa.rn = 1
-      group by 1,2,3,4,5,6--,7
+      group by 1,2,3,4,5,6,7
     ;;
-    datagroup_trigger: change_3_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
     partition_keys: ["created"]
   }

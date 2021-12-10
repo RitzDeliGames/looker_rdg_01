@@ -38,7 +38,7 @@ view: transactions_new {
     datagroup_trigger: change_8_hrs
     publish_as_db_view: yes
   }
-  filter: spenders_currency_filter {
+  parameter: spenders_currency_filter {
     suggest_dimension: currency_spent
   }
 
@@ -309,6 +309,7 @@ view: transactions_new {
     type: running_total
     sql: ${total_currency_spent_amount} ;;
   }
+
   set: cohort_set {
     fields: [
     transaction_date,

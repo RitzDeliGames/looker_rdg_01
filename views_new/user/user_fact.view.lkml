@@ -373,9 +373,9 @@ view: user_fact {
     sql: ${rdg_id} ;;
     drill_fields: [rdg_id, player_level_xp, created_date]
   }
-  # measure: count_rows {
-  #   type: count
-  # }
+  measure: count_rows {
+    type: count
+  }
   # measure: spend_amount {
   #   type: sum
   #   sql: ${purchase_amt} ;;

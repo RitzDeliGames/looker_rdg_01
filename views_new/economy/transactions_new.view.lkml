@@ -35,7 +35,7 @@ view: transactions_new {
         --and coalesce(install_version,'null') <> '-1'
       order by timestamp
     ;;
-    datagroup_trigger: change_3_hrs
+    datagroup_trigger: change_8_hrs
     publish_as_db_view: yes
   }
   filter: spenders_currency_filter {

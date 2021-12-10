@@ -39,7 +39,7 @@ view: user_last_event {
             and events.user_type = 'external'
           where last_user_event.rnk = 1
         ;;
-    datagroup_trigger: change_3_hrs
+    datagroup_trigger: change_8_hrs
     publish_as_db_view: yes
   }
   dimension: rdg_id {

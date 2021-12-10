@@ -11,7 +11,7 @@ view: user_activity {
       and user_type = 'external'
       group by 1,2,3
     ;;
-    datagroup_trigger: change_3_hrs
+    datagroup_trigger: change_8_hrs
     publish_as_db_view: yes
     partition_keys: ["activity"]
   }

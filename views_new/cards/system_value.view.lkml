@@ -16,7 +16,7 @@ view: system_value {
       and coalesce(install_version,'null') <> '-1'
       and (json_extract_scalar(extra_json,'$.reward_event') like '%bingo%' or json_extract_scalar(extra_json,'$.reward_event') like '%round%'or json_extract_scalar(extra_json,'$.reward_event') like '%level_up%')
     ;;
-    datagroup_trigger: change_3_hrs
+    datagroup_trigger: change_8_hrs
     publish_as_db_view: yes
   }
   dimension: primary_key {

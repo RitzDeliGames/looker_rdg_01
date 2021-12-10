@@ -19,7 +19,7 @@ view: temp_rewards_bingo_cards_and_gameplay {
       and (json_extract_scalar(extra_json,'$.reward_event') like '%bingo%' or json_extract_scalar(extra_json,'$.reward_event') like '%round%')
       group by 1,2,3,4,5,6
     ;;
-    datagroup_trigger: change_3_hrs
+    datagroup_trigger: change_8_hrs
     publish_as_db_view: yes
   }
   dimension: primary_key {

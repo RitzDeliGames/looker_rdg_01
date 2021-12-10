@@ -29,7 +29,7 @@ view: cards {
         --and timestamp >= timestamp(current_date() - 90) --should we go back past 90 days?
         --and timestamp < timestamp(current_date())
     ;;
-    datagroup_trigger: change_3_hrs
+    datagroup_trigger: change_8_hrs
   }
   dimension: primary_key {
     hidden: yes

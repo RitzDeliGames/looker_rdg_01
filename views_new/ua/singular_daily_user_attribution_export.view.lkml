@@ -13,7 +13,7 @@ view: singular_daily_user_attribution_export {
           ,campaign_name
         from `eraser-blast.singular.user_level_attributions`
         ;;
-    datagroup_trigger: change_3_hrs
+    datagroup_trigger: change_8_hrs
     publish_as_db_view: yes
     partition_keys: ["etl_record_processing_hour_utc"]
     }

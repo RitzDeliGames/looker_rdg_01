@@ -17,7 +17,7 @@ view: fps {
    group by 1,2,4,5,6
    order by ms_per_frame asc
   ;;
-  datagroup_trigger: change_3_hrs
+    datagroup_trigger: change_8_hrs
   }
 
   dimension: primary_key {

@@ -19,7 +19,7 @@ view: new_iam {
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
     ;;
-    datagroup_trigger: change_3_hrs
+    datagroup_trigger: change_8_hrs
   }
   dimension: primary_key {
     type: string

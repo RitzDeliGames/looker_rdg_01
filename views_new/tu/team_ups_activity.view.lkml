@@ -15,7 +15,7 @@ view: team_ups_activity {
         and country != 'ZZ'
       group by 1,2,3,4,5,6
     ;;
-    datagroup_trigger: change_3_hrs
+    datagroup_trigger: change_8_hrs
   }
   dimension: primary_key {
     type: string

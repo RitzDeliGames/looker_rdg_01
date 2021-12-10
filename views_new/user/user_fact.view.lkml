@@ -373,6 +373,9 @@ view: user_fact {
     sql: ${rdg_id} ;;
     drill_fields: [rdg_id, player_level_xp, created_date]
   }
+  # measure: count_rows {
+  #   type: count
+  # }
   # measure: spend_amount {
   #   type: sum
   #   sql: ${purchase_amt} ;;
@@ -622,6 +625,11 @@ view: user_fact {
     type: percentile
     percentile: 97.5
     sql: ${currency_05_balance_max} ;;
+  }
+  measure: first_created_date {
+    type: date
+    sql: cast(MIN(${created_date}) as timestamp) ;;
+    convert_tz: no
   }
   set: cohort_set {
     fields: [

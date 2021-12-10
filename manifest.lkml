@@ -871,9 +871,10 @@ constant: iap_id_strings_grouped {
 
   constant: button_tags {
     value: "case
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V3.Confirm' then 'MG - Buy More Time - Confirm'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V3.Confirm.quest' then 'MG - Buy More Time - Confirm'
-              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V3.Close' then 'MG - Buy More Time - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V3.Confirm' then 'MG - Buy More Time - High Score - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V3.Close' then 'MG - Buy More Time - High Score - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V3.Confirm.quest' then 'MG - Buy More Time - Quest - Confirm'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V3.Close.quest' then 'MG - Buy More Time - Quest - Close'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BuyMoreTime.Confirm' then 'MG - Buy More Time - Confirm'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V4.Confirm' then 'MG - Buy More Time - Confirm'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BuyMoreTime.V4.Close' then 'MG - Buy More Time - Close'
@@ -945,6 +946,7 @@ constant: iap_id_strings_grouped {
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.Boosts' then 'PG - Open Boost Shop'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_Boosts_V3.BoostUI.%' then 'PG - Equip Boost'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Boosts_V3.OverlayClose' then 'PG - Close Boost Shop'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Boosts_V3.respite' then 'PG - Do Not Show Boost Shop'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.Back' then 'PG - Back'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BingoQuestDetails.PlayFromQuest' then 'PG - Play'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_PreGame_V3.QuestEraserSelection%' then 'PG - Select / Deselect Eraser'

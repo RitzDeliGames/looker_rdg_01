@@ -50,6 +50,7 @@ view: click_stream {
       ,time
       ,date
       ,month
+      ,week
       ,year
     ]
   }

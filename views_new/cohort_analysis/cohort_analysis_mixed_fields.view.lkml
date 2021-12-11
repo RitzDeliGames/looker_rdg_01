@@ -37,6 +37,23 @@ view: cohort_analysis_mixed_fields {
     value_format_name: decimal_2
     drill_fields: [transactions_new.rdg_id, transactions_new.transaction_date, transactions_new.transaction_count, transactions_new.iap_id, transactions_new.iap_purchase_item, transactions_new.currency_spent, transactions_new.currency_spent_amount]
   }
+  measure: afh_token_spend_per_user {
+    group_label: "Cohorted Spend"
+    label: "Cohorted AFH Token Spend per Player"
+    type: number
+    sql: ${transactions_new.afh_token_spent_amount_sum} / NULLIF(${cohort_analysis.count},0) ;;
+    value_format_name: decimal_2
+    drill_fields: [transactions_new.rdg_id, transactions_new.transaction_date, transactions_new.transaction_count, transactions_new.iap_id, transactions_new.iap_purchase_item, transactions_new.currency_spent, transactions_new.currency_spent_amount]
+  }
+  measure: cumulative_afh_token_spend_per_user {
+    group_label: "Cumulative Spend"
+    label: "Cumulative AFH Token Spend per Player"
+    type: running_total
+    sql: ${afh_token_spend_per_user} ;;
+    value_format_name: decimal_2
+    drill_fields: [transactions_new.rdg_id, transactions_new.transaction_date, transactions_new.transaction_count, transactions_new.iap_id, transactions_new.iap_purchase_item, transactions_new.currency_spent, transactions_new.currency_spent_amount]
+  }
+
   measure: dollar_spend_per_user {
     group_label: "Cohorted Spend"
     label: "Cohorted Net Revenue per Player"

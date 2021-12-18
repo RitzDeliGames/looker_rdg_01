@@ -1041,6 +1041,11 @@ view: round_end {
     type: number
     sql: ${TABLE}.round_length / 1000;;
   }
+  measure: round_length_sum {
+    label: "Round Length Sum"
+    type: sum
+    sql: ${round_length_num} ;;
+  }
   measure: round_length_025 {
     group_label: "Round Length"
     label: "Round Length - 2.5%"

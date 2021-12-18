@@ -100,18 +100,23 @@ view: user_last_event {
 
 
   ###EXPERIMENT IDS - LIVE###
-
-  dimension: untimedMode_20211102   {
+  dimension: altPacing_20211123   {
     group_label: "Experiments - Live"
-    label: "Untimed Mode v2"
+    label: "Early Game Pacing - v1"
     type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.untimedMode_20211102'),'unassigned') ;;
+    sql: nullif(json_extract_scalar(${experiments},'$.altPacing_20211123'),'unassigned') ;;
   }
-  dimension: listViewTest_20211027_v3   {
+  dimension: gridMode_20211213   {
     group_label: "Experiments - Live"
-    label: "List View v3"
+    label: "Grid Mode - v1"
     type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.listViewTest_20211027_v3'),'unassigned') ;;
+    sql: nullif(json_extract_scalar(${experiments},'$.gridMode_20211213'),'unassigned') ;;
+  }
+  dimension: directPlay_20211202   {
+    group_label: "Experiments - Live"
+    label: "Direct Play - v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.directPlay_20211202'),'unassigned') ;;
   }
   dimension: storySkip_20211031   {
     group_label: "Experiments - Live"
@@ -119,14 +124,25 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.StorySkip_20211031'),'unassigned') ;;
   }
+  ###EXPERIMENT IDS - CLOSED###
+  dimension: untimedMode_20211102   {
+    group_label: "Experiments - Closed"
+    label: "Untimed Mode v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.untimedMode_20211102'),'unassigned') ;;
+  }
+  dimension: listViewTest_20211027_v3   {
+    group_label: "Experiments - Closed"
+    label: "List View v3"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.listViewTest_20211027_v3'),'unassigned') ;;
+  }
   dimension: characterUnlockSequence_20211005_p3   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Character Unlock Sequence v3"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.characterUnlockSequence_20211005_p3'),'unassigned') ;;
   }
-
-###EXPERIMENT IDS - CLOSED###
   dimension: worldMap_20211007_p4   {
     group_label: "Experiments - Closed"
     label: "World Map v4"

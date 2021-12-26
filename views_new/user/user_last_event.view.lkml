@@ -124,6 +124,7 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.StorySkip_20211031'),'unassigned') ;;
   }
+
   ###EXPERIMENT IDS - CLOSED###
   dimension: untimedMode_20211102   {
     group_label: "Experiments - Closed"

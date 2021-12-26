@@ -609,6 +609,7 @@ explore: click_sequence {
         and ${click_sequence.rdg_id} = ${next_in_sequence.rdg_id} ;;
   }
   join: step_2 {
+    view_label: "Step 02"
     from: click_sequencing
     type: left_outer
     relationship: one_to_one
@@ -616,6 +617,7 @@ explore: click_sequence {
     and ${click_sequence.rdg_id} = ${step_2.rdg_id};;
   }
   join: step_3 {
+    view_label: "Step 03"
     from: click_sequencing
     type: left_outer
     relationship: one_to_one
@@ -623,6 +625,7 @@ explore: click_sequence {
       and ${step_2.rdg_id} = ${step_3.rdg_id};;
   }
   join: step_4 {
+    view_label: "Step 04"
     from: click_sequencing
     type: left_outer
     relationship: one_to_one
@@ -630,6 +633,7 @@ explore: click_sequence {
       and ${step_3.rdg_id} = ${step_4.rdg_id};;
   }
   join: step_5 {
+    view_label: "Step 05"
     from: click_sequencing
     type: left_outer
     relationship: one_to_one
@@ -637,6 +641,7 @@ explore: click_sequence {
       and ${step_4.rdg_id} = ${step_5.rdg_id};;
   }
   join: step_6 {
+    view_label: "Step 06"
     from: click_sequencing
     type: left_outer
     relationship: one_to_one
@@ -644,6 +649,7 @@ explore: click_sequence {
       and ${step_5.rdg_id} = ${step_6.rdg_id};;
   }
   join: step_7 {
+    view_label: "Step 07"
     from: click_sequencing
     type: left_outer
     relationship: one_to_one
@@ -651,6 +657,7 @@ explore: click_sequence {
       and ${step_6.rdg_id} = ${step_7.rdg_id};;
   }
   join: step_8 {
+    view_label: "Step 08"
     from: click_sequencing
     type: left_outer
     relationship: one_to_one
@@ -658,6 +665,7 @@ explore: click_sequence {
       and ${step_7.rdg_id} = ${step_8.rdg_id};;
   }
   join: step_9 {
+    view_label: "Step 09"
     from: click_sequencing
     type: left_outer
     relationship: one_to_one
@@ -665,6 +673,7 @@ explore: click_sequence {
       and ${step_8.rdg_id} = ${step_9.rdg_id};;
   }
   join: step_10 {
+    view_label: "Step 10"
     from: click_sequencing
     type: left_outer
     relationship: one_to_one
@@ -672,6 +681,7 @@ explore: click_sequence {
       and ${step_9.rdg_id} = ${step_10.rdg_id};;
   }
   join: step_11 {
+    view_label: "Step 11"
     from: click_sequencing
     type: left_outer
     relationship: one_to_one
@@ -679,6 +689,7 @@ explore: click_sequence {
       and ${step_10.rdg_id} = ${step_11.rdg_id};;
   }
   join: step_12 {
+    view_label: "Step 12"
     from: click_sequencing
     type: left_outer
     relationship: one_to_one
@@ -686,6 +697,7 @@ explore: click_sequence {
       and ${step_11.rdg_id} = ${step_12.rdg_id};;
   }
   join: step_13 {
+    view_label: "Step 13"
     from: click_sequencing
     type: left_outer
     relationship: one_to_one
@@ -693,6 +705,7 @@ explore: click_sequence {
       and ${step_12.rdg_id} = ${step_13.rdg_id};;
   }
   join: step_14 {
+    view_label: "Step 14"
     from: click_sequencing
     type: left_outer
     relationship: one_to_one
@@ -700,6 +713,7 @@ explore: click_sequence {
       and ${step_13.rdg_id} = ${step_14.rdg_id};;
   }
   join: step_15 {
+    view_label: "Step 15"
     from: click_sequencing
     type: left_outer
     relationship: one_to_one

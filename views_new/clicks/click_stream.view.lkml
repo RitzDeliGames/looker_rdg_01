@@ -171,15 +171,33 @@ view: click_stream {
     sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.characterUnlockSequence_20211005_p3'),'unassigned') ;;
   }
   dimension: listViewTest_20211027_v3   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "List View v3"
     type: string
     sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.listViewTest_20211027_v3'),'unassigned') ;;
   }
   dimension: storySkip_20211031   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Story - Skip v1"
     type: string
     sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.StorySkip_20211031'),'unassigned') ;;
+  }
+  dimension: altPacing_20211123   {
+    group_label: "Experiments - Live"
+    label: "Early Game Pacing - v1"
+    type: string
+    sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.altPacing_20211123'),'unassigned') ;;
+  }
+  dimension: gridMode_20211213   {
+    group_label: "Experiments - Live"
+    label: "Grid Mode - v1"
+    type: string
+    sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.gridMode_20211213'),'unassigned') ;;
+  }
+  dimension: directPlay_20211202   {
+    group_label: "Experiments - Live"
+    label: "Direct Play - v1"
+    type: string
+    sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.directPlay_20211202'),'unassigned') ;;
   }
 }

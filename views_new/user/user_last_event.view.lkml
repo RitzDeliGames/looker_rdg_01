@@ -118,14 +118,20 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.directPlay_20211202'),'unassigned') ;;
   }
+  dimension: storyTest_20211116   {
+    group_label: "Experiments - Live"
+    label: "Story v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.storyTest_20211116'),'unassigned') ;;
+  }
+
+  ###EXPERIMENT IDS - CLOSED###
   dimension: storySkip_20211031   {
     group_label: "Experiments - Live"
     label: "Story - Skip v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.StorySkip_20211031'),'unassigned') ;;
   }
-
-  ###EXPERIMENT IDS - CLOSED###
   dimension: untimedMode_20211102   {
     group_label: "Experiments - Closed"
     label: "Untimed Mode v2"

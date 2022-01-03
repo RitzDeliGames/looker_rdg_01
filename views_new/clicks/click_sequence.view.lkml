@@ -24,6 +24,9 @@ view: click_sequence {
       column: characterUnlockSequence_20211005_p3 {}
       column: listViewTest_20211027_v3 {}
       column: storySkip_20211031 {}
+      column: altPacing_20211123 {}
+      column: gridMode_20211213 {}
+      column: directPlay_20211202 {}
       derived_column: click_sequence_num {
         sql: row_number() over (partition by rdg_id order by event_time) ;;
       }
@@ -73,20 +76,32 @@ view: click_sequence {
   }
   dimension: install_version {}
   dimension: worldMap_20211007_p4 {
-    group_label: "Experiments"
+    group_label: "Experiments - Closed"
     label: "World Map v4"
   }
   dimension: characterUnlockSequence_20211005_p3 {
-    group_label: "Experiments"
+    group_label: "Experiments - Closed"
     label: "Character Unlock Sequence"
   }
   dimension: listViewTest_20211027_v3 {
-    group_label: "Experiments"
+    group_label: "Experiments - Closed"
     label: "List View v3"
   }
   dimension: storySkip_20211031 {
-    group_label: "Experiments"
+    group_label: "Experiments - Closed"
     label: "Story - Skip v1"
+  }
+  dimension: altPacing_20211123   {
+    group_label: "Experiments - Live"
+    label: "Early Game Pacing - v1"
+  }
+  dimension: gridMode_20211213   {
+    group_label: "Experiments - Live"
+    label: "Grid Mode - v1"
+  }
+  dimension: directPlay_20211202   {
+    group_label: "Experiments - Live"
+    label: "Direct Play - v1"
   }
   measure: count {
     type: count_distinct

@@ -209,6 +209,7 @@ constant: release_version_major {
             when ${TABLE}.version like '11800'then '1.80'
             when ${TABLE}.version like '11850'then '1.85'
             when ${TABLE}.version like '11860'then '1.80'
+            when ${TABLE}.version like '11870'then '1.80'
           end"
 }
 
@@ -264,6 +265,7 @@ constant: install_release_version_major {
             when ${TABLE}.install_version like '11800' then '1.80'
             when ${TABLE}.install_version like '11850' then '1.80'
             when ${TABLE}.install_version like '11860' then '1.80'
+            when ${TABLE}.install_version like '11870' then '1.80'
           end"
 }
 
@@ -319,11 +321,12 @@ constant: release_version_minor {
             when ${TABLE}.version like '11800' then '1.11.800'
             when ${TABLE}.version like '11850' then '1.11.850'
             when ${TABLE}.version like '11860' then '1.11.860'
+            when ${TABLE}.version like '11870' then '1.11.870'
           end"
 }
 
 constant: install_release_version_minor {
-  value: "CASE
+  value: "case
             when ${TABLE}.install_version like '1579' then '1.0.100'
             when ${TABLE}.install_version like '2047' then '1.1.001'
             when ${TABLE}.install_version like '2100' then '1.1.100'
@@ -374,7 +377,8 @@ constant: install_release_version_minor {
             when ${TABLE}.install_version like '11800' then '1.11.800'
             when ${TABLE}.install_version like '11850' then '1.11.850'
             when ${TABLE}.install_version like '11860' then '1.11.860'
-          END"
+            when ${TABLE}.install_version like '11870' then '1.11.870'
+          end"
 }
 
 constant: country_region {

@@ -29,7 +29,7 @@ view: singular_daily_agg_export {
         join country_code_helper
         on singular_export.country_field = country_code_helper.Alpha_3_code
           ;;
-      datagroup_trigger: change_8_hrs
+      datagroup_trigger: change_3_hrs
   }
 
   dimension: compound_primary_key {

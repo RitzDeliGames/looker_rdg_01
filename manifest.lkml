@@ -207,8 +207,6 @@ constant: release_version_major {
             when ${TABLE}.version like '11600'then '1.60'
             when ${TABLE}.version like '11700'then '1.70'
             when ${TABLE}.version like '11800'then '1.80'
-            when ${TABLE}.version like '11850'then '1.85'
-            when ${TABLE}.version like '11860'then '1.80'
             when ${TABLE}.version like '11870'then '1.80'
           end"
 }
@@ -263,8 +261,6 @@ constant: install_release_version_major {
             when ${TABLE}.install_version like '11600' then '1.60'
             when ${TABLE}.install_version like '11700' then '1.70'
             when ${TABLE}.install_version like '11800' then '1.80'
-            when ${TABLE}.install_version like '11850' then '1.80'
-            when ${TABLE}.install_version like '11860' then '1.80'
             when ${TABLE}.install_version like '11870' then '1.80'
           end"
 }
@@ -319,8 +315,6 @@ constant: release_version_minor {
             when ${TABLE}.version like '11600' then '1.11.600'
             when ${TABLE}.version like '11700' then '1.11.700'
             when ${TABLE}.version like '11800' then '1.11.800'
-            when ${TABLE}.version like '11850' then '1.11.850'
-            when ${TABLE}.version like '11860' then '1.11.860'
             when ${TABLE}.version like '11870' then '1.11.870'
           end"
 }
@@ -375,8 +369,6 @@ constant: install_release_version_minor {
             when ${TABLE}.install_version like '11600' then '1.11.600'
             when ${TABLE}.install_version like '11700' then '1.11.700'
             when ${TABLE}.install_version like '11800' then '1.11.800'
-            when ${TABLE}.install_version like '11850' then '1.11.850'
-            when ${TABLE}.install_version like '11860' then '1.11.860'
             when ${TABLE}.install_version like '11870' then '1.11.870'
           end"
 }

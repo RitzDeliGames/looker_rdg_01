@@ -737,6 +737,13 @@ explore: cohort_analysis {
   join: cohort_analysis_mixed_fields {
     view_label: "Currencies"
   }
+  join: user_last_event {
+    view_label: "User Last Event"
+    type: left_outer
+    sql_on: ${cohort_analysis.rdg_id} = ${user_last_event.rdg_id} ;;
+    relationship: one_to_one
+  }
+
 }
 
 explore: cohort_selection {}

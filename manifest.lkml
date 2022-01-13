@@ -512,9 +512,27 @@ constant: current_card_numbered {
             when ${TABLE}.current_card = 'ce_005_card_001' then 20211001
             when ${TABLE}.current_card = 'ce_005_card_002' then 20211002
             when ${TABLE}.current_card = 'ce_005_card_003' then 20211003
+            when ${TABLE}.current_card = 'ce_006_card_001' then 20211001
+            when ${TABLE}.current_card = 'ce_006_card_002' then 20211002
+            when ${TABLE}.current_card = 'ce_006_card_003' then 20211003
+            when ${TABLE}.current_card = 'ce_007_card_001' then 20212001
+            when ${TABLE}.current_card = 'ce_007_card_002' then 20212002
+            when ${TABLE}.current_card = 'ce_007_card_003' then 20212003
             when ${TABLE}.current_card = 'tu_001_card_001' then 30210801
             when ${TABLE}.current_card = 'tu_001_card_002' then 30210802
             when ${TABLE}.current_card = 'tu_001_card_003' then 30210803
+            when ${TABLE}.current_card = 'tu_002_card_001' then 30210901
+            when ${TABLE}.current_card = 'tu_002_card_002' then 30210902
+            when ${TABLE}.current_card = 'tu_002_card_003' then 30210903
+            when ${TABLE}.current_card = 'tu_003_card_001' then 30211001
+            when ${TABLE}.current_card = 'tu_003_card_002' then 30211002
+            when ${TABLE}.current_card = 'tu_003_card_003' then 30211003
+            when ${TABLE}.current_card = 'tu_004_card_001' then 30211101
+            when ${TABLE}.current_card = 'tu_004_card_002' then 30211102
+            when ${TABLE}.current_card = 'tu_004_card_003' then 30211103
+            when ${TABLE}.current_card = 'tu_005_card_001' then 30211201
+            when ${TABLE}.current_card = 'tu_005_card_002' then 30211202
+            when ${TABLE}.current_card = 'tu_005_card_003' then 30211203
           end"
 }
 
@@ -576,15 +594,33 @@ constant: card_id_numbered {
             when ${TABLE}.card_id = 'ce_003_card_001' then 20210711
             when ${TABLE}.card_id = 'ce_003_card_002' then 20210712
             when ${TABLE}.card_id = 'ce_003_card_003' then 20210713
+            when ${TABLE}.card_id = 'ce_004_card_001' then 20210901
             when ${TABLE}.card_id = 'ce_004_card_002' then 20210902
             when ${TABLE}.card_id = 'ce_004_card_003' then 20210903
             when ${TABLE}.card_id = 'ce_005_card_001' then 20211001
-            when ${TABLE}.card_id = 'ce_004_card_001' then 20210901
             when ${TABLE}.card_id = 'ce_005_card_002' then 20211002
             when ${TABLE}.card_id = 'ce_005_card_003' then 20211003
+            when ${TABLE}.card_id = 'ce_006_card_001' then 20211001
+            when ${TABLE}.card_id = 'ce_006_card_002' then 20211002
+            when ${TABLE}.card_id = 'ce_006_card_003' then 20211003
+            when ${TABLE}.card_id = 'ce_007_card_001' then 20212001
+            when ${TABLE}.card_id = 'ce_007_card_002' then 20212002
+            when ${TABLE}.card_id = 'ce_007_card_003' then 20212003
             when ${TABLE}.card_id = 'tu_001_card_001' then 30210801
             when ${TABLE}.card_id = 'tu_001_card_002' then 30210802
             when ${TABLE}.card_id = 'tu_001_card_003' then 30210803
+            when ${TABLE}.card_id = 'tu_002_card_001' then 30210901
+            when ${TABLE}.card_id = 'tu_002_card_002' then 30210902
+            when ${TABLE}.card_id = 'tu_002_card_003' then 30210903
+            when ${TABLE}.card_id = 'tu_003_card_001' then 30211001
+            when ${TABLE}.card_id = 'tu_003_card_002' then 30211002
+            when ${TABLE}.card_id = 'tu_003_card_003' then 30211003
+            when ${TABLE}.card_id = 'tu_004_card_001' then 30211101
+            when ${TABLE}.card_id = 'tu_004_card_002' then 30211102
+            when ${TABLE}.card_id = 'tu_004_card_003' then 30211103
+            when ${TABLE}.card_id = 'tu_005_card_001' then 30211201
+            when ${TABLE}.card_id = 'tu_005_card_002' then 30211202
+            when ${TABLE}.card_id = 'tu_005_card_003' then 30211203
           end"
 }
 

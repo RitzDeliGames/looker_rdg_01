@@ -111,12 +111,13 @@ view: user_fact {
   dimension_group: created {
     type: time
     timeframes: [
-      time,
-      hour_of_day,
-      date,
-      week,
-      month,
-      year
+      time
+      ,hour_of_day
+      ,date
+      ,week
+      ,month
+      ,quarter
+      ,year
     ]
   }
   dimension_group: created_pst {
@@ -128,18 +129,20 @@ view: user_fact {
       ,date
       ,week
       ,month
+      ,quarter
       ,year
     ]
   }
   dimension_group: last_event {
     type: time
     timeframes: [
-      raw,
-      hour_of_day,
-      date,
-      week,
-      month,
-      year
+      raw
+      ,hour_of_day
+      ,date
+      ,week
+      ,month
+      ,quarter
+      ,year
     ]}
   dimension: country {
     group_label: "Device & OS Dimensions"

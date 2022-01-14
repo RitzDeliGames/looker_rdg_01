@@ -1,5 +1,4 @@
-# If necessary, uncomment the line below to include explore_source.
-# include: "ritz_deli_games.model.lkml"
+# Purpose: To allow the user to enter criteria to choose the cohort for analysis. These controls should be primarily used for filters
 
 view: cohort_selection {
   derived_table: {

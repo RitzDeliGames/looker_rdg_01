@@ -7,7 +7,7 @@ view: sessions_per_day_per_player {
     }
   }
   dimension: event_date {
-    hidden: yes
+    #hidden: yes
     type: date
   }
   dimension: session_count {
@@ -15,8 +15,14 @@ view: sessions_per_day_per_player {
     type: number
   }
   dimension: rdg_id {
-    hidden: yes
+    #hidden: yes
   }
+
+  measure: total_session_count {
+    type: sum
+    sql: ${session_count} ;;
+  }
+
   measure: sessions_per_day_025 {
     group_label: "Sessions per Day"
     label: "Sessions per Day - 2.5%"

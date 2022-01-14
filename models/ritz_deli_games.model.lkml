@@ -746,4 +746,10 @@ explore: cohort_analysis {
 
 }
 
-explore: cohort_selection {}
+explore: cohort_selection {
+  hidden: yes
+}
+
+# EXPLORES ADDED FOR VIEWING INCLUDED DATA
+
+explore: sessions_per_day_per_player {}

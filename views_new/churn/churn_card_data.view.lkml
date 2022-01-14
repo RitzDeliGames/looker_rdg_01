@@ -2,7 +2,7 @@
 
 view: churn_card_data {
   derived_table: {
-    datagroup_trigger: change_at_midnight
+    #datagroup_trigger: change_at_midnight
     sql: select
            cast(json_query(json_query(extra_json,"$.node_data[{% parameter node_selector %}]"),"$.node_attempts_explicit") as int64) as node_attempts_explicit
           ,TIMESTAMP_MILLIS(cast(json_query(json_query(extra_json,"$.node_data[{% parameter node_selector %}]"),"$.node_end_time") as int64)) as node_end

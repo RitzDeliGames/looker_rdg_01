@@ -727,7 +727,7 @@ explore: click_sequence {
 }
 
 explore: cohort_analysis {
-  sql_always_where: ${transactions_new.days_since_created} >= 0 and ${rdg_id} not in @{device_internal_tester_mapping};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: cohort_selection
   join: transactions_new {
     type: left_outer
@@ -742,6 +742,16 @@ explore: cohort_analysis {
     type: left_outer
     sql_on: ${cohort_analysis.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
+  }
+  join: sessions_per_day_per_player {
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${cohort_analysis.rdg_id} = ${sessions_per_day_per_player.rdg_id} ;;
+  }
+  join: rounds_per_day_per_player {
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${cohort_analysis.rdg_id} = ${rounds_per_day_per_player.rdg_id} ;;
   }
 
 }

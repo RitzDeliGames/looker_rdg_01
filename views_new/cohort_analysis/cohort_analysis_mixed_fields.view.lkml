@@ -90,6 +90,16 @@ view: cohort_analysis_mixed_fields {
     drill_fields: [transactions_new.rdg_id, transactions_new.transaction_date, transactions_new.transaction_count, transactions_new.iap_id, transactions_new.iap_purchase_item, transactions_new.currency_spent, transactions_new.currency_spent_amount]
   }
 
+  ####---- COMPARISONS TO SESSIONS_PER_DAY_PER_PLAYER ----####
+
+  dimension_group: session_date {
+    view_label: "Sessions"
+    type: duration
+    intervals: [day]
+    sql_start: ${cohort_analysis.first_created_date} ;;
+    sql_end: ${sessions_per_day_per_player.event_date} ;;
+  }
+
   ####---- SETS ----####
 
   set: detail {

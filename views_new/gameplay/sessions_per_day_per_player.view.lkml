@@ -3,9 +3,31 @@ view: sessions_per_day_per_player {
     explore_source: gameplay {
       column: event_date {}
       column: session_count {}
+      column: created_date { field: user_fact.created_date }
       column: rdg_id { field: user_fact.rdg_id }
     }
+    datagroup_trigger: change_8_hrs
+    publish_as_db_view: yes
+    partition_keys: ["event_date"]
   }
+  dimension: compound_pk {
+    primary_key: yes
+    type: string
+    sql: ${rdg_id} || ${event_date} ;;
+  }
+
+  dimension: created_date {
+    label: "Users Created Date"
+    type: date
+  }
+
+  dimension_group: created {
+    type: duration
+    intervals: [day]
+    sql_start: ${created_date} ;;
+    sql_end: ${event_date} ;;
+  }
+
   dimension: event_date {
     #hidden: yes
     type: date

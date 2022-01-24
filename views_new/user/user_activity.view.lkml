@@ -28,21 +28,23 @@ view: user_activity {
   dimension_group: activity {
     type: time
     timeframes: [
-      date,
-      hour_of_day,
-      month,
-      quarter,
-      year
+      date
+      ,hour_of_day
+      ,week
+      ,month
+      ,quarter
+      ,year
     ]
   }
   dimension_group: activity_pst {
     datatype: datetime
     type: time
     timeframes: [
-      date,
-      month,
-      quarter,
-      year
+      date
+      ,week
+      ,month
+      ,quarter
+      ,year
     ]
   }
   dimension: days_since_created {

@@ -134,7 +134,9 @@ view: round_end {
       raw
       ,time
       ,date
+      ,week
       ,month
+      ,quarter
       ,year
     ]
   }

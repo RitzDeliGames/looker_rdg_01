@@ -71,6 +71,12 @@ view: rounds_per_day_per_player {
     percentile: 97.5
     sql: ${round_end_count} ;;
   }
+
+  measure: cumulative_rounds {
+    type: running_total
+    sql: ${total_round_count} ;;
+  }
+
   measure: total_round_count {
     type: sum
     sql: ${round_end_count} ;;

@@ -40,6 +40,11 @@ view: sessions_per_day_per_player {
     #hidden: yes
   }
 
+  measure: cumulative_sessions {
+    type: running_total
+    sql: ${total_session_count} ;;
+  }
+
   measure: total_session_count {
     type: sum
     sql: ${session_count} ;;

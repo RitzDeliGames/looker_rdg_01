@@ -746,12 +746,12 @@ explore: cohort_analysis {
   join: sessions_per_day_per_player {
     type: left_outer
     relationship: many_to_many
-    sql_on: ${cohort_analysis.rdg_id} = ${sessions_per_day_per_player.rdg_id} ;;
+    sql_on: ${cohort_analysis.first_created_date} = ${sessions_per_day_per_player.created_date} ;;
   }
   join: rounds_per_day_per_player {
     type: left_outer
     relationship: many_to_many
-    sql_on: ${cohort_analysis.rdg_id} = ${rounds_per_day_per_player.rdg_id} ;;
+    sql_on: ${cohort_analysis.first_created_date} = ${rounds_per_day_per_player.created_date} ;;
   }
 
 }

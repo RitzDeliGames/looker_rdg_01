@@ -71,7 +71,7 @@ view: rounds_per_day_per_player {
     percentile: 97.5
     sql: ${round_end_count} ;;
   }
-  measure: total_session_count {
+  measure: total_round_count {
     type: sum
     sql: ${round_end_count} ;;
   }

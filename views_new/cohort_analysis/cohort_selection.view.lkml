@@ -57,6 +57,7 @@ view: cohort_selection {
   }
   measure: count {
     type: count
+    drill_fields: [rdg_id,first_created_date]
   }
   set: cohort_set {
     fields: [

@@ -48,6 +48,7 @@ view: sessions_per_day_per_player {
   measure: total_session_count {
     type: sum
     sql: ${session_count} ;;
+    drill_fields: [rdg_id,created_date,event_date]
   }
 
   measure: sessions_per_day_025 {

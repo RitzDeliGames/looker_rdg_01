@@ -54,6 +54,7 @@ view: cohort_selection {
   measure: count_users {
     type: count_distinct
     sql: ${rdg_id} ;;
+    drill_fields: [rdg_id,first_created_date]
   }
   measure: count {
     type: count

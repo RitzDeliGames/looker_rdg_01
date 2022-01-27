@@ -175,7 +175,7 @@ explore: system_value_aggregated {
 }
 
 explore: transactions {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} and ${transaction_date} >= ${created_date};;
   from: transactions_new
   join: user_retention {
     from: user_fact
@@ -223,7 +223,7 @@ explore: transactions {
 }
 
 explore: rewards {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} and ${reward_date} >= ${user_fact.created_date};;
   from: rewards
   join: user_fact {
     type: left_outer
@@ -236,36 +236,6 @@ explore: rewards {
     relationship: one_to_one
   }
 }
-
-# explore: economy {
-#   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list};;
-#   from: rewards_bingo_cards_and_gameplay
-#   join: user_fact {
-#     type: left_outer
-#     sql_on: ${economy.rdg_id} = ${user_fact.rdg_id} ;;
-#     relationship: many_to_one
-#   }
-#   join: user_last_event {
-#     type: left_outer
-#     sql_on: ${economy.rdg_id} = ${user_last_event.rdg_id} ;;
-#     relationship: one_to_one
-#   }
-  # always_filter: {
-  #   filters: [economy.dimension_date: "7 days"]
-  # }
-  # from: date_dimension
-  # join: rewards {
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${economy.dimension_date} = ${rewards.reward_date} ;;
-  # }
-
-  # join: transactions_new {
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${economy.dimension_date} = ${transactions_new.transaction_date} ;;
-  # }
-#}
 
 explore: in_app_messages {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
@@ -366,14 +336,6 @@ explore: temp_community_events_funnels {
     sql_on: ${temp_community_events_funnels.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
-  # join: transactions_new {
-  #   view_label: "Transactions"
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${temp_community_events_funnels.rdg_id} = ${transactions_new.rdg_id}
-  #     and ${community_events.card_id} = ${transactions_new.card_id}
-  #  ;;
-  #}
 }
 
 explore: churn_by_tile_by_attempt {
@@ -411,7 +373,7 @@ explore: churn_by_card {
 }
 
 explore: gameplay {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${event_date} >= ${user_fact.created_date};;
   from: round_end
   join: user_fact {
     type: left_outer

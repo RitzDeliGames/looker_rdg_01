@@ -11,6 +11,8 @@ view: singular_daily_user_attribution_export {
           ,singular_partner_name
           ,campaign_id
           ,campaign_name
+          ,creative_id
+          ,creative_name
         from `eraser-blast.singular.user_level_attributions`
         ;;
     datagroup_trigger: change_3_hrs
@@ -67,6 +69,6 @@ view: singular_daily_user_attribution_export {
     label: "Ad Network"
   }
   dimension: campaign_id {}
-  dimension: campaign_name{}
-
+  dimension: campaign_name {}
+  dimension: creative_name {}
  }

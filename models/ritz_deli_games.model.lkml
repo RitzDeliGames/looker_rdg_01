@@ -689,7 +689,8 @@ explore: click_sequence {
 }
 
 explore: cohort_analysis {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping}
+   and ${transactions_new.transaction_date} >= ${first_created_date} ;;
   from: cohort_selection
   join: transactions_new {
     type: left_outer

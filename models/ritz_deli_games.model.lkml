@@ -727,12 +727,13 @@ explore: click_sequence {
 }
 
 explore: cohort_analysis {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: cohort_selection
   join: transactions_new {
     type: left_outer
     relationship: many_to_many
-    sql_on: ${cohort_analysis.first_created_date} = ${transactions_new.created_date} ;;
+    sql_on: ${cohort_analysis.first_created_date} = ${transactions_new.created_date}
+        and ${cohort_analysis.rdg_id} = ${transactions_new.rdg_id};;
   }
   join: cohort_analysis_mixed_fields {
     view_label: "Currencies"
@@ -746,7 +747,8 @@ explore: cohort_analysis {
   join: sessions_per_day_per_player {
     type: left_outer
     relationship: many_to_many
-    sql_on: ${cohort_analysis.first_created_date} = ${sessions_per_day_per_player.created_date} ;;
+    sql_on: ${cohort_analysis.first_created_date} = ${sessions_per_day_per_player.created_date}
+        and ${cohort_analysis.rdg_id} = ${sessions_per_day_per_player.rdg_id};;
   }
   join: rounds_per_day_per_player {
     type: left_outer

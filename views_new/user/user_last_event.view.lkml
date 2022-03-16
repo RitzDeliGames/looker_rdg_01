@@ -100,17 +100,29 @@ view: user_last_event {
 
 
   ###EXPERIMENT IDS - LIVE###
-  dimension: extratime_20220301   {
+  dimension: tapToClear_20211206   {
     group_label: "Experiments - Live"
-    label: "More Time v3"
+    label: "TaptoClear v1"
     type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.extratime_20220301'),'unassigned') ;;
+    sql: nullif(json_extract_scalar(${experiments},'$.tapToClear_20211206'),'unassigned') ;;
   }
-  dimension: altPacing_20220301   {
+  dimension: pregame_20220105   {
     group_label: "Experiments - Live"
-    label: "Early Game Pacing v2"
+    label: "PregameUI v1"
     type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.altPacing_20220301'),'unassigned') ;;
+    sql: nullif(json_extract_scalar(${experiments},'$.pregame_20220105'),'unassigned') ;;
+  }
+  dimension: miniGameUI_20220216   {
+    group_label: "Experiments - Live"
+    label: "MinigameUI v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.miniGameUI_20220216'),'unassigned') ;;
+  }
+  dimension: zones_20220316   {
+    group_label: "Experiments - Live"
+    label: "Zones v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.zones_20220316'),'unassigned') ;;
   }
   dimension: gridMode_20211213   {
     group_label: "Experiments - Live"
@@ -118,14 +130,26 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.gridMode_20211213'),'unassigned') ;;
   }
+
+  ###EXPERIMENT IDS - CLOSED###
+  dimension: extratime_20220301   {
+    group_label: "Experiments - Closed"
+    label: "More Time v3"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.extratime_20220301'),'unassigned') ;;
+  }
+  dimension: altPacing_20220301   {
+    group_label: "Experiments - Closed"
+    label: "Early Game Pacing v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altPacing_20220301'),'unassigned') ;;
+  }
   dimension: directPlay_20211202   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Direct Play v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.directPlay_20211202'),'unassigned') ;;
   }
-
-  ###EXPERIMENT IDS - CLOSED###
   dimension: altPacing_20211123   {
     group_label: "Experiments - Closed"
     label: "Early Game Pacing - v1"

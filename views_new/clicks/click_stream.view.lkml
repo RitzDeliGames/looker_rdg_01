@@ -183,21 +183,27 @@ view: click_stream {
     sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.StorySkip_20211031'),'unassigned') ;;
   }
   dimension: altPacing_20211123   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Early Game Pacing - v1"
     type: string
     sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.altPacing_20211123'),'unassigned') ;;
   }
   dimension: gridMode_20211213   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Grid Mode - v1"
     type: string
     sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.gridMode_20211213'),'unassigned') ;;
   }
   dimension: directPlay_20211202   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Direct Play - v1"
     type: string
     sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.directPlay_20211202'),'unassigned') ;;
+  }
+  dimension: zones_20220316   {
+    group_label: "Experiments - Live"
+    label: "Zones v1"
+    type: string
+    sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.zones_20220316'),'unassigned') ;;
   }
 }

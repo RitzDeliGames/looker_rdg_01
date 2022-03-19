@@ -27,6 +27,7 @@ view: click_sequence {
       column: altPacing_20211123 {}
       column: gridMode_20211213 {}
       column: directPlay_20211202 {}
+      column: zones_20220316 {}
       derived_column: click_sequence_num {
         sql: row_number() over (partition by rdg_id order by event_time) ;;
       }
@@ -92,16 +93,20 @@ view: click_sequence {
     label: "Story - Skip v1"
   }
   dimension: altPacing_20211123   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Early Game Pacing - v1"
   }
   dimension: gridMode_20211213   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Grid Mode - v1"
   }
   dimension: directPlay_20211202   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Direct Play - v1"
+  }
+  dimension: zones_20220316   {
+    group_label: "Experiments - Live"
+    label: "Zones v1"
   }
   measure: count {
     type: count_distinct

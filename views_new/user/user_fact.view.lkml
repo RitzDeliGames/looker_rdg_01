@@ -45,10 +45,12 @@ view: user_fact {
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_max
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_max
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric)) currency_05_balance_max
+        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric)) currency_07_balance_max
         ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric)) currency_02_balance_min
         ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_min
         ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_min
         ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric)) currency_05_balance_min
+        ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric)) currency_07_balance_min
         ,max(cast(json_extract_scalar(tickets,"$.box_001") as numeric)) box_001_balance_max
         ,max(cast(json_extract_scalar(tickets,"$.box_002") as numeric)) box_002_balance_max
         ,max(cast(json_extract_scalar(tickets,"$.box_007") as numeric)) box_007_balance_max
@@ -630,11 +632,6 @@ view: user_fact {
     percentile: 97.5
     sql: ${currency_05_balance_max} ;;
   }
-  measure: first_created_date {
-    type: date
-    sql: cast(MIN(${created_date}) as timestamp) ;;
-    convert_tz: no
-  }
   dimension: currency_05_balance_min {
     type: number
     hidden: yes
@@ -673,6 +670,89 @@ view: user_fact {
     type: percentile
     percentile: 97.5
     sql: ${currency_05_balance_min} ;;
+  }
+  dimension: currency_07_balance_max {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.currency_05_balance_max ;;
+  }
+  measure: currency_07_balance_025 {
+    group_label: "Star Balance - Max"
+    label: "Max Daily Star Balance - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${currency_07_balance_max} ;;
+  }
+  measure: currency_07_balance_25 {
+    group_label: "Star Balance - Max"
+    label: "Max Daily Star Balance - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${currency_07_balance_max} ;;
+  }
+  measure: currency_07_balance_med {
+    group_label: "Star Balance - Max"
+    label: "Max Daily Star Balance - Median"
+    type: median
+    sql: ${currency_07_balance_max} ;;
+  }
+  measure: currency_07_balance_75 {
+    group_label: "Star Balance - Max"
+    label: "Max Daily Star Balance - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${currency_07_balance_max} ;;
+  }
+  measure: currency_07_balance_975 {
+    group_label: "Star Balance - Max"
+    label: "Max Daily Star Balance - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${currency_07_balance_max} ;;
+  }
+  dimension: currency_07_balance_min {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.currency_05_balance_min ;;
+  }
+  measure: currency_07_balance_025_min {
+    group_label: "Star Balance - Min"
+    label: "Min Daily Star Balance - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${currency_07_balance_min} ;;
+  }
+  measure: currency_07_balance_25_min {
+    group_label: "Star Balance - Min"
+    label: "Min Daily Star Balance - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${currency_07_balance_min} ;;
+  }
+  measure: currency_07_balance_med_min {
+    group_label: "Star Balance - Min"
+    label: "Min Daily Star Balance - Median"
+    type: median
+    sql: ${currency_07_balance_min} ;;
+  }
+  measure: currency_07_balance_75_min {
+    group_label: "Star Balance - Min"
+    label: "Min Daily Star Balance - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${currency_07_balance_min} ;;
+  }
+  measure: currency_07_balance_975_min {
+    group_label: "Star Balance - Min"
+    label: "Min Daily Star Balance - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${currency_07_balance_min} ;;
+  }
+  measure: first_created_date {
+    type: date
+    sql: cast(MIN(${created_date}) as timestamp) ;;
+    convert_tz: no
   }
   set: cohort_set {
     fields: [

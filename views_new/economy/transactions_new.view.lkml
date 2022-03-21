@@ -201,6 +201,15 @@ view: transactions_new {
     sql: if(${currency_spent} = 'CURRENCY_05',${currency_spent_amount}, 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
+  measure: star_spent_amount_sum {
+    group_label: "Star Spend"
+    label: "Total Stars Spent"
+    type: sum
+    value_format: "#,###"
+    sql: if(${currency_spent} = 'CURRENCY_07',${currency_spent_amount}, 0) ;;
+    drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
+  }
+
   measure: currency_spent_amount_sum {
     label: "Total Currency Spent"
     type: sum

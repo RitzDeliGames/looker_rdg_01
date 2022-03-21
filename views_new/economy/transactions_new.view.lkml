@@ -193,6 +193,11 @@ view: transactions_new {
     sql: if(${currency_spent} = 'CURRENCY_03',${currency_spent_amount}, 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
+  measure: cumulative_coins_spent {
+    type: running_total
+    sql: ${coin_spent_amount_sum} ;;
+    value_format: "#,###"
+  }
   measure: afh_token_spent_amount_sum {
     group_label: "AFH Token Spend"
     label: "Total AFH Spent"
@@ -200,6 +205,11 @@ view: transactions_new {
     value_format: "#,###"
     sql: if(${currency_spent} = 'CURRENCY_05',${currency_spent_amount}, 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
+  }
+  measure: cumulative_afh_token_spent {
+    type: running_total
+    sql: ${afh_token_spent_amount_sum} ;;
+    value_format: "#,###"
   }
   measure: star_spent_amount_sum {
     group_label: "Star Spend"
@@ -209,17 +219,17 @@ view: transactions_new {
     sql: if(${currency_spent} = 'CURRENCY_07',${currency_spent_amount}, 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
+  measure: cumulative_stars_spent {
+    type: running_total
+    sql: ${star_spent_amount_sum} ;;
+    value_format: "#,###"
+  }
   measure: currency_spent_amount_sum {
     label: "Total Currency Spent"
     type: sum
     value_format: "#,###"
     sql: if(${currency_spent} = 'CURRENCY_01',0,${currency_spent_amount}) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
-  }
-  measure: cumulative_coins_spent {
-    type: running_total
-    sql: ${coin_spent_amount_sum} ;;
-    value_format: "#,###"
   }
   measure: spender_count {
     label: "Unique Spenders"

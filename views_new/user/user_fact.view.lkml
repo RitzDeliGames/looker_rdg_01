@@ -674,7 +674,7 @@ view: user_fact {
   dimension: currency_07_balance_max {
     type: number
     hidden: yes
-    sql: ${TABLE}.currency_05_balance_max ;;
+    sql: ${TABLE}.currency_07_balance_max ;;
   }
   measure: currency_07_balance_025 {
     group_label: "Star Balance - Max"
@@ -713,7 +713,7 @@ view: user_fact {
   dimension: currency_07_balance_min {
     type: number
     hidden: yes
-    sql: ${TABLE}.currency_05_balance_min ;;
+    sql: ${TABLE}.currency_07_balance_min ;;
   }
   measure: currency_07_balance_025_min {
     group_label: "Star Balance - Min"

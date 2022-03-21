@@ -168,12 +168,13 @@ view: transactions_new {
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
   measure: cumulative_dollars_spent {
+    group_label: "Cumulative Spend"
     type: running_total
     sql: ${dollars_spent_amount_sum} ;;
     value_format_name: usd
   }
   measure: gem_spent_amount_sum {
-    group_label: "Gem Spend"
+    group_label: "Total Spend"
     label: "Total Gems Spent"
     type: sum
     value_format: "#,###"
@@ -181,12 +182,13 @@ view: transactions_new {
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
   measure: cumulative_gems_spent {
+    group_label: "Cumulative Spend"
     type: running_total
     sql: ${gem_spent_amount_sum} ;;
     value_format: "#,###"
   }
   measure: coin_spent_amount_sum {
-    group_label: "Coin Spend"
+    group_label: "Total Spend"
     label: "Total Coins Spent"
     type: sum
     value_format: "#,###"
@@ -194,12 +196,13 @@ view: transactions_new {
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
   measure: cumulative_coins_spent {
+    group_label: "Cumulative Spend"
     type: running_total
     sql: ${coin_spent_amount_sum} ;;
     value_format: "#,###"
   }
   measure: afh_token_spent_amount_sum {
-    group_label: "AFH Token Spend"
+    group_label: "Total Spend"
     label: "Total AFH Spent"
     type: sum
     value_format: "#,###"
@@ -207,12 +210,13 @@ view: transactions_new {
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
   measure: cumulative_afh_token_spent {
+    group_label: "Cumulative Spend"
     type: running_total
     sql: ${afh_token_spent_amount_sum} ;;
     value_format: "#,###"
   }
   measure: star_spent_amount_sum {
-    group_label: "Star Spend"
+    group_label: "Total Spend"
     label: "Total Stars Spent"
     type: sum
     value_format: "#,###"
@@ -220,12 +224,14 @@ view: transactions_new {
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
   measure: cumulative_stars_spent {
+    group_label: "Cumulative Spend"
     type: running_total
     sql: ${star_spent_amount_sum} ;;
     value_format: "#,###"
   }
   measure: currency_spent_amount_sum {
-    label: "Total Currency Spent"
+    group_label: "Total Spend"
+    label: "Total Dollars Spent"
     type: sum
     value_format: "#,###"
     sql: if(${currency_spent} = 'CURRENCY_01',0,${currency_spent_amount}) ;;

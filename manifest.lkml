@@ -1048,6 +1048,11 @@ constant: iap_id_strings_grouped {
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Eraser_LevelUp.Collect' then 'Store - Machine - Collect'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Gacha.Close.' then 'Store - Machine - Close'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Reward.Continue' then 'Store - Daily Reward - Collect'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_Success.Collect' then 'EoR - Collect Star'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_ZoneHome.Tasks' then 'Zones - Task List'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_ZoneHome.Play' then 'Zones - Play'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Tasks_Zones.Restore' then 'Zones - Task List - Restore'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame.PlayFromQuest' then 'PG - Play'
               else json_extract_scalar(extra_json,'$.button_tag')
             end"
   }

@@ -170,6 +170,7 @@ explore: user_card_completion {
 explore: system_value {
   hidden: no
 }
+
 explore: system_value_aggregated {
   hidden: yes
 }
@@ -493,6 +494,11 @@ explore: fps {
     sql_on: ${fps.rdg_id} = ${user_fact.rdg_id} ;;
     relationship: many_to_one
   }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${fps.rdg_id} = ${user_last_event.rdg_id} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: events {
@@ -507,6 +513,7 @@ explore: events {
       and ${events.rdg_id} = ${cards.rdg_id}
     ;;
     relationship: one_to_one
+
   }
   join: node_data {
     view_label: "Cards" ## to keep within cards grouping

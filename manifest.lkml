@@ -214,6 +214,7 @@ constant: release_version_major {
             when ${TABLE}.version like '11870'then '1.80'
             when ${TABLE}.version like '12100'then '2.10'
             when ${TABLE}.version like '12200'then '2.20'
+            when ${TABLE}.version like '12300'then '2.30'
           end"
 }
 
@@ -272,6 +273,7 @@ constant: install_release_version_major {
             when ${TABLE}.install_version like '11870' then '1.80'
             when ${TABLE}.install_version like '12100' then '2.10'
             when ${TABLE}.install_version like '12200' then '2.20'
+            when ${TABLE}.install_version like '12300' then '2.30'
           end"
 }
 
@@ -330,6 +332,7 @@ constant: release_version_minor {
             when ${TABLE}.version like '11870' then '1.11.870'
             when ${TABLE}.version like '12100' then '1.12.100'
             when ${TABLE}.version like '12200' then '1.12.200'
+            when ${TABLE}.version like '12300' then '1.12.300'
           end"
 }
 
@@ -388,6 +391,7 @@ constant: install_release_version_minor {
             when ${TABLE}.install_version like '11870' then '1.11.870'
             when ${TABLE}.install_version like '12100' then '1.12.100'
             when ${TABLE}.install_version like '12200' then '1.12.200'
+            when ${TABLE}.install_version like '12300' then '1.12.300'
           end"
 }
 

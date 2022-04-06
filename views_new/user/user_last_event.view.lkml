@@ -124,12 +124,6 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.miniGameUI_20220216'),'unassigned') ;;
   }
-  dimension: gridMode_20211213   {
-    group_label: "Experiments - Live"
-    label: "Grid Mode v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.gridMode_20211213'),'unassigned') ;;
-  }
 
   ###EXPERIMENT IDS - CLOSED###
   dimension: zones_20220316   {
@@ -137,6 +131,12 @@ view: user_last_event {
     label: "Zones v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.zones_20220316'),'unassigned') ;;
+  }
+  dimension: gridMode_20211213   {
+    group_label: "Experiments - Closed"
+    label: "Grid Mode v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.gridMode_20211213'),'unassigned') ;;
   }
   dimension: extratime_20220301   {
     group_label: "Experiments - Closed"

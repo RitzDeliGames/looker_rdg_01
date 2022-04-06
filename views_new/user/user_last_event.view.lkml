@@ -100,6 +100,12 @@ view: user_last_event {
 
 
   ###EXPERIMENT IDS - LIVE###
+  dimension: zones_20220329   {
+    group_label: "Experiments - Live"
+    label: "Zones v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.zones_20220329'),'unassigned') ;;
+  }
   dimension: tapToClear_20211206   {
     group_label: "Experiments - Live"
     label: "TaptoClear v1"
@@ -118,12 +124,6 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.miniGameUI_20220216'),'unassigned') ;;
   }
-  dimension: zones_20220316   {
-    group_label: "Experiments - Live"
-    label: "Zones v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.zones_20220316'),'unassigned') ;;
-  }
   dimension: gridMode_20211213   {
     group_label: "Experiments - Live"
     label: "Grid Mode v1"
@@ -132,6 +132,12 @@ view: user_last_event {
   }
 
   ###EXPERIMENT IDS - CLOSED###
+  dimension: zones_20220316   {
+    group_label: "Experiments - Closed"
+    label: "Zones v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.zones_20220316'),'unassigned') ;;
+  }
   dimension: extratime_20220301   {
     group_label: "Experiments - Closed"
     label: "More Time v3"

@@ -377,7 +377,7 @@ view: user_fact {
     label: "Count of Players"
     type: count_distinct
     sql: ${rdg_id} ;;
-    drill_fields: [rdg_id, player_level_xp, created_date]
+    drill_fields: [rdg_id, created_date, churned]
   }
   measure: count_rows {
     type: count

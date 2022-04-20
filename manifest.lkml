@@ -950,6 +950,7 @@ constant: iap_id_strings_grouped {
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_BuyMoreTime_V4.Close' then 'MG - Buy More Time - Close'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_BuyExtra.Close' then 'MG - Buy More Time - Close'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BuyMoreTime.Close' then 'MG - Buy More Time - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_BuyExtra.Continue' then 'MG - Buy More Time - Continue'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_legacy.EndOfRound.Character' then 'EoR - Continue'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_legacy.TryAgain' then 'EoR - Try Again'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_legacy.Back' then 'EoR - Back'
@@ -1067,6 +1068,8 @@ constant: iap_id_strings_grouped {
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Tasks_NoStars.Close' then 'Zones - Task List - Insufficient Stars - Close'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame.Close' then 'PG - Close'
               when json_extract_scalar(extra_json,'$.button_tag') = 'SheetContainer.OverlayClose' then 'Close Sheet'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_InAppMessaging_RateUs.' then 'IAM - Rate Us'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_RequestHelp_Completed.HighFive' then 'AFH - Thank You'
               else json_extract_scalar(extra_json,'$.button_tag')
             end"
   }

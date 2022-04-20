@@ -964,6 +964,7 @@ constant: iap_id_strings_grouped {
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_Failure.TryAgain' then 'EoR - Fail - Try Again'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound.EndOfRound.Character' then 'EoR - Eraser Collected'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRoundReward_V3.Close' then 'EoR - Reward - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EndOfRound_Failure.GetHelp' then 'EoR - AFH - Ask for Help'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_EraserReward.Continue' then 'EoR - Reward - Continue'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_CollectHelpRequest.TryAgain' then 'EoR - AFH - Try Again'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_CollectHelpRequest.Back' then 'EoR - AFH - Back'
@@ -983,6 +984,7 @@ constant: iap_id_strings_grouped {
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Pause.Close' then 'MG - Pause - Close'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Pause_V2.Close' then 'MG - Pause - Close'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Pause_V2.OverlayClose' then 'MG - Pause - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Pause.OverlayClose' then 'MG - Pause - Close'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Pause_V2.Quit' then 'MG - Pause - Quit'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_QuitConfirm_V2.Close' then 'MG - Pause - Close'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Settings.Close' then 'Settings - Close'
@@ -1017,6 +1019,7 @@ constant: iap_id_strings_grouped {
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BingoQuestDetails_Legacy.PlayFromQuest' then 'PG - Play'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.PlayFromQuest' then 'PG - Play'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.EmptyTeam' then 'PG - Play (No Eraser Selected)'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame.EmptyTeam' then 'PG - Play (No Eraser Selected)'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.EraserSlot.' then 'PG - Play (No Eraser Selected)'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame_V3.Boosts' then 'PG - Open Boost Shop'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Panel_Boosts_V3.BoostUI.%' then 'PG - Equip Boost'
@@ -1069,6 +1072,7 @@ constant: iap_id_strings_grouped {
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_PreGame.Close' then 'PG - Close'
               when json_extract_scalar(extra_json,'$.button_tag') = 'SheetContainer.OverlayClose' then 'Close Sheet'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_InAppMessaging_RateUs.' then 'IAM - Rate Us'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_InAppMessaging_Survey.' then 'IAM - Survey'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_RequestHelp_Completed.HighFive' then 'AFH - Thank You'
               else json_extract_scalar(extra_json,'$.button_tag')
             end"

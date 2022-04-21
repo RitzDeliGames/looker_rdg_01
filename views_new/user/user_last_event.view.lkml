@@ -104,7 +104,7 @@ view: user_last_event {
     group_label: "Experiments - Live"
     label: "Zones v3"
     type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.zoneorder_20220412'),'unassigned') ;;
+    sql: nullif(json_extract_scalar(${experiments},'$.zoneorder_20220420'),'unassigned') ;;#note zoneorder_20220420 is correct experiment id, not zoneorder_20220412 but left it to avoid rebuilding the dashboard
   }
   dimension: tapToClear_20211206   {
     group_label: "Experiments - Live"

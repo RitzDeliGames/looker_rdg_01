@@ -991,6 +991,7 @@ constant: iap_id_strings_grouped {
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Pause_V2.OverlayClose' then 'MG - Pause - Close'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Pause.OverlayClose' then 'MG - Pause - Close'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Pause_V2.Quit' then 'MG - Pause - Quit'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Pause.Quit' then 'MG - Pause - Quit'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_QuitConfirm_V2.Close' then 'MG - Pause - Close'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Settings.Close' then 'Settings - Close'
               when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_Character_Dialogue%' then 'WM - Dialog'
@@ -1086,6 +1087,7 @@ constant: iap_id_strings_grouped {
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_RequestHelp_HighFive_Ack' then 'AFH - Welcome Back'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_InAppMessaging_NameChange.' then 'IAM - Set Username'
               when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Profile.Close' then 'Profile - Close'
+              when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_Collection.EraserSlot.' then 'Collection - Eraser'
               else json_extract_scalar(extra_json,'$.button_tag')
             end"
   }

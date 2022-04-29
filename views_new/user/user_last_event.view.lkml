@@ -102,7 +102,7 @@ view: user_last_event {
   ###EXPERIMENT IDS - LIVE###
   dimension: fullminigame_20220427   {
     group_label: "Experiments - Live"
-    label: "FullMinigame v1"
+    label: "Minigame v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.fullminigame_20220427'),'unassigned') ;;
   }

@@ -207,9 +207,15 @@ view: click_stream {
     sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.zones_20220316'),'unassigned') ;;
   }
   dimension: zones_20220329   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Zones v2"
     type: string
     sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.zones_20220329'),'unassigned') ;;
+  }
+  dimension: fullminigame_20220427   {
+    group_label: "Experiments - Live"
+    label: "Minigame v1"
+    type: string
+    sql: nullif(json_extract_scalar(${TABLE}.experiments,'$.fullminigame_20220427'),'unassigned') ;;
   }
 }

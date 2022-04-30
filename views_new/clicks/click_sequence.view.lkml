@@ -29,6 +29,7 @@ view: click_sequence {
       column: directPlay_20211202 {}
       column: zones_20220316 {}
       column: zones_20220329 {}
+      column: fullminigame_20220427 {}
       derived_column: click_sequence_num {
         sql: row_number() over (partition by rdg_id order by event_time) ;;
       }
@@ -110,8 +111,12 @@ view: click_sequence {
     label: "Zones v1"
   }
   dimension: zones_20220329   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Zones v2"
+  }
+  dimension: fullminigame_20220427 {
+    group_label: "Experiments - Live"
+    label: "Minigame v1"
   }
   measure: count {
     type: count_distinct

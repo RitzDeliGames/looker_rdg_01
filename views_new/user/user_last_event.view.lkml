@@ -100,11 +100,11 @@ view: user_last_event {
 
 
   ###EXPERIMENT IDS - LIVE###
-  dimension: fullminigame_20220427   {
+  dimension: fullminigame_20220517   {
     group_label: "Experiments - Live"
-    label: "Minigame v1"
+    label: "Minigame v2"
     type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.fullminigame_20220427'),'unassigned') ;;
+    sql: nullif(json_extract_scalar(${experiments},'$.fullminigame_20220517'),'unassigned') ;;
   }
   dimension: tapToClear_20211206   {
     group_label: "Experiments - Live"
@@ -126,6 +126,12 @@ view: user_last_event {
   }
 
   ###EXPERIMENT IDS - CLOSED###
+  dimension: fullminigame_20220427   {
+    group_label: "Experiments - Closed"
+    label: "Minigame v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.fullminigame_20220427'),'unassigned') ;;
+  }
   dimension: zoneorder_20220420   {
     group_label: "Experiments - Closed"
     label: "Zones v3"

@@ -732,6 +732,10 @@ explore: cohort_selection {
   hidden: yes
 }
 
+explore: powerup_used {
+  label: "temp power up used"
+}
+
 # EXPLORES ADDED FOR VIEWING INCLUDED DATA
 
 explore: sessions_per_day_per_player {}

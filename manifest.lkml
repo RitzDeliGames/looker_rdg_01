@@ -217,7 +217,8 @@ constant: release_version_minor {
             when ${TABLE}.version like '12300' then '1.12.300'
             when ${TABLE}.version like '12400' then '1.12.400'
             when ${TABLE}.version like '12500' then '1.12.500'
-            when ${TABLE}.version like '12612' then '1.12.612'
+            when ${TABLE}.version like '12612' then '1.12.600'
+            when ${TABLE}.version like '12700' then '1.12.700'
           end"
 }
 
@@ -279,7 +280,8 @@ constant: install_release_version_minor {
             when ${TABLE}.install_version like '12300' then '1.12.300'
             when ${TABLE}.install_version like '12400' then '1.12.400'
             when ${TABLE}.install_version like '12500' then '1.12.500'
-            when ${TABLE}.install_version like '12612' then '1.12.612'
+            when ${TABLE}.install_version like '12612' then '1.12.600'
+            when ${TABLE}.install_version like '12700' then '1.12.700'
           end"
 }
 

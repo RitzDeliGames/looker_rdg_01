@@ -25,6 +25,8 @@ view: user_fact {
         ,fa.platform
         ,fa.country
         ,hardware
+        --,json_extract_scalar(devices,"$.screenWidth") screen_width
+        --,json_extract_scalar(devices,"$.screenHeight") screen_height
         ,max(ltv) ltv
         ,min(created_at) created
         ,min(datetime(created_at,'US/Pacific')) created_pst
@@ -175,6 +177,18 @@ view: user_fact {
     type: string
     sql: ${TABLE}.hardware ;;
   }
+  # dimension: screen_width {
+  #   group_label: "Device & OS Dimensions"
+  #   label: "Screen Width"
+  #   type: string
+  #   sql: ${TABLE}.screen_width ;;
+  # }
+  # dimension: screen_height {
+  #   group_label: "Device & OS Dimensions"
+  #   label: "Screen Height"
+  #   type: string
+  #   sql: ${TABLE}.screen_height ;;
+  # }
   dimension: quests_completed {
     type: number
     hidden: no

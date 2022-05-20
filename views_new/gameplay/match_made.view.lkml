@@ -93,10 +93,6 @@ view: match_made {
     type: number
     sql: ${TABLE}.quests_completed ;;
   }
-  dimension: powerup_type {
-    type: string
-    sql: ${TABLE}.powerup_type ;;
-  }
   dimension: level {
     type: string
     sql: ${TABLE}.level ;;

@@ -25,8 +25,8 @@ view: user_fact {
         ,fa.platform
         ,fa.country
         ,hardware
-        --,json_extract_scalar(devices,"$.screenWidth") screen_width
-        --,json_extract_scalar(devices,"$.screenHeight") screen_height
+        ,(select string_agg(json_extract_scalar(device_array, '$.screenWidth'), ' ,') from unnest(json_extract_array(devices)) device_array) screen_width
+        ,(select string_agg(json_extract_scalar(device_array, '$.screenHeight'), ' ,') from unnest(json_extract_array(devices)) device_array) screen_height
         ,max(ltv) ltv
         ,min(created_at) created
         ,min(datetime(created_at,'US/Pacific')) created_pst
@@ -84,7 +84,7 @@ view: user_fact {
       and gde.country != 'ZZ'
       and coalesce(gde.install_version,'null') <> '-1'
       and fa.rn = 1
-      group by 1,2,3,4,5,6,7
+      group by 1,2,3,4,5,6,7,8,9
     ;;
 
     datagroup_trigger: change_8_hrs
@@ -177,18 +177,31 @@ view: user_fact {
     type: string
     sql: ${TABLE}.hardware ;;
   }
-  # dimension: screen_width {
-  #   group_label: "Device & OS Dimensions"
-  #   label: "Screen Width"
-  #   type: string
-  #   sql: ${TABLE}.screen_width ;;
-  # }
-  # dimension: screen_height {
-  #   group_label: "Device & OS Dimensions"
-  #   label: "Screen Height"
-  #   type: string
-  #   sql: ${TABLE}.screen_height ;;
-  # }
+  dimension: screen_width {
+    group_label: "Device & OS Dimensions"
+    label: "Screen Width"
+    type: string
+    sql: ${TABLE}.screen_width ;;
+  }
+  dimension: screen_height {
+    group_label: "Device & OS Dimensions"
+    label: "Screen Height"
+    type: string
+    sql: ${TABLE}.screen_height ;;
+  }
+  dimension: screen_height_x_width {
+    group_label: "Device & OS Dimensions"
+    label: "Screen Height x Width"
+    type: string
+    sql: concat(concat(${screen_height},'x'),${screen_width}) ;;
+  }
+  dimension: aspect_ratio {
+    group_label: "Device & OS Dimensions"
+    label: "Aspect Ratio"
+    type: number
+    value_format: "#.0"
+    sql: cast(${screen_height} as integer) / cast(${screen_width} as integer);;
+  }
   dimension: quests_completed {
     type: number
     hidden: no

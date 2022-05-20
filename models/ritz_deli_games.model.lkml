@@ -736,6 +736,10 @@ explore: powerup_used {
   label: "temp power up used"
 }
 
+explore: match_made {
+  label: "temp match made"
+}
+
 # EXPLORES ADDED FOR VIEWING INCLUDED DATA
 
 explore: sessions_per_day_per_player {}

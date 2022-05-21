@@ -732,12 +732,16 @@ explore: cohort_selection {
   hidden: yes
 }
 
-explore: powerup_used {
+explore: temp_powerup_used {
   label: "temp power up used"
 }
 
-explore: match_made {
+explore: temp_match_made {
   label: "temp match made"
+}
+
+explore: temp_churn_by_match_data {
+  label: "temp churn by match made"
 }
 
 # EXPLORES ADDED FOR VIEWING INCLUDED DATA

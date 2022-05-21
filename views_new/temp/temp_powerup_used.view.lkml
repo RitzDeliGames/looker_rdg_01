@@ -1,4 +1,4 @@
-view: match_made {
+view: temp_powerup_used {
   derived_table: {
     sql:
       select
@@ -9,11 +9,10 @@ view: match_made {
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
         ,cast(quests_completed as int64) quests_completed
-        ,json_extract_scalar(extra_json,'$.cleared') cleared
+        ,json_extract_scalar(extra_json,'$.powerup_type') powerup_type
         ,json_extract_scalar(extra_json,'$.level') level
         ,json_extract_scalar(extra_json,'$.objective_count_total') objective_count_total
         ,json_extract_scalar(extra_json,'$.objective_progress') objective_progress
-        ,json_extract_scalar(extra_json,'$.objective_Balloon_value') objective_Balloon_value
         ,json_extract_scalar(extra_json,'$.moves') moves
       from game_data.events
       where event_name = 'powerup_used'
@@ -24,12 +23,6 @@ view: match_made {
     datagroup_trigger: change_8_hrs
     publish_as_db_view: yes
   }
-  # "cleared":4,
-  # "level":"IntroLinkLevel03",
-  # "objective_count_total":24,
-  # "objective_progress":0,
-  # "moves":34,
-  # "objective_Balloon_value":24,
   dimension: primary_key {
     type: string
     sql: ${rdg_id} || '_' || '_' || ${event_time} ;;
@@ -92,6 +85,10 @@ view: match_made {
   dimension: quests_completed {
     type: number
     sql: ${TABLE}.quests_completed ;;
+  }
+  dimension: powerup_type {
+    type: string
+    sql: ${TABLE}.powerup_type ;;
   }
   dimension: level {
     type: string

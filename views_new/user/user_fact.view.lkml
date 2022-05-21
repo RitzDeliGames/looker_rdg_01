@@ -199,7 +199,7 @@ view: user_fact {
     group_label: "Device & OS Dimensions"
     label: "Aspect Ratio"
     type: number
-    value_format: "#.0"
+    value_format: "#.00"
     sql: cast(${screen_height} as integer) / cast(${screen_width} as integer);;
   }
   dimension: quests_completed {

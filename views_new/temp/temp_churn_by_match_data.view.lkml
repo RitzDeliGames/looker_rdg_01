@@ -21,11 +21,11 @@ view: temp_churn_by_match_data {
                       order by timestamp
                       rows between 1 preceding AND 1 following
                   ) as int64) as greater_quests_completed
+          ,experiments
         from `eraser-blast.game_data.events`
         where user_type = 'external'
           and event_name = 'match_made'
           and timestamp >= timestamp(current_date() - 7) --this needs to be changed
-          and json_extract_scalar(experiments,'$.fullminigame_20220517') = 'variant_c'  --this needs to be dynamic
         order by rdg_id, timestamp desc
       ;;}
 
@@ -121,6 +121,19 @@ view: temp_churn_by_match_data {
 
   dimension: timestamp {
     type: date_time
+  }
+
+  dimension: experiments {
+    type: string
+    sql: ${TABLE}.experiments ;;
+    hidden: yes
+  }
+
+  dimension: fullminigame_20220517   {
+    group_label: "Experiments - Live"
+    label: "Minigame v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.fullminigame_20220517'),'unassigned') ;;
   }
 
   measure: player_count {

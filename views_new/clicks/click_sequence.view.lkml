@@ -115,7 +115,7 @@ view: click_sequence {
     label: "Zones v2"
   }
   dimension: fullminigame_20220427 {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Minigame v1"
   }
   dimension: fullminigame_20220517 {

@@ -6,11 +6,11 @@ view: temp_churn_by_match_data {
     sql: select
           rdg_id
           ,timestamp
-          ,json_extract_scalar(extra_json,'$.cleared') tiles_cleared
-          ,json_extract_scalar(extra_json,'$.moves') moves_remaining
+          --,json_extract_scalar(extra_json,'$.cleared') tiles_cleared
+          ,cast(json_extract_scalar(extra_json,'$.moves') as int64) moves_remaining
           ,json_extract_scalar(extra_json,'$.objective_count_total') objective_count_total
           ,json_extract_scalar(extra_json,'$.objective_progress') objective_progress
-          ,json_extract_scalar(extra_json,'$.objective_Balloon_value') objective_Balloon_value
+          ,cast(json_extract_scalar(extra_json,'$.objective_Balloon_value') as int64) objective_balloon_value
           ,json_extract_scalar(extra_json,'$.level') level
           ,current_card
           ,current_quest
@@ -37,7 +37,7 @@ view: temp_churn_by_match_data {
 
   dimension: churn {
     type: string
-    sql: if(quests_completed < greater_quests_completed,'advanced_to_next_tile','still_on_current_tile') ;;
+    sql: if(quests_completed < greater_quests_completed,'still_on_current_tile','advanced_to_next_tile') ;;
   }
 
   dimension: current_card {
@@ -55,12 +55,12 @@ view: temp_churn_by_match_data {
     type: number
   }
 
-  dimension: tiles_cleared {
-    type: string
-  }
+  # dimension: tiles_cleared {
+  #   type: string
+  # }
 
   dimension: moves_remaining {
-    type: string
+    type: number
   }
 
   dimension: objective_count_total {
@@ -72,8 +72,8 @@ view: temp_churn_by_match_data {
     value_format: "#%"
   }
 
-  dimension:  objective_Balloon_value {
-    type: string
+  dimension:  objective_balloon_value {
+    type: number
   }
 
   dimension: level {
@@ -141,5 +141,4 @@ view: temp_churn_by_match_data {
     sql: ${rdg_id} ;;
     drill_fields: [rdg_id,current_card,current_quest,quests_completed,greater_quests_completed]
   }
-
 }

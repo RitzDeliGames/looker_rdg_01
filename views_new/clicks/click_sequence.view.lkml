@@ -30,6 +30,7 @@ view: click_sequence {
       column: zones_20220316 {}
       column: zones_20220329 {}
       column: fullminigame_20220427 {}
+      column: fullminigame_20220517 {}
       derived_column: click_sequence_num {
         sql: row_number() over (partition by rdg_id order by event_time) ;;
       }

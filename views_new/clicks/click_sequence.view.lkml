@@ -118,6 +118,10 @@ view: click_sequence {
     group_label: "Experiments - Live"
     label: "Minigame v1"
   }
+  dimension: fullminigame_20220517 {
+    group_label: "Experiments - Live"
+    label: "Minigame v2"
+  }
   measure: count {
     type: count_distinct
     sql: ${rdg_id} ;;

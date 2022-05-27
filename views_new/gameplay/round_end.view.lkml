@@ -44,13 +44,6 @@ view: round_end {
         ,array_length(case when json_value(extra_json, '$.bubble_instant_fever') = "" then null else split(json_value(extra_json, '$.bubble_instant_fever'),',') end) bubbles_popped_instant_fever
         ,cast(json_extract_scalar(extra_json,'$.skill_available') as int64) skill_available
         ,cast(json_extract_scalar(extra_json,'$.skill_used') as int64) skill_used
-        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_001") as int64) boxes_popped
-        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_027") as int64) smog_spawing_popped
-        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_028") as int64) smog_fixed_8_popped
-        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_038") as int64) smog_fixed_enclosed_popped
-        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_039") as int64) smog_spawning_enclosed_popped
-        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_040") as int64) smog_fixed_gaps_popped
-        ,cast(json_extract(json_extract(extra_json,"$.elements"),"$.element_041") as int64) smog_spawing_gaps_popped
     from game_data.events
    where event_name = 'round_end'
      and timestamp >= '2019-01-01'
@@ -714,110 +707,6 @@ view: round_end {
     percentile: 97.5
     sql: ${bubbles_popped_all} ;;
   }
-  dimension: boxes_popped {
-    group_label: "Elements"
-    label: "Boxes"
-    type: number
-  }
-  measure: boxes_popped_all_025 {
-    group_label: "Boxes Popped"
-    label: "Boxes Popped - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${boxes_popped} ;;
-  }
-  measure: boxes_popped_all_25 {
-    group_label: "Boxes Popped"
-    label: "Boxes Popped - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${boxes_popped} ;;
-  }
-  measure: boxes_popped_all_med {
-    group_label: "Boxes Popped"
-    label: "Boxes Popped - Median"
-    type: median
-    sql: ${boxes_popped} ;;
-  }
-  measure: boxes_popped_all_75 {
-    group_label: "Boxes Popped"
-    label: "Boxes Popped - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${boxes_popped} ;;
-  }
-  measure: boxes_popped_all_975 {
-    group_label: "Boxes Popped"
-    label: "Boxes Popped - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${boxes_popped} ;;
-  }
-  dimension: smog_spawing_popped {
-    hidden: yes
-    type: number
-  }
-  dimension: smog_fixed_8_popped {
-    hidden: yes
-    type: number
-  }
-  dimension: smog_fixed_enclosed_popped {
-    hidden: yes
-    type: number
-  }
-  dimension: smog_spawning_enclosed_popped {
-    hidden: yes
-    type: number
-  }
-  dimension: smog_fixed_gaps_popped {
-    hidden: yes
-    type: number
-  }
-  dimension: smog_spawing_gaps_popped {
-    hidden: yes
-    type: number
-  }
-  dimension: smog_popped {
-    group_label: "Elements"
-    label: "Smog"
-    type: number
-    sql:  ${smog_spawing_popped};;
-  }
-  measure: smog_popped_all_025 {
-    group_label: "Smog Popped"
-    label: "Smog Popped - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${smog_popped} ;;
-  }
-  measure: smog_popped_all_25 {
-    group_label: "Smog Popped"
-    label: "Smog Popped - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${smog_popped} ;;
-  }
-  measure: smog_popped_all_med {
-    group_label: "Smog Popped"
-    label: "Smog Popped - Median"
-    type: median
-    sql: ${smog_popped} ;;
-  }
-  measure: smog_popped_all_75 {
-    group_label: "Smog Popped"
-    label: "Smog Popped - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${smog_popped} ;;
-  }
-  measure: smog_popped_all_975 {
-    group_label: "Smog Popped"
-    label: "Smog Popped - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${smog_popped} ;;
-  }
-
   dimension: all_chains {
     type: string
     sql: ${TABLE}.all_chains ;; #TAKE THE AVERAGE OR MEDIAN

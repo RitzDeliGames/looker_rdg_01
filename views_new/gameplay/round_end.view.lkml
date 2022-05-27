@@ -18,14 +18,12 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.team_slot_level_0') as int64) primary_team_slot_level
         ,cast(json_extract_scalar(extra_json,'$.score_boost') as int64) score_boost
         ,cast(json_extract_scalar(extra_json,'$.coin_boost') as int64) coin_boost
-        ,cast(json_extract_scalar(extra_json,'$.exp_boost') as int64) exp_boost
         ,cast(json_extract_scalar(extra_json,'$.time_boost') as int64) time_boost
         ,cast(json_extract_scalar(extra_json,'$.bubble_boost') as int64) bubble_boost
         ,cast(json_extract_scalar(extra_json,'$.five_to_four_boost') as int64) five_to_four_boost
         ,cast(json_extract_scalar(extra_json,'$.score_earned') as int64) score_earned
         ,cast(json_extract_scalar(extra_json,'$.fever_count') as int64) fever_count
         ,cast(json_extract_scalar(extra_json,'$.time_added') as boolean) time_added
-        ,cast(json_extract_scalar(extra_json,'$.xp_earned') as int64) xp_earned
         ,cast(json_extract_scalar(extra_json,'$.coins_earned') as int64) coins_earned
         ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
         ,cast(json_extract_scalar(extra_json,'$.round_length') as int64) round_length
@@ -35,7 +33,6 @@ view: round_end {
         ,json_extract_scalar(extra_json,'$.all_chains') unnest_all_chains
         ,array_length(case when json_value(extra_json, '$.bubble_normal') = "" then null else split(json_value(extra_json, '$.bubble_normal'),',') end) bubbles_popped_normal
         ,array_length(case when json_value(extra_json, '$.bubble_coins') = "" then null else split(json_value(extra_json, '$.bubble_coins'),',') end) bubbles_popped_coins
-        ,array_length(case when json_value(extra_json, '$.bubble_xp') = "" then null else split(json_value(extra_json, '$.bubble_xp'),',') end) bubbles_popped_xp
         ,array_length(case when json_value(extra_json, '$.bubble_time') = "" then null else split(json_value(extra_json, '$.bubble_time'),',') end) bubbles_popped_add_time
         ,array_length(case when json_value(extra_json, '$.bubble_score') = "" then null else split(json_value(extra_json, '$.bubble_score'),',') end) bubbles_popped_score
         ,array_length(case when json_value(extra_json, '$.bubble_h_burst') = "" then null else split(json_value(extra_json, '$.bubble_h_burst'),',') end) bubbles_popped_h_burst
@@ -248,17 +245,6 @@ view: round_end {
     label: "Coin Boost"
     sql: if(${TABLE}.coin_boost>0,"yes","no") ;;
   }
-  dimension: exp_boost {
-    group_label: "Boost Impact"
-    label: "XP Boost"
-    type: number
-    sql: ${TABLE}.exp_boost ;;
-  }
-  dimension: exp_boost_used {
-    group_label: "Boosts Used"
-    label: "XP Boost"
-    sql: if(${TABLE}.exp_boost>0,"yes","no") ;;
-  }
   dimension: time_boost {
     group_label: "Boost Impact"
     label: "Time Boost"
@@ -409,44 +395,6 @@ view: round_end {
     type: percentile
     percentile: 97.5
     sql: ${fever_count} ;;
-  }
-  dimension: xp_earned {
-    type: number
-    sql: ${TABLE}.xp_earned ;;
-  }
-  measure: xp_earned_025 {
-    group_label: "XP Earned"
-    label: "XP Earned - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${xp_earned} ;;
-  }
-  measure: xp_earned_25 {
-    group_label: "XP Earned"
-    label: "XP Earned - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${xp_earned} ;;
-  }
-  measure: xp_earned_50 {
-    group_label: "XP Earned"
-    label: "XP Earned - Median"
-    type: median
-    sql: ${xp_earned} ;;
-  }
-  measure: xp_earned_75 {
-    group_label: "XP Earned"
-    label: "XP Earned - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${xp_earned} ;;
-  }
-  measure: xp_earned_975 {
-    group_label: "XP Earned"
-    label: "XP Earned - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${xp_earned} ;;
   }
   dimension: total_chains {
     type: number
@@ -726,12 +674,6 @@ view: round_end {
     type: number
     sql: if( ${TABLE}.bubbles_popped_score is null, 0, ${TABLE}.bubbles_popped_score ) ;;
   }
-  dimension: bubbles_popped_xp {
-    group_label: "Bubbles"
-    label: "XP"
-    type: number
-    sql: if( ${TABLE}.bubbles_popped_xp is null, 0, ${TABLE}.bubbles_popped_xp ) ;;
-  }
   dimension: bubbles_popped_add_time {
     group_label: "Bubbles"
     label: "Time"
@@ -784,7 +726,7 @@ view: round_end {
     group_label: "Bubbles"
     label: "All"
     type: number
-    sql: ${bubbles_popped_normal} + ${bubbles_popped_coins} + ${bubbles_popped_xp} + ${bubbles_popped_score} + ${bubbles_popped_add_time} + ${bubbles_popped_h_burst} + ${bubbles_popped_v_burst} + ${bubbles_popped_x_burst} + ${bubbles_popped_multi_burst} + ${bubbles_popped_convert_random} + ${bubbles_popped_instant_fever} + ${bubbles_popped_stop_time} ;;
+    sql: ${bubbles_popped_normal} + ${bubbles_popped_coins} + ${bubbles_popped_score} + ${bubbles_popped_add_time} + ${bubbles_popped_h_burst} + ${bubbles_popped_v_burst} + ${bubbles_popped_x_burst} + ${bubbles_popped_multi_burst} + ${bubbles_popped_convert_random} + ${bubbles_popped_instant_fever} + ${bubbles_popped_stop_time} ;;
   }
   measure: bubbles_popped_all_025 {
     group_label: "Bubbles Popped"

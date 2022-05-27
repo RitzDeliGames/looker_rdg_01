@@ -41,7 +41,6 @@ view: user_fact {
         ,max(install_version) install_version
         ,max(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) config_timestamp
         ,min(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) install_config_timestamp
-        ,max(player_level_xp) player_level_xp
         ,max(days_played_past_week) days_played_past_week
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric)) currency_02_balance_max
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_max
@@ -61,7 +60,6 @@ view: user_fact {
         ,max(cast(json_extract_scalar(tickets,"$.FIVE_TO_FOUR") as numeric)) five_to_four_boost_balance_max
         ,max(cast(json_extract_scalar(tickets,"$.BUBBLE") as numeric)) bubble_boost_balance_max
         ,max(cast(json_extract_scalar(tickets,"$.SCORE") as numeric)) score_boost_balance_max
-        ,max(cast(json_extract_scalar(tickets,"$.EXP") as numeric)) xp_boost_balance_max
         ,max(cast(json_extract_scalar(tickets,"$.SKILL") as numeric)) skill_ticket_balance_max
         ,max(cast(json_extract_scalar(tickets,"$.LEVEL") as numeric)) level_ticket_balance_max
         ,min(cast(json_extract_scalar(tickets,"$.box_001") as numeric)) box_001_balance_min
@@ -72,7 +70,6 @@ view: user_fact {
         ,min(cast(json_extract_scalar(tickets,"$.FIVE_TO_FOUR") as numeric)) five_to_four_boost_balance_min
         ,min(cast(json_extract_scalar(tickets,"$.BUBBLE") as numeric)) bubble_boost_balance_min
         ,min(cast(json_extract_scalar(tickets,"$.SCORE") as numeric)) score_boost_balance_min
-        ,min(cast(json_extract_scalar(tickets,"$.EXP") as numeric)) xp_boost_balance_min
         ,min(cast(json_extract_scalar(tickets,"$.SKILL") as numeric)) skill_ticket_balance_min
         ,min(cast(json_extract_scalar(tickets,"$.LEVEL") as numeric)) level_ticket_balance_min
 
@@ -345,60 +342,6 @@ view: user_fact {
     type: number
     value_format: "0"
     sql: ${TABLE}.install_config_timestamp;;
-  }
-  dimension: player_level_xp {
-    group_label: "XP Dimensions"
-    label: "Player XP (Raw)"
-    type: number
-    sql: ${TABLE}.player_level_xp ;;
-  }
-  dimension: player_xp {
-    group_label: "XP Dimensions"
-    label: "Player XP"
-    type: number
-    sql: trunc(${player_level_xp}) ;;
-  }
-  dimension: player_level_xp_tiers {
-    group_label: "XP Dimensions"
-    label: "Player XP Tiers"
-    type: tier
-    style: integer
-    tiers: [0,1,2,3,4,5,10,15,20,30,40,50,60,70,80,90,100]
-    sql: ${player_xp} ;;        # Shouldn't be player_level_xp?
-  }
-  measure: player_level_xp_025 {
-    group_label: "Player XP"
-    label: "Player XP - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${player_level_xp} ;;
-  }
-  measure: player_level_xp_25 {
-    group_label: "Player XP"
-    label: "Player XP - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${player_level_xp} ;;
-  }
-  measure: player_level_xp_med {
-    group_label: "Player XP"
-    label: "Player XP - Median"
-    type: median
-    sql: ${player_level_xp} ;;
-  }
-  measure: player_level_xp_75 {
-    group_label: "Player XP"
-    label: "Player XP - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${player_level_xp} ;;
-  }
-  measure: player_level_xp_975 {
-    group_label: "Player XP"
-    label: "Player XP - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${player_level_xp} ;;
   }
   measure: count {
     label: "Count of Players"

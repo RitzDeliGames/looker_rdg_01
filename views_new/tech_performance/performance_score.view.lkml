@@ -35,6 +35,20 @@ view: performance_score {
   dimension: rendering_performance_score {
     type: number
   }
+  dimension: rendering_performance_score_interval_05 {
+    label: "Rendering Performance Score - 5 Unit Tiers"
+    type: tier
+    tiers: [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100]
+    style: integer
+    sql: ${rendering_performance_score} ;;
+  }
+  dimension: rendering_performance_score_interval_10 {
+    label: "Rendering Performance Score - 10 Unit Tiers"
+    type: tier
+    tiers: [0,10,20,30,40,50,60,70,80,90,100]
+    style: integer
+    sql: ${rendering_performance_score} ;;
+  }
   measure: count {
     label: "Count of Players"
     type: count_distinct

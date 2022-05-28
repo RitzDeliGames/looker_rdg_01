@@ -104,6 +104,12 @@ explore: user_retention {
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${loading_times.rdg_id} ;;
   }
+  join: performance_score {
+    view_label: "Performance Score"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${user_retention.rdg_id} = ${performance_score.rdg_id} ;;
+  }
   join: click_stream {
     view_label: "Click Stream"
     type: left_outer
@@ -116,28 +122,10 @@ explore: user_retention {
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${fue_funnels.rdg_id} ;;
   }
-  # join: new_afh {
-  #   view_label: "Ask for Help"
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${user_retention.rdg_id} = ${new_afh.rdg_id} ;;
-  # }
-  # join: id_helper_provider {
-  #   from: id_helper
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${new_afh.providing_player_id} = ${id_helper_provider.user_id} ;;
-  # }
-  # join: id_helper_requestor {
-  #   from: id_helper
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${new_afh.requesting_player_id} = ${id_helper_requestor.user_id} ;;
-  # }
 }
 
 explore: user_card_completion {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  sql_always_where: ${rdg_id} not in @{dev @{device_internal_tester_mapping};;
   label: "Card Completion (User)"
   from: user_card
   join: user_fact {

@@ -125,7 +125,7 @@ explore: user_retention {
 }
 
 explore: user_card_completion {
-  sql_always_where: ${rdg_id} not in @{dev @{device_internal_tester_mapping};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   label: "Card Completion (User)"
   from: user_card
   join: user_fact {

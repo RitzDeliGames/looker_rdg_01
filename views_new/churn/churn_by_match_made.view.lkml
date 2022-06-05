@@ -1,4 +1,4 @@
-view: temp_match_made {
+view: churn_by_match_made {
   derived_table: {
     sql:
       select

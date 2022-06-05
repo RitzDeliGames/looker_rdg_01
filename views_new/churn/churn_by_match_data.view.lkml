@@ -1,6 +1,6 @@
 ## WORK IN PROGRESS
 
-view: temp_churn_by_match_data {
+view: churn_by_match_data {
   derived_table: {
     #datagroup_trigger: change_at_midnight
     sql: select
@@ -25,7 +25,7 @@ view: temp_churn_by_match_data {
         from `eraser-blast.game_data.events`
         where user_type = 'external'
           and event_name = 'match_made'
-          and timestamp >= timestamp(current_date() - 7) --this needs to be changed
+          and timestamp >= timestamp(current_date() - 90) --this needs to be changed
         order by rdg_id, timestamp desc
       ;;}
 
@@ -37,7 +37,7 @@ view: temp_churn_by_match_data {
 
   dimension: churn {
     type: string
-    sql: if(quests_completed < greater_quests_completed,'still_on_current_tile','advanced_to_next_tile') ;;
+    sql: if(${TABLE}.quests_completed < ${TABLE}.greater_quests_completed,'still_on_current_tile','advanced_to_next_tile') ;;
   }
 
   dimension: current_card {

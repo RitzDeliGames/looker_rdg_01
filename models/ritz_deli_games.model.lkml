@@ -525,6 +525,28 @@ explore: events {
   }
 }
 
+
+explore: churn_by_match_made {
+  label: "Match Made"
+  hidden: yes
+}
+
+explore: churn_by_match_data {
+  label: "Churn by Matches Made"
+  sql_always_where: ${churn_by_match_data.rdg_id} not in @{device_internal_tester_mapping};;
+  #view_label: "temp churn by tile"
+  join: user_fact {
+    type: left_outer
+    sql_on: ${churn_by_match_data.rdg_id} = ${user_fact.rdg_id} ;;
+    relationship: many_to_one
+  }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${churn_by_match_data.rdg_id} = ${user_last_event.rdg_id} ;;
+    relationship: many_to_one
+  }
+}
+
 explore: churn_card_data {
   from: churn_card_data
   always_filter: {
@@ -723,15 +745,6 @@ explore: cohort_selection {
 explore: temp_powerup_used {
   label: "temp power up used"
 }
-
-explore: temp_match_made {
-  label: "temp match made"
-}
-
-explore: temp_churn_by_match_data {
-  label: "temp churn by match made"
-}
-
 # EXPLORES ADDED FOR VIEWING INCLUDED DATA
 
 explore: sessions_per_day_per_player {}

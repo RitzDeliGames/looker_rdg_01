@@ -625,13 +625,20 @@ view: round_end {
   }
   dimension: matches_per_second {
     type: number
+    value_format: "#.00"
     sql: ${total_chains} / ${round_length_num};;
+  }
+  dimension: seconds_per_match {
+    type: number
+    value_format: "#.00"
+    sql: ${round_length_num} / ${total_chains};;
   }
   measure: matches_per_second_025 {
     group_label: "Matches per Second"
     label: "Matches per Second - 2.5%"
     type: percentile
     percentile: 2.5
+    value_format: "#.00"
     sql: ${matches_per_second} ;;
   }
   measure: matches_per_second_25 {
@@ -639,12 +646,14 @@ view: round_end {
     label: "Matches per Second - 25%"
     type: percentile
     percentile: 25
+    value_format: "#.00"
     sql: ${matches_per_second} ;;
   }
   measure: matches_per_second_med {
     group_label: "Matches per Second"
     label: "Matches per Second - Median"
     type: median
+    value_format: "#.00"
     sql: ${matches_per_second} ;;
   }
   measure: matches_per_second_75 {
@@ -652,6 +661,7 @@ view: round_end {
     label: "Matches per Second - 75%"
     type: percentile
     percentile: 75
+    value_format: "#.00"
     sql: ${matches_per_second} ;;
   }
   measure: matches_per_second_975 {
@@ -659,8 +669,47 @@ view: round_end {
     label: "Matches per Second - 97.5%"
     type: percentile
     percentile: 97.5
+    value_format: "#.00"
     sql: ${matches_per_second} ;;
   }
-
+  measure: seconds_per_matches_025 {
+    group_label: "Seconds per Match"
+    label: "Seconds per Match - 2.5%"
+    type: percentile
+    percentile: 2.5
+    value_format: "#.00"
+    sql: ${seconds_per_match} ;;
+  }
+  measure: seconds_per_matches_25 {
+    group_label: "Seconds per Match"
+    label: "Seconds per Match - 25%"
+    type: percentile
+    percentile: 25
+    value_format: "#.00"
+    sql: ${seconds_per_match} ;;
+  }
+  measure: seconds_per_matches_med {
+    group_label: "Seconds per Match"
+    label: "Seconds per Match - Median"
+    type: median
+    value_format: "#.00"
+    sql: ${seconds_per_match} ;;
+  }
+  measure: seconds_per_matches_75 {
+    group_label: "Seconds per Match"
+    label: "Seconds per Match - 75%"
+    type: percentile
+    percentile: 75
+    value_format: "#.00"
+    sql: ${seconds_per_match} ;;
+  }
+  measure: seconds_per_matches_975 {
+    group_label: "Seconds per Match"
+    label: "Seconds per Match - 97.5%"
+    type: percentile
+    percentile: 97.5
+    value_format: "#.00"
+    sql: ${seconds_per_match} ;;
+  }
   drill_fields: [proximity_to_completion,rdg_id,current_card_numbered]
 }

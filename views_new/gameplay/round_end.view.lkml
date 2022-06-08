@@ -623,7 +623,44 @@ view: round_end {
     percentile: 97.5
     sql: ${round_length_num} ;;
   }
-
+  dimension: matches_per_second {
+    type: number
+    sql: ${total_chains} / ${round_length_num};;
+  }
+  measure: matches_per_second_025 {
+    group_label: "Matches per Second"
+    label: "Matches per Second - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${matches_per_second} ;;
+  }
+  measure: matches_per_second_25 {
+    group_label: "Matches per Second"
+    label: "Matches per Second - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${matches_per_second} ;;
+  }
+  measure: matches_per_second_med {
+    group_label: "Matches per Second"
+    label: "Matches per Second - Median"
+    type: median
+    sql: ${matches_per_second} ;;
+  }
+  measure: matches_per_second_75 {
+    group_label: "Matches per Second"
+    label: "Matches per Second - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${matches_per_second} ;;
+  }
+  measure: matches_per_second_975 {
+    group_label: "Matches per Second"
+    label: "Matches per Second - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${matches_per_second} ;;
+  }
 
   drill_fields: [proximity_to_completion,rdg_id,current_card_numbered]
 }

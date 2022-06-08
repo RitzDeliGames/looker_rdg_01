@@ -22,7 +22,6 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.bubble_boost') as int64) bubble_boost
         ,cast(json_extract_scalar(extra_json,'$.five_to_four_boost') as int64) five_to_four_boost
         ,cast(json_extract_scalar(extra_json,'$.score_earned') as int64) score_earned
-        ,cast(json_extract_scalar(extra_json,'$.fever_count') as int64) fever_count
         ,cast(json_extract_scalar(extra_json,'$.time_added') as boolean) time_added
         ,cast(json_extract_scalar(extra_json,'$.coins_earned') as int64) coins_earned
         ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
@@ -31,17 +30,6 @@ view: round_end {
         --,cast(json_extract_scalar(extra_json,'$.requirement_amount') as int64) requirement_amount
         ,json_extract(extra_json,'$.all_chains') all_chains
         ,json_extract_scalar(extra_json,'$.all_chains') unnest_all_chains
-        ,array_length(case when json_value(extra_json, '$.bubble_normal') = "" then null else split(json_value(extra_json, '$.bubble_normal'),',') end) bubbles_popped_normal
-        ,array_length(case when json_value(extra_json, '$.bubble_coins') = "" then null else split(json_value(extra_json, '$.bubble_coins'),',') end) bubbles_popped_coins
-        ,array_length(case when json_value(extra_json, '$.bubble_time') = "" then null else split(json_value(extra_json, '$.bubble_time'),',') end) bubbles_popped_add_time
-        ,array_length(case when json_value(extra_json, '$.bubble_score') = "" then null else split(json_value(extra_json, '$.bubble_score'),',') end) bubbles_popped_score
-        ,array_length(case when json_value(extra_json, '$.bubble_h_burst') = "" then null else split(json_value(extra_json, '$.bubble_h_burst'),',') end) bubbles_popped_h_burst
-        ,array_length(case when json_value(extra_json, '$.bubble_v_burst') = "" then null else split(json_value(extra_json, '$.bubble_v_burst'),',') end) bubbles_popped_v_burst
-        ,array_length(case when json_value(extra_json, '$.bubble_x_burst') = "" then null else split(json_value(extra_json, '$.bubble_x_burst'),',') end) bubbles_popped_x_burst
-        ,array_length(case when json_value(extra_json, '$.bubble_multi_burst') = "" then null else split(json_value(extra_json, '$.bubble_multi_burst'),',') end) bubbles_popped_multi_burst
-        ,array_length(case when json_value(extra_json, '$.bubble_convert_random') = "" then null else split(json_value(extra_json, '$.bubble_convert_random'),',') end) bubbles_popped_convert_random
-        ,array_length(case when json_value(extra_json, '$.bubble_stop_time') = "" then null else split(json_value(extra_json, '$.bubble_stop_time'),',') end) bubbles_popped_stop_time
-        ,array_length(case when json_value(extra_json, '$.bubble_instant_fever') = "" then null else split(json_value(extra_json, '$.bubble_instant_fever'),',') end) bubbles_popped_instant_fever
         ,cast(json_extract_scalar(extra_json,'$.skill_available') as int64) skill_available
         ,cast(json_extract_scalar(extra_json,'$.skill_used') as int64) skill_used
     from game_data.events
@@ -303,44 +291,6 @@ view: round_end {
     percentile: 97.5
     sql: ${coins_earned} ;;
   }
-  dimension: fever_count {
-    type: number
-    sql: ${TABLE}.fever_count ;;
-  }
-  measure: fever_count_025 {
-    group_label: "Fever Count"
-    label: "Fever Count - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${fever_count} ;;
-  }
-  measure: fever_count_25 {
-    group_label: "Fever Count"
-    label: "Fever Count - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${fever_count} ;;
-  }
-  measure: fever_count_50 {
-    group_label: "Fever Count"
-    label: "Fever Count - Median"
-    type: median
-    sql: ${fever_count} ;;
-  }
-  measure: fever_count_75 {
-    group_label: "Fever Count"
-    label: "Fever Count - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${fever_count} ;;
-  }
-  measure: fever_count_975 {
-    group_label: "Fever Count"
-    label: "Fever Count - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${fever_count} ;;
-  }
   dimension: total_chains {
     type: number
     sql: ${TABLE}.total_chains ;;
@@ -600,112 +550,6 @@ view: round_end {
     type: percentile
     percentile: 97.5
     sql: ${efficient_skill_matches} ;;
-  }
-  dimension: bubbles_popped_normal {
-    group_label: "Bubbles"
-    label: "Normal"
-    type: number
-    sql: if( ${TABLE}.bubbles_popped_normal is null, 0, ${TABLE}.bubbles_popped_normal ) ;;
-  }
-  dimension: bubbles_popped_coins {
-    group_label: "Bubbles"
-    label: "Coins"
-    type: number
-    sql: if( ${TABLE}.bubbles_popped_coins is null, 0, ${TABLE}.bubbles_popped_coins ) ;;
-  }
-  dimension: bubbles_popped_score {
-    group_label: "Bubbles"
-    label: "Score"
-    type: number
-    sql: if( ${TABLE}.bubbles_popped_score is null, 0, ${TABLE}.bubbles_popped_score ) ;;
-  }
-  dimension: bubbles_popped_add_time {
-    group_label: "Bubbles"
-    label: "Time"
-    type: number
-    sql: if( ${TABLE}.bubbles_popped_add_time is null, 0, ${TABLE}.bubbles_popped_add_time ) ;;
-  }
-  dimension: bubbles_popped_stop_time {
-    group_label: "Bubbles"
-    label: "Time"
-    type: number
-    sql: if( ${TABLE}.bubbles_popped_stop_time is null, 0, ${TABLE}.bubbles_popped_stop_time ) ;;
-  }
-  dimension: bubbles_popped_h_burst {
-    group_label: "Bubbles"
-    label: "Horizontal Burst"
-    type: number
-    sql: if( ${TABLE}.bubbles_popped_h_burst is null, 0, ${TABLE}.bubbles_popped_h_burst ) ;;
-  }
-  dimension: bubbles_popped_v_burst {
-    group_label: "Bubbles"
-    label: "Vertical Burst"
-    type: number
-    sql: if( ${TABLE}.bubbles_popped_v_burst is null, 0, ${TABLE}.bubbles_popped_v_burst ) ;;
-  }
-  dimension: bubbles_popped_x_burst {
-    group_label: "Bubbles"
-    label: "X Burst"
-    type: number
-    sql: if( ${TABLE}.bubbles_popped_x_burst is null, 0, ${TABLE}.bubbles_popped_x_burst ) ;;
-  }
-  dimension: bubbles_popped_multi_burst {
-    group_label: "Bubbles"
-    label: "Multi Burst"
-    type: number
-    sql: if( ${TABLE}.bubbles_popped_multi_burst is null, 0, ${TABLE}.bubbles_popped_multi_burst ) ;;
-  }
-  dimension: bubbles_popped_convert_random {
-    group_label: "Bubbles"
-    label: "Convert Random"
-    type: number
-    sql: if( ${TABLE}.bubbles_popped_convert_random is null, 0, ${TABLE}.bubbles_popped_convert_random ) ;;
-  }
-  dimension: bubbles_popped_instant_fever {
-    group_label: "Bubbles"
-    label: "Instant Fever"
-    type: number
-    sql: if( ${TABLE}.bubbles_popped_instant_fever is null, 0, ${TABLE}.bubbles_popped_instant_fever ) ;;
-  }
-  dimension: bubbles_popped_all {
-    group_label: "Bubbles"
-    label: "All"
-    type: number
-    sql: ${bubbles_popped_normal} + ${bubbles_popped_coins} + ${bubbles_popped_score} + ${bubbles_popped_add_time} + ${bubbles_popped_h_burst} + ${bubbles_popped_v_burst} + ${bubbles_popped_x_burst} + ${bubbles_popped_multi_burst} + ${bubbles_popped_convert_random} + ${bubbles_popped_instant_fever} + ${bubbles_popped_stop_time} ;;
-  }
-  measure: bubbles_popped_all_025 {
-    group_label: "Bubbles Popped"
-    label: "All Bubbles - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${bubbles_popped_all} ;;
-  }
-  measure: bubbles_popped_all_25 {
-    group_label: "Bubbles Popped"
-    label: "All Bubbles - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${bubbles_popped_all} ;;
-  }
-  measure: bubbles_popped_all_med {
-    group_label: "Bubbles Popped"
-    label: "All Bubbles - Median"
-    type: median
-    sql: ${bubbles_popped_all} ;;
-  }
-  measure: bubbles_popped_all_75 {
-    group_label: "Bubbles Popped"
-    label: "All Bubbles - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${bubbles_popped_all} ;;
-  }
-  measure: bubbles_popped_all_975 {
-    group_label: "Bubbles Popped"
-    label: "All Bubbles - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${bubbles_popped_all} ;;
   }
   dimension: all_chains {
     type: string

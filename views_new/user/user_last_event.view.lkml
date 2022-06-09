@@ -100,32 +100,37 @@ view: user_last_event {
 
 
   ###EXPERIMENT IDS - LIVE###
-  dimension: fullminigame_20220517   {
+  dimension: minigame3_20220601   {
     group_label: "Experiments - Live"
-    label: "Minigame v2"
+    label: "Minigame v3"
     type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.fullminigame_20220517'),'unassigned') ;;
+    sql: nullif(json_extract_scalar(${experiments},'$.minigame3_20220601'),'unassigned') ;;
   }
+  ###EXPERIMENT IDS - CLOSED###
   dimension: tapToClear_20211206   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "TaptoClear v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.tapToClear_20211206'),'unassigned') ;;
   }
   dimension: pregame_20220105   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "PregameUI v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.pregame_20220105'),'unassigned') ;;
   }
   dimension: miniGameUI_20220216   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "MinigameUI v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.miniGameUI_20220216'),'unassigned') ;;
   }
-
-  ###EXPERIMENT IDS - CLOSED###
+  dimension: fullminigame_20220517   {
+    group_label: "Experiments - Closed"
+    label: "Minigame v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.fullminigame_20220517'),'unassigned') ;;
+  }
   dimension: fullminigame_20220427   {
     group_label: "Experiments - Closed"
     label: "Minigame v1"

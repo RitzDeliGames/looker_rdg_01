@@ -206,6 +206,7 @@ view: user_fact {
     hidden: no
   }
   dimension: last_level_serial {
+    label: "Last Level (User Fact)"
     type: number
     hidden: no
   }

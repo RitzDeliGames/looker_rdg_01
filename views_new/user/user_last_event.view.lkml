@@ -99,7 +99,7 @@ view: user_last_event {
     sql: ${current_card_no} + ${current_quest};;
   }
   dimension: last_level_serial {
-    label: "Last Level"
+    label: "Last Level (Last Event)"
     type: number
     sql: ${TABLE}.last_level_serial ;;
   }

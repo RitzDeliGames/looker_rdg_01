@@ -16,13 +16,12 @@ view: round_end {
         ,json_extract_scalar(extra_json,'$.team_slot_0') primary_team_slot
         ,json_extract_scalar(extra_json,'$.team_slot_skill_0') primary_team_slot_skill
         ,cast(json_extract_scalar(extra_json,'$.team_slot_level_0') as int64) primary_team_slot_level
-        ,cast(json_extract_scalar(extra_json,'$.score_boost') as int64) score_boost
-        ,cast(json_extract_scalar(extra_json,'$.coin_boost') as int64) coin_boost
-        ,cast(json_extract_scalar(extra_json,'$.time_boost') as int64) time_boost
-        ,cast(json_extract_scalar(extra_json,'$.bubble_boost') as int64) bubble_boost
-        ,cast(json_extract_scalar(extra_json,'$.five_to_four_boost') as int64) five_to_four_boost
+        ,cast(json_extract_scalar(extra_json,'$.rocket_boost') as int64) rocket_boost
+        ,cast(json_extract_scalar(extra_json,'$.bomb_boost') as int64) bomb_boost
+        ,cast(json_extract_scalar(extra_json,'$.color_ball_boost') as int64) color_ball_boost
+        ,cast(json_extract_scalar(extra_json,'$.propeller_boost') as int64) propeller_boost
         ,cast(json_extract_scalar(extra_json,'$.score_earned') as int64) score_earned
-        ,cast(json_extract_scalar(extra_json,'$.time_added') as boolean) time_added
+        ,cast(json_extract_scalar(extra_json,'$.moves_added') as boolean) moves_added
         ,cast(json_extract_scalar(extra_json,'$.coins_earned') as int64) coins_earned
         ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
         ,cast(json_extract_scalar(extra_json,'$.round_length') as int64) round_length
@@ -156,64 +155,53 @@ view: round_end {
   # dimension: requirement_amount {
   #   hidden: yes
   # }
-  dimension: score_boost {
+  dimension: rocket_boost {
     group_label: "Boost Impact"
-    label: "Score Boost"
+    label: "Rocket Boost"
     type: number
-    sql: ${TABLE}.score_boost ;;
+    sql: ${TABLE}.rocket_boost ;;
   }
-  dimension: score_boost_used {
+  dimension: rocket_boost_used {
     group_label: "Boosts Used"
-    label: "Score Boost"
-    sql: if(${TABLE}.score_boost>0,"yes","no") ;;
+    label: "Rocket Boost"
+    sql: if(${TABLE}.rocket_boost>0,"yes","no") ;;
   }
-  dimension: coin_boost {
+  dimension: bomb_boost {
     group_label: "Boost Impact"
-    label: "Coin Boost"
+    label: "Bomb Boost"
     type: number
-    sql: ${TABLE}.coin_boost ;;
+    sql: ${TABLE}.bomb_boost ;;
   }
-  dimension: coin_boost_used {
+  dimension: bomb_boost_used {
     group_label: "Boosts Used"
-    label: "Coin Boost"
-    sql: if(${TABLE}.coin_boost>0,"yes","no") ;;
+    label: "Bomb Boost"
+    sql: if(${TABLE}.bomb_boost>0,"yes","no") ;;
   }
-  dimension: time_boost {
+  dimension: color_ball_boost {
     group_label: "Boost Impact"
-    label: "Time Boost"
+    label: "Color Ball Boost"
     type: number
-    sql: ${TABLE}.time_boost ;;
+    sql: ${TABLE}.color_ball_boost ;;
   }
-  dimension: time_boost_used {
+  dimension: color_ball_boost_used {
     group_label: "Boosts Used"
-    label: "Time Boost"
-    sql: if(${TABLE}.time_boost>0,"yes","no") ;;
+    label: "Color Ball Boost"
+    sql: if(${TABLE}.color_ball_boost>0,"yes","no") ;;
   }
-  dimension: bubble_boost {
+  dimension: propeller_boost {
     group_label: "Boost Impact"
-    label: "Bubble Boost"
+    label: "Propeller Boost"
     type: number
-    sql: ${TABLE}.bubble_boost ;;
+    sql: ${TABLE}.propeller_boost ;;
   }
-  dimension: bubble_boost_used {
+  dimension: propeller_boost_used {
     group_label: "Boosts Used"
-    label: "Bubble Boost"
-    sql: if(${TABLE}.bubble_boost>0,"yes","no") ;;
+    label: "Propeller Boost"
+    sql: if(${TABLE}.propeller_boost>0,"yes","no") ;;
   }
-  dimension: five_to_four_boost {
-    group_label: "Boost Impact"
-    label: "5-to-4 Boost"
-    type: number
-    sql: ${TABLE}.five_to_four_boost ;;
-  }
-  dimension: five_to_four_boost_used {
-    group_label: "Boosts Used"
-    label: "5-to-4 Boost"
-    sql: if(${TABLE}.five_to_four_boost>0,"yes","no") ;;
-  }
-  dimension: time_added {
+  dimension: moves_added {
     type: yesno
-    sql: ${TABLE}.time_added ;;
+    sql: ${TABLE}.moves_added ;;
   }
   dimension: score_earned {
     type: number

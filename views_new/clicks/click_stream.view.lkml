@@ -15,6 +15,7 @@ view: click_stream {
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
         ,cast(quests_completed as int64) quests_completed
+        ,cast(last_level_serial as int64) last_level_serial
         ,json_extract_scalar(extra_json,"$.button_tag") button_tag
         ,experiments
         ,extra_json
@@ -27,7 +28,7 @@ view: click_stream {
         and user_type = 'external'
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
-      group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+      group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17
       ;;
     datagroup_trigger: change_8_hrs
   }
@@ -136,6 +137,11 @@ view: click_stream {
   dimension: quests_completed {
     type: number
     sql: ${TABLE}.quests_completed ;;
+  }
+  dimension: last_level_serial {
+    label: "Last Level"
+    type: number
+    sql: ${TABLE}.last_level_serial ;;
   }
   dimension: extra_json {
     hidden: yes

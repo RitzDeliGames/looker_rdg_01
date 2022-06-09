@@ -14,6 +14,7 @@ view: click_sequencing {
       column: current_card {}
       column: current_card_quest {}
       column: current_quest {}
+      column: last_level_serial {}
       column: engagement_minutes {}
       column: engagement_ticks {}
       column: last_unlocked_card {}
@@ -53,6 +54,9 @@ view: click_sequencing {
     type: number
   }
   dimension: current_quest {
+    type: number
+  }
+  dimension: last_level_serial {
     type: number
   }
   dimension: engagement_minutes {

@@ -10,6 +10,7 @@ view: rewards {
         ,current_card
         ,last_unlocked_card
         ,current_quest
+        ,cast(last_level_serial as int64) last_level_serial
         ,json_extract_scalar(extra_json,'$.reward_event') reward_event
         ,json_extract_scalar(extra_json,'$.reward_type') reward_type
         ,cast(json_extract_scalar(extra_json,'$.reward_amount') as int64) reward_amount
@@ -93,6 +94,11 @@ view: rewards {
     hidden: yes
     type: string
     sql: ${TABLE}.current_quest ;;
+  }
+  dimension: last_level_serial {
+    group_label: "Last Level"
+    type: number
+    sql: ${TABLE}.last_level_serial ;;
   }
   dimension: reward_event_raw {
     type: string

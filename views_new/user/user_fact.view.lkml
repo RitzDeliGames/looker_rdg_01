@@ -35,6 +35,7 @@ view: user_fact {
         ,max(session_count) lifetime_sessions
         ,max(timestamp) last_event
         ,cast(max(quests_completed) as int64) quests_completed
+        ,cast(max(last_level_serial) as int64) last_level_serial
         ,max(json_extract_scalar(extra_json,"$.card_id")) current_card  -- need to do the max on the current card num, card_003_b (150) is coming through instead of card_002 (400)
         ,max(last_unlocked_card) last_unlocked_card -- need to do the max on the last unlocked card num, card_003_b (150) is coming through instead of card_002 (400)
         ,min(version) version
@@ -204,6 +205,10 @@ view: user_fact {
     type: number
     hidden: no
   }
+  dimension: last_level_serial {
+    type: number
+    hidden: no
+  }
   dimension: days_between_first_and_last_event {
     type: number
     sql: case when ${created_date} >= ${last_event_date} then date_diff(${last_event_date},${created_date},day) else null end ;;
@@ -361,6 +366,10 @@ view: user_fact {
   measure: completed_quests {
     type: sum
     sql: ${quests_completed} ;;
+  }
+  measure: completed_levels {
+    type: sum
+    sql: ${last_level_serial} ;;
   }
   measure: sum_net_ltv {
     label: "Net LTV"

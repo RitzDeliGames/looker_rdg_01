@@ -8,6 +8,7 @@ view: round_start {
         ,current_card
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
+        ,cast(last_level_serial as int64) last_level_serial
         ,cast(json_extract_scalar(extra_json,'$.round_id') as int64) round_id
       from game_data.events
       where event_name = 'round_end'
@@ -75,6 +76,11 @@ view: round_start {
     group_label: "Card Dimensions"
     type: number
     sql: ${TABLE}.current_quest ;;
+  }
+  dimension: last_level_serial   {
+    label: "Last Level"
+    type: number
+    sql: ${TABLE}.last_level_serial   ;;
   }
   dimension: round_id {
     type: number

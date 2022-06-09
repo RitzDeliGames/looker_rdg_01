@@ -14,6 +14,7 @@ view: transactions_new {
         ,current_card
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
+        ,cast(last_level_serial as int64) last_level_serial
         ,json_extract_scalar(extra_json,'$.sheet_id') sheet_raw
         ,json_extract_scalar(extra_json,'$.source_id') source_raw
         ,if(json_extract_scalar(extra_json,'$.transaction_purchase_currency') like 'more_time_%', 'CURRENCY_02', json_extract_scalar(extra_json,'$.transaction_purchase_currency')) currency_spent --this is a workaround because More Time is not reported correctly
@@ -145,6 +146,11 @@ view: transactions_new {
     group_label: "Card Dimensions"
     type: number
     sql: ${TABLE}.current_quest ;;
+  }
+  dimension: last_level_serial {
+    group_label: "Last Level"
+    type: number
+    sql: ${TABLE}.last_level_serial ;;
   }
   dimension: sheet_raw {}
   dimension: sheet {

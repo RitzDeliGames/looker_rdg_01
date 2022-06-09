@@ -7,6 +7,7 @@ view: new_afh {
         ,current_card
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
+        ,cast(last_level_serial as int64) last_level_serial
         ,json_extract_scalar(extra_json,'$.rdg_afh_id') rdg_afh_id
         ,json_extract_scalar(extra_json,'$.is_fake') is_fake
         ,json_extract_scalar(extra_json,'$.request_card_id') request_card_id
@@ -69,6 +70,10 @@ view: new_afh {
   dimension: current_quest {
     type: number
     sql: ${TABLE}.current_quest ;;
+  }
+  dimension: last_level_serial {
+    type: number
+    sql: ${TABLE}.last_level_serial ;;
   }
   dimension: rdg_afh_id {}
   dimension: request_card_id {}

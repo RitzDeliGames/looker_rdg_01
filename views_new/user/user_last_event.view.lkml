@@ -29,6 +29,7 @@ view: user_last_event {
             ,last_unlocked_card
             ,current_card
             ,cast(current_quest as int64) current_quest
+            ,cast(last_level_serial as int64) last_level_serial
           from last_user_event
           inner join game_data.events
             on last_user_event.rdg_id = events.rdg_id
@@ -97,7 +98,11 @@ view: user_last_event {
     value_format: "####"
     sql: ${current_card_no} + ${current_quest};;
   }
-
+  dimension: last_level_serial {
+    label: "Last Level"
+    type: number
+    sql: ${TABLE}.last_level_serial ;;
+  }
 
   ###EXPERIMENT IDS - LIVE###
   dimension: minigame3_20220601   {

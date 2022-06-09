@@ -7,6 +7,7 @@ view: new_iam {
         ,current_card
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
+        ,cast(last_level_serial as int64) last_level_serial
         ,json_extract_scalar(extra_json,'$.campaign_id') campaign_id
         ,json_extract_scalar(extra_json,'$.campaign_name') campaign_name
         ,json_extract_scalar(extra_json,'$.template_id') template_id
@@ -72,6 +73,11 @@ view: new_iam {
     group_label: "Card Dimensions"
     type: number
     sql: ${TABLE}.current_quest ;;
+  }
+  dimension: last_level_serial {
+    label: "Last Level"
+    type: number
+    sql: ${TABLE}.last_level_serial ;;
   }
   dimension: campaign_id {}
   dimension: campaign_name {}

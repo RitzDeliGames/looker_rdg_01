@@ -9,6 +9,7 @@ view: round_end {
         ,current_card
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
+        ,cast(last_level_serial as int64) last_level_serial
         ,cast(json_extract_scalar(extra_json,'$.round_id') as int64) round_id
         ,cast(json_extract_scalar(extra_json,'$.quest_complete') as boolean) quest_complete
         ,json_extract_scalar(extra_json,'$.game_mode') game_mode
@@ -107,6 +108,11 @@ view: round_end {
     group_label: "Card Dimensions"
     type: number
     sql: ${TABLE}.current_quest ;;
+  }
+  dimension: last_level_serial {
+    group_label: "Last Level"
+    type: number
+    sql: ${TABLE}.last_level_serial ;;
   }
   dimension: round_id {
     type: number

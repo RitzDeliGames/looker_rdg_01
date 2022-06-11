@@ -110,7 +110,7 @@ view: round_end {
     sql: ${TABLE}.current_quest ;;
   }
   dimension: last_level_serial {
-    group_label: "Last Level"
+    label: "Last Level"
     type: number
     sql: ${TABLE}.last_level_serial ;;
   }

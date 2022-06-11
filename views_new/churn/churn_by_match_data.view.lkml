@@ -6,6 +6,7 @@ view: churn_by_match_data {
     sql: select
           rdg_id
           ,timestamp
+          ,cast(last_level_serial as int64) last_level_serial
           --,json_extract_scalar(extra_json,'$.cleared') tiles_cleared
           ,cast(json_extract_scalar(extra_json,'$.moves') as int64) moves_remaining
           ,json_extract_scalar(extra_json,'$.objective_count_total') objective_count_total
@@ -14,13 +15,13 @@ view: churn_by_match_data {
           ,json_extract_scalar(extra_json,'$.level') level
           ,current_card
           ,current_quest
-          ,cast(quests_completed as int64) quests_completed --proxy for round id
-          ,cast(last_value(quests_completed)
+          --,cast(quests_completed as int64) quests_completed --proxy for round id
+          ,cast(last_value(last_level_serial)
                   over (
                       partition by rdg_id
                       order by timestamp
                       rows between 1 preceding AND 1 following
-                  ) as int64) as greater_quests_completed
+                  ) as int64) as greater_last_level_serial
           ,experiments
         from `eraser-blast.game_data.events`
         where user_type = 'external'
@@ -37,27 +38,37 @@ view: churn_by_match_data {
 
   dimension: churn {
     type: string
-    sql: if(${TABLE}.quests_completed < ${TABLE}.greater_quests_completed,'still_on_current_tile','advanced_to_next_tile') ;;
+    sql: if(${TABLE}.last_level_serial < ${TABLE}.greater_last_level_serial,'still_on_current_tile','advanced_to_next_tile') ;;
   }
 
-  dimension: current_card {
-    type: string
-  }
+  # dimension: current_card {
+  #   type: string
+  # }
 
-  dimension: current_quest {
-    type: number
-  }
-  dimension: quests_completed {
-    type: number
-  }
+  # dimension: current_quest {
+  #   type: number
+  # }
+  # dimension: quests_completed {
+  #   type: number
+  # }
 
-  dimension: greater_quests_completed {
-    type: number
-  }
+  # dimension: greater_quests_completed {
+  #   type: number
+  # }
 
   # dimension: tiles_cleared {
   #   type: string
   # }
+
+  dimension: last_level_serial {
+    label: "Last Level"
+    type: number
+  }
+
+  dimension: greater_last_level_serial {
+    label: "Greater Last Level"
+    type: number
+  }
 
   dimension: moves_remaining {
     type: number
@@ -83,7 +94,7 @@ view: churn_by_match_data {
   dimension: is_churn {
     hidden: yes
     type: yesno
-    sql:  quests_completed < greater_quests_completed;;
+    sql:  last_level_serial < greater_last_level_serial;;
   }
 
   # dimension: node_attempts_explicit {
@@ -139,6 +150,6 @@ view: churn_by_match_data {
   measure: player_count {
     type: count_distinct
     sql: ${rdg_id} ;;
-    drill_fields: [rdg_id,current_card,current_quest,quests_completed,greater_quests_completed]
+    drill_fields: [rdg_id,last_level_serial,greater_last_level_serial]
   }
 }

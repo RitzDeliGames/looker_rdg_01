@@ -5,7 +5,6 @@ view: churn_by_card_by_attempt {
         rdg_id,
         timestamp,
         current_card,
-        cast(last_level_serial as int64) last_level_serial,
         cast(json_extract(extra_json, "$.rounds") as int64) rounds,
         cast(json_extract(extra_json, "$.round_id") as int64) round_id,
         cast(last_value(json_extract(extra_json, "$.round_id"))
@@ -37,9 +36,6 @@ view: churn_by_card_by_attempt {
     type: date_time
   }
   dimension: current_card {}
-  dimension: last_level_serial {
-    label: "Last Level"
-  }
   dimension:rounds {
     type: number
   }

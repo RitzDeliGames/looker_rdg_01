@@ -13,7 +13,6 @@ view: churn_by_tile_by_attempt {
       column: card_id {}
       column: current_card {}
       column: current_quest {}
-      column: last_level_serial {}
       derived_column: node_attempts_explicit {
         # To Summarize all the columns below, we are running two queries, one to identify the node, and another to identify each field contained within that node
         sql: cast(json_query(json_query(extra_json,"$.node_data[{% parameter node_selector %}]"),"$.node_attempts_explicit") as int64) ;;
@@ -80,10 +79,6 @@ view: churn_by_tile_by_attempt {
   dimension: current_card {}
 
   dimension: current_quest {
-    type: number
-  }
-
-  dimension: last_level_serial {
     type: number
   }
 

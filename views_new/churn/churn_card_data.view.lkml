@@ -22,7 +22,6 @@ view: churn_card_data {
           ,timestamp
           ,current_card
           ,current_quest
-          ,cast(last_level_serial as int64) last_level_serial
           ,json_extract_scalar(extra_json,'$.card_id') card_id
           ,rdg_id
 
@@ -54,10 +53,6 @@ dimension: current_card {
 }
 
 dimension: current_quest {
-  type: number
-}
-
-dimension: last_level_serial {
   type: number
 }
 

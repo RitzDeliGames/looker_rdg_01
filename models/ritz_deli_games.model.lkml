@@ -363,7 +363,6 @@ explore: churn_by_card {
 
 explore: churn_by_level_by_attempt {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
-  from: churn_by_level_by_attempt
   view_label: "Churn by Level"
   join: user_fact {
     type: left_outer

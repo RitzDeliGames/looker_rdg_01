@@ -76,6 +76,12 @@ explore: user_retention {
     sql_on: ${user_retention.advertising_id} = ${singular_daily_user_attribution_export.device_id};;
     relationship: one_to_one
   }
+  join: android_advertising_id_helper {
+    view_label: "Singular User Level (Firebase)"
+    type: left_outer
+    sql_on: ${user_retention.user_id} = ${android_advertising_id_helper.user_id} ;;
+    relationship: one_to_one
+  }
   join: transactions_new {
     view_label: "Transactions"
     type: left_outer
@@ -762,3 +768,7 @@ explore: temp_powerup_used {
 # EXPLORES ADDED FOR VIEWING INCLUDED DATA
 
 explore: sessions_per_day_per_player {}
+
+explore: android_advertising_id_helper {
+  label: "Temp Android Advertising ID Helper"
+}

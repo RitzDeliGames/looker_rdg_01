@@ -356,6 +356,12 @@ view: user_fact {
     sql: ${rdg_id} ;;
     drill_fields: [hardware, rdg_id, created_date, churned]
   }
+  measure: user_id_count {
+    label: "Count of User Ids"
+    type: count_distinct
+    sql: ${user_id} ;;
+    drill_fields: [hardware, user_id, rdg_id, created_date, churned]
+  }
   measure: count_rows {
     type: count
   }

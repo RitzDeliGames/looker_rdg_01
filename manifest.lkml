@@ -222,6 +222,7 @@ constant: release_version_minor {
             when ${TABLE}.version like '12840' then '1.12.840'
             when ${TABLE}.version like '12850' then '1.12.850'
             when ${TABLE}.version like '12860' then '1.12.860'
+            when ${TABLE}.version like '12870' then '1.12.870'
           end"
 }
 
@@ -288,6 +289,7 @@ constant: install_release_version_minor {
             when ${TABLE}.install_version like '12840' then '1.12.840'
             when ${TABLE}.install_version like '12850' then '1.12.850'
             when ${TABLE}.install_version like '12860' then '1.12.860'
+            when ${TABLE}.install_version like '12870' then '1.12.870'
           end"
 }
 

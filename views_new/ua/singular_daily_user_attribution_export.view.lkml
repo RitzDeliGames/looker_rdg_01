@@ -44,6 +44,7 @@ view: singular_daily_user_attribution_export {
     label: "Count of Players"
     type: count_distinct
     sql: ${device_id} ;;
+    drill_fields: [device_id,platform,singular_partner_name,campaign_name,creative_name]
   }
   dimension: device_id_type {}
   dimension: platform {

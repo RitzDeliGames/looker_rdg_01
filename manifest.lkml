@@ -1125,3 +1125,11 @@ constant: reward_events {
               else ${TABLE}.reward_event
             end"
 }
+
+constant: campaign_name_clean {
+  value: "case
+            when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Puzzle Games' then 'MAI - No Event - Puzzle Games'
+            when ${TABLE}.campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_LATAM/ES_N/A v2' then 'AAA - No Event'
+            else ${TABLE}.campaign_name
+          end"
+}

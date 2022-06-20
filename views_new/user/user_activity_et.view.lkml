@@ -69,6 +69,7 @@ view: user_activity_engagement_min {
   measure: active_user_count {
     type: count_distinct
     sql: ${rdg_id} ;;
+    drill_fields: [rdg_id,activity_date]
   }
   measure: engagement_min_max {
     label: "Max Minutes Played"

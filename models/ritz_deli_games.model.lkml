@@ -70,17 +70,16 @@ explore: user_retention {
       and ${singular_daily_agg_export.date} = ${singular_daily_user_attribution_export.event_timestamp_date};;
     relationship: many_to_many
   }
-  join: singular_daily_user_attribution_export {
-    view_label: "Singular User Level"
-    type: left_outer
-    sql_on: ${user_retention.advertising_id} = ${singular_daily_user_attribution_export.device_id};;
-    relationship: one_to_one
-  }
   join: android_advertising_id_helper {
     view_label: "Singular User Level w/Firebase Helper"
     type: left_outer
-    sql_on: ${user_retention.user_id} = ${android_advertising_id_helper.user_id}
-      and ${singular_daily_user_attribution_export.device_id} = ${android_advertising_id_helper.advertising_id} ;;
+    sql_on: ${user_retention.user_id} = ${android_advertising_id_helper.user_id};;
+    relationship: one_to_one
+  }
+  join: singular_daily_user_attribution_export {
+    view_label: "Singular User Level"
+    type: left_outer
+    sql_on: ${singular_daily_user_attribution_export.device_id} = ${android_advertising_id_helper.advertising_id};;
     relationship: one_to_one
   }
   join: transactions_new {
@@ -128,35 +127,6 @@ explore: user_retention {
     type: left_outer
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${fue_funnels.rdg_id} ;;
-  }
-}
-
-explore: singular_daily_user_attribution_export {
-  label: "Singular User Level Export (via Firebase)"
-  join: android_advertising_id_helper {
-    type: left_outer
-    sql_on: ${singular_daily_user_attribution_export.device_id} = ${android_advertising_id_helper.advertising_id} ;;
-    relationship: one_to_one
-  }
-  join: singular_daily_agg_export {
-    view_label: "Singular Aggregated"
-    sql_on: ${user_fact.created_pst_date} = ${singular_daily_agg_export.date}
-      and ${user_fact.country} = ${singular_daily_agg_export.country}
-      and ${singular_daily_agg_export.campaign_id} = ${singular_daily_user_attribution_export.campaign_id}
-      and ${singular_daily_agg_export.date} = ${singular_daily_user_attribution_export.event_timestamp_date};;
-    relationship: many_to_many
-  }
-  join: user_fact {
-    view_label: "Users"
-    type: left_outer
-    sql_on: ${singular_daily_user_attribution_export.device_id} = ${android_advertising_id_helper.advertising_id}
-      and ${android_advertising_id_helper.user_id} = ${user_fact.user_id};;
-    relationship: one_to_one
-  }
-  join: user_activity_engagement_min {
-    type: left_outer
-    sql_on: ${user_fact.rdg_id} = ${user_activity_engagement_min.rdg_id} ;;
-    relationship: one_to_many
   }
 }
 

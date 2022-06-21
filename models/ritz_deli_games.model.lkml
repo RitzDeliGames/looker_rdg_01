@@ -369,7 +369,7 @@ explore: churn_by_card {
 
 explore: churn_by_level_by_attempt {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
-  view_label: "Churn by Level"
+  view_label: "Churn by Level - Attempt"
   join: user_fact {
     type: left_outer
     sql_on: ${churn_by_level_by_attempt.rdg_id} = ${user_fact.rdg_id} ;;
@@ -378,6 +378,21 @@ explore: churn_by_level_by_attempt {
   join: user_last_event {
     type: left_outer
     sql_on: ${churn_by_level_by_attempt.rdg_id} = ${user_last_event.rdg_id} ;;
+    relationship: one_to_one
+  }
+}
+
+explore: churn_by_level_by_proximity {
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  view_label: "Churn by Level - Proximity"
+  join: user_fact {
+    type: left_outer
+    sql_on: ${churn_by_level_by_proximity.rdg_id} = ${user_fact.rdg_id} ;;
+    relationship: one_to_one
+  }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${churn_by_level_by_proximity.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
 }

@@ -4,6 +4,7 @@ view: fps {
     select
       rdg_id
       ,timestamp
+      ,cast(last_level_serial as int64) last_level_serial
       ,sum(cast(frame_time_histogram as int64)) as frame_count
         ,offset as ms_per_frame
       ,event_name
@@ -14,7 +15,8 @@ view: fps {
       and user_type = 'external'
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'
-   group by 1,2,4,5,6
+      and event_name in ('round_end','transition')
+   group by 1,2,3,5,6,7
    order by ms_per_frame asc
   ;;
     datagroup_trigger: change_8_hrs
@@ -66,5 +68,9 @@ view: fps {
     type: sum
     sql: ${frame_count} ;;
     drill_fields: [rdg_id]
+  }
+  dimension: last_level_serial {
+    label: "Last Level Played"
+    type: number
   }
 }

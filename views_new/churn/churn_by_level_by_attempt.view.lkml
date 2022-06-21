@@ -32,7 +32,7 @@ view: churn_by_level_by_attempt {
         from `eraser-blast.game_data.events`
         where timestamp >= timestamp(current_date() - 90)
           and date(timestamp) > '2022-06-05'
-          and event_name = 'cards') as b
+          and event_name = 'round_end') as b
       on a.rdg_id = b.rdg_id
         and a.round_id = b.round_id
       order by 1, 2 desc    ;;

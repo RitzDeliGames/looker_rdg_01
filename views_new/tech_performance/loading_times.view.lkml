@@ -4,6 +4,7 @@ view: loading_times {
     select
       rdg_id
       ,timestamp
+      ,cast(last_level_serial as int64) last_level_serial
       ,timestamp_diff(timestamp, lag(timestamp, 1) over (order by rdg_id, timestamp), second) as time_in_scene
       ,cast(json_extract_scalar(extra_json, '$.load_time') as numeric) load_time
       ,json_extract_scalar(extra_json, '$.transition_from') transition_from
@@ -35,6 +36,10 @@ view: loading_times {
       ,month
       ,year
     ]
+  }
+  dimension: last_level_serial {
+    label: "Last Level Played"
+    type: number
   }
   dimension: time_in_scene {}
   dimension: load_time {}

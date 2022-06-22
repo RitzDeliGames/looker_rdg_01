@@ -4,6 +4,7 @@ view: performance_score {
         select
           rdg_id
           ,timestamp
+          ,last_level_serial
           ,cast(json_extract_scalar(extra_json, "$.rendering_performance_score") as int64) rendering_performance_score
         from `eraser-blast.game_data.events`
         where timestamp >= '2019-01-01'
@@ -31,6 +32,10 @@ view: performance_score {
       ,month
       ,year
     ]
+  }
+  dimension: last_level_serial {
+    label: "Last Level Played"
+    type: number
   }
   dimension: rendering_performance_score {
     type: number

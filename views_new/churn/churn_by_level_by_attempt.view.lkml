@@ -8,12 +8,16 @@ view: churn_by_level_by_attempt {
         ,cast(a.round_id as int64) round_id
         ,cast(a.greater_round_id as int64) greater_round_id
         ,cast(b.rounds as int64) rounds
+        ,cast(a.total_chains as int64) total_chains
+        ,cast(a.round_length as int64) round_length
       from
         (select
            rdg_id
           ,json_extract_scalar(extra_json,"$.round_id") round_id
           ,timestamp
           ,last_level_serial
+          ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
+          ,cast(json_extract_scalar(extra_json,'$.round_length') as int64) round_length
           ,last_value(json_extract_scalar(extra_json, "$.round_id"))
             over (
                 partition by rdg_id
@@ -68,5 +72,20 @@ view: churn_by_level_by_attempt {
   dimension: churn {
     type: string
     sql: if(${round_id} < ${greater_round_id},'played_again','stuck') ;;
+  }
+  dimension: total_chains {
+    type: number
+  }
+  dimension: round_length {
+    type: number
+  }
+  dimension: round_length_num {
+    type: number
+    sql: ${round_length} / 1000;;
+  }
+  measure: round_length_med {
+    label: "Round Length - Median"
+    type: median
+    sql: ${round_length_num} ;;
   }
 }

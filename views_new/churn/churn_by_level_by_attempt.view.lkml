@@ -67,6 +67,7 @@ view: churn_by_level_by_attempt {
     group_label: "Level Dimensions"
     label: "Last Level Played"
     type: number
+    #html: {{ rendered_value }} || Last Level ID {{ last_level_id._rendered_value }};;
   }
   dimension:rounds {
     type: number

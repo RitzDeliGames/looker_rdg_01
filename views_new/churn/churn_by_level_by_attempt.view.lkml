@@ -4,6 +4,7 @@ view: churn_by_level_by_attempt {
       select
         a.rdg_id
         ,a.timestamp
+        ,a.last_level_id
         ,cast(a.last_level_serial as int64) last_level_serial
         ,cast(a.round_id as int64) round_id
         ,cast(a.greater_round_id as int64) greater_round_id
@@ -15,6 +16,7 @@ view: churn_by_level_by_attempt {
            rdg_id
           ,json_extract_scalar(extra_json,"$.round_id") round_id
           ,timestamp
+          ,last_level_id
           ,last_level_serial
           ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
           ,cast(json_extract_scalar(extra_json,'$.round_length') as int64) round_length
@@ -56,7 +58,13 @@ view: churn_by_level_by_attempt {
   dimension: timestamp {
     type: date_time
   }
+  dimension: last_level_id {
+    group_label: "Level Dimensions"
+    label: "Last Level Played - Id"
+    type: number
+  }
   dimension: last_level_serial {
+    group_label: "Level Dimensions"
     label: "Last Level Played"
     type: number
   }

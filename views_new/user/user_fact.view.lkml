@@ -208,7 +208,6 @@ view: user_fact {
   dimension: last_level_serial {
     label: "Last Level (User Fact)"
     type: number
-    hidden: no
   }
   dimension: days_between_first_and_last_event {
     type: number

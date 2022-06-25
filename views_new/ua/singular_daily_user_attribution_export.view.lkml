@@ -77,5 +77,11 @@ view: singular_daily_user_attribution_export {
     label: "Campaign Name - Short"
     sql: @{campaign_name_clean} ;;
   }
-  dimension: creative_name {}
+  dimension: creative_name {
+  label: "Creative Name - Long"
+  }
+  dimension: creative_name_short {
+    label: "Creative Name - Short"
+    sql: @{creative_name_clean} ;;
+  }
  }

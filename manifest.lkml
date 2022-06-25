@@ -1168,3 +1168,17 @@ constant: campaign_name_clean {
             else ${TABLE}.campaign_name
           end"
 }
+
+constant: creative_name_clean {
+    value: "case
+            when ${TABLE}.creative_name like 'Art Test - Playrix Style%' then 'Cottage Scene (Playrix)'
+            when ${TABLE}.creative_name like 'Art Test - Royal Match Style%' then 'Cottage Scene (Royal Match)'
+            when ${TABLE}.creative_name like 'Art Test - Toy Style%' then 'Cottage Scene (Toy)'
+            when ${TABLE}.creative_name like 'Art_Test_Toy_Style%' then 'Cottage Scene (Toy)'
+            when ${TABLE}.creative_name like 'Art Test - Current Style%' then 'Cottage Scene (Current)'
+            when ${TABLE}.creative_name like 'Art_Test_Current_Style%' then 'Cottage Scene (Current)'
+            when ${TABLE}.creative_name like '%TTC%' then 'Tap-to-Collapse Gameplay v1'
+            when ${TABLE}.creative_name like 'Zen%' then 'Tap-to-Collapse Zen Gameplay v1'
+            else ${TABLE}.creative_name
+          end"
+}

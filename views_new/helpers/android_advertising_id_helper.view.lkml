@@ -2,16 +2,16 @@ view: android_advertising_id_helper {
   derived_table: {
     sql:
       select
-        user_first_touch_timestamp
-        ,date(timestamp_micros(user_first_touch_timestamp)) as install_date
-        ,user_id
-        ,device.advertising_id as advertising_id
+        user_id
+        ,device.advertising_id advertising_id
+        ,user_first_touch_timestamp
+        ,date(timestamp_micros(user_first_touch_timestamp)) install_date
+        --,row_number() over (partition by user_id order by event_timestamp asc) rn
       from `eraser-blast.analytics_215101505.*`
       where platform = 'ANDROID'
-      --and date(timestamp_micros(user_first_touch_timestamp)) >= '2022-04-01'
-      --and event_name = 'app_open'
-      --and _TABLE_SUFFIX > '202220601'
+      and user_id is not null
       group by 1,2,3,4
+      order by 1,2
       ;;
 
     datagroup_trigger: change_at_midnight

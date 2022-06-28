@@ -72,6 +72,7 @@ view: new_afh {
     sql: ${TABLE}.current_quest ;;
   }
   dimension: last_level_serial {
+    label: "Last Level Played"
     type: number
     sql: ${TABLE}.last_level_serial ;;
   }

@@ -99,19 +99,32 @@ view: user_last_event {
     sql: ${current_card_no} + ${current_quest};;
   }
   dimension: last_level_serial {
-    label: "Last Level (Last Event)"
+    label: "Last Level Played"
     type: number
     sql: ${TABLE}.last_level_serial ;;
   }
 
   ###EXPERIMENT IDS - LIVE###
-  dimension: minigame3_20220601   {
+
+  dimension: altlevelorder_20220623   {
     group_label: "Experiments - Live"
+    label: "Level Order v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altlevelorder_20220623'),'unassigned') ;;
+  }
+  dimension: experiment_zoneoptions_20220621   {
+    group_label: "Experiments - Live"
+    label: "Zones v4"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.zoneoptions_20220621'),'unassigned') ;;
+  }
+  ###EXPERIMENT IDS - CLOSED###
+  dimension: minigame3_20220601   {
+    group_label: "Experiments - Closed"
     label: "Minigame v3"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.minigame3_20220601'),'unassigned') ;;
   }
-  ###EXPERIMENT IDS - CLOSED###
   dimension: tapToClear_20211206   {
     group_label: "Experiments - Closed"
     label: "TaptoClear v1"

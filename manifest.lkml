@@ -1130,8 +1130,6 @@ constant: reward_events {
 
 constant: campaign_name_clean {
   value: "case
-            when ${TABLE}.singular_partner_name = 'Organic' then 'Organic'
-            when ${TABLE}.singular_partner_name = 'Unattributed' then 'Unattributed'
             when ${TABLE}.campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_LATAM/ES_N/A' then 'AAA - No Event'
             when ${TABLE}.campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_LATAM/ES_N/A v2' then 'AAA - No Event'
             when ${TABLE}.campaign_name = 'Android_AAA_Events_5_Minutes_Women&Men_LATAM/ES_N/A' then 'AAA - 5 Min'
@@ -1171,6 +1169,8 @@ constant: campaign_name_clean {
             when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 5 Min - Walmart'
             when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 15 Min - Walmart'
             when ${TABLE}.campaign_name = 'Android_Manual_Events_30_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 30 Min - Walmart'
+            when ${TABLE}.singular_partner_name = 'Organic' then 'Organic'
+            when ${TABLE}.singular_partner_name = 'Unattributed' then 'Unattributed'
             else ${TABLE}.campaign_name
           end"
 }

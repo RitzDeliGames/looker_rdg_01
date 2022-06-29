@@ -9,8 +9,9 @@ view: android_advertising_id_helper {
         --,row_number() over (partition by user_id order by event_timestamp asc) rn
       from `eraser-blast.analytics_215101505.*`
       where platform = 'ANDROID'
+      and event_name = 'tutorial_begin'
       and user_id is not null
-      group by 1,2,3,4
+      --group by 1,2,3,4
       order by 1,2
       ;;
 

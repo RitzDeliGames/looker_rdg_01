@@ -113,13 +113,13 @@ view: round_end {
   dimension: last_level_id {
     group_label: "Level Dimensions"
     label: "Last Level Played - Id"
-    type: number
+    type: string
   }
   dimension: last_level_serial {
     group_label: "Level Dimensions"
     label: "Last Level Played"
     type: number
-    sql: ${TABLE}.last_level_serial ;;
+    html: {{ rendered_value }} || {{ last_level_id._rendered_value }} ;;
   }
   dimension: round_id {
     type: number

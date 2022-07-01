@@ -98,10 +98,22 @@ view: user_last_event {
     value_format: "####"
     sql: ${current_card_no} + ${current_quest};;
   }
+  dimension: last_level_id {
+    group_label: "Level Dimensions"
+    label: "Last Level Played - Id"
+    type: string
+  }
   dimension: last_level_serial {
+    group_label: "Level Dimensions"
     label: "Last Level Played"
     type: number
-    sql: ${TABLE}.last_level_serial ;;
+  }
+  dimension: last_level_serial_with_id {
+    group_label: "Level Dimensions"
+    label: "Last Level Played w/ID"
+    type: number
+    sql: ${TABLE}.last_level_serial;;
+    html: {{ rendered_value }} || {{ last_level_id._rendered_value }} ;;
   }
 
   ###EXPERIMENT IDS - LIVE###

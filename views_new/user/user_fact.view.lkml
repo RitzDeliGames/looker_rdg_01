@@ -205,9 +205,22 @@ view: user_fact {
     type: number
     hidden: no
   }
+  dimension: last_level_id {
+    group_label: "Level Dimensions"
+    label: "Last Level Played - Id"
+    type: string
+  }
   dimension: last_level_serial {
-    label: "Last Level (User Fact)"
+    group_label: "Level Dimensions"
+    label: "Last Level Played"
     type: number
+  }
+  dimension: last_level_serial_with_id {
+    group_label: "Level Dimensions"
+    label: "Last Level Played w/ID"
+    type: number
+    sql: ${TABLE}.last_level_serial;;
+    html: {{ rendered_value }} || {{ last_level_id._rendered_value }} ;;
   }
   dimension: days_between_first_and_last_event {
     type: number

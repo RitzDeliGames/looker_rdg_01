@@ -119,6 +119,11 @@ view: round_end {
     group_label: "Level Dimensions"
     label: "Last Level Played"
     type: number
+  }
+  dimension: last_level_serial_with_id {
+    group_label: "Level Dimensions"
+    label: "Last Level Played w/ID"
+    type: number
     html: {{ rendered_value }} || {{ last_level_id._rendered_value }} ;;
   }
   dimension: round_id {

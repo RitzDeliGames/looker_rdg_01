@@ -130,6 +130,18 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.zoneoptions_20220621'),'unassigned') ;;
   }
+  dimension: eraserskills_20220629   {
+    group_label: "Experiments - Live"
+    label: "Eraser Skills v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.eraserskills_20220629'),'unassigned') ;;
+  }
+  dimension: dailyrewards_20220628   {
+    group_label: "Experiments - Live"
+    label: "Daily Rewards v4"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.dailyrewards_20220628'),'unassigned') ;;
+  }
   ###EXPERIMENT IDS - CLOSED###
   dimension: minigame3_20220601   {
     group_label: "Experiments - Closed"

@@ -34,34 +34,44 @@ view: churn_by_match_data {
     sql: ${rdg_id} || ${timestamp} ;;
   }
 
+  dimension: level {
+    group_label: "Level Dimensions"
+    label: "Level - Extracted"
+    type: string
+  }
+
   dimension: last_level_id {
     group_label: "Level Dimensions"
     label: "Last Level Played - Id"
     type: string
   }
+
   dimension: last_level_serial {
     group_label: "Level Dimensions"
     label: "Last Level Played"
     type: number
   }
+
   dimension: last_level_serial_with_id {
     group_label: "Level Dimensions"
-    label: "Last Level Played w/ID"
+    label: "Last Level Played w/Schema ID"
     type: number
     sql: ${TABLE}.last_level_serial ;;
     html: {{ rendered_value }} || {{ last_level_id._rendered_value }} ;;
+  }
+
+  dimension: last_level_serial_with_id_extracted {
+    group_label: "Level Dimensions"
+    label: "Last Level Played w/Extracted ID"
+    type: number
+    sql: ${TABLE}.last_level_serial ;;
+    html: {{ rendered_value }} || {{ level._rendered_value }} ;;
   }
 
   dimension: greater_last_level_serial {
     group_label: "Level Dimensions"
     label: "Greater Last Level Played"
     type: number
-  }
-
-  dimension: level {
-    group_label: "Level Dimensions"
-    label: "Level - Extracted"
-    type: string
   }
 
   dimension: churn {

@@ -84,7 +84,7 @@ view: cohort_analysis_mixed_fields {
     type: number
     sql: ${transactions_new.coin_spent_amount_sum} / NULLIF(${cohort_analysis.count},0) ;;
     value_format_name: decimal_0
-    drill_fields: [transactions_new.rdg_id, transactions_new.transaction_date, transactions_new.transaction_count, transactions_new.iap_id, transactions_new.iap_purchase_item, transactions_new.currency_spent, transactions_new.currency_spent_amount]
+    drill_fields: [transactions_new.rdg_id, transactions_new.transaction_date, transactions_new.transaction_count, transactions_new.iap_id, transactions_new.iap_purchase_item, transactions_new.currency_spent, transactions_new.currency_spent_amount, transactions_new.minutes_played]
   }
 
   measure: afh_token_spend_per_user {

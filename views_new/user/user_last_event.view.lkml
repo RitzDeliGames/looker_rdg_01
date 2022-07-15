@@ -117,9 +117,14 @@ view: user_last_event {
   }
 
   ###EXPERIMENT IDS - LIVE###
-
-  dimension: altlevelorder_20220623   {
+  dimension: altleveltuning_20220706   {
     group_label: "Experiments - Live"
+    label: "Level Order v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altleveltuning_20220706'),'unassigned') ;;
+  }
+  dimension: altlevelorder_20220623   {
+    group_label: "Experiments - Closed"
     label: "Level Order v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altlevelorder_20220623'),'unassigned') ;;

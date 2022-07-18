@@ -14,6 +14,7 @@ view: transactions_new {
         ,current_card
         ,last_unlocked_card
         ,cast(current_quest as int64) current_quest
+        ,last_level_id
         ,cast(last_level_serial as int64) last_level_serial
         ,json_extract_scalar(extra_json,'$.sheet_id') sheet_raw
         ,json_extract_scalar(extra_json,'$.source_id') source_raw
@@ -147,11 +148,19 @@ view: transactions_new {
     type: number
     sql: ${TABLE}.current_quest ;;
   }
+  dimension: last_level_id {
+    group_label: "Level Dimensions"
+    label: "Last Level Played - Id"
+    type: string
+    sql: ${TABLE}.last_level_id ;;
+  }
   dimension: last_level_serial {
-    group_label: "Last Level"
+    group_label: "Level Dimensions"
+    label: "Last Level Played"
     type: number
     sql: ${TABLE}.last_level_serial ;;
   }
+
   dimension: sheet_raw {}
   dimension: sheet {
     type: string

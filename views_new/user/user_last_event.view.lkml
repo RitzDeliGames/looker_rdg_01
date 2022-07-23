@@ -117,8 +117,20 @@ view: user_last_event {
   }
 
   ###EXPERIMENT IDS - LIVE###
-  dimension: altleveltuning_20220706   {
+  dimension: streakbonuses_20220720   {
     group_label: "Experiments - Live"
+    label: "Streak Bonuses - v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.streakBonuses_20220720'),'unassigned') ;;
+  }
+  dimension: altleveltuning_20220721   {
+    group_label: "Experiments - Live"
+    label: "Level Order v3"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altleveltuning_20220721'),'unassigned') ;;
+  }
+  dimension: altleveltuning_20220706   {
+    group_label: "Experiments - Closed"
     label: "Level Order v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altleveltuning_20220706'),'unassigned') ;;

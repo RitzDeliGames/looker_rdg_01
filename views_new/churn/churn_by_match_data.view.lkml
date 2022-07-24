@@ -125,8 +125,14 @@ view: churn_by_match_data {
     sql: ${TABLE}.experiments ;;
     hidden: yes
   }
-  dimension: altleveltuning_20220706   {
+  dimension: altleveltuning_20220721   {
     group_label: "Experiments - Live"
+    label: "Level Order v3"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.altleveltuning_20220721'),'unassigned') ;;
+  }
+  dimension: altleveltuning_20220706   {
+    group_label: "Experiments - Closed"
     label: "Level Order v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altleveltuning_20220706'),'unassigned') ;;

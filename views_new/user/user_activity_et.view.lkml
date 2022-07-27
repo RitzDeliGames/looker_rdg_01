@@ -34,6 +34,7 @@ view: user_activity_engagement_min {
       year
     ]
   }
+  dimension: last_level_played_serial {}
   dimension: engagement_min {
     label: "Minutes Played"
     type: number

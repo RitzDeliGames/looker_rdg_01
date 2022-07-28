@@ -759,6 +759,12 @@ explore: cohort_analysis {
     sql_on: ${cohort_analysis.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
+  join: user_activity_engagement_min {
+    view_label: "User Activity - Engagement Ticks"
+    type: left_outer
+    sql_on: ${cohort_analysis.rdg_id} = ${user_activity_engagement_min.rdg_id} ;;
+    relationship: many_to_many
+  }
   join: sessions_per_day_per_player {
     type: left_outer
     relationship: many_to_many

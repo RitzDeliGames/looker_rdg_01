@@ -34,7 +34,6 @@ view: user_activity_engagement_min {
       year
     ]
   }
-  dimension: last_level_played_serial {}
   dimension: engagement_min {
     label: "Minutes Played"
     type: number
@@ -75,6 +74,40 @@ view: user_activity_engagement_min {
   measure: engagement_min_max {
     label: "Max Minutes Played"
     type: max
+    sql: ${engagement_min} ;;
+  }
+  measure:  engagement_min_025 {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${engagement_min} ;;
+  }
+  measure:  engagement_min_25 {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${engagement_min} ;;
+  }
+  measure:  engagement_min_med {
+    group_label: "Minutes Played"
+    label: "Minutes Played - Median%"
+    type: median
+    sql: ${engagement_min} ;;
+  }
+  measure:  engagement_min_75 {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${engagement_min} ;;
+  }
+  measure:  engagement_min_975 {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 97.5%"
+    type: percentile
+    percentile: 97.5
     sql: ${engagement_min} ;;
   }
 }

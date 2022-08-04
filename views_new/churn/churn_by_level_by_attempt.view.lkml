@@ -27,8 +27,7 @@ view: churn_by_level_by_attempt {
                 rows between 1 preceding AND 1 following
             ) greater_round_id
         from `eraser-blast.game_data.events`
-        where timestamp >= timestamp(current_date() - 90)
-          and date(timestamp) > '2022-06-05'
+        where date(timestamp) > '2022-06-05'
           and event_name = 'round_end') as a
       join
         (select
@@ -36,8 +35,7 @@ view: churn_by_level_by_attempt {
           ,json_extract_scalar(extra_json,"$.round_id") round_id
           ,json_extract_scalar(extra_json,"$.rounds") rounds
         from `eraser-blast.game_data.events`
-        where timestamp >= timestamp(current_date() - 90)
-          and date(timestamp) > '2022-06-05'
+        where date(timestamp) > '2022-06-05'
           and event_name = 'round_end') as b
       on a.rdg_id = b.rdg_id
         and a.round_id = b.round_id

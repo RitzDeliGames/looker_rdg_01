@@ -51,9 +51,10 @@ view: churn_by_level_by_attempt {
   }
   dimension: rdg_id {}
   measure: player_count {
+    label: "Unique Player Count"
     type: count_distinct
     sql: ${rdg_id} ;;
-    drill_fields: [rdg_id,round_id,greater_round_id]
+    drill_fields: [rdg_id,round_id,greater_round_id,rounds]
   }
   dimension: timestamp {
     type: date_time

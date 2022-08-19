@@ -18,35 +18,35 @@ view: attempts_per_level {
 
   dimension:  max_attempts {}
 
-  measure: rounds_per_day_025 {
+  measure: attempts_per_day_025 {
     group_label: "Max Attempts per Level"
     label: "Max Attempts per Level - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${max_attempts} ;;
   }
-  measure: rounds_per_day_25 {
+  measure: attempts_per_day_25 {
     group_label: "Max Attempts per Level"
     label: "Max Attempts per Level - 25%"
     type: percentile
     percentile: 25
     sql: ${max_attempts} ;;
   }
-  measure: rounds_per_day_med {
+  measure: attempts_per_day_med {
     group_label: "Max Attempts per Level"
     label: "Max Attempts per Level - Median"
     type: percentile
     percentile: 50
     sql: ${max_attempts} ;;
   }
-  measure: rounds_per_day_75 {
+  measure: attempts_per_day_75 {
     group_label: "Max Attempts per Level"
     label: "Max Attempts per Level - 75%"
     type: percentile
     percentile: 75
     sql: ${max_attempts} ;;
   }
-  measure: rounds_per_day_975 {
+  measure: attempts_per_day_975 {
     group_label: "Max Attempts per Level"
     label: "Max Attempts per Level - 97.5%"
     type: percentile

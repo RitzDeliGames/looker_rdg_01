@@ -12,6 +12,7 @@ view: round_end {
         ,last_level_id
         ,cast(last_level_serial as int64) last_level_serial
         ,cast(json_extract_scalar(extra_json,'$.round_id') as int64) round_id
+        ,cast(json_extract_scalar(extra_json,"$.rounds") as int64) rounds
         ,cast(json_extract_scalar(extra_json,'$.quest_complete') as boolean) quest_complete
         ,json_extract_scalar(extra_json,'$.game_mode') game_mode
         ,cast(json_extract_scalar(extra_json,'$.request_help') as boolean) request_help
@@ -129,6 +130,11 @@ view: round_end {
   dimension: round_id {
     type: number
     sql: ${TABLE}.round_id ;;
+  }
+  dimension: rounds {
+    label: "Attempts"
+    type: number
+    sql: ${TABLE}.rounds ;;
   }
   dimension: quest_complete {
     type: yesno
@@ -716,6 +722,11 @@ view: round_end {
     percentile: 97.5
     value_format: "#.00"
     sql: ${seconds_per_match} ;;
+  }
+  measure: max_attempts {
+    label: "Max Attempts per Level"
+    type: max
+    sql: ${rounds} ;;
   }
   drill_fields: [proximity_to_completion,rdg_id,current_card_numbered]
 }

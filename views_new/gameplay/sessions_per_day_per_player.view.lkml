@@ -33,7 +33,7 @@ view: sessions_per_day_per_player {
     type: date
   }
   dimension: session_count {
-    hidden: yes
+    #hidden: yes
     type: number
   }
   dimension: rdg_id {

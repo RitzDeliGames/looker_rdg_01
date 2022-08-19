@@ -466,6 +466,13 @@ explore: gameplay {
     sql: left join unnest(json_extract_array(${gameplay.unnest_all_chains})) chain_length ;;
     relationship: one_to_many
   }
+  join: attempts_per_level {
+    view_label: "Gameplay"
+    type: left_outer
+    sql_on: ${gameplay.rdg_id} =  ${attempts_per_level.rdg_id}
+      and ${gameplay.last_level_id} = ${attempts_per_level.last_level_id};;
+    relationship: many_to_one ## let's test this
+  }
   join: sessions_per_day_per_player {
     view_label: "Gameplay"
     type: left_outer

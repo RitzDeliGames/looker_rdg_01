@@ -117,6 +117,19 @@ view: user_last_event {
   }
 
   ###EXPERIMENT IDS - LIVE###
+  dimension: fueLevels_20220815   {
+    group_label: "Experiments - Live"
+    label: "FUE Revamp - v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.fueLevels_20220815'),'unassigned') ;;
+  }
+  dimension: dailyrewards_20220628   {
+    group_label: "Experiments - Live"
+    label: "Daily Rewards v4"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.dailyrewards_20220628'),'unassigned') ;;
+  }
+  ###EXPERIMENT IDS - CLOSED###
   dimension: streakbonuses_20220720   {
     group_label: "Experiments - Live"
     label: "Streak Bonuses - v1"
@@ -142,24 +155,17 @@ view: user_last_event {
     sql: nullif(json_extract_scalar(${experiments},'$.altlevelorder_20220623'),'unassigned') ;;
   }
   dimension: experiment_zoneoptions_20220621   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Zones v4"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.zoneoptions_20220621'),'unassigned') ;;
   }
   dimension: eraserskills_20220629   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Eraser Skills v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.eraserskills_20220629'),'unassigned') ;;
   }
-  dimension: dailyrewards_20220628   {
-    group_label: "Experiments - Live"
-    label: "Daily Rewards v4"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.dailyrewards_20220628'),'unassigned') ;;
-  }
-  ###EXPERIMENT IDS - CLOSED###
   dimension: minigame3_20220601   {
     group_label: "Experiments - Closed"
     label: "Minigame v3"

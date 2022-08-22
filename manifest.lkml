@@ -315,7 +315,7 @@ constant: country_region {
           end"
 }
 
-constant: current_card_numbered_coalesced {
+constant: current_card_numbered_coalesced {#REFACTOR WHEN NEW CARDS COME OUT
   value: "CASE
               when coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_001_a' THEN 100
               when coalesce(${TABLE}.last_unlocked_card,${TABLE}.current_card) = 'card_001_b' THEN 100
@@ -370,7 +370,7 @@ constant: current_card_numbered_coalesced {
           END"
 }
 
-constant: current_card_numbered {
+constant: current_card_numbered {#REFACTOR WHEN NEW CARDS COME OUT
   value: "case
             when ${TABLE}.current_card = 'card_001_a' then 100
             when ${TABLE}.current_card = 'card_001_b' then 100
@@ -458,7 +458,7 @@ constant: current_card_numbered {
           end"
 }
 
-constant: card_id_numbered {
+constant: card_id_numbered {#REFACTOR WHEN NEW CARDS COME OUT
     value: "case
             when ${TABLE}.card_id = 'card_001_a' then 100
             when ${TABLE}.card_id = 'card_001_b' then 100
@@ -546,7 +546,7 @@ constant: card_id_numbered {
           end"
 }
 
-constant: last_unlocked_card_numbered {
+constant: last_unlocked_card_numbered {#REFACTOR WHEN NEW CARDS COME OUT
   value: "case
             when ${TABLE}.last_unlocked_card = 'card_001_a' then 100
             when ${TABLE}.last_unlocked_card = 'card_001_b' then 100
@@ -598,7 +598,7 @@ constant: last_unlocked_card_numbered {
           end"
 }
 
-constant: request_card_numbered {
+constant: request_card_numbered {#REFACTOR WHEN NEW CARDS COME OUT
   value: "case
       when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_a' then 100
       when json_extract_scalar(extra_json,'$.request_card_id') = 'card_001_b' then 100

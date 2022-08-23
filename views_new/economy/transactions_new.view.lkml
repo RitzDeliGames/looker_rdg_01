@@ -150,13 +150,13 @@ view: transactions_new {
   }
   dimension: last_level_id {
     group_label: "Level Dimensions"
-    label: "Last Level Played - Id"
+    label: "Last Level Completed - Id"
     type: string
     sql: ${TABLE}.last_level_id ;;
   }
   dimension: last_level_serial {
     group_label: "Level Dimensions"
-    label: "Last Level Played"
+    label: "Last Level Completed"
     type: number
     sql: ${TABLE}.last_level_serial ;;
   }

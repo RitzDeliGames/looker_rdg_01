@@ -61,7 +61,8 @@ view: click_sequence {
     type: number
   }
   dimension: last_level_serial {
-    label: "Last Level"
+    group_label: "Level Dimensions"
+    label: "Last Level Completed"
     type: number
   }
   dimension: engagement_minutes {

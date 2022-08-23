@@ -113,17 +113,17 @@ view: round_end {
   }
   dimension: last_level_id {
     group_label: "Level Dimensions"
-    label: "Last Level Played - Id"
+    label: "Last Level Completed - Id"
     type: string
   }
   dimension: last_level_serial {
     group_label: "Level Dimensions"
-    label: "Last Level Played"
+    label: "Last Level Completed"
     type: number
   }
   dimension: last_level_serial_with_id {
     group_label: "Level Dimensions"
-    label: "Last Level Played w/ID"
+    label: "Last Level Completed w/ID"
     type: number
     html: {{ rendered_value }} || {{ last_level_id._rendered_value }} ;;
   }

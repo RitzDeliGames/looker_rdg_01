@@ -42,19 +42,19 @@ view: churn_by_match_data {
 
   dimension: last_level_id {
     group_label: "Level Dimensions"
-    label: "Last Level Played - Id"
+    label: "Last Level Completed - Id"
     type: string
   }
 
   dimension: last_level_serial {
     group_label: "Level Dimensions"
-    label: "Last Level Played"
+    label: "Last Level Completed"
     type: number
   }
 
   dimension: last_level_serial_with_id {
     group_label: "Level Dimensions"
-    label: "Last Level Played w/Schema ID"
+    label: "Last Level Completed w/Schema ID"
     type: number
     sql: ${TABLE}.last_level_serial ;;
     html: {{ rendered_value }} || {{ last_level_id._rendered_value }} ;;
@@ -62,7 +62,7 @@ view: churn_by_match_data {
 
   dimension: last_level_serial_with_id_extracted {
     group_label: "Level Dimensions"
-    label: "Last Level Played w/Extracted ID"
+    label: "Last Level Completed w/Extracted ID"
     type: number
     sql: ${TABLE}.last_level_serial ;;
     html: {{ rendered_value }} || {{ level._rendered_value }} ;;
@@ -70,7 +70,7 @@ view: churn_by_match_data {
 
   dimension: greater_last_level_serial {
     group_label: "Level Dimensions"
-    label: "Greater Last Level Played"
+    label: "Greater Last Level Completed"
     type: number
   }
 

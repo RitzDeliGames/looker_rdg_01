@@ -229,6 +229,7 @@ constant: release_version_minor {
             when ${TABLE}.version = '12934' then '1.12.934'
             when ${TABLE}.version = '12952' then '1.12.952'
             when ${TABLE}.version = '12955' then '1.12.955'
+            when ${TABLE}.version = '12956' then '1.12.956'
           end"
 }
 
@@ -302,6 +303,7 @@ constant: install_release_version_minor {
             when ${TABLE}.install_version = '12934' then '1.12.934'
             when ${TABLE}.install_version = '12952' then '1.12.952'
             when ${TABLE}.install_version = '12955' then '1.12.955'
+            when ${TABLE}.install_version = '12956' then '1.12.956'
           end"
 }
 

@@ -10,13 +10,14 @@ view: user_fact {
         ,user_id
         ,platform
         ,country
+        ,hardware
         ,row_number() over (partition by rdg_id order by timestamp asc) rn
       from `eraser-blast.game_data.events`
       where created_at >= '2019-01-01'
       and user_type = 'external'
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1')
-      -- group by rdg_id, country, platform
+
       select
         fa.rdg_id
         ,fa.device_id
@@ -24,9 +25,9 @@ view: user_fact {
         ,fa.user_id
         ,fa.platform
         ,fa.country
-        ,hardware
-        ,(select string_agg(json_extract_scalar(device_array, '$.screenWidth'), ' ,') from unnest(json_extract_array(devices)) device_array) screen_width
-        ,(select string_agg(json_extract_scalar(device_array, '$.screenHeight'), ' ,') from unnest(json_extract_array(devices)) device_array) screen_height
+        ,fa.hardware
+        --,(select string_agg(json_extract_scalar(device_array, '$.screenWidth'), ' ,') from unnest(json_extract_array(devices)) device_array) screen_width
+        --,(select string_agg(json_extract_scalar(device_array, '$.screenHeight'), ' ,') from unnest(json_extract_array(devices)) device_array) screen_height
         ,max(ltv) ltv
         ,min(created_at) created
         ,min(datetime(created_at,'US/Pacific')) created_pst
@@ -83,7 +84,7 @@ view: user_fact {
       and gde.country != 'ZZ'
       and coalesce(gde.install_version,'null') <> '-1'
       and fa.rn = 1
-      group by 1,2,3,4,5,6,7,8,9
+      group by 1,2,3,4,5,6,7--,8,9
     ;;
 
     datagroup_trigger: change_8_hrs
@@ -172,7 +173,7 @@ view: user_fact {
   }
   dimension: hardware {
     group_label: "Device & OS Dimensions"
-    label: "Device Hardware"
+    label: "Device Hardware - Install"
     type: string
     sql: ${TABLE}.hardware ;;
   }

@@ -196,11 +196,6 @@ explore: transactions {
     and ${transactions.minutes_played} = ${user_activity_engagement_min.engagement_min};;
     relationship: many_to_many
   }
-  # join: supported_devices {
-  #   type: left_outer
-  #   sql_on: ${transactions.device_model_number} = ${supported_devices.retail_model} ;;
-  #   relationship: many_to_one
-  # }
   join: facebook_daily_export {
     type: left_outer
     sql_on: ${transactions.created_pst_date} = ${facebook_daily_export.date};;

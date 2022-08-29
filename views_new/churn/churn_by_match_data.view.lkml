@@ -12,8 +12,22 @@ view: churn_by_match_data {
           ,cast(json_extract_scalar(extra_json,'$.moves') as int64) moves_remaining
           ,json_extract_scalar(extra_json,'$.objective_count_total') objective_count_total
           ,json_extract_scalar(extra_json,'$.objective_progress') objective_progress
-          ,cast(json_extract_scalar(extra_json,'$.objective_Balloon_value') as int64) objective_balloon_value
           ,json_extract_scalar(extra_json,'$.level') level
+          ,cast(coalesce(
+            json_extract_scalar(extra_json,'$.objective_Red_value')
+            ,json_extract_scalar(extra_json,'$.objective_Yellow_value')
+            ,json_extract_scalar(extra_json,'$.objective_Green_value')
+            ,json_extract_scalar(extra_json,'$.objective_Purple_value')
+            ,json_extract_scalar(extra_json,'$.objective_Blue_value')
+          ) as int64) objective_color_progress
+          ,cast(coalesce(
+            json_extract_scalar(extra_json,'$.objective_Balloon_value')
+            ,json_extract_scalar(extra_json,'$.objective_Cupcake_value')
+            ,json_extract_scalar(extra_json,'$.objective_Donuts_value')
+            ,json_extract_scalar(extra_json,'$.objective_Cookies_value')
+            ,json_extract_scalar(extra_json,'$.objective_Mustand_value')
+            ,json_extract_scalar(extra_json,'$.objective_Bubbles_value')
+          ) as int64) objective_blocker_progress
           ,cast(last_value(last_level_serial)
                   over (
                       partition by rdg_id
@@ -98,7 +112,11 @@ view: churn_by_match_data {
     value_format: "#%"
   }
 
-  dimension:  objective_balloon_value {
+  dimension: objective_color_progress {
+    type: number
+  }
+
+  dimension:  objective_blocker_progress {
     type: number
   }
 
@@ -125,43 +143,12 @@ view: churn_by_match_data {
     sql: ${TABLE}.experiments ;;
     hidden: yes
   }
-  dimension: altleveltuning_20220721   {
+  dimension: fueLevels_20220815   {
     group_label: "Experiments - Live"
-    label: "Level Order v3"
+    label: "FUE Revamp - v1"
     type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.altleveltuning_20220721'),'unassigned') ;;
+    sql: nullif(json_extract_scalar(${experiments},'$.fueLevels_20220815'),'unassigned') ;;
   }
-  dimension: altleveltuning_20220706   {
-    group_label: "Experiments - Closed"
-    label: "Level Order v2"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.altleveltuning_20220706'),'unassigned') ;;
-  }
-  dimension: altlevelorder_20220623   {
-    group_label: "Experiments - Closed"
-    label: "Level Order v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.altlevelorder_20220623'),'unassigned') ;;
-  }
-  dimension: experiment_zoneoptions_20220621   {
-    group_label: "Experiments - Live"
-    label: "Zones v4"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.zoneoptions_20220621'),'unassigned') ;;
-  }
-  dimension: eraserskills_20220629   {
-    group_label: "Experiments - Live"
-    label: "Eraser Skills v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.eraserskills_20220629'),'unassigned') ;;
-  }
-  dimension: dailyrewards_20220628   {
-    group_label: "Experiments - Live"
-    label: "Daily Rewards v4"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.dailyrewards_20220628'),'unassigned') ;;
-  }
-
   measure: player_count {
     type: count_distinct
     sql: ${rdg_id} ;;

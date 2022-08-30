@@ -54,6 +54,14 @@ view: attempts_per_level {
     sql: ${max_attempts} ;;
   }
 
+  measure: attempts_per_day_mean {
+    group_label: "Max Attempts per Level"
+    label: "Max Attempts per Level - Mean"
+    type: average
+    value_format: "#0.00"
+    sql: ${max_attempts} ;;
+  }
+
   # dimension_group: event {
   #   type: time
   #   sql: ${TABLE}.timestamp ;;

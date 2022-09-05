@@ -117,6 +117,12 @@ view: user_last_event {
   }
 
   ###EXPERIMENT IDS - LIVE###
+  dimension: newLevelPass_20220825   {
+    group_label: "Experiments - Live"
+    label: "New Level Pass"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.newLevelPass_20220825'),'unassigned') ;;
+  }
   dimension: fueLevels_20220815   {
     group_label: "Experiments - Live"
     label: "FUE Revamp - v1"

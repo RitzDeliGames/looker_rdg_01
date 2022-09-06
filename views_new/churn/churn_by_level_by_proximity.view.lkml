@@ -36,7 +36,7 @@ view: churn_by_level_by_proximity {
       on a.rdg_id = b.rdg_id
         and a.round_id = b.round_id
       order by 1, 2 desc    ;;
-    datagroup_trigger: change_at_midnight
+    datagroup_trigger: change_8_hrs
   }
   dimension: primary_key {
     hidden: yes

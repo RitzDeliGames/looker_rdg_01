@@ -40,7 +40,8 @@ view: churn_by_match_data {
           and event_name = 'match_made'
           and timestamp >= timestamp(current_date() - 90) --this needs to be changed
         order by rdg_id, timestamp desc
-      ;;}
+      ;;
+    datagroup_trigger: change_8_hrs}
 
   dimension: primary_key {
     hidden: yes

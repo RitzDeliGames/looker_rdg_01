@@ -79,7 +79,7 @@ view: churn_by_level_by_proximity {
     group_label: "Proximity to Completion"
     label: "Proximity to Completion (Integer)"
     type:  number
-    sql: ${TABLE}.proximity_to_completion * 100;;
+    sql: if(${TABLE}.proximity_to_completion <= 1, ${TABLE}.proximity_to_completion * 100, ${TABLE}.proximity_to_completion);;
   }
   dimension: proximity_to_completion_tiers {
     group_label: "Proximity to Completion"

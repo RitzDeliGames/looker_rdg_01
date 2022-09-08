@@ -166,7 +166,7 @@ view: round_end {
     group_label: "Proximity to Completion"
     label: "Proximity to Completion (Integer)"
     type:  number
-    sql: ${TABLE}.proximity_to_completion * 100;;
+    sql: if(${TABLE}.proximity_to_completion <= 1, ${TABLE}.proximity_to_completion * 100, ${TABLE}.proximity_to_completion);;
   }
   dimension: proximity_to_completion_tiers {
     group_label: "Proximity to Completion"
@@ -727,6 +727,11 @@ view: round_end {
     label: "Max Attempts per Level"
     type: max
     sql: ${rounds} ;;
+  }
+  measure:  proximity_to_completion_int_avg {
+    label: "Avg. Proximity to Completion"
+    type: average
+    sql: ${proximity_to_completion_int} ;;
   }
   drill_fields: [proximity_to_completion,rdg_id,current_card_numbered]
 }

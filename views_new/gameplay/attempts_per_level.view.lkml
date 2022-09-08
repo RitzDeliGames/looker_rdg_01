@@ -4,6 +4,7 @@ view: attempts_per_level {
       column: rdg_id {}
       column: last_level_id {}
       column: max_attempts {}
+      column: proximity_to_completion_int_avg {}
     }
   }
   dimension: pk {
@@ -14,10 +15,22 @@ view: attempts_per_level {
   dimension: rdg_id {
     hidden: yes
   }
-  dimension: last_level_id {}
-
-  dimension:  max_attempts {}
-
+  dimension: last_level_id {
+    hidden: no
+  }
+  dimension: max_attempts {
+    hidden: no
+  }
+  dimension: proximity_to_completion_int_avg {
+    hidden: yes
+  }
+  measure:  proximity_to_completion_int_avg_med {
+    group_label: "Proximity to Completion"
+    label: "Proximity to Completion - Median"
+    type: percentile
+    percentile: 50
+    sql: ${proximity_to_completion_int_avg} ;;
+  }
   measure: attempts_per_day_025 {
     group_label: "Max Attempts per Level"
     label: "Max Attempts per Level - 2.5%"

@@ -29,7 +29,6 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
         ,cast(json_extract_scalar(extra_json,'$.round_length') as int64) round_length
         ,cast(replace(json_extract_scalar(extra_json,'$.proximity_to_completion'),',','') as float64) proximity_to_completion
-        --,cast(json_extract_scalar(extra_json,'$.requirement_amount') as int64) requirement_amount
         ,json_extract(extra_json,'$.all_chains') all_chains
         ,json_extract_scalar(extra_json,'$.all_chains') unnest_all_chains
         ,cast(json_extract_scalar(extra_json,'$.skill_available') as int64) skill_available

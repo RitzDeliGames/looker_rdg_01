@@ -48,7 +48,7 @@ view: transactions_new {
     hidden: no
     primary_key: yes
     type: string
-    sql: ${rdg_id} || ${transaction_raw} || ${source_raw} || ${sheet_raw};;
+    sql: ${rdg_id} || ${transaction_raw} ;;
   }
   dimension: rdg_id {
     group_label: "Player IDs"
@@ -171,7 +171,9 @@ view: transactions_new {
     type: string
     sql: @{purchase_source} ;;
   }
-  dimension:  currency_spent {}
+  dimension:  currency_spent {
+    type: string
+  }
   dimension:  currency_spent_amount {
     type: number
   }
@@ -249,7 +251,7 @@ view: transactions_new {
     label: "Total Dollars Spent"
     type: sum
     value_format: "#,###"
-    sql: if(${currency_spent} = 'CURRENCY_01',0,${currency_spent_amount}) ;;
+    sql: if(${currency_spent} = 'CURRENCY_01',${currency_spent_amount}, 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
   measure: spender_count {

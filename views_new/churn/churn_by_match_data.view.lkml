@@ -2,7 +2,6 @@
 
 view: churn_by_match_data {
   derived_table: {
-    #datagroup_trigger: change_at_midnight
     sql: select
           rdg_id
           ,timestamp
@@ -12,22 +11,11 @@ view: churn_by_match_data {
           ,cast(json_extract_scalar(extra_json,'$.moves') as int64) moves_remaining
           ,json_extract_scalar(extra_json,'$.objective_count_total') objective_count_total
           ,json_extract_scalar(extra_json,'$.objective_progress') objective_progress
+          ,json_extract_scalar(extra_json,'$.objective_0') objective_0
+          ,json_extract_scalar(extra_json,'$.objective_1') objective_1
+          ,json_extract_scalar(extra_json,'$.objective_2') objective_2
+          ,json_extract_scalar(extra_json,'$.objective_3') objective_3
           ,json_extract_scalar(extra_json,'$.level') level
-          ,cast(coalesce(
-            json_extract_scalar(extra_json,'$.objective_Red_value')
-            ,json_extract_scalar(extra_json,'$.objective_Yellow_value')
-            ,json_extract_scalar(extra_json,'$.objective_Green_value')
-            ,json_extract_scalar(extra_json,'$.objective_Purple_value')
-            ,json_extract_scalar(extra_json,'$.objective_Blue_value')
-          ) as int64) objective_color_progress
-          ,cast(coalesce(
-            json_extract_scalar(extra_json,'$.objective_Balloon_value')
-            ,json_extract_scalar(extra_json,'$.objective_Cupcake_value')
-            ,json_extract_scalar(extra_json,'$.objective_Donuts_value')
-            ,json_extract_scalar(extra_json,'$.objective_Cookies_value')
-            ,json_extract_scalar(extra_json,'$.objective_Mustand_value')
-            ,json_extract_scalar(extra_json,'$.objective_Bubbles_value')
-          ) as int64) objective_blocker_progress
           ,cast(last_value(last_level_serial)
                   over (
                       partition by rdg_id
@@ -43,100 +31,71 @@ view: churn_by_match_data {
       ;;
     datagroup_trigger: change_8_hrs}
 
+  dimension: rdg_id {
+    type: string
+  }
+  dimension: timestamp {
+    type: date_time
+  }
   dimension: primary_key {
     hidden: yes
     type: string
     sql: ${rdg_id} || ${timestamp} ;;
   }
-
   dimension: level {
     group_label: "Level Dimensions"
     label: "Level - Extracted"
     type: string
   }
-
   dimension: last_level_id {
     group_label: "Level Dimensions"
     label: "Last Level Completed - Id"
     type: string
   }
-
   dimension: last_level_serial {
     group_label: "Level Dimensions"
     label: "Last Level Completed"
     type: number
   }
-
-  dimension: last_level_serial_with_id {
-    group_label: "Level Dimensions"
-    label: "Last Level Completed w/Schema ID"
-    type: number
-    sql: ${TABLE}.last_level_serial ;;
-    html: {{ rendered_value }} || {{ last_level_id._rendered_value }} ;;
-  }
-
-  dimension: last_level_serial_with_id_extracted {
-    group_label: "Level Dimensions"
-    label: "Last Level Completed w/Extracted ID"
-    type: number
-    sql: ${TABLE}.last_level_serial ;;
-    html: {{ rendered_value }} || {{ level._rendered_value }} ;;
-  }
-
   dimension: greater_last_level_serial {
     group_label: "Level Dimensions"
     label: "Greater Last Level Completed"
     type: number
   }
-
   dimension: churn {
     type: string
     sql: if(${last_level_serial} < ${greater_last_level_serial},'still_on_current_tile','advanced_to_next_tile') ;;
   }
-
   dimension: is_churn {
     hidden: yes
     type: yesno
     sql:  ${last_level_serial} < ${greater_last_level_serial};;
   }
-
   dimension: moves_remaining {
     type: number
   }
-
   dimension: objective_count_total {
     type: string
   }
-
   dimension:  objective_progress {
     type: number
     value_format: "#%"
   }
-
-  dimension: objective_color_progress {
+  dimension: objective_0 {
+    group_label: "Objectives"
     type: number
   }
-
-  dimension:  objective_blocker_progress {
+  dimension:  objective_1 {
+    group_label: "Objectives"
     type: number
   }
-
-
-
-  dimension: rdg_id {
-    type: string
+  dimension:  objective_2 {
+    group_label: "Objectives"
+    type: number
   }
-
-  # dimension: round_id {
-  #   type: number
-  # }
-
-  # dimension: rounds {
-  #   type: number
-  # }
-
-  dimension: timestamp {
-    type: date_time
+  dimension:  objective_3 {
+    group_label: "Objectives"
+    type: number
   }
 
   dimension: experiments {

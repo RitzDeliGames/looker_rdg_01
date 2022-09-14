@@ -13,7 +13,10 @@ view: churn_by_match_made {
         ,json_extract_scalar(extra_json,'$.level') level_name
         ,json_extract_scalar(extra_json,'$.objective_count_total') objective_count_total
         ,json_extract_scalar(extra_json,'$.objective_progress') objective_progress
-        ,json_extract_scalar(extra_json,'$.objective_Balloon_value') objective_Balloon_value
+        ,json_extract_scalar(extra_json,'$.objective_0') objective_0
+        ,json_extract_scalar(extra_json,'$.objective_1') objective_1
+        ,json_extract_scalar(extra_json,'$.objective_2') objective_2
+        ,json_extract_scalar(extra_json,'$.objective_3') objective_3
         ,json_extract_scalar(extra_json,'$.moves') moves_remaining
       from game_data.events
       where event_name = 'match_made'
@@ -103,6 +106,26 @@ view: churn_by_match_made {
   dimension: objective_progress {
     type: number
     sql: ${TABLE}.objective_progress ;;
+  }
+  dimension: objective_0 {
+    group_label: "Objectives"
+    type: number
+    sql: ${TABLE}.objective_0 ;;
+  }
+  dimension:  objective_1 {
+    group_label: "Objectives"
+    type: number
+    sql: ${TABLE}.objective_1 ;;
+  }
+  dimension:  objective_2 {
+    group_label: "Objectives"
+    type: number
+    sql: ${TABLE}.objective_2 ;;
+  }
+  dimension:  objective_3 {
+    group_label: "Objectives"
+    type: number
+    sql: ${TABLE}.objective_3 ;;
   }
   dimension: moves {
     type: number

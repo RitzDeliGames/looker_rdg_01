@@ -160,7 +160,6 @@ view: transactions_new {
     type: number
     sql: ${TABLE}.last_level_serial ;;
   }
-
   dimension: sheet_raw {}
   dimension: sheet {
     type: string

@@ -31,11 +31,11 @@ view: round_end {
         ,cast(replace(json_extract_scalar(extra_json,'$.proximity_to_completion'),',','') as float64) proximity_to_completion
         ,json_extract(extra_json,'$.all_chains') all_chains
         ,json_extract_scalar(extra_json,'$.all_chains') unnest_all_chains
-        ,cast(json_extract_scalar(currencies,"$.CURRENCY_02") as int64) currency_02_balance
-        ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as int64) currency_03_balance
-        ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as int64) currency_04_balance
-        ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as int64) currency_05_balance
-        ,cast(json_extract_scalar(currencies,"$.CURRENCY_07") as int64) currency_07_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric) currency_02_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric) currency_05_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
 
     from game_data.events
    where event_name = 'round_end'

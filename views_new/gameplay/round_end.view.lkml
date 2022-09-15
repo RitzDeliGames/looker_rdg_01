@@ -580,44 +580,44 @@ view: round_end {
     percentile: 97.5
     sql: ${currency_03_balance} ;;
   }
-  dimension: currency_05_balance {
+  dimension: currency_07_balance {
     type: number
     hidden: yes
-    sql: ${TABLE}.currency_05_balance ;;
+    sql: ${TABLE}.currency_07_balance ;;
   }
-  measure: currency_05_balance_025 {
+  measure: currency_07_balance_025 {
     group_label: "Star Balance"
     label: "Star Balance - 2.5%"
     type: percentile
     percentile: 2.5
-    sql: ${currency_05_balance} ;;
+    sql: ${currency_07_balance} ;;
   }
-  measure: currency_05_balance_25 {
+  measure: currency_07_balance_25 {
     group_label: "Star Balance"
     label: "Star Balance - 25%"
     type: percentile
     percentile: 25
-    sql: ${currency_05_balance} ;;
+    sql: ${currency_07_balance} ;;
   }
-  measure: currency_05_balance_med {
+  measure: currency_07_balance_med {
     group_label: "Star Balance"
     label: "Star Balance - Median"
     type: median
-    sql: ${currency_05_balance} ;;
+    sql: ${currency_07_balance} ;;
   }
-  measure: currency_05_balance_75 {
+  measure: currency_07_balance_75 {
     group_label: "Star Balance"
     label: "Star Balance - 75%"
     type: percentile
     percentile: 75
-    sql: ${currency_05_balance} ;;
+    sql: ${currency_07_balance} ;;
   }
-  measure: currency_05_balance_975 {
+  measure: currency_07_balance_975 {
     group_label: "Star Balance"
     label: "Star Balance - 97.5%"
     type: percentile
     percentile: 97.5
-    sql: ${currency_05_balance} ;;
+    sql: ${currency_07_balance} ;;
   }
 
   drill_fields: [proximity_to_completion,rdg_id,current_card_numbered]

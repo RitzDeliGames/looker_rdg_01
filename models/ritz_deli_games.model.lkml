@@ -743,14 +743,15 @@ explore: click_sequence {
 }
 
 explore: cohort_analysis {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping}
-   and ${transactions_new.transaction_date} >= ${first_created_date} ;;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: cohort_selection
   join: transactions_new {
     type: left_outer
     relationship: many_to_many
     sql_on: ${cohort_analysis.first_created_date} = ${transactions_new.created_date}
-        and ${cohort_analysis.rdg_id} = ${transactions_new.rdg_id};;
+        and ${cohort_analysis.rdg_id} = ${transactions_new.rdg_id}
+       -- and ${transactions_new.transaction_date} >= ${cohort_analysis.first_created_date}
+      ;;
   }
   join: cohort_analysis_mixed_fields {
     view_label: "Currencies"

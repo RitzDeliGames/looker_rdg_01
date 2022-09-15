@@ -82,7 +82,7 @@ view: cohort_analysis_mixed_fields {
     group_label: "Cohorted Spend"
     label: "Cohorted Coin Spend per Player"
     type: number
-    sql: ${transactions_new.coin_spent_amount_sum} / NULLIF(${cohort_analysis.count},0) ;;
+    sql: ${cumulative_coins_spent} / NULLIF(${cumulative_cohort},0) ;;
     value_format_name: decimal_0
     drill_fields: [transactions_new.rdg_id, transactions_new.transaction_date, transactions_new.transaction_count, transactions_new.iap_id, transactions_new.iap_purchase_item, transactions_new.currency_spent, transactions_new.currency_spent_amount, transactions_new.minutes_played]
   }
@@ -103,6 +103,17 @@ view: cohort_analysis_mixed_fields {
     sql: ${transactions_new.star_spent_amount_sum} / NULLIF(${cohort_analysis.count},0) ;;
     value_format_name: decimal_0
     drill_fields: [transactions_new.rdg_id, transactions_new.transaction_date, transactions_new.transaction_count, transactions_new.iap_id, transactions_new.iap_purchase_item, transactions_new.currency_spent, transactions_new.currency_spent_amount]
+  }
+
+  measure: cumulative_cohort {
+    type: running_total
+    sql: ${cohort_analysis.count} ;;
+  }
+  measure: cumulative_coins_spent {
+    group_label: "Cumulative Spend"
+    type: running_total
+    sql: ${transactions_new.coin_spent_amount_sum} ;;
+    value_format: "#,###"
   }
 
   ####---- COMPARISONS TO SESSIONS_PER_DAY_PER_PLAYER ----####

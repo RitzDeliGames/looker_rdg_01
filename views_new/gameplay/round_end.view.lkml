@@ -31,6 +31,12 @@ view: round_end {
         ,cast(replace(json_extract_scalar(extra_json,'$.proximity_to_completion'),',','') as float64) proximity_to_completion
         ,json_extract(extra_json,'$.all_chains') all_chains
         ,json_extract_scalar(extra_json,'$.all_chains') unnest_all_chains
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_02") as int64) currency_02_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as int64) currency_03_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as int64) currency_04_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as int64) currency_05_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_07") as int64) currency_07_balance
+
     from game_data.events
    where event_name = 'round_end'
      and timestamp >= '2019-01-01'
@@ -502,5 +508,123 @@ view: round_end {
     type: average
     sql: ${proximity_to_completion_int} ;;
   }
+  dimension: currency_02_balance {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.currency_02_balance ;;
+  }
+  measure: currency_02_balance_025 {
+    group_label: "Gem Balance"
+    label: "Gem Balance - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${currency_02_balance} ;;
+  }
+  measure: currency_02_balance_25 {
+    group_label: "Gem Balance"
+    label: "Gem Balance - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${currency_02_balance} ;;
+  }
+  measure: currency_02_balance_med {
+    group_label: "Gem Balance"
+    label: "Gem Balance - Median"
+    type: median
+    sql: ${currency_02_balance} ;;
+  }
+  measure: currency_02_balance_75 {
+    group_label: "Gem Balance"
+    label: "Gem Balance - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${currency_02_balance} ;;
+  }
+  measure: currency_02_balance_975 {
+    group_label: "Gem Balance"
+    label: "Gem Balance - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${currency_02_balance} ;;
+  }
+  dimension: currency_03_balance {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.currency_03_balance ;;
+  }
+  measure: currency_03_balance_025 {
+    group_label: "Coin Balance"
+    label: "Coin Balance - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${currency_03_balance} ;;
+  }
+  measure: currency_03_balance_25 {
+    group_label: "Coin Balance"
+    label: "Coin Balance - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${currency_03_balance} ;;
+  }
+  measure: currency_03_balance_med {
+    group_label: "Coin Balance"
+    label: "Coin Balance - Median"
+    type: median
+    sql: ${currency_03_balance} ;;
+  }
+  measure: currency_03_balance_75 {
+    group_label: "Coin Balance"
+    label: "Coin Balance - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${currency_03_balance} ;;
+  }
+  measure: currency_03_balance_975 {
+    group_label: "Coin Balance"
+    label: "Coin Balance - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${currency_03_balance} ;;
+  }
+  dimension: currency_05_balance {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.currency_05_balance ;;
+  }
+  measure: currency_05_balance_025 {
+    group_label: "Star Balance"
+    label: "Star Balance - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${currency_05_balance} ;;
+  }
+  measure: currency_05_balance_25 {
+    group_label: "Star Balance"
+    label: "Star Balance - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${currency_05_balance} ;;
+  }
+  measure: currency_05_balance_med {
+    group_label: "Star Balance"
+    label: "Star Balance - Median"
+    type: median
+    sql: ${currency_05_balance} ;;
+  }
+  measure: currency_05_balance_75 {
+    group_label: "Star Balance"
+    label: "Star Balance - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${currency_05_balance} ;;
+  }
+  measure: currency_05_balance_975 {
+    group_label: "Star Balance"
+    label: "Star Balance - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${currency_05_balance} ;;
+  }
+
   drill_fields: [proximity_to_completion,rdg_id,current_card_numbered]
 }

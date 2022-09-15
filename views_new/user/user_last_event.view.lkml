@@ -117,15 +117,21 @@ view: user_last_event {
   }
 
   ###EXPERIMENT IDS - LIVE###
+  dimension: newLevelPass_20220913   {
+    group_label: "Experiments - Live"
+    label: "New Level Pass v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.newLevelPass_20220913'),'unassigned') ;;
+  }
   dimension: newLevelPass_20220825   {
     group_label: "Experiments - Live"
-    label: "New Level Pass"
+    label: "New Level Pass v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.newLevelPass_20220825'),'unassigned') ;;
   }
   dimension: fueLevels_20220815   {
     group_label: "Experiments - Live"
-    label: "FUE Revamp - v1"
+    label: "FUE Revamp v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.fueLevels_20220815'),'unassigned') ;;
   }
@@ -138,7 +144,7 @@ view: user_last_event {
   ###EXPERIMENT IDS - CLOSED###
   dimension: streakbonuses_20220720   {
     group_label: "Experiments - Live"
-    label: "Streak Bonuses - v1"
+    label: "Streak Bonuses v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.streakBonuses_20220720'),'unassigned') ;;
   }

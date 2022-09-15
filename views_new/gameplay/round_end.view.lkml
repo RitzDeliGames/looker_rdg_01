@@ -124,12 +124,6 @@ view: round_end {
     label: "Last Level Completed"
     type: number
   }
-  dimension: last_level_serial_with_id {
-    group_label: "Level Dimensions"
-    label: "Last Level Completed w/ID"
-    type: number
-    html: {{ rendered_value }} || {{ last_level_id._rendered_value }} ;;
-  }
   dimension: round_id {
     type: number
     sql: ${TABLE}.round_id ;;

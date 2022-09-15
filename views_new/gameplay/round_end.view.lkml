@@ -31,8 +31,6 @@ view: round_end {
         ,cast(replace(json_extract_scalar(extra_json,'$.proximity_to_completion'),',','') as float64) proximity_to_completion
         ,json_extract(extra_json,'$.all_chains') all_chains
         ,json_extract_scalar(extra_json,'$.all_chains') unnest_all_chains
-        ,cast(json_extract_scalar(extra_json,'$.skill_available') as int64) skill_available
-        ,cast(json_extract_scalar(extra_json,'$.skill_used') as int64) skill_used
     from game_data.events
    where event_name = 'round_end'
      and timestamp >= '2019-01-01'
@@ -269,35 +267,35 @@ view: round_end {
     sql: ${TABLE}.coins_earned ;;
   }
   measure: coins_earned_025 {
-    group_label: "Coins"
-    label: "Coins - 2.5%"
+    group_label: "Coins Earned"
+    label: "Coins Earned - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${coins_earned} ;;
   }
   measure: coins_earned_25 {
-    group_label: "Coins"
-    label: "Coins - 25%"
+    group_label: "Coins Earned"
+    label: "Coins Earned - 25%"
     type: percentile
     percentile: 25
     sql: ${coins_earned} ;;
   }
   measure: coins_earned_50 {
-    group_label: "Coins"
-    label: "Coins - Median"
+    group_label: "Coins Earned"
+    label: "Coins Earned - Median"
     type: median
     sql: ${coins_earned} ;;
   }
   measure: coins_earned_75 {
-    group_label: "Coins"
-    label: "Coins - 75%"
+    group_label: "Coins Earned"
+    label: "Coins Earned - 75%"
     type: percentile
     percentile: 75
     sql: ${coins_earned} ;;
   }
   measure: coins_earned_975 {
-    group_label: "Coins"
-    label: "Coins - 97.5%"
+    group_label: "Coins Earned"
+    label: "Coins Earned - 97.5%"
     type: percentile
     percentile: 97.5
     sql: ${coins_earned} ;;
@@ -340,82 +338,6 @@ view: round_end {
     percentile: 97.5
     sql: ${total_chains} ;;
   }
-  dimension: skills_available {
-    type: number
-    sql: ${TABLE}.skill_available ;;
-  }
-  measure: skills_available_025 {
-    group_label: "Skill Available"
-    label: "Skill Available - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${skills_available} ;;
-  }
-  measure: skills_available_25 {
-    group_label: "Skill Available"
-    label: "Skill Available - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${skills_available} ;;
-  }
-  measure: skills_available_50 {
-    group_label: "Skill Available"
-    label: "Skill Available - Median"
-    type: median
-    sql: ${skills_available} ;;
-  }
-  measure: skills_available_75 {
-    group_label: "Skill Available"
-    label: "Skill Available - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${skills_available} ;;
-  }
-  measure: skills_available_975 {
-    group_label: "Skill Available"
-    label: "Skill Available - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${skills_available} ;;
-  }
-  dimension: skills_used {
-    type: number
-    sql: ${TABLE}.skill_used ;;
-  }
-  measure: skills_used_025 {
-    group_label: "Skill Used"
-    label: "Skill Used - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${skills_used} ;;
-  }
-  measure: skills_used_25 {
-    group_label: "Skill Used"
-    label: "Skill Used - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${skills_used} ;;
-  }
-  measure: skills_used_50 {
-    group_label: "Skill Used"
-    label: "Skill Used - Median"
-    type: median
-    sql: ${skills_used} ;;
-  }
-  measure: skills_used_75 {
-    group_label: "Skill Used"
-    label: "Skill Used - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${skills_used} ;;
-  }
-  measure: skills_used_975 {
-    group_label: "Skill Used"
-    label: "Skill Used - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${skills_used} ;;
-  }
   dimension: all_chains {
     type: string
     sql: ${TABLE}.all_chains ;; #TAKE THE AVERAGE OR MEDIAN
@@ -434,12 +356,6 @@ view: round_end {
     label: "Sessions Played"
     type: count_distinct
     sql: ${TABLE}.session_id ;;
-  }
-  measure: percent_of_skills_used {
-    type: number
-    sql: ${skills_used} / ${skills_available} ;;
-    value_format_name: percent_1
-    description: "Skills Used / Skills Available"
   }
   dimension: round_length {
     type: number

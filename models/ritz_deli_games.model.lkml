@@ -193,7 +193,7 @@ explore: transactions {
   join: user_activity_engagement_min {
     type: left_outer
     sql_on: ${transactions.rdg_id} = ${user_activity_engagement_min.rdg_id}
-    and ${transactions.minutes_played} = ${user_activity_engagement_min.engagement_min};;
+    and ${transactions.engagement_ticks} = ${user_activity_engagement_min.engagement_ticks};;
     relationship: many_to_many
   }
   join: facebook_daily_export {

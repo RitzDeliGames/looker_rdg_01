@@ -112,6 +112,9 @@ view: transactions_new {
     ]
     sql: datetime(${TABLE}.timestamp,'US/Pacific') ;;
   }
+  dimension: engagement_ticks {
+    hidden: yes
+  }
   dimension: minutes_played {
     type: number
   }

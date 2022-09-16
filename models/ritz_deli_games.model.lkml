@@ -90,7 +90,7 @@ explore: user_retention {
     # sql_on: ${user_retention.rdg_id} = ${transactions_new.rdg_id} ;;
     sql_on: ${user_retention.rdg_id} = ${transactions_new.rdg_id}
       and ${user_activity.activity_date} = ${transactions_new.transaction_date} --#TEMP: added to (try) build LTV curves
-      and ${user_activity_engagement_min.engagement_min} = ${transactions_new.minutes_played};; #TEMP: added to (try) build LTV curves
+      and ${user_activity_engagement_min.engagement_ticks} = ${transactions_new.engagement_ticks};;
   }
   join: community_events_activity {
     view_label: "Community Events"

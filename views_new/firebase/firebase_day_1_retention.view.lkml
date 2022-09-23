@@ -4,6 +4,7 @@
 # date
 
 view: firebase_day_1_retention {
+  view_label: "Firebase Analytics"
   derived_table: {
     explore_source: firebase_analytics {
       column: user_pseudo_id {}
@@ -21,21 +22,25 @@ view: firebase_day_1_retention {
   ### DIMENSIONS ##
 
   dimension_group: event {
+    label: "Retention Event"
     description: "The time that a retention event occurred"
     type: time
   }
 
   dimension: user_id {
+    hidden: yes
     description: "ID that maps to the User ID in Eraser Blast"
   }
 
   dimension: user_pseudo_id {
+    hidden: yes
     description: "ID that Firebase uses to uniquely identify a user"
   }
 
   ### MEASURES ###
 
   measure: user_id_retention {
+    label: "User ID Retention Rate"
     description: "Total Retained User IDs / Total User IDs"
     type: number
     sql:
@@ -44,6 +49,7 @@ view: firebase_day_1_retention {
   }
 
   measure: firebase_user_retention {
+    label: "Firebase User Retention Rate"
     description: "Total Retained Firebase Users / Total Firebase Users"
     type: number
     sql: ${firebase_day_1_retention.total_retained_firebase_users} / nullif((${firebase_analytics.total_firebase_users}*1),0) ;;

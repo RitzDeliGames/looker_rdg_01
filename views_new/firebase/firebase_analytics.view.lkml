@@ -110,6 +110,7 @@ view: firebase_analytics {
   ### MEASURES ###
 
   measure: count {
+    hidden: yes
     description: "Count of Rows"
     type: count
   }

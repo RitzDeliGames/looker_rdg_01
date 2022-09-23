@@ -11,7 +11,7 @@ view: user_last_event {
               ,rank() over (partition by rdg_id order by last_ts desc, event_name) rnk
             from (
               select
-                 rdg_id rdg_id
+                 rdg_id
                 ,event_name
                 ,max(timestamp) last_ts
               from game_data.events

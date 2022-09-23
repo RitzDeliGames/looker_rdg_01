@@ -117,31 +117,49 @@ view: user_last_event {
   }
 
   ###EXPERIMENT IDS - LIVE###
-  dimension: newLevelPass_20220913   {
+  dimension: newLevelPass_20220919   {
     group_label: "Experiments - Live"
+    label: "New Level Pass v3"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.newLevelPass_20220919'),'unassigned') ;;
+  }
+  dimension: movesMaster_09202022   {
+    group_label: "Experiments - Live"
+    label: "Moves Master v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.movesMaster_09202022'),'unassigned') ;;
+  }
+  dimension: difficultyStars_09202022   {
+    group_label: "Experiments - Live"
+    label: "Star Cost v1"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.difficultyStars_09202022'),'unassigned') ;;
+  }
+  ###EXPERIMENT IDS - CLOSED###
+  dimension: newLevelPass_20220913   {
+    group_label: "Experiments - Closed"
     label: "New Level Pass v2"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.newLevelPass_20220913'),'unassigned') ;;
   }
   dimension: newLevelPass_20220825   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "New Level Pass v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.newLevelPass_20220825'),'unassigned') ;;
   }
   dimension: fueLevels_20220815   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "FUE Revamp v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.fueLevels_20220815'),'unassigned') ;;
   }
   dimension: dailyrewards_20220628   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Daily Rewards v4"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.dailyrewards_20220628'),'unassigned') ;;
   }
-  ###EXPERIMENT IDS - CLOSED###
   dimension: streakbonuses_20220720   {
     group_label: "Experiments - Live"
     label: "Streak Bonuses v1"

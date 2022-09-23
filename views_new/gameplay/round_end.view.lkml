@@ -93,6 +93,10 @@ view: round_end {
     type: number
     sql: ${TABLE}.rounds ;;
   }
+  measure: round_end_count {
+    label: "Rounds Played"
+    type: count
+  }
   dimension: quest_complete {
     type: yesno
     sql: ${TABLE}.quest_complete ;;
@@ -269,10 +273,6 @@ view: round_end {
     hidden: yes
     type: string
     sql: '[' || ${TABLE}.unnest_all_chains || ']' ;;
-  }
-  measure: round_end_count {
-    label: "Rounds Played"
-    type: count
   }
   measure: session_count {
     label: "Sessions Played"
@@ -542,5 +542,5 @@ view: round_end {
     sql: ${currency_07_balance} ;;
   }
 
-  drill_fields: [rdg_id,proximity_to_completion]
+  drill_fields: [rdg_id,last_level_serial,rounds,proximity_to_completion]
 }

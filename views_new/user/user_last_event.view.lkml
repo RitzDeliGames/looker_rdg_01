@@ -15,7 +15,7 @@ view: user_last_event {
                 ,event_name
                 ,max(timestamp) last_ts
               from game_data.events
-              where timestamp >= '2022-06-01'
+              where date(timestamp) between '2022-06-01'and current_date()
                 --timestamp >= timestamp(current_date() - 90)
                 --timestamp < timestamp(current_date())
                 and rdg_id is not null
@@ -33,7 +33,7 @@ view: user_last_event {
             on last_user_event.rdg_id = events.rdg_id
             and last_user_event.last_ts = events.timestamp
             and last_user_event.event_name = events.event_name
-            and events.timestamp >= '2022-06-01'
+            and date(events.timestamp) between '2022-06-01'and current_date()
             --events.timestamp >= timestamp(current_date() - 90)
             --events.timestamp < timestamp(current_date())
             and events.user_type = 'external'

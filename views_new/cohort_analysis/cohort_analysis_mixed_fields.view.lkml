@@ -82,7 +82,7 @@ view: cohort_analysis_mixed_fields {
     group_label: "Cohorted Spend"
     label: "Cohorted Coin Spend per Player"
     type: number
-    sql: ${cumulative_coins_spent} / NULLIF(${cumulative_cohort},0) ;;
+    sql: ${transactions_new.coin_spent_amount_sum} / NULLIF(${cohort_analysis.count},0) ;;
     value_format_name: decimal_0
     drill_fields: [transactions_new.rdg_id, transactions_new.transaction_date, transactions_new.transaction_count, transactions_new.iap_id, transactions_new.iap_purchase_item, transactions_new.currency_spent, transactions_new.currency_spent_amount, transactions_new.minutes_played]
   }

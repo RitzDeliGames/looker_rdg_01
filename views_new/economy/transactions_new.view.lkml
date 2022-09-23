@@ -46,9 +46,9 @@ view: transactions_new {
 
   dimension: primary_key {
     hidden: no
-    # primary_key: yes
+    primary_key: yes
     type: string
-    sql: ${rdg_id} || ${transaction_raw} ;;
+    sql: ${rdg_id} || ${transaction_raw} || ${extra_json} ;;
   }
   dimension: rdg_id {
     group_label: "Player IDs"
@@ -211,6 +211,12 @@ view: transactions_new {
     sql: if(${currency_spent} = 'CURRENCY_03',${currency_spent_amount}, 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
+  measure: cumulative_coins_spent {
+    group_label: "Cumulative Spend"
+    type: running_total
+    sql: ${coin_spent_amount_sum} ;;
+    value_format: "#,###"
+  }
   measure: afh_token_spent_amount_sum {
     group_label: "Total Spend"
     label: "Total AFH Spent"
@@ -318,7 +324,7 @@ view: transactions_new {
   }
   dimension: transaction_id {}
   dimension: extra_json {
-    primary_key: yes
+    type: string
   }
   dimension: fraud {
     type: yesno

@@ -11,14 +11,15 @@ view: user_last_event {
               ,rank() over (partition by rdg_id order by last_ts desc, event_name) rnk
             from (
               select
-                 rdg_id rdg_id
+                 rdg_id
                 ,event_name
                 ,max(timestamp) last_ts
               from game_data.events
-              where timestamp < timestamp(current_date())
-              -- and timestamp >= timestamp(current_date() - 90)
-              and rdg_id is not null
-              and user_type = 'external'
+              where timestamp >= '2022-06-01'
+                --timestamp >= timestamp(current_date() - 90)
+                --timestamp < timestamp(current_date())
+                and rdg_id is not null
+                and user_type = 'external'
               group by 1,2
             ) x
           )
@@ -26,17 +27,15 @@ view: user_last_event {
             last_user_event.rdg_id
             ,events.experiments
             ,lower(events.hardware) device_model_number
-            ,last_unlocked_card
-            ,current_card
-            ,cast(current_quest as int64) current_quest
             ,cast(last_level_serial as int64) last_level_serial
           from last_user_event
           inner join game_data.events
             on last_user_event.rdg_id = events.rdg_id
             and last_user_event.last_ts = events.timestamp
             and last_user_event.event_name = events.event_name
-            -- events.timestamp >= timestamp(current_date() - 90)
-            and events.timestamp < timestamp(current_date())
+            and events.timestamp >= '2022-06-01'
+            --events.timestamp >= timestamp(current_date() - 90)
+            --events.timestamp < timestamp(current_date())
             and events.user_type = 'external'
           where last_user_event.rnk = 1
         ;;
@@ -58,45 +57,6 @@ view: user_last_event {
     hidden: yes
     type: string
     sql: ${TABLE}.device_model_number ;;
-  }
-  dimension: last_unlocked_card {
-    group_label: "Card Dimensions"
-    label: "Last Unlocked Card"
-    type: string
-    sql: ${TABLE}.last_unlocked_card ;;
-  }
-  dimension: last_unlocked_card_no {
-    group_label: "Card Dimensions"
-    label: "Last Unlocked Card Numbered"
-    type: number
-    value_format: "####"
-    sql: @{last_unlocked_card_numbered};;
-  }
-  dimension: current_card {
-    group_label: "Card Dimensions"
-    label: "Current Card"
-    type: string
-    sql: ${TABLE}.current_card ;;
-  }
-  dimension: current_quest {
-    group_label: "Card Dimensions"
-    label: "Current Quest"
-    type: number
-    sql: ${TABLE}.current_quest ;;
-  }
-  dimension: current_card_no {
-    group_label: "Card Dimensions"
-    label: "Current Card Numbered"
-    type: number
-    value_format: "####"
-    sql: @{current_card_numbered};;
-  }
-  dimension: current_card_quest {
-    group_label: "Card Dimensions"
-    label: "Current Card + Quest"
-    type: number
-    value_format: "####"
-    sql: ${current_card_no} + ${current_quest};;
   }
   dimension: last_level_id {
     group_label: "Level Dimensions"

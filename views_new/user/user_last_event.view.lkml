@@ -26,9 +26,6 @@ view: user_last_event {
             last_user_event.rdg_id
             ,events.experiments
             ,lower(events.hardware) device_model_number
-            ,last_unlocked_card
-            ,current_card
-            ,cast(current_quest as int64) current_quest
             ,cast(last_level_serial as int64) last_level_serial
           from last_user_event
           inner join game_data.events
@@ -58,45 +55,6 @@ view: user_last_event {
     hidden: yes
     type: string
     sql: ${TABLE}.device_model_number ;;
-  }
-  dimension: last_unlocked_card {
-    group_label: "Card Dimensions"
-    label: "Last Unlocked Card"
-    type: string
-    sql: ${TABLE}.last_unlocked_card ;;
-  }
-  dimension: last_unlocked_card_no {
-    group_label: "Card Dimensions"
-    label: "Last Unlocked Card Numbered"
-    type: number
-    value_format: "####"
-    sql: @{last_unlocked_card_numbered};;
-  }
-  dimension: current_card {
-    group_label: "Card Dimensions"
-    label: "Current Card"
-    type: string
-    sql: ${TABLE}.current_card ;;
-  }
-  dimension: current_quest {
-    group_label: "Card Dimensions"
-    label: "Current Quest"
-    type: number
-    sql: ${TABLE}.current_quest ;;
-  }
-  dimension: current_card_no {
-    group_label: "Card Dimensions"
-    label: "Current Card Numbered"
-    type: number
-    value_format: "####"
-    sql: @{current_card_numbered};;
-  }
-  dimension: current_card_quest {
-    group_label: "Card Dimensions"
-    label: "Current Card + Quest"
-    type: number
-    value_format: "####"
-    sql: ${current_card_no} + ${current_quest};;
   }
   dimension: last_level_id {
     group_label: "Level Dimensions"

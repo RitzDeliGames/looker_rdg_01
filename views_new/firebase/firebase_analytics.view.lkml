@@ -1,5 +1,4 @@
 view: firebase_analytics {
-  # sql_table_name: `eraser-blast.analytics_215101505.events_*` ;;
   derived_table: {
     sql: select distinct
                 user_pseudo_id,
@@ -18,10 +17,14 @@ view: firebase_analytics {
          where _TABLE_SUFFIX between FORMAT_DATE('%Y%m%d',{% date_start date_filter %}) and FORMAT_DATE('%Y%m%d',{% date_end date_filter %}) ;;
   }
 
+  ### FILTERS ###
+
   filter: date_filter {
     description: "Choose a date range to query multiple partitioned Firebase tables as needed"
     type: date
   }
+
+  ### PRIMARY KEY ###
 
   dimension: primary_key {
     hidden: yes
@@ -30,17 +33,7 @@ view: firebase_analytics {
     sql: ${user_pseudo_id} || ${event_name} || ${event_timestamp} ;;
   }
 
-  dimension: user_pseudo_id {
-    description: "The pseudonymous id (e.g., app instance ID) for the user."
-    type: string
-    sql: ${TABLE}.user_pseudo_id ;;
-  }
-
-  dimension: event_name {
-    description: "The name of the event"
-    type: string
-    sql: ${TABLE}.event_name ;;
-  }
+  ### DIMENSIONS ###
 
   dimension_group: event {
     description: "The date on which the event was logged (in the registered timezone of your app)."
@@ -49,10 +42,15 @@ view: firebase_analytics {
     datatype: yyyymmdd
   }
 
-  dimension: event_timestamp {
-    description: "The time (in microseconds, UTC) at which the event was logged on the client."
+  dimension: event_bundle_sequence_id {
+    description: "The sequential ID of the bundle in which these events were uploaded."
     type: string
-    sql: ${TABLE}.event_timestamp ;;
+    sql: ${TABLE}.event_bundle_sequence_id ;;
+  }
+  dimension: event_name {
+    description: "The name of the event"
+    type: string
+    sql: ${TABLE}.event_name ;;
   }
 
   dimension: event_previous_timestamp {
@@ -61,40 +59,22 @@ view: firebase_analytics {
     sql: ${TABLE}.event_previous_timestamp ;;
   }
 
-  dimension: event_value_in_usd {
-    description: "The currency-converted value (in USD) of the event's \"value\" parameter."
-    type: string
-    sql: ${TABLE}.event_value_in_usd ;;
-  }
-
-  dimension: event_bundle_sequence_id {
-    description: "The sequential ID of the bundle in which these events were uploaded."
-    type: string
-    sql: ${TABLE}.event_bundle_sequence_id ;;
-  }
-
   dimension: event_server_timestamp_offset {
     description: "Timestamp offset between collection time and upload time in micros."
     type: string
     sql: ${TABLE}.event_server_timestamp_offset ;;
   }
 
-  dimension: user_id {
-    description: "The user ID set via the setUserId API."
+  dimension: event_timestamp {
+    description: "The time (in microseconds, UTC) at which the event was logged on the client."
     type: string
-    sql:${TABLE}.user_id ;;
+    sql: ${TABLE}.event_timestamp ;;
   }
 
-  dimension: user_first_touch_timestamp {
-    description: "The time (in microseconds) at which the user first opened the app or visited the site."
+  dimension: event_value_in_usd {
+    description: "The currency-converted value (in USD) of the event's \"value\" parameter."
     type: string
-    sql: ${TABLE}.user_first_touch_timestamp ;;
-  }
-
-  dimension: stream_id {
-    description: "The numeric ID of the stream."
-    type: string
-    sql: ${TABLE}.stream_id ;;
+    sql: ${TABLE}.event_value_in_usd ;;
   }
 
   dimension: platform {
@@ -103,21 +83,51 @@ view: firebase_analytics {
     sql: ${TABLE}.platform ;;
   }
 
+  dimension: stream_id {
+    description: "The numeric ID of the stream."
+    type: string
+    sql: ${TABLE}.stream_id ;;
+  }
+
+  dimension: user_first_touch_timestamp {
+    description: "The time (in microseconds) at which the user first opened the app or visited the site."
+    type: string
+    sql: ${TABLE}.user_first_touch_timestamp ;;
+  }
+
+  dimension: user_id {
+    description: "The user ID set via the setUserId API."
+    type: string
+    sql:${TABLE}.user_id ;;
+  }
+
+  dimension: user_pseudo_id {
+    description: "The pseudonymous id (e.g., app instance ID) for the user."
+    type: string
+    sql: ${TABLE}.user_pseudo_id ;;
+  }
+
+  ### MEASURES ###
+
   measure: count {
+    description: "Count of Rows"
     type: count
   }
 
-  measure: total_user_ids {
-    type: count_distinct
-    sql: ${user_id} ;;
-  }
-
   measure: total_firebase_users {
+    description: "Distinct count of User Pseudo IDs"
     type: count_distinct
     sql: ${user_pseudo_id} ;;
   }
 
+  measure: total_user_ids {
+    description: "Distinct count of User IDs"
+    type: count_distinct
+    sql: ${user_id} ;;
+  }
+
   measure: total_value_in_usd {
+    description: "Sum of Event Value In USD"
     type: sum
     sql: ${event_value_in_usd} ;;
   }

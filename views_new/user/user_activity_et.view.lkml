@@ -34,6 +34,9 @@ view: user_activity_engagement_min {
       year
     ]
   }
+  dimension: engagement_ticks {
+    hidden: yes
+  }
   dimension: engagement_min {
     label: "Minutes Played"
     type: number

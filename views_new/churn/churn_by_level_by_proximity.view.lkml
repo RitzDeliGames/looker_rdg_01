@@ -4,6 +4,7 @@ view: churn_by_level_by_proximity {
       select
         a.rdg_id
         ,a.timestamp
+        ,a.game_mode
         ,cast(a.last_level_serial as int64) last_level_serial
         ,cast(a.round_id as int64) round_id
         ,cast(a.greater_round_id as int64) greater_round_id
@@ -14,6 +15,7 @@ view: churn_by_level_by_proximity {
           ,json_extract_scalar(extra_json,"$.round_id") round_id
           ,timestamp
           ,last_level_serial
+          ,json_extract_scalar(extra_json,'$.game_mode') game_mode
           ,last_value(json_extract_scalar(extra_json, "$.round_id"))
             over (
                 partition by rdg_id
@@ -52,6 +54,7 @@ view: churn_by_level_by_proximity {
   dimension: timestamp {
     type: date_time
   }
+  dimension: game_mode {}
   dimension: last_level_id {
     group_label: "Level Dimensions"
     label: "Last Level Completed - Id"

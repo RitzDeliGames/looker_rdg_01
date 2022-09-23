@@ -15,7 +15,7 @@ view: android_advertising_id_helper {
       order by 1,2
       ;;
 
-    datagroup_trigger: change_at_midnight
+    datagroup_trigger: change_8_hrs
     publish_as_db_view: yes
     #partition_keys: ["created"]
   }

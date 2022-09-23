@@ -90,7 +90,7 @@ explore: user_retention {
     # sql_on: ${user_retention.rdg_id} = ${transactions_new.rdg_id} ;;
     sql_on: ${user_retention.rdg_id} = ${transactions_new.rdg_id}
       and ${user_activity.activity_date} = ${transactions_new.transaction_date} --#TEMP: added to (try) build LTV curves
-      and ${user_activity_engagement_min.engagement_min} = ${transactions_new.minutes_played};; #TEMP: added to (try) build LTV curves
+      and ${user_activity_engagement_min.engagement_ticks} = ${transactions_new.engagement_ticks};;
   }
   join: community_events_activity {
     view_label: "Community Events"
@@ -193,7 +193,7 @@ explore: transactions {
   join: user_activity_engagement_min {
     type: left_outer
     sql_on: ${transactions.rdg_id} = ${user_activity_engagement_min.rdg_id}
-    and ${transactions.minutes_played} = ${user_activity_engagement_min.engagement_min};;
+    and ${transactions.engagement_ticks} = ${user_activity_engagement_min.engagement_ticks};;
     relationship: many_to_many
   }
   join: facebook_daily_export {

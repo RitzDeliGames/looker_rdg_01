@@ -121,13 +121,13 @@ view: user_last_event {
     sql: nullif(json_extract_scalar(${experiments},'$.dailyrewards_20220628'),'unassigned') ;;
   }
   dimension: streakbonuses_20220720   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Streak Bonuses v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.streakBonuses_20220720'),'unassigned') ;;
   }
   dimension: altleveltuning_20220721   {
-    group_label: "Experiments - Live"
+    group_label: "Experiments - Closed"
     label: "Level Order v3"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.altleveltuning_20220721'),'unassigned') ;;

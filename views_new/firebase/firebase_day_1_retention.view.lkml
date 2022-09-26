@@ -22,6 +22,7 @@ view: firebase_day_1_retention {
   ### DIMENSIONS ##
 
   dimension_group: event {
+    hidden: yes
     label: "Retention Event"
     description: "The time that a retention event occurred"
     type: time

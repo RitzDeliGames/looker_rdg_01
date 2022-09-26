@@ -35,11 +35,16 @@ view: firebase_analytics {
 
   ### DIMENSIONS ###
 
+  dimension: days_since_created {
+    type: number
+    sql: round(cast((${event_timestamp}/(86400000000)) - (${user_first_touch_timestamp}/(86400000000)) as int64),0) ;;
+  }
+
   dimension_group: event {
     description: "The date on which the event was logged (in the registered timezone of your app)."
     type: time
-    sql: ${TABLE}.event_date ;;
-    datatype: yyyymmdd
+    can_filter: no
+    sql: PARSE_DATE('%Y%m%d',cast(${TABLE}.event_date as string)) ;;
   }
 
   dimension: event_bundle_sequence_id {
@@ -67,8 +72,9 @@ view: firebase_analytics {
 
   dimension: event_timestamp {
     description: "The time (in microseconds, UTC) at which the event was logged on the client."
-    type: string
+    type: number
     sql: ${TABLE}.event_timestamp ;;
+    can_filter: no
   }
 
   dimension: event_value_in_usd {
@@ -91,8 +97,14 @@ view: firebase_analytics {
 
   dimension: user_first_touch_timestamp {
     description: "The time (in microseconds) at which the user first opened the app or visited the site."
-    type: string
+    type: number
     sql: ${TABLE}.user_first_touch_timestamp ;;
+  }
+
+  dimension_group: created_at {
+    type: time
+    sql: cast(${TABLE}.user_first_touch_timestamp/1000000 as int64) ;;
+    datatype: epoch
   }
 
   dimension: user_id {

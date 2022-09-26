@@ -34,13 +34,12 @@ view: round_end {
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric) currency_05_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
-
     from game_data.events
-   where event_name = 'round_end'
-     and timestamp >= '2019-01-01'
-     and user_type = 'external'
-     and country != 'ZZ'
-     and coalesce(install_version,'null') <> '-1'
+    where event_name = 'round_end'
+      and timestamp >= '2019-01-01'
+      and user_type = 'external'
+      and country != 'ZZ'
+      and coalesce(install_version,'null') <> '-1'
     ;;
     datagroup_trigger: change_8_hrs
     publish_as_db_view: yes

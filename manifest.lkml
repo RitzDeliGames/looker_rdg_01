@@ -112,16 +112,7 @@ constant: device_internal_tester_mapping {
             ,'7322ecb2-2b37-4308-8489-16296bf0a76a'
             ,'3c562719-a555-4989-a3ce-d1e6544eb8f8'
             ,'6fafac46-56d8-4fe0-8ff1-bf12046f7a3d'
-            ,'82142449-d4d4-46c6-bed6-9ef6bfb002fd'
-            ,'77fce6bc-f18e-49a9-aea9-5bba3d390eed'
-            ,'77fe80f8-9926-4b7d-9134-5b57905eec77'
-            ,'6386ff97-9acf-455e-b987-c247f200d721'
-            ,'7ed25cf6-b775-41bd-97ba-6c18dfea02cf'
-            ,'994a3d92-9d94-4041-a89d-018ef2804c55'
-            ,'a4395fa5-a8eb-4962-a6a4-6ed0a67ba400'
-            ,'e412595b-4b9a-4935-be22-326a511dab2f'
-            ,'5af24a60-6a50-467a-8f26-073384fc0ec9'
-            ,'a4395fa5-a8eb-4962-a6a4-6ed0a67ba400')"
+            ,'82142449-d4d4-46c6-bed6-9ef6bfb002fd')"
 }
 
 constant: purchase_exclusion_list {

@@ -115,7 +115,9 @@ constant: device_internal_tester_mapping {
             ,'82142449-d4d4-46c6-bed6-9ef6bfb002fd'
             ,'77fce6bc-f18e-49a9-aea9-5bba3d390eed'
             ,'77fe80f8-9926-4b7d-9134-5b57905eec77'
-            ,'6386ff97-9acf-455e-b987-c247f200d721')"
+            ,'6386ff97-9acf-455e-b987-c247f200d721'
+            ,'7ed25cf6-b775-41bd-97ba-6c18dfea02cf'
+            ,'994a3d92-9d94-4041-a89d-018ef2804c55')"
 }
 
 constant: purchase_exclusion_list {

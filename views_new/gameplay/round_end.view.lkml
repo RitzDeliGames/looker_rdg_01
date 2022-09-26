@@ -22,6 +22,7 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.propeller_boost') as int64) propeller_boost
         ,cast(json_extract_scalar(extra_json,'$.score_earned') as int64) score_earned
         ,cast(json_extract_scalar(extra_json,'$.moves_added') as boolean) moves_added
+        ,cast(json_extract_scalar(extra_json,'$.moves_remaining') as int64) moves_remaining
         ,cast(json_extract_scalar(extra_json,'$.coins_earned') as int64) coins_earned
         ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
         ,cast(json_extract_scalar(extra_json,'$.round_length') as int64) round_length
@@ -187,6 +188,43 @@ view: round_end {
   dimension: moves_added {
     type: yesno
     sql: ${TABLE}.moves_added ;;
+  }
+  dimension: moves_remaining {
+    type: number
+  }
+  measure: moves_remaining_025 {
+    group_label: "Moves Remaining"
+    label: "Moves Remaining - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${moves_remaining} ;;
+  }
+  measure: moves_remaining_25 {
+    group_label: "Moves Remaining"
+    label: "Moves Remaining - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${moves_remaining} ;;
+  }
+  measure: moves_remaining_med {
+    group_label: "Moves Remaining"
+    label: "Moves Remaining - Median"
+    type: median
+    sql: ${moves_remaining} ;;
+  }
+  measure: moves_remaining_75 {
+    group_label: "Moves Remaining"
+    label: "Moves Remaining - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${moves_remaining} ;;
+  }
+  measure: moves_remaining_975 {
+    group_label: "Moves Remaining"
+    label: "Moves Remaining - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${moves_remaining} ;;
   }
   dimension: coins_earned {
     type: number

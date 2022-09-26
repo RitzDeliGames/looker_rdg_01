@@ -6,9 +6,6 @@ view: round_end {
         rdg_id
         ,timestamp
         ,session_id
-        ,current_card
-        ,last_unlocked_card
-        ,cast(current_quest as int64) current_quest
         ,last_level_id
         ,cast(last_level_serial as int64) last_level_serial
         ,cast(json_extract_scalar(extra_json,'$.round_id') as int64) round_id
@@ -77,43 +74,6 @@ view: round_end {
   }
   dimension: session_id {}
   dimension: game_mode {}
-  dimension: current_card {
-    group_label: "Card Dimensions"
-    label: "Player Current Card"
-    type: string
-    sql: ${TABLE}.current_card ;;
-  }
-  dimension: last_unlocked_card {
-    group_label: "Card Dimensions"
-    label: "Player Last Unlocked Card"
-    type: string
-    sql: ${TABLE}.last_unlocked_card ;;
-  }
-  dimension: last_unlocked_card_numbered {
-    group_label: "Card Dimensions"
-    label: "Player Last Unlocked Card (Numbered)"
-    type: number
-    value_format: "####"
-    sql: @{last_unlocked_card_numbered} ;;
-  }
-  dimension: card_id {
-    group_label: "Card Dimensions"
-    label: "Player Last Unlocked Card (Coalesced)"
-    type: string
-    sql: coalesce(${last_unlocked_card},${current_card}) ;;
-  }
-  dimension: current_card_numbered {
-    group_label: "Card Dimensions"
-    label: "Player Current Card (Numbered)"
-    type: number
-    value_format: "####"
-    sql: @{current_card_numbered} ;;
-  }
-  dimension: current_quest {
-    group_label: "Card Dimensions"
-    type: number
-    sql: ${TABLE}.current_quest ;;
-  }
   dimension: last_level_id {
     group_label: "Level Dimensions"
     label: "Last Level Completed - Id"
@@ -132,6 +92,10 @@ view: round_end {
     label: "Attempts"
     type: number
     sql: ${TABLE}.rounds ;;
+  }
+  measure: round_end_count {
+    label: "Rounds Played"
+    type: count
   }
   dimension: quest_complete {
     type: yesno
@@ -224,44 +188,6 @@ view: round_end {
     type: yesno
     sql: ${TABLE}.moves_added ;;
   }
-  dimension: score_earned {
-    type: number
-    sql: ${TABLE}.score_earned ;;
-  }
-  measure: score_earned_025 {
-    group_label: "Score"
-    label: "Score - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${score_earned} ;;
-  }
-  measure: score_earned_25 {
-    group_label: "Score"
-    label: "Score - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${score_earned} ;;
-  }
-  measure: score_earned_50 {
-    group_label: "Score"
-    label: "Score - Median"
-    type: median
-    sql: ${score_earned} ;;
-  }
-  measure: score_earned_75 {
-    group_label: "Score"
-    label: "Score - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${score_earned} ;;
-  }
-  measure: score_earned_975 {
-    group_label: "Score"
-    label: "Score - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${score_earned} ;;
-  }
   dimension: coins_earned {
     type: number
     sql: ${TABLE}.coins_earned ;;
@@ -347,10 +273,6 @@ view: round_end {
     hidden: yes
     type: string
     sql: '[' || ${TABLE}.unnest_all_chains || ']' ;;
-  }
-  measure: round_end_count {
-    label: "Rounds Played"
-    type: count
   }
   measure: session_count {
     label: "Sessions Played"
@@ -620,5 +542,5 @@ view: round_end {
     sql: ${currency_07_balance} ;;
   }
 
-  drill_fields: [proximity_to_completion,rdg_id,current_card_numbered]
+  drill_fields: [rdg_id,last_level_serial,rounds,proximity_to_completion]
 }

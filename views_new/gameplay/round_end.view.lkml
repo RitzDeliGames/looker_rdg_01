@@ -5,6 +5,7 @@ view: round_end {
       select distinct
         rdg_id
         ,timestamp
+        ,engagement_ticks
         ,session_id
         ,last_level_id
         ,cast(last_level_serial as int64) last_level_serial
@@ -71,6 +72,48 @@ view: round_end {
       ,quarter
       ,year
     ]
+  }
+  dimension: engagement_ticks {
+    hidden: yes
+  }
+  dimension: engagement_min {
+    label: "Minutes Played"
+    type: number
+    sql: ${TABLE}.engagement_ticks / 2 ;;
+  }
+  measure: engagement_min_025 {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${engagement_min} ;;
+  }
+  measure: engagement_min_25 {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${engagement_min} ;;
+  }
+  measure: engagement_min_med {
+    group_label: "Minutes Played"
+    label: "Minutes Played - Median"
+    type: median
+    sql: ${engagement_min} ;;
+  }
+  measure: engagement_min_75 {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${engagement_min} ;;
+  }
+  measure: engagement_min_975 {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${engagement_min} ;;
   }
   dimension: session_id {}
   dimension: game_mode {}

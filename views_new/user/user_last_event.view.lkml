@@ -27,6 +27,7 @@ view: user_last_event {
             last_user_event.rdg_id
             ,events.experiments
             ,lower(events.hardware) device_model_number
+            ,last_level_id
             ,cast(last_level_serial as int64) last_level_serial
           from last_user_event
           inner join game_data.events

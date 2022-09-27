@@ -107,6 +107,11 @@ view: firebase_analytics {
     datatype: epoch
   }
 
+  dimension: retention_days_cohort {
+    type: string
+    sql: 'D' || cast((${days_since_created} + 1) as string) ;;
+  }
+
   dimension: user_id {
     description: "The user ID set via the setUserId API."
     type: string

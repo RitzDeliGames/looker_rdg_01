@@ -77,11 +77,11 @@ view: user_last_event {
   }
 
   ###EXPERIMENT IDS - LIVE###
-  dimension: newLevelPass_20220919   {
+  dimension: newLevelPass_20220926   {
     group_label: "Experiments - Live"
-    label: "New Level Pass v3"
+    label: "New Level Pass v4"
     type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.newLevelPass_20220919'),'unassigned') ;;
+    sql: nullif(json_extract_scalar(${experiments},'$.newLevelPass_20220926'),'unassigned') ;;
   }
   dimension: movesMaster_09202022   {
     group_label: "Experiments - Live"
@@ -96,6 +96,12 @@ view: user_last_event {
     sql: nullif(json_extract_scalar(${experiments},'$.difficultyStars_09202022'),'unassigned') ;;
   }
   ###EXPERIMENT IDS - CLOSED###
+  dimension: newLevelPass_20220919   {
+    group_label: "Experiments - Closed"
+    label: "New Level Pass v3"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.newLevelPass_20220919'),'unassigned') ;;
+  }
   dimension: newLevelPass_20220913   {
     group_label: "Experiments - Closed"
     label: "New Level Pass v2"

@@ -332,7 +332,7 @@ view: user_fact {
   }
   dimension: install_minor_release_version {
     group_label: "Version Dimensions"
-    hidden: yes
+    hidden: no
     type: string
     sql: @{install_release_version_minor};;
   }

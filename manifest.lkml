@@ -234,14 +234,14 @@ constant: release_version_minor {
 
 constant: install_release_version_minor {
   value: "case
-            when ${TABLE}.install_version = '1579' then'1.0.100'
-            when ${TABLE}.install_version = '2047' then'1.1.001'
-            when ${TABLE}.install_version = '2100' then'1.1.100'
-            when ${TABLE}.install_version = '3028' then'1.2.028'
-            when ${TABLE}.install_version = '3043' then'1.2.043'
-            when ${TABLE}.install_version = '3100' then'1.2.100'
-            when ${TABLE}.install_version = '4017' then'1.3.017'
-            when ${TABLE}.install_version = '4100' then'1.3.100'
+            when coalesce(${TABLE}.install_version,${TABLE}.version) = '1579' then'1.0.100'
+            when coalesce(${TABLE}.install_version,${TABLE}.version) = '2047' then'1.1.001'
+            when coalesce(${TABLE}.install_version,${TABLE}.version) = '2100' then'1.1.100'
+            when coalesce(${TABLE}.install_version,${TABLE}.version) = '3028' then'1.2.028'
+            when coalesce(${TABLE}.install_version,${TABLE}.version) = '3043' then'1.2.043'
+            when coalesce(${TABLE}.install_version,${TABLE}.version) = '3100' then'1.2.100'
+            when coalesce(${TABLE}.install_version,${TABLE}.version) = '4017' then'1.3.017'
+            when coalesce(${TABLE}.install_version,${TABLE}.version) = '4100' then'1.3.100'
             when ${TABLE}.install_version = '5006' then'1.5.006'
             when ${TABLE}.install_version = '5100' then'1.5.100'
             when ${TABLE}.install_version = '6100' then'1.6.100'

@@ -17,10 +17,6 @@ view: round_end {
         ,json_extract_scalar(extra_json,'$.team_slot_0') primary_team_slot
         ,json_extract_scalar(extra_json,'$.team_slot_skill_0') primary_team_slot_skill
         ,cast(json_extract_scalar(extra_json,'$.team_slot_level_0') as int64) primary_team_slot_level
-        ,cast(json_extract_scalar(extra_json,'$.rocket_boost') as int64) rocket_boost
-        ,cast(json_extract_scalar(extra_json,'$.bomb_boost') as int64) bomb_boost
-        ,cast(json_extract_scalar(extra_json,'$.color_ball_boost') as int64) color_ball_boost
-        ,cast(json_extract_scalar(extra_json,'$.propeller_boost') as int64) propeller_boost
         ,cast(json_extract_scalar(extra_json,'$.score_earned') as int64) score_earned
         ,cast(json_extract_scalar(extra_json,'$.moves_added') as boolean) moves_added
         ,cast(json_extract_scalar(extra_json,'$.moves_remaining') as int64) moves_remaining
@@ -35,6 +31,28 @@ view: round_end {
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric) currency_05_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
+        --,cast(json_extract_scalar(extra_json,'$.rocket_boost') as int64) rocket_boost
+        --,cast(json_extract_scalar(extra_json,'$.bomb_boost') as int64) bomb_boost
+        --,cast(json_extract_scalar(extra_json,'$.color_ball_boost') as int64) color_ball_boost
+        --,cast(json_extract_scalar(extra_json,'$.propeller_boost') as int64) propeller_boost
+        --,cast(json_extract_scalar(extra_json,'$.powerup_rocket_vertical') as int64) powerup_rocket_vertical
+        --,cast(json_extract_scalar(extra_json,'$.powerup_rocket_horizontal') as int64) powerup_rocket_horizontal
+        --,cast(json_extract_scalar(extra_json,'$.powerup_color_ball') as int64) powerup_color_ball
+        --,cast(json_extract_scalar(extra_json,'$.powerup_bomb') as int64) powerup_bomb
+        --,cast(json_extract_scalar(extra_json,'$.powerup_propeller') as int64) powerup_propeller
+        --,cast(json_extract_scalar(extra_json,'$.powerup_combo_color_ball_propeller') as int64) powerup_combo_color_ball_propeller
+        --,cast(json_extract_scalar(extra_json,'$.powerup_combo_color_ball_bomb') as int64) powerup_combo_color_ball_bomb
+        --,cast(json_extract_scalar(extra_json,'$.powerup_combo_color_ball_rocket') as int64) powerup_combo_color_ball_rocket
+        --,cast(json_extract_scalar(extra_json,'$.powerup_combo_propeller_bomb') as int64) powerup_combo_propeller_bomb
+        --,cast(json_extract_scalar(extra_json,'$.powerup_combo_propeller_rocket') as int64) powerup_combo_propeller_rocket
+        --,cast(json_extract_scalar(extra_json,'$.powerup_combo_bomb_rocket') as int64) powerup_combo_bomb_rocket
+        --,cast(json_extract_scalar(extra_json,'$.powerup_combo_color_ball') as int64) powerup_combo_color_ball
+        --,cast(json_extract_scalar(extra_json,'$.skill_clear_cell') as int64) skill_clear_cell
+        --,cast(json_extract_scalar(extra_json,'$.skill_clear_vertical') as int64) skill_clear_vertical
+        --,cast(json_extract_scalar(extra_json,'$.skill_clear_horizontal') as int64) skill_clear_horizontal
+        --,cast(json_extract_scalar(extra_json,'$.powerup_piping_bag') as int64) powerup_piping_bag
+        --,cast(json_extract_scalar(extra_json,'$.powerup_rolling_pin') as int64) powerup_rolling_pin
+        --,cast(json_extract_scalar(extra_json,'$.powerup_hammer') as int64) powerup_hammer
     from game_data.events
     where event_name = 'round_end'
       and timestamp >= '2019-01-01'
@@ -45,6 +63,7 @@ view: round_end {
     datagroup_trigger: change_8_hrs
     publish_as_db_view: yes
   }
+
   dimension: primary_key {
     type: string
     sql: ${rdg_id} || '_' || ${round_id} || '_' || ${event_time} ;;
@@ -183,50 +202,174 @@ view: round_end {
   # dimension: requirement_amount {
   #   hidden: yes
   # }
-  dimension: rocket_boost {
-    group_label: "Boost Impact"
-    label: "Rocket Boost"
-    type: number
-    sql: ${TABLE}.rocket_boost ;;
-  }
-  dimension: rocket_boost_used {
-    group_label: "Boosts Used"
-    label: "Rocket Boost"
-    sql: if(${TABLE}.rocket_boost>0,"yes","no") ;;
-  }
-  dimension: bomb_boost {
-    group_label: "Boost Impact"
-    label: "Bomb Boost"
-    type: number
-    sql: ${TABLE}.bomb_boost ;;
-  }
-  dimension: bomb_boost_used {
-    group_label: "Boosts Used"
-    label: "Bomb Boost"
-    sql: if(${TABLE}.bomb_boost>0,"yes","no") ;;
-  }
-  dimension: color_ball_boost {
-    group_label: "Boost Impact"
-    label: "Color Ball Boost"
-    type: number
-    sql: ${TABLE}.color_ball_boost ;;
-  }
-  dimension: color_ball_boost_used {
-    group_label: "Boosts Used"
-    label: "Color Ball Boost"
-    sql: if(${TABLE}.color_ball_boost>0,"yes","no") ;;
-  }
-  dimension: propeller_boost {
-    group_label: "Boost Impact"
-    label: "Propeller Boost"
-    type: number
-    sql: ${TABLE}.propeller_boost ;;
-  }
-  dimension: propeller_boost_used {
-    group_label: "Boosts Used"
-    label: "Propeller Boost"
-    sql: if(${TABLE}.propeller_boost>0,"yes","no") ;;
-  }
+  # dimension: rocket_boost {
+  #   group_label: "Boost Impact"
+  #   label: "Rocket Boost"
+  #   type: number
+  # }
+  # dimension: rocket_boost_used {
+  #   group_label: "Boosts Used"
+  #   label: "Rocket Boost"
+  #   sql: if(${TABLE}.rocket_boost>0,"yes","no") ;;
+  # }
+  # dimension: bomb_boost {
+  #   group_label: "Boost Impact"
+  #   label: "Bomb Boost"
+  #   type: number
+  # }
+  # dimension: bomb_boost_used {
+  #   group_label: "Boosts Used"
+  #   label: "Bomb Boost"
+  #   sql: if(${TABLE}.bomb_boost>0,"yes","no") ;;
+  # }
+  # dimension: color_ball_boost {
+  #   group_label: "Boost Impact"
+  #   label: "Color Ball Boost"
+  #   type: number
+  # }
+  # dimension: color_ball_boost_used {
+  #   group_label: "Boosts Used"
+  #   label: "Color Ball Boost"
+  #   sql: if(${TABLE}.color_ball_boost>0,"yes","no") ;;
+  # }
+  # dimension: propeller_boost {
+  #   group_label: "Boost Impact"
+  #   label: "Propeller Boost"
+  #   type: number
+  # }
+  # dimension: propeller_boost_used {
+  #   group_label: "Boosts Used"
+  #   label: "Propeller Boost"
+  #   sql: if(${TABLE}.propeller_boost>0,"yes","no") ;;
+  # }
+  # dimension:  powerup_rocket_vertical {
+  #   group_label: "Power Ups"
+  #   label: "Vertical Rocket"
+  #   type: number
+  # }
+  # measure:  powerup_rocket_vertical_sum {
+  #   group_label: "Power Ups"
+  #   label: "Vertical Rocket"
+  #   type: sum
+  #   sql: ${powerup_rocket_vertical} ;;
+  # }
+  # dimension:  powerup_rocket_horizontal {
+  #   group_label: "Power Ups"
+  #   label: "Horizontal Rocket"
+  #   type: number
+  # }
+  # measure:  powerup_rocket_horizontal_sum {
+  #   group_label: "Power Ups"
+  #   label: "Horizontal Rocket"
+  #   type: sum
+  #   sql: ${powerup_rocket_horizontal} ;;
+  # }
+  # dimension: powerup_color_ball {
+  #   group_label: "Power Ups"
+  #   label: "Color Ball"
+  #   type: number
+  # }
+  # measure:  powerup_color_ball_sum {
+  #   group_label: "Power Ups"
+  #   label: "Color Ball"
+  #   type: sum
+  #   sql: ${powerup_color_ball} ;;
+  # }
+  # dimension:  powerup_bomb {
+  #   group_label: "Power Ups"
+  #   label: "Bomb"
+  #   type: number
+  # }
+  # measure:  powerup_bomb_sum {
+  #   group_label: "Power Ups"
+  #   label: "Bomb"
+  #   type: sum
+  #   sql: ${powerup_bomb} ;;
+  # }
+  # dimension:  powerup_propeller {
+  #   group_label: "Power Ups"
+  #   label: "Propeller"
+  #   type: number
+  # }
+  # measure:  powerup_propeller_sum {
+  #   group_label: "Power Ups"
+  #   label: "Propeller"
+  #   type: sum
+  #   sql: ${powerup_propeller} ;;
+  # }
+  # dimension:  powerup_combo_rocket_color_ball {
+  #   group_label: "Power Ups"
+  #   label: "Combo Rocket + Color Ball"
+  #   type: number
+  # }
+  # measure:  powerup_combo_rocket_color_ball_sum {
+  #   group_label: "Power Ups"
+  #   label: "Combo Rocket + Color Ball"
+  #   type: sum
+  #   sql: ${powerup_combo_rocket_color_ball} ;;
+  # }
+  # dimension:  powerup_combo_rocket_bomb {
+  #   group_label: "Power Ups"
+  #   label: "Combo Rocket + Bomb"
+  #   type: number
+  # }
+  # measure:  powerup_combo_rocket_bomb_sum {
+  #   group_label: "Power Ups"
+  #   label: "Combo Rocket + Bomb"
+  #   type: sum
+  #   sql: ${powerup_combo_rocket_bomb} ;;
+  # }
+  # dimension:  powerup_combo_rocket_propeller {
+  #   group_label: "Power Ups"
+  #   label: "Combo Rocket + Propeller"
+  #   type: number
+  # }
+  # measure:  powerup_combo_rocket_propeller_sum {
+  #   group_label: "Power Ups"
+  #   label: "Combo Rocket + Propeller"
+  #   type: sum
+  #   sql: ${powerup_combo_rocket_propeller} ;;
+  # }
+  # dimension:  powerup_combo_color_ball_propeller {
+  #   group_label: "Power Ups"
+  #   label: "Combo Propeller + Color Ball"
+  #   type: number
+  # }
+  # measure:  powerup_combo_propeller_color_ball_sum {
+  #   group_label: "Power Ups"
+  #   label: "Combo Propeller + Color Ball"
+  #   type: sum
+  #   sql: ${powerup_combo_color_ball_propeller} ;;
+  # }
+  # dimension:  powerup_combo_color_ball {
+  #   group_label: "Power Ups"
+  #   label: "Combo Color Balls"
+  #   type: number
+  # }
+  # measure:  powerup_combo_color_ball_sum {
+  #   group_label: "Power Ups"
+  #   label: "Combo Color Balls"
+  #   type: sum
+  #   sql: ${powerup_combo_color_ball} ;;
+  # }
+  # dimension:  skill_clear_cell{
+  #   hidden: yes
+  # }
+  # dimension:  skill_clear_vertical{
+  #   hidden: yes
+  # }
+  # dimension:  skill_clear_horizontal{
+  #   hidden: yes
+  # }
+  # dimension:  powerup_piping_bag{
+  #   hidden: yes
+  # }
+  # dimension:  powerup_rolling_pin{
+  #   hidden: yes
+  # }
+  # dimension:  powerup_hammer{
+  #   hidden: yes
+  # }
   dimension: moves_added {
     type: yesno
     sql: ${TABLE}.moves_added ;;

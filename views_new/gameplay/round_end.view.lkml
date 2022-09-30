@@ -1,5 +1,5 @@
 view: round_end {
-# this table builds the fact table for the round end events - this is at the user and round grain, setup for unnesting the chain length as well
+# this table builds the fact table for the round end events - this is at the user and round grain
   derived_table: {
     sql:
       select distinct
@@ -21,11 +21,8 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.moves_added') as boolean) moves_added
         ,cast(json_extract_scalar(extra_json,'$.moves_remaining') as int64) moves_remaining
         ,cast(json_extract_scalar(extra_json,'$.coins_earned') as int64) coins_earned
-        ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
         ,cast(json_extract_scalar(extra_json,'$.round_length') as int64) round_length
         ,cast(replace(json_extract_scalar(extra_json,'$.proximity_to_completion'),',','') as float64) proximity_to_completion
-        ,json_extract(extra_json,'$.all_chains') all_chains
-        ,json_extract_scalar(extra_json,'$.all_chains') unnest_all_chains
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric) currency_02_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
@@ -475,54 +472,6 @@ view: round_end {
     percentile: 97.5
     sql: ${coins_earned} ;;
   }
-  dimension: total_chains {
-    type: number
-    sql: ${TABLE}.total_chains ;;
-  }
-  measure: total_chains_025 {
-    group_label: "Chain Count"
-    label: "Chain Count - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${total_chains} ;;
-  }
-  measure: total_chains_25 {
-    group_label: "Chain Count"
-    label: "Chain Count - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${total_chains} ;;
-  }
-  measure: total_chains_50 {
-    group_label: "Chain Count"
-    label: "Chain Count - Median"
-    type: median
-    sql: ${total_chains} ;;
-  }
-  measure: total_chains_75 {
-    group_label: "Chain Count"
-    label: "Chain Count - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${total_chains} ;;
-  }
-  measure: total_chains_975 {
-    group_label: "Chain Count"
-    label: "Chain Count - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${total_chains} ;;
-  }
-  dimension: all_chains {
-    type: string
-    sql: ${TABLE}.all_chains ;; #TAKE THE AVERAGE OR MEDIAN
-    #sql: CROSS JOIN UNNEST(SPLIT(JSON_EXTRACT_SCALAR(extra_json, '$.all_chains')))
-  }
-  dimension: unnest_all_chains {
-    hidden: yes
-    type: string
-    sql: '[' || ${TABLE}.unnest_all_chains || ']' ;;
-  }
   measure: session_count {
     label: "Sessions Played"
     type: count_distinct
@@ -574,94 +523,6 @@ view: round_end {
     type: percentile
     percentile: 97.5
     sql: ${round_length_num} ;;
-  }
-  dimension: matches_per_second {
-    type: number
-    value_format: "#.00"
-    sql: ${total_chains} / ${round_length_num};;
-  }
-  dimension: seconds_per_match {
-    type: number
-    value_format: "#.00"
-    sql: ${round_length_num} / ${total_chains};;
-  }
-  measure: matches_per_second_025 {
-    group_label: "Matches per Second"
-    label: "Matches per Second - 2.5%"
-    type: percentile
-    percentile: 2.5
-    value_format: "#.00"
-    sql: ${matches_per_second} ;;
-  }
-  measure: matches_per_second_25 {
-    group_label: "Matches per Second"
-    label: "Matches per Second - 25%"
-    type: percentile
-    percentile: 25
-    value_format: "#.00"
-    sql: ${matches_per_second} ;;
-  }
-  measure: matches_per_second_med {
-    group_label: "Matches per Second"
-    label: "Matches per Second - Median"
-    type: median
-    value_format: "#.00"
-    sql: ${matches_per_second} ;;
-  }
-  measure: matches_per_second_75 {
-    group_label: "Matches per Second"
-    label: "Matches per Second - 75%"
-    type: percentile
-    percentile: 75
-    value_format: "#.00"
-    sql: ${matches_per_second} ;;
-  }
-  measure: matches_per_second_975 {
-    group_label: "Matches per Second"
-    label: "Matches per Second - 97.5%"
-    type: percentile
-    percentile: 97.5
-    value_format: "#.00"
-    sql: ${matches_per_second} ;;
-  }
-  measure: seconds_per_matches_025 {
-    group_label: "Seconds per Match"
-    label: "Seconds per Match - 2.5%"
-    type: percentile
-    percentile: 2.5
-    value_format: "#.00"
-    sql: ${seconds_per_match} ;;
-  }
-  measure: seconds_per_matches_25 {
-    group_label: "Seconds per Match"
-    label: "Seconds per Match - 25%"
-    type: percentile
-    percentile: 25
-    value_format: "#.00"
-    sql: ${seconds_per_match} ;;
-  }
-  measure: seconds_per_matches_med {
-    group_label: "Seconds per Match"
-    label: "Seconds per Match - Median"
-    type: median
-    value_format: "#.00"
-    sql: ${seconds_per_match} ;;
-  }
-  measure: seconds_per_matches_75 {
-    group_label: "Seconds per Match"
-    label: "Seconds per Match - 75%"
-    type: percentile
-    percentile: 75
-    value_format: "#.00"
-    sql: ${seconds_per_match} ;;
-  }
-  measure: seconds_per_matches_975 {
-    group_label: "Seconds per Match"
-    label: "Seconds per Match - 97.5%"
-    type: percentile
-    percentile: 97.5
-    value_format: "#.00"
-    sql: ${seconds_per_match} ;;
   }
   measure: max_attempts {
     label: "Max Attempts per Level"

@@ -17,7 +17,7 @@ view: round_end {
         ,json_extract_scalar(extra_json,'$.team_slot_0') primary_team_slot
         ,json_extract_scalar(extra_json,'$.team_slot_skill_0') primary_team_slot_skill
         ,cast(json_extract_scalar(extra_json,'$.team_slot_level_0') as int64) primary_team_slot_level
-        ,cast(json_extract_scalar(extra_json,'$.score_earned') as int64) score_earned
+        ,cast(json_extract_scalar(extra_json,'$.moves') as int64) moves
         ,cast(json_extract_scalar(extra_json,'$.moves_added') as boolean) moves_added
         ,cast(json_extract_scalar(extra_json,'$.moves_remaining') as int64) moves_remaining
         ,cast(json_extract_scalar(extra_json,'$.coins_earned') as int64) coins_earned
@@ -47,9 +47,6 @@ view: round_end {
         --,cast(json_extract_scalar(extra_json,'$.powerup_combo_propeller_rocket') as int64) powerup_combo_propeller_rocket
         --,cast(json_extract_scalar(extra_json,'$.powerup_combo_bomb_rocket') as int64) powerup_combo_bomb_rocket
         --,cast(json_extract_scalar(extra_json,'$.powerup_combo_color_ball') as int64) powerup_combo_color_ball
-        --,cast(json_extract_scalar(extra_json,'$.skill_clear_cell') as int64) skill_clear_cell
-        --,cast(json_extract_scalar(extra_json,'$.skill_clear_vertical') as int64) skill_clear_vertical
-        --,cast(json_extract_scalar(extra_json,'$.skill_clear_horizontal') as int64) skill_clear_horizontal
         --,cast(json_extract_scalar(extra_json,'$.powerup_piping_bag') as int64) powerup_piping_bag
         --,cast(json_extract_scalar(extra_json,'$.powerup_rolling_pin') as int64) powerup_rolling_pin
         --,cast(json_extract_scalar(extra_json,'$.powerup_hammer') as int64) powerup_hammer
@@ -352,15 +349,6 @@ view: round_end {
   #   type: sum
   #   sql: ${powerup_combo_color_ball} ;;
   # }
-  # dimension:  skill_clear_cell{
-  #   hidden: yes
-  # }
-  # dimension:  skill_clear_vertical{
-  #   hidden: yes
-  # }
-  # dimension:  skill_clear_horizontal{
-  #   hidden: yes
-  # }
   # dimension:  powerup_piping_bag{
   #   hidden: yes
   # }
@@ -370,6 +358,44 @@ view: round_end {
   # dimension:  powerup_hammer{
   #   hidden: yes
   # }
+  dimension: moves {
+    label: "Moves Made"
+    type: number
+  }
+  measure: moves_made_025 {
+    group_label: "Moves Made"
+    label: "Moves Made - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${moves} ;;
+  }
+  measure: moves_made_25 {
+    group_label: "Moves Made"
+    label: "Moves Made - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${moves} ;;
+  }
+  measure: moves_made_med {
+    group_label: "Moves Made"
+    label: "Moves Made - Median"
+    type: median
+    sql: ${moves} ;;
+  }
+  measure: moves_made_75 {
+    group_label: "Moves Made"
+    label: "Moves Made - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${moves} ;;
+  }
+  measure: moves_made_975 {
+    group_label: "Moves Made"
+    label: "Moves Made - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${moves} ;;
+  }
   dimension: moves_added {
     type: yesno
     sql: ${TABLE}.moves_added ;;

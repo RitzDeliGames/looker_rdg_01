@@ -5,6 +5,7 @@ view: round_end {
       select distinct
         rdg_id
         ,timestamp
+        ,engagement_ticks
         ,session_id
         ,last_level_id
         ,cast(last_level_serial as int64) last_level_serial
@@ -22,6 +23,7 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.propeller_boost') as int64) propeller_boost
         ,cast(json_extract_scalar(extra_json,'$.score_earned') as int64) score_earned
         ,cast(json_extract_scalar(extra_json,'$.moves_added') as boolean) moves_added
+        ,cast(json_extract_scalar(extra_json,'$.moves_remaining') as int64) moves_remaining
         ,cast(json_extract_scalar(extra_json,'$.coins_earned') as int64) coins_earned
         ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
         ,cast(json_extract_scalar(extra_json,'$.round_length') as int64) round_length
@@ -33,13 +35,12 @@ view: round_end {
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric) currency_05_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
-
     from game_data.events
-   where event_name = 'round_end'
-     and timestamp >= '2019-01-01'
-     and user_type = 'external'
-     and country != 'ZZ'
-     and coalesce(install_version,'null') <> '-1'
+    where event_name = 'round_end'
+      and timestamp >= '2019-01-01'
+      and user_type = 'external'
+      and country != 'ZZ'
+      and coalesce(install_version,'null') <> '-1'
     ;;
     datagroup_trigger: change_8_hrs
     publish_as_db_view: yes
@@ -71,6 +72,48 @@ view: round_end {
       ,quarter
       ,year
     ]
+  }
+  dimension: engagement_ticks {
+    hidden: yes
+  }
+  dimension: engagement_min {
+    label: "Minutes Played"
+    type: number
+    sql: ${TABLE}.engagement_ticks / 2 ;;
+  }
+  measure: engagement_min_025 {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${engagement_min} ;;
+  }
+  measure: engagement_min_25 {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${engagement_min} ;;
+  }
+  measure: engagement_min_med {
+    group_label: "Minutes Played"
+    label: "Minutes Played - Median"
+    type: median
+    sql: ${engagement_min} ;;
+  }
+  measure: engagement_min_75 {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${engagement_min} ;;
+  }
+  measure: engagement_min_975 {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${engagement_min} ;;
   }
   dimension: session_id {}
   dimension: game_mode {}
@@ -187,6 +230,43 @@ view: round_end {
   dimension: moves_added {
     type: yesno
     sql: ${TABLE}.moves_added ;;
+  }
+  dimension: moves_remaining {
+    type: number
+  }
+  measure: moves_remaining_025 {
+    group_label: "Moves Remaining"
+    label: "Moves Remaining - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${moves_remaining} ;;
+  }
+  measure: moves_remaining_25 {
+    group_label: "Moves Remaining"
+    label: "Moves Remaining - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${moves_remaining} ;;
+  }
+  measure: moves_remaining_med {
+    group_label: "Moves Remaining"
+    label: "Moves Remaining - Median"
+    type: median
+    sql: ${moves_remaining} ;;
+  }
+  measure: moves_remaining_75 {
+    group_label: "Moves Remaining"
+    label: "Moves Remaining - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${moves_remaining} ;;
+  }
+  measure: moves_remaining_975 {
+    group_label: "Moves Remaining"
+    label: "Moves Remaining - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${moves_remaining} ;;
   }
   dimension: coins_earned {
     type: number

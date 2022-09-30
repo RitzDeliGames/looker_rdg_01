@@ -110,6 +110,7 @@ view: firebase_analytics {
   dimension: retention_days_cohort {
     type: string
     sql: 'D' || cast((${days_since_created} + 1) as string) ;;
+    order_by_field: days_since_created
   }
 
   dimension: user_id {

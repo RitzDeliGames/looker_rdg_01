@@ -796,15 +796,6 @@ explore: firebase_analytics {
   always_filter: {
     filters: [firebase_analytics.date_filter: "7 days"]
   }
-  join: firebase_day_1_retention {
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${firebase_analytics.user_pseudo_id} = ${firebase_day_1_retention.user_pseudo_id}
-        and (${firebase_analytics.user_id} = ${firebase_day_1_retention.user_id}
-         or ${firebase_analytics.user_id} is NULL)
-        and ${firebase_analytics.event_date} = date_add(${firebase_day_1_retention.event_date},interval -1 day)
-        ;;
-  }
 }
 
 # EXPLORES ADDED FOR VIEWING INCLUDED DATA

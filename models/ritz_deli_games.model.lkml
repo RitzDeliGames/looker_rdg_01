@@ -38,11 +38,13 @@ explore: user_retention {
   label: "Users"
   from: user_fact
   join: user_activity {
+    view_label: "User Activity - Days"
     type: left_outer
     sql_on: ${user_retention.rdg_id} = ${user_activity.rdg_id} ;;
   relationship: one_to_many
   }
   join: user_activity_engagement_min {
+    view_label: "User Activity - Minutes"
     type: left_outer
     sql_on: ${user_retention.rdg_id} = ${user_activity_engagement_min.rdg_id} ;;
     relationship: one_to_many
@@ -127,6 +129,18 @@ explore: user_retention {
     type: left_outer
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${fue_funnels.rdg_id} ;;
+  }
+  join: firebase_analytics {
+    view_label: "Users - Firebase Analytics"
+    type: full_outer
+    relationship: many_to_many
+    sql_on: ${user_retention.user_id} = ${firebase_analytics.user_id};;
+  }
+  join: user_activity_firebase {
+    view_label: "User Activity - Firebase Analytics"
+    type: left_outer
+    sql_on: ${user_retention.user_id} = ${user_activity_firebase.user_id} ;;
+    relationship: one_to_many
   }
 }
 
@@ -456,11 +470,6 @@ explore: gameplay {
     sql_on: ${gameplay.primary_team_slot} = ${erasers.character_id} ;;
     relationship: one_to_one
   }
-  join: chain_length {
-    view_label: "Gameplay"
-    sql: left join unnest(json_extract_array(${gameplay.unnest_all_chains})) chain_length ;;
-    relationship: one_to_many
-  }
   join: attempts_per_level {
     view_label: "Gameplay"
     type: left_outer
@@ -490,20 +499,19 @@ explore: gameplay {
       and ${gameplay.session_id} = ${rounds_per_session_per_player.session_id};;
     relationship: many_to_one ## let's test this
   }
-  # join: churn_card_data {
-  #   view_label: "Churn"
-  #   type: inner
-  #   relationship: one_to_one
-  #   sql_on:  ${gameplay.rdg_id} = ${churn_card_data.rdg_id}
-  #     and ${gameplay.round_id} = ${churn_card_data.round_id}
-  #     and ${gameplay.current_quest} = ${churn_card_data.current_quest};;
-  # }
   join: gameplay_fact {
     type: left_outer
     relationship: one_to_one
     sql_on: ${gameplay.rdg_id} = ${gameplay_fact.rdg_id}
-         and ${gameplay.round_id} = ${gameplay_fact.round_id}
-         and ${gameplay.event_time} = ${gameplay_fact.event_time};;
+     and ${gameplay.round_id} = ${gameplay_fact.round_id}
+     and ${gameplay.event_time} = ${gameplay_fact.event_time};;
+  }
+  join: transactions_new {
+    view_label: "Transactions"
+    type: full_outer
+    relationship: many_to_many
+    sql_on: ${gameplay.rdg_id} = ${transactions_new.rdg_id}
+      and ${gameplay.last_level_serial} = ${transactions_new.last_level_serial};;
   }
   join: new_afh {
     type: left_outer
@@ -538,13 +546,6 @@ explore: gameplay {
     relationship: many_to_one
   }
   join: gameplay_explore_mixed_fields {}
-  # join: round_start {
-  #   view_label: "Round Start"
-  #   type: left_outer
-  #   sql_on: ${gameplay.rdg_id} = ${round_start.rdg_id}
-  #     and ${gameplay.round_id} = ${round_start.round_id} ;;
-  #   relationship: one_to_one
-  # }
 }
 
 explore: round_start {
@@ -795,15 +796,6 @@ explore: temp_powerup_used {
 explore: firebase_analytics {
   always_filter: {
     filters: [firebase_analytics.date_filter: "7 days"]
-  }
-  join: firebase_day_1_retention {
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${firebase_analytics.user_pseudo_id} = ${firebase_day_1_retention.user_pseudo_id}
-        and (${firebase_analytics.user_id} = ${firebase_day_1_retention.user_id}
-         or ${firebase_analytics.user_id} is NULL)
-        and ${firebase_analytics.event_date} = date_add(${firebase_day_1_retention.event_date},interval -1 day)
-        ;;
   }
 }
 

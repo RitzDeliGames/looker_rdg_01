@@ -78,7 +78,6 @@ view: firebase_analytics {
     type: string
     sql:${TABLE}.user_id ;;
   }
-
   dimension: user_pseudo_id {
     description: "The pseudonymous id (e.g., app instance ID) for the user."
     group_label: "Player IDs"

@@ -7,7 +7,7 @@ view: user_activity {
         ,user_id
         ,timestamp_trunc(timestamp,day) activity
       from `eraser-blast.game_data.events`
-      where created_at >= '2019-01-01'
+      where date(created_at) between '2019-01-01' and current_date()
       and user_type = 'external'
       group by 1,2,3
     ;;

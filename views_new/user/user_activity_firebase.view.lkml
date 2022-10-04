@@ -8,9 +8,10 @@ view: user_activity_firebase {
         ,datetime(timestamp_micros(user_first_touch_timestamp),"America/Los_Angeles") created_at_pst
         ,timestamp_micros(event_timestamp) activity
         ,datetime(timestamp_micros(event_timestamp),"America/Los_Angeles") activity_pst
+        ,event_name
       from `eraser-blast.analytics_215101505.events_*`
       where _TABLE_SUFFIX between FORMAT_DATE('%Y%m%d',{% date_start date_filter %}) and FORMAT_DATE('%Y%m%d',{% date_end date_filter %})
-      group by 1,2,3,4,5
+      group by 1,2,3,4,5,6
     ;;
   }
 
@@ -28,6 +29,7 @@ view: user_activity_firebase {
     type: string
     hidden: no
   }
+  dimension: event_name {}
   dimension_group: activity {
     datatype: timestamp
     type: time

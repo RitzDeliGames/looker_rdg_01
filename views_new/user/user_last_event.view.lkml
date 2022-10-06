@@ -84,8 +84,14 @@ view: user_last_event {
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.newLevelPass_20220926'),'unassigned') ;;
   }
-  dimension: movesMaster_09202022   {
+  dimension: mMStreaks_09302022   {
     group_label: "Experiments - Live"
+    label: "Moves Master v2"
+    type: string
+    sql: nullif(json_extract_scalar(${experiments},'$.mMStreaks_09302022'),'unassigned') ;;
+  }
+  dimension: movesMaster_09202022   {
+    group_label: "Experiments - Closed"
     label: "Moves Master v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.movesMaster_09202022'),'unassigned') ;;

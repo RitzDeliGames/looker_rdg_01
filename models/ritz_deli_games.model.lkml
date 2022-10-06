@@ -406,6 +406,10 @@ explore: churn_by_level_by_proximity {
   }
 }
 
+explore: churn_by_level_derived {
+   view_label: "Churn by Level (Derived) - Attempt"
+}
+
 explore: churn_by_match_made {
   label: "Match Made"
   hidden: yes
@@ -805,14 +809,4 @@ explore: sessions_per_day_per_player {}
 
 explore: android_advertising_id_helper {
   label: "Temp Android Advertising ID Helper"
-}
-
-explore: churn_by_level_derived {
-  view_label: "Derived Churn by Level"
-  # join: round_end {
-  #   view_label: "Gameplay"
-  #   type: left_outer
-  #   sql_on: ${churn_by_level_derived.last_level_completed} = ${round_end.last_level_serial} ;;
-  #   relationship: one_to_many
-  # }
 }

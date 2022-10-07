@@ -16,8 +16,6 @@ view: user_last_event {
                 ,max(timestamp) last_ts
               from game_data.events
               where date(timestamp) between '2022-06-01'and current_date()
-                --timestamp >= timestamp(current_date() - 90)
-                --timestamp < timestamp(current_date())
                 and rdg_id is not null
                 and user_type = 'external'
               group by 1,2
@@ -26,7 +24,6 @@ view: user_last_event {
           select distinct
             last_user_event.rdg_id
             ,events.experiments
-            ,lower(events.hardware) device_model_number
             ,last_level_id
             ,cast(last_level_serial as int64) last_level_serial
           from last_user_event
@@ -35,8 +32,6 @@ view: user_last_event {
             and last_user_event.last_ts = events.timestamp
             and last_user_event.event_name = events.event_name
             and date(events.timestamp) between '2022-06-01'and current_date()
-            --events.timestamp >= timestamp(current_date() - 90)
-            --events.timestamp < timestamp(current_date())
             and events.user_type = 'external'
           where last_user_event.rnk = 1
         ;;
@@ -54,10 +49,13 @@ view: user_last_event {
     sql: ${TABLE}.experiments ;;
     hidden: yes
   }
-  dimension: device_model_number {
-    hidden: yes
+  parameter: experiment {
     type: string
-    sql: ${TABLE}.device_model_number ;;
+  }
+  dimension: experiment_id {
+    label: "Experiment Variant"
+    type: string
+    sql: json_extract_scalar(${experiments},{% parameter experiment %}) ;;
   }
   dimension: last_level_id {
     group_label: "Level Dimensions"

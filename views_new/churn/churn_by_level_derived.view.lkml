@@ -51,9 +51,13 @@ view: churn_by_level_derived {
   }
   filter: variant {
     type: string
+    # suggestable: yes
+    # suggestions: ["control","variant_a","variant_b","variant_c"]
   }
   parameter: experiment {
     type: string
+    # suggestable: yes
+    # suggestions: ["$.movesMaster_09202022","$.mMStreaks_09302022","$.newLevelPass_20220926"]
   }
   dimension: last_level_completed {
     type: number

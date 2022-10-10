@@ -1,6 +1,6 @@
 looker.plugins.visualizations.add({
-	id: "boxplot",
-	label: "Boxplot MLB",
+  id: "boxplot",
+  label: "Boxplot MLB",
     options: {
         boxColors: {
             label: "Box Colors",
@@ -61,16 +61,16 @@ looker.plugins.visualizations.add({
     },
 
     create: function(element,config) {
-		element.innerHTML = "";
-	},
+    element.innerHTML = "";
+  },
 
-	update: function(data, element, config, queryResponse){
+  update: function(data, element, config, queryResponse){
         // Invalid data structure error handling
-        if (!handleErrors(this, queryResponse, {
-            min_pivots: 0, max_pivots: 1,
-            min_dimensions: 1, max_dimensions: 1,
-            min_measures: 5, max_measures: 5,
-        })) return;        
+        // if (!handleErrors(this, queryResponse, {
+        //     min_pivots: 0, max_pivots: 1,
+        //     min_dimensions: 1, max_dimensions: 1,
+        //     min_measures: 5, max_measures: 5,
+        // })) return;
 
         let measures = queryResponse.fields.measure_like;
 
@@ -81,7 +81,7 @@ looker.plugins.visualizations.add({
         let medMeasureName = queryResponse.fields.measure_like[2].name;
         let q75MeasureName = queryResponse.fields.measure_like[3].name;
         let maxMeasureName = queryResponse.fields.measure_like[4].name;
-        
+
         let categories = [];
         // Get array of x axis categories
         data.forEach(function(row){
@@ -91,11 +91,11 @@ looker.plugins.visualizations.add({
         let series = [];
         let pivotCount = 0;
         // If there is a pivot create stacked series
-        if(queryResponse.pivots) {            
+        if(queryResponse.pivots) {
             //Loop through pivots to create stacks
             queryResponse.pivots.forEach(function(pivot) {
                 dataArray = [];
-                //loop through data to get the measures                
+                //loop through data to get the measures
                 data.forEach(function(row){
                     rowDataArray = [row[minMeasureName][pivot.key].value,
                         row[q25MeasureName][pivot.key].value,
@@ -115,7 +115,7 @@ looker.plugins.visualizations.add({
             });
         } else {
             dataArray = [];
-            //loop through data to get the measures                
+            //loop through data to get the measures
             data.forEach(function(row){
                 rowDataArray = [row[minMeasureName].value,
                     row[q25MeasureName].value,

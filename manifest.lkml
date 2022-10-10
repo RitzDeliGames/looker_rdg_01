@@ -1218,3 +1218,9 @@ constant: creative_name_clean {
             else ${TABLE}.creative_name
           end"
 }
+
+visualization: {
+  id: "pivoted_boxplot"
+  label: "Pivoted Boxplot"
+  file: "boxplot_pivot.js"
+}

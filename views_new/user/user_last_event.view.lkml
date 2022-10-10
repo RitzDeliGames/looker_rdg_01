@@ -96,7 +96,7 @@ view: user_last_event {
   }
   dimension: difficultyStars_09202022   {
     group_label: "Experiments - Live"
-    label: "Star Cost v1"
+    label: "Star Payout v1"
     type: string
     sql: nullif(json_extract_scalar(${experiments},'$.difficultyStars_09202022'),'unassigned') ;;
   }

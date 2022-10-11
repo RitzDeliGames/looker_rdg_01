@@ -1219,10 +1219,13 @@ constant: creative_name_clean {
           end"
 }
 
-constant: experiment_name {
+constant: game_mode_consolidated {
   value: "case
-            when ${TABLE}.experiment like '$.newLevelPass_20220926' then '$.newLevelPass_20220926'
-            else ${TABLE}.experiment
+            when ${TABLE}.game_mode = 'CAMPAIGN' then 'Campaign'
+            when ${TABLE}.game_mode = 'campaign' then 'Campaign'
+            when ${TABLE}.game_mode = 'challenge' then 'MovesMaster'
+            when ${TABLE}.game_mode = 'movesMaster' then 'MovesMaster'
+            else ${TABLE}.game_mode
           end"
 }
 

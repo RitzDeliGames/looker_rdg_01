@@ -129,7 +129,13 @@ view: round_end {
     sql: ${engagement_min} ;;
   }
   dimension: session_id {}
-  dimension: game_mode {}
+  dimension: game_mode {
+    label: "Game Mode (Unconsolidated)"
+  }
+  dimension: game_mode_consolidated {
+    label: "Game Mode"
+    sql: @{game_mode_consolidated} ;;
+  }
   dimension: last_level_id {
     group_label: "Level Dimensions"
     label: "Last Level Completed - Id"

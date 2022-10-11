@@ -1219,6 +1219,13 @@ constant: creative_name_clean {
           end"
 }
 
+constant: experiment_name {
+  value: "case
+            when ${TABLE}.experiment like '$.newLevelPass_20220926' then '$.newLevelPass_20220926'
+            else ${TABLE}.experiment
+          end"
+}
+
 visualization: {
   id: "pivoted_boxplot"
   label: "Pivoted Boxplot"

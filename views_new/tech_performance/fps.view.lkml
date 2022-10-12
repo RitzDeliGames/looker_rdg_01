@@ -9,6 +9,7 @@ view: fps {
         ,offset as ms_per_frame
       ,event_name
       ,json_extract_scalar(extra_json, "$.transition_from") scene_transition_from
+      ,last_level_id
     from game_data.events
     cross join unnest(split(json_extract_scalar(extra_json,'$.frame_time_histogram_values'))) as frame_time_histogram with offset
     where timestamp >= '2019-01-01'
@@ -16,7 +17,7 @@ view: fps {
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'
       and event_name in ('round_end','transition')
-   group by 1,2,3,5,6,7
+   group by 1,2,3,5,6,7,8
    order by ms_per_frame asc
   ;;
     datagroup_trigger: change_8_hrs
@@ -70,7 +71,13 @@ view: fps {
     drill_fields: [rdg_id]
   }
   dimension: last_level_serial {
-    label: "Last Level Played"
+    group_label: "Level Dimensions"
+    label: "Last Level Completed"
     type: number
+  }
+  dimension: last_level_id {
+    group_label: "Level Dimensions"
+    label: "Last Level Completed - Id"
+    type: string
   }
 }

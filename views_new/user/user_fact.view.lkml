@@ -37,6 +37,7 @@ view: user_fact {
         ,max(timestamp) last_event
         ,cast(max(quests_completed) as int64) quests_completed
         ,cast(max(last_level_serial) as int64) last_level_serial
+        ,cast(max(engagement_ticks) as int64) engagement_ticks
         ,max(json_extract_scalar(extra_json,"$.card_id")) current_card  -- need to do the max on the current card num, card_003_b (150) is coming through instead of card_002 (400)
         ,max(last_unlocked_card) last_unlocked_card -- need to do the max on the last unlocked card num, card_003_b (150) is coming through instead of card_002 (400)
         ,min(version) version
@@ -75,7 +76,6 @@ view: user_fact {
         ,min(cast(json_extract_scalar(tickets,"$.SCORE") as numeric)) score_boost_balance_min
         ,min(cast(json_extract_scalar(tickets,"$.SKILL") as numeric)) skill_ticket_balance_min
         ,min(cast(json_extract_scalar(tickets,"$.LEVEL") as numeric)) level_ticket_balance_min
-
       from first_activity fa
       left join `eraser-blast.game_data.events` gde
         on fa.rdg_id = gde.rdg_id
@@ -205,6 +205,12 @@ view: user_fact {
   dimension: quests_completed {
     type: number
     hidden: no
+  }
+  dimension: engagement_min {
+    group_label: "Minutes Played"
+    label: "Max Minutes Played"
+    type: number
+    sql: ${TABLE}.engagement_ticks / 2 ;;
   }
   dimension: last_level_id {
     group_label: "Level Dimensions"

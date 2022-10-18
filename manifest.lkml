@@ -1231,9 +1231,3 @@ constant: game_mode_consolidated {
             else ${TABLE}.game_mode
           end"
 }
-
-visualization: {
-  id: "pivoted_boxplot"
-  label: "Pivoted Boxplot"
-  file: "boxplot_pivot.js"
-}

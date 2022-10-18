@@ -60,6 +60,11 @@ view: user_last_event {
   dimension: experiment_id {
     label: "Experiment Variant"
     type: string
+    suggestions: ["control"
+      ,"variant_a"
+      ,"variant_b"
+      ,"variant_c"
+      ,"variant_d"]
     sql: json_extract_scalar(${experiments},{% parameter experiment %}) ;;
   }
   dimension: last_level_id {

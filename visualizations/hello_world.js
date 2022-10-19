@@ -66,11 +66,11 @@ looker.plugins.visualizations.add({
 
   update: function(data, element, config, queryResponse){
         // Invalid data structure error handling
-        if (!handleErrors(this, queryResponse, {
-            min_pivots: 0, max_pivots: 1,
-            min_dimensions: 1, max_dimensions: 1,
-            min_measures: 5, max_measures: 5,
-        })) return;
+        // if (!handleErrors(this, queryResponse, {
+        //     min_pivots: 0, max_pivots: 1,
+        //     min_dimensions: 1, max_dimensions: 1,
+        //     min_measures: 5, max_measures: 5,
+        // })) return;
 
         let measures = queryResponse.fields.measure_like;
 

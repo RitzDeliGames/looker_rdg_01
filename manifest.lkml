@@ -1234,6 +1234,6 @@ constant: game_mode_consolidated {
 visualization: {
   id: "pivoted_boxplot"
   label: "Pivoted Boxplot"
-  dependencies: ["https://code.highcharts.com/highcharts.js"]
+  dependencies: ["https://code.highcharts.com/highcharts.js", "https://code.highcharts.com/highcharts-more.js"]
   file: "visualizations/hello_world.js"
 }

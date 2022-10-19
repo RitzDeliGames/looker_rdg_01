@@ -1232,8 +1232,8 @@ constant: game_mode_consolidated {
           end"
 }
 visualization: {
-  id: "hello_world"
-  label: "Hello World"
-  dependencies: ["dependency_url_1","dependency_url_2"]
+  id: "pivoted_boxplot"
+  label: "Pivoted Boxplot"
+  dependencies: ["https://code.highcharts.com/highcharts.js"]
   file: "visualizations/hello_world.js"
 }

@@ -1231,3 +1231,9 @@ constant: game_mode_consolidated {
             else ${TABLE}.game_mode
           end"
 }
+visualization: {
+  id: "hello_world"
+  label: "Hello World"
+  dependencies: ["dependency_url_1","dependency_url_2"]
+  file: "visualizations/hello_world.js"
+}

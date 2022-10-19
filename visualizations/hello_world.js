@@ -5,7 +5,7 @@ looker.plugins.visualizations.add({
         boxColors: {
             label: "Box Colors",
             type: "array",
-            default: ["#1f77b4", "#ff7f0e", "#2ca02c"],
+            default: ["#45b54d", "#707878", "#2ca02c"],
             display: "colors",
         section: "Formatting"
         },

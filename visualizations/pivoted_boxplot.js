@@ -5,7 +5,7 @@ looker.plugins.visualizations.add({
           boxColors: {
               label: "Box Colors",
               type: "array",
-              default: ["#1f77b4", "#ff7f0e", "#2ca02c"],
+              default: ["#45b54d", "#707878", "#2ca02c"],
               display: "colors",
           section: "Formatting"
           },
@@ -59,11 +59,11 @@ looker.plugins.visualizations.add({
               placeholder: "$",
           }
       },
-  
+
       create: function(element,config) {
       element.innerHTML = "";
     },
-  
+
     update: function(data, element, config, queryResponse){
           // Invalid data structure error handling
           // if (!handleErrors(this, queryResponse, {
@@ -71,9 +71,9 @@ looker.plugins.visualizations.add({
           //     min_dimensions: 1, max_dimensions: 1,
           //     min_measures: 5, max_measures: 5,
           // })) return;
-  
+
           let measures = queryResponse.fields.measure_like;
-  
+
           // Extract dimension data and measure names
           let dim = queryResponse.fields.dimension_like[0];
           let minMeasureName = queryResponse.fields.measure_like[0].name;
@@ -81,13 +81,13 @@ looker.plugins.visualizations.add({
           let medMeasureName = queryResponse.fields.measure_like[2].name;
           let q75MeasureName = queryResponse.fields.measure_like[3].name;
           let maxMeasureName = queryResponse.fields.measure_like[4].name;
-  
+
           let categories = [];
           // Get array of x axis categories
           data.forEach(function(row){
               categories.push(row[dim.name].value);
           });
-  
+
           let series = [];
           let pivotCount = 0;
           // If there is a pivot create stacked series
@@ -132,7 +132,7 @@ looker.plugins.visualizations.add({
                   legendColor: config.boxFillColors[0]
               });
           }
-  
+
           // Set Chart Options
           let options = {
               colors: config.boxColors,
@@ -142,7 +142,7 @@ looker.plugins.visualizations.add({
               chart: {type: "boxplot"},
               title: {text: ""},
               legend: {enabled: config.showLegend},
-  
+
               xAxis: {
                   type: dim.is_timeframe ? "datetime" : null,
                   title: {
@@ -150,7 +150,7 @@ looker.plugins.visualizations.add({
                    },
                    categories: categories
               },
-  
+
               yAxis: {
                   min: config.yAxisMinValue,
                   max: config.yAxisMaxValue,
@@ -167,10 +167,10 @@ looker.plugins.visualizations.add({
                       }
                   }
               },
-  
+
               series: series
           };
-  
+
           //Add functionality to have the legend reflect the fill color instead of the outline color
           (function(H) {
               H.wrap(H.Legend.prototype, 'colorizeItem', function(proceed, item, visible) {
@@ -180,9 +180,8 @@ looker.plugins.visualizations.add({
                   item.color = color;
               });
           }(Highcharts));
-  
+
           // Instanciate Box Plot Highchart
           let myChart = Highcharts.chart(element, options);
       }
   });
-  

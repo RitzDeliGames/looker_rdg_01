@@ -51,11 +51,18 @@ view: user_last_event {
   }
   parameter: experiment {
     type: string
-    suggestions: ["$.newLevelPass_20220926"
-                  ,"$.mMStreaks_09302022"
-                  ,"$.zoneOrder2_09302022"
+    suggestions: ["$.autoPurchase_20221017"
+                  ,"$.blockSymbols_20221017"
+                  ,"$.difficultyStars_09202022"
+                  ,"$.dynamicRewards_20221018"
+                  ,"$.extraMovesCurrency_20221017"
+                  ,"$.fueDismiss_20221010"
                   ,"$.gridGravity_20221003"
-                  ,"$.difficultyStars_09202022"]
+                  ,"$.gridGravity2_20221012"
+                  ,"$.mMStreaks_09302022"
+                  ,"$.newLevelPass_20220926"
+                  ,"$.vfxReduce_20221017"
+                  ,"$.zoneOrder2_09302022"]
   }
   dimension: experiment_id {
     label: "Experiment Variant"

@@ -1231,9 +1231,17 @@ constant: game_mode_consolidated {
             else ${TABLE}.game_mode
           end"
 }
+
 visualization: {
   id: "pivoted_boxplot"
   label: "Pivoted Boxplot"
   dependencies: ["https://code.highcharts.com/highcharts.js", "https://code.highcharts.com/highcharts-more.js"]
-  file: "visualizations/hello_world.js"
+  file: "visualizations/pivoted_boxplot.js"
+}
+
+visualization: {
+  id: "2d_boxplot"
+  label: "2D Boxplot"
+  dependencies: ["https://code.highcharts.com/highcharts.js", "https://code.highcharts.com/highcharts-more.js"]
+  file: "visualizations/2d_boxplot.js"
 }

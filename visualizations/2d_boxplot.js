@@ -3,7 +3,7 @@ looker.plugins.visualizations.add({
   label: "2D Boxplot",
   options: {},
   create: function(element,config) {
-  element.innerHTML = "";
+  element.innerHTML = "<h1>demo</h1>";
   },
   update: function(data, element, config, queryResponse){
 

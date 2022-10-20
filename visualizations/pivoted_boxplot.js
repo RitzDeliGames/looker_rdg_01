@@ -108,8 +108,8 @@ looker.plugins.visualizations.add({
                   series.push({
                       name: pivot.key,
                       data: dataArray,
-                      fillColor: config.boxFillColors[pivotCount],
-                      legendColor: config.boxFillColors[pivotCount]
+                      fillColor: config.boxFillColors[pivotCount] || '#ffffff',
+                      legendColor: config.boxFillColors[pivotCount] || '#ffffff'
                   });
                   pivotCount = pivotCount + 1;
               });

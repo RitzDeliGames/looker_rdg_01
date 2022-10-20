@@ -109,7 +109,7 @@ looker.plugins.visualizations.add({
                       name: pivot.key,
                       data: dataArray,
                       fillColor: config.boxFillColors[pivotCount] || '#ffffff',
-                      legendColor: config.boxFillColors[pivotCount] || '#ffffff'
+                      legendColor: config.boxFillColors[pivotCount] || '#000000'
                   });
                   pivotCount = pivotCount + 1;
               });
@@ -128,8 +128,8 @@ looker.plugins.visualizations.add({
               series.push({
                   name: config.yAxisName,
                   data: dataArray,
-                  fillColor: config.boxFillColors[0],
-                  legendColor: config.boxFillColors[0]
+                  fillColor: config.boxFillColors[0] || '#ffffff',
+                  legendColor: config.boxFillColors[0] || '#ffffff'
               });
           }
 

@@ -90,7 +90,7 @@ view: churn_by_level_derived {
   measure: churn_rate {
     type: number
     value_format: "#%"
-    sql:  ${player_count_stuck_total} / ${player_count_total_sum} ;;
+    sql:  ${player_count_stuck_total} / nullif(${player_count_total_sum},0) ;;
   }
   set: detail {
     fields: [last_level_completed, player_count_stuck, player_count_played_again, player_count_total]

@@ -58,14 +58,14 @@ view: user_activity_engagement_min {
   dimension: engagement_min_interval {
     label: "Minutes Played - 5 Min Tiers"
     type: tier
-    tiers: [0,5,10,15,20,25,30,35,40,45,50,55,60,65]
+    tiers: [0,5,10,15,20,25,30,35,40,45,50,55,60]
     style: integer
     sql: ${engagement_min} ;;
   }
   dimension: engagement_15_min_interval {
     label: "Minutes Played - 15 Min Tiers"
     type: tier
-    tiers: [0,15,30,45,60,75,90,105,120,135,150,165,180,195,210,225,240]
+    tiers: [0,15,30,45,60,75,90,105,120,135,150,165,180,195,210,225,240,255,270,285,300,315,330,345,360]
     style: integer
     sql: ${engagement_min} ;;
   }

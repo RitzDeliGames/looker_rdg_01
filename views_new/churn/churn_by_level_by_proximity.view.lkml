@@ -23,7 +23,7 @@ view: churn_by_level_by_proximity {
                 rows between 1 preceding AND 1 following
             ) greater_round_id
         from `eraser-blast.game_data.events`
-        where timestamp >= timestamp(current_date() - 90)
+        where timestamp >= timestamp(current_date() - 90) --are both of these filters needed?
           and date(timestamp) > '2022-06-05'
           and event_name = 'round_end') as a
       join
@@ -32,7 +32,7 @@ view: churn_by_level_by_proximity {
           ,json_extract_scalar(extra_json,"$.round_id") round_id
           ,cast(replace(json_extract_scalar(extra_json,'$.proximity_to_completion'),',','') as float64) proximity_to_completion
         from `eraser-blast.game_data.events`
-        where timestamp >= timestamp(current_date() - 90)
+        where timestamp >= timestamp(current_date() - 90) --are both of these filters needed?
           and date(timestamp) > '2022-06-05'
           and event_name = 'round_end') as b
       on a.rdg_id = b.rdg_id

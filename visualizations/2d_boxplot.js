@@ -20,9 +20,9 @@ looker.plugins.visualizations.add({
   element.innerHTML = "";
   },
   update: function(data, element, config, queryResponse){
-   console.log('data', data)
-   console.log('config', config)
-   console.log('queryResponse', queryResponse)
+  // console.log('data', data)
+  // console.log('config', config)
+  // console.log('queryResponse', queryResponse)
   // element.innerHTML = JSON.stringify(data)
 
   let categories = [];
@@ -37,7 +37,6 @@ looker.plugins.visualizations.add({
   let maxMeasureName = queryResponse.fields.measure_like[4]?.name;
 
   data.forEach(function (row) {
-    console.log(row);
     categories.push(row[x_dim.name].value);
   });
 

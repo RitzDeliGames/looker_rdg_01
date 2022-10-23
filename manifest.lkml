@@ -1247,3 +1247,10 @@ visualization: {
   dependencies: ["https://code.highcharts.com/highcharts.js", "https://code.highcharts.com/highcharts-more.js"]
   file: "visualizations/2d_boxplot.js"
 }
+
+visualization: {
+  id: "2d_line"
+  label: "2D Line"
+  dependencies: ["https://code.highcharts.com/highcharts.js", "https://code.highcharts.com/highcharts-more.js"]
+  file: "visualizations/2d_line.js"
+}

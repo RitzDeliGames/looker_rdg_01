@@ -46,7 +46,7 @@ looker.plugins.visualizations.add({
     series,
   };
 
-  Highcharts.chart("container", options);
+  Highcharts.chart(element, options);
 
   },
 });

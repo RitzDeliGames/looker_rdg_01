@@ -576,6 +576,11 @@ explore: fps {
     sql_on: ${fps.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
+  join: performance_score {
+    type: left_outer
+    sql_on: ${fps.rdg_id} = ${performance_score.rdg_id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: events {

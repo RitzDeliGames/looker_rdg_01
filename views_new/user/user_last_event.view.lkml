@@ -51,7 +51,8 @@ view: user_last_event {
   }
   parameter: experiment {
     type: string
-    suggestions: ["$.autoPurchase_20221017"
+    suggestions:  ["$.altFUE2_20221011"
+                  ,"$.autoPurchase_20221017"
                   ,"$.blockSymbols_20221017"
                   ,"$.difficultyStars_09202022"
                   ,"$.dynamicRewards_20221018"

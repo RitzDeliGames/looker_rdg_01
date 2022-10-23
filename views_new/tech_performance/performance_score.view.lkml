@@ -7,13 +7,13 @@ view: performance_score {
           ,last_level_serial
           ,cast(json_extract_scalar(extra_json, "$.rendering_performance_score") as int64) rendering_performance_score
         from `eraser-blast.game_data.events`
-        where timestamp >= '2019-01-01'
+        where timestamp >= '2022-06-01'
           and user_type = 'external'
           and country != 'ZZ'
         and event_name = 'TitleScreenAwake'
     ;;
-
     datagroup_trigger: change_8_hrs
+    publish_as_db_view: yes
   }
 
   dimension: primary_key {
@@ -58,6 +58,20 @@ view: performance_score {
     label: "Rendering Performance Score - 10 Unit Tiers"
     type: tier
     tiers: [0,10,20,30,40,50,60,70,80,90,100]
+    style: integer
+    sql: ${rendering_performance_score} ;;
+  }
+  dimension: rendering_performance_score_interval_15 {
+    label: "Rendering Performance Score - 15 Unit Tiers"
+    type: tier
+    tiers: [0,15,30,45,60]
+    style: integer
+    sql: ${rendering_performance_score} ;;
+  }
+  dimension: rendering_performance_score_interval_30 {
+    label: "Rendering Performance Score - 30 Unit Tiers"
+    type: tier
+    tiers: [0,30,60]
     style: integer
     sql: ${rendering_performance_score} ;;
   }

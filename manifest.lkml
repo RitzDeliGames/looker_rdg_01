@@ -755,14 +755,19 @@ constant: iap_id_strings {
             when json_extract_scalar(extra_json,'$.iap_id') like 'box_006' then 'Jumbo Fun Machine'
             when json_extract_scalar(extra_json,'$.iap_id') like 'box_007' then 'Housepets Machine Ticket'
             when json_extract_scalar(extra_json,'$.iap_id') like 'box_009' then 'Spooky Machine Ticket'
-            when json_extract_scalar(extra_json,'$.iap_id') like 'clear_cell' then 'Clear Cell Skill'
-            when json_extract_scalar(extra_json,'$.iap_id') like 'clear_horizontal' then 'Clear Horizontal Skill'
-            when json_extract_scalar(extra_json,'$.iap_id') like 'clear_vertical' then 'Clear Vertical Skill'
-            when json_extract_scalar(extra_json,'$.iap_id') like 'BOMB' then 'Bomb Boost'
-            when json_extract_scalar(extra_json,'$.iap_id') like 'ROCKET' then 'Rocket Boost'
-            when json_extract_scalar(extra_json,'$.iap_id') like 'COLOR_BALL' then 'Color Ball Boost'
-
-            else 'other'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'COLOR_BALL' then 'Color Ball Boost'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'BOMB' then 'Bomb Boost'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'ROCKET' then 'Rocket Boost'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'clear_cell' then 'Clear Cell Skill'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'clear_horizontal' then '1x Clear Horizontal Skill'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'clear_vertical' then '1x Clear Vertical Skill'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_clear_cell' then '1x Clear Cell Skill'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_clear_horizontal' then '1x Clear Horizontal Skill'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_clear_vertical' then '1x Clear Vertical Skill'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_bomb' then '1x Bomb Boost'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_rocket' then '1x Rocket Boost'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_color_ball' then '1x Color Ball Boost'
+            else json_extract_scalar(extra_json,'$.iap_id')
           end"
 }
 
@@ -818,13 +823,13 @@ constant: iap_id_strings_grouped {
             when json_extract_scalar(extra_json,'$.iap_id') like 'box_006' then 'Eraser Machine Ticket'
             when json_extract_scalar(extra_json,'$.iap_id') like 'box_007' then 'Eraser Machine Ticket'
             when json_extract_scalar(extra_json,'$.iap_id') like 'box_009' then 'Spooky Machine Ticket'
-            when json_extract_scalar(extra_json,'$.iap_id') like 'clear_cell' then 'Chum Chum Skills'
-            when json_extract_scalar(extra_json,'$.iap_id') like 'clear_horizontal' then 'Chum Chum Skills'
-            when json_extract_scalar(extra_json,'$.iap_id') like 'clear_vertical' then 'Chum Chum Skills'
+            when json_extract_scalar(extra_json,'$.iap_id') like '%clear_cell%' then 'Chum Chum Skills'
+            when json_extract_scalar(extra_json,'$.iap_id') like '%clear_horizontal%' then 'Chum Chum Skills'
+            when json_extract_scalar(extra_json,'$.iap_id') like '%clear_vertical%' then 'Chum Chum Skills'
             when json_extract_scalar(extra_json,'$.iap_id') like 'BOMB' then 'Pre-Game Boosts'
             when json_extract_scalar(extra_json,'$.iap_id') like 'ROCKET' then 'Pre-Game Boosts'
             when json_extract_scalar(extra_json,'$.iap_id') like 'COLOR_BALL' then 'Pre-Game Boosts'
-            else 'other'
+            else json_extract_scalar(extra_json,'$.iap_id')
           end"
           }
 

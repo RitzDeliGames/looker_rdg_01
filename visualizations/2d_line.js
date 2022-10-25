@@ -9,7 +9,7 @@ looker.plugins.visualizations.add({
     console.log("data", data);
     console.log("config", config);
     console.log("queryResponse", queryResponse);
-    element.innerHTML = arrayToHTMLTable(output);
+    element.innerHTML = output?arrayToHTMLTable(output):"";
     let series = [];
   let x_dim_1 = queryResponse.fields.dimensions[0];
   let x_dim_2 = queryResponse.fields.dimensions[1];

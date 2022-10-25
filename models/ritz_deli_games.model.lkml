@@ -34,7 +34,7 @@ datagroup: change_at_midnight {
 }
 
 explore: user_retention {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   label: "Users"
   from: user_fact
   join: user_activity {
@@ -145,7 +145,7 @@ explore: user_retention {
 }
 
 explore: user_card_completion {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   label: "Card Completion (User)"
   from: user_card
   join: user_fact {
@@ -184,7 +184,7 @@ explore: system_value_aggregated {
 }
 
 explore: transactions {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} and ${transaction_date} >= ${created_date};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} and ${transaction_date} >= ${created_date};;
   from: transactions_new
   join: user_retention {
     from: user_fact
@@ -227,7 +227,7 @@ explore: transactions {
 }
 
 explore: rewards {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} and ${reward_date} >= ${user_fact.created_date};;
+  sql_always_where: ${reward_date} >= ${user_fact.created_date};;# and ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} ;;
   from: rewards
   join: user_fact {
     type: left_outer
@@ -242,7 +242,7 @@ explore: rewards {
 }
 
 explore: in_app_messages {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: new_iam
   join: user_fact {
     type: left_outer
@@ -258,7 +258,7 @@ explore: in_app_messages {
 }
 
 explore: click_stream {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: click_stream
   view_label: "Click Stream"
   join: user_fact {
@@ -274,7 +274,7 @@ explore: click_stream {
 }
 
 explore: ask_for_help {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: new_afh
   view_label: "Ask for Help"
   join: id_helper_requesting {
@@ -311,7 +311,7 @@ explore: ask_for_help {
 }
 
 explore: community_events {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: community_events_activity
 }
 
@@ -321,7 +321,7 @@ explore: ce_aggregated_scores {
 }
 
 explore: team_ups {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: team_ups_activity
   view_label: "Team Ups"
 }
@@ -329,7 +329,7 @@ explore: team_ups {
 explore: fue_funnels {}
 
 explore: temp_community_events_funnels {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   join: user_fact {
     type: left_outer
     sql_on: ${temp_community_events_funnels.rdg_id} = ${user_fact.rdg_id} ;;
@@ -343,7 +343,7 @@ explore: temp_community_events_funnels {
 }
 
 explore: churn_by_tile_by_attempt {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   always_filter: {
     filters: [churn_by_tile_by_attempt.node_selector: "0"]
   }
@@ -361,7 +361,7 @@ explore: churn_by_tile_by_attempt {
 }
 
 explore: churn_by_card {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: churn_by_card_by_attempt
   view_label: "Churn"
   join: user_fact {
@@ -377,7 +377,7 @@ explore: churn_by_card {
 }
 
 explore: churn_by_level_by_attempt {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: "Churn by Level - Attempt"
   join: user_fact {
     type: left_outer
@@ -392,7 +392,7 @@ explore: churn_by_level_by_attempt {
 }
 
 explore: churn_by_level_by_proximity {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+ # sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: "Churn by Level - Proximity"
   join: user_fact {
     type: left_outer
@@ -417,7 +417,7 @@ explore: churn_by_match_made {
 
 explore: churn_by_match_data {
   label: "Churn by Matches Made"
-  sql_always_where: ${churn_by_match_data.rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${churn_by_match_data.rdg_id} not in @{device_internal_tester_mapping};;
   #view_label: "temp churn by tile"
   join: user_fact {
     type: left_outer
@@ -436,7 +436,7 @@ explore: churn_card_data {
   always_filter: {
     filters: [churn_card_data.node_selector: "0", churn_card_data.node_is_selected: "yes"]
   }
-  sql_always_where: ${churn_card_data.rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${churn_card_data.rdg_id} not in @{device_internal_tester_mapping};;
   #view_label: "temp churn by tile"
   join: user_fact {
     type: left_outer
@@ -457,7 +457,7 @@ explore: churn_card_data {
 }
 
 explore: gameplay {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${event_date} >= ${user_fact.created_date};;
+  sql_always_where: ${event_date} >= ${user_fact.created_date};;#${rdg_id} not in @{device_internal_tester_mapping} and
   from: round_end
   join: user_fact {
     type: left_outer
@@ -563,7 +563,7 @@ explore: round_start {
 }
 
 explore: fps {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   label: "Frame Rate"
   view_label: "Frame Rate"
   join: user_fact {
@@ -584,7 +584,7 @@ explore: fps {
 }
 
 explore: events {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: "Card Data" ## space to bring to top of Explore
   label: "Card Event"
   join: cards {
@@ -624,7 +624,7 @@ explore: id_helper {}
 explore: gameplay_fact {}
 
 explore: click_sequence {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: "First in Sequence"
   description: "Identifies the common paths players take after triggering an event "
   join: next_in_sequence {
@@ -753,7 +753,7 @@ explore: click_sequence {
 }
 
 explore: cohort_analysis {
-  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
+  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} ;;
   from: cohort_selection
   join: transactions_new {
     type: left_outer

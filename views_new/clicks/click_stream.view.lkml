@@ -7,18 +7,15 @@ view: click_stream {
         ,timestamp
         ,event_name
         ,engagement_ticks
-        ,current_card
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric) currency_02_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric) currency_05_balance
-        ,last_unlocked_card
-        ,cast(current_quest as int64) current_quest
-        ,cast(quests_completed as int64) quests_completed
         ,cast(last_level_serial as int64) last_level_serial
         ,json_extract_scalar(extra_json,"$.button_tag") button_tag
         ,experiments
         ,extra_json
+        ,last_level_id
         ,lag(timestamp)
             over (partition by rdg_id order by timestamp desc) greater_quests_completed
       from `eraser-blast.game_data.events`
@@ -28,7 +25,7 @@ view: click_stream {
         and user_type = 'external'
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
-      group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17
+      group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14
       ;;
     datagroup_trigger: change_8_hrs
   }
@@ -95,48 +92,8 @@ view: click_stream {
     type: median
     sql:  ${engagement_minutes};;
   }
-  dimension: current_card {
-    group_label: "Card Dimensions"
-    type: string
-    sql: ${TABLE}.current_card ;;
-  }
-  dimension: current_card_numbered {
-    group_label: "Card Dimensions"
-    type: number
-    sql: @{current_card_numbered} ;;
-    value_format: "####"
-  }
-  dimension: card_id {
-    group_label: "Card Dimensions"
-    type: string
-    sql: coalesce(${last_unlocked_card},${current_card}) ;;
-  }
-  dimension: current_card_quest {
-    group_label: "Card Dimensions"
-    label: "Current Card + Quest"
-    type: number
-    sql: ${current_card_numbered} + ${current_quest};;
-    value_format: "####"
-  }
-  dimension: last_unlocked_card {
-    group_label: "Card Dimensions"
-    type: string
-    sql: ${TABLE}.last_unlocked_card ;;
-  }
-  dimension: last_unlocked_card_numbered {
-    group_label: "Card Dimensions"
-    type: number
-    sql: @{last_unlocked_card_numbered} ;;
-    value_format: "####"
-  }
-  dimension: current_quest {
-    group_label: "Card Dimensions"
-    type: number
-    sql: ${TABLE}.current_quest ;;
-  }
-  dimension: quests_completed {
-    type: number
-    sql: ${TABLE}.quests_completed ;;
+  dimension: last_level_id {
+    label: "Last Level - Id"
   }
   dimension: last_level_serial {
     label: "Last Level"
@@ -164,5 +121,35 @@ view: click_stream {
     type: count
     drill_fields: [rdg_id,event_time,button_tag,button_tag_raw]
   }
-
+  dimension: experiments {
+    type: string
+    sql: ${TABLE}.experiments ;;
+    hidden: no
+  }
+  parameter: experiment_id {
+    type: string
+    suggestions:  ["$.altFUE2_20221011"
+      ,"$.autoPurchase_20221017"
+      ,"$.blockSymbols_20221017"
+      ,"$.difficultyStars_09202022"
+      ,"$.dynamicRewards_20221018"
+      ,"$.extraMovesCurrency_20221017"
+      ,"$.fueDismiss_20221010"
+      ,"$.gridGravity_20221003"
+      ,"$.gridGravity2_20221012"
+      ,"$.mMStreaks_09302022"
+      ,"$.newLevelPass_20220926"
+      ,"$.vfxReduce_20221017"
+      ,"$.zoneOrder2_09302022"]
+  }
+  dimension: experiment_variant {
+    label: "Experiment Variant"
+    type: string
+    suggestions: ["control"
+      ,"variant_a"
+      ,"variant_b"
+      ,"variant_c"
+      ,"variant_d"]
+    sql: json_extract_scalar(${experiments},{% parameter experiment_id %}) ;;
+  }
 }

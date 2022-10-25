@@ -146,6 +146,12 @@ view: round_end {
     label: "Last Level Completed"
     type: number
   }
+  dimension: last_level_serial_offset {
+    group_label: "Level Dimensions"
+    label: "Last Level Completed + 1"
+    type: number
+    sql: ${last_level_serial} + 1 ;;
+  }
   dimension: round_id {
     type: number
     sql: ${TABLE}.round_id ;;

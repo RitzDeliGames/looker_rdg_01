@@ -10,7 +10,7 @@ looker.plugins.visualizations.add({
     console.log("config", config);
     console.log("queryResponse", queryResponse);
     element.innerHTML = JSON.stringify(data);
-    let series = [];
+    let series, dataArray = [];
   let x_dim_1 = queryResponse.fields.dimensions[0];
   let x_dim_2 = queryResponse.fields.dimensions[1];
   let y_dim = queryResponse.fields.table_calculations[1];
@@ -21,36 +21,28 @@ looker.plugins.visualizations.add({
   let q75MeasureName = queryResponse.fields.measure_like[3]?.name;
   let maxMeasureName = queryResponse.fields.measure_like[4]?.name;
 
-  /*series.push({
-    name: "Last Level Completed",
-    data: data.map((row) => row[x_dim_1.name].value),
-  });
 
-  series.push({
-    name: "Experiment Variant",
-    data: data.map((row) => row[x_dim_2.name].value),
-  });*/
 
   //create array with required data to pivot
   //["Experiment Variant", "Last Level Completed", "churn"],
-  data.map((row)=>series.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value]));
+  data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value]));
 
-  console.log("series", series);
+  console.log("dataArray", dataArray);
 
-  function getPivotArray(dataArray, rowIndex, colIndex, dataIndex) {
+  function getPivotArray(array, rowIndex, colIndex, dataIndex) {
         //Code from https://techbrij.com
         var result = {}, ret = [];
         var newCols = [];
-        for (var i = 0; i < dataArray.length; i++) {
+        for (var i = 0; i < array.length; i++) {
 
-            if (!result[dataArray[i][rowIndex]]) {
-                result[dataArray[i][rowIndex]] = {};
+            if (!result[array[i][rowIndex]]) {
+                result[array[i][rowIndex]] = {};
             }
-            result[dataArray[i][rowIndex]][dataArray[i][colIndex]] = dataArray[i][dataIndex];
+            result[array[i][rowIndex]][array[i][colIndex]] = array[i][dataIndex];
 
             //To get column names
-            if (newCols.indexOf(dataArray[i][colIndex]) == -1) {
-                newCols.push(dataArray[i][colIndex]);
+            if (newCols.indexOf(array[i][colIndex]) == -1) {
+                newCols.push(array[i][colIndex]);
             }
         }
 
@@ -74,9 +66,21 @@ looker.plugins.visualizations.add({
         return ret;
     }
 
-    var output = getPivotArray(series, 1, 0, 2);
+    var output = getPivotArray(dataArray, 1, 0, 2);
 
     console.log("output",output);
+
+  series.push({
+    name: output[0][1],
+    data: output.slice(1).map((element)=>element[1]),
+  });
+
+  series.push({
+    name: output[0][2],
+    data: output.slice(1).map((element)=>element[2]),
+  });
+
+  console.log("series", series)
 
   const options = {
     legend: {
@@ -89,7 +93,7 @@ looker.plugins.visualizations.add({
       },
     },
 
-    output,
+    series,
   };
 
   Highcharts.chart(element, options);

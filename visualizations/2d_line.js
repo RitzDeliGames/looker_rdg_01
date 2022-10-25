@@ -14,7 +14,6 @@ looker.plugins.visualizations.add({
   let x_dim_1 = queryResponse.fields.dimensions[0];
   let x_dim_2 = queryResponse.fields.dimensions[1];
   let y_dim = queryResponse.fields.table_calculations[1];
-  console.log(y_dim)
 
   let minMeasureName = queryResponse.fields.measure_like[0]?.name;
   let q25MeasureName = queryResponse.fields.measure_like[1]?.name;
@@ -77,7 +76,21 @@ looker.plugins.visualizations.add({
 
     var output = getPivotArray(series, 1, 0, 2);
 
-    console.log(output)
+    console.log("output",output);
+
+    function arrayToHTMLTable(myArray) {
+           var result = "<table border='1' cellpadding='7' cellspacing='0'>";
+           for (var i = 0; i < myArray.length; i++) {
+               result += "<tr>";
+               for (var j = 0; j < myArray[i].length; j++) {
+                   result += "<td>" + myArray[i][j] + "</td>";
+               }
+               result += "</tr>";
+           }
+           result += "</table>";
+
+           return result;
+       }
 
 
   const options = {
@@ -87,14 +100,16 @@ looker.plugins.visualizations.add({
 
     yAxis: {
       title: {
-        text: 'Churn per Minute',
+        text: 'Churn',
       },
     },
 
     series,
   };
 
-  Highcharts.chart(element, options);
+  //Highcharts.chart(element, options);
+
+  arrayToHTMLTable(output)
 
   },
 });

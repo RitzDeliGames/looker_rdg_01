@@ -34,7 +34,7 @@ looker.plugins.visualizations.add({
 
   //create array with required data to pivot
   series.push(["Experiment Variant", "Last Level Completed", "churn"]);
-  series.push(data.map((row)=>[row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value]));
+  data.map((row)=>series.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value]));
 
   console.log("series", series);
 

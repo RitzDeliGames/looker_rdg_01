@@ -77,6 +77,8 @@ looker.plugins.visualizations.add({
 
     var output = getPivotArray(series, 1, 0, 2);
 
+    console.log(output)
+
 
   const options = {
     legend: {

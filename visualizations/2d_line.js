@@ -11,8 +11,8 @@ looker.plugins.visualizations.add({
     console.log("queryResponse", queryResponse);
     element.innerHTML = JSON.stringify(data);
     let series = [];
-  let x_dim_1 = queryResponse.fields.dimensions[1];
-  let x_dim_2 = queryResponse.fields.dimensions[0];
+  let x_dim_1 = queryResponse.fields.dimensions[0];
+  let x_dim_2 = queryResponse.fields.dimensions[1];
   let y_dim = queryResponse.fields.table_calculations[1];
   console.log(y_dim)
 
@@ -33,10 +33,49 @@ looker.plugins.visualizations.add({
   });*/
 
   //create array with required data to pivot
-  series.push(["Experiment Variant", "Last Level Completed", "churn"]);
+  //["Experiment Variant", "Last Level Completed", "churn"],
   data.map((row)=>series.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value]));
 
   console.log("series", series);
+
+  function getPivotArray(dataArray, rowIndex, colIndex, dataIndex) {
+        //Code from https://techbrij.com
+        var result = {}, ret = [];
+        var newCols = [];
+        for (var i = 0; i < dataArray.length; i++) {
+
+            if (!result[dataArray[i][rowIndex]]) {
+                result[dataArray[i][rowIndex]] = {};
+            }
+            result[dataArray[i][rowIndex]][dataArray[i][colIndex]] = dataArray[i][dataIndex];
+
+            //To get column names
+            if (newCols.indexOf(dataArray[i][colIndex]) == -1) {
+                newCols.push(dataArray[i][colIndex]);
+            }
+        }
+
+        newCols.sort();
+        var item = [];
+
+        //Add Header Row
+        item.push('Level');
+        item.push.apply(item, newCols);
+        ret.push(item);
+
+        //Add content
+        for (var key in result) {
+            item = [];
+            item.push(key);
+            for (var i = 0; i < newCols.length; i++) {
+                item.push(result[key][newCols[i]] || "-");
+            }
+            ret.push(item);
+        }
+        return ret;
+    }
+
+    var output = getPivotArray(series, 1, 0, 2);
 
 
   const options = {

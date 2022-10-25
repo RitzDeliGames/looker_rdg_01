@@ -30,6 +30,7 @@ looker.plugins.visualizations.add({
     name: "Experiment Variant",
     data: data.map((row) => row[x_dim_2.name].value),
   });
+  console.log(series)
 
 
   const options = {

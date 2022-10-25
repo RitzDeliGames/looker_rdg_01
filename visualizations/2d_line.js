@@ -6,10 +6,10 @@ looker.plugins.visualizations.add({
     element.innerHTML = "";
   },
   update: function (data, element, config, queryResponse) {
-    // console.log("data", data);
-    // console.log("config", config);
-    // console.log("queryResponse", queryResponse);
-    // element.innerHTML = JSON.stringify(data);
+    console.log("data", data);
+    console.log("config", config);
+    console.log("queryResponse", queryResponse);
+    element.innerHTML = JSON.stringify(data);
     let series = [];
   let x_dim_1 = queryResponse.fields.dimensions[1];
   let x_dim_2 = queryResponse.fields.dimensions[0];

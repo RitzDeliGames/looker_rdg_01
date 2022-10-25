@@ -26,7 +26,7 @@ looker.plugins.visualizations.add({
 
   //create array with required data to pivot
   //["Experiment Variant", "Last Level Completed", "churn"],
-  data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].rendered]));
+  data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, Math.trunc(row[y_dim.name].value * 100)]));
 
   console.log("dataArray", dataArray);
 
@@ -90,7 +90,7 @@ looker.plugins.visualizations.add({
 
     yAxis: {
       title: {
-        text: 'Churn',
+        text: 'Churn by level (%)',
       },
     },
 

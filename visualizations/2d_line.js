@@ -26,7 +26,7 @@ looker.plugins.visualizations.add({
 
   //create array with required data to pivot
   //["Experiment Variant", "Last Level Completed", "churn"],
-  data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value]));
+  data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].rendered]));
 
   console.log("dataArray", dataArray);
 

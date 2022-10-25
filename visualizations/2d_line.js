@@ -10,7 +10,8 @@ looker.plugins.visualizations.add({
     console.log("config", config);
     console.log("queryResponse", queryResponse);
     element.innerHTML = JSON.stringify(data);
-    let series, dataArray = [];
+    let dataArray = [];
+    let series = [];
   let x_dim_1 = queryResponse.fields.dimensions[0];
   let x_dim_2 = queryResponse.fields.dimensions[1];
   let y_dim = queryResponse.fields.table_calculations[1];
@@ -80,7 +81,7 @@ looker.plugins.visualizations.add({
     data: output.slice(1).map((element)=>element[2]),
   });
 
-  console.log("series", series)
+  console.log("series", series);
 
   const options = {
     legend: {

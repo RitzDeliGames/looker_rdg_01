@@ -9,7 +9,7 @@ looker.plugins.visualizations.add({
     console.log("data", data);
     console.log("config", config);
     console.log("queryResponse", queryResponse);
-    element.innerHTML = output?arrayToHTMLTable(output):"";
+    element.innerHTML = JSON.stringify(data);
     let series = [];
   let x_dim_1 = queryResponse.fields.dimensions[0];
   let x_dim_2 = queryResponse.fields.dimensions[1];
@@ -78,21 +78,6 @@ looker.plugins.visualizations.add({
 
     console.log("output",output);
 
-    function arrayToHTMLTable(myArray) {
-           var result = "<table border='1' cellpadding='7' cellspacing='0'>";
-           for (var i = 0; i < myArray.length; i++) {
-               result += "<tr>";
-               for (var j = 0; j < myArray[i].length; j++) {
-                   result += "<td>" + myArray[i][j] + "</td>";
-               }
-               result += "</tr>";
-           }
-           result += "</table>";
-
-           return result;
-       }
-
-
   const options = {
     legend: {
       enabled: false,
@@ -104,7 +89,7 @@ looker.plugins.visualizations.add({
       },
     },
 
-    series,
+    output,
   };
 
   Highcharts.chart(element, options);

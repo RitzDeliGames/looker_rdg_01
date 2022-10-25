@@ -835,6 +835,7 @@ constant: iap_id_strings_grouped {
             when json_extract_scalar(extra_json,'$.iap_id') like '%bomb%' then 'Pre-Game Boosts'
             when json_extract_scalar(extra_json,'$.iap_id') like '%rocket%' then 'Pre-Game Boosts'
             when json_extract_scalar(extra_json,'$.iap_id') like '%color_ball%' then 'Pre-Game Boosts'
+            when json_extract_scalar(extra_json,'$.iap_id') like '%zone%' then 'Zone Restoration'
             else json_extract_scalar(extra_json,'$.iap_id')
           end"
           }

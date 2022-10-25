@@ -70,12 +70,11 @@ view: churn_by_level_by_attempt {
     label: "Last Level Completed"
     type: number
   }
-  dimension: last_level_serial_with_id {
+  dimension: last_level_serial_offset {
     group_label: "Level Dimensions"
-    label: "Last Level Completed w/ID"
+    label: "Last Level Completed + 1"
     type: number
-    sql: ${TABLE}.last_level_serial ;;
-    html: {{ rendered_value }} || {{ last_level_id._rendered_value }} ;;
+    sql: ${last_level_serial} + 1 ;;
   }
   dimension: game_mode {}
   dimension:rounds {

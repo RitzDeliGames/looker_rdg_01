@@ -1,7 +1,15 @@
 looker.plugins.visualizations.add({
   id: "2dline",
   label: "2D Line",
-  options: {},
+  options: {
+    showLegend: {
+          label: "Show Legend",
+          type: "boolean",
+          default: true,
+          section: "Formatting",
+          order: 1
+          },
+  },
   create: function (element, config) {
     element.innerHTML = "";
   },

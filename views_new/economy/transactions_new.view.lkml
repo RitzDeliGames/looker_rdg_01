@@ -163,6 +163,12 @@ view: transactions_new {
     type: number
     sql: ${TABLE}.last_level_serial ;;
   }
+  dimension: last_level_serial_offset {
+    group_label: "Level Dimensions"
+    label: "Current Level"
+    type: number
+    sql: ${last_level_serial} + 1 ;;
+  }
   dimension: sheet_raw {}
   dimension: sheet {
     type: string

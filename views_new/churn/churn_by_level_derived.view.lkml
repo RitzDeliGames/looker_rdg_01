@@ -6,6 +6,7 @@ view: churn_by_level_derived {
         (select
           churn_by_level_by_attempt.last_level_serial last_level_completed
           ,churn_by_level_by_attempt.last_level_id last_level_id
+          ,churn_by_level_by_attempt.level_id level_id
           --,churn_by_level_by_attempt.round_length round_length
           ,if(churn_by_level_by_attempt.round_id < churn_by_level_by_attempt.greater_round_id,'played_again','stuck') churn
           ,count(distinct churn_by_level_by_attempt.rdg_id) player_count
@@ -14,7 +15,7 @@ view: churn_by_level_derived {
           left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_user_last_event` as user_last_event on churn_by_level_by_attempt.rdg_id = user_last_event.rdg_id
         where {% condition variant %} json_extract_scalar(user_last_event.experiments,{% parameter experiment %}) {% endcondition %}
           and {% condition install_version %} install_version {% endcondition %}
-        group by 1,2,3--,4
+        group by 1,2,3,4
         order by 1,2,3 desc)
 
       select * from unpivoted_churn_by_level
@@ -89,6 +90,12 @@ view: churn_by_level_derived {
     label: "Last Level Completed - Id"
     type: string
     sql: ${TABLE}.last_level_id ;;
+  }
+  dimension: level_id {
+    group_label: "Level Dimensions"
+    label: "Last Level Played - Extracted"
+    type: string
+    sql: ${TABLE}.level_id ;;
   }
   dimension: round_length {
     type: number

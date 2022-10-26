@@ -69,7 +69,7 @@ looker.plugins.visualizations.add({
             item = [];
             item.push(key);
             for (var i = 0; i < newCols.length; i++) {
-                item.push(`${parsefloat(result[key][newCols[i]] * 100).toFixed()}%` || "-" );
+                item.push(`${parseFloat(result[key][newCols[i]] * 100).toFixed()}%` || "-" );
             }
             ret.push(item);
         }

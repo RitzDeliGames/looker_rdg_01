@@ -73,10 +73,20 @@ view: churn_by_level_derived {
       ,"$.zoneOrder2_09302022"]
   }
   dimension: last_level_completed {
+    group_label: "Level Dimensions"
+    label: "Last Level Completed"
     type: number
     sql: ${TABLE}.last_level_completed ;;
   }
+  dimension: last_level_serial_offset {
+    group_label: "Level Dimensions"
+    label: "Last Level Completed + 1"
+    type: number
+    sql: ${last_level_completed} + 1 ;;
+  }
   dimension: last_level_id {
+    group_label: "Level Dimensions"
+    label: "Last Level Completed - Id"
     type: string
     sql: ${TABLE}.last_level_id ;;
   }

@@ -10,7 +10,7 @@ view: churn_by_level_derived {
           --,churn_by_level_by_attempt.round_length round_length
           ,if(churn_by_level_by_attempt.round_id < churn_by_level_by_attempt.greater_round_id,'played_again','stuck') churn
           ,count(distinct churn_by_level_by_attempt.rdg_id) player_count
-        from `eraser-blast.looker_scratch.6Y_ritz_deli_games_churn_by_level_by_attempt` as churn_by_level_by_attempt
+        from `eraser-blast.looker_scratch.LR_6YZAC1666808392628_churn_by_level_by_attempt` as churn_by_level_by_attempt
           left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_user_fact` as user_fact on churn_by_level_by_attempt.rdg_id = user_fact.rdg_id
           left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_user_last_event` as user_last_event on churn_by_level_by_attempt.rdg_id = user_last_event.rdg_id
         where {% condition variant %} json_extract_scalar(user_last_event.experiments,{% parameter experiment %}) {% endcondition %}
@@ -29,20 +29,23 @@ view: churn_by_level_derived {
       (select
         churn_by_level_by_attempt.last_level_serial last_level_completed
         ,churn_by_level_by_attempt.last_level_id last_level_id
+        ,churn_by_level_by_attempt.level_id level_id
         ,approx_quantiles(churn_by_level_by_attempt.round_length, 100) [offset(50)] round_length
         ,count(distinct churn_by_level_by_attempt.rdg_id) player_count_total
-      from `eraser-blast.looker_scratch.6Y_ritz_deli_games_churn_by_level_by_attempt` as churn_by_level_by_attempt
+      from `eraser-blast.looker_scratch.LR_6YZAC1666808392628_churn_by_level_by_attempt` as churn_by_level_by_attempt
         left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_user_fact` as user_fact on churn_by_level_by_attempt.rdg_id = user_fact.rdg_id
         left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_user_last_event` as user_last_event on churn_by_level_by_attempt.rdg_id = user_last_event.rdg_id
       where {% condition variant %} json_extract_scalar(user_last_event.experiments,{% parameter experiment %}) {% endcondition %}
         and {% condition install_version %} install_version {% endcondition %}
-      group by 1,2--,3
+      group by 1,2,3
       order by 1,2) b
       on a.last_level_completed = b.last_level_completed
         and a.last_level_id = b.last_level_id
         --and a.round_length = b.round_length
       order by a.last_level_completed asc
       ;;
+    datagroup_trigger: change_8_hrs
+    publish_as_db_view: yes
   }
   dimension: primary_key {
     type: string
@@ -93,7 +96,7 @@ view: churn_by_level_derived {
   }
   dimension: level_id {
     group_label: "Level Dimensions"
-    label: "Last Level Played - Extracted"
+    label: "Last Level Played - Id"
     type: string
     sql: ${TABLE}.level_id ;;
   }

@@ -5,6 +5,7 @@ view: churn_by_level_by_attempt {
         a.rdg_id
         ,a.timestamp
         ,a.last_level_id
+        ,a.level_id
         ,a.game_mode
         ,cast(a.last_level_serial as int64) last_level_serial
         ,cast(a.round_id as int64) round_id
@@ -19,6 +20,7 @@ view: churn_by_level_by_attempt {
           ,timestamp
           ,last_level_id
           ,last_level_serial
+          ,json_extract_scalar(extra_json,"$.level_id") level_id
           ,json_extract_scalar(extra_json,'$.game_mode') game_mode
           ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
           ,cast(json_extract_scalar(extra_json,'$.round_length') as int64) round_length
@@ -63,6 +65,11 @@ view: churn_by_level_by_attempt {
   dimension: last_level_id {
     group_label: "Level Dimensions"
     label: "Last Level Completed - Id"
+    type: string
+  }
+  dimension: level_id {
+    group_label: "Level Dimensions"
+    label: "Last Level Played - Extracted"
     type: string
   }
   dimension: last_level_serial {

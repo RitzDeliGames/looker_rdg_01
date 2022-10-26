@@ -92,7 +92,7 @@ looker.plugins.visualizations.add({
 
   console.log("series", series);
 
-  const option = {
+  const options = {
     title: "",
     legend: {
         layout: 'vertical',
@@ -112,7 +112,7 @@ looker.plugins.visualizations.add({
     series,
   };
 
-  Highcharts.chart(element, option);
+  Highcharts.chart(element, options);
 
 
 

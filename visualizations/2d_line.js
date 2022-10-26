@@ -34,7 +34,7 @@ looker.plugins.visualizations.add({
 
   //create array with required data to pivot
   //["Experiment Variant", "Last Level Completed", "churn"],
-  data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value]));
+  data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, Math.round(row[y_dim.name].value * 100)]));
 
   console.log("dataArray", dataArray);
 
@@ -68,7 +68,7 @@ looker.plugins.visualizations.add({
             item = [];
             item.push(key);
             for (var i = 0; i < newCols.length; i++) {
-                item.push(parseFloat(result[key][newCols[i]] * 100).toFixed() || "-" );
+                item.push(result[key][newCols[i]] === 0 ? 0 : result[key][newCols[i]] || "-" );
             }
             ret.push(item);
         }

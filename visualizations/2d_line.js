@@ -82,11 +82,17 @@ looker.plugins.visualizations.add({
   series.push({
     name: output[0][1],
     data: output.slice(1).map((element) => element[1]),
+    tooltip: {
+      valueSuffix: ' %'
+    },
   });
 
   series.push({
     name: output[0][2],
     data: output.slice(1).map((element) => element[2]),
+    tooltip: {
+      valueSuffix: ' %'
+    },
   });
 
   console.log("series", series);

@@ -2,6 +2,7 @@ looker.plugins.visualizations.add({
   id: "2dline",
   label: "2D Line",
   options: {
+    title: "a",
     showLegend: {
           label: "Show Legend",
           type: "boolean",
@@ -91,12 +92,13 @@ looker.plugins.visualizations.add({
 
   console.log("series", series);
 
-  const options = {
+  const option = {
     title: "",
     legend: {
         layout: 'vertical',
         align: 'right',
-        verticalAlign: 'middle'
+        verticalAlign: 'middle',
+        enable: options.showLegend.value
     },
 
     yAxis: {
@@ -110,7 +112,7 @@ looker.plugins.visualizations.add({
     series,
   };
 
-  Highcharts.chart(element, options);
+  Highcharts.chart(element, option);
 
 
 

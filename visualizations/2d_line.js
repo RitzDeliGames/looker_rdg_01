@@ -84,6 +84,7 @@ looker.plugins.visualizations.add({
   console.log("series", series);
 
   const options = {
+    title: "",
     legend: {
       enabled: false,
     },

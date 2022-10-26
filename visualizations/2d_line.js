@@ -1,7 +1,16 @@
 looker.plugins.visualizations.add({
   id: "2dline",
   label: "2D Line",
-  options: {},
+  options: {
+    showLegend: {
+          label: "Show Legend",
+          type: "boolean",
+          default: true,
+          section: "Formatting",
+          order: 1,
+          hidden: false
+          },
+  },
   create: function (element, config) {
     element.innerHTML = "";
   },
@@ -60,7 +69,7 @@ looker.plugins.visualizations.add({
             item = [];
             item.push(key);
             for (var i = 0; i < newCols.length; i++) {
-                item.push(result[key][newCols[i]] === 0 ? 0 : result[key][newCols[i]] || "-" );
+                item.push(`${parsefloat(result[key][newCols[i]]).toFixed()}%` || "-" );
             }
             ret.push(item);
         }
@@ -85,26 +94,21 @@ looker.plugins.visualizations.add({
 
   const options = {
     title: "",
-
-    showLegend: {
-          label: "Show Legend",
-          type: "boolean",
-          default: true,
-          section: "Formatting",
-          order: 1
-    },
     legend: {
         layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle'
+        align: 'center',
+        verticalAlign: 'bottom',
     },
 
     yAxis: {
       title: {
-        text: 'Churn by level (%)',
+        text: 'Churn by level',
       },
-      min:0,
-      max:100
+      labels: {
+       format: '{value}%'
+      },
+      min: 0,
+      max: 100
     },
 
     series,

@@ -35,7 +35,7 @@ looker.plugins.visualizations.add({
 
   //create array with required data to pivot
   //["Experiment Variant", "Last Level Completed", "churn"],
-  data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, Math.round(row[y_dim.name].value * 100)]));
+  data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value]));
 
   console.log("dataArray", dataArray);
 
@@ -69,7 +69,7 @@ looker.plugins.visualizations.add({
             item = [];
             item.push(key);
             for (var i = 0; i < newCols.length; i++) {
-                item.push(`${parsefloat(result[key][newCols[i]]).toFixed()}%` || "-" );
+                item.push(`${parsefloat(result[key][newCols[i]] * 100).toFixed()}%` || "-" );
             }
             ret.push(item);
         }
@@ -82,12 +82,12 @@ looker.plugins.visualizations.add({
 
   series.push({
     name: output[0][1],
-    data: output.slice(1).map((element)=>element[1]),
+    data: output.slice(1).map((element) => element[1]),
   });
 
   series.push({
     name: output[0][2],
-    data: output.slice(1).map((element)=>element[2]),
+    data: output.slice(1).map((element) => element[2]),
   });
 
   console.log("series", series);
@@ -95,7 +95,7 @@ looker.plugins.visualizations.add({
   const options = {
     title: "",
     legend: {
-        layout: 'vertical',
+        layout: 'horizontal',
         align: 'center',
         verticalAlign: 'bottom',
     },

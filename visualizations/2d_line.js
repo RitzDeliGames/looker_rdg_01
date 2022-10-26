@@ -1,7 +1,15 @@
 looker.plugins.visualizations.add({
   id: "2dline",
   label: "2D Line",
-  options: {},
+  options: {
+    showLegend: {
+          label: "Show Legend",
+          type: "boolean",
+          default: true,
+          section: "Formatting",
+          order: 1,
+          },
+  },
   create: function (element, config) {
     element.innerHTML = "";
   },
@@ -73,38 +81,34 @@ looker.plugins.visualizations.add({
 
   series.push({
     name: output[0][1],
-    data: output.slice(1).map((element)=>element[1]),
+    data: output.slice(1).map((element) => element[1]),
   });
 
   series.push({
     name: output[0][2],
-    data: output.slice(1).map((element)=>element[2]),
+    data: output.slice(1).map((element) => element[2]),
   });
 
   console.log("series", series);
 
   const options = {
     title: "",
-
-    showLegend: {
-          label: "Show Legend",
-          type: "boolean",
-          default: true,
-          section: "Formatting",
-          order: 1
-    },
     legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle'
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        enabled: config.showLegend
     },
 
     yAxis: {
       title: {
-        text: 'Churn by level (%)',
+        text: 'Churn by level',
       },
-      min:0,
-      max:100
+      labels: {
+       format: '{value}%'
+      },
+      min: 0,
+      max: 100
     },
 
     series,

@@ -1,16 +1,7 @@
 looker.plugins.visualizations.add({
   id: "2dline",
   label: "2D Line",
-  options: {
-    title: "a",
-    showLegend: {
-          label: "Show Legend",
-          type: "boolean",
-          default: true,
-          section: "Formatting",
-          order: 1
-          },
-  },
+  options: {},
   create: function (element, config) {
     element.innerHTML = "";
   },
@@ -94,11 +85,19 @@ looker.plugins.visualizations.add({
 
   const options = {
     title: "",
+
+    showLegend: {
+          label: "Show Legend",
+          type: "boolean",
+          default: true,
+          section: "Formatting",
+          order: 1
+    },
     legend: {
         layout: 'vertical',
         align: 'right',
         verticalAlign: 'middle',
-        enable: options.showLegend.value
+        enabled: showLegend.value
     },
 
     yAxis: {

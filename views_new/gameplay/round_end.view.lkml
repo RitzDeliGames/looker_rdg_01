@@ -670,5 +670,5 @@ view: round_end {
     sql: ${currency_07_balance} ;;
   }
 
-  drill_fields: [rdg_id,last_level_serial,rounds,proximity_to_completion]
+  drill_fields: [rdg_id,last_level_serial,last_level_serial_offset,last_level_id,rounds,proximity_to_completion]
 }

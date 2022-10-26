@@ -60,7 +60,7 @@ looker.plugins.visualizations.add({
             item = [];
             item.push(key);
             for (var i = 0; i < newCols.length; i++) {
-                item.push(result[key][newCols[i]] || "-");
+                item.push(result[key][newCols[i]] === 0 ? 0 : result[key][newCols[i]] || "-" );
             }
             ret.push(item);
         }
@@ -92,6 +92,8 @@ looker.plugins.visualizations.add({
       title: {
         text: 'Churn by level (%)',
       },
+      min:0,
+      max:100
     },
 
     series,

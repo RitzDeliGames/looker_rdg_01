@@ -9,6 +9,20 @@ looker.plugins.visualizations.add({
           section: "Formatting",
           order: 1,
           },
+    yAxisMinValue: {
+          label: "Min value (%)",
+          default: 0,
+          section: "Y Axis",
+          type: "number",
+          display_size: "half",
+      },
+      yAxisMaxValue: {
+          label: "Max value (%)",
+          default: 100,
+          section: "Y Axis",
+          type: "number",
+          display_size: "half",
+      }
   },
   create: function (element, config) {
     element.innerHTML = "";
@@ -113,8 +127,8 @@ looker.plugins.visualizations.add({
       labels: {
        format: '{value}%'
       },
-      min: 0,
-      max: 100
+      min: config.yAxisMinValue,
+      max: config.yAxisMaxValue
     },
 
     series,

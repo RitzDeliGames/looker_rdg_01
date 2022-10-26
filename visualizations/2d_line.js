@@ -15,6 +15,7 @@ looker.plugins.visualizations.add({
           section: "Y Axis",
           type: "number",
           display_size: "half",
+          order:1
       },
       yAxisMaxValue: {
           label: "Max value (%)",

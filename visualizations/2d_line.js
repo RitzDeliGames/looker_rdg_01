@@ -8,7 +8,6 @@ looker.plugins.visualizations.add({
           default: true,
           section: "Formatting",
           order: 1,
-          hidden: false
           },
   },
   create: function (element, config) {
@@ -69,7 +68,7 @@ looker.plugins.visualizations.add({
             item = [];
             item.push(key);
             for (var i = 0; i < newCols.length; i++) {
-                item.push(`${parseFloat(result[key][newCols[i]] * 100).toFixed()}%` || "-" );
+                item.push(parseFloat(result[key][newCols[i]] * 100).toFixed() || "-" );
             }
             ret.push(item);
         }
@@ -98,6 +97,7 @@ looker.plugins.visualizations.add({
         layout: 'horizontal',
         align: 'center',
         verticalAlign: 'bottom',
+        enabled: config.showLegend
     },
 
     yAxis: {

@@ -96,7 +96,7 @@ view: churn_by_level_derived {
   }
   # dimension: level_id {
   #   group_label: "Level Dimensions"
-  #   label: "Last Level Played - Id"
+  #   label: "Current Level - Id"
   #   type: string
   #   sql: ${TABLE}.level_id ;;
   # }

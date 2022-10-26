@@ -84,7 +84,7 @@ view: churn_by_level_derived {
   }
   dimension: last_level_serial_offset {
     group_label: "Level Dimensions"
-    label: "Last Level Completed + 1"
+    label: "Current Level"
     type: number
     sql: ${last_level_completed} + 1 ;;
   }

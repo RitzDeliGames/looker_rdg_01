@@ -86,7 +86,9 @@ looker.plugins.visualizations.add({
   const options = {
     title: "",
     legend: {
-      enabled: false,
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
     },
 
     yAxis: {

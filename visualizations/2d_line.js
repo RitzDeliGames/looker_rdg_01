@@ -27,7 +27,7 @@ looker.plugins.visualizations.add({
           section: "Y",
           type: "number",
           display_size: "half",
-          order:1
+          order: 1
       },
       yAxisMaxValue: {
           label: "Max value (%)",
@@ -35,6 +35,7 @@ looker.plugins.visualizations.add({
           section: "Y",
           type: "number",
           display_size: "half",
+          order: 2
       },
       xAxisName: {
         label: "Axis Name",
@@ -42,12 +43,18 @@ looker.plugins.visualizations.add({
         default: "Level number",
         section: "X"
       },
-      showXName:{
+      showXName: {
         label: "Show Axis Name",
         type: "boolean",
         default: true,
         section: "X"
       },
+      valueLabels: {
+        label:"Value Labels",
+        type:"boolean",
+        default: false,
+        section: "Values"
+      }
   },
   create: function (element, config) {
     element.innerHTML = "";
@@ -118,21 +125,22 @@ looker.plugins.visualizations.add({
 
     console.log("output",output);
 
-  series.push({
-    name: output[0][1],
-    data: output.slice(1).map((element) => element[1]),
-    tooltip: {
-      valueSuffix: '%'
-    },
-  });
 
-  series.push({
-    name: output[0][2],
-    data: output.slice(1).map((element) => element[2]),
+  for (let i = 1; i<output[0].length; i++){
+    series.push({
+    name: output[0][i],
+    data: output.slice(1).map((element) => element[i]),
     tooltip: {
       valueSuffix: '%'
     },
+    dataLabels: {
+        enabled: config.valueLabels,
+        format: '{value}%'
+    }
   });
+  }
+
+
 
   console.log("series", series);
 

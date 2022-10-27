@@ -54,6 +54,13 @@ looker.plugins.visualizations.add({
         type:"boolean",
         default: false,
         section: "Values"
+      },
+      palette: {
+        label: "Box Colors",
+        type: "Palette",
+        default: Highcharts.getOptions().colors,
+        display: "colors",
+        section: "Series"
       }
   },
   create: function (element, config) {

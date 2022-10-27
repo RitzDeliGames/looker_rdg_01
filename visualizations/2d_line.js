@@ -156,7 +156,7 @@ looker.plugins.visualizations.add({
       min: config.yAxisMinValue,
       max: config.yAxisMaxValue
     },
-    yAxis: {
+    xAxis: {
       title: {
         text: config.xAxisName,
         enabled: config.showXName,

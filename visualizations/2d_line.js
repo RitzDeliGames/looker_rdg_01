@@ -81,13 +81,19 @@ looker.plugins.visualizations.add({
           {"Diamond": "diamond"},
           {"Triangle": "triangle"},
           {"Reverse-Triangle": "triangle-down"},
-          {"None": null} // To make this work use symbol circke and make width, height and so on 0
+          //{"None": null} // To make this work use symbol circke and make width, height and so on 0
         ],
         display: "select",
         default: "Point",
         section: "Series",
         order: 2
       },
+      hideMarker:{
+        type:"boolean",
+        label: "Hide Markers",
+        section: "Series",
+        default: false
+      }
   },
 
   create: function (element, config) {
@@ -204,6 +210,20 @@ looker.plugins.visualizations.add({
           enabled: config.showXName,
         },
       },
+      //testing markers on line points
+      plotOptions: {
+        series: {
+          marker: {
+            symbol: config.marker,
+            enabled: !config.hideMarker,
+            states: {
+              hover: {
+                enabled: !config.hideMarker
+              }
+            }
+          }
+      }
+    },
 
       series,
     };

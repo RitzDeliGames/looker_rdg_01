@@ -185,8 +185,8 @@ looker.plugins.visualizations.add({
     console.log("series", series);
 
          // Create an option for each measure in your query
-
-     let option = {};
+console.log(this.options);
+     let option = {...this.options};
 
      series.forEach(function(serie) {
 

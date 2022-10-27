@@ -186,31 +186,23 @@ looker.plugins.visualizations.add({
 
          // Create an option for each measure in your query
 
-     let options={};
+     let option = {};
 
      series.forEach(function(serie) {
 
        id = "_" + serie.name
 
-       options[id] =
-
-       {
-
-  label: serie.name,
-
-  default: Highcharts.getOptions().colors[indexof(serie)],
-
-  section: "Series",
-
-  type: "string",
-
-  display: "color"
-
+       options[id] = {
+        label: serie.name,
+        default: Highcharts.getOptions().colors[indexof(serie)],
+        section: "Series",
+        type: "string",
+        display: "color"
        }
 
      })
 
-     this.trigger('registerOptions', options) // register options with parent page to update visConfig
+     this.trigger('registerOptions', option) // register options with parent page to update visConfig
 
     const options = {
       title: "",

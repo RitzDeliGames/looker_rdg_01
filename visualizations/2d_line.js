@@ -194,7 +194,7 @@ looker.plugins.visualizations.add({
 
        option[id] = {
         label: serie.name,
-        default: Highcharts.getOptions().colors[indexof(serie)],
+        default: Highcharts.getOptions().colors[indexOf(serie)],
         section: "Series",
         type: "string",
         display: "color"

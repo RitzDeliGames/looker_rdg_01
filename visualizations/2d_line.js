@@ -56,8 +56,8 @@ looker.plugins.visualizations.add({
         section: "Values"
       },
       palette: {
-        label: "Box Colors",
-        type: "Palette",
+        label: "Palette",
+        type: "array",
         default: Highcharts.getOptions().colors,
         display: "colors",
         section: "Series"
@@ -143,7 +143,8 @@ looker.plugins.visualizations.add({
     dataLabels: {
         enabled: config.valueLabels,
         format: '{point.y}%'
-    }
+    },
+    color: config.palette[i]
   });
   }
 

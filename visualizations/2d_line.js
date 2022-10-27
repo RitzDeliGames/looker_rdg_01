@@ -135,7 +135,7 @@ looker.plugins.visualizations.add({
     },
     dataLabels: {
         enabled: config.valueLabels,
-        format: '{value}%'
+        format: '{point.y:.1f}%'
     }
   });
   }

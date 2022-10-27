@@ -192,7 +192,7 @@ looker.plugins.visualizations.add({
 
        id = "_" + serie.name
 
-       options[id] = {
+       option[id] = {
         label: serie.name,
         default: Highcharts.getOptions().colors[indexof(serie)],
         section: "Series",

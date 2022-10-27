@@ -72,6 +72,10 @@ looker.plugins.visualizations.add({
           //     min_measures: 5, max_measures: 5,
           // })) return;
 
+        console.log("data", data);
+        console.log("config", config);
+        console.log("queryResponse", queryResponse);
+
           let measures = queryResponse.fields.measure_like;
 
           // Extract dimension data and measure names

@@ -9,17 +9,9 @@ view: click_sequencing {
       column: button_tag {}
       column: button_tag_raw {}
       column: event_time {}
-      column: card_id {}
-      column: current_card_numbered {}
-      column: current_card {}
-      column: current_card_quest {}
-      column: current_quest {}
       column: last_level_serial {}
       column: engagement_minutes {}
       column: engagement_ticks {}
-      column: last_unlocked_card {}
-      column: last_unlocked_card_numbered {}
-      column: quests_completed {}
       column: rdg_id {}
       column: is_churned {}
       column: install_version {}
@@ -28,6 +20,10 @@ view: click_sequencing {
       }
     }
     datagroup_trigger: change_8_hrs
+  }
+
+  dimension: click_sequence_num {
+    type: number
   }
   dimension: button_tag {
     type: string
@@ -40,22 +36,6 @@ view: click_sequencing {
   dimension: event_time {
     type: date_time
   }
-  dimension: card_id {}
-  dimension: click_sequence_num {
-    type: number
-  }
-  dimension: current_card_numbered {
-    value_format: "####"
-    type: number
-  }
-  dimension: current_card {}
-  dimension: current_card_quest {
-    value_format: "####"
-    type: number
-  }
-  dimension: current_quest {
-    type: number
-  }
   dimension: last_level_serial {
     type: number
   }
@@ -63,14 +43,6 @@ view: click_sequencing {
     type: number
   }
   dimension: engagement_ticks {
-    type: number
-  }
-  dimension: last_unlocked_card {}
-  dimension: last_unlocked_card_numbered {
-    value_format: "####"
-    type: number
-  }
-  dimension: quests_completed {
     type: number
   }
   dimension: rdg_id {}

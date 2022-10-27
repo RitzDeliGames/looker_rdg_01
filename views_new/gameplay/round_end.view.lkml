@@ -8,6 +8,7 @@ view: round_end {
         ,engagement_ticks
         ,session_id
         ,last_level_id
+        --,json_extract_scalar(extra_json,"$.level_id") level_id
         ,cast(last_level_serial as int64) last_level_serial
         ,cast(json_extract_scalar(extra_json,'$.round_id') as int64) round_id
         ,cast(json_extract_scalar(extra_json,"$.rounds") as int64) rounds
@@ -141,10 +142,21 @@ view: round_end {
     label: "Last Level Completed - Id"
     type: string
   }
+  # dimension: level_id {
+  #   group_label: "Level Dimensions"
+  #   label: "Current Level - Id"
+  #   type: string
+  # }
   dimension: last_level_serial {
     group_label: "Level Dimensions"
     label: "Last Level Completed"
     type: number
+  }
+  dimension: last_level_serial_offset {
+    group_label: "Level Dimensions"
+    label: "Current Level"
+    type: number
+    sql: ${last_level_serial} + 1 ;;
   }
   dimension: round_id {
     type: number
@@ -658,5 +670,5 @@ view: round_end {
     sql: ${currency_07_balance} ;;
   }
 
-  drill_fields: [rdg_id,last_level_serial,rounds,proximity_to_completion]
+  drill_fields: [rdg_id,last_level_serial,last_level_serial_offset,last_level_id,rounds,proximity_to_completion]
 }

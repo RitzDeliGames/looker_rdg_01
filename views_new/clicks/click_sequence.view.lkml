@@ -7,20 +7,15 @@ view: click_sequence {
       column: button_tag {}
       column: button_tag_raw {}
       column: event_time {}
-      column: card_id {}
-      column: current_card_numbered {}
-      column: current_card {}
-      column: current_card_quest {}
-      column: current_quest {}
       column: last_level_serial {}
+      column: last_level_id {}
       column: engagement_minutes {}
       column: engagement_ticks {}
-      column: last_unlocked_card {}
-      column: last_unlocked_card_numbered {}
-      column: quests_completed {}
       column: rdg_id {}
       column: is_churned {}
       column: install_version {}
+      column: experiments {}
+      column: experiment_variant {}
       derived_column: click_sequence_num {
         sql: row_number() over (partition by rdg_id order by event_time) ;;
       }
@@ -33,21 +28,12 @@ view: click_sequence {
   dimension: event_time {
     type: date_time
   }
-  dimension: card_id {}
   dimension: click_sequence_num {
     type: number
   }
-  dimension: current_card_numbered {
-    value_format: "####"
-    type: number
-  }
-  dimension: current_card {}
-  dimension: current_card_quest {
-    value_format: "####"
-    type: number
-  }
-  dimension: current_quest {
-    type: number
+  dimension: last_level_id {
+    group_label: "Level Dimensions"
+    label: "Last Level Completed - Id"
   }
   dimension: last_level_serial {
     group_label: "Level Dimensions"
@@ -58,14 +44,6 @@ view: click_sequence {
     type: number
   }
   dimension: engagement_ticks {
-    type: number
-  }
-  dimension: last_unlocked_card {}
-  dimension: last_unlocked_card_numbered {
-    value_format: "####"
-    type: number
-  }
-  dimension: quests_completed {
     type: number
   }
   dimension: rdg_id {}
@@ -83,5 +61,36 @@ view: click_sequence {
       button_tag,
       button_tag_raw,
       event_time]
+  }
+  dimension: experiments {
+    type: string
+    sql: ${TABLE}.experiments ;;
+    hidden: no
+  }
+  parameter: experiment_id {
+    type: string
+    suggestions:  ["$.altFUE2_20221011"
+      ,"$.autoPurchase_20221017"
+      ,"$.blockSymbols_20221017"
+      ,"$.difficultyStars_09202022"
+      ,"$.dynamicRewards_20221018"
+      ,"$.extraMovesCurrency_20221017"
+      ,"$.fueDismiss_20221010"
+      ,"$.gridGravity_20221003"
+      ,"$.gridGravity2_20221012"
+      ,"$.mMStreaks_09302022"
+      ,"$.newLevelPass_20220926"
+      ,"$.vfxReduce_20221017"
+      ,"$.zoneOrder2_09302022"]
+  }
+  dimension: experiment_variant {
+    label: "Experiment Variant"
+    type: string
+    suggestions: ["control"
+      ,"variant_a"
+      ,"variant_b"
+      ,"variant_c"
+      ,"variant_d"]
+    sql: json_extract_scalar(${experiments},{% parameter experiment_id %}) ;;
   }
 }

@@ -178,11 +178,37 @@ looker.plugins.visualizations.add({
           enabled: config.valueLabels,
           format: '{point.y}%'
         },
-        color: config.colors[i-1]
+        color: config["_" + output[0][i]] || Highcharts.getOptions().colors[i-1]
       });
     }
 
     console.log("series", series);
+
+         // Create an option for each measure in your query
+
+     series.forEach(function(serie) {
+
+       id = "_" + serie.name
+
+       options[id] =
+
+       {
+
+  label: serie.name,
+
+  default: Highcharts.getOptions().colors[indexof(serie)],
+
+  section: "Series",
+
+  type: "string",
+
+  display: "color"
+
+       }
+
+     })
+
+     this.trigger('registerOptions', options) // register options with parent page to update visConfig
 
     const options = {
       title: "",

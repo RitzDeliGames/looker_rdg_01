@@ -66,13 +66,14 @@ looker.plugins.visualizations.add({
         type: "array",
         default: Highcharts.getOptions().colors,
         display: "colors",
-        section: "Series"
+        section: "Series",
+        order: 1,
       },
       marker: {
         // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/
         // and https://api.highcharts.com/highcharts/plotOptions.series.marker.symbol
         type: "string",
-        label: "Chart type",
+        label: "Point type",
         values: [
           // options are 'circle', 'square','diamond', 'triangle' and 'triangle-down'
           {"Point": "circle"},
@@ -84,7 +85,8 @@ looker.plugins.visualizations.add({
         ],
         display: "select",
         default: "Point",
-        section: "Series"
+        section: "Series",
+        order: 2
       },
   },
 

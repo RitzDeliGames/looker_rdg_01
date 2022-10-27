@@ -9,10 +9,22 @@ looker.plugins.visualizations.add({
           section: "Formatting",
           order: 1,
           },
+    yAxisName: {
+      label: "Axis Name",
+      type: "string",
+      default: "Churn by level",
+      section: "Y"
+    },
+    showYName:{
+        label: "Show Axis Name",
+        type: "boolean",
+        default: true,
+        section: "Y"
+      },
     yAxisMinValue: {
           label: "Min value (%)",
           default: 0,
-          section: "Y Axis",
+          section: "Y",
           type: "number",
           display_size: "half",
           order:1
@@ -20,10 +32,22 @@ looker.plugins.visualizations.add({
       yAxisMaxValue: {
           label: "Max value (%)",
           default: 100,
-          section: "Y Axis",
+          section: "Y",
           type: "number",
           display_size: "half",
-      }
+      },
+      xAxisName: {
+        label: "Axis Name",
+        type: "string",
+        default: "Level number",
+        section: "X"
+      },
+      showXName:{
+        label: "Show Axis Name",
+        type: "boolean",
+        default: true,
+        section: "X"
+      },
   },
   create: function (element, config) {
     element.innerHTML = "";
@@ -98,7 +122,7 @@ looker.plugins.visualizations.add({
     name: output[0][1],
     data: output.slice(1).map((element) => element[1]),
     tooltip: {
-      valueSuffix: ' %'
+      valueSuffix: '%'
     },
   });
 
@@ -106,7 +130,7 @@ looker.plugins.visualizations.add({
     name: output[0][2],
     data: output.slice(1).map((element) => element[2]),
     tooltip: {
-      valueSuffix: ' %'
+      valueSuffix: '%'
     },
   });
 
@@ -123,13 +147,20 @@ looker.plugins.visualizations.add({
 
     yAxis: {
       title: {
-        text: 'Churn by level',
+        text: config.yAxisName,
+        enabled: config.showYName,
       },
       labels: {
        format: '{value}%'
       },
       min: config.yAxisMinValue,
       max: config.yAxisMaxValue
+    },
+    yAxis: {
+      title: {
+        text: config.xAxisName,
+        enabled: config.showXName,
+      },
     },
 
     series,

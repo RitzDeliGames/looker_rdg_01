@@ -95,6 +95,7 @@ looker.plugins.visualizations.add({
         default: false
       }
   },
+  console.log('this',this)
 
   create: function (element, config) {
     element.innerHTML = "";
@@ -121,6 +122,7 @@ looker.plugins.visualizations.add({
 
     //create array with required data to pivot
     //["Experiment Variant", "Last Level Completed", "churn"],
+    //dataArray.push([x_dim_1.label,x_dim_2.label,y_dim.label]);
     data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, Math.round(row[y_dim.name].value * 100)]));
 
     console.log("dataArray", dataArray);
@@ -142,11 +144,12 @@ looker.plugins.visualizations.add({
               }
           }
 
-          newCols.sort();
+          //causes some troubles when dimension is numerical,columns can be sorted by the
+          //newCols.sort();
           var item = [];
 
           //Add Header Row
-          item.push('Level');
+          item.push(x_dim_1.label);
           item.push.apply(item, newCols);
           ret.push(item);
 
@@ -229,6 +232,8 @@ console.log(this.options);
           text: config.xAxisName,
           enabled: config.showXName,
         },
+        //set x axis points
+        categories: output.slice(1).map((element) => element[0]),
       },
       //testing markers on line points
       plotOptions: {

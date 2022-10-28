@@ -233,7 +233,7 @@ console.log("options",this.options);
       },
       xAxis: {
         title: {
-          text: config.xAxisName || x_dim_1.label_short,
+          text: config.xAxisName || x_dim_2.label_short,
           enabled: config.showXName,
         },
       },

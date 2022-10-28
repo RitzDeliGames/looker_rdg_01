@@ -12,12 +12,7 @@ looker.plugins.visualizations.add({
       order: 1,
     },
     // Y Axis options
-    yAxisName: {
-      label: "Axis Name",
-      type: "string",
-      default: "Churn by level",
-      section: "Y"
-    },
+
     showYName:{
         label: "Show Axis Name",
         type: "boolean",
@@ -41,12 +36,7 @@ looker.plugins.visualizations.add({
         order: 2
       },
       // X Axis options
-      xAxisName: {
-        label: "Axis Name",
-        type: "string",
-        default: "Level number",
-        section: "X"
-      },
+
       showXName: {
         label: "Show Axis Name",
         type: "boolean",
@@ -81,13 +71,13 @@ looker.plugins.visualizations.add({
           {"Diamond": "diamond"},
           {"Triangle": "triangle"},
           {"Reverse-Triangle": "triangle-down"},
-          //{"None": null} // To make this work use symbol circke and make width, height and so on 0
         ],
         display: "select",
         default: "Point",
         section: "Series",
         order: 2
       },
+      //easier to hide the pointers than to make a 'none' type
       hideMarker:{
         type:"boolean",
         label: "Hide Markers",
@@ -109,7 +99,7 @@ looker.plugins.visualizations.add({
     let series = [];
     let x_dim_1 = queryResponse.fields.dimensions[0];
     let x_dim_2 = queryResponse.fields.dimensions[1];
-    let y_dim = queryResponse.fields.table_calculations[1];
+    let y_dim = queryResponse.fields.table_calculations[0];
 
     let minMeasureName = queryResponse.fields.measure_like[0]?.name;
     let q25MeasureName = queryResponse.fields.measure_like[1]?.name;
@@ -143,12 +133,11 @@ looker.plugins.visualizations.add({
               }
           }
 
-          //causes some troubles when dimension is numerical,columns can be sorted by the data in looker
-          //newCols.sort();
+          newCols.sort();
           var item = [];
 
           //Add Header Row
-          item.push(x_dim_1.label);
+          item.push(x_dim_2.label);
           item.push.apply(item, newCols);
           ret.push(item);
 
@@ -187,8 +176,22 @@ looker.plugins.visualizations.add({
     console.log("series", series);
 
          // Create an option for each measure in your query
-console.log("this",this);
-     let option = {...this.options};
+console.log("options",this.options);
+     let option = {
+       ...this.options,
+        yAxisName: {
+          label: "Axis Name",
+          type: "string",
+          default: y_dim.label,
+          section: "Y"
+        },
+        xAxisName: {
+          label: "Axis Name",
+          type: "string",
+          default: x_dim_2.label,
+          section: "X"
+        },
+     };
 
      series.forEach(function(serie) {
 
@@ -217,7 +220,7 @@ console.log("this",this);
 
       yAxis: {
         title: {
-          text: config.yAxisName,
+          text: config.yAxisName || "",
           enabled: config.showYName,
         },
         labels: {
@@ -228,11 +231,9 @@ console.log("this",this);
       },
       xAxis: {
         title: {
-          text: config.xAxisName,
+          text: config.xAxisName || "",
           enabled: config.showXName,
         },
-        //set x axis points
-        categories: output.slice(1).map((element) => element[0]),
       },
       //testing markers on line points
       plotOptions: {

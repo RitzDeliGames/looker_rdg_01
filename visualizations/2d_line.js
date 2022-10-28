@@ -183,12 +183,14 @@ console.log("options",this.options);
           label: "Axis Name",
           type: "string",
           default: y_dim.label,
+          placeholder:y_dim.label,
           section: "Y"
         },
         xAxisName: {
           label: "Axis Name",
           type: "string",
-          default: x_dim_2.label,
+          default: "",
+          placeholder:x_dim_2.label_short,
           section: "X"
         },
      };
@@ -220,7 +222,7 @@ console.log("options",this.options);
 
       yAxis: {
         title: {
-          text: config.yAxisName || "",
+          text: config.yAxisName || y_dim.label,
           enabled: config.showYName,
         },
         labels: {
@@ -231,7 +233,7 @@ console.log("options",this.options);
       },
       xAxis: {
         title: {
-          text: config.xAxisName || "",
+          text: config.xAxisName || x_dim_1.label_short,
           enabled: config.showXName,
         },
       },

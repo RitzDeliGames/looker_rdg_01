@@ -99,7 +99,7 @@ looker.plugins.visualizations.add({
     let series = [];
     let x_dim_1 = queryResponse.fields.dimensions[0];
     let x_dim_2 = queryResponse.fields.dimensions[1];
-    let y_dim = queryResponse.fields.table_calculations[1];
+    let y_dim = queryResponse.fields.table_calculations[0];
 
     let minMeasureName = queryResponse.fields.measure_like[0]?.name;
     let q25MeasureName = queryResponse.fields.measure_like[1]?.name;

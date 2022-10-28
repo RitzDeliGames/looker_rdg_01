@@ -775,6 +775,7 @@ constant: iap_id_strings {
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_color_ball_bulk' then '5x Color Ball Boost'
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_bomb' then '1x Bomb Boost'
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_bomb_bulk' then '6x Bomb Boost'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'extra_moves_5' then '5x Extra Moves'
             else json_extract_scalar(extra_json,'$.iap_id')
           end"
 }
@@ -838,6 +839,7 @@ constant: iap_id_strings_grouped {
             when json_extract_scalar(extra_json,'$.iap_id') like '%rocket%' then 'Pre-Game Boosts'
             when json_extract_scalar(extra_json,'$.iap_id') like '%color_ball%' then 'Pre-Game Boosts'
             when json_extract_scalar(extra_json,'$.iap_id') like '%zone%' then 'Zone Restoration'
+            when json_extract_scalar(extra_json,'$.iap_id') like '%extra_moves%' then 'Extra Moves'
             else json_extract_scalar(extra_json,'$.iap_id')
           end"
           }

@@ -81,13 +81,19 @@ looker.plugins.visualizations.add({
           {"Diamond": "diamond"},
           {"Triangle": "triangle"},
           {"Reverse-Triangle": "triangle-down"},
-          {"None": null} // To make this work use symbol circke and make width, height and so on 0
+          //{"None": null} // To make this work use symbol circke and make width, height and so on 0
         ],
         display: "select",
         default: "Point",
         section: "Series",
         order: 2
       },
+      hideMarker:{
+        type:"boolean",
+        label: "Hide Markers",
+        section: "Series",
+        default: false
+      }
   },
 
   create: function (element, config) {
@@ -172,11 +178,31 @@ looker.plugins.visualizations.add({
           enabled: config.valueLabels,
           format: '{point.y}%'
         },
-        color: config.colors[i-1]
+        color: config["_" + output[0][i]] || Highcharts.getOptions().colors[i-1]
       });
     }
 
     console.log("series", series);
+
+         // Create an option for each measure in your query
+console.log(this.options);
+     let option = {...this.options};
+
+     series.forEach(function(serie) {
+
+       id = "_" + serie.name
+
+       option[id] = {
+        label: serie.name,
+        default: Highcharts.getOptions().colors[series.indexOf(serie)],
+        section: "Series",
+        type: "string",
+        display: "color"
+       }
+
+     })
+
+     this.trigger('registerOptions', option) // register options with parent page to update visConfig
 
     const options = {
       title: "",
@@ -204,6 +230,20 @@ looker.plugins.visualizations.add({
           enabled: config.showXName,
         },
       },
+      //testing markers on line points
+      plotOptions: {
+        series: {
+          marker: {
+            symbol: config.marker,
+            enabled: !config.hideMarker,
+            states: {
+              hover: {
+                enabled: !config.hideMarker
+              }
+            }
+          }
+      }
+    },
 
       series,
     };

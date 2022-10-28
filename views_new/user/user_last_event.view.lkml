@@ -52,6 +52,7 @@ view: user_last_event {
   parameter: experiment {
     type: string
     suggestions:  ["$.altFUE2_20221011"
+                  ,"$.altFUE2v2_20221024"
                   ,"$.autoPurchase_20221017"
                   ,"$.blockSymbols_20221017"
                   ,"$.difficultyStars_09202022"
@@ -63,7 +64,9 @@ view: user_last_event {
                   ,"$.mMStreaks_09302022"
                   ,"$.newLevelPass_20220926"
                   ,"$.vfxReduce_20221017"
-                  ,"$.zoneOrder2_09302022"]
+                  ,"$.vfxReduce_2_20221024"
+                  ,"$.zoneOrder2_09302022"
+                  ,"$.zoneStarCosts_09222022"]
   }
   dimension: experiment_id {
     label: "Experiment Variant"

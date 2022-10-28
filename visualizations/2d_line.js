@@ -95,7 +95,6 @@ looker.plugins.visualizations.add({
         default: false
       }
   },
-  console.log('this',this)
 
   create: function (element, config) {
     element.innerHTML = "";
@@ -144,7 +143,7 @@ looker.plugins.visualizations.add({
               }
           }
 
-          //causes some troubles when dimension is numerical,columns can be sorted by the
+          //causes some troubles when dimension is numerical,columns can be sorted by the data in looker
           //newCols.sort();
           var item = [];
 
@@ -188,12 +187,12 @@ looker.plugins.visualizations.add({
     console.log("series", series);
 
          // Create an option for each measure in your query
-console.log(this.options);
+console.log("this",this);
      let option = {...this.options};
 
      series.forEach(function(serie) {
 
-       id = "_" + serie.name
+       id = "_" + serie.name;
 
        option[id] = {
         label: serie.name,
@@ -201,11 +200,11 @@ console.log(this.options);
         section: "Series",
         type: "string",
         display: "color"
-       }
+       };
 
-     })
+     });
 
-     this.trigger('registerOptions', option) // register options with parent page to update visConfig
+     this.trigger('registerOptions', option); // register options with parent page to update visConfig
 
     const options = {
       title: "",

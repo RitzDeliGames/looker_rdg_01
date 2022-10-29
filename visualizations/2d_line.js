@@ -175,25 +175,30 @@ looker.plugins.visualizations.add({
 
     console.log("series", series);
 
-         // Create an option for each measure in your query
-console.log("options",this.options);
+    console.log("options",this.options);
+
+    //further chart customization options that depend on queried data should go here
      let option = {
        ...this.options,
         yAxisName: {
           label: "Axis Name",
           type: "string",
-          default: y_dim.label,
+          default: "",
+          placeholder:y_dim.label,
           section: "Y"
         },
         xAxisName: {
           label: "Axis Name",
           type: "string",
-          default: x_dim_2.label,
+          default: "",
+          placeholder:x_dim_2.label_short,
           section: "X"
         },
      };
 
-     series.forEach(function(serie) {
+
+    // Create an option for each measure in your query
+    series.forEach(function(serie) {
 
        id = "_" + serie.name;
 
@@ -209,6 +214,7 @@ console.log("options",this.options);
 
      this.trigger('registerOptions', option); // register options with parent page to update visConfig
 
+    //options object to be passed to Highcharts
     const options = {
       title: "",
       legend: {
@@ -220,7 +226,7 @@ console.log("options",this.options);
 
       yAxis: {
         title: {
-          text: config.yAxisName || "",
+          text: config.yAxisName || y_dim.label,
           enabled: config.showYName,
         },
         labels: {
@@ -231,7 +237,7 @@ console.log("options",this.options);
       },
       xAxis: {
         title: {
-          text: config.xAxisName || "",
+          text: config.xAxisName || x_dim_2.label_short,
           enabled: config.showXName,
         },
       },

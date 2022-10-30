@@ -11,6 +11,24 @@ looker.plugins.visualizations.add({
       section: "Formatting",
       order: 1,
     },
+    testDropdown:{
+      type:"Accordion2",
+      section: "test",
+      children: {
+        someToggle: {
+        label: "Some toggle",
+        type: "boolean",
+        default: true,
+        order: 1,
+        },
+        someInput:{
+          label:'some input',
+          type:"string",
+          default:'hi',
+          order:2
+        }
+      }
+    },
     // Y Axis options
 
     showYName:{
@@ -51,15 +69,15 @@ looker.plugins.visualizations.add({
         section: "Values"
       },
       // Series Options
-      colors: {
+      /*colors: {
         label: "Colors",
         type: "array",
         default: Highcharts.getOptions().colors,
         display: "colors",
         section: "Series",
         order: 1,
-      },
-      marker: {
+      },*/
+      /*marker: {
         // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/
         // and https://api.highcharts.com/highcharts/plotOptions.series.marker.symbol
         type: "string",
@@ -76,13 +94,14 @@ looker.plugins.visualizations.add({
         default: "Point",
         section: "Series",
         order: 2
-      },
+      },*/
       //easier to hide the pointers than to make a 'none' type
       hideMarker:{
         type:"boolean",
         label: "Hide Markers",
         section: "Series",
-        default: false
+        default: false,
+        order:1
       }
   },
 
@@ -169,7 +188,16 @@ looker.plugins.visualizations.add({
           enabled: config.valueLabels,
           format: '{point.y}%'
         },
-        color: config["_" + output[0][i]] || Highcharts.getOptions().colors[i-1]
+        color: config[output[0][i] + " color"] || Highcharts.getOptions().colors[i-1],
+          marker: {
+            symbol: config[output[0][i] + " marker"] || Highcharts.getOptions().symbols[i-1],
+            enabled: !config.hideMarker,
+            states: {
+              hover: {
+                enabled: !config.hideMarker
+              }
+          }
+        }
       });
     }
 
@@ -184,14 +212,14 @@ looker.plugins.visualizations.add({
           label: "Axis Name",
           type: "string",
           default: "",
-          placeholder:y_dim.label,
+          placeholder:y_dim.label_short || y_dim.label,
           section: "Y"
         },
         xAxisName: {
           label: "Axis Name",
           type: "string",
           default: "",
-          placeholder:x_dim_2.label_short,
+          placeholder:x_dim_2.label_short || x_dim_2.label,
           section: "X"
         },
      };
@@ -200,15 +228,35 @@ looker.plugins.visualizations.add({
     // Create an option for each measure in your query
     series.forEach(function(serie) {
 
-       id = "_" + serie.name;
+       id = serie.name;
 
-       option[id] = {
-        label: serie.name,
+       option[id + " color"] = {
+        label: 'color',
         default: Highcharts.getOptions().colors[series.indexOf(serie)],
         section: "Series",
         type: "string",
         display: "color"
        };
+
+       option[id + " marker"] = {
+        marker: {
+        // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/
+        // and https://api.highcharts.com/highcharts/plotOptions.series.marker.symbol
+        type: "string",
+        label: "Point type",
+        values: [
+          // options are 'circle', 'square','diamond', 'triangle' and 'triangle-down'
+          {"Point": "circle"},
+          {"Square": "square"},
+          {"Diamond": "diamond"},
+          {"Triangle": "triangle"},
+          {"Reverse-Triangle": "triangle-down"},
+        ],
+        display: "select",
+        default: Highcharts.getOptions().symbols[series.indexOf(serie)] || "Point",
+        section: "Series",
+        },
+       }
 
      });
 
@@ -242,7 +290,7 @@ looker.plugins.visualizations.add({
         },
       },
       //testing markers on line points
-      plotOptions: {
+      /*plotOptions: {
         series: {
           marker: {
             symbol: config.marker,
@@ -254,7 +302,7 @@ looker.plugins.visualizations.add({
             }
           }
       }
-    },
+    },*/
 
       series,
     };

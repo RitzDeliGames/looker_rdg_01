@@ -12,7 +12,7 @@ looker.plugins.visualizations.add({
       order: 1,
     },
     testDropdown:{
-      type:"Accordion2",
+      label:"Accordion",
       section: "test",
       children: {
         someToggle: {
@@ -239,7 +239,6 @@ looker.plugins.visualizations.add({
        };
 
        option[id + " marker"] = {
-        marker: {
         // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/
         // and https://api.highcharts.com/highcharts/plotOptions.series.marker.symbol
         type: "string",
@@ -255,7 +254,6 @@ looker.plugins.visualizations.add({
         display: "select",
         default: Highcharts.getOptions().symbols[series.indexOf(serie)] || "Point",
         section: "Series",
-        },
        }
 
      });

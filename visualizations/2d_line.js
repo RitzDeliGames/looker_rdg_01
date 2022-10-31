@@ -11,13 +11,6 @@ looker.plugins.visualizations.add({
       section: "Plot",
       order: 1,
     },
-    divider: {
-         label: "this is a label-----------------------------",
-         type: "string",
-         display: "label",
-         section: "Plot",
-         order: 2
-       },
     // Y Axis options
 
     showYName:{
@@ -196,7 +189,7 @@ looker.plugins.visualizations.add({
 
        //set an invalid display type so only the label renders
        option[id + "_label"] = {
-         label: "this is a label-----------------------------",
+         label: id.toUpperCase() + " ----------------------------------------------------------------------------",
          type: "string",
          display: "label",
          section: "Series",

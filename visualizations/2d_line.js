@@ -59,32 +59,6 @@ looker.plugins.visualizations.add({
         section: "Series",
         order: 1,
       },*/
-      /*marker: {
-        // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/
-        // and https://api.highcharts.com/highcharts/plotOptions.series.marker.symbol
-        type: "string",
-        label: "Point type",
-        values: [
-          // options are 'circle', 'square','diamond', 'triangle' and 'triangle-down'
-          {"Point": "circle"},
-          {"Square": "square"},
-          {"Diamond": "diamond"},
-          {"Triangle": "triangle"},
-          {"Reverse-Triangle": "triangle-down"},
-        ],
-        display: "select",
-        default: "Point",
-        section: "Series",
-        order: 2
-      },*/
-      //easier to hide the pointers than to make a 'none' type
-      hideMarker:{
-        type:"boolean",
-        label: "Hide Markers",
-        section: "Series",
-        default: false,
-        order:1
-      }
   },
 
   create: function (element, config) {
@@ -215,7 +189,7 @@ looker.plugins.visualizations.add({
 
        //set an invalid display type so only the label renders
        option[id + "_label"] = {
-         label: id.toUpperCase(),
+         label: "this is a label-----------------------------",
          type: "string",
          display: "label",
          order: offset + 1
@@ -289,21 +263,6 @@ looker.plugins.visualizations.add({
         },
         categories: output.slice(1).map((element) => element[0]),
       },
-      //testing markers on line points
-      /*plotOptions: {
-        series: {
-          marker: {
-            symbol: config.marker,
-            enabled: !config.hideMarker,
-            states: {
-              hover: {
-                enabled: !config.hideMarker
-              }
-            }
-          }
-      }
-    },*/
-
       series,
     };
 

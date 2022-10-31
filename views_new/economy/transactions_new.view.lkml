@@ -33,7 +33,7 @@ view: transactions_new {
       where event_name = 'transaction'
         and user_type = 'external'
         and country != 'ZZ'
-        and  date(timestamp) between '2022-06-01' and current_date()
+        and date(timestamp) between '2022-06-01' and current_date()
         --and coalesce(install_version,'null') <> '-1'
       order by timestamp
     ;;

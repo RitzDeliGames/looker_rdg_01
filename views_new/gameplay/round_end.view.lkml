@@ -50,7 +50,7 @@ view: round_end {
         --,cast(json_extract_scalar(extra_json,'$.powerup_hammer') as int64) powerup_hammer
     from game_data.events
     where event_name = 'round_end'
-      and date(timestamp) between '2019-01-01' and current_date()
+      and date(timestamp) between '2022-06-01' and current_date()
       and user_type = 'external'
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'

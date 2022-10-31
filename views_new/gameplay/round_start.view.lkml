@@ -12,7 +12,7 @@ view: round_start {
         ,cast(json_extract_scalar(extra_json,'$.round_id') as int64) round_id
       from game_data.events
       where event_name = 'round_end'
-        and timestamp >= '2019-01-01'
+        and timestamp >= '2022-06-01'
         and user_type = 'external'
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'

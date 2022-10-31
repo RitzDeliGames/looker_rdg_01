@@ -6,6 +6,7 @@ view: click_sequence {
     explore_source: click_stream {
       column: button_tag {}
       column: button_tag_raw {}
+      column: country {}
       column: event_time {}
       column: last_level_serial {}
       column: last_level_id {}
@@ -22,14 +23,24 @@ view: click_sequence {
     }
     datagroup_trigger: change_8_hrs
   }
-  dimension: button_tag {
-  }
+  dimension: button_tag {}
   dimension: button_tag_raw {}
   dimension: event_time {
     type: date_time
   }
   dimension: click_sequence_num {
     type: number
+  }
+  dimension: country {
+    group_label: "Device & OS Dimensions"
+    label: "Device Country"
+    type: string
+  }
+  dimension: region {
+    group_label: "Device & OS Dimensions"
+    label: "Device Region"
+    type: string
+    sql: @{country_region} ;;
   }
   dimension: last_level_id {
     group_label: "Level Dimensions"
@@ -70,6 +81,7 @@ view: click_sequence {
   parameter: experiment_id {
     type: string
     suggestions:  ["$.altFUE2_20221011"
+      ,"$.altFUE2v2_20221024"
       ,"$.autoPurchase_20221017"
       ,"$.blockSymbols_20221017"
       ,"$.difficultyStars_09202022"
@@ -81,7 +93,9 @@ view: click_sequence {
       ,"$.mMStreaks_09302022"
       ,"$.newLevelPass_20220926"
       ,"$.vfxReduce_20221017"
-      ,"$.zoneOrder2_09302022"]
+      ,"$.vfxReduce_2_20221024"
+      ,"$.zoneOrder2_09302022"
+      ,"$.zoneStarCosts_09222022"]
   }
   dimension: experiment_variant {
     label: "Experiment Variant"

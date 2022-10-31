@@ -3,6 +3,7 @@ view: click_stream {
     sql:
       select
         rdg_id
+        ,country
         ,install_version
         ,timestamp
         ,event_name
@@ -21,11 +22,11 @@ view: click_stream {
       from `eraser-blast.game_data.events`
       where
         event_name = 'ButtonClicked'
-        and timestamp >= '2019-01-01'
+        and timestamp >= '2022-06-01'
         and user_type = 'external'
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
-      group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14
+      group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
       ;;
     datagroup_trigger: change_8_hrs
   }
@@ -39,6 +40,17 @@ view: click_stream {
     type: string
     sql: ${TABLE}.rdg_id ;;
     hidden: no
+  }
+  dimension: country {
+    group_label: "Device & OS Dimensions"
+    label: "Device Country"
+    type: string
+  }
+  dimension: region {
+    group_label: "Device & OS Dimensions"
+    label: "Device Region"
+    type: string
+    sql: @{country_region} ;;
   }
   dimension_group: event {
     type: time
@@ -129,6 +141,7 @@ view: click_stream {
   parameter: experiment_id {
     type: string
     suggestions:  ["$.altFUE2_20221011"
+      ,"$.altFUE2v2_20221024"
       ,"$.autoPurchase_20221017"
       ,"$.blockSymbols_20221017"
       ,"$.difficultyStars_09202022"
@@ -140,7 +153,9 @@ view: click_stream {
       ,"$.mMStreaks_09302022"
       ,"$.newLevelPass_20220926"
       ,"$.vfxReduce_20221017"
-      ,"$.zoneOrder2_09302022"]
+      ,"$.vfxReduce_2_20221024"
+      ,"$.zoneOrder2_09302022"
+      ,"$.zoneStarCosts_09222022"]
   }
   dimension: experiment_variant {
     label: "Experiment Variant"
@@ -150,6 +165,7 @@ view: click_stream {
       ,"variant_b"
       ,"variant_c"
       ,"variant_d"]
-    sql: json_extract_scalar(${experiments},{% parameter experiment_id %}) ;;
+    # sql: json_extract_scalar(${experiments},{% parameter experiment_id %}) ;;
+    sql: json_extract_scalar(${experiments},"$.altFUE2v2_20221024") ;;
   }
 }

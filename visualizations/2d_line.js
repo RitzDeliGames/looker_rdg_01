@@ -3,31 +3,13 @@ looker.plugins.visualizations.add({
   id: "2dline",
   label: "2D Line",
   options: {
-    // Formatting
+    // Plot
     showLegend: {
       label: "Show Legend",
       type: "boolean",
       default: true,
-      section: "Formatting",
+      section: "Plot",
       order: 1,
-    },
-    testDropdown:{
-      label:"Accordion",
-      section: "test",
-      children: {
-        someToggle: {
-        label: "Some toggle",
-        type: "boolean",
-        default: true,
-        order: 1,
-        },
-        someInput:{
-          label:'some input',
-          type:"string",
-          default:'hi',
-          order:2
-        }
-      }
     },
     // Y Axis options
 
@@ -77,32 +59,6 @@ looker.plugins.visualizations.add({
         section: "Series",
         order: 1,
       },*/
-      /*marker: {
-        // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/
-        // and https://api.highcharts.com/highcharts/plotOptions.series.marker.symbol
-        type: "string",
-        label: "Point type",
-        values: [
-          // options are 'circle', 'square','diamond', 'triangle' and 'triangle-down'
-          {"Point": "circle"},
-          {"Square": "square"},
-          {"Diamond": "diamond"},
-          {"Triangle": "triangle"},
-          {"Reverse-Triangle": "triangle-down"},
-        ],
-        display: "select",
-        default: "Point",
-        section: "Series",
-        order: 2
-      },*/
-      //easier to hide the pointers than to make a 'none' type
-      hideMarker:{
-        type:"boolean",
-        label: "Hide Markers",
-        section: "Series",
-        default: false,
-        order:1
-      }
   },
 
   create: function (element, config) {
@@ -188,13 +144,13 @@ looker.plugins.visualizations.add({
           enabled: config.valueLabels,
           format: '{point.y}%'
         },
-        color: config[output[0][i] + " color"] || Highcharts.getOptions().colors[i-1],
+        color: config[output[0][i] + "_color"] || Highcharts.getOptions().colors[i-1],
           marker: {
-            symbol: config[output[0][i] + " marker"] || Highcharts.getOptions().symbols[i-1],
-            enabled: !config.hideMarker,
+            symbol: config[output[0][i] + "_marker"] || Highcharts.getOptions().symbols[i-1],
+            enabled: !config[output[0][i] + "_hideMarker"],
             states: {
               hover: {
-                enabled: !config.hideMarker
+                enabled: !config[output[0][i] + "_hideMarker"]
               }
           }
         }
@@ -203,7 +159,7 @@ looker.plugins.visualizations.add({
 
     console.log("series", series);
 
-    console.log("options",this.options);
+
 
     //further chart customization options that depend on queried data should go here
      let option = {
@@ -212,14 +168,14 @@ looker.plugins.visualizations.add({
           label: "Axis Name",
           type: "string",
           default: "",
-          placeholder:y_dim.label_short || y_dim.label,
+          placeholder: y_dim.label_short || y_dim.label,
           section: "Y"
         },
         xAxisName: {
           label: "Axis Name",
           type: "string",
           default: "",
-          placeholder:x_dim_2.label_short || x_dim_2.label,
+          placeholder: x_dim_2.label_short || x_dim_2.label,
           section: "X"
         },
      };
@@ -229,36 +185,58 @@ looker.plugins.visualizations.add({
     series.forEach(function(serie) {
 
        id = serie.name;
+       offset = series.indexOf(serie) * 4;
 
-       option[id + " color"] = {
-        label: 'color',
+       //set an invalid display type so only the label renders
+       option[id + "_label"] = {
+         label: id.toUpperCase(),
+         type: "string",
+         display: "label",
+         section: "Series",
+         order: offset + 1
+       };
+
+       option[id + "_color"] = {
+        label: "Line Color",
         default: Highcharts.getOptions().colors[series.indexOf(serie)],
         section: "Series",
         type: "string",
-        display: "color"
+        display: "color",
+        order: offset + 2
        };
 
-       option[id + " marker"] = {
+       option[id + "_marker"] = {
         // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/
         // and https://api.highcharts.com/highcharts/plotOptions.series.marker.symbol
         type: "string",
-        label: "Point type",
+        label: "Line Symbol",
         values: [
           // options are 'circle', 'square','diamond', 'triangle' and 'triangle-down'
           {"Point": "circle"},
-          {"Square": "square"},
           {"Diamond": "diamond"},
+          {"Square": "square"},
           {"Triangle": "triangle"},
           {"Reverse-Triangle": "triangle-down"},
         ],
         display: "select",
         default: Highcharts.getOptions().symbols[series.indexOf(serie)] || "Point",
         section: "Series",
-       }
+        order: offset + 3
+       };
 
-     });
+       option[id + "_hideMarker"] = {
+        type:"boolean",
+        label: "Hide Symbols",
+        section: "Series",
+        default: false,
+        order: offset + 4
+      };
 
-     this.trigger('registerOptions', option); // register options with parent page to update visConfig
+      });
+
+      this.trigger('registerOptions', option); // register options with parent page to update visConfig
+
+      console.log("options",this.options);
 
     //options object to be passed to Highcharts
     const options = {
@@ -288,21 +266,6 @@ looker.plugins.visualizations.add({
         },
         categories: output.slice(1).map((element) => element[0]),
       },
-      //testing markers on line points
-      /*plotOptions: {
-        series: {
-          marker: {
-            symbol: config.marker,
-            enabled: !config.hideMarker,
-            states: {
-              hover: {
-                enabled: !config.hideMarker
-              }
-            }
-          }
-      }
-    },*/
-
       series,
     };
 

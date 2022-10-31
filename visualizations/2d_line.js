@@ -215,7 +215,7 @@ looker.plugins.visualizations.add({
 
        //set an invalid display type so only the label renders
        option[id + "_label"] = {
-         label: id.toUppercase(),
+         label: id.toUpperCase(),
          type: "string",
          display: "label",
          order: offset + 1

@@ -3,31 +3,13 @@ looker.plugins.visualizations.add({
   id: "2dline",
   label: "2D Line",
   options: {
-    // Formatting
+    // Plot
     showLegend: {
       label: "Show Legend",
       type: "boolean",
       default: true,
-      section: "Formatting",
+      section: "Plot",
       order: 1,
-    },
-    testDropdown:{
-      label:"Accordion",
-      section: "test",
-      children: {
-        someToggle: {
-        label: "Some toggle",
-        type: "boolean",
-        default: true,
-        order: 1,
-        },
-        someInput:{
-          label:'some input',
-          type:"string",
-          default:'hi',
-          order:2
-        }
-      }
     },
     // Y Axis options
 
@@ -188,13 +170,13 @@ looker.plugins.visualizations.add({
           enabled: config.valueLabels,
           format: '{point.y}%'
         },
-        color: config[output[0][i] + " color"] || Highcharts.getOptions().colors[i-1],
+        color: config[output[0][i] + "_color"] || Highcharts.getOptions().colors[i-1],
           marker: {
-            symbol: config[output[0][i] + " marker"] || Highcharts.getOptions().symbols[i-1],
-            enabled: !config.hideMarker,
+            symbol: config[output[0][i] + "_marker"] || Highcharts.getOptions().symbols[i-1],
+            enabled: !config[output[0][i] + "_hideMarker"],
             states: {
               hover: {
-                enabled: !config.hideMarker
+                enabled: !config[output[0][i] + "_hideMarker"]
               }
           }
         }
@@ -229,32 +211,51 @@ looker.plugins.visualizations.add({
     series.forEach(function(serie) {
 
        id = serie.name;
+       offset = series.indexOf(serie) * 4;
 
-       option[id + " color"] = {
-        label: 'color',
+       //set an invalid display type so only the label renders
+       option[id + "_label"] = {
+         label: id.toUppercase(),
+         type: "string",
+         display: "label",
+         order: offset + 1
+       };
+
+       option[id + "_color"] = {
+        label: "Line Color",
         default: Highcharts.getOptions().colors[series.indexOf(serie)],
         section: "Series",
         type: "string",
-        display: "color"
+        display: "color",
+        order: offset + 2
        };
 
-       option[id + " marker"] = {
+       option[id + "_marker"] = {
         // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/
         // and https://api.highcharts.com/highcharts/plotOptions.series.marker.symbol
         type: "string",
-        label: "Point type",
+        label: "Line Symbol",
         values: [
           // options are 'circle', 'square','diamond', 'triangle' and 'triangle-down'
           {"Point": "circle"},
-          {"Square": "square"},
           {"Diamond": "diamond"},
+          {"Square": "square"},
           {"Triangle": "triangle"},
           {"Reverse-Triangle": "triangle-down"},
         ],
         display: "select",
         default: Highcharts.getOptions().symbols[series.indexOf(serie)] || "Point",
         section: "Series",
-       }
+        order: offset + 3
+       };
+
+       option[id + "_hideMarker"] = {
+        type:"boolean",
+        label: "Hide Symbols",
+        section: "Series",
+        default: false,
+        order: offset + 4
+      };
 
      });
 

@@ -215,14 +215,21 @@ explore: transactions {
     sql_on: ${transactions.created_pst_date} = ${facebook_daily_export.date};;
     relationship: many_to_many
   }
+  join: android_advertising_id_helper {
+    view_label: "Singular User Level w/Firebase Helper"
+    type: left_outer
+    sql_on: ${user_retention.user_id} = ${android_advertising_id_helper.user_id};;
+    relationship: one_to_one
+  }
   join: singular_daily_agg_export {
     sql_on: ${transactions.created_pst_date} = ${singular_daily_agg_export.date};;
     relationship: many_to_many
   }
   join: singular_daily_user_attribution_export {
+    view_label: "Singular User Level"
     type: left_outer
-    sql_on: ${transactions.advertising_id} = ${singular_daily_user_attribution_export.device_id} ;;
-    relationship: many_to_one
+    sql_on: ${singular_daily_user_attribution_export.device_id} = ${android_advertising_id_helper.advertising_id};;
+    relationship: one_to_one
   }
 }
 

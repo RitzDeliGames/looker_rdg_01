@@ -154,7 +154,8 @@ constant: purchase_exclusion_list {
             ,'766fc669-8ce4-470f-abfe-0ef1f609a0aa'
             ,'7ad84723-eca2-4343-988a-a3e5bbd3e499'
             ,'21b7b19b-1ee9-4091-b144-70a32ca9a0bc'
-            ,'3a8ea274-debc-46c5-81b1-c8315740db25')"
+            ,'3a8ea274-debc-46c5-81b1-c8315740db25'
+            ,'e5bfaf46-af13-45ea-b5a3-d068777a42df')"
 }
 
 constant: cheaters {
@@ -1057,6 +1058,7 @@ constant: campaign_name_clean {
             when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_Scan_N/A' then 'AAA - Scandinavia - 15 Min'
             when ${TABLE}.campaign_name = 'Android_AAA_Events_30_Minutes_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - 30 Min'
             when ${TABLE}.campaign_name = 'Android_AAA_Events_30_Minutes_Women&Men_LATAM/BR_N/A' then 'AAA - LATAM/BR - 30 Min'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchases_Women&Men_Scandinavia_N/A' then 'AAA - Scandinavia - 30 Min'
             when ${TABLE}.campaign_name = 'Art_Test_Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Puzzle Games' then 'MAI - No Event - Puzzle Games'
             when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Puzzle Games' then 'MAI - No Event - Puzzle Games'
             when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Puzzle Games' then 'MAI - 5 Min - Puzzle Games'

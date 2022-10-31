@@ -11,6 +11,13 @@ looker.plugins.visualizations.add({
       section: "Plot",
       order: 1,
     },
+    divider: {
+         label: "this is a label-----------------------------",
+         type: "string",
+         display: "label",
+         section: "Plot",
+         order: 2
+       },
     // Y Axis options
 
     showYName:{
@@ -159,7 +166,7 @@ looker.plugins.visualizations.add({
 
     console.log("series", series);
 
-    console.log("options",this.options);
+
 
     //further chart customization options that depend on queried data should go here
      let option = {
@@ -168,14 +175,14 @@ looker.plugins.visualizations.add({
           label: "Axis Name",
           type: "string",
           default: "",
-          placeholder:y_dim.label_short || y_dim.label,
+          placeholder: y_dim.label_short || y_dim.label,
           section: "Y"
         },
         xAxisName: {
           label: "Axis Name",
           type: "string",
           default: "",
-          placeholder:x_dim_2.label_short || x_dim_2.label,
+          placeholder: x_dim_2.label_short || x_dim_2.label,
           section: "X"
         },
      };
@@ -192,6 +199,7 @@ looker.plugins.visualizations.add({
          label: "this is a label-----------------------------",
          type: "string",
          display: "label",
+         section: "Series",
          order: offset + 1
        };
 
@@ -231,9 +239,11 @@ looker.plugins.visualizations.add({
         order: offset + 4
       };
 
-     });
+      });
 
-     this.trigger('registerOptions', option); // register options with parent page to update visConfig
+      this.trigger('registerOptions', option); // register options with parent page to update visConfig
+
+      console.log("options",this.options);
 
     //options object to be passed to Highcharts
     const options = {

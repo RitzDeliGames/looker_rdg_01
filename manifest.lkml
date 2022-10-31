@@ -657,14 +657,19 @@ constant: request_card_numbered {#REFACTOR WHEN NEW CARDS COME OUT
 }
 
 constant: purchase_source {
-  value: "CASE
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Sheet_ManageLives.QuickPurchase.%' THEN 'Lives Quick Purchase Sheet'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Sheet_CurrencyPack.QuickPurchase.%' THEN 'Coins Quick Purchase Sheet'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Panel_Store.Purchase.%' THEN 'Store'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Panel_QuickPurchase.Purchase.%' THEN 'Quick Purchase'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like '%BuyMoreTime%' THEN 'Mini-Game'
-              ELSE 'OTHER'
-          END"
+  value: "case
+              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Sheet_ManageLives.QuickPurchase.%' then 'Lives Quick Purchase Sheet'
+              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_lives' then 'Quick Purchase - Lives'
+              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Sheet_CurrencyPack.QuickPurchase.%' then 'Coins Quick Purchase Sheet'
+              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_coins' then 'Quick Purchase - Coins'
+              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_gems' then 'Quick Purchase - Coins'
+              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_skill_clear_horizontal' then 'Quick Purchase - Horizontal Skill'
+              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_skill_clear_vertical' then 'Quick Purchase - Vertical Skill'
+              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Panel_Store.Purchase.%' then 'Store'
+              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Panel_QuickPurchase.Purchase.%' then 'Quick Purchase'
+              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like '%BuyMoreTime%' then 'Mini-Game'
+              else json_extract_scalar(${TABLE}.extra_json,'$.source_id')
+          end"
 }
 
 constant: purchase_iap_strings {

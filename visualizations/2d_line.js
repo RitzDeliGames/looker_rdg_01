@@ -285,7 +285,7 @@ looker.plugins.visualizations.add({
         title: {
           text: config.xAxisName || x_dim_2.label_short,
           enabled: config.showXName,
-          categories: output.slice(1).map((element) => element[0])
+          categories: [output.slice(1).map((element) => element[0])]
         },
       },
       //testing markers on line points

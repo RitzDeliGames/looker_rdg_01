@@ -34,7 +34,7 @@ datagroup: change_at_midnight {
 }
 
 explore: user_retention {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} ;;
   label: "Users"
   from: user_fact
   join: user_activity {
@@ -184,7 +184,7 @@ explore: system_value_aggregated {
 }
 
 explore: transactions {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} and ${transaction_date} >= ${created_date};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} and ${transaction_date} >= ${created_date};;
   from: transactions_new
   join: user_retention {
     from: user_fact

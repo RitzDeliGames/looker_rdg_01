@@ -91,9 +91,49 @@ view: round_end {
     hidden: yes
   }
   dimension: engagement_min {
+    group_label: "Minutes Played"
     label: "Minutes Played"
     type: number
     sql: ${TABLE}.engagement_ticks / 2 ;;
+  }
+  dimension: engagement_min_cohort {
+    group_label: "Minutes Played"
+    label: "Minutes Played Cohort"
+    type: string
+    sql: 'MP' || cast((${engagement_min}) as string) ;;
+    order_by_field: engagement_min
+  }
+  dimension: engagement_2_min_interval {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 2 Min Tiers"
+    type: tier
+    tiers: [0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60]
+    style: integer
+    sql: ${engagement_min} ;;
+  }
+  dimension: engagement_min_interval {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 5 Min Tiers"
+    type: tier
+    tiers: [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,115,120]
+    style: integer
+    sql: ${engagement_min} ;;
+  }
+  dimension: engagement_15_min_interval {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 15 Min Tiers"
+    type: tier
+    tiers: [0,15,30,45,60,75,90,105,120,135,150,165,180,195,210,225,240,255,270,285,300,315,330,345,360]
+    style: integer
+    sql: ${engagement_min} ;;
+  }
+  dimension: engagement_30_min_interval {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 30 Min Tiers"
+    type: tier
+    tiers: [0,30,60,90,120,150,180,210,240,270,300,330,360,390,420,450,480,510,540,570,600]
+    style: integer
+    sql: ${engagement_min} ;;
   }
   measure: engagement_min_025 {
     group_label: "Minutes Played"
@@ -157,6 +197,46 @@ view: round_end {
     label: "Current Level"
     type: number
     sql: ${last_level_serial} + 1 ;;
+  }
+  measure: last_level_completed {
+    group_label: "Level Measures"
+    label: "Levels Completed - Max"
+    type: max
+    sql: ${last_level_serial} ;;
+  }
+  measure: last_level_completed_025 {
+    group_label: "Level Measures"
+    label: "Levels Completed - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${last_level_serial} ;;
+  }
+  measure: last_level_completed_25 {
+    group_label: "Level Measures"
+    label: "Levels Completed - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${last_level_serial} ;;
+  }
+  measure: last_level_completed_med {
+    group_label: "Level Measures"
+    label: "Levels Completed - Median"
+    type: median
+    sql: ${last_level_serial} ;;
+  }
+  measure: last_level_completed_75 {
+    group_label: "Level Measures"
+    label: "Levels Completed - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${last_level_serial} ;;
+  }
+  measure: last_level_completed_975 {
+    group_label: "Level Measures"
+    label: "Levels Completed - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${last_level_serial} ;;
   }
   dimension: round_id {
     type: number

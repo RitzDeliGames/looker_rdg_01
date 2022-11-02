@@ -33,36 +33,41 @@ datagroup: change_at_midnight {
   max_cache_age: "23 hours"
 }
 
-explore: user_fact {
+explore: user_retention {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} ;;
   label: "Users"
-  #from: user_fact
+  from: user_fact
   join: user_activity {
     view_label: "User Activity - Days"
     type: left_outer
-    sql_on: ${user_fact.rdg_id} = ${user_activity.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${user_activity.rdg_id} ;;
   relationship: one_to_many
   }
   join: user_activity_engagement_min {
     view_label: "User Activity - Minutes"
     type: left_outer
-    sql_on: ${user_fact.rdg_id} = ${user_activity_engagement_min.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${user_activity_engagement_min.rdg_id} ;;
     relationship: one_to_many
   }
   join: user_last_event {
     type: left_outer
-    sql_on: ${user_fact.rdg_id} = ${user_last_event.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
+  # join: android_device_helper {
+  #   type: left_outer
+  #   sql_on: ${user_last_event.device_model_number} = ${android_device_helper.retail_model} ;;
+  #   relationship: many_to_one
+  # }
   join: facebook_daily_export {
-    sql_on: ${user_fact.created_pst_date} = ${facebook_daily_export.date}
-      and ${user_fact.country} = ${facebook_daily_export.country};;
+    sql_on: ${user_retention.created_pst_date} = ${facebook_daily_export.date}
+      and ${user_retention.country} = ${facebook_daily_export.country};;
     relationship: many_to_many
   }
   join: singular_daily_agg_export {
     view_label: "Singular Aggregated"
-    sql_on: ${user_fact.created_pst_date} = ${singular_daily_agg_export.date}
-      and ${user_fact.country} = ${singular_daily_agg_export.country}
+    sql_on: ${user_retention.created_pst_date} = ${singular_daily_agg_export.date}
+      and ${user_retention.country} = ${singular_daily_agg_export.country}
       and ${singular_daily_agg_export.campaign_id} = ${singular_daily_user_attribution_export.campaign_id}
       and ${singular_daily_agg_export.date} = ${singular_daily_user_attribution_export.event_timestamp_date};;
     relationship: many_to_many
@@ -70,7 +75,7 @@ explore: user_fact {
   join: android_advertising_id_helper {
     view_label: "Singular User Level w/Firebase Helper"
     type: left_outer
-    sql_on: ${user_fact.user_id} = ${android_advertising_id_helper.user_id};;
+    sql_on: ${user_retention.user_id} = ${android_advertising_id_helper.user_id};;
     relationship: one_to_one
   }
   join: singular_daily_user_attribution_export {
@@ -85,7 +90,7 @@ explore: user_fact {
     relationship: one_to_many
     # relationship: many_to_many
     # sql_on: ${user_retention.rdg_id} = ${transactions_new.rdg_id} ;;
-    sql_on: ${user_fact.rdg_id} = ${transactions_new.rdg_id}
+    sql_on: ${user_retention.rdg_id} = ${transactions_new.rdg_id}
       and ${user_activity.activity_date} = ${transactions_new.transaction_date} --#TEMP: added to (try) build LTV curves
       and ${user_activity_engagement_min.engagement_ticks} = ${transactions_new.engagement_ticks};;
   }
@@ -93,48 +98,48 @@ explore: user_fact {
     view_label: "Community Events"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${user_fact.rdg_id} = ${community_events_activity.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${community_events_activity.rdg_id} ;;
   }
   join: team_ups_activity {
     view_label: "Team Ups"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${user_fact.rdg_id} = ${team_ups_activity.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${team_ups_activity.rdg_id} ;;
   }
   join: loading_times {
     view_label: "Scene Loading Times"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${user_fact.rdg_id} = ${loading_times.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${loading_times.rdg_id} ;;
   }
   join: performance_score {
     view_label: "Performance Score"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${user_fact.rdg_id} = ${performance_score.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${performance_score.rdg_id} ;;
   }
   join: click_stream {
     view_label: "Click Stream"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${user_fact.rdg_id} = ${click_stream.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${click_stream.rdg_id} ;;
   }
   join: fue_funnels {
     view_label: "FUE Funnel"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${user_fact.rdg_id} = ${fue_funnels.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${fue_funnels.rdg_id} ;;
   }
   join: firebase_analytics {
     view_label: "Users - Firebase Analytics"
     type: full_outer
     relationship: many_to_many
-    sql_on: ${user_fact.user_id} = ${firebase_analytics.user_id};;
+    sql_on: ${user_retention.user_id} = ${firebase_analytics.user_id};;
   }
   join: user_activity_firebase {
     view_label: "User Activity - Firebase Analytics"
     type: left_outer
-    sql_on: ${user_fact.user_id} = ${user_activity_firebase.user_id} ;;
+    sql_on: ${user_retention.user_id} = ${user_activity_firebase.user_id} ;;
     relationship: one_to_many
   }
 }
@@ -181,9 +186,10 @@ explore: system_value_aggregated {
 explore: transactions {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} and ${transaction_date} >= ${created_date};;
   from: transactions_new
-  join: user_fact {
+  join: user_retention {
+    from: user_fact
     type: left_outer
-    sql_on: ${transactions.rdg_id} = ${user_fact.rdg_id} ;;
+    sql_on: ${transactions.rdg_id} = ${user_retention.rdg_id} ;;
     relationship: many_to_one
     # relationship: many_to_many
   }
@@ -212,7 +218,7 @@ explore: transactions {
   join: android_advertising_id_helper {
     view_label: "Singular User Level w/Firebase Helper"
     type: left_outer
-    sql_on: ${user_fact.user_id} = ${android_advertising_id_helper.user_id};;
+    sql_on: ${user_retention.user_id} = ${android_advertising_id_helper.user_id};;
     relationship: one_to_one
   }
   join: singular_daily_agg_export {
@@ -556,16 +562,10 @@ explore: gameplay {
 explore: round_start {
   hidden: yes
   join: round_end {
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${round_start.rdg_id} = ${round_end.rdg_id}
-      and ${round_start.round_id} = ${round_end.round_id};;
-  }
-  join: user_fact {
-    view_label: "Users"
-    type: left_outer
-    sql_on: ${user_fact.rdg_id} = ${round_start.rdg_id} ;;
-    relationship: many_to_one
+  type: left_outer
+  relationship: one_to_one
+  sql_on: ${round_start.rdg_id} = ${round_end.rdg_id}
+    and ${round_start.round_id} = ${round_end.round_id};;
   }
 }
 

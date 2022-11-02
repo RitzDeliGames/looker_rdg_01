@@ -42,7 +42,7 @@ view: user_activity {
   }
   dimension: days_since_created {
     type: number
-    sql: date_diff(${activity_date},${user_fact.created_date},day) ;;
+    sql: date_diff(${activity_date},${user_retention.created_date},day) ;;
   }
   dimension: retention_days_cohort {
     type: string

@@ -2,7 +2,7 @@
 
 view: cohort_selection {
   derived_table: {
-    explore_source: user_fact {
+    explore_source: user_retention {
       column: rdg_id {}
       column: install_version {}
       column: country {}

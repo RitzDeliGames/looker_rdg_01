@@ -489,21 +489,21 @@ explore: gameplay {
     relationship: many_to_one ## let's test this
   }
   join: sessions_per_day_per_player {
-    view_label: "Gameplay"
+    view_label: "Gameplay - Sessions"
     type: left_outer
     sql_on: ${gameplay.rdg_id} =  ${sessions_per_day_per_player.rdg_id}
       and ${gameplay.event_date} = ${sessions_per_day_per_player.event_date};;
     relationship: many_to_one ## let's test this
   }
   join: rounds_per_day_per_player {
-    view_label: "Gameplay"
+    view_label: "Gameplay - Rounds"
     type: left_outer
     sql_on: ${gameplay.rdg_id} =  ${rounds_per_day_per_player.rdg_id}
       and ${gameplay.event_date} = ${rounds_per_day_per_player.event_date};;
     relationship: many_to_one ## let's test this
   }
   join: rounds_per_session_per_player {
-    view_label: "Gameplay"
+    view_label: "Gameplay - Sessions"
     type: left_outer
     sql_on: ${gameplay.rdg_id} =  ${rounds_per_session_per_player.rdg_id}
       and ${gameplay.event_date} = ${rounds_per_session_per_player.event_date}

@@ -33,7 +33,7 @@ view: transactions_new {
       where event_name = 'transaction'
         and user_type = 'external'
         and country != 'ZZ'
-        and  date(timestamp) between '2022-06-01' and current_date()
+        and date(timestamp) between '2022-06-01' and current_date()
         --and coalesce(install_version,'null') <> '-1'
       order by timestamp
     ;;
@@ -185,7 +185,7 @@ view: transactions_new {
   dimension:  currency_spent_amount {
     type: number
   }
-  measure: dollars_spent_amount_sum {
+  measure: dollars_spent_amount_sum { #can this one be deleted?
     label: "Net Revenue"
     type: sum
     value_format: "$#.00"
@@ -256,10 +256,10 @@ view: transactions_new {
   }
   measure: currency_spent_amount_sum {
     group_label: "Total Spend"
-    label: "Total Dollars Spent"
+    label: "Total Net Dollars Spent"
     type: sum
-    value_format: "#,###"
-    sql: if(${currency_spent} = 'CURRENCY_01',${currency_spent_amount}, 0) ;;
+    value_format: "$#,###"
+    sql: if(${currency_spent} = 'CURRENCY_01',(${currency_spent_amount}/100 * .85), 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
   measure: spender_count {

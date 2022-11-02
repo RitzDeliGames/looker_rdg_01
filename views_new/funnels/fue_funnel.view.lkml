@@ -10,7 +10,7 @@ view: fue_funnels {
       from `eraser-blast.game_data.events`
       where
         event_name = 'FUE'
-        and timestamp >= '2019-01-01'
+        and timestamp >= '2022-06-01'
         and user_type = 'external'
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1';;

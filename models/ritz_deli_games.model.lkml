@@ -34,7 +34,7 @@ datagroup: change_at_midnight {
 }
 
 explore: user_retention {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} ;;
   label: "Users"
   from: user_fact
   join: user_activity {
@@ -184,7 +184,7 @@ explore: system_value_aggregated {
 }
 
 explore: transactions {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} and ${transaction_date} >= ${created_date};;
+  sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} and ${transaction_date} >= ${created_date};;
   from: transactions_new
   join: user_retention {
     from: user_fact
@@ -215,14 +215,21 @@ explore: transactions {
     sql_on: ${transactions.created_pst_date} = ${facebook_daily_export.date};;
     relationship: many_to_many
   }
+  join: android_advertising_id_helper {
+    view_label: "Singular User Level w/Firebase Helper"
+    type: left_outer
+    sql_on: ${user_retention.user_id} = ${android_advertising_id_helper.user_id};;
+    relationship: one_to_one
+  }
   join: singular_daily_agg_export {
     sql_on: ${transactions.created_pst_date} = ${singular_daily_agg_export.date};;
     relationship: many_to_many
   }
   join: singular_daily_user_attribution_export {
+    view_label: "Singular User Level"
     type: left_outer
-    sql_on: ${transactions.advertising_id} = ${singular_daily_user_attribution_export.device_id} ;;
-    relationship: many_to_one
+    sql_on: ${singular_daily_user_attribution_export.device_id} = ${android_advertising_id_helper.advertising_id};;
+    relationship: one_to_one
   }
 }
 

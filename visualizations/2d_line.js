@@ -43,13 +43,6 @@ looker.plugins.visualizations.add({
         default: true,
         section: "X"
       },
-      // Value options
-      valueLabels: {
-        label:"Value Labels",
-        type:"boolean",
-        default: false,
-        section: "Values"
-      },
       // Series Options
       /*colors: {
         label: "Colors",
@@ -66,30 +59,25 @@ looker.plugins.visualizations.add({
   },
 
   update: function (data, element, config, queryResponse) {
-    console.log("data", data);
-    console.log("config", config);
-    console.log("queryResponse", queryResponse);
-    element.innerHTML = JSON.stringify(data);
+    //console.log("data", data);
+    //console.log("config", config);
+    //console.log("queryResponse", queryResponse);
+    //element.innerHTML = JSON.stringify(data);
     let dataArray = [];
     let series = [];
     let x_dim_1 = queryResponse.fields.dimensions[0];
     let x_dim_2 = queryResponse.fields.dimensions[1];
     let y_dim = queryResponse.fields.table_calculations[0];
 
-    let minMeasureName = queryResponse.fields.measure_like[0]?.name;
-    let q25MeasureName = queryResponse.fields.measure_like[1]?.name;
-    let medMeasureName = queryResponse.fields.measure_like[2]?.name;
-    let q75MeasureName = queryResponse.fields.measure_like[3]?.name;
-    let maxMeasureName = queryResponse.fields.measure_like[4]?.name;
+    //let minMeasureName = queryResponse.fields.measure_like[0]?.name;
+    //let q25MeasureName = queryResponse.fields.measure_like[1]?.name;
+    //let medMeasureName = queryResponse.fields.measure_like[2]?.name;
+    //let q75MeasureName = queryResponse.fields.measure_like[3]?.name;
+    //let maxMeasureName = queryResponse.fields.measure_like[4]?.name;
 
-
-
-    //create array with required data to pivot
-    //["Experiment Variant", "Last Level Completed", "churn"],
+    //create array with required data to pivot\
     //dataArray.push([x_dim_1.label,x_dim_2.label,y_dim.label]);
     data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, Math.round(row[y_dim.name].value * 100)]));
-
-    console.log("dataArray", dataArray);
 
     function getPivotArray(array, rowIndex, colIndex, dataIndex) {
           //Code from https://techbrij.com
@@ -130,9 +118,6 @@ looker.plugins.visualizations.add({
 
       var output = getPivotArray(dataArray, 1, 0, 2);
 
-      console.log("output",output);
-
-
     for (let i = 1; i<output[0].length; i++) {
       series.push({
         name: output[0][i],
@@ -141,7 +126,7 @@ looker.plugins.visualizations.add({
           valueSuffix: '%'
         },
         dataLabels: {
-          enabled: config.valueLabels,
+          enabled: config[output[0][i] + "_valueLabels"],
           format: '{point.y}%'
         },
         color: config[output[0][i] + "_color"] || Highcharts.getOptions().colors[i-1],
@@ -156,10 +141,6 @@ looker.plugins.visualizations.add({
         }
       });
     }
-
-    console.log("series", series);
-
-
 
     //further chart customization options that depend on queried data should go here
      let option = {
@@ -181,11 +162,11 @@ looker.plugins.visualizations.add({
      };
 
 
-    // Create an option for each measure in your query
+    // Create options for each measure in your query
     series.forEach(function(serie) {
 
        id = serie.name;
-       offset = series.indexOf(serie) * 4;
+       offset = series.indexOf(serie) * 5;
 
        //set an invalid display type so only the label renders
        option[id + "_label"] = {
@@ -230,6 +211,14 @@ looker.plugins.visualizations.add({
         section: "Series",
         default: false,
         order: offset + 4
+      };
+
+      option[id + "_valueLabels"] = {
+        label:"Value Labels",
+        type:"boolean",
+        default: false,
+        section: "Series",
+        order: offset + 5
       };
 
       });

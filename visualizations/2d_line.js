@@ -225,8 +225,6 @@ looker.plugins.visualizations.add({
 
       this.trigger('registerOptions', option); // register options with parent page to update visConfig
 
-      console.log("options",this.options);
-
     //options object to be passed to Highcharts
     const options = {
       title: "",

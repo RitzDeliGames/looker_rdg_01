@@ -87,6 +87,17 @@ view: round_end {
       ,year
     ]
   }
+  dimension: days_since_created {
+    label: "Days Since Created"
+    type: number
+    sql: date_diff(${event_date},${user_fact.created_date},day) ;;
+  }
+  # dimension: retention_days_cohort {
+  #   label: "Days Since Created"
+  #   type: string
+  #   sql: 'D' || cast((${days_since_created} + 1) as string) ;;
+  #   order_by_field: days_since_created
+  # }
   dimension: engagement_ticks {
     hidden: yes
   }

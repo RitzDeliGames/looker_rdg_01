@@ -1151,3 +1151,10 @@ visualization: {
   dependencies: ["https://code.highcharts.com/highcharts.js"]
   file: "visualizations/2d_line.js"
 }
+
+visualization: {
+  id: "2d_bar"
+  label: "2D Bar"
+  dependencies: ["https://code.highcharts.com/highcharts.js"]
+  file: "visualizations/2d_bar.js"
+}

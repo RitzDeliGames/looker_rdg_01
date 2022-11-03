@@ -559,16 +559,6 @@ explore: gameplay {
   join: gameplay_explore_mixed_fields {}
 }
 
-explore: round_start {
-  hidden: yes
-  join: round_end {
-  type: left_outer
-  relationship: one_to_one
-  sql_on: ${round_start.rdg_id} = ${round_end.rdg_id}
-    and ${round_start.round_id} = ${round_end.round_id};;
-  }
-}
-
 explore: fps {
   #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   label: "Frame Rate"

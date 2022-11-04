@@ -102,8 +102,8 @@ looker.plugins.visualizations.add({
         });*/
       }
       for(let i = 0; i < data.length; i++){
-        if (categories.indexOf(row[x_dim_2.name].value) == -1)
-        categories.push(row[x_dim_2.name].value);
+        if (categories.indexOf(data[i][x_dim_2.name].value) == -1)
+        categories.push(data[i][x_dim_2.name].value);
       }
 
 

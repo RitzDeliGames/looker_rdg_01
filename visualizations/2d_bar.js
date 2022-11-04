@@ -13,7 +13,7 @@ looker.plugins.visualizations.add({
       console.log("config", config);
       console.log("queryResponse", queryResponse);
       element.innerHTML = JSON.stringify(data);
-      let dataArray = [];
+      let categories = [];
       let series = [];
       let x_dim_1 = queryResponse.pivots;
       let x_dim_2 = queryResponse.fields.dimensions[1];
@@ -101,11 +101,17 @@ looker.plugins.visualizations.add({
           }
         });*/
       }
+      for(let i = 0; i < data.length; i++){
+        if (categories.indexOf(row[x_dim_2.name].value) == -1)
+        categories.push(row[x_dim_2.name].value);
+      }
+
 
       console.log("series", series);
+      console.log("categories", categories);
 
       //further chart customization options that depend on queried data should go here
-       let option = {
+       /*let option = {
          ...this.options,
           yAxisName: {
             label: "Axis Name",
@@ -125,7 +131,7 @@ looker.plugins.visualizations.add({
 
 
       // Create options for each measure in your query
-      /*series.forEach(function(serie) {
+      series.forEach(function(serie) {
 
          id = serie.name;
          offset = series.indexOf(serie) * 5;
@@ -212,14 +218,14 @@ looker.plugins.visualizations.add({
           },
           min: config.yAxisMinValue,
           max: config.yAxisMaxValue
-        },
+        },*/
         xAxis: {
-          title: {
+          /*title: {
             text: config.xAxisName || x_dim_2.label_short,
             enabled: config.showXName,
-          },
-          categories: output.slice(1).map((element) => element[0]),
-        },*/
+          },*/
+          categories: categories,
+        },
         series,
       };
 

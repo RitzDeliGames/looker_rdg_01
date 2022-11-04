@@ -77,7 +77,7 @@ looker.plugins.visualizations.add({
       for (let i = 1; i<x_dim_1.length; i++) {
         series.push({
           name: x_dim_1[i].key,
-          data: data.map((row) => row[y_dim.name][x_dim_1.key].value)
+          data: data.map((row) => row[y_dim.name][x_dim_1[i].key].value)
         });
         /*series.push({
           name: output[0][i],

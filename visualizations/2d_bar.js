@@ -15,9 +15,12 @@ looker.plugins.visualizations.add({
       element.innerHTML = JSON.stringify(data);
       let dataArray = [];
       let series = [];
-      let x_dim_1 = queryResponse.fields.dimensions[0];
+      let x_dim_1 = queryResponse.pivots;
       let x_dim_2 = queryResponse.fields.dimensions[1];
-      let y_dim = queryResponse.fields.table_calculations[0];
+      let y_dim = queryResponse.fields.measures[0];
+      console.log("x_dim_1", x_dim_1);
+      console.log("x_dim_2", x_dim_2);
+      console.log("y_dim", y_dim);
 
       //let minMeasureName = queryResponse.fields.measure_like[0]?.name;
       //let q25MeasureName = queryResponse.fields.measure_like[1]?.name;
@@ -27,7 +30,7 @@ looker.plugins.visualizations.add({
 
       //create array with required data to pivot\
       //dataArray.push([x_dim_1.label,x_dim_2.label,y_dim.label]);
-      data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, Math.round(row[y_dim.name].value * 100)]));
+     /* data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value]));
 
       function getPivotArray(array, rowIndex, colIndex, dataIndex) {
             //Code from https://techbrij.com
@@ -69,10 +72,14 @@ looker.plugins.visualizations.add({
 
         var output = getPivotArray(dataArray, 1, 0, 2);
 
-        console.log("output", output);
+        console.log("output", output);*/
 
-      for (let i = 1; i<output[0].length; i++) {
+      for (let i = 1; i<x_dim_1.length; i++) {
         series.push({
+          name: x_dim_1[i].key,
+          data: data.map((row) => row[y_dim.name][x_dim_1.key].value)
+        });
+        /*series.push({
           name: output[0][i],
           data: output.slice(1).map((element) => element[i]),
           tooltip: {
@@ -92,7 +99,7 @@ looker.plugins.visualizations.add({
                 }
             }
           }
-        });
+        });*/
       }
 
       console.log("series", series);
@@ -193,7 +200,7 @@ looker.plugins.visualizations.add({
         },*/
 
         chart:{
-          type:"bar"
+          type:"column"
         },
         /*yAxis: {
           title: {

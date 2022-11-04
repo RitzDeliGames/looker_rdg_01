@@ -16,7 +16,7 @@ looker.plugins.visualizations.add({
       let categories = [];
       let series = [];
       let x_dim_1 = queryResponse.pivots;
-      let x_dim_2 = queryResponse.fields.dimensions[1];
+      let x_dim_2 = queryResponse.fields.dimensions[1] || queryResponse.fields.dimensions[0];
       let y_dim = queryResponse.fields.measures[0];
       console.log("x_dim_1", x_dim_1);
       console.log("x_dim_2", x_dim_2);

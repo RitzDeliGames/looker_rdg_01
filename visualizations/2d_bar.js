@@ -104,10 +104,10 @@ looker.plugins.visualizations.add({
 
       data.map((row)=>categories.push(row[x_dim_2.name].value));
 
-      for(let i = 0; i < data.length; i++){
+      /*for(let i = 0; i < data.length; i++){
         if (categories.indexOf(data[i][x_dim_2.name].value) == -1)
         categories.push(data[i][x_dim_2.name].value);
-      }
+      }*/
 
 
       console.log("series", series);

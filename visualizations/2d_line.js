@@ -125,7 +125,7 @@ looker.plugins.visualizations.add({
     for (let i = 1; i<output[0].length; i++) {
       series.push({
         name: output[0][i] || "Null",
-        data: dispVal === "%" ? output.slice(1).map((element) => Math.round(element[i] * 100))  : dispVal === "$" ? output.slice(1).map((element) => element[i].toFixed(2)) : output.slice(1).map((element) => element[i]),
+        data: dispVal === "%" ? output.slice(1).map((element) => Math.round(element[i] * 100))  : dispVal === "$" ? output.slice(1).map((element) => Number(element[i].toFixed(2))) : output.slice(1).map((element) => element[i]),
         tooltip: {
           valueSuffix: dispVal === "%" ? "%" : "",
           valuePrefix: dispVal === "$" ? "$" : ""

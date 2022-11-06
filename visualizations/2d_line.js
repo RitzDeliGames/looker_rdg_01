@@ -115,7 +115,7 @@ looker.plugins.visualizations.add({
 
     for (let i = 1; i<output[0].length; i++) {
       series.push({
-        name: output[0][i],
+        name: output[0][i] || "Null",
         data: output.slice(1).map((element) => element[i]),
         tooltip: {
           valueSuffix: '%'

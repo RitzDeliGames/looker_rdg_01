@@ -59,6 +59,7 @@ looker.plugins.visualizations.add({
     let x_dim_1 = queryResponse.fields.dimensions[0];
     let x_dim_2 = queryResponse.fields.dimensions[1];
     let y_dim = queryResponse.fields.table_calculations[0];
+    let dispVal = "";
 
     //let minMeasureName = queryResponse.fields.measure_like[0]?.name;
     //let q25MeasureName = queryResponse.fields.measure_like[1]?.name;
@@ -68,7 +69,14 @@ looker.plugins.visualizations.add({
 
     //create array with required data to pivot\
     //dataArray.push([x_dim_1.label,x_dim_2.label,y_dim.label]);
-    data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, Math.round(row[y_dim.name].value * 100)]));
+
+    data.forEach((row) => {
+      if(row[y_dim.name].rendered !== "null" && row[y_dim.name].rendered.includes("%"))
+        dispVal = "%";
+      if(row[y_dim.name].rendered !== "null" && row[y_dim.name].rendered.includes("$"))
+        dispVal = "$";
+    });
+    data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value]));
 
     console.log("dataArray", dataArray);
 
@@ -116,13 +124,14 @@ looker.plugins.visualizations.add({
     for (let i = 1; i<output[0].length; i++) {
       series.push({
         name: output[0][i] || "Null",
-        data: output.slice(1).map((element) => element[i]),
+        data: dispVal === "%" ? Math.round(output.slice(1).map((element) => element[i]) * 100) : dispVal === "$" ? output.slice(1).map((element) => element[i]).toFixed(2) : output.slice(1).map((element) => element[i]),
         tooltip: {
-          valueSuffix: '%'
+          valueSuffix: dispVal === "%" ? "%" : "",
+          valuePrefix: dispVal === "$" ? "$" : ""
         },
         dataLabels: {
           enabled: config[output[0][i] + "_valueLabels"],
-          format: '{point.y}%'
+          format: dispVal === "%" ? "{point.y}%" : dispVal === "$" ? "${point.y}": "{point.y}"
         },
         color: config[output[0][i] + "_color"] || Highcharts.getOptions().colors[i-1],
           marker: {
@@ -203,7 +212,7 @@ looker.plugins.visualizations.add({
        };
 
        option[id + "_hideMarker"] = {
-        type:"boolean",
+        type: "boolean",
         label: "Hide Symbols",
         section: "Series",
         default: false,
@@ -211,8 +220,8 @@ looker.plugins.visualizations.add({
       };
 
       option[id + "_valueLabels"] = {
-        label:"Value Labels",
-        type:"boolean",
+        label: "Value Labels",
+        type: "boolean",
         default: false,
         section: "Series",
         order: offset + 5
@@ -238,7 +247,7 @@ looker.plugins.visualizations.add({
           enabled: config.showYName,
         },
         labels: {
-         format: '{value}%'
+         format: dispVal === "%" ? "{value}%" : dispVal === "$" ? "${value}": "{value}"
         },
         min: config.yAxisMinValue,
         max: config.yAxisMaxValue
@@ -252,6 +261,7 @@ looker.plugins.visualizations.add({
       },
       series,
     };
+    console.log("chart options", options);
 
     Highcharts.chart(element, options);
 

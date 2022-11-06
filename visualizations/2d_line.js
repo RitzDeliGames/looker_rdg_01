@@ -43,15 +43,6 @@ looker.plugins.visualizations.add({
         default: true,
         section: "X"
       },
-      // Series Options
-      /*colors: {
-        label: "Colors",
-        type: "array",
-        default: Highcharts.getOptions().colors,
-        display: "colors",
-        section: "Series",
-        order: 1,
-      },*/
   },
 
   create: function (element, config) {
@@ -59,9 +50,9 @@ looker.plugins.visualizations.add({
   },
 
   update: function (data, element, config, queryResponse) {
-    //console.log("data", data);
-    //console.log("config", config);
-    //console.log("queryResponse", queryResponse);
+    console.log("data", data);
+    console.log("config", config);
+    console.log("queryResponse", queryResponse);
     //element.innerHTML = JSON.stringify(data);
     let dataArray = [];
     let series = [];
@@ -109,7 +100,7 @@ looker.plugins.visualizations.add({
               item = [];
               item.push(key);
               for (var i = 0; i < newCols.length; i++) {
-                  item.push(result[key][newCols[i]] === 0 ? 0 : result[key][newCols[i]] || "-" );
+                  item.push(result[key][newCols[i]] || 0 );
               }
               ret.push(item);
           }
@@ -117,6 +108,8 @@ looker.plugins.visualizations.add({
       }
 
       var output = getPivotArray(dataArray, 1, 0, 2);
+
+      console.log("output", output)
 
     for (let i = 1; i<output[0].length; i++) {
       series.push({
@@ -141,6 +134,8 @@ looker.plugins.visualizations.add({
         }
       });
     }
+
+    console.log("series", series)
 
     //further chart customization options that depend on queried data should go here
      let option = {

@@ -70,6 +70,8 @@ looker.plugins.visualizations.add({
     //dataArray.push([x_dim_1.label,x_dim_2.label,y_dim.label]);
     data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, Math.round(row[y_dim.name].value * 100)]));
 
+    console.log("dataArray", dataArray);
+
     function getPivotArray(array, rowIndex, colIndex, dataIndex) {
           //Code from https://techbrij.com
           var result = {}, ret = [];
@@ -109,7 +111,7 @@ looker.plugins.visualizations.add({
 
       var output = getPivotArray(dataArray, 1, 0, 2);
 
-      console.log("output", output)
+      console.log("output", output);
 
     for (let i = 1; i<output[0].length; i++) {
       series.push({
@@ -135,7 +137,7 @@ looker.plugins.visualizations.add({
       });
     }
 
-    console.log("series", series)
+    console.log("series", series);
 
     //further chart customization options that depend on queried data should go here
      let option = {

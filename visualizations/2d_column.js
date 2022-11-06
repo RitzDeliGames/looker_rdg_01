@@ -1,7 +1,7 @@
 // see https://github.com/looker/custom_visualizations_v2/blob/master/docs/api_reference.md#presenting-configuration-ui
 looker.plugins.visualizations.add({
-    id: "2dbar",
-    label: "2D Bar",
+    id: "2dcolumn",
+    label: "2D Column",
     options: {},
 
     create: function (element, config) {

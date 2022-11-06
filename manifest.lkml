@@ -1153,8 +1153,8 @@ visualization: {
 }
 
 visualization: {
-  id: "2d_bar"
-  label: "2D Bar"
+  id: "2d_column"
+  label: "2D Column"
   dependencies: ["https://code.highcharts.com/highcharts.js"]
-  file: "visualizations/2d_bar.js"
+  file: "visualizations/2d_column.js"
 }

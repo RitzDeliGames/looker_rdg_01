@@ -71,9 +71,10 @@ looker.plugins.visualizations.add({
     //dataArray.push([x_dim_1.label,x_dim_2.label,y_dim.label]);
 
     data.forEach((row) => {
-      if(row[y_dim.name].rendered !== "null" && row[y_dim.name].rendered.includes("%"))
+      let val = row[y_dim.name].rendered ? row[y_dim.name].rendered : row[y_dim.name]["5.0" || "$$$_row_total_$$$"].rendered;
+      if(val !== "null" && val.includes("%"))
         dispVal = "%";
-      if(row[y_dim.name].rendered !== "null" && row[y_dim.name].rendered.includes("$"))
+      if(val !== "null" && val.includes("$"))
         dispVal = "$";
     });
     data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value ? row[y_dim.name].value : row[y_dim.name]["5.0" || "$$$_row_total_$$$"].value]));

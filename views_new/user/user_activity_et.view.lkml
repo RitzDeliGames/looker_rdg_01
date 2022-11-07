@@ -48,6 +48,13 @@ view: user_activity_engagement_min {
     sql: 'MP' || cast((${engagement_min}) as string) ;;
     order_by_field: engagement_min
   }
+  dimension: engagement_1_min_interval {
+    label: "Minutes Played - 1 Min Tiers"
+    type: tier
+    tiers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+    style: integer
+    sql: ${engagement_min} ;;
+  }
   dimension: engagement_2_min_interval {
     label: "Minutes Played - 2 Min Tiers"
     type: tier

@@ -118,6 +118,12 @@ explore: user_retention {
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${performance_score.rdg_id} ;;
   }
+  join: system_info {
+    view_label: "System Info"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${user_retention.rdg_id} = ${system_info.rdg_id} ;;
+  }
   join: click_stream {
     view_label: "Click Stream"
     type: left_outer

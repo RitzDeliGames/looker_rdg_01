@@ -77,6 +77,7 @@ view: churn_by_level_derived {
       ,"$.mMStreaks_09302022"
       ,"$.mMStreaksv2_20221031"
       ,"$.newLevelPass_20220926"
+      ,"$.seedTest_20221028"
       ,"$.storeUnlock_20221102"
       ,"$.vfxReduce_20221017"
       ,"$.vfxReduce_2_20221024"

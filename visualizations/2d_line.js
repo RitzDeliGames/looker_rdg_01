@@ -60,6 +60,7 @@ looker.plugins.visualizations.add({
     let x_dim_2 = queryResponse.fields.dimensions[1];
     let y_dim = queryResponse.fields.table_calculations[0];
     let dispVal = "";
+      console.log("y_dim", y_dim);
 
     //let minMeasureName = queryResponse.fields.measure_like[0]?.name;
     //let q25MeasureName = queryResponse.fields.measure_like[1]?.name;
@@ -71,7 +72,7 @@ looker.plugins.visualizations.add({
     //dataArray.push([x_dim_1.label,x_dim_2.label,y_dim.label]);
 
     data.forEach((row) => {
-      let val = row[y_dim.name].rendered ? row[y_dim.name].rendered : row[y_dim.name]["5.0" || "15.0" || "30.0" || "$$$_row_total_$$$"].rendered;
+      let val = row[y_dim.name].rendered ? row[y_dim.name].rendered : row[y_dim.name]["/^\d*\.?\d*$/"].rendered;
       if(val !== "null" && val.includes("%"))
         dispVal = "%";
       if(val !== "null" && val.includes("$"))

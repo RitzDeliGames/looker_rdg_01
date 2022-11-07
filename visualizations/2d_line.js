@@ -59,6 +59,7 @@ looker.plugins.visualizations.add({
     let x_dim_1 = queryResponse.fields.dimensions[0];
     let x_dim_2 = queryResponse.fields.dimensions[1];
     let y_dim = queryResponse.fields.table_calculations[0];
+    let pivot = queryResponse.pivots[0];
     let dispVal = "";
       console.log("y_dim", y_dim);
 
@@ -72,13 +73,13 @@ looker.plugins.visualizations.add({
     //dataArray.push([x_dim_1.label,x_dim_2.label,y_dim.label]);
 
     data.forEach((row) => {
-      let val = row[y_dim.name].rendered ? row[y_dim.name].rendered : row[y_dim.name]["5.0"].rendered || row[y_dim.name]["15.0"].rendered || row[y_dim.name]["30.0"].rendered;
+      let val = row[y_dim.name].rendered ? row[y_dim.name].rendered : row[y_dim.name][pivot.key].rendered ;
       if(val !== "null" && val.includes("%"))
         dispVal = "%";
       if(val !== "null" && val.includes("$"))
         dispVal = "$";
     });
-    data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value || row[y_dim.name].value ===  null || row[y_dim.name].value ===  0  ? row[y_dim.name].value : row[y_dim.name]["5.0" || "$$$_row_total_$$$"].value]));
+    data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value || row[y_dim.name].value ===  null || row[y_dim.name].value ===  0  ? row[y_dim.name].value : row[y_dim.name][pivot.key].value]));
 
     console.log("dataArray", dataArray);
 

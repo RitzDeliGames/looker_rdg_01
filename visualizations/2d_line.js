@@ -72,7 +72,7 @@ looker.plugins.visualizations.add({
     //dataArray.push([x_dim_1.label,x_dim_2.label,y_dim.label]);
 
     data.forEach((row) => {
-      let val = row[y_dim.name].rendered ? row[y_dim.name].rendered : row[y_dim.name]["15.0" || "5.0"].rendered;
+      let val = row[y_dim.name].rendered ? row[y_dim.name].rendered : row[y_dim.name]["5.0"].rendered || row[y_dim.name]["15.0"].rendered || row[y_dim.name]["30.0"].rendered;
       if(val !== "null" && val.includes("%"))
         dispVal = "%";
       if(val !== "null" && val.includes("$"))

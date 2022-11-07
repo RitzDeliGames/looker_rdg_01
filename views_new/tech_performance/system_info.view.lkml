@@ -5,6 +5,7 @@ view: system_info {
           rdg_id
           ,timestamp
           ,cast(json_extract_scalar(extra_json, "$.systemMemorySize") as int64) system_memory_size
+          ,cast(json_extract_scalar(extra_json, "$.graphicsMemorySize") as int64) graphics_memory_size
         from `eraser-blast.game_data.events`
         where timestamp >= '2022-06-01'
           and user_type = 'external'
@@ -32,6 +33,9 @@ view: system_info {
     ]
   }
   dimension: system_memory_size {
+    type: number
+  }
+  dimension: graphics_memory_size {
     type: number
   }
   dimension: system_memory_size_interval_02 {

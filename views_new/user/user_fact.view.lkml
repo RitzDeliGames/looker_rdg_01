@@ -10,7 +10,6 @@ view: user_fact {
         ,user_id
         ,platform
         ,country
-        ,hardware
         ,row_number() over (partition by rdg_id order by timestamp asc) rn
       from `eraser-blast.game_data.events`
       where date(created_at) between '2019-01-01' and current_date()
@@ -25,9 +24,6 @@ view: user_fact {
         ,fa.user_id
         ,fa.platform
         ,fa.country
-        ,fa.hardware
-        --,(select string_agg(json_extract_scalar(device_array, '$.screenWidth'), ' ,') from unnest(json_extract_array(devices)) device_array) screen_width
-        --,(select string_agg(json_extract_scalar(device_array, '$.screenHeight'), ' ,') from unnest(json_extract_array(devices)) device_array) screen_height
         ,max(ltv) ltv
         ,min(created_at) created
         ,min(datetime(created_at,'US/Pacific')) created_pst
@@ -84,7 +80,7 @@ view: user_fact {
       and gde.country != 'ZZ'
       and coalesce(gde.install_version,'null') <> '-1'
       and fa.rn = 1
-      group by 1,2,3,4,5,6,7--,8,9
+      group by 1,2,3,4,5,6--,7,8,9
     ;;
 
     datagroup_trigger: change_8_hrs
@@ -170,37 +166,6 @@ view: user_fact {
     label: "Device Manufacturer"
     type: string
     sql: @{device_manufacturer_mapping} ;;
-  }
-  dimension: hardware {
-    group_label: "Device & OS Dimensions"
-    label: "Device Hardware - Install"
-    type: string
-    sql: ${TABLE}.hardware ;;
-  }
-  dimension: screen_width {
-    group_label: "Device & OS Dimensions"
-    label: "Screen Width"
-    type: string
-    sql: ${TABLE}.screen_width ;;
-  }
-  dimension: screen_height {
-    group_label: "Device & OS Dimensions"
-    label: "Screen Height"
-    type: string
-    sql: ${TABLE}.screen_height ;;
-  }
-  dimension: screen_height_x_width {
-    group_label: "Device & OS Dimensions"
-    label: "Screen Height x Width"
-    type: string
-    sql: concat(concat(${screen_height},'x'),${screen_width}) ;;
-  }
-  dimension: aspect_ratio {
-    group_label: "Device & OS Dimensions"
-    label: "Aspect Ratio"
-    type: number
-    value_format: "#.00"
-    sql: cast(${screen_height} as integer) / cast(${screen_width} as integer);;
   }
   dimension: quests_completed {
     type: number
@@ -373,13 +338,13 @@ view: user_fact {
     label: "Count of Players"
     type: count_distinct
     sql: ${rdg_id} ;;
-    drill_fields: [hardware, rdg_id, created_date, churned]
+    drill_fields: [rdg_id, created_date, churned]
   }
   measure: user_id_count {
     label: "Count of User Ids"
     type: count_distinct
     sql: ${user_id} ;;
-    drill_fields: [hardware, user_id, rdg_id, created_date, churned]
+    drill_fields: [user_id, rdg_id, created_date, churned]
   }
   measure: count_rows {
     type: count

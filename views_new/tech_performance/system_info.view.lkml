@@ -4,8 +4,13 @@ view: system_info {
         select
           rdg_id
           ,timestamp
+          ,hardware
+          ,json_extract_scalar(extra_json, "$.deviceName") device_name
+          ,json_extract_scalar(extra_json, "$.deviceModel") device_model
           ,cast(json_extract_scalar(extra_json, "$.systemMemorySize") as int64) system_memory_size
           ,cast(json_extract_scalar(extra_json, "$.graphicsMemorySize") as int64) graphics_memory_size
+          ,(select string_agg(json_extract_scalar(device_array, '$.screenWidth'), ' ,') from unnest(json_extract_array(devices)) device_array) screen_width
+          ,(select string_agg(json_extract_scalar(device_array, '$.screenHeight'), ' ,') from unnest(json_extract_array(devices)) device_array) screen_height
         from `eraser-blast.game_data.events`
         where timestamp >= '2022-06-01'
           and user_type = 'external'
@@ -111,5 +116,36 @@ view: system_info {
     type: percentile
     percentile: 97.5
     sql: ${system_memory_size} ;;
+  }
+  dimension: hardware {
+    label: "Device Hardware"
+    type: string
+  }
+  dimension: device_name {
+    label: "Device Name"
+    type: string
+  }
+  dimension: device_model {
+    label: "Device Model"
+    type: string
+  }
+  dimension: screen_width {
+    label: "Screen Width"
+    type: string
+  }
+  dimension: screen_height {
+    label: "Screen Height"
+    type: string
+  }
+  dimension: screen_height_x_width {
+    label: "Screen Height x Width"
+    type: string
+    sql: concat(concat(${screen_height},'x'),${screen_width}) ;;
+  }
+  dimension: aspect_ratio {
+    label: "Screen Aspect Ratio"
+    type: number
+    value_format: "#.00"
+    sql: cast(${screen_height} as integer) / cast(${screen_width} as integer);;
   }
 }

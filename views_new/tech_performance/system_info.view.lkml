@@ -5,7 +5,8 @@ view: system_info {
           rdg_id
           ,timestamp
           ,hardware
-          ,json_extract_scalar(extra_json, "$.deviceName") device_name
+          ,json_extract_scalar(extra_json, "$.processorType") processor_type
+          ,json_extract_scalar(extra_json, "$.graphicsDeviceName") graphics_device_name
           ,json_extract_scalar(extra_json, "$.deviceModel") device_model
           ,cast(json_extract_scalar(extra_json, "$.systemMemorySize") as int64) system_memory_size
           ,cast(json_extract_scalar(extra_json, "$.graphicsMemorySize") as int64) graphics_memory_size
@@ -36,6 +37,22 @@ view: system_info {
       ,month
       ,year
     ]
+  }
+  dimension: hardware {
+    label: "Device Hardware"
+    type: string
+  }
+  dimension: device_model {
+    label: "Device Model"
+    type: string
+  }
+  dimension: processor_type {
+    label: "Device CPU"
+    type: string
+  }
+  dimension: graphics_device_name {
+    label: "Device GPU"
+    type: string
   }
   dimension: system_memory_size {
     type: number
@@ -116,18 +133,6 @@ view: system_info {
     type: percentile
     percentile: 97.5
     sql: ${system_memory_size} ;;
-  }
-  dimension: hardware {
-    label: "Device Hardware"
-    type: string
-  }
-  dimension: device_name {
-    label: "Device Name"
-    type: string
-  }
-  dimension: device_model {
-    label: "Device Model"
-    type: string
   }
   dimension: screen_width {
     label: "Screen Width"

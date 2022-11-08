@@ -73,7 +73,7 @@ looker.plugins.visualizations.add({
     //dataArray.push([x_dim_1.label,x_dim_2.label,y_dim.label]);
 
     data.forEach((row) => {
-      let val = row[y_dim.name].rendered ? row[y_dim.name].rendered : row[y_dim.name][pivot.key].rendered ;
+      let val = row[y_dim.name].rendered || row[y_dim.name].rendered === "" ? row[y_dim.name].rendered : row[y_dim.name][pivot.key].rendered ;
       if(val !== "null" && val.includes("%"))
         dispVal = "%";
       if(val !== "null" && val.includes("$"))

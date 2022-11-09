@@ -83,7 +83,7 @@ view: user_fact {
       group by 1,2,3,4,5,6--,7,8,9
     ;;
 
-    datagroup_trigger: change_8_hrs
+    datagroup_trigger: change_6_hrs
     publish_as_db_view: yes
     partition_keys: ["created"]
   }

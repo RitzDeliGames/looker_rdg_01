@@ -28,7 +28,7 @@ view: click_stream {
         and coalesce(install_version,'null') <> '-1'
       group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
       ;;
-    datagroup_trigger: change_8_hrs
+    datagroup_trigger: change_6_hrs
   }
   dimension: primary_key {
     type: string

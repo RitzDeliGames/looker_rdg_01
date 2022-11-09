@@ -19,7 +19,7 @@ view: click_sequencing {
         sql: row_number() over (partition by rdg_id order by event_time) ;;
       }
     }
-    datagroup_trigger: change_8_hrs
+    datagroup_trigger: change_6_hrs
   }
 
   dimension: click_sequence_num {

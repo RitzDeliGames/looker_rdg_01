@@ -22,7 +22,7 @@ view: rewards {
       and coalesce(install_version,'null') <> '-1'
       --and current_card = last_unlocked_card
     ;;
-    datagroup_trigger: change_8_hrs
+    datagroup_trigger: change_6_hrs
     publish_as_db_view: yes
   }
   dimension: primary_key {

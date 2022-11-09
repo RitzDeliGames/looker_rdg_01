@@ -44,7 +44,7 @@ view: churn_by_level_derived {
         --and a.round_length = b.round_length
       order by a.last_level_completed asc
       ;;
-    datagroup_trigger: change_8_hrs
+    datagroup_trigger: change_6_hrs
     publish_as_db_view: yes
   }
   dimension: primary_key {

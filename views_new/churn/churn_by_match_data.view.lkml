@@ -26,10 +26,10 @@ view: churn_by_match_data {
         from `eraser-blast.game_data.events`
         where user_type = 'external'
           and event_name = 'match_made'
-          and timestamp >= timestamp(current_date() - 90) --this needs to be changed
+          and timestamp >= '2022-06-01'
         order by rdg_id, timestamp desc
       ;;
-    datagroup_trigger: change_8_hrs}
+    datagroup_trigger: change_6_hrs}
 
   dimension: rdg_id {
     type: string

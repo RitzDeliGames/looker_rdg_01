@@ -44,7 +44,7 @@ view: churn_by_level_by_attempt {
       on a.rdg_id = b.rdg_id
         and a.round_id = b.round_id
       order by 1, 2 desc    ;;
-    datagroup_trigger: change_8_hrs
+    datagroup_trigger: change_6_hrs
     publish_as_db_view: yes
   }
   dimension: primary_key {

@@ -20,11 +20,11 @@ view: churn_by_match_made {
         ,json_extract_scalar(extra_json,'$.moves') moves_remaining
       from game_data.events
       where event_name = 'match_made'
-      and timestamp >= '2019-01-01'
+      and timestamp >= '2022-06-01'
       and user_type = 'external'
       and country != 'ZZ'
     ;;
-    datagroup_trigger: change_8_hrs
+    datagroup_trigger: change_6_hrs
     publish_as_db_view: yes
   }
 

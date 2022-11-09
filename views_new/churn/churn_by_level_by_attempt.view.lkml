@@ -7,6 +7,8 @@ view: churn_by_level_by_attempt {
         ,a.last_level_id
         --,a.level_id
         ,a.game_mode
+        ,cast(a.currency_03_balance as int64) currency_03_balance
+        ,cast(a.currency_04_balance as int64) currency_04_balance
         ,cast(a.last_level_serial as int64) last_level_serial
         ,cast(a.round_id as int64) round_id
         ,cast(a.greater_round_id as int64) greater_round_id
@@ -18,6 +20,8 @@ view: churn_by_level_by_attempt {
            rdg_id
           ,json_extract_scalar(extra_json,"$.round_id") round_id
           ,timestamp
+          ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
+          ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
           ,last_level_id
           ,last_level_serial
           --,json_extract_scalar(extra_json,"$.level_id") level_id
@@ -62,6 +66,23 @@ view: churn_by_level_by_attempt {
   dimension: timestamp {
     type: date_time
   }
+  dimension: currency_03_balance {
+    group_label: "Currencies"
+    label: "Coin Balance"
+    type: number
+  }
+  dimension: currency_04_balance {
+    group_label: "Currencies"
+    label: "Lives Remaining"
+    type: number
+  }
+  dimension: currency_04_balance_tiers {
+    group_label: "Currencies"
+    label: "Lives Remaining - Tiers"
+    tiers: [0,1,2,3,4,5]
+    style: integer
+    sql: ${currency_04_balance} ;;
+  }
   dimension: last_level_id {
     group_label: "Level Dimensions"
     label: "Last Level Completed - Id"
@@ -98,12 +119,15 @@ view: churn_by_level_by_attempt {
     sql: if(${round_id} < ${greater_round_id},'played_again','stuck') ;;
   }
   dimension: total_chains {
+    label: "Matches Made"
     type: number
   }
   dimension: round_length {
     type: number
+    hidden: yes
   }
   dimension: round_length_num {
+    label: "Round Length"
     type: number
     sql: ${round_length} / 1000;;
   }

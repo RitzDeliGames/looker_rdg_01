@@ -112,7 +112,7 @@ looker.plugins.visualizations.add({
         });*/
       }
 
-      categories.push(output.slice(1).map((element) => element[0]));
+//      categories.push(output.slice(1).map((element) => element[0]));
 
       /*for(let i = 0; i < data.length; i++){
         if (categories.indexOf(data[i][x_dim_2.name].value) == -1)
@@ -121,7 +121,7 @@ looker.plugins.visualizations.add({
 
 
       console.log("series", series);
-      console.log("categories", categories);
+  //    console.log("categories", categories);
 
       //further chart customization options that depend on queried data should go here
        /*let option = {
@@ -237,7 +237,7 @@ looker.plugins.visualizations.add({
             text: config.xAxisName || x_dim_2.label_short,
             enabled: config.showXName,
           },*/
-          categories: categories,
+          categories: output.slice(1).map((element) => element[0]),
         },
         series,
       };

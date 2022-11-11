@@ -174,12 +174,12 @@ looker.plugins.visualizations.add({
     // Create options for each measure in your query
     series.forEach(function(serie) {
 
-       id = serie.name;
+       id = typeof serie.name === "string" ? serie.name : serie.name.toString();
        offset = series.indexOf(serie) * 5;
 
        //set an invalid display type so only the label renders
        option[id + "_label"] = {
-         label: id.toUpperCase() ? id.toUpperCase() : id,
+         label: id.toUpperCase(),
          type: "string",
          display: "label",
          section: "Series",

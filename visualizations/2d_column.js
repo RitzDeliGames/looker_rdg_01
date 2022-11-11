@@ -78,7 +78,7 @@ looker.plugins.visualizations.add({
 
         console.log("output", output);
 
-      for(let j = 0 ; i < pivot.length; j++) {
+      for(let j = 0 ; j < pivot.length; j++) {
         for (let i = 1; i<output[0].length; i++) {
           series.push({
             name: pivot[j].key,

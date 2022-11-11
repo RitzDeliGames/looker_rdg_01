@@ -78,8 +78,8 @@ looker.plugins.visualizations.add({
 
         console.log("output", output);
 
-      for (let i = 1; i<output[0].length; i++) {
-        for(let j = 0 ; i < pivot.length; j++) {
+      for(let j = 0 ; i < pivot.length; j++) {
+        for (let i = 1; i<output[0].length; i++) {
           series.push({
             name: pivot[j].key,
             data: output.slice(1).map((element) => element[i][pivot[j].key] ? element[i][pivot[j].key].value : 0),

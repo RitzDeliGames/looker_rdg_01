@@ -33,7 +33,7 @@ looker.plugins.visualizations.add({
 
       //create array with required data to pivot\
       //dataArray.push([x_dim_1.label,x_dim_2.label,y_dim.label]);
-     /* data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value]));
+      data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value || row[y_dim.name]]));
 
       function getPivotArray(array, rowIndex, colIndex, dataIndex) {
             //Code from https://techbrij.com
@@ -65,7 +65,7 @@ looker.plugins.visualizations.add({
                 item = [];
                 item.push(key);
                 for (var i = 0; i < newCols.length; i++) {
-                    item.push(result[key][newCols[i]] === 0 ? 0 : result[key][newCols[i]] || "-" );
+                    item.push(result[key][newCols[i]] === 0 ? 0 : result[key][newCols[i]]);
                 }
                 ret.push(item);
             }
@@ -75,17 +75,23 @@ looker.plugins.visualizations.add({
 
         var output = getPivotArray(dataArray, 1, 0, 2);
 
-        console.log("output", output);*/
+        console.log("output", output);
 
-      for (let i = 1; i<x_dim_1.length; i++) {
-        series.push({
-          name: x_dim_1[i].key,
-          data: data.map((row) => row[y_dim.name][x_dim_1[i].key].value)
-        });
+      for (let i = 1; i<output[0].length; i++) {
+        for(let j = 0 ; i < pivot.length; j++) {
+          series.push({
+            name: pivot[j].key,
+            data: output.slice(1).map((element) => element[i][pivot[j].key].value),
+            stack: output[0][i]
+          });
+
+        }
+
         /*series.push({
           name: output[0][i],
           data: output.slice(1).map((element) => element[i]),
-          tooltip: {
+          stack: x_dim_1.value*/
+          /*tooltip: {
             valueSuffix: '%'
           },
           dataLabels: {

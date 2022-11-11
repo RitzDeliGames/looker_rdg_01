@@ -13,6 +13,7 @@ looker.plugins.visualizations.add({
       console.log("config", config);
       console.log("queryResponse", queryResponse);
       element.innerHTML = JSON.stringify(data);
+      let dataArray = [];
       let categories = [];
       let series = [];
       let x_dim_1 = queryResponse.fields.dimensions[0];

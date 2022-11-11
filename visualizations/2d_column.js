@@ -15,12 +15,15 @@ looker.plugins.visualizations.add({
       element.innerHTML = JSON.stringify(data);
       let categories = [];
       let series = [];
-      let x_dim_1 = queryResponse.pivots;
-      let x_dim_2 = queryResponse.fields.dimensions[1] || queryResponse.fields.dimensions[0];
+      let x_dim_1 = queryResponse.fields.dimensions[0];
+      let x_dim_2 = queryResponse.fields.dimensions[1];
       let y_dim = queryResponse.fields.measures[0];
+      let pivot = queryResponse.pivots;
       console.log("x_dim_1", x_dim_1);
       console.log("x_dim_2", x_dim_2);
       console.log("y_dim", y_dim);
+      console.log("pivot", pivot);
+
 
       //let minMeasureName = queryResponse.fields.measure_like[0]?.name;
       //let q25MeasureName = queryResponse.fields.measure_like[1]?.name;

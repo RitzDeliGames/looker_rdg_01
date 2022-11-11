@@ -66,7 +66,7 @@ looker.plugins.visualizations.add({
                 item = [];
                 item.push(key);
                 for (var i = 0; i < newCols.length; i++) {
-                    item.push(result[key][newCols[i]] === 0 ? 0 : result[key][newCols[i]]);
+                    item.push(result[key][newCols[i]] || {});
                 }
                 ret.push(item);
             }
@@ -82,7 +82,7 @@ looker.plugins.visualizations.add({
         for(let j = 0 ; i < pivot.length; j++) {
           series.push({
             name: pivot[j].key,
-            data: output.slice(1).map((element) => element[i][pivot[j].key].value),
+            data: output.slice(1).map((element) => element[i][pivot[j].key].value ? element[i][pivot[j].key].value : 0),
             stack: output[0][i]
           });
 

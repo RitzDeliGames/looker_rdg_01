@@ -81,7 +81,7 @@ looker.plugins.visualizations.add({
       for(let j = 0 ; j < pivot.length; j++) {
         for (let i = 1; i<output[0].length; i++) {
           series.push({
-            name: pivot[j].key,
+            name: pivot[j].key + "(" + output[0][i] + ")",
             data: output.slice(1).map((element) => element[i][pivot[j].key] ? element[i][pivot[j].key].value : 0),
             stack: output[0][i]
           });
@@ -112,7 +112,7 @@ looker.plugins.visualizations.add({
         });*/
       }
 
-      data.map((row)=>categories.push(row[x_dim_2.name].value));
+      categories.push(output.slice(1).map((element) => element[0]));
 
       /*for(let i = 0; i < data.length; i++){
         if (categories.indexOf(data[i][x_dim_2.name].value) == -1)

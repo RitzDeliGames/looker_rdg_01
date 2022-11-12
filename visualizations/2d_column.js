@@ -2,7 +2,48 @@
 looker.plugins.visualizations.add({
     id: "2dcolumn",
     label: "2D Column",
-    options: {},
+    options: {
+      // Plot
+      showLegend: {
+        label: "Show Legend",
+        type: "boolean",
+        default: true,
+        section: "Plot",
+        order: 1,
+      },
+      // Y Axis options
+
+      showYName:{
+          label: "Show Axis Name",
+          type: "boolean",
+          default: true,
+          section: "Y"
+        },
+      yAxisMinValue: {
+        label: "Min value (%)",
+          default: 0,
+          section: "Y",
+          type: "number",
+          display_size: "half",
+          order: 1
+        },
+        yAxisMaxValue: {
+          label: "Max value (%)",
+          default: 100,
+          section: "Y",
+          type: "number",
+          display_size: "half",
+          order: 2
+        },
+        // X Axis options
+
+        showXName: {
+          label: "Show Axis Name",
+          type: "boolean",
+          default: true,
+          section: "X"
+        },
+    },
 
     create: function (element, config) {
       element.innerHTML = "";
@@ -83,7 +124,8 @@ looker.plugins.visualizations.add({
           series.push({
             name: pivot[j].key + "(" + output[0][i] + ")",
             data: output.slice(1).map((element) => element[i][pivot[j].key] ? element[i][pivot[j].key].value : 0),
-            stack: output[0][i]
+            stack: output[0][i],
+            color: config[pivot[j].key  + "(" + output[0][i] + ")" + "_color"] || Highcharts.getOptions().colors[j],
           });
 
         }
@@ -112,13 +154,6 @@ looker.plugins.visualizations.add({
         });*/
       }
 
-//      categories.push(output.slice(1).map((element) => element[0]));
-
-      /*for(let i = 0; i < data.length; i++){
-        if (categories.indexOf(data[i][x_dim_2.name].value) == -1)
-        categories.push(data[i][x_dim_2.name].value);
-      }*/
-
 
       console.log("series", series);
 
@@ -143,10 +178,10 @@ looker.plugins.visualizations.add({
 
 
       // Create options for each measure in your query
-      /*series.forEach(function(serie) {
+      series.forEach(function(serie) {
 
-         id = serie.name;
-         offset = series.indexOf(serie) * 5;
+         id = typeof serie.name === "string" ? serie.name : serie.name.toString();
+         offset = series.indexOf(serie) * 2;
 
          //set an invalid display type so only the label renders
          option[id + "_label"] = {
@@ -166,7 +201,7 @@ looker.plugins.visualizations.add({
           order: offset + 2
          };
 
-         option[id + "_marker"] = {
+        /* option[id + "_marker"] = {
           // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/
           // and https://api.highcharts.com/highcharts/plotOptions.series.marker.symbol
           type: "string",
@@ -199,13 +234,13 @@ looker.plugins.visualizations.add({
           default: false,
           section: "Series",
           order: offset + 5
-        };
+        };*/
 
         });
 
         this.trigger('registerOptions', option); // register options with parent page to update visConfig
 
-        console.log("options",this.options);*/
+        console.log("options",this.options);
 
       //options object to be passed to Highcharts
       const options = {
@@ -224,9 +259,6 @@ looker.plugins.visualizations.add({
           title: {
             text: config.yAxisName || y_dim.label,
             enabled: config.showYName,
-          },
-          labels: {
-           format: '{value}%'
           },
           min: config.yAxisMinValue,
           max: config.yAxisMaxValue

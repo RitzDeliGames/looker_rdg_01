@@ -194,7 +194,7 @@ looker.plugins.visualizations.add({
 
          option[id + "_color"] = {
           label: "Line Color",
-          default: Highcharts.getOptions().colors[series.indexOf(serie)],
+          default: serie.color,
           section: "Series",
           type: "string",
           display: "color",
@@ -257,7 +257,7 @@ looker.plugins.visualizations.add({
         },
         yAxis: {
           title: {
-            text: config.yAxisName || y_dim.label,
+            text: config.yAxisName || y_dim.label_short || y_dim.label,
             enabled: config.showYName,
           },
           min: config.yAxisMinValue,
@@ -265,7 +265,7 @@ looker.plugins.visualizations.add({
         },
         xAxis: {
           title: {
-            text: config.xAxisName || x_dim_2.label_short,
+            text: config.xAxisName || x_dim_2.label_short || x_dim_2.label,
             enabled: config.showXName,
           },
           categories: output.slice(1).map((element) => element[0]),

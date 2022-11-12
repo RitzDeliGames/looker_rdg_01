@@ -20,7 +20,7 @@ looker.plugins.visualizations.add({
         section: "Y"
       },
     yAxisMinValue: {
-      label: "Min value (%)",
+      label: "Min value",
         default: 0,
         section: "Y",
         type: "number",
@@ -28,7 +28,7 @@ looker.plugins.visualizations.add({
         order: 1
       },
       yAxisMaxValue: {
-        label: "Max value (%)",
+        label: "Max value",
         default: 100,
         section: "Y",
         type: "number",
@@ -246,7 +246,7 @@ looker.plugins.visualizations.add({
 
       yAxis: {
         title: {
-          text: config.yAxisName || y_dim.label,
+          text: config.yAxisName || y_dim.label_short || y_dim.label,
           enabled: config.showYName,
         },
         labels: {
@@ -257,7 +257,7 @@ looker.plugins.visualizations.add({
       },
       xAxis: {
         title: {
-          text: config.xAxisName || x_dim_2.label_short,
+          text: config.xAxisName || x_dim_2.label_short || x_dim_2.label,
           enabled: config.showXName,
         },
         categories: output.slice(1).map((element) => element[0]),

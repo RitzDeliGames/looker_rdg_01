@@ -20,16 +20,16 @@ looker.plugins.visualizations.add({
           section: "Y"
         },
       yAxisMinValue: {
-        label: "Min value (%)",
-          default: 0,
+        label: "Min value",
+          placeholder: "Min value",
           section: "Y",
           type: "number",
           display_size: "half",
           order: 1
         },
         yAxisMaxValue: {
-          label: "Max value (%)",
-          default: 100,
+          label: "Max value",
+          placeholder: "Max value",
           section: "Y",
           type: "number",
           display_size: "half",
@@ -126,6 +126,10 @@ looker.plugins.visualizations.add({
             data: output.slice(1).map((element) => element[i][pivot[j].key] ? element[i][pivot[j].key].value : 0),
             stack: output[0][i],
             color: config[pivot[j].key  + "(" + output[0][i] + ")" + "_color"] || Highcharts.getOptions().colors[j],
+            dataLabels: {
+              enabled: config[pivot[j].key  + "(" + output[0][i] + ")" + "_valueLabels"],
+              format: '{point.y}'
+            },
           });
 
         }
@@ -137,10 +141,7 @@ looker.plugins.visualizations.add({
           /*tooltip: {
             valueSuffix: '%'
           },
-          dataLabels: {
-            enabled: config[output[0][i] + "_valueLabels"],
-            format: '{point.y}%'
-          },
+
           color: config[output[0][i] + "_color"] || Highcharts.getOptions().colors[i-1],
             marker: {
               symbol: config[output[0][i] + "_marker"] || Highcharts.getOptions().symbols[i-1],
@@ -181,7 +182,7 @@ looker.plugins.visualizations.add({
       series.forEach(function(serie) {
 
          id = typeof serie.name === "string" ? serie.name : serie.name.toString();
-         offset = series.indexOf(serie) * 2;
+         offset = series.indexOf(serie) * 3;
 
          //set an invalid display type so only the label renders
          option[id + "_label"] = {
@@ -200,6 +201,14 @@ looker.plugins.visualizations.add({
           display: "color",
           order: offset + 2
          };
+
+         option[id + "_valueLabels"] = {
+          label:"Value Labels",
+          type:"boolean",
+          default: false,
+          section: "Series",
+          order: offset + 3
+        };
 
         /* option[id + "_marker"] = {
           // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/
@@ -228,13 +237,7 @@ looker.plugins.visualizations.add({
           order: offset + 4
         };
 
-        option[id + "_valueLabels"] = {
-          label:"Value Labels",
-          type:"boolean",
-          default: false,
-          section: "Series",
-          order: offset + 5
-        };*/
+        */
 
         });
 

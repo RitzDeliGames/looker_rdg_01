@@ -121,10 +121,9 @@ looker.plugins.visualizations.add({
 
 
       console.log("series", series);
-  //    console.log("categories", categories);
 
       //further chart customization options that depend on queried data should go here
-       /*let option = {
+       let option = {
          ...this.options,
           yAxisName: {
             label: "Axis Name",
@@ -144,7 +143,7 @@ looker.plugins.visualizations.add({
 
 
       // Create options for each measure in your query
-      series.forEach(function(serie) {
+      /*series.forEach(function(serie) {
 
          id = serie.name;
          offset = series.indexOf(serie) * 5;
@@ -210,18 +209,18 @@ looker.plugins.visualizations.add({
 
       //options object to be passed to Highcharts
       const options = {
-        /*title: "",
+      title: "",
         legend: {
             layout: 'horizontal',
             align: 'center',
             verticalAlign: 'bottom',
             enabled: config.showLegend
-        },*/
+        },
 
         chart:{
           type:"column"
         },
-        /*yAxis: {
+        yAxis: {
           title: {
             text: config.yAxisName || y_dim.label,
             enabled: config.showYName,
@@ -231,12 +230,12 @@ looker.plugins.visualizations.add({
           },
           min: config.yAxisMinValue,
           max: config.yAxisMaxValue
-        },*/
+        },
         xAxis: {
-          /*title: {
+          title: {
             text: config.xAxisName || x_dim_2.label_short,
             enabled: config.showXName,
-          },*/
+          },
           categories: output.slice(1).map((element) => element[0]),
         },
         plotOptions: {

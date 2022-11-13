@@ -787,6 +787,11 @@ constant: iap_id_strings {
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_bomb' then '1x Bomb Boost'
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_bomb_bulk' then '6x Bomb Boost'
             when json_extract_scalar(extra_json,'$.iap_id') = 'extra_moves_5' then '5x Extra Moves'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_051' then 'Giant Power Up Pack!'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_055' then 'Few More Coins'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_056' then 'More Coins'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_058' then 'Few More Lives'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_059' then 'More Lives'
             else json_extract_scalar(extra_json,'$.iap_id')
           end"
 }

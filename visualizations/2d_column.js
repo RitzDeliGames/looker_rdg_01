@@ -12,7 +12,6 @@ looker.plugins.visualizations.add({
         order: 1,
       },
       // Y Axis options
-
       showYName:{
           label: "Show Axis Name",
           type: "boolean",
@@ -36,7 +35,6 @@ looker.plugins.visualizations.add({
           order: 2
         },
         // X Axis options
-
         showXName: {
           label: "Show Axis Name",
           type: "boolean",
@@ -66,15 +64,7 @@ looker.plugins.visualizations.add({
       console.log("y_dim", y_dim);
       console.log("pivot", pivot);
 
-
-      //let minMeasureName = queryResponse.fields.measure_like[0]?.name;
-      //let q25MeasureName = queryResponse.fields.measure_like[1]?.name;
-      //let medMeasureName = queryResponse.fields.measure_like[2]?.name;
-      //let q75MeasureName = queryResponse.fields.measure_like[3]?.name;
-      //let maxMeasureName = queryResponse.fields.measure_like[4]?.name;
-
-      //create array with required data to pivot\
-      //dataArray.push([x_dim_1.label,x_dim_2.label,y_dim.label]);
+      //create array with required data to pivot
       data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value || row[y_dim.name]]));
 
       function getPivotArray(array, rowIndex, colIndex, dataIndex) {
@@ -131,28 +121,7 @@ looker.plugins.visualizations.add({
               format: '{point.y}'
             },
           });
-
         }
-
-        /*series.push({
-          name: output[0][i],
-          data: output.slice(1).map((element) => element[i]),
-          stack: x_dim_1.value*/
-          /*tooltip: {
-            valueSuffix: '%'
-          },
-
-          color: config[output[0][i] + "_color"] || Highcharts.getOptions().colors[i-1],
-            marker: {
-              symbol: config[output[0][i] + "_marker"] || Highcharts.getOptions().symbols[i-1],
-              enabled: !config[output[0][i] + "_hideMarker"],
-              states: {
-                hover: {
-                  enabled: !config[output[0][i] + "_hideMarker"]
-                }
-            }
-          }
-        });*/
       }
 
 
@@ -209,41 +178,10 @@ looker.plugins.visualizations.add({
           section: "Series",
           order: offset + 3
         };
+      });
+      this.trigger('registerOptions', option); // register options with parent page to update visConfig
 
-        /* option[id + "_marker"] = {
-          // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/
-          // and https://api.highcharts.com/highcharts/plotOptions.series.marker.symbol
-          type: "string",
-          label: "Line Symbol",
-          values: [
-            // options are 'circle', 'square','diamond', 'triangle' and 'triangle-down'
-            {"Point": "circle"},
-            {"Diamond": "diamond"},
-            {"Square": "square"},
-            {"Triangle": "triangle"},
-            {"Reverse-Triangle": "triangle-down"},
-          ],
-          display: "select",
-          default: Highcharts.getOptions().symbols[series.indexOf(serie)] || "Point",
-          section: "Series",
-          order: offset + 3
-         };
-
-         option[id + "_hideMarker"] = {
-          type:"boolean",
-          label: "Hide Symbols",
-          section: "Series",
-          default: false,
-          order: offset + 4
-        };
-
-        */
-
-        });
-
-        this.trigger('registerOptions', option); // register options with parent page to update visConfig
-
-        console.log("options",this.options);
+      console.log("options",this.options);
 
       //options object to be passed to Highcharts
       const options = {

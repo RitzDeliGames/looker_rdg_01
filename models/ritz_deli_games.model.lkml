@@ -61,16 +61,6 @@ explore: user_retention {
     sql_on: ${user_retention.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
-  # join: android_device_helper {
-  #   type: left_outer
-  #   sql_on: ${user_last_event.device_model_number} = ${android_device_helper.retail_model} ;;
-  #   relationship: many_to_one
-  # }
-  join: facebook_daily_export {
-    sql_on: ${user_retention.created_pst_date} = ${facebook_daily_export.date}
-      and ${user_retention.country} = ${facebook_daily_export.country};;
-    relationship: many_to_many
-  }
   join: singular_daily_agg_export {
     view_label: "Singular Aggregated"
     sql_on: ${user_retention.created_pst_date} = ${singular_daily_agg_export.date}

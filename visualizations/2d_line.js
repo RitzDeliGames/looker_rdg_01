@@ -59,27 +59,27 @@ looker.plugins.visualizations.add({
     let x_dim_1 = queryResponse.fields.dimensions[0];
     let x_dim_2 = queryResponse.fields.dimensions[1];
     let y_dim = queryResponse.fields.table_calculations[0];
-    let pivot = queryResponse.pivots[0];
+    let pivots = queryResponse.pivots;
     let dispVal = "";
+    let key = "";
       console.log("y_dim", y_dim);
-
-    //let minMeasureName = queryResponse.fields.measure_like[0]?.name;
-    //let q25MeasureName = queryResponse.fields.measure_like[1]?.name;
-    //let medMeasureName = queryResponse.fields.measure_like[2]?.name;
-    //let q75MeasureName = queryResponse.fields.measure_like[3]?.name;
-    //let maxMeasureName = queryResponse.fields.measure_like[4]?.name;
 
     //create array with required data to pivot\
     //dataArray.push([x_dim_1.label,x_dim_2.label,y_dim.label]);
 
     data.forEach((row) => {
-      let val = row[y_dim.name].rendered || row[y_dim.name].rendered === "" ? row[y_dim.name].rendered : row[y_dim.name][pivot.key].rendered ;
+      let val = row[y_dim.name].rendered || row[y_dim.name].rendered === "" ? row[y_dim.name].rendered : pivots.forEach((pivot)=> {
+        if(row[y_dim.name][pivot.key]) {
+          key = pivot.key;
+          return row[y_dim.name][pivot.key].rendered;
+        }
+      }) ;
       if(val !== "null" && val.includes("%"))
         dispVal = "%";
       if(val !== "null" && val.includes("$"))
         dispVal = "$";
     });
-    data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value || row[y_dim.name].value ===  null || row[y_dim.name].value ===  0  ? row[y_dim.name].value : row[y_dim.name][pivot.key].value]));
+    data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value || row[y_dim.name].value ===  null || row[y_dim.name].value ===  0  ? row[y_dim.name].value : row[y_dim.name][key].value]));
 
     console.log("dataArray", dataArray);
 

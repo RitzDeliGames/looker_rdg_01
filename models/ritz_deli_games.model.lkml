@@ -239,6 +239,11 @@ explore: transactions {
     sql_on: ${singular_daily_user_attribution_export.device_id} = ${android_advertising_id_helper.advertising_id};;
     relationship: one_to_one
   }
+  join: display_name_helper {
+    type: left_outer
+    sql_on: ${transactions.rdg_id} = ${display_name_helper.rdg_id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: rewards {

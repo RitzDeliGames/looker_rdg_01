@@ -63,12 +63,6 @@ looker.plugins.visualizations.add({
     let dispVal = "";
       console.log("y_dim", y_dim);
 
-    //let minMeasureName = queryResponse.fields.measure_like[0]?.name;
-    //let q25MeasureName = queryResponse.fields.measure_like[1]?.name;
-    //let medMeasureName = queryResponse.fields.measure_like[2]?.name;
-    //let q75MeasureName = queryResponse.fields.measure_like[3]?.name;
-    //let maxMeasureName = queryResponse.fields.measure_like[4]?.name;
-
     //create array with required data to pivot\
     //dataArray.push([x_dim_1.label,x_dim_2.label,y_dim.label]);
 

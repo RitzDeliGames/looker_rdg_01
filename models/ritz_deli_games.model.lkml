@@ -145,6 +145,11 @@ explore: user_retention {
     sql_on: ${user_retention.user_id} = ${user_activity_firebase.user_id} ;;
     relationship: one_to_many
   }
+  join: display_name_helper {
+    type: left_outer
+    sql_on: ${user_retention.rdg_id} = ${display_name_helper.rdg_id} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: user_card_completion {

@@ -18,7 +18,6 @@ looker.plugins.visualizations.add({
         display: "radio",
         default: "normal",
         values: [
-          {"Grouped": undefined},
           {"Stacked": "normal"},
           {"Stacked Percentage": "percent"}
         ],

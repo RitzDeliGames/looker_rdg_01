@@ -11,6 +11,30 @@ looker.plugins.visualizations.add({
         section: "Plot",
         order: 1,
       },
+      seriesPositioning: {
+        label: "Series Positioning",
+        section: "Plot",
+        type:"string",
+        display: "radio",
+        default: "Stacked",
+        values: [
+          {"Grouped": undefined},
+          {"Stacked": "normal"},
+          {"Stacked Percentage": "percent"}
+        ],
+        order: 2
+      },
+      sortStacks: {
+        label: "Sort Stacks",
+        section:"Plot",
+        type:"string",
+        display: "select",
+        values: [
+          {"Ascending":"ascending"},
+          {"Descending":"descending"},
+        ],
+        order: 3
+      },
       // Y Axis options
       showYName:{
           label: "Show Axis Name",
@@ -112,12 +136,12 @@ looker.plugins.visualizations.add({
       for(let j = 0 ; j < pivot.length; j++) {
         for (let i = 1; i<output[0].length; i++) {
           series.push({
-            name: pivot[j].key + "(" + output[0][i] + ")",
+            name: pivot[j].key + " (" + output[0][i] + ")",
             data: output.slice(1).map((element) => element[i][pivot[j].key] ? element[i][pivot[j].key].value : 0),
             stack: output[0][i],
-            color: config[pivot[j].key  + "(" + output[0][i] + ")" + "_color"] || Highcharts.getOptions().colors[j],
+            color: config[pivot[j].key  + " (" + output[0][i] + ")" + "_color"] || Highcharts.getOptions().colors[j],
             dataLabels: {
-              enabled: config[pivot[j].key  + "(" + output[0][i] + ")" + "_valueLabels"],
+              enabled: config[pivot[j].key  + " (" + output[0][i] + ")" + "_valueLabels"],
               format: '{point.y}'
             },
           });
@@ -213,7 +237,7 @@ looker.plugins.visualizations.add({
         },
         plotOptions: {
             column: {
-                stacking: 'normal'
+                stacking: config.seriesPositioning,
             }
         },
         series,

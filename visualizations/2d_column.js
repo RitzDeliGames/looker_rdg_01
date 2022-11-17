@@ -236,8 +236,8 @@ looker.plugins.visualizations.add({
           categories: output.slice(1).map((element) => element[0]),
         },
         plotOptions: {
-            column: {
-                stacking: config.seriesPositioning,
+            series: {
+                stacking: config.seriesPositioning || "normal",
             }
         },
         series,

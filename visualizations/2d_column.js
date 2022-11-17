@@ -236,7 +236,7 @@ looker.plugins.visualizations.add({
         },
         plotOptions: {
             series: {
-                stacking: config.seriesPositioning || "normal",
+                stacking: "normal",
             }
         },
         series,

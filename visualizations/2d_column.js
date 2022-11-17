@@ -15,7 +15,7 @@ looker.plugins.visualizations.add({
         label: "Series Positioning",
         section: "Plot",
         type:"string",
-        display: "radio",
+        display: "select",
         default: "normal",
         values: [
           {"Stacked": "normal"},

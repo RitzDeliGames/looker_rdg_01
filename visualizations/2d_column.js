@@ -16,7 +16,7 @@ looker.plugins.visualizations.add({
         section: "Plot",
         type:"string",
         display: "radio",
-        default: "Stacked",
+        default: "normal",
         values: [
           {"Grouped": undefined},
           {"Stacked": "normal"},
@@ -24,7 +24,7 @@ looker.plugins.visualizations.add({
         ],
         order: 2
       },
-      sortStacks: {
+      /*sortStacks: {
         label: "Sort Stacks",
         section:"Plot",
         type:"string",
@@ -34,7 +34,7 @@ looker.plugins.visualizations.add({
           {"Descending":"descending"},
         ],
         order: 3
-      },
+      },*/
       // Y Axis options
       showYName:{
           label: "Show Axis Name",

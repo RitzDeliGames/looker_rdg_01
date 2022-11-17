@@ -11,7 +11,7 @@ looker.plugins.visualizations.add({
         section: "Plot",
         order: 1,
       },
-      seriesPositioning: {
+      /*seriesPositioning: {
         label: "Series Positioning",
         section: "Plot",
         type:"string",
@@ -23,7 +23,7 @@ looker.plugins.visualizations.add({
         ],
         order: 2
       },
-      /*sortStacks: {
+      sortStacks: {
         label: "Sort Stacks",
         section:"Plot",
         type:"string",

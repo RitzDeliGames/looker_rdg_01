@@ -207,11 +207,9 @@ looker.plugins.visualizations.add({
       console.log("options",this.options);
 
       Highcharts.setOptions({
-
           lang: {
               thousandsSep: ','
           }
-
       });
 
       //options object to be passed to Highcharts
@@ -244,6 +242,7 @@ looker.plugins.visualizations.add({
         },
 
         tooltip:{
+          valueSuffix: config.seriesPositioning === "percent" ? " ({point.percentage:.1f}%)" : "",
           pointFormat:"{series.name}: {point.y}"
         },
         plotOptions: {

@@ -9,18 +9,19 @@ looker.plugins.visualizations.add({
         type: "boolean",
         default: true,
         section: "Plot",
-        order: 2,
+        order: 1,
       },
       seriesPositioning: {
         label: "Series Positioning",
         section: "Plot",
-        type:"string",
+        type: "string",
         display: "radio",
         values: [
+          {"Grouped": undefined},
           {"Stacked": "normal"},
           {"Stacked Percentage": "percent"},
         ],
-        order: 1.
+        order: 2,
       },
       /*sortStacks: {
         label: "Sort Stacks",
@@ -142,9 +143,6 @@ looker.plugins.visualizations.add({
               enabled: config[pivot[j].key  + " (" + output[0][i] + ")" + "_valueLabels"],
               format: '{point.y}'
             },
-            tooltip:{
-              pointFormat:"{serie.name}: {point.y}"
-            }
           });
         }
       }
@@ -239,9 +237,13 @@ looker.plugins.visualizations.add({
           },
           categories: output.slice(1).map((element) => element[0]),
         },
+
+        tooltip:{
+          pointFormat:"{series.name}: {point.y}"
+        },
         plotOptions: {
             columns: {
-                stacking: config.seriesPositioning || "normal",
+                stacking: config.seriesPositioning,
             }
         },
         series,

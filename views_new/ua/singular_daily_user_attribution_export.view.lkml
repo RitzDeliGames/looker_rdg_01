@@ -14,7 +14,7 @@ view: singular_daily_user_attribution_export {
           ,creative_id
           ,creative_name
         from `eraser-blast.singular.user_level_attributions`
-        where date(event_timestamp) >= '2022-06-01'
+        where date(event_timestamp) >= '2021-06-01'
         ;;
     datagroup_trigger: change_6_hrs
     publish_as_db_view: yes

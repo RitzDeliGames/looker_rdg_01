@@ -200,7 +200,7 @@ view: user_fact {
   }
   dimension: days_since_last_event {
     type:number
-    sql: case when ${last_event_date} <= current_date() then date_diff(current_date(),${last_event_date},day) else null end ;;
+    sql: case when ${last_event_date} <= current_date() then cast(date_diff(current_date(),${last_event_date},day) as int64) else null end ;;
   }
   dimension: churned {
     type: yesno

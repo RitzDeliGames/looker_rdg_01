@@ -9,19 +9,19 @@ looker.plugins.visualizations.add({
         type: "boolean",
         default: true,
         section: "Plot",
-        order: 2,
+        order: 1,
       },
       seriesPositioning: {
         label: "Series Positioning",
         section: "Plot",
-        type:"string",
+        type: "string",
         display: "select",
-        default: "normal",
         values: [
+          {"Grouped": ""},
           {"Stacked": "normal"},
-          {"Stacked Percentage": "percent"}
+          {"Stacked Percentage": "percent"},
         ],
-        order: 1.
+        order: 2,
       },
       /*sortStacks: {
         label: "Sort Stacks",
@@ -206,9 +206,15 @@ looker.plugins.visualizations.add({
 
       console.log("options",this.options);
 
+      Highcharts.setOptions({
+          lang: {
+              thousandsSep: ','
+          }
+      });
+
       //options object to be passed to Highcharts
       const options = {
-      title: "",
+        title: "",
         legend: {
             layout: 'horizontal',
             align: 'center',
@@ -234,9 +240,14 @@ looker.plugins.visualizations.add({
           },
           categories: output.slice(1).map((element) => element[0]),
         },
+
+        tooltip:{
+          valueSuffix: config.seriesPositioning === "percent" ? " ({point.percentage:.1f}%)" : "",
+          pointFormat:"{series.name}: {point.y}"
+        },
         plotOptions: {
-            columns: {
-                stacking: config.seriesPositioning || "normal",
+            series: {
+                stacking: config.seriesPositioning || undefined
             }
         },
         series,

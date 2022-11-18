@@ -15,11 +15,10 @@ looker.plugins.visualizations.add({
         label: "Series Positioning",
         section: "Plot",
         type:"string",
-        display: "select",
-        default: "normal",
+        display: "radio",
         values: [
           {"Stacked": "normal"},
-          {"Stacked Percentage": "percent"}
+          {"Stacked Percentage": "percent"},
         ],
         order: 1.
       },
@@ -143,6 +142,9 @@ looker.plugins.visualizations.add({
               enabled: config[pivot[j].key  + " (" + output[0][i] + ")" + "_valueLabels"],
               format: '{point.y}'
             },
+            tooltip:{
+              pointFormat:"{serie.name}: {point.y}"
+            }
           });
         }
       }
@@ -208,7 +210,10 @@ looker.plugins.visualizations.add({
 
       //options object to be passed to Highcharts
       const options = {
-      title: "",
+        title: "",
+        lang: {
+          thousandsSep: ','
+        },
         legend: {
             layout: 'horizontal',
             align: 'center',

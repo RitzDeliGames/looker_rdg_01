@@ -210,7 +210,7 @@ looker.plugins.visualizations.add({
       const options = {
         title: "",
         lang: {
-          thousandsSep: ','
+          thousandsSep: ""
         },
         legend: {
             layout: 'horizontal',
@@ -243,7 +243,7 @@ looker.plugins.visualizations.add({
         },
         plotOptions: {
             columns: {
-                stacking: config.seriesPositioning,
+                stacking: "normal",
             }
         },
         series,

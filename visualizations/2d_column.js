@@ -247,8 +247,8 @@ looker.plugins.visualizations.add({
           pointFormat:"{series.name}: {point.y}"
         },
         plotOptions: {
-            columns: {
-                stacking: "normal",
+            series: {
+                stacking: "normal"
             }
         },
         series,

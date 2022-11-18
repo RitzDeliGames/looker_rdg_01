@@ -11,19 +11,19 @@ looker.plugins.visualizations.add({
         section: "Plot",
         order: 1,
       },
-      /*seriesPositioning: {
+      seriesPositioning: {
         label: "Series Positioning",
         section: "Plot",
         type: "string",
-        display: "radio",
+        display: "select",
         values: [
-          {"Grouped": undefined},
+          {"Grouped": ""},
           {"Stacked": "normal"},
           {"Stacked Percentage": "percent"},
         ],
         order: 2,
       },
-      sortStacks: {
+      /*sortStacks: {
         label: "Sort Stacks",
         section:"Plot",
         type:"string",
@@ -248,7 +248,7 @@ looker.plugins.visualizations.add({
         },
         plotOptions: {
             series: {
-                stacking: "normal"
+                stacking: config.seriesPositioning || undefined
             }
         },
         series,

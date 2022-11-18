@@ -9,8 +9,31 @@ looker.plugins.visualizations.add({
         type: "boolean",
         default: true,
         section: "Plot",
-        order: 1,
+        order: 2,
       },
+      seriesPositioning: {
+        label: "Series Positioning",
+        section: "Plot",
+        type:"string",
+        display: "select",
+        default: "normal",
+        values: [
+          {"Stacked": "normal"},
+          {"Stacked Percentage": "percent"}
+        ],
+        order: 1.
+      },
+      /*sortStacks: {
+        label: "Sort Stacks",
+        section:"Plot",
+        type:"string",
+        display: "select",
+        values: [
+          {"Ascending":"ascending"},
+          {"Descending":"descending"},
+        ],
+        order: 3
+      },*/
       // Y Axis options
       showYName:{
           label: "Show Axis Name",
@@ -112,12 +135,12 @@ looker.plugins.visualizations.add({
       for(let j = 0 ; j < pivot.length; j++) {
         for (let i = 1; i<output[0].length; i++) {
           series.push({
-            name: pivot[j].key + "(" + output[0][i] + ")",
+            name: pivot[j].key + " (" + output[0][i] + ")",
             data: output.slice(1).map((element) => element[i][pivot[j].key] ? element[i][pivot[j].key].value : 0),
             stack: output[0][i],
-            color: config[pivot[j].key  + "(" + output[0][i] + ")" + "_color"] || Highcharts.getOptions().colors[j],
+            color: config[pivot[j].key  + " (" + output[0][i] + ")" + "_color"] || Highcharts.getOptions().colors[j],
             dataLabels: {
-              enabled: config[pivot[j].key  + "(" + output[0][i] + ")" + "_valueLabels"],
+              enabled: config[pivot[j].key  + " (" + output[0][i] + ")" + "_valueLabels"],
               format: '{point.y}'
             },
           });
@@ -212,8 +235,8 @@ looker.plugins.visualizations.add({
           categories: output.slice(1).map((element) => element[0]),
         },
         plotOptions: {
-            column: {
-                stacking: 'normal'
+            columns: {
+                stacking: config.seriesPositioning || "normal",
             }
         },
         series,

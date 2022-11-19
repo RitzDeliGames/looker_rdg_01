@@ -676,6 +676,7 @@ constant: purchase_source {
               when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Panel_Store.Purchase.%' then 'Store'
               when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Panel_QuickPurchase.Purchase.%' then 'Quick Purchase'
               when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like '%BuyMoreTime%' then 'Mini-Game'
+              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'endless_treasure' then 'Endless Treasure'
               else json_extract_scalar(${TABLE}.extra_json,'$.source_id')
           end"
 }

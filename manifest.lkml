@@ -795,6 +795,10 @@ constant: iap_id_strings {
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_056' then 'More Coins'
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_058' then 'Few More Lives'
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_059' then 'More Lives'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_063' then 'Treasure Trove (XS)'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_066' then 'Treasure Trove (S)'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_069' then 'Treasure Trove (M)'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_072' then 'Treasure Trove (L)'
             else json_extract_scalar(extra_json,'$.iap_id')
           end"
 }

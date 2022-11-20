@@ -61,10 +61,10 @@ looker.plugins.visualizations.add({
       },
 
       create: function(element,config) {
-      element.innerHTML = "";
-    },
+        element.innerHTML = "";
+      },
 
-    update: function(data, element, config, queryResponse){
+      update: function(data, element, config, queryResponse){
           // Invalid data structure error handling
           // if (!handleErrors(this, queryResponse, {
           //     min_pivots: 0, max_pivots: 1,
@@ -75,36 +75,37 @@ looker.plugins.visualizations.add({
           console.log("config", config);
           console.log("queryResponse", queryResponse);
 
-          let measures = queryResponse.fields.measure_like;
-
           // Extract dimension data and measure names
-          let dim = queryResponse.fields.dimension_like[0];
-          let minMeasureName = queryResponse.fields.measure_like[0].name;
-          let q25MeasureName = queryResponse.fields.measure_like[1].name;
-          let medMeasureName = queryResponse.fields.measure_like[2].name;
-          let q75MeasureName = queryResponse.fields.measure_like[3].name;
-          let maxMeasureName = queryResponse.fields.measure_like[4].name;
+          let x_dim = queryResponse.fields.dimensions[0];
+          let min = queryResponse.fields.measures[0];
+          let q25 = queryResponse.fields.measures[1];
+          let med = queryResponse.fields.measures[2];
+          let q75 = queryResponse.fields.measures[3];
+          let max = queryResponse.fields.measures[4];
+
 
           let categories = [];
           // Get array of x axis categories
           data.forEach(function(row){
-              categories.push(row[dim.name].value);
+              categories.push(row[x_dim.name].value);
           });
 
+          console.log("categories", categories);
+
           let series = [];
+          let dataArray = [];
           let pivotCount = 0;
           // If there is a pivot create stacked series
           if(queryResponse.pivots) {
               //Loop through pivots to create stacks
               queryResponse.pivots.forEach(function(pivot) {
-                  dataArray = [];
                   //loop through data to get the measures
                   data.forEach(function(row){
-                      rowDataArray = [row[minMeasureName][pivot.key].value,
-                          row[q25MeasureName][pivot.key].value,
-                          row[medMeasureName][pivot.key].value,
-                          row[q75MeasureName][pivot.key].value,
-                          row[maxMeasureName][pivot.key].value];
+                      rowDataArray = [row[min.name][pivot.key].value,
+                          row[q25.name][pivot.key].value,
+                          row[med.name][pivot.key].value,
+                          row[q75.name][pivot.key].value,
+                          row[max.name][pivot.key].value];
                       dataArray.push(rowDataArray);
                   });
                   //Add the pivot name and associated measures to the series object
@@ -114,22 +115,21 @@ looker.plugins.visualizations.add({
                       fillColor: config.boxFillColors[pivotCount] || '#ffffff',
                       legendColor: config.boxFillColors[pivotCount] || '#000000'
                   });
-                  pivotCount = pivotCount + 1;
+                  pivotCount++;
               });
           } else {
-              dataArray = [];
               //loop through data to get the measures
               data.forEach(function(row){
-                  rowDataArray = [row[minMeasureName].value,
-                      row[q25MeasureName].value,
-                      row[medMeasureName].value,
-                      row[q75MeasureName].value,
-                      row[maxMeasureName].value];
+                  rowDataArray = [row[min.name].value,
+                      row[q25.name].value,
+                      row[med.name].value,
+                      row[q75.name].value,
+                      row[max.name].value];
                   dataArray.push(rowDataArray);
               });
               //Add the pivot name and associated measures to the series object
               series.push({
-                  name: config.yAxisName,
+                  name: min.field_group_label,
                   data: dataArray,
                   fillColor: config.boxFillColors[0] || '#ffffff',
                   legendColor: config.boxFillColors[0] || '#ffffff'
@@ -149,7 +149,7 @@ looker.plugins.visualizations.add({
               xAxis: {
                   type: dim.is_timeframe ? "datetime" : null,
                   title: {
-                      text: !config.xAxisName ? dim.label_short : config.xAxisName
+                      text: config.xAxisName || x_dim.label_short
                    },
                    categories: categories
               },
@@ -158,14 +158,14 @@ looker.plugins.visualizations.add({
                   min: config.yAxisMinValue,
                   max: config.yAxisMaxValue,
                   title: {
-                      text: config.yAxisName
+                      text: config.yAxisName || min.field_group_label
                   },
                   labels: {
                       formatter: function() {
                           if (this.value >= 0) {
-                              return config.yAxisLabelFormat + this.value
+                              return config.yAxisLabelFormat + this.value;
                           } else {
-                              return '-' + config.yAxisLabelFormat + (-this.value)
+                              return '-' + config.yAxisLabelFormat + (-this.value);
                           }
                       }
                   }

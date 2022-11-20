@@ -75,7 +75,6 @@ looker.plugins.visualizations.add({
           console.log("config", config);
           console.log("queryResponse", queryResponse);
 
-          // Extract dimension data and measure names
           let x_dim = queryResponse.fields.dimensions[0];
           let min = queryResponse.fields.measures[0];
           let q25 = queryResponse.fields.measures[1];
@@ -147,7 +146,7 @@ looker.plugins.visualizations.add({
               legend: {enabled: config.showLegend},
 
               xAxis: {
-                  type: dim.is_timeframe ? "datetime" : null,
+                  type: x_dim.is_timeframe ? "datetime" : null,
                   title: {
                       text: config.xAxisName || x_dim.label_short
                    },

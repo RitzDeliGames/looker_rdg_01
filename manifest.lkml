@@ -676,6 +676,7 @@ constant: purchase_source {
               when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Panel_Store.Purchase.%' then 'Store'
               when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Panel_QuickPurchase.Purchase.%' then 'Quick Purchase'
               when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like '%BuyMoreTime%' then 'Mini-Game'
+              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'endless_treasure' then 'Endless Treasure'
               else json_extract_scalar(${TABLE}.extra_json,'$.source_id')
           end"
 }
@@ -794,6 +795,10 @@ constant: iap_id_strings {
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_056' then 'More Coins'
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_058' then 'Few More Lives'
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_059' then 'More Lives'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_063' then 'Treasure Trove (XS)'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_066' then 'Treasure Trove (S)'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_069' then 'Treasure Trove (M)'
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_072' then 'Treasure Trove (L)'
             else json_extract_scalar(extra_json,'$.iap_id')
           end"
 }

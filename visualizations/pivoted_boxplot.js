@@ -71,6 +71,9 @@ looker.plugins.visualizations.add({
           //     min_dimensions: 1, max_dimensions: 1,
           //     min_measures: 5, max_measures: 5,
           // })) return;
+          console.log("data", data);
+          console.log("config", config);
+          console.log("queryResponse", queryResponse);
 
           let measures = queryResponse.fields.measure_like;
 

@@ -23,12 +23,19 @@ looker.plugins.visualizations.add({
           section: "Formatting",
           order: 1
           },
+          showYName:{
+            label: "Show Axis Name",
+            type: "boolean",
+            default: true,
+            section: "Y"
+          },
           yAxisMinValue: {
               label: "Min value",
               section: "Y",
               type: "number",
               placeholder: "Any number",
               display_size: "half",
+              order: 1,
           },
           yAxisMaxValue: {
               label: "Max value",
@@ -36,6 +43,7 @@ looker.plugins.visualizations.add({
               type: "number",
               placeholder: "Any number",
               display_size: "half",
+              order: 2,
           },
           yAxisLabelFormat: {
               label: "Label Format",
@@ -43,7 +51,13 @@ looker.plugins.visualizations.add({
               section: "Y",
               type: "string",
               placeholder: "$",
-          }
+          },
+          showXName: {
+            label: "Show Axis Name",
+            type: "boolean",
+            default: true,
+            section: "X"
+          },
       },
 
       create: function(element,config) {
@@ -97,8 +111,13 @@ looker.plugins.visualizations.add({
                   series.push({
                       name: pivot.key,
                       data: dataArray,
-                      fillColor: config.boxFillColors[pivotCount] || '#ffffff',
-                      legendColor: config.boxFillColors[pivotCount] || '#000000'
+                      color: config[pivot.key + "_outline"] || Highcharts.getOptions().colors[pivot.key],
+                      fillColor: config[pivot.key + "_fill"] || '#ffffff',
+                      dataLabels: {
+                        enabled: config[pivot.key + "_valueLabels"],
+                        format: "{point.y}"
+                      },
+                      //legendColor: config.boxFillColors[pivotCount] || '#000000'
                   });
                   pivotCount++;
               });
@@ -117,8 +136,12 @@ looker.plugins.visualizations.add({
               series.push({
                   name: min.field_group_label,
                   data: dataArray,
-                  fillColor: config.boxFillColors[0] || '#ffffff',
-                  legendColor: config.boxFillColors[0] || '#ffffff'
+                  fillColor: '#ffffff',
+                  dataLabels: {
+                    enabled: config[min.field_group_label + "_valueLabels"],
+                    format: "{point.y}"
+                  },
+                  //legendColor: config.boxFillColors[0] || '#ffffff'
               });
           }
 
@@ -130,7 +153,7 @@ looker.plugins.visualizations.add({
           label: "Axis Name",
           type: "string",
           default: "",
-          placeholder: min.field_group_label,
+          placeholder: min.field_group_label || "",
           section: "Y"
         },
         xAxisName: {
@@ -144,10 +167,10 @@ looker.plugins.visualizations.add({
 
 
     // Create options for each measure in your query
-    /*series.forEach(function(serie) {
+    series.forEach(function(serie) {
 
        id = typeof serie.name === "string" ? serie.name : serie.name.toString();
-       offset = series.indexOf(serie) * 5;
+       offset = series.indexOf(serie) * 4;
 
        //set an invalid display type so only the label renders
        option[id + "_label"] = {
@@ -158,8 +181,8 @@ looker.plugins.visualizations.add({
          order: offset + 1
        };
 
-       option[id + "_color"] = {
-        label: "Line Color",
+       option[id + "_outline"] = {
+        label: "Outline Color",
         default: Highcharts.getOptions().colors[series.indexOf(serie)],
         section: "Series",
         type: "string",
@@ -167,7 +190,24 @@ looker.plugins.visualizations.add({
         order: offset + 2
        };
 
-       option[id + "_marker"] = {
+       option[id + "_fill"] = {
+        label: "Fill Color",
+        default: "#FFFFFF",
+        section: "Series",
+        type: "string",
+        display: "color",
+        order: offset + 3
+       };
+
+       option[id + "_valueLabels"] = {
+        label: "Value Labels",
+        type: "boolean",
+        default: false,
+        section: "Series",
+        order: offset + 4
+      };
+
+      /* option[id + "_marker"] = {
         // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/
         // and https://api.highcharts.com/highcharts/plotOptions.series.marker.symbol
         type: "string",
@@ -194,33 +234,33 @@ looker.plugins.visualizations.add({
         order: offset + 4
       };
 
-      option[id + "_valueLabels"] = {
-        label: "Value Labels",
-        type: "boolean",
-        default: false,
-        section: "Series",
-        order: offset + 5
-      };
+      */
 
-      });*/
+      });
 
       this.trigger('registerOptions', option); // register options with parent page to update visConfig
 
 
           // Set Chart Options
           let options = {
-              colors: config.boxColors,
+              //colors: config.boxColors,
               credits: {
                   enabled: false
               },
               chart: {type: "boxplot"},
               title: {text: ""},
-              legend: {enabled: config.showLegend},
+              legend: {
+                  layout: 'horizontal',
+                  align: 'center',
+                  verticalAlign: 'bottom',
+                  enabled: config.showLegend
+              },
 
               xAxis: {
                   type: x_dim.is_timeframe ? "datetime" : null,
                   title: {
-                      text: config.xAxisName || x_dim.label_short
+                      text: config.xAxisName || x_dim.label_short,
+                      enabled: config.showXName,
                    },
                    categories: categories
               },
@@ -229,7 +269,8 @@ looker.plugins.visualizations.add({
                   min: config.yAxisMinValue,
                   max: config.yAxisMaxValue,
                   title: {
-                      text: config.yAxisName || min.field_group_label
+                      text: config.yAxisName || min.field_group_label,
+                      enabled: config.showYName,
                   },
                   labels: {
                       formatter: function() {
@@ -246,14 +287,14 @@ looker.plugins.visualizations.add({
           };
 
           //Add functionality to have the legend reflect the fill color instead of the outline color
-          (function(H) {
+          /*(function(H) {
               H.wrap(H.Legend.prototype, 'colorizeItem', function(proceed, item, visible) {
                   var color = item.color;
                   item.color = item.options.legendColor;
                   proceed.apply(this, Array.prototype.slice.call(arguments, 1));
                   item.color = color;
               });
-          }(Highcharts));
+          }(Highcharts));*/
 
           // Instanciate Box Plot Highchart
           let myChart = Highcharts.chart(element, options);

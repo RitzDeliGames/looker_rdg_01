@@ -186,7 +186,7 @@ looker.plugins.visualizations.add({
          };
 
          option[id + "_color"] = {
-          label: "Line Color",
+          label: "Column Color",
           default: serie.color,
           section: "Series",
           type: "string",

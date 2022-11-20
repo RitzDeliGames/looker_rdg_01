@@ -92,13 +92,13 @@ looker.plugins.visualizations.add({
           console.log("categories", categories);
 
           let series = [];
-          let dataArray = [];
           let pivotCount = 0;
           // If there is a pivot create stacked series
           if(queryResponse.pivots) {
               //Loop through pivots to create stacks
               queryResponse.pivots.forEach(function(pivot) {
                   //loop through data to get the measures
+                  dataArray = [];
                   data.forEach(function(row){
                       rowDataArray = [row[min.name][pivot.key].value,
                           row[q25.name][pivot.key].value,
@@ -117,6 +117,7 @@ looker.plugins.visualizations.add({
                   pivotCount++;
               });
           } else {
+              dataArray = [];
               //loop through data to get the measures
               data.forEach(function(row){
                   rowDataArray = [row[min.name].value,

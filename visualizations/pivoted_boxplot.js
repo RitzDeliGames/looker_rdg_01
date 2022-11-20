@@ -130,7 +130,7 @@ looker.plugins.visualizations.add({
           label: "Axis Name",
           type: "string",
           default: "",
-          placeholder: min.field_label_group || y_dim.label,
+          placeholder: min.field_group_label,
           section: "Y"
         },
         xAxisName: {

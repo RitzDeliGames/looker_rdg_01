@@ -23,30 +23,16 @@ looker.plugins.visualizations.add({
           section: "Formatting",
           order: 1
           },
-          xAxisName: {
-              label: "Axis Name",
-              section: "X Axis",
-              type: "string",
-              placeholder: "Provide an axis name ..."
-          },
-          yAxisName: {
-              label: "Axis Name",
-              section: "Y Axis",
-              type: "string",
-              placeholder: "Provide an axis name ..."
-          },
           yAxisMinValue: {
               label: "Min value",
-              default: null,
-              section: "Y Axis",
+              section: "Y",
               type: "number",
               placeholder: "Any number",
               display_size: "half",
           },
           yAxisMaxValue: {
               label: "Max value",
-              default: null,
-              section: "Y Axis",
+              section: "Y",
               type: "number",
               placeholder: "Any number",
               display_size: "half",
@@ -54,7 +40,7 @@ looker.plugins.visualizations.add({
           yAxisLabelFormat: {
               label: "Label Format",
               default: "",
-              section: "Y Axis",
+              section: "Y",
               type: "string",
               placeholder: "$",
           }
@@ -135,6 +121,91 @@ looker.plugins.visualizations.add({
                   legendColor: config.boxFillColors[0] || '#ffffff'
               });
           }
+
+          console.log("series", series);
+
+     let option = {
+       ...this.options,
+        yAxisName: {
+          label: "Axis Name",
+          type: "string",
+          default: "",
+          placeholder: min.field_label_group || y_dim.label,
+          section: "Y"
+        },
+        xAxisName: {
+          label: "Axis Name",
+          type: "string",
+          default: "",
+          placeholder: x_dim.label_short || x_dim.label,
+          section: "X"
+        },
+     };
+
+
+    // Create options for each measure in your query
+    /*series.forEach(function(serie) {
+
+       id = typeof serie.name === "string" ? serie.name : serie.name.toString();
+       offset = series.indexOf(serie) * 5;
+
+       //set an invalid display type so only the label renders
+       option[id + "_label"] = {
+         label: id.toUpperCase(),
+         type: "string",
+         display: "label",
+         section: "Series",
+         order: offset + 1
+       };
+
+       option[id + "_color"] = {
+        label: "Line Color",
+        default: Highcharts.getOptions().colors[series.indexOf(serie)],
+        section: "Series",
+        type: "string",
+        display: "color",
+        order: offset + 2
+       };
+
+       option[id + "_marker"] = {
+        // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/
+        // and https://api.highcharts.com/highcharts/plotOptions.series.marker.symbol
+        type: "string",
+        label: "Line Symbol",
+        values: [
+          // options are 'circle', 'square','diamond', 'triangle' and 'triangle-down'
+          {"Point": "circle"},
+          {"Diamond": "diamond"},
+          {"Square": "square"},
+          {"Triangle": "triangle"},
+          {"Reverse-Triangle": "triangle-down"},
+        ],
+        display: "select",
+        default: Highcharts.getOptions().symbols[series.indexOf(serie)] || "Point",
+        section: "Series",
+        order: offset + 3
+       };
+
+       option[id + "_hideMarker"] = {
+        type: "boolean",
+        label: "Hide Symbols",
+        section: "Series",
+        default: false,
+        order: offset + 4
+      };
+
+      option[id + "_valueLabels"] = {
+        label: "Value Labels",
+        type: "boolean",
+        default: false,
+        section: "Series",
+        order: offset + 5
+      };
+
+      });*/
+
+      this.trigger('registerOptions', option); // register options with parent page to update visConfig
+
 
           // Set Chart Options
           let options = {

@@ -920,6 +920,13 @@ constant: button_tags {
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_PreGame.PlayFromQuest' then 'Zone Task List - Play'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Pause.' then 'Mini-Game - Pause'
             when json_extract_scalar(extra_json,'$.button_tag') = 'EndlessTreasure.' then 'Endless Treasure - Open'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndlessTreasure.endless_treasure' then 'Endless Treasure - Free'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'SheetContainer.OverlayClose' then 'Endless Treasure - Close'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndlessTreasure.Close' then 'Endless Treasure - Close'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'DailyRewards' then 'Daily Rewards - Open'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_DailyRewards.Claim' then 'Daily Rewards - Claim'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_DailyRewards.ClaimDailyReward' then 'Daily Rewards - Claim'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_DailyRewards.Close' then 'Daily Rewards - Close'
             else json_extract_scalar(extra_json,'$.button_tag')
           end"
 }

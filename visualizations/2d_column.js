@@ -148,6 +148,11 @@ looker.plugins.visualizations.add({
         }
       }
 
+      if(this.options.sortStacks.value === "ascending")
+      console.log("asc");
+      else if (this.options.sortStacks.value === "descending")
+      console.log("desc");
+
 
       console.log("series", series);
 
@@ -248,7 +253,7 @@ looker.plugins.visualizations.add({
         },
         plotOptions: {
             series: {
-                stacking: config.seriesPositioning || "normal"
+                stacking: config.seriesPositioning || undefined
             }
         },
         series,

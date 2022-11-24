@@ -29,7 +29,10 @@ looker.plugins.visualizations.add({
         section:"Plot",
         type:"string",
         display: "select",
+        default: "",
+        hidden: false,
         values: [
+          {"None":""},
           {"Ascending":"ascending"},
           {"Descending":"descending"},
         ],
@@ -83,10 +86,10 @@ looker.plugins.visualizations.add({
       let x_dim_2 = queryResponse.fields.dimensions[1];
       let y_dim = queryResponse.fields.measures[0];
       let pivot = queryResponse.pivots;
-      console.log("x_dim_1", x_dim_1);
+      /*console.log("x_dim_1", x_dim_1);
       console.log("x_dim_2", x_dim_2);
       console.log("y_dim", y_dim);
-      console.log("pivot", pivot);
+      console.log("pivot", pivot);*/
 
       //create array with required data to pivot
       data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value || row[y_dim.name]]));
@@ -148,9 +151,9 @@ looker.plugins.visualizations.add({
         }
       }
 
-      if(this.options.sortStacks.value === "ascending")
+      if(config.sortStacks === "ascending")
       console.log("asc");
-      else if (this.options.sortStacks.value === "descending")
+      else if (config.sortStacks === "descending")
       console.log("desc");
 
 
@@ -174,6 +177,8 @@ looker.plugins.visualizations.add({
             section: "X"
           },
        };
+
+       option.sortStacks.hidden = !config.seriesPositioning;
 
 
       // Create options for each measure in your query

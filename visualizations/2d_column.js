@@ -137,7 +137,7 @@ looker.plugins.visualizations.add({
         console.log("output", output);
 
       for(let j = 0 ; j < pivot.length; j++) {
-        for (let i = 1; i<output[0].length; i++) {
+        for (let i = 1; i< output[0].length; i++) {
           series.push({
             name: pivot[j].key + " (" + output[0][i] + ")",
             data: output.slice(1).map((element) => element[i][pivot[j].key] ? element[i][pivot[j].key].value : 0),
@@ -153,16 +153,14 @@ looker.plugins.visualizations.add({
 
       if (config.sortStacks !== ""){
         series.sort((a, b)=>{
-          const nameA = a.name.toUpperCase(); // ignore upper and lowercase
-          const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+          const nameA = a.name.toUpperCase();
+          const nameB = b.name.toUpperCase();
           if (nameA < nameB) {
             return config.sortStacks === "ascending"? -1 : 1;
           }
           if (nameA > nameB) {
             return config.sortStacks === "ascending"? 1 : -1;
           }
-
-          // names must be equal
           return 0;
         });
       }

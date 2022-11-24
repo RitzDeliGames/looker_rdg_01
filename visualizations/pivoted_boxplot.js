@@ -50,7 +50,7 @@ looker.plugins.visualizations.add({
               default: "",
               section: "Y",
               type: "string",
-              placeholder: "$",
+              placeholder: "e.g: $",
           },
           showXName: {
             label: "Show Axis Name",
@@ -115,7 +115,7 @@ looker.plugins.visualizations.add({
                       fillColor: config[pivot.key + "_fill"] || '#ffffff',
                       dataLabels: {
                         enabled: config[pivot.key + "_valueLabels"],
-                        format: "{point.y}"
+                        format: yAxisLabelFormat + "{point.y}"
                       },
                       //legendColor: config.boxFillColors[pivotCount] || '#000000'
                   });
@@ -264,7 +264,6 @@ looker.plugins.visualizations.add({
                    },
                    categories: categories
               },
-
               yAxis: {
                   min: config.yAxisMinValue,
                   max: config.yAxisMaxValue,
@@ -273,16 +272,11 @@ looker.plugins.visualizations.add({
                       enabled: config.showYName,
                   },
                   labels: {
-                      formatter: function() {
-                          if (this.value >= 0) {
-                              return config.yAxisLabelFormat + this.value;
-                          } else {
-                              return '-' + config.yAxisLabelFormat + (-this.value);
-                          }
-                      }
+                    formatter: function() {
+                      return this.value >= 0 ? config.yAxisLabelFormat + this.value : '-' + config.yAxisLabelFormat + (-this.value);
+                    }
                   }
               },
-
               series: series
           };
 
@@ -297,6 +291,6 @@ looker.plugins.visualizations.add({
           }(Highcharts));*/
 
           // Instanciate Box Plot Highchart
-          let myChart = Highcharts.chart(element, options);
+          Highcharts.chart(element, options);
       }
   });

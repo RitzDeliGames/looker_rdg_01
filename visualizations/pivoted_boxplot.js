@@ -115,7 +115,7 @@ looker.plugins.visualizations.add({
                       fillColor: config[pivot.key + "_fill"] || '#ffffff',
                       dataLabels: {
                         enabled: config[pivot.key + "_valueLabels"],
-                        format: yAxisLabelFormat + "{point.y}"
+                        format: config.yAxisLabelFormat + "{point.y}"
                       },
                       //legendColor: config.boxFillColors[pivotCount] || '#000000'
                   });

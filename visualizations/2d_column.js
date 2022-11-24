@@ -151,10 +151,21 @@ looker.plugins.visualizations.add({
         }
       }
 
-      if(config.sortStacks === "ascending")
-      console.log("asc");
-      else if (config.sortStacks === "descending")
-      console.log("desc");
+      if (config.sortStacks !== ""){
+        series.sort((a, b)=>{
+          const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+          const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+          if (nameA < nameB) {
+            return config.sortStacks === "ascending"? -1 : 1;
+          }
+          if (nameA > nameB) {
+            return config.sortStacks === "ascending"? 1 : -1;
+          }
+
+          // names must be equal
+          return 0;
+        });
+      }
 
 
       console.log("series", series);

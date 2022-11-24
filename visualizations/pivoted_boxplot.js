@@ -113,10 +113,6 @@ looker.plugins.visualizations.add({
                       data: dataArray,
                       color: config[pivot.key + "_outline"] || Highcharts.getOptions().colors[pivot.key],
                       fillColor: config[pivot.key + "_fill"] || '#ffffff',
-                      dataLabels: {
-                        enabled: config[pivot.key + "_valueLabels"],
-                        format: config.yAxisLabelFormat + "{point.y}"
-                      },
                       //legendColor: config.boxFillColors[pivotCount] || '#000000'
                   });
                   pivotCount++;
@@ -198,14 +194,6 @@ looker.plugins.visualizations.add({
         display: "color",
         order: offset + 3
        };
-
-       option[id + "_valueLabels"] = {
-        label: "Value Labels",
-        type: "boolean",
-        default: false,
-        section: "Series",
-        order: offset + 4
-      };
 
       /* option[id + "_marker"] = {
         // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/

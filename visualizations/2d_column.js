@@ -16,6 +16,7 @@ looker.plugins.visualizations.add({
         section: "Plot",
         type: "string",
         display: "select",
+        default: "normal",
         values: [
           {"Grouped": ""},
           {"Stacked": "normal"},
@@ -23,17 +24,20 @@ looker.plugins.visualizations.add({
         ],
         order: 2,
       },
-      /*sortStacks: {
+      sortStacks: {
         label: "Sort Stacks",
         section:"Plot",
         type:"string",
         display: "select",
+        default: "",
+        hidden: false,
         values: [
+          {"None":""},
           {"Ascending":"ascending"},
           {"Descending":"descending"},
         ],
         order: 3
-      },*/
+      },
       // Y Axis options
       showYName:{
           label: "Show Axis Name",
@@ -82,10 +86,10 @@ looker.plugins.visualizations.add({
       let x_dim_2 = queryResponse.fields.dimensions[1];
       let y_dim = queryResponse.fields.measures[0];
       let pivot = queryResponse.pivots;
-      console.log("x_dim_1", x_dim_1);
+      /*console.log("x_dim_1", x_dim_1);
       console.log("x_dim_2", x_dim_2);
       console.log("y_dim", y_dim);
-      console.log("pivot", pivot);
+      console.log("pivot", pivot);*/
 
       //create array with required data to pivot
       data.map((row)=>dataArray.push([row[x_dim_1.name].value, row[x_dim_2.name].value, row[y_dim.name].value || row[y_dim.name]]));
@@ -133,7 +137,7 @@ looker.plugins.visualizations.add({
         console.log("output", output);
 
       for(let j = 0 ; j < pivot.length; j++) {
-        for (let i = 1; i<output[0].length; i++) {
+        for (let i = 1; i< output[0].length; i++) {
           series.push({
             name: pivot[j].key + " (" + output[0][i] + ")",
             data: output.slice(1).map((element) => element[i][pivot[j].key] ? element[i][pivot[j].key].value : 0),
@@ -145,6 +149,20 @@ looker.plugins.visualizations.add({
             },
           });
         }
+      }
+
+      if (config.sortStacks !== ""){
+        series.sort((a, b)=>{
+          const nameA = a.name.toUpperCase();
+          const nameB = b.name.toUpperCase();
+          if (nameA < nameB) {
+            return config.sortStacks === "ascending"? -1 : 1;
+          }
+          if (nameA > nameB) {
+            return config.sortStacks === "ascending"? 1 : -1;
+          }
+          return 0;
+        });
       }
 
 
@@ -168,6 +186,8 @@ looker.plugins.visualizations.add({
             section: "X"
           },
        };
+
+       option.sortStacks.hidden = !config.seriesPositioning;
 
 
       // Create options for each measure in your query

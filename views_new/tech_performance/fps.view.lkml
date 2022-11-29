@@ -81,4 +81,10 @@ view: fps {
     label: "Last Level Completed - Id"
     type: string
   }
+  dimension: last_level_serial_offset {
+    group_label: "Level Dimensions"
+    label: "Current Level"
+    type: number
+    sql: ${last_level_serial} + 1 ;;
+  }
 }

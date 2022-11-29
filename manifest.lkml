@@ -1183,3 +1183,10 @@ visualization: {
   dependencies: ["https://code.highcharts.com/highcharts.js"]
   file: "visualizations/2d_column.js"
 }
+
+visualization: {
+  id: "scatter"
+  label: "Scatter"
+  dependencies: ["https://code.highcharts.com/highcharts.js"]
+  file: "visualizations/scatter.js"
+}

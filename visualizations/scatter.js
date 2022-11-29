@@ -1,6 +1,6 @@
 looker.plugins.visualizations.add({
-    id: "boxplot",
-    label: "Boxplot MLB",
+    id: "scatter",
+    label: "Scatter",
       options: {
           showLegend: {
               label: "Show Legend",
@@ -57,7 +57,7 @@ looker.plugins.visualizations.add({
           //     min_dimensions: 1, max_dimensions: 1,
           //     min_measures: 5, max_measures: 5,
           // })) return;
-          console.log("data", data);
+        /*  console.log("data", data);
           console.log("config", config);
           console.log("queryResponse", queryResponse);
 
@@ -175,7 +175,7 @@ looker.plugins.visualizations.add({
         order: offset + 3
        };
 
-      /* option[id + "_marker"] = {
+       option[id + "_marker"] = {
         // see https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-marker-symbol/
         // and https://api.highcharts.com/highcharts/plotOptions.series.marker.symbol
         type: "string",
@@ -202,12 +202,12 @@ looker.plugins.visualizations.add({
         order: offset + 4
       };
 
-      */
+
 
       });
 
       this.trigger('registerOptions', option); // register options with parent page to update visConfig
-
+*/
 
           // Set Chart Options
           let options = {
@@ -215,7 +215,7 @@ looker.plugins.visualizations.add({
               credits: {
                   enabled: false
               },
-              chart: {type: "boxplot"},
+              chart: {type: "scatter"},
               title: {text: ""},
               legend: {
                   layout: 'horizontal',
@@ -224,7 +224,7 @@ looker.plugins.visualizations.add({
                   enabled: config.showLegend
               },
 
-              xAxis: {
+            /*  xAxis: {
                   type: x_dim.is_timeframe ? "datetime" : null,
                   title: {
                       text: config.xAxisName || x_dim.label_short,
@@ -245,7 +245,7 @@ looker.plugins.visualizations.add({
                     }
                   }
               },
-              series: series
+              series: series*/
           };
 
           //Add functionality to have the legend reflect the fill color instead of the outline color

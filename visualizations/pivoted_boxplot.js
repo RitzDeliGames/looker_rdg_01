@@ -2,20 +2,6 @@ looker.plugins.visualizations.add({
     id: "boxplot",
     label: "Boxplot MLB",
       options: {
-          boxColors: {
-              label: "Box Colors",
-              type: "array",
-              default: ["#45b54d", "#707878", "#2ca02c"],
-              display: "colors",
-          section: "Formatting"
-          },
-          boxFillColors: {
-              label: "Box Fill Colors",
-              type: "array",
-              default: ["#FFFFFF", "#FFFFFF", "#FFFFFF"],
-              display: "colors",
-          section: "Formatting"
-          },
           showLegend: {
               label: "Show Legend",
               type: "boolean",
@@ -98,14 +84,13 @@ looker.plugins.visualizations.add({
               //Loop through pivots to create stacks
               queryResponse.pivots.forEach(function(pivot) {
                   //loop through data to get the measures
-                  dataArray = [];
+                  let dataArray = [];
                   data.forEach(function(row){
-                      rowDataArray = [row[min.name][pivot.key].value,
+                      dataArray.push([row[min.name][pivot.key].value,
                           row[q25.name][pivot.key].value,
                           row[med.name][pivot.key].value,
                           row[q75.name][pivot.key].value,
-                          row[max.name][pivot.key].value];
-                      dataArray.push(rowDataArray);
+                          row[max.name][pivot.key].value]);
                   });
                   //Add the pivot name and associated measures to the series object
                   series.push({
@@ -118,25 +103,20 @@ looker.plugins.visualizations.add({
                   pivotCount++;
               });
           } else {
-              dataArray = [];
+              let dataArray = [];
               //loop through data to get the measures
               data.forEach(function(row){
-                  rowDataArray = [row[min.name].value,
+                  dataArray.push([row[min.name].value,
                       row[q25.name].value,
                       row[med.name].value,
                       row[q75.name].value,
-                      row[max.name].value];
-                  dataArray.push(rowDataArray);
+                      row[max.name].value]);
               });
               //Add the pivot name and associated measures to the series object
               series.push({
-                  name: min.field_group_label,
+                  name: med.field_group_label,
                   data: dataArray,
                   fillColor: '#ffffff',
-                  dataLabels: {
-                    enabled: config[min.field_group_label + "_valueLabels"],
-                    format: "{point.y}"
-                  },
                   //legendColor: config.boxFillColors[0] || '#ffffff'
               });
           }
@@ -149,7 +129,7 @@ looker.plugins.visualizations.add({
           label: "Axis Name",
           type: "string",
           default: "",
-          placeholder: min.field_group_label || "",
+          placeholder: med.field_group_label || "",
           section: "Y"
         },
         xAxisName: {
@@ -256,7 +236,7 @@ looker.plugins.visualizations.add({
                   min: config.yAxisMinValue,
                   max: config.yAxisMaxValue,
                   title: {
-                      text: config.yAxisName || min.field_group_label,
+                      text: config.yAxisName || med.field_group_label,
                       enabled: config.showYName,
                   },
                   labels: {

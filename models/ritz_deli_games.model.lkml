@@ -161,11 +161,6 @@ explore: transactions {
     and ${transactions.engagement_ticks} = ${user_activity_engagement_min.engagement_ticks};;
     relationship: many_to_many
   }
-  join: facebook_daily_export {
-    type: left_outer
-    sql_on: ${transactions.created_pst_date} = ${facebook_daily_export.date};;
-    relationship: many_to_many
-  }
   join: android_advertising_id_helper {
     view_label: "Singular User Level w/Firebase Helper"
     type: left_outer

@@ -11,9 +11,6 @@ view: transactions_new {
         ,timestamp
         ,engagement_ticks
         ,round(cast(engagement_ticks as int64) / 2) minutes_played
-        ,current_card
-        ,last_unlocked_card
-        ,cast(current_quest as int64) current_quest
         ,last_level_id
         ,cast(last_level_serial as int64) last_level_serial
         ,json_extract_scalar(extra_json,'$.sheet_id') sheet_raw
@@ -117,39 +114,6 @@ view: transactions_new {
   }
   dimension: minutes_played {
     type: number
-  }
-  dimension: current_card {
-    group_label: "Card Dimensions"
-    label: "Player Current Card"
-  }
-  dimension: current_card_numbered {
-    group_label: "Card Dimensions"
-    label: "Player Current Card (Numbered)"
-    type: number
-    sql: @{current_card_numbered} ;;
-    value_format: "####"
-  }
-  dimension: last_unlocked_card {
-    group_label: "Card Dimensions"
-    label: "Player Last Unlocked Card"
-  }
-  dimension: last_unlocked_card_numbered {
-    group_label: "Card Dimensions"
-    label: "Player Last Unlocked Card (Numbered)"
-    type: number
-    sql: @{last_unlocked_card_numbered} ;;
-    value_format: "####"
-  }
-  dimension: card_id { #change this dimension name but check for dependencies first!
-    group_label: "Card Dimensions"
-    label: "Player Last Unlocked Card (Coalesced)"
-    type: string
-    sql: coalesce(${last_unlocked_card},${current_card}) ;;
-  }
-  dimension: current_quest {
-    group_label: "Card Dimensions"
-    type: number
-    sql: ${TABLE}.current_quest ;;
   }
   dimension: last_level_id {
     group_label: "Level Dimensions"

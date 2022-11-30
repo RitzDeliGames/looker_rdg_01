@@ -12,7 +12,7 @@ view: new_iam {
         ,extra_json
       from game_data.events
       where event_name = 'InAppMessaging'
-        and timestamp >= '2019-01-01'
+        and timestamp >= '2022-06-01'
         and user_type = 'external'
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
@@ -43,11 +43,6 @@ view: new_iam {
   }
   dimension: extra_json {
     hidden: yes
-  }
-  dimension: current_quest {
-    group_label: "Card Dimensions"
-    type: number
-    sql: ${TABLE}.current_quest ;;
   }
   dimension: last_level_serial {
     label: "Last Level Played"

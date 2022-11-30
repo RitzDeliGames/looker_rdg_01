@@ -7,9 +7,6 @@ view: rewards {
         ,device_id
         ,advertising_id
         ,timestamp
-        ,current_card
-        ,last_unlocked_card
-        ,current_quest
         ,cast(last_level_serial as int64) last_level_serial
         ,json_extract_scalar(extra_json,'$.reward_event') reward_event
         ,json_extract_scalar(extra_json,'$.reward_type') reward_type
@@ -20,7 +17,6 @@ view: rewards {
       and user_type = 'external'
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'
-      --and current_card = last_unlocked_card
     ;;
     datagroup_trigger: change_6_hrs
     publish_as_db_view: yes
@@ -63,39 +59,6 @@ view: rewards {
     ]
     sql: ${TABLE}.timestamp  ;;
   }
-  dimension: current_card {
-    group_label: "Card Dimensions"
-    type: string
-    sql: ${TABLE}.current_card ;;
-  }
-  dimension: current_card_numbered {
-    group_label: "Card Dimensions"
-    type: number
-    sql: @{current_card_numbered} ;;
-    value_format: "####"
-  }
-  dimension: last_unlocked_card {
-    group_label: "Card Dimensions"
-    type: string
-    sql: ${TABLE}.last_unlocked_card ;;
-  }
-  dimension: last_unlocked_card_numbered {
-    group_label: "Card Dimensions"
-    type: number
-    sql: @{last_unlocked_card_numbered} ;;
-    value_format: "####"
-  }
-  dimension: card_id {
-    group_label: "Card Dimensions"
-    type: string
-    sql: coalesce(${last_unlocked_card},${current_card}) ;;
-  }
-  dimension: current_quest {
-    group_label: "Card Dimensions"
-    hidden: yes
-    type: string
-    sql: ${TABLE}.current_quest ;;
-  }
   dimension: last_level_serial {
     group_label: "Last Level"
     type: number
@@ -137,7 +100,7 @@ view: rewards {
     type: sum
     value_format: "#,###"
     sql: ${reward_amount} ;;
-    drill_fields: [card_id,reward_event_raw,reward_amount_sum]
+    drill_fields: [reward_event_raw,reward_amount_sum]
   }
   measure: currency_rewarded_amount_025 {
     group_label: "Currency Rewards"
@@ -174,5 +137,5 @@ view: rewards {
     sql: ${reward_amount} ;;
   }
 
-  drill_fields: [rdg_id,reward_type,reward_amount_sum, current_card, last_unlocked_card, current_card_numbered]
+  drill_fields: [rdg_id,reward_type,reward_amount_sum]
 }

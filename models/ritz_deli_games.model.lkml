@@ -244,20 +244,6 @@ explore: click_stream {
 
 explore: fue_funnels {}
 
-explore: temp_community_events_funnels {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
-  join: user_fact {
-    type: left_outer
-    sql_on: ${temp_community_events_funnels.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: many_to_one
-  }
-  join: user_last_event {
-    type: left_outer
-    sql_on: ${temp_community_events_funnels.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: one_to_one
-  }
-}
-
 explore: churn_by_level_by_attempt {
   #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: "Churn by Level - Attempt"

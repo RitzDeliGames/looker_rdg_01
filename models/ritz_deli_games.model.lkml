@@ -698,10 +698,6 @@ explore: cohort_selection {
   hidden: yes
 }
 
-explore: temp_powerup_used {
-  label: "temp power up used"
-}
-
 ### FIREBASE REPORTING - DAU, DAY 1 RETENTION ###
 
 explore: firebase_analytics {

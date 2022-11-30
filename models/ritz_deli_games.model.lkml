@@ -97,12 +97,6 @@ explore: user_retention {
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${community_events_activity.rdg_id} ;;
   }
-  join: team_ups_activity {
-    view_label: "Team Ups"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${user_retention.rdg_id} = ${team_ups_activity.rdg_id} ;;
-  }
   join: loading_times {
     view_label: "Scene Loading Times"
     type: left_outer
@@ -262,12 +256,6 @@ explore: community_events {
 explore: ce_aggregated_scores {
   view_label: "Community Event Aggregated - TEMP"
   from: ce_aggregated_scores
-}
-
-explore: team_ups {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
-  from: team_ups_activity
-  view_label: "Team Ups"
 }
 
 explore: fue_funnels {}

@@ -152,14 +152,6 @@ explore: user_retention {
   }
 }
 
-explore: system_value {
-  hidden: no
-}
-
-explore: system_value_aggregated {
-  hidden: yes
-}
-
 explore: transactions {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} and ${transaction_date} >= ${created_date};;
   from: transactions_new

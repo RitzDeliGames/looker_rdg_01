@@ -323,40 +323,6 @@ explore: temp_community_events_funnels {
   }
 }
 
-explore: churn_by_tile_by_attempt {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
-  always_filter: {
-    filters: [churn_by_tile_by_attempt.node_selector: "0"]
-  }
-  view_label: "Churn"
-  join: user_fact {
-    type: left_outer
-    sql_on: ${churn_by_tile_by_attempt.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: many_to_one
-  }
-  join: user_last_event {
-    type: left_outer
-    sql_on: ${churn_by_tile_by_attempt.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: many_to_one
-  }
-}
-
-explore: churn_by_card {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
-  from: churn_by_card_by_attempt
-  view_label: "Churn"
-  join: user_fact {
-    type: left_outer
-    sql_on: ${churn_by_card.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: one_to_one
-  }
-  join: user_last_event {
-    type: left_outer
-    sql_on: ${churn_by_card.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: one_to_one
-  }
-}
-
 explore: churn_by_level_by_attempt {
   #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: "Churn by Level - Attempt"
@@ -409,31 +375,6 @@ explore: churn_by_match_data {
     type: left_outer
     sql_on: ${churn_by_match_data.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: many_to_one
-  }
-}
-
-explore: churn_card_data {
-  from: churn_card_data
-  always_filter: {
-    filters: [churn_card_data.node_selector: "0", churn_card_data.node_is_selected: "yes"]
-  }
-  #sql_always_where: ${churn_card_data.rdg_id} not in @{device_internal_tester_mapping};;
-  #view_label: "temp churn by tile"
-  join: user_fact {
-    type: left_outer
-    sql_on: ${churn_card_data.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: many_to_one
-  }
-  join: user_last_event {
-    type: left_outer
-    sql_on: ${churn_card_data.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: many_to_one
-  }
-  join: gameplay_fact {
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${churn_card_data.rdg_id} = ${gameplay_fact.rdg_id}
-      and ${churn_card_data.round_id} = ${gameplay_fact.round_id};;
   }
 }
 

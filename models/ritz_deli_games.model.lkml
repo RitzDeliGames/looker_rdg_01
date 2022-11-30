@@ -115,12 +115,6 @@ explore: user_retention {
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${click_stream.rdg_id} ;;
   }
-  join: fue_funnels {
-    view_label: "FUE Funnel"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${user_retention.rdg_id} = ${fue_funnels.rdg_id} ;;
-  }
   join: firebase_analytics {
     view_label: "Users - Firebase Analytics"
     type: full_outer
@@ -241,8 +235,6 @@ explore: click_stream {
     relationship: many_to_one
   }
 }
-
-explore: fue_funnels {}
 
 explore: churn_by_level_by_attempt {
   #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;

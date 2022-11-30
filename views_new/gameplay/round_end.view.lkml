@@ -14,7 +14,6 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,"$.rounds") as int64) rounds
         ,cast(json_extract_scalar(extra_json,'$.quest_complete') as boolean) quest_complete
         ,json_extract_scalar(extra_json,'$.game_mode') game_mode
-        ,cast(json_extract_scalar(extra_json,'$.request_help') as boolean) request_help
         ,json_extract_scalar(extra_json,'$.team_slot_0') primary_team_slot
         ,json_extract_scalar(extra_json,'$.team_slot_skill_0') primary_team_slot_skill
         ,cast(json_extract_scalar(extra_json,'$.team_slot_level_0') as int64) primary_team_slot_level
@@ -265,10 +264,6 @@ view: round_end {
   dimension: quest_complete {
     type: yesno
     sql: ${TABLE}.quest_complete ;;
-  }
-  dimension: request_help {
-    type: yesno
-    sql: ${TABLE}.request_help ;;
   }
   dimension: primary_team_slot {
     type: string

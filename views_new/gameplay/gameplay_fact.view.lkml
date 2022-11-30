@@ -7,16 +7,11 @@ view: gameplay_fact {
       column: rdg_id {}
       column: round_id {}
       column: event_time {}
-      column: request_help {}
       column: session_id {}
       column: game_mode {}
       derived_column: greater_round_id {
         sql: LAG(round_id)
           OVER (PARTITION BY rdg_id ORDER BY round_id DESC) ;;
-      }
-      filters: {
-        field: gameplay.request_help
-        value: "No"
       }
     }
   }
@@ -41,9 +36,6 @@ view: gameplay_fact {
     description: "Incremented value that increases each time a player plays the game"
     type: number
   }
-  dimension: request_help {
-    type: yesno
-  }
   dimension: event_time {
     description: "Timestamp of the play"
     type: date_time
@@ -51,8 +43,7 @@ view: gameplay_fact {
   dimension: is_churn {
     description: "Identifies if a greater_round_id exists for the rdg_id (player), if the greater_round_id is NULL, they did not play again and are considered churned"
     type: yesno
-    sql: ${greater_round_id} is NULL
-        and ${request_help} is FALSE ;;
+    sql: ${greater_round_id} is NULL;;
   }
   measure: count {
     description: "A count of gameplays found for the player (there are round_ids missing from the data, so this calculates only the round_ids that exist)"

@@ -18,7 +18,7 @@ view: click_stream {
         ,extra_json
         ,last_level_id
         ,lag(timestamp)
-            over (partition by rdg_id order by timestamp desc) greater_quests_completed
+            over (partition by rdg_id order by timestamp desc) greater_level_completed
       from `eraser-blast.game_data.events`
       where
         event_name = 'ButtonClicked'
@@ -64,10 +64,10 @@ view: click_stream {
       ,year
     ]
   }
-  dimension: greater_quests_completed {}#RENAME!!!
+  dimension: greater_level_completed {}
   dimension: is_churned {
     type: yesno
-    sql: ${greater_quests_completed} is null ;;
+    sql: ${greater_level_completed} is null ;;
   }
   dimension: install_version {}
   dimension: event_name {}

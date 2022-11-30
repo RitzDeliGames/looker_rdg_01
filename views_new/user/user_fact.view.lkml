@@ -27,11 +27,9 @@ view: user_fact {
         ,max(ltv) ltv
         ,min(created_at) created
         ,min(datetime(created_at,'US/Pacific')) created_pst
-        ,max(current_quest) highest_quest_reached
         ,max(session_id) last_session
         ,max(session_count) lifetime_sessions
         ,max(timestamp) last_event
-        ,cast(max(quests_completed) as int64) quests_completed
         ,cast(max(last_level_serial) as int64) last_level_serial
         ,cast(max(engagement_ticks) as int64) engagement_ticks
         ,min(version) version
@@ -164,10 +162,6 @@ view: user_fact {
     label: "Device Manufacturer"
     type: string
     sql: @{device_manufacturer_mapping} ;;
-  }
-  dimension: quests_completed {
-    type: number
-    hidden: no
   }
   dimension: engagement_min {
     group_label: "Minutes Played"
@@ -328,10 +322,6 @@ view: user_fact {
   #   sql: ${purchase_amt} ;;
   #   value_format_name: usd
   # }
-  measure: completed_quests {
-    type: sum
-    sql: ${quests_completed} ;;
-  }
   measure: completed_levels {
     type: sum
     sql: ${last_level_serial} ;;

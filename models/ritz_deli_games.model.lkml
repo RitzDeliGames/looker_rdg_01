@@ -380,27 +380,6 @@ explore: fps {
   }
 }
 
-explore: events {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
-  view_label: "Card Data" ## space to bring to top of Explore
-  label: "Card Event"
-  join: user_fact {
-    type: left_outer
-    sql_on: ${events.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: many_to_one
-  }
-  join: user_last_event {
-    type: left_outer
-    sql_on: ${user_fact.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: one_to_one
-  }
-  join: android_device_helper {
-    sql_on: ${events.device_model_number} = ${android_device_helper.retail_model} ;;
-    type: left_outer
-    relationship: many_to_one
-  }
-}
-
 explore: gameplay_fact {}
 
 explore: click_sequence {

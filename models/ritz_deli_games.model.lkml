@@ -152,37 +152,6 @@ explore: user_retention {
   }
 }
 
-explore: user_card_completion {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
-  label: "Card Completion (User)"
-  from: user_card
-  join: user_fact {
-    type: left_outer
-    sql_on: ${user_card_completion.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: many_to_one
-  }
-  join: user_last_event {
-    type: left_outer
-    sql_on: ${user_card_completion.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: one_to_one
-  }
-  join: transactions_new {
-    view_label: "Transactions"
-    type: left_outer
-    relationship: one_to_many
-    # relationship: many_to_many
-    sql_on: ${user_card_completion.rdg_id} = ${transactions_new.rdg_id}
-      and ${user_card_completion.current_card} = ${transactions_new.current_card};;
-  }
-  join: system_value_aggregated {
-    view_label: "System Value"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${user_card_completion.rdg_id} = ${system_value_aggregated.rdg_id}
-      and ${user_card_completion.current_card} = ${system_value_aggregated.current_card};;
-  }
-}
-
 explore: system_value {
   hidden: no
 }

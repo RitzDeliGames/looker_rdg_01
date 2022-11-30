@@ -34,8 +34,6 @@ view: user_fact {
         ,cast(max(quests_completed) as int64) quests_completed
         ,cast(max(last_level_serial) as int64) last_level_serial
         ,cast(max(engagement_ticks) as int64) engagement_ticks
-        ,max(json_extract_scalar(extra_json,"$.card_id")) current_card  -- need to do the max on the current card num, card_003_b (150) is coming through instead of card_002 (400)
-        ,max(last_unlocked_card) last_unlocked_card -- need to do the max on the last unlocked card num, card_003_b (150) is coming through instead of card_002 (400)
         ,min(version) version
         ,max(install_version) install_version
         ,max(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) config_timestamp
@@ -256,23 +254,6 @@ view: user_fact {
     percentile: 97.5
     sql: ${lifetime_sessions} ;;
   }
-  # dimension: current_card {
-  #   group_label: "Card Dimensions"
-  #   label: "Player Current Card"
-  #   type: string
-  # }
-  # dimension: last_unlocked_card {
-  #   group_label: "Card Dimensions"
-  #   label: "Player Last Unlocked Card"
-  #   type: string
-  # }
-  # dimension: current_card_no {
-  #   group_label: "Card Dimensions"
-  #   label: "Player Current Card (Numbered)"
-  #   type: number
-  #   value_format: "####"
-  #   sql: @{current_card_numbered};;
-  # }
   dimension: version {
     group_label: "Version Dimensions"
     label: "Release Version"

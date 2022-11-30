@@ -91,12 +91,6 @@ explore: user_retention {
       and ${user_activity.activity_date} = ${transactions_new.transaction_date} --#TEMP: added to (try) build LTV curves
       and ${user_activity_engagement_min.engagement_ticks} = ${transactions_new.engagement_ticks};;
   }
-  join: community_events_activity {
-    view_label: "Community Events"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${user_retention.rdg_id} = ${community_events_activity.rdg_id} ;;
-  }
   join: loading_times {
     view_label: "Scene Loading Times"
     type: left_outer
@@ -246,16 +240,6 @@ explore: click_stream {
     sql_on: ${click_stream.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: many_to_one
   }
-}
-
-explore: community_events {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
-  from: community_events_activity
-}
-
-explore: ce_aggregated_scores {
-  view_label: "Community Event Aggregated - TEMP"
-  from: ce_aggregated_scores
 }
 
 explore: fue_funnels {}

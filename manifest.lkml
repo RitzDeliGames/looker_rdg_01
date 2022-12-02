@@ -237,6 +237,7 @@ constant: release_version_minor {
             when ${TABLE}.version = '13044' then'1.13.044'
             when ${TABLE}.version = '13050' then'1.13.050'
             when ${TABLE}.version = '13052' then'1.13.052'
+            when ${TABLE}.version = '13053' then'1.13.053'
             else ''
           end"
 }
@@ -316,18 +317,19 @@ constant: install_release_version_minor {
             when ${TABLE}.install_version = '13044' then'1.13.044'
             when ${TABLE}.install_version = '13050' then'1.13.050'
             when ${TABLE}.install_version = '13052' then'1.13.052'
+            when ${TABLE}.install_version = '13053' then'1.13.053'
             else ''
           end"
 }
 
 constant: country_region {
   value: "case
-            when ${TABLE}.country like 'ZZ' THEN 'N/A'
-            when ${TABLE}.country IN ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE') THEN 'LATAM-ES'
-            when ${TABLE}.country like 'BR' THEN 'LATAM-BR'
-            when ${TABLE}.country IN ('SE','DK','FI','IS','NO','SE') THEN 'Scandinavia'
-            when ${TABLE}.country IN ('GB','AT','BE','BG','HR','CY','CZ','EE','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES') THEN 'UK-EU'
-            when ${TABLE}.country IN ('US', 'CA') THEN 'NA-EN'
+            when ${TABLE}.country like 'ZZ' then 'N/A'
+            when ${TABLE}.country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE') then 'LATAM-ES'
+            when ${TABLE}.country like 'BR' then 'LATAM-BR'
+            when ${TABLE}.country in ('SE','DK','FI','IS','NO','SE') then 'Scandinavia'
+            when ${TABLE}.country in ('GB','AT','BE','BG','HR','CY','CZ','EE','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES') then 'UK-EU'
+            when ${TABLE}.country in ('US', 'CA') then 'NA-EN'
             else 'OTHER'
           end"
 }

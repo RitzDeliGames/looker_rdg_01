@@ -52,8 +52,16 @@ view: weighted_fps {
     sql: ${TABLE}.install_version ;;
   }
   dimension: last_level_serial {
+    group_label: "Level Dimensions"
+    label: "Last Level Completed"
     type: number
     sql: ${TABLE}.last_level_serial ;;
+  }
+  dimension: last_level_serial_offset {
+    group_label: "Level Dimensions"
+    label: "Current Level"
+    type: number
+    sql: ${last_level_serial} + 1 ;;
   }
   dimension: weighted_avg {
     label: "Weighted Avg. MS/Frame"

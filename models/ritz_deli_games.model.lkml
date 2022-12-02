@@ -375,6 +375,8 @@ explore: fps {
   }
 }
 
+explore: weighted_fps {}
+
 explore: gameplay_fact {}
 
 explore: click_sequence {

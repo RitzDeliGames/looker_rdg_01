@@ -151,7 +151,7 @@ looker.plugins.visualizations.add({
         }
       }
 
-      if (config.sortStacks !== ""){
+      /*if (config.sortStacks !== ""){
         series.sort((a, b)=>{
           const nameA = a.name.toUpperCase();
           const nameB = b.name.toUpperCase();
@@ -163,7 +163,7 @@ looker.plugins.visualizations.add({
           }
           return 0;
         });
-      }
+      }*/
 
 
       console.log("series", series);
@@ -226,6 +226,31 @@ looker.plugins.visualizations.add({
 
       console.log("options",this.options);
 
+      function prepareSeries(series) {
+        var newSeriesArr = [];
+        series.forEach(function(series) {
+          // create new series for every point
+          series.data.forEach(function(point) {
+            var newSeries = {};
+            for (prop in series) {
+              if (prop !== 'data') {
+                newSeries[prop] = series[prop]; // copy properties to a new series
+              }
+            }
+            newSeries.data = [point];
+
+            // eliminate duplicates in the legend
+            newSeries.showInLegend = typeof newSeriesArr.find((s) => s.name === newSeries.name) === 'object';
+
+            newSeriesArr.push(newSeries);
+          });
+        });
+        newSeriesArr.sort(function(s1, s2) {
+          return s2.data[0].y - s1.data[0].y;
+        });
+        return newSeriesArr;
+      }
+
       Highcharts.setOptions({
           lang: {
               thousandsSep: ','
@@ -267,10 +292,29 @@ looker.plugins.visualizations.add({
         },
         plotOptions: {
             series: {
-                stacking: config.seriesPositioning || undefined
+                //stacking: config.seriesPositioning || undefined
+                stacking: "normal",
+                events: {
+                  legendItemClick: function() {
+                    var chart = this.chart,
+                      series = this,
+                      hide = !this.visible;
+
+                    chart.series.forEach(function(s) {
+                      if (series.name === s.name) {
+                        s.update({
+                          visible: hide
+                        }, false);
+                      }
+                    });
+
+                    chart.redraw();
+                    return false;
+                  }
+                }
             }
         },
-        series,
+        series: prepareSeries(series),
       };
 
       Highcharts.chart(element, options);

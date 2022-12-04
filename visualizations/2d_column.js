@@ -155,10 +155,10 @@ looker.plugins.visualizations.add({
         series.sort((a, b)=>{
           const nameA = a.name.toUpperCase();
           const nameB = b.name.toUpperCase();
-          if (nameA < nameB) {
+          if (a.data[0] < b.data[0]) {
             return config.sortStacks === "ascending"? -1 : 1;
           }
-          if (nameA > nameB) {
+          if (a.data[0] > b.data[0]) {
             return config.sortStacks === "ascending"? 1 : -1;
           }
           return 0;

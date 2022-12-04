@@ -246,7 +246,7 @@ looker.plugins.visualizations.add({
           });
         });
         newSeriesArr.sort(function(s1, s2) {
-          return s2.data[0].y - s1.data[0].y;
+          return s2.data[0] - s1.data[0];
         });
         return newSeriesArr;
       }

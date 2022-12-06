@@ -295,12 +295,24 @@ view: user_fact {
     value_format: "0"
     sql: ${TABLE}.config_timestamp;;
   }
+  dimension: config_version_string {
+    group_label: "Version Dimensions"
+    label: "Config Version - String"
+    type: string
+    sql: cast(${TABLE}.config_timestamp as string);;
+  }
   dimension: install_config_timestamp {
     group_label: "Version Dimensions"
     label: "Install Config Version"
     type: number
     value_format: "0"
     sql: ${TABLE}.install_config_timestamp;;
+  }
+  dimension: install_config_version_string {
+    group_label: "Version Dimensions"
+    label: "Install Config Version - String"
+    type: string
+    sql: cast(${TABLE}.install_config_timestamp as string);;
   }
   measure: count {
     label: "Count of Players"

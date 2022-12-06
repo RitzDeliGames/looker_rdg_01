@@ -6,8 +6,6 @@ view: churn_by_level_derived {
         (select
           churn_by_level_by_attempt.last_level_serial last_level_completed
           ,churn_by_level_by_attempt.last_level_id last_level_id
-          --,churn_by_level_by_attempt.level_id level_id
-          --,churn_by_level_by_attempt.round_length round_length
           ,if(churn_by_level_by_attempt.round_id < churn_by_level_by_attempt.greater_round_id,'played_again','stuck') churn
           ,count(distinct churn_by_level_by_attempt.rdg_id) player_count
         from `eraser-blast.looker_scratch.6Y_ritz_deli_games_churn_by_level_by_attempt` as churn_by_level_by_attempt
@@ -15,7 +13,8 @@ view: churn_by_level_derived {
           left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_user_last_event` as user_last_event on churn_by_level_by_attempt.rdg_id = user_last_event.rdg_id
         where {% condition variant %} json_extract_scalar(user_last_event.experiments,{% parameter experiment %}) {% endcondition %}
           and {% condition install_version %} cast(install_version as int64) {% endcondition %}
-        group by 1,2,3--,4,5
+          and {% condition config_version %} cast(config_timestamp as string) {% endcondition %}
+        group by 1,2,3
         order by 1,2,3 desc)
 
       select * from unpivoted_churn_by_level
@@ -29,7 +28,6 @@ view: churn_by_level_derived {
       (select
         churn_by_level_by_attempt.last_level_serial last_level_completed
         ,churn_by_level_by_attempt.last_level_id last_level_id
-        --,churn_by_level_by_attempt.level_id level_id
         ,approx_quantiles(churn_by_level_by_attempt.round_length, 100) [offset(50)] round_length
         ,count(distinct churn_by_level_by_attempt.rdg_id) player_count_total
       from `eraser-blast.looker_scratch.6Y_ritz_deli_games_churn_by_level_by_attempt` as churn_by_level_by_attempt
@@ -37,11 +35,11 @@ view: churn_by_level_derived {
         left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_user_last_event` as user_last_event on churn_by_level_by_attempt.rdg_id = user_last_event.rdg_id
       where {% condition variant %} json_extract_scalar(user_last_event.experiments,{% parameter experiment %}) {% endcondition %}
         and {% condition install_version %} cast(install_version as int64) {% endcondition %}
-      group by 1,2--,3
+        and {% condition config_version %} cast(config_timestamp as string) {% endcondition %}
+      group by 1,2
       order by 1,2) b
       on a.last_level_completed = b.last_level_completed
         and a.last_level_id = b.last_level_id
-        --and a.round_length = b.round_length
       order by a.last_level_completed asc
       ;;
     datagroup_trigger: change_6_hrs
@@ -54,11 +52,14 @@ view: churn_by_level_derived {
     hidden: yes
   }
   filter: install_version {
+    group_label: "Version Dimensions"
+    label: "Install Version"
     type: number
   }
-  filter: variant {
+  filter: config_version {
+    group_label: "Version Dimensions"
+    label: "Config Version - String"
     type: string
-    suggestions: ["control","variant_a","variant_b","variant_c"]
   }
   parameter: experiment {
     type: string
@@ -86,6 +87,10 @@ view: churn_by_level_derived {
       ,"$.zoneOrder2_09302022"
       ,"$.zoneStarCosts_09222022"]
   }
+  filter: variant {
+    type: string
+    suggestions: ["control","variant_a","variant_b","variant_c"]
+  }
   dimension: last_level_completed {
     group_label: "Level Dimensions"
     label: "Last Level Completed"
@@ -104,12 +109,6 @@ view: churn_by_level_derived {
     type: string
     sql: ${TABLE}.last_level_id ;;
   }
-  # dimension: level_id {
-  #   group_label: "Level Dimensions"
-  #   label: "Current Level - Id"
-  #   type: string
-  #   sql: ${TABLE}.level_id ;;
-  # }
   dimension: round_length {
     type: number
     sql: ${TABLE}.round_length ;;

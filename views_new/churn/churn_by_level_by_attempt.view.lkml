@@ -4,8 +4,8 @@ view: churn_by_level_by_attempt {
       select
         a.rdg_id
         ,a.timestamp
+        ,a.config_timestamp
         ,a.last_level_id
-        --,a.level_id
         ,a.game_mode
         ,cast(a.currency_03_balance as int64) currency_03_balance
         ,cast(a.currency_04_balance as int64) currency_04_balance
@@ -20,6 +20,7 @@ view: churn_by_level_by_attempt {
            rdg_id
           ,json_extract_scalar(extra_json,"$.round_id") round_id
           ,timestamp
+          ,json_extract_scalar(extra_json,"$.config_timestamp") config_timestamp
           ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
           ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
           ,last_level_id
@@ -66,6 +67,7 @@ view: churn_by_level_by_attempt {
   dimension: timestamp {
     type: date_time
   }
+  dimension: config_timestamp {}
   dimension: currency_03_balance {
     group_label: "Currencies"
     label: "Coin Balance"

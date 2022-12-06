@@ -67,7 +67,10 @@ view: churn_by_level_by_attempt {
   dimension: timestamp {
     type: date_time
   }
-  dimension: config_timestamp {}
+  dimension: config_timestamp {
+    type: string
+    sql: ${TABLE}.config_timestamp ;;
+  }
   dimension: currency_03_balance {
     group_label: "Currencies"
     label: "Coin Balance"

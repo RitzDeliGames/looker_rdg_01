@@ -13,7 +13,7 @@ view: churn_by_level_derived {
           left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_user_last_event` as user_last_event on churn_by_level_by_attempt.rdg_id = user_last_event.rdg_id
         where {% condition variant %} json_extract_scalar(user_last_event.experiments,{% parameter experiment %}) {% endcondition %}
           and {% condition install_version %} cast(install_version as int64) {% endcondition %}
-          and {% condition config_version %} cast(config_timestamp as string) {% endcondition %}
+          and {% condition config_timestamp %} churn_by_level_by_attempt.config_timestamp {% endcondition %}
         group by 1,2,3
         order by 1,2,3 desc)
 
@@ -35,7 +35,7 @@ view: churn_by_level_derived {
         left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_user_last_event` as user_last_event on churn_by_level_by_attempt.rdg_id = user_last_event.rdg_id
       where {% condition variant %} json_extract_scalar(user_last_event.experiments,{% parameter experiment %}) {% endcondition %}
         and {% condition install_version %} cast(install_version as int64) {% endcondition %}
-        and {% condition config_version %} cast(config_timestamp as string) {% endcondition %}
+        and {% condition config_timestamp %} churn_by_level_by_attempt.config_timestamp {% endcondition %}
       group by 1,2
       order by 1,2) b
       on a.last_level_completed = b.last_level_completed
@@ -56,7 +56,7 @@ view: churn_by_level_derived {
     label: "Install Version"
     type: number
   }
-  filter: config_version {
+  filter: config_timestamp {
     group_label: "Version Dimensions"
     label: "Config Version - String"
     type: string

@@ -326,9 +326,9 @@ constant: install_release_version_minor {
 
 constant: country_region {
   value: "case
-            when ${TABLE}.country like 'ZZ' then 'N/A'
+            when ${TABLE}.country = 'ZZ' then 'N/A'
             when ${TABLE}.country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE') then 'LATAM-ES'
-            when ${TABLE}.country like 'BR' then 'LATAM-BR'
+            when ${TABLE}.country = 'BR' then 'LATAM-BR'
             when ${TABLE}.country in ('SE','DK','FI','IS','NO','SE') then 'Scandinavia'
             when ${TABLE}.country in ('GB','AT','BE','BG','HR','CY','CZ','EE','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES') then 'UK-EU'
             when ${TABLE}.country in ('US', 'CA') then 'NA-EN'

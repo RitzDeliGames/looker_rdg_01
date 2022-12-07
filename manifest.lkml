@@ -238,6 +238,7 @@ constant: release_version_minor {
             when ${TABLE}.version = '13050' then'1.13.050'
             when ${TABLE}.version = '13052' then'1.13.052'
             when ${TABLE}.version = '13053' then'1.13.053'
+            when ${TABLE}.version = '13075' then'1.13.075'
             else ''
           end"
 }
@@ -318,6 +319,7 @@ constant: install_release_version_minor {
             when ${TABLE}.install_version = '13050' then'1.13.050'
             when ${TABLE}.install_version = '13052' then'1.13.052'
             when ${TABLE}.install_version = '13053' then'1.13.053'
+            when ${TABLE}.install_version = '13075' then'1.13.075'
             else ''
           end"
 }

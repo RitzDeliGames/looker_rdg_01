@@ -1,6 +1,6 @@
 
-label: "Eraser Blast"
-connection: "eraser_blast_gbq"
+label: "Chum Chum Blast"
+connection: "chum_chum_blast_prod"
 
 # include all the views
 # include: "/views/**/*.view"

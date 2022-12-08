@@ -450,7 +450,7 @@ constant: iap_id_strings_grouped {
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_006' then 'Coin Capsule'
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_007' then 'Coin Capsule'
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_020' then 'Coin Capsule'
-            when json_extract_scalar(extra_json,'$.iap_id') = 'item_021' then 'Coin Capsule
+            when json_extract_scalar(extra_json,'$.iap_id') = 'item_021' then 'Coin Capsule'
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_057' then 'Coin Capsule'
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_008' then 'Gem Capsule'
             when json_extract_scalar(extra_json,'$.iap_id') = 'item_026' then 'Gem Capsule'

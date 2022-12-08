@@ -96,30 +96,4 @@ view: user_last_event {
     label: "Last Level Completed"
     type: number
   }
-
-  ###EXPERIMENT IDS - LIVE###
-  dimension: newLevelPass_20220926   {
-    group_label: "Experiments - Live"
-    label: "New Level Pass v4"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.newLevelPass_20220926'),'unassigned') ;;
-  }
-  dimension: mMStreaks_09302022   {
-    group_label: "Experiments - Live"
-    label: "Moves Master v2"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.mMStreaks_09302022'),'unassigned') ;;
-  }
-  dimension: movesMaster_09202022   {
-    group_label: "Experiments - Closed"
-    label: "Moves Master v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.movesMaster_09202022'),'unassigned') ;;
-  }
-  dimension: difficultyStars_09202022   {
-    group_label: "Experiments - Live"
-    label: "Star Payout v1"
-    type: string
-    sql: nullif(json_extract_scalar(${experiments},'$.difficultyStars_09202022'),'unassigned') ;;
-  }
 }

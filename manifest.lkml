@@ -497,6 +497,7 @@ constant:  iam_ui_actions {
             when json_extract_scalar(extra_json,'$.ui_action') like '%MISSING%' then 'Connect'
             when json_extract_scalar(extra_json,'$.ui_action') like '%Califícanos%' then 'Rate Us'
             when json_extract_scalar(extra_json,'$.ui_action') like '%Avalie-nos%' then 'Rate Us'
+            when json_extract_scalar(extra_json,'$.ui_action') = 'btn_positive' then 'Rate Us'
             when json_extract_scalar(extra_json,'$.ui_action') like '%Rate Us%' then 'Rate Us'
             when json_extract_scalar(extra_json,'$.ui_action') like '%tarde%' then 'Later'
             when json_extract_scalar(extra_json,'$.ui_action') like '%Luego%' then 'Later'

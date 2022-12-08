@@ -82,6 +82,7 @@ view: churn_by_level_derived {
       ,"$.seedTest_20221028"
       ,"$.storeUnlock_20221102"
       ,"$.treasureTrove_20221114"
+      ,"$.u2aFUE20221115"
       ,"$.vfxReduce_20221017"
       ,"$.vfxReduce_2_20221024"
       ,"$.zoneOrder2_09302022"

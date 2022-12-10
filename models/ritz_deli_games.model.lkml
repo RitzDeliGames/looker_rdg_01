@@ -552,18 +552,12 @@ explore: cohort_selection {
   hidden: yes
 }
 
+explore: sessions_per_day_per_player {}
+
 ### FIREBASE REPORTING - DAU, DAY 1 RETENTION ###
 
 explore: firebase_analytics {
   always_filter: {
     filters: [firebase_analytics.date_filter: "7 days"]
   }
-}
-
-# EXPLORES ADDED FOR VIEWING INCLUDED DATA
-
-explore: sessions_per_day_per_player {}
-
-explore: android_advertising_id_helper {
-  label: "Temp Android Advertising ID Helper"
 }

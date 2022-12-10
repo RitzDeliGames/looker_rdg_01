@@ -59,10 +59,23 @@ view: rewards {
     ]
     sql: ${TABLE}.timestamp  ;;
   }
+  dimension: last_level_id {
+    group_label: "Level Dimensions"
+    label: "Last Level Completed - Id"
+    type: string
+    sql: ${TABLE}.last_level_id ;;
+  }
   dimension: last_level_serial {
-    group_label: "Last Level"
+    group_label: "Level Dimensions"
+    label: "Last Level Completed"
     type: number
     sql: ${TABLE}.last_level_serial ;;
+  }
+  dimension: last_level_serial_offset {
+    group_label: "Level Dimensions"
+    label: "Current Level"
+    type: number
+    sql: ${last_level_serial} + 1 ;;
   }
   dimension: reward_event_raw {
     type: string

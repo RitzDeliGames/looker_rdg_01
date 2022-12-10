@@ -179,6 +179,12 @@ view: user_fact {
     label: "Last Level Completed"
     type: number
   }
+  dimension: last_level_serial_offset {
+    group_label: "Level Dimensions"
+    label: "Current Level"
+    type: number
+    sql: ${last_level_serial} + 1 ;;
+  }
   dimension: days_between_first_and_last_event {
     type: number
     sql: case when ${created_date} >= ${last_event_date} then date_diff(${last_event_date},${created_date},day) else null end ;;

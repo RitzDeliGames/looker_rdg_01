@@ -87,11 +87,13 @@ view: user_last_event {
     sql: json_extract_scalar(${experiments},{% parameter experiment %}) ;;
   }
   dimension: last_level_id {
+    hidden: yes
     group_label: "Level Dimensions"
     label: "Last Level Completed - Id"
     type: string
   }
   dimension: last_level_serial {
+    hidden: yes
     group_label: "Level Dimensions"
     label: "Last Level Completed"
     type: number

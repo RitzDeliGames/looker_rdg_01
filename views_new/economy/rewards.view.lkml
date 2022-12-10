@@ -136,6 +136,18 @@ view: rewards {
     percentile: 97.5
     sql: ${reward_amount} ;;
   }
-
+  parameter: reward_event_filter {
+    suggest_dimension: reward_event_clean
+  }
+  measure: rewarded_players {
+    type: count_distinct
+    sql:
+      case
+        when
+          {% condition reward_event_filter %} ${reward_event_raw} {% endcondition %}
+        then ${rdg_id}
+      end
+    ;;
+  }
   drill_fields: [rdg_id,reward_type,reward_amount_sum]
 }

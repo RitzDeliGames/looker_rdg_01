@@ -632,26 +632,14 @@ constant: reward_types {
             when ${TABLE}.reward_type = 'CURRENCY_02' then 'Gems'
             when ${TABLE}.reward_type = 'CURRENCY_03' then 'Coins'
             when ${TABLE}.reward_type = 'CURRENCY_04' then 'Lives'
-            when ${TABLE}.reward_type = 'CURRENCY_05' then 'AFH Tokens'
-            when ${TABLE}.reward_type = 'boost_001' then 'Score Boost'
-            when ${TABLE}.reward_type = 'boost_002' then 'Coin Boost'
-            when ${TABLE}.reward_type = 'boost_004' then 'Time Boost'
-            when ${TABLE}.reward_type = 'boost_005' then 'Bubble Boost'
-            when ${TABLE}.reward_type = 'boost_006' then '5-to-4 Boost'
-            when ${TABLE}.reward_type = 'LEVEL' then 'Level Ticket'
-            when ${TABLE}.reward_type = 'SKILL' then 'Skill Ticket'
-            when ${TABLE}.reward_type = 'box_009' then 'Spooky Machine Ticket'
           end"
 }
 
 constant: reward_events {
   value: "case
             when ${TABLE}.reward_event like '%initial%' then 'Initial Reward'
-            when ${TABLE}.reward_event like '%level%' then 'Level Up'
             when ${TABLE}.reward_event = 'round_end' then 'Round End'
-            when ${TABLE}.reward_event = 'facebook_connect' then 'Facebook Connect'
-            when ${TABLE}.reward_event = 'global_leaderboard' then 'Global Leaderboard Reward'
-            when ${TABLE}.reward_event like '%gacha_box%' then 'Free Machine'
+            when ${TABLE}.reward_event = 'zone_restore' then 'Zone Restore'
             else ${TABLE}.reward_event
           end"
 }

@@ -85,11 +85,16 @@ explore: user_retention {
     view_label: "Transactions"
     type: left_outer
     relationship: one_to_many
-    # relationship: many_to_many
-    # sql_on: ${user_retention.rdg_id} = ${transactions_new.rdg_id} ;;
     sql_on: ${user_retention.rdg_id} = ${transactions_new.rdg_id}
-      and ${user_activity.activity_date} = ${transactions_new.transaction_date} --#TEMP: added to (try) build LTV curves
+      and ${user_activity.activity_date} = ${transactions_new.transaction_date}
       and ${user_activity_engagement_min.engagement_ticks} = ${transactions_new.engagement_ticks};;
+  }
+  join: rewards {
+    view_label: "Rewards"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${user_retention.rdg_id} = ${rewards.rdg_id}
+      and ${user_activity.activity_date} = ${rewards.reward_date};;
   }
   join: loading_times {
     view_label: "Scene Loading Times"

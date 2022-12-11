@@ -59,4 +59,5 @@ view: user_activity {
     type: count_distinct
     sql: ${user_id} ;;
   }
+  drill_fields: [rdg_id,days_since_created,user_retention.days_played_past_week]
 }

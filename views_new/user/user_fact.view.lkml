@@ -40,11 +40,9 @@ view: user_fact {
         --,percentile_cont(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric),0.5) over (partition by date(timestamp),rdg_id) currency_02_balance_median
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_max
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_max
-        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric)) currency_05_balance_max
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric)) currency_07_balance_max
         ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_min
         ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_min
-        ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric)) currency_05_balance_min
         ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric)) currency_07_balance_min
         ,max(cast(json_extract_scalar(tickets,"$.box_001") as numeric)) box_001_balance_max
         ,max(cast(json_extract_scalar(tickets,"$.box_002") as numeric)) box_002_balance_max
@@ -348,11 +346,6 @@ view: user_fact {
     type: sum
     sql: ${ltv} ;;
   }
-  dimension: currency_02_balance_max {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.currency_02_balance_max ;;
-  }
   dimension: currency_03_balance_max {
     type: number
     hidden: yes
@@ -470,84 +463,6 @@ view: user_fact {
     type: percentile
     percentile: 97.5
     sql: ${currency_04_balance_max} ;;
-  }
-  dimension: currency_05_balance_max {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.currency_05_balance_max ;;
-  }
-  measure: currency_05_balance_025 {
-    group_label: "AFH Token Balance - Max"
-    label: "Max Daily AFH Token Balance - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${currency_05_balance_max} ;;
-  }
-  measure: currency_05_balance_25 {
-    group_label: "AFH Token Balance - Max"
-    label: "Max Daily AFH Token Balance - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${currency_05_balance_max} ;;
-  }
-  measure: currency_05_balance_med {
-    group_label: "AFH Token Balance - Max"
-    label: "Max Daily AFH Token Balance - Median"
-    type: median
-    sql: ${currency_05_balance_max} ;;
-  }
-  measure: currency_05_balance_75 {
-    group_label: "AFH Token Balance - Max"
-    label: "Max Daily AFH Token Balance - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${currency_05_balance_max} ;;
-  }
-  measure: currency_05_balance_975 {
-    group_label: "AFH Token Balance - Max"
-    label: "Max Daily AFH Token Balance - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${currency_05_balance_max} ;;
-  }
-  dimension: currency_05_balance_min {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.currency_05_balance_min ;;
-  }
-  measure: currency_05_balance_025_min {
-    group_label: "AFH Token Balance - Min"
-    label: "Min Daily AFH Token Balance - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${currency_05_balance_min} ;;
-  }
-  measure: currency_05_balance_25_min {
-    group_label: "AFH Token Balance - Min"
-    label: "Min Daily AFH Token Balance - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${currency_05_balance_min} ;;
-  }
-  measure: currency_05_balance_med_min {
-    group_label: "AFH Token Balance - Min"
-    label: "Min Daily AFH Token Balance - Median"
-    type: median
-    sql: ${currency_05_balance_min} ;;
-  }
-  measure: currency_05_balance_75_min {
-    group_label: "AFH Token Balance - Min"
-    label: "Min Daily AFH Token Balance - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${currency_05_balance_min} ;;
-  }
-  measure: currency_05_balance_975_min {
-    group_label: "AFH Token Balance - Min"
-    label: "Min Daily AFH Token Balance - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${currency_05_balance_min} ;;
   }
   dimension: currency_07_balance_max {
     type: number

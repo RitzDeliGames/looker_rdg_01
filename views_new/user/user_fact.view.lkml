@@ -47,23 +47,9 @@ view: user_fact {
         ,max(cast(json_extract_scalar(tickets,"$.box_001") as numeric)) box_001_balance_max
         ,max(cast(json_extract_scalar(tickets,"$.box_002") as numeric)) box_002_balance_max
         ,max(cast(json_extract_scalar(tickets,"$.box_007") as numeric)) box_007_balance_max
-        ,max(cast(json_extract_scalar(tickets,"$.COIN") as numeric)) coin_boost_balance_max
-        ,max(cast(json_extract_scalar(tickets,"$.TIME") as numeric)) time_boost_balance_max
-        ,max(cast(json_extract_scalar(tickets,"$.FIVE_TO_FOUR") as numeric)) five_to_four_boost_balance_max
-        ,max(cast(json_extract_scalar(tickets,"$.BUBBLE") as numeric)) bubble_boost_balance_max
-        ,max(cast(json_extract_scalar(tickets,"$.SCORE") as numeric)) score_boost_balance_max
-        ,max(cast(json_extract_scalar(tickets,"$.SKILL") as numeric)) skill_ticket_balance_max
-        ,max(cast(json_extract_scalar(tickets,"$.LEVEL") as numeric)) level_ticket_balance_max
         ,min(cast(json_extract_scalar(tickets,"$.box_001") as numeric)) box_001_balance_min
         ,min(cast(json_extract_scalar(tickets,"$.box_002") as numeric)) box_002_balance_min
         ,min(cast(json_extract_scalar(tickets,"$.box_007") as numeric)) box_007_balance_min
-        ,min(cast(json_extract_scalar(tickets,"$.COIN") as numeric)) coin_boost_balance_min
-        ,min(cast(json_extract_scalar(tickets,"$.TIME") as numeric)) time_boost_balance_min
-        ,min(cast(json_extract_scalar(tickets,"$.FIVE_TO_FOUR") as numeric)) five_to_four_boost_balance_min
-        ,min(cast(json_extract_scalar(tickets,"$.BUBBLE") as numeric)) bubble_boost_balance_min
-        ,min(cast(json_extract_scalar(tickets,"$.SCORE") as numeric)) score_boost_balance_min
-        ,min(cast(json_extract_scalar(tickets,"$.SKILL") as numeric)) skill_ticket_balance_min
-        ,min(cast(json_extract_scalar(tickets,"$.LEVEL") as numeric)) level_ticket_balance_min
       from first_activity fa
       left join `eraser-blast.game_data.events` gde
         on fa.rdg_id = gde.rdg_id

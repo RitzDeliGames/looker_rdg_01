@@ -38,12 +38,10 @@ view: user_fact {
         ,min(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) install_config_timestamp
         ,max(days_played_past_week) days_played_past_week
         --,percentile_cont(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric),0.5) over (partition by date(timestamp),rdg_id) currency_02_balance_median
-        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric)) currency_02_balance_max
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_max
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_max
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric)) currency_05_balance_max
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric)) currency_07_balance_max
-        ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric)) currency_02_balance_min
         ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_min
         ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_min
         ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric)) currency_05_balance_min
@@ -354,84 +352,6 @@ view: user_fact {
     type: number
     hidden: yes
     sql: ${TABLE}.currency_02_balance_max ;;
-  }
-  # dimension: currency_02_balance_median {
-  #   type: number
-  #   hidden: yes
-  #   sql: ${TABLE}.currency_02_balance_median ;;
-  # }
-  measure: currency_02_balance_025 {
-    group_label: "Gem Balance - Max"
-    label: "Max Daily Gem Balance - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${currency_02_balance_max} ;;
-  }
-  measure: currency_02_balance_25 {
-    group_label: "Gem Balance - Max"
-    label: "Max Daily Gem Balance - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${currency_02_balance_max} ;;
-  }
-  measure: currency_02_balance_med {
-    group_label: "Gem Balance - Max"
-    label: "Max Daily Gem Balance - Median"
-    type: median
-    sql: ${currency_02_balance_max} ;;
-  }
-  measure: currency_02_balance_75 {
-    group_label: "Gem Balance - Max"
-    label: "Max Daily Gem Balance - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${currency_02_balance_max} ;;
-  }
-  measure: currency_02_balance_975 {
-    group_label: "Gem Balance - Max"
-    label: "Max Daily Gem Balance - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${currency_02_balance_max} ;;
-  }
-  dimension: currency_02_balance_min {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.currency_02_balance_min ;;
-  }
-  measure: currency_02_balance_min_025 {
-    group_label: "Gem Balance - Min"
-    label: "Min Daily Gem Balance - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${currency_02_balance_min} ;;
-  }
-  measure: currency_02_balance_min_25 {
-    group_label: "Gem Balance - Min"
-    label: "Min Daily Gem Balance - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${currency_02_balance_min} ;;
-  }
-  measure: currency_02_balance_min_med {
-    group_label: "Gem Balance - Min"
-    label: "Min Daily Gem Balance - Median"
-    type: median
-    sql: ${currency_02_balance_min} ;;
-  }
-  measure: currency_02_balance_min_75 {
-    group_label: "Gem Balance - Min"
-    label: "Min Daily Gem Balance - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${currency_02_balance_min} ;;
-  }
-  measure: currency_02_balance_min_975 {
-    group_label: "Gem Balance - Min"
-    label: "Min Daily Gem Balance - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${currency_02_balance_min} ;;
   }
   dimension: currency_03_balance_max {
     type: number

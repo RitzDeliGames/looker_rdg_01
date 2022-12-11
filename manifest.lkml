@@ -346,6 +346,7 @@ constant: purchase_source {
               when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_skill_clear_horizontal' then 'Quick Purchase - Horizontal Skill'
               when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_skill_clear_vertical' then 'Quick Purchase - Vertical Skill'
               when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_boost_rocket' then 'Quick Purchase - Rocket'
+              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_boost_color_ball' then 'Quick Purchase - Color Ball'
               when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Panel_Store.Purchase.%' then 'Store'
               when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Panel_QuickPurchase.Purchase.%' then 'Quick Purchase'
               when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like '%BuyMoreTime%' then 'Mini-Game'

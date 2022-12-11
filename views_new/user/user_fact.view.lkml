@@ -37,19 +37,12 @@ view: user_fact {
         ,max(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) config_timestamp
         ,min(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) install_config_timestamp
         ,max(days_played_past_week) days_played_past_week
-        --,percentile_cont(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric),0.5) over (partition by date(timestamp),rdg_id) currency_02_balance_median
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_max
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_max
         ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric)) currency_07_balance_max
         ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_min
         ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_min
         ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric)) currency_07_balance_min
-        ,max(cast(json_extract_scalar(tickets,"$.box_001") as numeric)) box_001_balance_max
-        ,max(cast(json_extract_scalar(tickets,"$.box_002") as numeric)) box_002_balance_max
-        ,max(cast(json_extract_scalar(tickets,"$.box_007") as numeric)) box_007_balance_max
-        ,min(cast(json_extract_scalar(tickets,"$.box_001") as numeric)) box_001_balance_min
-        ,min(cast(json_extract_scalar(tickets,"$.box_002") as numeric)) box_002_balance_min
-        ,min(cast(json_extract_scalar(tickets,"$.box_007") as numeric)) box_007_balance_min
       from first_activity fa
       left join `eraser-blast.game_data.events` gde
         on fa.rdg_id = gde.rdg_id

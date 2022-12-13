@@ -32,7 +32,7 @@ view: user_fact {
         ,max(timestamp) last_event
         ,cast(max(last_level_serial) as int64) last_level_serial
         ,cast(max(engagement_ticks) as int64) engagement_ticks
-        ,min(version) version
+        ,max(version) version
         ,max(install_version) install_version
         ,max(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) config_timestamp
         ,min(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) install_config_timestamp

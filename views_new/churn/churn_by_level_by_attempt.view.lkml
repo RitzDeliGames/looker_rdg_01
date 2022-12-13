@@ -5,6 +5,8 @@ view: churn_by_level_by_attempt {
         a.rdg_id
         ,a.timestamp
         ,a.config_timestamp
+        ,cast(a.version as int64) version
+        ,cast(a.install_version as int64) install_version
         ,a.last_level_id
         ,a.game_mode
         ,cast(a.currency_03_balance as int64) currency_03_balance
@@ -20,12 +22,13 @@ view: churn_by_level_by_attempt {
            rdg_id
           ,json_extract_scalar(extra_json,"$.round_id") round_id
           ,timestamp
+          ,version
+          ,install_version
           ,json_extract_scalar(extra_json,"$.config_timestamp") config_timestamp
           ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
           ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
           ,last_level_id
           ,last_level_serial
-          --,json_extract_scalar(extra_json,"$.level_id") level_id
           ,json_extract_scalar(extra_json,'$.game_mode') game_mode
           ,cast(json_extract_scalar(extra_json,'$.total_chains') as int64) total_chains
           ,cast(json_extract_scalar(extra_json,'$.round_length') as int64) round_length
@@ -66,6 +69,16 @@ view: churn_by_level_by_attempt {
   }
   dimension: timestamp {
     type: date_time
+  }
+  dimension: version {
+    group_label: "Version Dimensions"
+    label: "Release Version"
+    type: number
+  }
+  dimension: install_version {
+    group_label: "Version Dimensions"
+    label: "Install Version"
+    type: number
   }
   dimension: config_timestamp {
     type: string

@@ -28,25 +28,6 @@ view: round_end {
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric) currency_05_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
-        --,cast(json_extract_scalar(extra_json,'$.rocket_boost') as int64) rocket_boost
-        --,cast(json_extract_scalar(extra_json,'$.bomb_boost') as int64) bomb_boost
-        --,cast(json_extract_scalar(extra_json,'$.color_ball_boost') as int64) color_ball_boost
-        --,cast(json_extract_scalar(extra_json,'$.propeller_boost') as int64) propeller_boost
-        --,cast(json_extract_scalar(extra_json,'$.powerup_rocket_vertical') as int64) powerup_rocket_vertical
-        --,cast(json_extract_scalar(extra_json,'$.powerup_rocket_horizontal') as int64) powerup_rocket_horizontal
-        --,cast(json_extract_scalar(extra_json,'$.powerup_color_ball') as int64) powerup_color_ball
-        --,cast(json_extract_scalar(extra_json,'$.powerup_bomb') as int64) powerup_bomb
-        --,cast(json_extract_scalar(extra_json,'$.powerup_propeller') as int64) powerup_propeller
-        --,cast(json_extract_scalar(extra_json,'$.powerup_combo_color_ball_propeller') as int64) powerup_combo_color_ball_propeller
-        --,cast(json_extract_scalar(extra_json,'$.powerup_combo_color_ball_bomb') as int64) powerup_combo_color_ball_bomb
-        --,cast(json_extract_scalar(extra_json,'$.powerup_combo_color_ball_rocket') as int64) powerup_combo_color_ball_rocket
-        --,cast(json_extract_scalar(extra_json,'$.powerup_combo_propeller_bomb') as int64) powerup_combo_propeller_bomb
-        --,cast(json_extract_scalar(extra_json,'$.powerup_combo_propeller_rocket') as int64) powerup_combo_propeller_rocket
-        --,cast(json_extract_scalar(extra_json,'$.powerup_combo_bomb_rocket') as int64) powerup_combo_bomb_rocket
-        --,cast(json_extract_scalar(extra_json,'$.powerup_combo_color_ball') as int64) powerup_combo_color_ball
-        --,cast(json_extract_scalar(extra_json,'$.powerup_piping_bag') as int64) powerup_piping_bag
-        --,cast(json_extract_scalar(extra_json,'$.powerup_rolling_pin') as int64) powerup_rolling_pin
-        --,cast(json_extract_scalar(extra_json,'$.powerup_hammer') as int64) powerup_hammer
     from game_data.events
     where event_name = 'round_end'
       and date(timestamp) between '2022-06-01' and current_date()

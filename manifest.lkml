@@ -550,7 +550,7 @@ constant: button_tags {
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndlessTreasure.endless_treasure' then 'Endless Treasure - Free'
             when json_extract_scalar(extra_json,'$.button_tag') = 'SheetContainer.OverlayClose' then 'Endless Treasure - Close'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndlessTreasure.Close' then 'Endless Treasure - Close'
-            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_RewardClaim.Collect' then 'Endless Treasure - Collect'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_RewardClaim.Collect.endless_treasure' then 'Endless Treasure - Collect'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndlessTreasure.endless_treasure.item_061' then 'Endless Treasure - #1 (Free)'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndlessTreasure.endless_treasure.item_062' then 'Endless Treasure - #2 (Free)'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndlessTreasure.endless_treasure.item_063' then 'Endless Treasure - #3 (Paid)'

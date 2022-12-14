@@ -74,11 +74,13 @@ view: churn_by_level_by_attempt {
     group_label: "Version Dimensions"
     label: "Release Version"
     type: number
+    value_format: "0"
   }
   dimension: install_version {
     group_label: "Version Dimensions"
     label: "Install Version"
     type: number
+    value_format: "0"
   }
   dimension: config_timestamp {
     type: string

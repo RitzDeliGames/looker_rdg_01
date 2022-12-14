@@ -162,20 +162,6 @@ view: transactions_new {
     sql: ${dollars_spent_amount_sum} ;;
     value_format_name: usd
   }
-  measure: gem_spent_amount_sum {
-    group_label: "Total Spend"
-    label: "Total Gems Spent"
-    type: sum
-    value_format: "#,###"
-    sql: if(${currency_spent} = 'CURRENCY_02',${currency_spent_amount}, 0) ;;
-    drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
-  }
-  measure: cumulative_gems_spent {
-    group_label: "Cumulative Spend"
-    type: running_total
-    sql: ${gem_spent_amount_sum} ;;
-    value_format: "#,###"
-  }
   measure: coin_spent_amount_sum {
     group_label: "Total Spend"
     label: "Total Coins Spent"
@@ -188,20 +174,6 @@ view: transactions_new {
     group_label: "Cumulative Spend"
     type: running_total
     sql: ${coin_spent_amount_sum} ;;
-    value_format: "#,###"
-  }
-  measure: afh_token_spent_amount_sum {
-    group_label: "Total Spend"
-    label: "Total AFH Spent"
-    type: sum
-    value_format: "#,###"
-    sql: if(${currency_spent} = 'CURRENCY_05',${currency_spent_amount}, 0) ;;
-    drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
-  }
-  measure: cumulative_afh_token_spent {
-    group_label: "Cumulative Spend"
-    type: running_total
-    sql: ${afh_token_spent_amount_sum} ;;
     value_format: "#,###"
   }
   measure: star_spent_amount_sum {

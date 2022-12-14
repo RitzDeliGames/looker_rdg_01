@@ -332,6 +332,7 @@ constant: country_region {
             when ${TABLE}.country in ('SE','DK','FI','IS','NO','SE') then 'Scandinavia'
             when ${TABLE}.country in ('GB','AT','BE','BG','HR','CY','CZ','EE','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES') then 'UK-EU'
             when ${TABLE}.country in ('US', 'CA') then 'NA-EN'
+            when ${TABLE}.country in ('AU', 'NZ') then 'AU-NZ'
             else 'OTHER'
           end"
 }

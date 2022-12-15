@@ -42,7 +42,6 @@ view: churn_by_level_derived {
       order by 1,2) b
       on a.last_level_completed = b.last_level_completed
         and a.last_level_id = b.last_level_id
-        --and a.install_version = b.install_version
       order by a.last_level_completed asc
       ;;
     datagroup_trigger: change_6_hrs

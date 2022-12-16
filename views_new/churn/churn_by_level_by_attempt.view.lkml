@@ -124,7 +124,13 @@ view: churn_by_level_by_attempt {
     type: number
     sql: ${last_level_serial} + 1 ;;
   }
-  dimension: game_mode {}
+  dimension: game_mode {
+    label: "Game Mode (Unconsolidated)"
+  }
+  dimension: game_mode_consolidated {
+    label: "Game Mode"
+    sql: @{game_mode_consolidated} ;;
+  }
   dimension:rounds {
     type: number
   }

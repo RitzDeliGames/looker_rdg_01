@@ -380,7 +380,9 @@ explore: fps {
   }
 }
 
-explore: weighted_fps {}
+explore: weighted_fps {
+  hidden: yes
+}
 
 explore: gameplay_fact {}
 
@@ -556,7 +558,6 @@ explore: cohort_analysis {
 explore: cohort_selection {
   hidden: yes
 }
-
 
 ### FIREBASE REPORTING - DAU, DAY 1 RETENTION ###
 

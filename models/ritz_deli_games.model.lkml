@@ -267,7 +267,7 @@ explore: churn_by_level_by_proximity {
 }
 
 explore: churn_by_level_derived {
-   view_label: "Churn by Level (Derived) - Attempt"
+   view_label: "Churn by Level - Attempt (Derived)"
 }
 
 explore: churn_by_match_made {
@@ -304,11 +304,11 @@ explore: gameplay {
     sql_on: ${gameplay.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
   }
-  join: erasers {
-    type: left_outer
-    sql_on: ${gameplay.primary_team_slot} = ${erasers.character_id} ;;
-    relationship: one_to_one
-  }
+  # join: erasers {
+  #   type: left_outer
+  #   sql_on: ${gameplay.primary_team_slot} = ${erasers.character_id} ;;
+  #   relationship: one_to_one
+  # }
   join: attempts_per_level {
     view_label: "Gameplay"
     type: left_outer
@@ -351,6 +351,12 @@ explore: gameplay {
     relationship: many_to_many
     sql_on: ${gameplay.rdg_id} = ${transactions_new.rdg_id}
       and ${gameplay.last_level_serial} = ${transactions_new.last_level_serial};;
+  }
+  join: churn_by_level_derived {
+    view_label: "Churn by Level - Attempt (Derived)"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${gameplay.last_level_id} = ${churn_by_level_derived.last_level_id};;
   }
 }
 

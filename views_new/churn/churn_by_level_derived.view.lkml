@@ -80,6 +80,7 @@ view: churn_by_level_derived {
       ,"$.difficultyStars_09202022"
       ,"$.dynamicRewards_20221018"
       ,"$.extraMovesCurrency_20221017"
+      ,"$.flourFrenzy_20221215"
       ,"$.fueDismiss_20221010"
       ,"$.gridGravity_20221003"
       ,"$.gridGravity2_20221012"
@@ -90,6 +91,7 @@ view: churn_by_level_derived {
       ,"$.storeUnlock_20221102"
       ,"$.treasureTrove_20221114"
       ,"$.u2aFUE20221115"
+      ,"$.u2ap2_FUE20221209"
       ,"$.vfxReduce_20221017"
       ,"$.vfxReduce_2_20221024"
       ,"$.zoneOrder2_09302022"
@@ -152,6 +154,7 @@ view: churn_by_level_derived {
     sql: ${TABLE}.player_count_total ;;
   }
   measure: player_count_total_sum {
+    label: "Player Count"
     type: sum
     sql: ${player_count_total} ;;
   }

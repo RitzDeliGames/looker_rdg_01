@@ -78,13 +78,11 @@ view: transactions_new {
       ,year
     ]
   }
-
   dimension_group: since_created {
     type: duration
     sql_start: ${created_date} ;;
     sql_end: ${transaction_date} ;;
   }
-
   dimension_group: transaction {
     type: time
     timeframes: [

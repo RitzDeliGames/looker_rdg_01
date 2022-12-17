@@ -129,6 +129,7 @@ view: round_end {
   measure: engagement_min_025 {
     group_label: "Minutes Played"
     label: "Minutes Played - 2.5%"
+    value_format: "#"
     type: percentile
     percentile: 2.5
     sql: ${engagement_min} ;;
@@ -136,6 +137,7 @@ view: round_end {
   measure: engagement_min_25 {
     group_label: "Minutes Played"
     label: "Minutes Played - 25%"
+    value_format: "#"
     type: percentile
     percentile: 25
     sql: ${engagement_min} ;;
@@ -143,12 +145,14 @@ view: round_end {
   measure: engagement_min_med {
     group_label: "Minutes Played"
     label: "Minutes Played - Median"
+    value_format: "#"
     type: median
     sql: ${engagement_min} ;;
   }
   measure: engagement_min_75 {
     group_label: "Minutes Played"
     label: "Minutes Played - 75%"
+    value_format: "#"
     type: percentile
     percentile: 75
     sql: ${engagement_min} ;;
@@ -156,6 +160,7 @@ view: round_end {
   measure: engagement_min_975 {
     group_label: "Minutes Played"
     label: "Minutes Played - 97.5%"
+    value_format: "#"
     type: percentile
     percentile: 97.5
     sql: ${engagement_min} ;;
@@ -578,6 +583,7 @@ view: round_end {
   measure: round_length_025 {
     group_label: "Round Length"
     label: "Round Length - 2.5%"
+    value_format: "#"
     type: percentile
     percentile: 2.5
     sql: ${round_length_num} ;;
@@ -585,6 +591,7 @@ view: round_end {
   measure: round_length_25 {
     group_label: "Round Length"
     label: "Round Length - 25%"
+    value_format: "#"
     type: percentile
     percentile: 25
     sql: ${round_length_num} ;;
@@ -592,12 +599,14 @@ view: round_end {
   measure: round_length_med {
     group_label: "Round Length"
     label: "Round Length - Median"
+    value_format: "#"
     type: median
     sql: ${round_length_num} ;;
   }
   measure: round_length_75 {
     group_label: "Round Length"
     label: "Round Length - 75%"
+    value_format: "#"
     type: percentile
     percentile: 75
     sql: ${round_length_num} ;;
@@ -605,6 +614,7 @@ view: round_end {
   measure: round_length_975 {
     group_label: "Round Length"
     label: "Round Length - 97.5%"
+    value_format: "#"
     type: percentile
     percentile: 97.5
     sql: ${round_length_num} ;;

@@ -4,7 +4,9 @@ view: churn_by_level_derived {
       from
         (with unpivoted_churn_by_level as
         (select
-          churn_by_level_by_attempt.last_level_serial last_level_completed
+          cast(churn_by_level_by_attempt.version as int64) version_no
+          --,cast(churn_by_level_by_attempt.install_version as int64) install_version_no
+          ,churn_by_level_by_attempt.last_level_serial last_level_completed
           ,churn_by_level_by_attempt.last_level_id last_level_id
           ,if(churn_by_level_by_attempt.round_id < churn_by_level_by_attempt.greater_round_id,'played_again','stuck') churn
           ,count(distinct churn_by_level_by_attempt.rdg_id) player_count
@@ -15,8 +17,8 @@ view: churn_by_level_derived {
           and {% condition install_version %} cast(churn_by_level_by_attempt.install_version as int64) {% endcondition %}
           and {% condition version %} cast(churn_by_level_by_attempt.version as int64) {% endcondition %}
           and {% condition config_timestamp %} churn_by_level_by_attempt.config_timestamp {% endcondition %}
-        group by 1,2,3
-        order by 1,2,3 desc)
+        group by 1,2,3,4--,5
+        order by 1,2,3,4 desc)
 
       select * from unpivoted_churn_by_level
       pivot (
@@ -27,7 +29,9 @@ view: churn_by_level_derived {
       order by 1 asc) a
       left join
       (select
-        churn_by_level_by_attempt.last_level_serial last_level_completed
+        cast(churn_by_level_by_attempt.version as int64) version_no
+        --,cast(churn_by_level_by_attempt.install_version as int64) install_version_no
+        ,churn_by_level_by_attempt.last_level_serial last_level_completed
         ,churn_by_level_by_attempt.last_level_id last_level_id
         ,approx_quantiles(churn_by_level_by_attempt.round_length, 100) [offset(50)] round_length
         ,count(distinct churn_by_level_by_attempt.rdg_id) player_count_total
@@ -38,10 +42,12 @@ view: churn_by_level_derived {
         and {% condition install_version %} cast(churn_by_level_by_attempt.install_version as int64) {% endcondition %}
         and {% condition version %} cast(churn_by_level_by_attempt.version as int64) {% endcondition %}
         and {% condition config_timestamp %} churn_by_level_by_attempt.config_timestamp {% endcondition %}
-      group by 1,2
-      order by 1,2) b
+      group by 1,2,3--,4
+      order by 1,2,3) b
       on a.last_level_completed = b.last_level_completed
         and a.last_level_id = b.last_level_id
+        and a.version_no = b.version_no
+        --and a.install_version_no = b.install_version_no
       order by a.last_level_completed asc
       ;;
     datagroup_trigger: change_6_hrs
@@ -101,10 +107,15 @@ view: churn_by_level_derived {
     type: string
     suggestions: ["control","variant_a","variant_b","variant_c"]
   }
+  dimension: version_no {
+    type: number
+    value_format: "0"
+    sql: ${TABLE}.version_no ;;
+  }
   # dimension: install_version_no {
   #   type: number
   #   value_format: "0"
-  #   sql: ${TABLE}.install_version ;;
+  #   sql: ${TABLE}.install_version_no ;;
   # }
   dimension: last_level_completed {
     group_label: "Level Dimensions"
@@ -134,6 +145,7 @@ view: churn_by_level_derived {
   }
   measure: round_length_med {
     label: "Round Length - Median"
+    value_format: "#"
     type: median
     sql: ${round_length_num} ;;
   }
@@ -161,13 +173,13 @@ view: churn_by_level_derived {
   measure: churn_rate {
     label: "Churn"
     type: number
-    value_format: "#%"
+    value_format: "#.0%"
     sql:  ${player_count_stuck_total} / nullif(${player_count_total_sum},0) ;;
   }
   measure: churn_rate_per_min {
     label: "Churn per Minute"
     type: number
-    value_format: "#%"
+    value_format: "#.0%"
     sql:  (${player_count_stuck_total} / nullif(${player_count_total_sum},0)) / (${round_length_med} / 60) ;;
   }
   set: detail {

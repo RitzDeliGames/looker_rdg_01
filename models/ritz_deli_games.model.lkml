@@ -312,31 +312,38 @@ explore: gameplay {
   join: attempts_per_level {
     view_label: "Gameplay"
     type: left_outer
+    relationship: many_to_one ## let's test this
     sql_on: ${gameplay.rdg_id} =  ${attempts_per_level.rdg_id}
       and ${gameplay.last_level_id} = ${attempts_per_level.last_level_id};;
-    relationship: many_to_one ## let's test this
+  }
+  join: churn_by_level_derived {
+    view_label: "Churn by Level - Attempt (Derived)"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${gameplay.last_level_id} = ${churn_by_level_derived.last_level_id}
+      and ${user_fact.version} = ${churn_by_level_derived.version_no};;
   }
   join: sessions_per_day_per_player {
     view_label: "Gameplay - Sessions"
     type: left_outer
+    relationship: many_to_one ## let's test this
     sql_on: ${gameplay.rdg_id} =  ${sessions_per_day_per_player.rdg_id}
       and ${gameplay.event_date} = ${sessions_per_day_per_player.event_date};;
-    relationship: many_to_one ## let's test this
   }
   join: rounds_per_day_per_player {
     view_label: "Gameplay - Rounds"
     type: left_outer
+    relationship: many_to_one ## let's test this
     sql_on: ${gameplay.rdg_id} =  ${rounds_per_day_per_player.rdg_id}
       and ${gameplay.event_date} = ${rounds_per_day_per_player.event_date};;
-    relationship: many_to_one ## let's test this
   }
   join: rounds_per_session_per_player {
     view_label: "Gameplay - Sessions"
     type: left_outer
+    relationship: many_to_one ## let's test this
     sql_on: ${gameplay.rdg_id} =  ${rounds_per_session_per_player.rdg_id}
       and ${gameplay.event_date} = ${rounds_per_session_per_player.event_date}
       and ${gameplay.session_id} = ${rounds_per_session_per_player.session_id};;
-    relationship: many_to_one ## let's test this
   }
   join: gameplay_fact {
     type: left_outer
@@ -351,12 +358,6 @@ explore: gameplay {
     relationship: many_to_many
     sql_on: ${gameplay.rdg_id} = ${transactions_new.rdg_id}
       and ${gameplay.last_level_serial} = ${transactions_new.last_level_serial};;
-  }
-  join: churn_by_level_derived {
-    view_label: "Churn by Level - Attempt (Derived)"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${gameplay.last_level_id} = ${churn_by_level_derived.last_level_id};;
   }
 }
 

@@ -113,6 +113,59 @@ view: transactions_new {
   dimension: minutes_played {
     type: number
   }
+  dimension: engagement_min {
+    group_label: "Minutes Played"
+    label: "Minutes Played"
+    type: number
+    sql: ${TABLE}.minutes_played ;;
+  }
+  dimension: engagement_min_cohort {
+    group_label: "Minutes Played"
+    label: "Minutes Played Cohort"
+    type: string
+    sql: 'MP' || cast((${engagement_min}) as string) ;;
+    order_by_field: engagement_min
+  }
+  dimension: engagement_1_min_interval {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 1 Min Tiers"
+    type: tier
+    tiers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+    style: integer
+    sql: ${engagement_min} ;;
+  }
+  dimension: engagement_2_min_interval {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 2 Min Tiers"
+    type: tier
+    tiers: [0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60]
+    style: integer
+    sql: ${engagement_min} ;;
+  }
+  dimension: engagement_min_interval {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 5 Min Tiers"
+    type: tier
+    tiers: [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90]
+    style: integer
+    sql: ${engagement_min} ;;
+  }
+  dimension: engagement_15_min_interval {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 15 Min Tiers"
+    type: tier
+    tiers: [0,15,30,45,60,75,90,105,120,135,150,165,180,195,210,225,240,255,270,285,300,315,330,345,360]
+    style: integer
+    sql: ${engagement_min} ;;
+  }
+  dimension: engagement_30_min_interval {
+    group_label: "Minutes Played"
+    label: "Minutes Played - 30 Min Tiers"
+    type: tier
+    tiers: [0,30,60,90,120,150,180,210,240,270,300,330,360,390,420,450,480,510,540,570,600]
+    style: integer
+    sql: ${engagement_min} ;;
+  }
   dimension: last_level_id {
     group_label: "Level Dimensions"
     label: "Last Level Completed - Id"
@@ -275,7 +328,7 @@ view: transactions_new {
   }
   measure: total_minutes_played {
     type: sum
-    sql: ${minutes_played} ;;
+    sql: ${engagement_min} ;;
   }
   measure: cumulative_minutes_played {
     type: running_total
@@ -308,7 +361,7 @@ view: transactions_new {
     transaction_date,
     days_since_created,
     weeks_since_created,
-    minutes_played,
+    engagement_min,
     rdg_id,
     transaction_count,
     iap_id,

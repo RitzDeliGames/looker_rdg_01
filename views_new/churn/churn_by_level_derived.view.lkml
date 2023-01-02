@@ -55,7 +55,7 @@ view: churn_by_level_derived {
   }
   dimension: primary_key {
     type: string
-    sql: ${last_level_completed} || ${last_level_id} ;;
+    sql: ${last_level_completed} || ${last_level_id} || ${version_no};;
     primary_key: yes
     hidden: yes
   }

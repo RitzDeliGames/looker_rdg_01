@@ -20,9 +20,8 @@ view: click_stream {
         ,lag(timestamp)
             over (partition by rdg_id order by timestamp desc) greater_level_completed
       from `eraser-blast.game_data.events`
-      where
-        event_name = 'ButtonClicked'
-        and timestamp >= '2022-06-01'
+      where event_name = 'ButtonClicked'
+        and date(timestamp) between '2022-06-01' and current_date()
         and user_type = 'external'
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'

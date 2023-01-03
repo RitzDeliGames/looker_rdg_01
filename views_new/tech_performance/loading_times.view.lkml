@@ -11,7 +11,7 @@ view: loading_times {
       ,json_extract_scalar(extra_json, '$.transition_to') transition_to
     from game_data.events
     where event_name = 'transition'
-      and timestamp >= '2019-01-01'
+      and date(timestamp) between '2019-01-01' and current_date()
       and user_type = 'external'
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'

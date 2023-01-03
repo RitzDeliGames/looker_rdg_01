@@ -47,7 +47,8 @@ view: user_fact {
       from first_activity fa
       left join `eraser-blast.game_data.events` gde
         on fa.rdg_id = gde.rdg_id
-      where gde.created_at >= '2019-01-01'
+      where date(gde.created_at) between '2019-01-01' and current_date()
+        and date(gde.timestamp) between '2019-01-01' and current_date()
         and gde.user_type = 'external'
         and gde.country != 'ZZ'
         and coalesce(gde.install_version,'null') <> '-1'

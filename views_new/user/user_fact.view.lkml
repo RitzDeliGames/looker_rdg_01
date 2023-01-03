@@ -13,9 +13,10 @@ view: user_fact {
         ,row_number() over (partition by rdg_id order by timestamp asc) rn
       from `eraser-blast.game_data.events`
       where date(created_at) between '2019-01-01' and current_date()
-      and user_type = 'external'
-      and country != 'ZZ'
-      and coalesce(install_version,'null') <> '-1')
+        and date(timestamp) between '2019-01-01' and current_date()
+        and user_type = 'external'
+        and country != 'ZZ'
+        and coalesce(install_version,'null') <> '-1')
 
       select
         fa.rdg_id
@@ -47,10 +48,10 @@ view: user_fact {
       left join `eraser-blast.game_data.events` gde
         on fa.rdg_id = gde.rdg_id
       where gde.created_at >= '2019-01-01'
-      and gde.user_type = 'external'
-      and gde.country != 'ZZ'
-      and coalesce(gde.install_version,'null') <> '-1'
-      and fa.rn = 1
+        and gde.user_type = 'external'
+        and gde.country != 'ZZ'
+        and coalesce(gde.install_version,'null') <> '-1'
+        and fa.rn = 1
       group by 1,2,3,4,5,6--,7,8,9
     ;;
 

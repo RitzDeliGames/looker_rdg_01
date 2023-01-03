@@ -8,7 +8,8 @@ view: user_activity {
         ,timestamp_trunc(timestamp,day) activity
       from `eraser-blast.game_data.events`
       where date(created_at) between '2019-01-01' and current_date()
-      and user_type = 'external'
+        and date(timestamp) between '2019-01-01' and current_date()
+        and user_type = 'external'
       group by 1,2,3
     ;;
     datagroup_trigger: change_6_hrs

@@ -153,7 +153,7 @@ explore: gameplay {
     relationship: one_to_one
   }
   join: attempts_per_level {
-    view_label: "Gameplay"
+    view_label: "Gameplay - Aggregated by Level"
     type: left_outer
     relationship: many_to_one ## let's test this
     sql_on: ${gameplay.rdg_id} =  ${attempts_per_level.rdg_id}
@@ -165,7 +165,8 @@ explore: gameplay {
     relationship: many_to_many
     sql_on: ${gameplay.last_level_id} = ${churn_by_level_derived.last_level_id}
       and ${user_fact.install_version} = ${churn_by_level_derived.install_version_no}
-      and ${user_fact.version} = ${churn_by_level_derived.version_no};;
+      and ${user_fact.version} = ${churn_by_level_derived.version_no}
+      and ${user_fact.config_version_string} = ${churn_by_level_derived.config_timestamp_string};;
   }
   join: sessions_per_day_per_player {
     view_label: "Gameplay - Sessions"

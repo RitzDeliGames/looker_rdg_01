@@ -6,6 +6,7 @@ view: churn_by_level_derived {
         (select
           cast(churn_by_level_by_attempt.version as int64) version_no
           ,cast(churn_by_level_by_attempt.install_version as int64) install_version_no
+          ,cast(churn_by_level_by_attempt.config_timestamp  as string) config_timestamp_string
           ,churn_by_level_by_attempt.last_level_serial last_level_completed
           ,churn_by_level_by_attempt.last_level_id last_level_id
           ,if(churn_by_level_by_attempt.round_id < churn_by_level_by_attempt.greater_round_id,'played_again','stuck') churn
@@ -17,7 +18,7 @@ view: churn_by_level_derived {
           and {% condition install_version %} cast(churn_by_level_by_attempt.install_version as int64) {% endcondition %}
           and {% condition version %} cast(churn_by_level_by_attempt.version as int64) {% endcondition %}
           and {% condition config_timestamp %} churn_by_level_by_attempt.config_timestamp {% endcondition %}
-        group by 1,2,3,4,5
+        group by 1,2,3,4,5,6
         order by 1,2,3,4 desc)
 
       select * from unpivoted_churn_by_level
@@ -31,6 +32,7 @@ view: churn_by_level_derived {
       (select
         cast(churn_by_level_by_attempt.version as int64) version_no
         ,cast(churn_by_level_by_attempt.install_version as int64) install_version_no
+        ,cast(churn_by_level_by_attempt.config_timestamp  as string) config_timestamp_string
         ,churn_by_level_by_attempt.last_level_serial last_level_completed
         ,churn_by_level_by_attempt.last_level_id last_level_id
         ,approx_quantiles(churn_by_level_by_attempt.round_length, 100) [offset(50)] round_length
@@ -42,12 +44,13 @@ view: churn_by_level_derived {
         and {% condition install_version %} cast(churn_by_level_by_attempt.install_version as int64) {% endcondition %}
         and {% condition version %} cast(churn_by_level_by_attempt.version as int64) {% endcondition %}
         and {% condition config_timestamp %} churn_by_level_by_attempt.config_timestamp {% endcondition %}
-      group by 1,2,3,4
+      group by 1,2,3,4,5
       order by 1,2,3) b
       on a.last_level_completed = b.last_level_completed
         and a.last_level_id = b.last_level_id
         and a.install_version_no = b.install_version_no
         and a.version_no = b.version_no
+        and a.config_timestamp_string = b.config_timestamp_string
       order by a.last_level_completed asc
       ;;
     datagroup_trigger: change_6_hrs
@@ -55,22 +58,22 @@ view: churn_by_level_derived {
   }
   dimension: primary_key {
     type: string
-    sql: ${last_level_completed} || ${last_level_id} || ${install_version_no} || ${version_no} ;;
+    sql: ${last_level_completed} || ${last_level_id} || ${install_version_no} || ${version_no} || ${config_timestamp_string};;
     primary_key: yes
     hidden: yes
   }
   filter: install_version {
-    group_label: "Version Dimensions"
+    group_label: "Version Filters"
     label: "Install Version"
     type: number
   }
   filter: version {
-    group_label: "Version Dimensions"
+    group_label: "Version Filters"
     label: "Release Version"
     type: number
   }
   filter: config_timestamp {
-    group_label: "Version Dimensions"
+    group_label: "Version Filters"
     label: "Config Version - String"
     type: string
   }
@@ -108,14 +111,24 @@ view: churn_by_level_derived {
     suggestions: ["control","variant_a","variant_b","variant_c"]
   }
   dimension: version_no {
+    group_label: "Version Dimensions"
+    label: "Release Version"
     type: number
     value_format: "0"
     sql: ${TABLE}.version_no ;;
   }
   dimension: install_version_no {
+    group_label: "Version Dimensions"
+    label: "Install Version"
     type: number
     value_format: "0"
     sql: ${TABLE}.install_version_no ;;
+  }
+  dimension: config_timestamp_string {
+    group_label: "Version Dimensions"
+    label: "Config Version - String"
+    type: string
+    sql: ${TABLE}.config_timestamp_string ;;
   }
   dimension: last_level_completed {
     group_label: "Level Dimensions"

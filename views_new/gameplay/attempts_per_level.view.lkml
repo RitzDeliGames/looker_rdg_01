@@ -36,6 +36,7 @@ view: attempts_per_level {
     label: "Max Attempts per Level - 2.5%"
     type: percentile
     percentile: 2.5
+    value_format: "#0.00"
     sql: ${max_attempts} ;;
   }
   measure: attempts_per_day_25 {
@@ -43,6 +44,7 @@ view: attempts_per_level {
     label: "Max Attempts per Level - 25%"
     type: percentile
     percentile: 25
+    value_format: "#0.00"
     sql: ${max_attempts} ;;
   }
   measure: attempts_per_day_med {
@@ -50,6 +52,7 @@ view: attempts_per_level {
     label: "Max Attempts per Level - Median"
     type: percentile
     percentile: 50
+    value_format: "#0.00"
     sql: ${max_attempts} ;;
   }
   measure: attempts_per_day_75 {
@@ -57,6 +60,7 @@ view: attempts_per_level {
     label: "Max Attempts per Level - 75%"
     type: percentile
     percentile: 75
+    value_format: "#0.00"
     sql: ${max_attempts} ;;
   }
   measure: attempts_per_day_975 {
@@ -64,9 +68,9 @@ view: attempts_per_level {
     label: "Max Attempts per Level - 97.5%"
     type: percentile
     percentile: 97.5
+    value_format: "#0.00"
     sql: ${max_attempts} ;;
   }
-
   measure: attempts_per_day_mean {
     group_label: "Max Attempts per Level"
     label: "Max Attempts per Level - Mean"

@@ -162,8 +162,9 @@ explore: gameplay {
   join: churn_by_level_derived {
     view_label: "Churn by Level - Attempt (Derived)"
     type: left_outer
-    relationship: many_to_one
+    relationship: many_to_many
     sql_on: ${gameplay.last_level_id} = ${churn_by_level_derived.last_level_id}
+      and ${user_fact.install_version} = ${churn_by_level_derived.install_version_no}
       and ${user_fact.version} = ${churn_by_level_derived.version_no};;
   }
   join: sessions_per_day_per_player {

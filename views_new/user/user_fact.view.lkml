@@ -3,57 +3,125 @@ view: user_fact {
   view_label: "Users"
   derived_table: {
     sql:
-       with first_activity as (select
-        rdg_id
-        ,device_id
-        ,advertising_id
-        ,user_id
-        ,platform
-        ,country
-        ,row_number() over (partition by rdg_id order by timestamp asc) rn
-      from `eraser-blast.game_data.events`
-      where date(created_at) between '2019-01-01' and current_date()
-        and date(timestamp) between '2019-01-01' and current_date()
-        and user_type = 'external'
-        and country != 'ZZ'
-        and coalesce(install_version,'null') <> '-1')
-
-      select
-        fa.rdg_id
-        ,fa.device_id
-        ,fa.advertising_id
-        ,fa.user_id
-        ,fa.platform
-        ,fa.country
-        ,max(ltv) ltv
-        ,min(created_at) created
-        ,min(datetime(created_at,'US/Pacific')) created_pst
-        ,max(session_id) last_session
-        ,max(session_count) lifetime_sessions
-        ,max(timestamp) last_event
-        ,cast(max(last_level_serial) as int64) last_level_serial
-        ,cast(max(engagement_ticks) as int64) engagement_ticks
-        ,max(version) version
-        ,max(install_version) install_version
-        ,max(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) config_timestamp
-        ,min(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) install_config_timestamp
-        ,max(days_played_past_week) days_played_past_week
-        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_max
-        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_max
-        ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric)) currency_07_balance_max
-        ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_min
-        ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_min
-        ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric)) currency_07_balance_min
-      from first_activity fa
-      left join `eraser-blast.game_data.events` gde
-        on fa.rdg_id = gde.rdg_id
-      where date(gde.created_at) between '2019-01-01' and current_date()
-        and date(gde.timestamp) between '2019-01-01' and current_date()
-        and gde.user_type = 'external'
-        and gde.country != 'ZZ'
-        and coalesce(gde.install_version,'null') <> '-1'
-        and fa.rn = 1
-      group by 1,2,3,4,5,6--,7,8,9
+        select
+          first_activity.device_id
+          ,first_activity.advertising_id
+          ,first_activity.user_id
+          ,first_activity.platform
+          ,first_activity.country
+          ,gde.*
+          ,median_balance.daily_median_coin_balance currency_03_balance_med
+          ,median_balance.daily_median_life_balance currency_04_balance_med
+          ,median_balance.daily_median_star_balance currency_07_balance_med
+        from
+          (select
+            rdg_id
+            ,device_id
+            ,advertising_id
+            ,user_id
+            ,platform
+            ,country
+            ,row_number() over (partition by rdg_id order by timestamp asc) rn
+          from `eraser-blast.game_data.events`
+          where date(created_at) between '2019-01-01' and current_date()
+            and date(timestamp) between '2019-01-01' and current_date()
+            and user_type = 'external'
+            and country != 'ZZ') first_activity
+        left join
+          (select
+            rdg_id
+            ,max(ltv) ltv
+            ,min(created_at) created
+            ,min(datetime(created_at,'US/Pacific')) created_pst
+            ,max(session_id) last_session
+            ,max(session_count) lifetime_sessions
+            ,max(timestamp) last_event
+            ,cast(max(last_level_serial) as int64) last_level_serial
+            ,cast(max(engagement_ticks) as int64) engagement_ticks
+            ,max(version) version
+            ,max(install_version) install_version
+            ,max(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) config_timestamp
+            ,min(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) install_config_timestamp
+            ,max(days_played_past_week) days_played_past_week
+          from `eraser-blast.game_data.events`
+          where date(created_at) between '2019-01-01' and current_date()
+            and date(timestamp) between '2019-01-01' and current_date()
+            and user_type = 'external'
+            and country != 'ZZ'
+          group by 1) gde
+        on first_activity.rdg_id = gde.rdg_id
+        left join
+          (with median_balance_calc as
+            (select
+              rdg_id
+              ,timestamp
+              ,percentile_cont(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric), 0.5) OVER (partition by rdg_id, date(timestamp)) as daily_median_coin_balance
+              ,percentile_cont(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric), 0.5) OVER (partition by rdg_id, date(timestamp)) as daily_median_life_balance
+              ,percentile_cont(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric), 0.5) OVER (partition by rdg_id, date(timestamp)) as daily_median_star_balance
+            from `eraser-blast.game_data.events`
+            where date(timestamp) between '2019-01-01' and current_date())
+          select
+            median_balance_calc.rdg_id
+            ,median_balance_calc.daily_median_coin_balance
+            ,median_balance_calc.daily_median_life_balance
+            ,median_balance_calc.daily_median_star_balance
+            ,max(median_balance_calc.timestamp) last_event
+          from median_balance_calc
+          group by 1,2,3,4) median_balance
+        on first_activity.rdg_id = median_balance.rdg_id
+        and gde.last_event = median_balance.last_event
+        where rn = 1
+     --  with first_activity as (select
+     --   rdg_id
+     --   ,device_id
+     --   ,advertising_id
+     --   ,user_id
+     --   ,platform
+     --   ,country
+     --   ,row_number() over (partition by rdg_id order by timestamp asc) rn
+     -- from `eraser-blast.game_data.events`
+     -- where date(created_at) between '2019-01-01' and current_date()
+     --   and date(timestamp) between '2019-01-01' and current_date()
+     --   and user_type = 'external'
+     --   and country != 'ZZ'
+     --   and coalesce(install_version,'null') <> '-1')
+--
+     -- select
+     --   fa.rdg_id
+     --   ,fa.device_id
+     --   ,fa.advertising_id
+     --   ,fa.user_id
+     --   ,fa.platform
+     --   ,fa.country
+     --   ,max(ltv) ltv
+     --   ,min(created_at) created
+     --   ,min(datetime(created_at,'US/Pacific')) created_pst
+     --   ,max(session_id) last_session
+     --   ,max(session_count) lifetime_sessions
+     --   ,max(timestamp) last_event
+     --   ,cast(max(last_level_serial) as int64) last_level_serial
+     --   ,cast(max(engagement_ticks) as int64) engagement_ticks
+     --   ,max(version) version
+     --   ,max(install_version) install_version
+     --   ,max(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) config_timestamp
+     --   ,min(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) install_config_timestamp
+     --   ,max(days_played_past_week) days_played_past_week
+     --   ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_max
+     --   ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_max
+     --   ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric)) currency_07_balance_max
+     --   ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_min
+     --   ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_min
+     --   ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric)) currency_07_balance_min
+     -- from first_activity fa
+     -- left join `eraser-blast.game_data.events` gde
+     --   on fa.rdg_id = gde.rdg_id
+     -- where date(gde.created_at) between '2019-01-01' and current_date()
+     --   and date(gde.timestamp) between '2019-01-01' and current_date()
+     --   and gde.user_type = 'external'
+     --   and gde.country != 'ZZ'
+     --   and coalesce(gde.install_version,'null') <> '-1'
+     --   and fa.rn = 1
+     -- group by 1,2,3,4,5,6--,7,8,9
     ;;
 
     datagroup_trigger: change_6_hrs
@@ -327,44 +395,44 @@ view: user_fact {
     type: sum
     sql: ${ltv} ;;
   }
-  dimension: currency_03_balance_max {
+  dimension: currency_03_balance_med {
     type: number
     hidden: yes
-    sql: ${TABLE}.currency_03_balance_max ;;
+    sql: ${TABLE}.currency_03_balance_med ;;
   }
-  measure: currency_03_balance_025 {
-    group_label: "Coin Balance - Max"
-    label: "Max Daily Coin Balance - 2.5%"
+  measure: currency_03_med_balance_025 {
+    group_label: "Median Daily Coin Balance"
+    label: "Median Daily Coin Balance - 2.5%"
     type: percentile
     percentile: 2.5
-    sql: ${currency_03_balance_max} ;;
+    sql: ${currency_03_balance_med} ;;
   }
-  measure: currency_03_balance_25 {
-    group_label: "Coin Balance - Max"
-    label: "Max Daily Coin Balance - 25%"
+  measure: currency_03_med_balance_25 {
+    group_label: "Median Daily Coin Balance"
+    label: "Median Daily Coin Balance - 25%"
     type: percentile
     percentile: 25
-    sql: ${currency_03_balance_max} ;;
+    sql: ${currency_03_balance_med} ;;
   }
-  measure: currency_03_balance_med {
-    group_label: "Coin Balance - Max"
-    label: "Max Daily Coin Balance - Median"
+  measure: currency_03_med_balance_50 {
+    group_label: "Median Daily Coin Balance"
+    label: "Median Daily Coin Balance - Median"
     type: median
-    sql: ${currency_03_balance_max} ;;
+    sql: ${currency_03_balance_med} ;;
   }
-  measure: currency_03_balance_75 {
-    group_label: "Coin Balance - Max"
-    label: "Max Daily Coin Balance - 75%"
+  measure: currency_03_med_balance_75 {
+    group_label: "Median Daily Coin Balance"
+    label: "Median Daily Coin Balance - 75%"
     type: percentile
     percentile: 75
-    sql: ${currency_03_balance_max} ;;
+    sql: ${currency_03_balance_med} ;;
   }
-  measure: currency_03_balance_975 {
-    group_label: "Coin Balance - Max"
-    label: "Max Daily Coin Balance - 97.5%"
+  measure: currency_03_med_balance_975 {
+    group_label: "Median Daily Coin Balance"
+    label: "Median Daily Coin Balance - 97.5%"
     type: percentile
     percentile: 97.5
-    sql: ${currency_03_balance_max} ;;
+    sql: ${currency_03_balance_med} ;;
   }
   dimension: currency_03_balance_min {
     type: number

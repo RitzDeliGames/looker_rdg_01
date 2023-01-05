@@ -23,10 +23,8 @@ view: round_end {
         ,cast(json_extract_scalar(extra_json,'$.coins_earned') as int64) coins_earned
         ,cast(json_extract_scalar(extra_json,'$.round_length') as int64) round_length
         ,cast(replace(json_extract_scalar(extra_json,'$.proximity_to_completion'),',','') as float64) proximity_to_completion
-        ,cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric) currency_02_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
-        ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric) currency_05_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
     from game_data.events
     where event_name = 'round_end'
@@ -628,45 +626,6 @@ view: round_end {
     label: "Avg. Proximity to Completion"
     type: average
     sql: ${proximity_to_completion_int} ;;
-  }
-  dimension: currency_02_balance {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.currency_02_balance ;;
-  }
-  measure: currency_02_balance_025 {
-    group_label: "Gem Balance"
-    label: "Gem Balance - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${currency_02_balance} ;;
-  }
-  measure: currency_02_balance_25 {
-    group_label: "Gem Balance"
-    label: "Gem Balance - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${currency_02_balance} ;;
-  }
-  measure: currency_02_balance_med {
-    group_label: "Gem Balance"
-    label: "Gem Balance - Median"
-    type: median
-    sql: ${currency_02_balance} ;;
-  }
-  measure: currency_02_balance_75 {
-    group_label: "Gem Balance"
-    label: "Gem Balance - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${currency_02_balance} ;;
-  }
-  measure: currency_02_balance_975 {
-    group_label: "Gem Balance"
-    label: "Gem Balance - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${currency_02_balance} ;;
   }
   dimension: currency_03_balance {
     type: number

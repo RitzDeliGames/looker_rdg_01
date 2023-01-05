@@ -139,6 +139,76 @@ explore: user_retention {
   }
 }
 
+explore: gameplay {
+  sql_always_where: ${event_date} >= ${user_fact.created_date};;#${rdg_id} not in @{device_internal_tester_mapping} and
+  from: round_end
+  join: user_fact {
+    type: left_outer
+    sql_on: ${gameplay.rdg_id} = ${user_fact.rdg_id} ;;
+    relationship: many_to_one
+  }
+  join: user_last_event {
+    type: left_outer
+    sql_on: ${gameplay.rdg_id} = ${user_last_event.rdg_id} ;;
+    relationship: one_to_one
+  }
+  # join: erasers {
+  #   type: left_outer
+  #   sql_on: ${gameplay.primary_team_slot} = ${erasers.character_id} ;;
+  #   relationship: one_to_one
+  # }
+  join: attempts_per_level {
+    view_label: "Gameplay"
+    type: left_outer
+    relationship: many_to_one ## let's test this
+    sql_on: ${gameplay.rdg_id} =  ${attempts_per_level.rdg_id}
+      and ${gameplay.last_level_id} = ${attempts_per_level.last_level_id};;
+  }
+  join: churn_by_level_derived {
+    view_label: "Churn by Level - Attempt (Derived)"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${gameplay.last_level_id} = ${churn_by_level_derived.last_level_id}
+      and ${user_fact.version} = ${churn_by_level_derived.version_no};;
+  }
+  join: sessions_per_day_per_player {
+    view_label: "Gameplay - Sessions"
+    type: left_outer
+    relationship: many_to_one ## let's test this
+    sql_on: ${gameplay.rdg_id} =  ${sessions_per_day_per_player.rdg_id}
+      and ${gameplay.event_date} = ${sessions_per_day_per_player.event_date};;
+  }
+  join: rounds_per_day_per_player {
+    view_label: "Gameplay - Rounds"
+    type: left_outer
+    relationship: many_to_one ## let's test this
+    sql_on: ${gameplay.rdg_id} =  ${rounds_per_day_per_player.rdg_id}
+      and ${gameplay.event_date} = ${rounds_per_day_per_player.event_date};;
+  }
+  join: rounds_per_session_per_player {
+    view_label: "Gameplay - Sessions"
+    type: left_outer
+    relationship: many_to_one ## let's test this
+    sql_on: ${gameplay.rdg_id} =  ${rounds_per_session_per_player.rdg_id}
+      and ${gameplay.event_date} = ${rounds_per_session_per_player.event_date}
+      and ${gameplay.session_id} = ${rounds_per_session_per_player.session_id};;
+  }
+  join: gameplay_fact {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${gameplay.rdg_id} = ${gameplay_fact.rdg_id}
+           and ${gameplay.round_id} = ${gameplay_fact.round_id}
+           and ${gameplay.event_time} = ${gameplay_fact.event_time};;
+  }
+  join: transactions_new {
+    view_label: "Transactions"
+    type: full_outer
+    relationship: many_to_many
+    sql_on: ${gameplay.rdg_id} = ${transactions_new.rdg_id}
+      and ${gameplay.last_level_serial} = ${transactions_new.last_level_serial};;
+  }
+}
+
 explore: transactions {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} and ${transaction_date} >= ${created_date};;
   from: transactions_new
@@ -288,76 +358,6 @@ explore: churn_by_match_data {
     type: left_outer
     sql_on: ${churn_by_match_data.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: many_to_one
-  }
-}
-
-explore: gameplay {
-  sql_always_where: ${event_date} >= ${user_fact.created_date};;#${rdg_id} not in @{device_internal_tester_mapping} and
-  from: round_end
-  join: user_fact {
-    type: left_outer
-    sql_on: ${gameplay.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: many_to_one
-  }
-  join: user_last_event {
-    type: left_outer
-    sql_on: ${gameplay.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: one_to_one
-  }
-  # join: erasers {
-  #   type: left_outer
-  #   sql_on: ${gameplay.primary_team_slot} = ${erasers.character_id} ;;
-  #   relationship: one_to_one
-  # }
-  join: attempts_per_level {
-    view_label: "Gameplay"
-    type: left_outer
-    relationship: many_to_one ## let's test this
-    sql_on: ${gameplay.rdg_id} =  ${attempts_per_level.rdg_id}
-      and ${gameplay.last_level_id} = ${attempts_per_level.last_level_id};;
-  }
-  join: churn_by_level_derived {
-    view_label: "Churn by Level - Attempt (Derived)"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${gameplay.last_level_id} = ${churn_by_level_derived.last_level_id}
-      and ${user_fact.version} = ${churn_by_level_derived.version_no};;
-  }
-  join: sessions_per_day_per_player {
-    view_label: "Gameplay - Sessions"
-    type: left_outer
-    relationship: many_to_one ## let's test this
-    sql_on: ${gameplay.rdg_id} =  ${sessions_per_day_per_player.rdg_id}
-      and ${gameplay.event_date} = ${sessions_per_day_per_player.event_date};;
-  }
-  join: rounds_per_day_per_player {
-    view_label: "Gameplay - Rounds"
-    type: left_outer
-    relationship: many_to_one ## let's test this
-    sql_on: ${gameplay.rdg_id} =  ${rounds_per_day_per_player.rdg_id}
-      and ${gameplay.event_date} = ${rounds_per_day_per_player.event_date};;
-  }
-  join: rounds_per_session_per_player {
-    view_label: "Gameplay - Sessions"
-    type: left_outer
-    relationship: many_to_one ## let's test this
-    sql_on: ${gameplay.rdg_id} =  ${rounds_per_session_per_player.rdg_id}
-      and ${gameplay.event_date} = ${rounds_per_session_per_player.event_date}
-      and ${gameplay.session_id} = ${rounds_per_session_per_player.session_id};;
-  }
-  join: gameplay_fact {
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${gameplay.rdg_id} = ${gameplay_fact.rdg_id}
-     and ${gameplay.round_id} = ${gameplay_fact.round_id}
-     and ${gameplay.event_time} = ${gameplay_fact.event_time};;
-  }
-  join: transactions_new {
-    view_label: "Transactions"
-    type: full_outer
-    relationship: many_to_many
-    sql_on: ${gameplay.rdg_id} = ${transactions_new.rdg_id}
-      and ${gameplay.last_level_serial} = ${transactions_new.last_level_serial};;
   }
 }
 

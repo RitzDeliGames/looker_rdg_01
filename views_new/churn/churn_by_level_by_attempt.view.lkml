@@ -5,6 +5,7 @@ view: churn_by_level_by_attempt {
         a.rdg_id
         ,a.timestamp
         ,a.config_timestamp
+        ,a.install_config
         ,cast(a.version as int64) version
         ,cast(a.install_version as int64) install_version
         ,a.last_level_id
@@ -25,6 +26,11 @@ view: churn_by_level_by_attempt {
           ,version
           ,install_version
           ,json_extract_scalar(extra_json,"$.config_timestamp") config_timestamp
+          ,first_value(json_extract_scalar(extra_json, "$.config_timestamp"))
+            over (
+                partition by rdg_id
+                order by timestamp
+            ) install_config
           ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
           ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
           ,last_level_id
@@ -58,7 +64,7 @@ view: churn_by_level_by_attempt {
   dimension: primary_key {
     hidden: yes
     type: string
-    sql: ${rdg_id} || ${timestamp} ;;
+    sql: ${rdg_id} || ${timestamp} || ${install_config};;
   }
   dimension: rdg_id {}
   measure: player_count {
@@ -83,8 +89,16 @@ view: churn_by_level_by_attempt {
     value_format: "0"
   }
   dimension: config_timestamp {
+    group_label: "Version Dimensions"
+    label: "Config Version - String"
     type: string
     sql: ${TABLE}.config_timestamp ;;
+  }
+  dimension: install_config {
+    group_label: "Version Dimensions"
+    label: "Install Config Version - String"
+    type: string
+    sql: ${TABLE}.install_config;;
   }
   dimension: currency_03_balance {
     group_label: "Currencies"

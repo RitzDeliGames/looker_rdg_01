@@ -65,7 +65,7 @@ view: churn_by_level_by_attempt {
   dimension: primary_key {
     hidden: yes
     type: string
-    sql: ${rdg_id} || ${timestamp};;# || ${install_config};;
+    sql: ${rdg_id} || ${timestamp} || ${install_config};;
   }
   dimension: rdg_id {}
   measure: player_count {

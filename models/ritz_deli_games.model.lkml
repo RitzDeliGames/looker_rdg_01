@@ -166,8 +166,8 @@ explore: gameplay {
     sql_on: ${gameplay.last_level_id} = ${churn_by_level_derived.last_level_id}
       and ${user_fact.install_version} = ${churn_by_level_derived.install_version_no}
       and ${user_fact.version} = ${churn_by_level_derived.version_no}
-      and ${user_fact.config_version_string} = ${churn_by_level_derived.config_timestamp_string};;
-      #and ${user_fact.install_config_version_string} = ${churn_by_level_derived.install_config_version_string};;
+      and ${user_fact.config_version_string} = ${churn_by_level_derived.config_timestamp_string}
+      and ${user_fact.install_config_version_string} = ${churn_by_level_derived.install_config_version_string};;
   }
   join: sessions_per_day_per_player {
     view_label: "Gameplay - Sessions"

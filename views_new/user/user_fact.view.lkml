@@ -434,162 +434,90 @@ view: user_fact {
     percentile: 97.5
     sql: ${currency_03_balance_med} ;;
   }
-  dimension: currency_03_balance_min {
+  # dimension: currency_03_balance {
+  #   group_label: "Currency Balance"
+  #   label: "Coin Balance"
+  #   type: number
+  #   hidden: no
+  #   sql: ${TABLE}.currency_03_balance_min ;;
+  # }
+  dimension: currency_04_balance_med {
     type: number
     hidden: yes
-    sql: ${TABLE}.currency_03_balance_min ;;
+    sql: ${TABLE}.currency_04_balance_med ;;
   }
-  measure: currency_03_balance_min_025 {
-    group_label: "Coin Balance - Min"
-    label: "Min Daily Coin Balance - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${currency_03_balance_min} ;;
-  }
-  measure: currency_03_balance_min_25 {
-    group_label: "Coin Balance - Min"
-    label: "Min Daily Coin Balance - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${currency_03_balance_min} ;;
-  }
-  measure: currency_03_balance_min_med {
-    group_label: "Coin Balance - Min"
-    label: "Min Daily Coin Balance - Median"
-    type: median
-    sql: ${currency_03_balance_min} ;;
-  }
-  measure: currency_03_balance_min_75 {
-    group_label: "Coin Balance - Min"
-    label: "Min Daily Coin Balance - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${currency_03_balance_min} ;;
-  }
-  measure: currency_03_balance_min_975 {
-    group_label: "Coin Balance - Min"
-    label: "Min Daily Coin Balance - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${currency_03_balance_min} ;;
-  }
-  dimension: currency_04_balance_max {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.currency_04_balance_max ;;
-  }
-  measure: currency_04_balance_025 {
-    group_label: "Lives Balance"
+  measure: currency_04_med_balance_025 {
+    group_label: "Median Daily Lives Balance"
     label: "Max Daily Lives Balance - 2.5%"
     type: percentile
     percentile: 2.5
-    sql: ${currency_04_balance_max} ;;
+    sql: ${currency_04_balance_med} ;;
   }
-  measure: currency_04_balance_25 {
-    group_label: "Lives Balance"
-    label: "Max Daily Lives Balance - 25%"
+  measure: currency_04_med_balance_25 {
+    group_label: "Median Daily Lives Balance"
+    label: "Median Daily Lives Balance - 25%"
     type: percentile
     percentile: 25
-    sql: ${currency_04_balance_max} ;;
+    sql: ${currency_04_balance_med} ;;
   }
-  measure: currency_04_balance_med {
-    group_label: "Lives Balance"
-    label: "Max Daily Lives Balance - Median"
+  measure: currency_04_med_balance_50 {
+    group_label: "Median Daily Lives Balance"
+    label: "Median Daily Lives Balance - Median"
     type: median
-    sql: ${currency_04_balance_max} ;;
-    drill_fields: [rdg_id,currency_04_balance_max]
+    sql: ${currency_04_balance_med} ;;
   }
-  measure: currency_04_balance_75 {
-    group_label: "Lives Balance"
-    label: "Max Daily Lives Balance - 75%"
+  measure: currency_04_med_balance_75 {
+    group_label: "Median Daily Lives Balance"
+    label: "Median Daily Lives Balance - 75%"
     type: percentile
     percentile: 75
-    sql: ${currency_04_balance_max} ;;
+    sql: ${currency_04_balance_med} ;;
   }
-  measure: currency_04_balance_975 {
-    group_label: "Lives Balance"
-    label: "Max Daily Lives Balance - 97.5%"
+  measure: currency_04_med_balance_975 {
+    group_label: "Median Daily Lives Balance"
+    label: "Median Daily Lives Balance - 97.5%"
     type: percentile
     percentile: 97.5
-    sql: ${currency_04_balance_max} ;;
+    sql: ${currency_04_balance_med} ;;
   }
-  dimension: currency_07_balance_max {
+  dimension: currency_07_balance_med {
     type: number
     hidden: yes
-    sql: ${TABLE}.currency_07_balance_max ;;
+    sql: ${TABLE}.currency_07_balance_med ;;
   }
-  measure: currency_07_balance_025 {
-    group_label: "Star Balance - Max"
-    label: "Max Daily Star Balance - 2.5%"
+  measure: currency_07_med_balance_025 {
+    group_label: "Median Daily Star Balance"
+    label: "Median Daily Star Balance - 2.5%"
     type: percentile
     percentile: 2.5
-    sql: ${currency_07_balance_max} ;;
+    sql: ${currency_07_balance_med} ;;
   }
-  measure: currency_07_balance_25 {
-    group_label: "Star Balance - Max"
-    label: "Max Daily Star Balance - 25%"
+  measure: currency_07_med_balance_25 {
+    group_label: "Median Daily Star Balance"
+    label: "Median Daily Star Balance - 25%"
     type: percentile
     percentile: 25
-    sql: ${currency_07_balance_max} ;;
+    sql: ${currency_07_balance_med} ;;
   }
-  measure: currency_07_balance_med {
-    group_label: "Star Balance - Max"
-    label: "Max Daily Star Balance - Median"
+  measure: currency_07_med_balance_50 {
+    group_label: "Median Daily Star Balance"
+    label: "Median Daily Star Balance - Median"
     type: median
-    sql: ${currency_07_balance_max} ;;
+    sql: ${currency_07_balance_med} ;;
   }
-  measure: currency_07_balance_75 {
-    group_label: "Star Balance - Max"
-    label: "Max Daily Star Balance - 75%"
+  measure: currency_07_med_balance_75 {
+    group_label: "Median Daily Star Balance"
+    label: "Median Daily Star Balance - 75%"
     type: percentile
     percentile: 75
-    sql: ${currency_07_balance_max} ;;
+    sql: ${currency_07_balance_med} ;;
   }
-  measure: currency_07_balance_975 {
-    group_label: "Star Balance - Max"
-    label: "Max Daily Star Balance - 97.5%"
+  measure: currency_07_med_balance_975 {
+    group_label: "Median Daily Star Balance"
+    label: "Median Daily Star Balance - 97.5%"
     type: percentile
     percentile: 97.5
-    sql: ${currency_07_balance_max} ;;
-  }
-  dimension: currency_07_balance_min {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.currency_07_balance_min ;;
-  }
-  measure: currency_07_balance_025_min {
-    group_label: "Star Balance - Min"
-    label: "Min Daily Star Balance - 2.5%"
-    type: percentile
-    percentile: 2.5
-    sql: ${currency_07_balance_min} ;;
-  }
-  measure: currency_07_balance_25_min {
-    group_label: "Star Balance - Min"
-    label: "Min Daily Star Balance - 25%"
-    type: percentile
-    percentile: 25
-    sql: ${currency_07_balance_min} ;;
-  }
-  measure: currency_07_balance_med_min {
-    group_label: "Star Balance - Min"
-    label: "Min Daily Star Balance - Median"
-    type: median
-    sql: ${currency_07_balance_min} ;;
-  }
-  measure: currency_07_balance_75_min {
-    group_label: "Star Balance - Min"
-    label: "Min Daily Star Balance - 75%"
-    type: percentile
-    percentile: 75
-    sql: ${currency_07_balance_min} ;;
-  }
-  measure: currency_07_balance_975_min {
-    group_label: "Star Balance - Min"
-    label: "Min Daily Star Balance - 97.5%"
-    type: percentile
-    percentile: 97.5
-    sql: ${currency_07_balance_min} ;;
+    sql: ${currency_07_balance_med} ;;
   }
   measure: first_created_date {
     type: date

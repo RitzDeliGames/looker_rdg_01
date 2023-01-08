@@ -23,7 +23,7 @@ view: churn_by_level_derived {
             and {% condition install_version_filter %} cast(churn_by_level_by_attempt.install_version as int64) {% endcondition %}
             and {% condition version_filter %} cast(churn_by_level_by_attempt.version as int64) {% endcondition %}
             and {% condition config_timestamp_filter %} churn_by_level_by_attempt.config_timestamp {% endcondition %}
-            --and {% condition install_config_filter %} churn_by_level_by_attempt.install_config {% endcondition %}
+            and {% condition install_config_filter %} churn_by_level_by_attempt.install_config {% endcondition %}
           group by 1,2,3,4,5,6,7
           order by 1,2,3,4 desc)
 
@@ -51,7 +51,7 @@ view: churn_by_level_derived {
           and {% condition install_version_filter %} cast(churn_by_level_by_attempt.install_version as int64) {% endcondition %}
           and {% condition version_filter %} cast(churn_by_level_by_attempt.version as int64) {% endcondition %}
           and {% condition config_timestamp_filter %} churn_by_level_by_attempt.config_timestamp {% endcondition %}
-          --and {% condition install_config_filter %} churn_by_level_by_attempt.install_config {% endcondition %}
+          and {% condition install_config_filter %} churn_by_level_by_attempt.install_config {% endcondition %}
         group by 1,2,3,4,5,6
         order by 1,2,3) b
       on a.last_level_completed = b.last_level_completed
@@ -67,7 +67,7 @@ view: churn_by_level_derived {
   }
   dimension: primary_key {
     type: string
-    sql: ${last_level_completed} || ${last_level_id} || ${install_version_no} || ${version_no}|| ${install_config_version_string};;
+    sql: ${last_level_completed} || ${last_level_id} || ${install_version_no} || ${version_no} || ${install_config_version_string} || ${config_timestamp_string};;
     primary_key: yes
     hidden: yes
   }

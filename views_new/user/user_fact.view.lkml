@@ -55,9 +55,9 @@ view: user_fact {
             (select
               rdg_id
               ,timestamp
-              ,percentile_cont(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric), 0.5) OVER (partition by rdg_id, date(timestamp)) as daily_median_coin_balance
-              ,percentile_cont(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric), 0.5) OVER (partition by rdg_id, date(timestamp)) as daily_median_life_balance
-              ,percentile_cont(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric), 0.5) OVER (partition by rdg_id, date(timestamp)) as daily_median_star_balance
+              ,percentile_cont(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric), 0.5) over (partition by rdg_id, date(timestamp)) as daily_median_coin_balance
+              ,percentile_cont(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric), 0.5) over (partition by rdg_id, date(timestamp)) as daily_median_life_balance
+              ,percentile_cont(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric), 0.5) over (partition by rdg_id, date(timestamp)) as daily_median_star_balance
             from `eraser-blast.game_data.events`
             where date(timestamp) between '2019-01-01' and current_date())
           select

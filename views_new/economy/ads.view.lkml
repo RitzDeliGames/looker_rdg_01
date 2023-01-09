@@ -88,6 +88,7 @@ view: ads {
   dimension: publisher_revenue_per_impression {
     label: "Ad Revenue per Impression"
     type: number
+    value_format: "$#,##0.00"
     sql: ${TABLE}.publisher_revenue_per_impression ;;
   }
   measure: player_count {
@@ -95,7 +96,7 @@ view: ads {
     type: count_distinct
     sql: ${rdg_id} ;;
   }
-  measure: reward_amount_sum {
+  measure: publisher_revenue_sum {
     label: "Total Ad Revenue per Impression"
     type: sum
     value_format: "$#,##0.00"

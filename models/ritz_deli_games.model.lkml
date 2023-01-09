@@ -89,6 +89,13 @@ explore: user_retention {
       and ${user_activity.activity_date} = ${transactions_new.transaction_date}
       and ${user_activity_engagement_min.engagement_ticks} = ${transactions_new.engagement_ticks};;
   }
+  join: ads {
+    view_label: "Ads"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${user_retention.rdg_id} = ${ads.rdg_id}
+      and  ${user_activity.activity_date} = ${ads.ad_event_date};;
+  }
   join: rewards {
     view_label: "Rewards"
     type: left_outer
@@ -256,6 +263,8 @@ explore: transactions {
     relationship: many_to_one
   }
 }
+
+explore: ads {}
 
 explore: rewards {
   sql_always_where: ${reward_date} >= ${user_fact.created_date};;# and ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} ;;

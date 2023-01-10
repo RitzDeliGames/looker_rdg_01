@@ -202,8 +202,8 @@ explore: gameplay {
     type: left_outer
     relationship: one_to_one
     sql_on: ${gameplay.rdg_id} = ${gameplay_fact.rdg_id}
-           and ${gameplay.round_id} = ${gameplay_fact.round_id}
-           and ${gameplay.event_time} = ${gameplay_fact.event_time};;
+       and ${gameplay.round_id} = ${gameplay_fact.round_id}
+       and ${gameplay.event_time} = ${gameplay_fact.event_time};;
   }
   join: transactions_new {
     view_label: "Transactions"
@@ -212,6 +212,13 @@ explore: gameplay {
     sql_on: ${gameplay.rdg_id} = ${transactions_new.rdg_id}
       and ${gameplay.last_level_serial} = ${transactions_new.last_level_serial};;
   }
+  # join: ads {
+  #   view_label: "Ads"
+  #   type: left_outer
+  #   relationship: many_to_many ## let's test this
+  #   sql_on: ${gameplay.rdg_id} = ${ads.rdg_id}
+  #     and ${gameplay.last_level_serial} = ${ads.last_level_serial};;
+  # }
 }
 
 explore: transactions {
@@ -220,32 +227,38 @@ explore: transactions {
   join: user_retention {
     from: user_fact
     type: left_outer
-    sql_on: ${transactions.rdg_id} = ${user_retention.rdg_id} ;;
     relationship: many_to_one
-    # relationship: many_to_many
+    sql_on: ${transactions.rdg_id} = ${user_retention.rdg_id} ;;
   }
   join: user_last_event {
     type: left_outer
-    sql_on: ${transactions.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: one_to_one
+    sql_on: ${transactions.rdg_id} = ${user_last_event.rdg_id} ;;
   }
   join: user_activity {
     type: left_outer
     sql_on: ${transactions.rdg_id} = ${user_activity.rdg_id}
-    and ${transactions.transaction_date} = ${user_activity.activity_date};;
+      and ${transactions.transaction_date} = ${user_activity.activity_date};;
     relationship: many_to_many
   }
   join: user_activity_engagement_min {
     type: left_outer
-    sql_on: ${transactions.rdg_id} = ${user_activity_engagement_min.rdg_id}
-    and ${transactions.engagement_ticks} = ${user_activity_engagement_min.engagement_ticks};;
     relationship: many_to_many
+    sql_on: ${transactions.rdg_id} = ${user_activity_engagement_min.rdg_id}
+      and ${transactions.engagement_ticks} = ${user_activity_engagement_min.engagement_ticks};;
   }
+  # join: ads {
+  #   view_label: "Ads"
+  #   type: left_outer
+  #   relationship: many_to_many
+  #   sql_on: ${transactions.rdg_id} = ${ads.rdg_id}
+  #     and ${transactions.last_level_serial} = ${ads.last_level_serial};;
+  # }
   join: android_advertising_id_helper {
     view_label: "Singular User Level w/Firebase Helper"
     type: left_outer
-    sql_on: ${user_retention.user_id} = ${android_advertising_id_helper.user_id};;
     relationship: one_to_one
+    sql_on: ${user_retention.user_id} = ${android_advertising_id_helper.user_id};;
   }
   join: singular_daily_agg_export {
     sql_on: ${transactions.created_pst_date} = ${singular_daily_agg_export.date};;
@@ -254,13 +267,13 @@ explore: transactions {
   join: singular_daily_user_attribution_export {
     view_label: "Singular User Level"
     type: left_outer
-    sql_on: ${singular_daily_user_attribution_export.device_id} = ${android_advertising_id_helper.advertising_id};;
     relationship: one_to_one
+    sql_on: ${singular_daily_user_attribution_export.device_id} = ${android_advertising_id_helper.advertising_id};;
   }
   join: display_name_helper {
     type: left_outer
-    sql_on: ${transactions.rdg_id} = ${display_name_helper.rdg_id} ;;
     relationship: many_to_one
+    sql_on: ${transactions.rdg_id} = ${display_name_helper.rdg_id} ;;
   }
 }
 

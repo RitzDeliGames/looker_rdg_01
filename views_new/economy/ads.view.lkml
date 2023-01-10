@@ -104,21 +104,27 @@ view: ads {
   measure: publisher_revenue_sum {
     label: "Total Ad Revenue per Impression"
     type: sum
-    value_format: "$#,##0.00"
+    value_format: "$#,##0.0000"
     sql: ${publisher_revenue_per_impression} ;;
     #drill_fields: [reward_event_raw,reward_amount_sum]
   }
   measure: revenue_per_impression {
     label: "Ad Revenue per Impression"
     type: number
-    value_format: "$#,##0.00"
+    value_format: "$#,##0.0000"
     sql: ${publisher_revenue_sum} / ${impression_count} ;;
   }
   measure: revenue_per_ad_viewing_player {
     label: "Ad Revenue per Viewing Player"
     type: number
-    value_format: "$#,##0.00"
+    value_format: "$#,##0.0000"
     sql: ${publisher_revenue_sum} / ${player_count} ;;
+  }
+  measure: impressions_per_ad_viewing_player {
+    label: "Impressions per Viewing Player"
+    type: number
+    value_format: "#,##0"
+    sql: ${impression_count} / ${player_count} ;;
   }
   # measure: currency_rewarded_amount_025 {
   #   group_label: "Currency Rewards"

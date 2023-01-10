@@ -8,6 +8,7 @@ view: ads {
         ,advertising_id
         ,timestamp
         ,cast(last_level_serial as int64) last_level_serial
+        ,json_extract_scalar(extra_json,"$.ad_unit_name") ad_unit_name
         ,json_extract_scalar(extra_json,"$.impression_id") impression_id
         ,json_extract_scalar(extra_json,"$.line_item_id") line_item_id
         ,json_extract_scalar(extra_json,"$.transaction_currency") transaction_currency
@@ -71,6 +72,10 @@ view: ads {
   dimension: line_item_id {
     type: string
     sql: ${TABLE}.line_item_id  ;;
+  }
+  dimension: ad_unit_name {
+    type: string
+    sql: ${TABLE}.ad_unit_name  ;;
   }
   dimension: last_level_id {
     group_label: "Level Dimensions"

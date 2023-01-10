@@ -63,6 +63,11 @@ view: ads {
     type: string
     sql: ${TABLE}.impression_id  ;;
   }
+  measure: impression_count {
+    label: "Impression Count"
+    type: count_distinct
+    sql: ${impression_id} ;;
+  }
   dimension: line_item_id {
     type: string
     sql: ${TABLE}.line_item_id  ;;
@@ -102,6 +107,18 @@ view: ads {
     value_format: "$#,##0.00"
     sql: ${publisher_revenue_per_impression} ;;
     #drill_fields: [reward_event_raw,reward_amount_sum]
+  }
+  measure: revenue_per_impression {
+    label: "Ad Revenue per Impression"
+    type: number
+    value_format: "$#,##0.00"
+    sql: ${publisher_revenue_sum} / ${impression_count} ;;
+  }
+  measure: revenue_per_ad_viewing_player {
+    label: "Ad Revenue per Viewing Player"
+    type: number
+    value_format: "$#,##0.00"
+    sql: ${publisher_revenue_sum} / ${player_count} ;;
   }
   # measure: currency_rewarded_amount_025 {
   #   group_label: "Currency Rewards"

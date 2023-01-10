@@ -64,7 +64,7 @@ view: ads {
     sql: ${TABLE}.impression_id  ;;
   }
   measure: impression_count {
-    label: "Impression Count"
+    label: "Total Impression Count"
     type: count_distinct
     sql: ${impression_id} ;;
   }
@@ -97,12 +97,12 @@ view: ads {
     sql: ${TABLE}.publisher_revenue_per_impression ;;
   }
   measure: player_count {
-    label: "Unique Players"
+    label: "Unique Ad Viewing Players"
     type: count_distinct
     sql: ${rdg_id} ;;
   }
   measure: publisher_revenue_sum {
-    label: "Total Ad Revenue per Impression"
+    label: "Total Ad Revenue"
     type: sum
     value_format: "$#,##0.0000"
     sql: ${publisher_revenue_per_impression} ;;

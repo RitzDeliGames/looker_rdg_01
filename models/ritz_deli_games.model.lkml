@@ -579,7 +579,11 @@ explore: cohort_analysis {
     relationship: many_to_many
     sql_on: ${cohort_analysis.first_created_date} = ${rounds_per_day_per_player.created_date} ;;
   }
-
+  join: display_name_helper {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${cohort_analysis.rdg_id} = ${display_name_helper.rdg_id} ;;
+  }
 }
 
 explore: cohort_selection {

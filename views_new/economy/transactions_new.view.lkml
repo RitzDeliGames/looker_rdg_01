@@ -343,7 +343,7 @@ view: transactions_new {
         then ${rdg_id}
       end
     ;;
-    drill_fields: [rdg_id,created_date,created_pst_date,iap_id_strings]
+    drill_fields: [rdg_id,created_date,display_name_helper.display_name,iap_id_strings]
   }
   measure: total_currency_spent_amount {
     label: "Sum of All Currencies Spent - Use Only with Currency_Spent filtered"

@@ -266,20 +266,20 @@ looker.plugins.visualizations.add({
 
           points.forEach(function(point) {
             if (point.series.visible) {
-              if (point.shapeArgs.y < zeroPixels) {
+              //if (point.shapeArgs.y < zeroPixels) {
 
                 // Positive values
                 point.graphic.attr({
                   y: bottomYPositive - point.shapeArgs.height
                 });
-
+      /*
                 point.dataLabel.attr({
                   y: bottomYPositive - point.shapeArgs.height / 2 - point.dataLabel.height / 2
                 });
 
                 point.tooltipPos[1] = bottomYPositive - point.shapeArgs.height;
-                bottomYPositive = bottomYPositive - point.shapeArgs.height;
-              } else {
+                bottomYPositive = bottomYPositive - point.shapeArgs.height;*/
+              /*} else {
 
                 // Negative values
                 point.graphic.attr({
@@ -292,7 +292,7 @@ looker.plugins.visualizations.add({
 
                 point.tooltipPos[1] = bottomYNegative;
                 bottomYNegative = bottomYNegative + point.shapeArgs.height;
-              }
+              }*/
             }
           });
         });

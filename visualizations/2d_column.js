@@ -233,7 +233,7 @@ looker.plugins.visualizations.add({
       });
 
       //function to sort stacks individually
-      function sortColumns() {
+     /* function sortColumns() {
         var chart = this,
           pointsByCat = {},
           zeroPixels,
@@ -272,7 +272,7 @@ looker.plugins.visualizations.add({
                 point.graphic.attr({
                   y: bottomYPositive - point.shapeArgs.height
                 });
-      /*
+
                 point.dataLabel.attr({
                   y: bottomYPositive - point.shapeArgs.height / 2 - point.dataLabel.height / 2
                 });
@@ -292,11 +292,11 @@ looker.plugins.visualizations.add({
 
                 point.tooltipPos[1] = bottomYNegative;
                 bottomYNegative = bottomYNegative + point.shapeArgs.height;
-              }*/
+              }
             }
           });
         });
-      }
+      }*/
 
       //options object to be passed to Highcharts
       const options = {
@@ -311,10 +311,10 @@ looker.plugins.visualizations.add({
 
         chart:{
           type:"column",
-          events: {
+          /*events: {
             load: config.seriesPositioning !== "" ? sortColumns : undefined,
             redraw: config.seriesPositioning !== "" ? sortColumns : undefined
-          },
+          },*/
         },
 
         yAxis: {

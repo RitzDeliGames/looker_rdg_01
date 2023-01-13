@@ -244,7 +244,7 @@ looker.plugins.visualizations.add({
           console.log('hi');
 
         chart.series.forEach(function(serie) {
-          serie.points.forEach(function(point, index) {
+          serie.data.forEach(function(point, index) {
 
             if (pointsByCat[point.category] === undefined) {
               pointsByCat[point.category] = [];

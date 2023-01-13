@@ -241,6 +241,8 @@ looker.plugins.visualizations.add({
           bottomYNegative,
           shapeArgs;
 
+          console.log('hi');
+
         chart.series.forEach(function(serie) {
           serie.points.forEach(function(point, index) {
 
@@ -298,8 +300,8 @@ looker.plugins.visualizations.add({
       const options = {
         title: "",
         events: {
-          load: config.seriesPositioning !== "" && config.sortStacks !== "" ? sortColumns : undefined,
-          redraw: config.seriesPositioning !== "" && config.sortStacks !== "" ? sortColumns : undefined
+          load: config.seriesPositioning ? sortColumns : undefined,
+          redraw: config.seriesPositioning ? sortColumns : undefined
         },
         legend: {
             layout: 'horizontal',

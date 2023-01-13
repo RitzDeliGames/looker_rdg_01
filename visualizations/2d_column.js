@@ -310,12 +310,13 @@ looker.plugins.visualizations.add({
         },
 
         chart:{
-          type:"column"
+          type:"column",
+          events: {
+            load: config.seriesPositioning !== "" ? sortColumns : undefined,
+            redraw: config.seriesPositioning !== "" ? sortColumns : undefined
+          },
         },
-        events: {
-          load: config.seriesPositioning !== "" ? sortColumns : undefined,
-          redraw: config.seriesPositioning !== "" ? sortColumns : undefined
-        },
+
         yAxis: {
           title: {
             text: config.yAxisName || y_dim.label_short || y_dim.label,

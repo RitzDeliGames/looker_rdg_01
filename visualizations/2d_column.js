@@ -259,7 +259,9 @@ looker.plugins.visualizations.add({
           bottomYPositive = bottomYNegative = zeroPixels;
 
           points.sort(function(a, b) {
-            return config.sortStacks === 'descending' ? b.y - a.y : a.y - b.y;
+            if (config.sortStacks === "descending") return b.y - a.y;
+            if (config.sortStacks === "ascending") return a.y - b.y;
+            return 0;
           });
 
           points.forEach(function(point) {
@@ -299,10 +301,7 @@ looker.plugins.visualizations.add({
       //options object to be passed to Highcharts
       const options = {
         title: "",
-        events: {
-          load: config.seriesPositioning ? sortColumns : undefined,
-          redraw: config.seriesPositioning ? sortColumns : undefined
-        },
+
         legend: {
             layout: 'horizontal',
             align: 'center',
@@ -312,6 +311,10 @@ looker.plugins.visualizations.add({
 
         chart:{
           type:"column"
+        },
+        events: {
+          load: config.seriesPositioning !== "" ? sortColumns : undefined,
+          redraw: config.seriesPositioning !== "" ? sortColumns : undefined
         },
         yAxis: {
           title: {

@@ -87,6 +87,7 @@ view: churn_by_level_derived {
       ,"$.fueDismiss_20221010"
       ,"$.gridGravity_20221003"
       ,"$.gridGravity2_20221012"
+      ,"$.livesTimer_01092023"
       ,"$.MMads_01052023"
       ,"$.mMStreaks_09302022"
       ,"$.mMStreaksv2_20221031"

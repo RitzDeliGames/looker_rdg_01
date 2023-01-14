@@ -149,6 +149,7 @@ view: click_stream {
       ,"$.fueDismiss_20221010"
       ,"$.gridGravity_20221003"
       ,"$.gridGravity2_20221012"
+      ,"$.livesTimer_01092023"
       ,"$.mMStreaks_09302022"
       ,"$.newLevelPass_20220926"
       ,"$.vfxReduce_20221017"

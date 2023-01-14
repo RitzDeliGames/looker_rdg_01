@@ -151,7 +151,7 @@ looker.plugins.visualizations.add({
         }
       }
 
-      if (config.sortStacks !== ""){
+      /*if (config.sortStacks !== ""){
         series.sort((a, b)=>{
           const nameA = a.name.toUpperCase();
           const nameB = b.name.toUpperCase();
@@ -163,7 +163,7 @@ looker.plugins.visualizations.add({
           }
           return 0;
         });
-      }
+      }*/
 
 
       console.log("series", series);
@@ -232,9 +232,76 @@ looker.plugins.visualizations.add({
           }
       });
 
+      //function to sort stacks individually
+     /* function sortColumns() {
+        var chart = this,
+          pointsByCat = {},
+          zeroPixels,
+          bottomYPositive,
+          bottomYNegative,
+          shapeArgs;
+
+          console.log('hi');
+
+        chart.series.forEach(function(serie) {
+          serie.data.forEach(function(point, index) {
+
+            if (pointsByCat[point.category] === undefined) {
+              pointsByCat[point.category] = [];
+            }
+
+            pointsByCat[point.category].push(point);
+          });
+        });
+
+        Highcharts.objectEach(pointsByCat, function(points, key) {
+          zeroPixels = chart.yAxis[0].toPixels(0) - chart.plotTop;
+          bottomYPositive = bottomYNegative = zeroPixels;
+
+          points.sort(function(a, b) {
+            if (config.sortStacks === "descending") return b.y - a.y;
+            if (config.sortStacks === "ascending") return a.y - b.y;
+            return 0;
+          });
+
+          points.forEach(function(point) {
+            if (point.series.visible) {
+              //if (point.shapeArgs.y < zeroPixels) {
+
+                // Positive values
+                point.graphic.attr({
+                  y: bottomYPositive - point.shapeArgs.height
+                });
+
+                point.dataLabel.attr({
+                  y: bottomYPositive - point.shapeArgs.height / 2 - point.dataLabel.height / 2
+                });
+
+                point.tooltipPos[1] = bottomYPositive - point.shapeArgs.height;
+                bottomYPositive = bottomYPositive - point.shapeArgs.height;*/
+              /*} else {
+
+                // Negative values
+                point.graphic.attr({
+                  y: bottomYNegative
+                });
+
+                point.dataLabel.attr({
+                  y: bottomYNegative + point.shapeArgs.height / 2 - point.dataLabel.height / 2
+                });
+
+                point.tooltipPos[1] = bottomYNegative;
+                bottomYNegative = bottomYNegative + point.shapeArgs.height;
+              }
+            }
+          });
+        });
+      }*/
+
       //options object to be passed to Highcharts
       const options = {
         title: "",
+
         legend: {
             layout: 'horizontal',
             align: 'center',
@@ -243,8 +310,13 @@ looker.plugins.visualizations.add({
         },
 
         chart:{
-          type:"column"
+          type:"column",
+          /*events: {
+            load: config.seriesPositioning !== "" ? sortColumns : undefined,
+            redraw: config.seriesPositioning !== "" ? sortColumns : undefined
+          },*/
         },
+
         yAxis: {
           title: {
             text: config.yAxisName || y_dim.label_short || y_dim.label,

@@ -125,7 +125,8 @@ explore: user_retention {
     view_label: "Click Stream"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${user_retention.rdg_id} = ${click_stream.rdg_id} ;;
+    sql_on: ${user_retention.rdg_id} = ${click_stream.rdg_id}
+      and ${user_activity.activity_date} = ${click_stream.event_date};;
   }
   join: firebase_analytics {
     view_label: "Users - Firebase Analytics"

@@ -120,10 +120,20 @@ view: click_stream {
   dimension: button_tag {
     sql: @{button_tags} ;;
   }
+  parameter: player_button_tag_filter {
+    label: "Player Count Button Tag Filter"
+    suggest_dimension: button_tag
+  }
   measure: player_count {
-    label: "Count of Players"
+    label: "Player Count"
     type: count_distinct
-    sql: ${rdg_id} ;;
+    sql:
+        case
+          when
+            {% condition player_button_tag_filter %} ${button_tag} {% endcondition %}
+          then ${rdg_id}
+        end
+      ;;
     drill_fields: [rdg_id,event_time,button_tag,button_tag_raw]
   }
   # dimension: click_count {}

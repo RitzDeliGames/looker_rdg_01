@@ -572,6 +572,11 @@ constant: button_tags {
             when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_DailyRewards.Claim' then 'Daily Rewards - Claim'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_DailyRewards.ClaimDailyReward' then 'Daily Rewards - Claim'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_DailyRewards.Close' then 'Daily Rewards - Close'
+            when json_extract_scalar(extra_json,'$.button_tag') like 'FlourFrenzy.ff_event%' then 'Flour Frenzy - Preview'
+            when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_FlourFrenzy_Preview%' then 'Flour Frenzy - Start'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_FlourFrenzy_Leaderboard.PlayFromFeature' then 'Flour Frenzy - Play'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_FlourFrenzy_Leaderboard.CloseInfo' then 'Flour Frenzy - Info - Close'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_FlourFrenzy_Leaderboard.Close' then 'Flour Frenzy - Leaderboard - Close'
             else json_extract_scalar(extra_json,'$.button_tag')
           end"
 }

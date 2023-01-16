@@ -127,6 +127,12 @@ view: click_stream {
   measure: player_count {
     label: "Player Count"
     type: count_distinct
+    sql: ${rdg_id};;
+    drill_fields: [rdg_id,event_time,button_tag,button_tag_raw]
+  }
+  measure: filtered_player_count {
+    label: "Player Count (Filtered)"
+    type: count_distinct
     sql:
         case
           when

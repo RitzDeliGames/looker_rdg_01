@@ -144,7 +144,7 @@ view: click_stream {
   }
   # dimension: click_count {}
   measure: button_clicks {
-    label: "Count of Clicks"
+    label: "Click Count"
     type: count
     drill_fields: [rdg_id,event_time,button_tag,button_tag_raw]
   }

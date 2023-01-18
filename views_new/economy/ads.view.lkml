@@ -128,7 +128,7 @@ view: ads {
   measure: impressions_per_ad_viewing_player {
     label: "Impressions per Viewing Player"
     type: number
-    value_format: "#,##0"
+    value_format: "#,##0.00"
     sql: ${impression_count} / nullif(${player_count},0) ;;
   }
   # measure: currency_rewarded_amount_025 {

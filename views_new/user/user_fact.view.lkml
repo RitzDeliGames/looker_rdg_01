@@ -71,59 +71,7 @@ view: user_fact {
         on first_activity.rdg_id = median_balance.rdg_id
         and gde.last_event = median_balance.last_event
         where rn = 1
-     --  with first_activity as (select
-     --   rdg_id
-     --   ,device_id
-     --   ,advertising_id
-     --   ,user_id
-     --   ,platform
-     --   ,country
-     --   ,row_number() over (partition by rdg_id order by timestamp asc) rn
-     -- from `eraser-blast.game_data.events`
-     -- where date(created_at) between '2019-01-01' and current_date()
-     --   and date(timestamp) between '2019-01-01' and current_date()
-     --   and user_type = 'external'
-     --   and country != 'ZZ'
-     --   and coalesce(install_version,'null') <> '-1')
---
-     -- select
-     --   fa.rdg_id
-     --   ,fa.device_id
-     --   ,fa.advertising_id
-     --   ,fa.user_id
-     --   ,fa.platform
-     --   ,fa.country
-     --   ,max(ltv) ltv
-     --   ,min(created_at) created
-     --   ,min(datetime(created_at,'US/Pacific')) created_pst
-     --   ,max(session_id) last_session
-     --   ,max(session_count) lifetime_sessions
-     --   ,max(timestamp) last_event
-     --   ,cast(max(last_level_serial) as int64) last_level_serial
-     --   ,cast(max(engagement_ticks) as int64) engagement_ticks
-     --   ,max(version) version
-     --   ,max(install_version) install_version
-     --   ,max(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) config_timestamp
-     --   ,min(cast(json_extract_scalar(extra_json,"$.config_timestamp") as numeric)) install_config_timestamp
-     --   ,max(days_played_past_week) days_played_past_week
-     --   ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_max
-     --   ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_max
-     --   ,max(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric)) currency_07_balance_max
-     --   ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) currency_03_balance_min
-     --   ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) currency_04_balance_min
-     --   ,min(cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric)) currency_07_balance_min
-     -- from first_activity fa
-     -- left join `eraser-blast.game_data.events` gde
-     --   on fa.rdg_id = gde.rdg_id
-     -- where date(gde.created_at) between '2019-01-01' and current_date()
-     --   and date(gde.timestamp) between '2019-01-01' and current_date()
-     --   and gde.user_type = 'external'
-     --   and gde.country != 'ZZ'
-     --   and coalesce(gde.install_version,'null') <> '-1'
-     --   and fa.rn = 1
-     -- group by 1,2,3,4,5,6--,7,8,9
     ;;
-
     datagroup_trigger: change_6_hrs
     publish_as_db_view: yes
     partition_keys: ["created"]

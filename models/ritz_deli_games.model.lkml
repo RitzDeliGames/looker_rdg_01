@@ -278,7 +278,32 @@ explore: transactions {
   }
 }
 
-explore: ads {}
+explore: ads {
+  join: user_retention {
+    from: user_fact
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ads.rdg_id} = ${user_retention.rdg_id} ;;
+  }
+  join: user_last_event {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ads.rdg_id} = ${user_last_event.rdg_id} ;;
+  }
+  join: user_activity {
+    type: left_outer
+    sql_on: ${ads.rdg_id} = ${user_activity.rdg_id}
+      and ${ads.ad_event_date} = ${user_activity.activity_date};;
+    relationship: many_to_many
+  }
+  # join: user_activity_engagement_min {
+  #   type: left_outer
+  #   relationship: many_to_many
+  #   sql_on: ${ads.rdg_id} = ${user_activity_engagement_min.rdg_id}
+  #     and ${transactions.engagement_ticks} = ${user_activity_engagement_min.engagement_ticks};;
+  # }
+
+}
 
 explore: rewards {
   sql_always_where: ${reward_date} >= ${user_fact.created_date};;# and ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} ;;

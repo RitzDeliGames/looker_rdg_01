@@ -28,6 +28,8 @@ view: click_stream {
       group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
       ;;
     datagroup_trigger: change_6_hrs
+    publish_as_db_view: yes
+
   }
   dimension: primary_key {
     type: string
@@ -142,7 +144,6 @@ view: click_stream {
       ;;
     drill_fields: [rdg_id,event_time,button_tag,button_tag_raw]
   }
-  # dimension: click_count {}
   measure: button_clicks {
     label: "Click Count"
     type: count

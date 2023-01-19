@@ -25,13 +25,13 @@ view: transactions_new {
             when extra_json like '%GPA%' then false
             when extra_json like '%AppleAppStore%' then false
           else true end fraud
+        ,cast(row_number() over (partition by rdg_id, json_extract_scalar(extra_json,'$.transaction_purchase_currency') order by timestamp asc) as int64) cumulative_transactions
         ,extra_json
       from game_data.events
       where event_name = 'transaction'
         and user_type = 'external'
         and country != 'ZZ'
         and date(timestamp) between '2022-06-01' and current_date()
-        --and coalesce(install_version,'null') <> '-1'
       order by timestamp
     ;;
     datagroup_trigger: change_6_hrs
@@ -200,11 +200,20 @@ view: transactions_new {
   dimension:  currency_spent_amount {
     type: number
   }
+  dimension: cumulative_transactions {
+    label: "Cumulative Purchases"
+    type: number
+  }
+  measure: cumulative_transactions_max {
+    label: "Max Purchases"
+    type: max
+    sql: ${cumulative_transactions} ;;
+  }
   measure: spender_count {
     label: "Unique Spenders"
     type: count_distinct
     sql: ${rdg_id} ;;
-    drill_fields: [rdg_id, transaction_date, iap_id, iap_purchase_item, iap_id]
+    drill_fields: [rdg_id, transaction_date, cumulative_transactions, iap_id, iap_purchase_item, iap_id]
   }
   measure: currency_spent_amount_sum_per_spender {
     label: "Avg. Transaction Size"

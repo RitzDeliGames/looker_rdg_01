@@ -7,6 +7,7 @@ view: ads {
         ,device_id
         ,advertising_id
         ,timestamp
+        ,created_at created
         ,cast(last_level_serial as int64) last_level_serial
         ,json_extract_scalar(extra_json,"$.ad_unit_name") ad_unit_name
         ,json_extract_scalar(extra_json,"$.impression_id") impression_id
@@ -59,6 +60,21 @@ view: ads {
       ,year
     ]
     sql: ${TABLE}.timestamp  ;;
+  }
+  dimension_group: created {
+    type: time
+    timeframes: [
+      time,
+      hour_of_day,
+      date,
+      month,
+      year
+    ]
+  }
+  dimension_group: since_created {
+    type: duration
+    sql_start: ${created_date} ;;
+    sql_end: ${ad_event_date} ;;
   }
   dimension: impression_id {
     type: string

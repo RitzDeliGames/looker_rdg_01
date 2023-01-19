@@ -16,7 +16,7 @@ view: transactions_new {
         ,json_extract_scalar(extra_json,'$.sheet_id') sheet_raw
         ,json_extract_scalar(extra_json,'$.source_id') source_raw
         ,json_extract_scalar(extra_json,'$.transaction_purchase_currency') currency_spent
-        ,json_extract_scalar(extra_json,"$.transaction_purchase_amount") as int64) currency_spent_amount
+        ,cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") as int64) currency_spent_amount
         ,json_extract_scalar(extra_json,'$.iap_id') iap_id
         ,json_extract_scalar(extra_json,'$.iap_purchase_item') iap_purchase_item
         ,cast(json_extract_scalar(extra_json,'$.iap_purchase_qty') as int64) iap_purchase_qty
@@ -200,6 +200,23 @@ view: transactions_new {
   dimension:  currency_spent_amount {
     type: number
   }
+  measure: spender_count {
+    label: "Unique Spenders"
+    type: count_distinct
+    sql: ${rdg_id} ;;
+    drill_fields: [rdg_id, transaction_date, iap_id, iap_purchase_item, iap_id]
+  }
+  measure: currency_spent_amount_sum_per_spender {
+    label: "Avg. Transaction Size"
+    type: number
+    value_format: "#,###"
+    sql: ${currency_spent_amount_sum} / ${spender_count} ;;
+  }
+  measure: transaction_count {
+    label: "Purchases"
+    type: count
+    drill_fields: [rdg_id,transaction_time,currency_spent,currency_spent_amount,iap_id,transaction_id]
+  }
   measure: dollars_spent_amount_sum { #can this one be deleted?
     label: "Net Revenue"
     type: sum
@@ -248,22 +265,6 @@ view: transactions_new {
     value_format: "$#,###"
     sql: if(${currency_spent} = 'CURRENCY_01',(${currency_spent_amount}/100 * .85), 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
-  }
-  measure: spender_count {
-    label: "Unique Spenders"
-    type: count_distinct
-    sql: ${rdg_id} ;;
-    drill_fields: [rdg_id, transaction_date, iap_id, iap_purchase_item, iap_id]
-  }
-  measure: currency_spent_amount_sum_per_spender {
-    label: "Avg. Transaction Size"
-    type: number
-    value_format: "#,###"
-    sql: ${currency_spent_amount_sum} / ${spender_count} ;;
-  }
-  ## don't need count distinct here, the count will do that with the primary key and aggregate awareness
-  measure: transaction_count {
-    type: count
   }
   measure: transactions_per_spender {
     label: "Transactions per Spender"
@@ -355,7 +356,6 @@ view: transactions_new {
     type: running_total
     sql: ${total_currency_spent_amount} ;;
   }
-
   set: cohort_set {
     fields: [
     transaction_date,

@@ -13,6 +13,7 @@ view: user_fact {
           ,median_balance.daily_median_coin_balance currency_03_balance_med
           ,median_balance.daily_median_life_balance currency_04_balance_med
           ,median_balance.daily_median_star_balance currency_07_balance_med
+          ,ending_balance.daily_ending_coin_balance currency_03_balance_ending
         from
           (select
             rdg_id
@@ -70,6 +71,24 @@ view: user_fact {
           group by 1,2,3,4) median_balance
         on first_activity.rdg_id = median_balance.rdg_id
         and gde.last_event = median_balance.last_event
+        left join
+          (with ending_balance_calc as
+            (select
+              rdg_id
+              ,timestamp
+              ,last_value(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric))
+                over (partition by rdg_id,date(timestamp) order by date(timestamp) desc--EXTRACT(part FROM timestamp_expression
+                rows between unbounded preceding and unbounded following) daily_ending_coin_balance
+            from `eraser-blast.game_data.events`
+            where date(timestamp) between '2019-01-01' and current_date())
+          select
+            ending_balance_calc.rdg_id
+            ,ending_balance_calc.daily_ending_coin_balance
+            ,max(ending_balance_calc.timestamp) last_event
+          from ending_balance_calc
+          group by 1,2) ending_balance
+        on first_activity.rdg_id = ending_balance.rdg_id
+        and gde.last_event = ending_balance.last_event
         where rn = 1
     ;;
     datagroup_trigger: change_6_hrs
@@ -343,40 +362,79 @@ view: user_fact {
     type: sum
     sql: ${ltv} ;;
   }
+  dimension: currency_03_balance_ending {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.currency_03_balance_ending ;;
+  }
+  measure: currency_03_ending_balance_025 {
+    group_label: "Daily Coin Balance - Ending"
+    label: "Ending Daily Coin Balance - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${currency_03_balance_ending} ;;
+  }
+  measure: currency_03_ending_balance_25 {
+    group_label: "Daily Coin Balance - Ending"
+    label: "Ending Daily Coin Balance - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${currency_03_balance_ending} ;;
+  }
+  measure: currency_03_ending_balance_50 {
+    group_label: "Daily Coin Balance - Ending"
+    label: "Ending Daily Coin Balance - Median"
+    type: median
+    sql: ${currency_03_balance_ending} ;;
+  }
+  measure: currency_03_ending_balance_75 {
+    group_label: "Daily Coin Balance - Ending"
+    label: "Ending Daily Coin Balance - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${currency_03_balance_ending} ;;
+  }
+  measure: currency_03_ending_balance_975 {
+    group_label: "Daily Coin Balance - Ending"
+    label: "Ending Daily Coin Balance - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${currency_03_balance_ending} ;;
+  }
   dimension: currency_03_balance_med {
     type: number
     hidden: yes
     sql: ${TABLE}.currency_03_balance_med ;;
   }
   measure: currency_03_med_balance_025 {
-    group_label: "Median Daily Coin Balance"
+    group_label: "Daily Coin Balance- Median"
     label: "Median Daily Coin Balance - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${currency_03_balance_med} ;;
   }
   measure: currency_03_med_balance_25 {
-    group_label: "Median Daily Coin Balance"
+    group_label: "Daily Coin Balance- Median"
     label: "Median Daily Coin Balance - 25%"
     type: percentile
     percentile: 25
     sql: ${currency_03_balance_med} ;;
   }
   measure: currency_03_med_balance_50 {
-    group_label: "Median Daily Coin Balance"
+    group_label: "Daily Coin Balance- Median"
     label: "Median Daily Coin Balance - Median"
     type: median
     sql: ${currency_03_balance_med} ;;
   }
   measure: currency_03_med_balance_75 {
-    group_label: "Median Daily Coin Balance"
+    group_label: "Daily Coin Balance- Median"
     label: "Median Daily Coin Balance - 75%"
     type: percentile
     percentile: 75
     sql: ${currency_03_balance_med} ;;
   }
   measure: currency_03_med_balance_975 {
-    group_label: "Median Daily Coin Balance"
+    group_label: "Daily Coin Balance- Median"
     label: "Median Daily Coin Balance - 97.5%"
     type: percentile
     percentile: 97.5
@@ -395,34 +453,34 @@ view: user_fact {
     sql: ${TABLE}.currency_04_balance_med ;;
   }
   measure: currency_04_med_balance_025 {
-    group_label: "Median Daily Lives Balance"
-    label: "Max Daily Lives Balance - 2.5%"
+    group_label: "Daily Lives Balance - Median"
+    label: "Median Daily Lives Balance - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${currency_04_balance_med} ;;
   }
   measure: currency_04_med_balance_25 {
-    group_label: "Median Daily Lives Balance"
+    group_label: "Daily Lives Balance - Median"
     label: "Median Daily Lives Balance - 25%"
     type: percentile
     percentile: 25
     sql: ${currency_04_balance_med} ;;
   }
   measure: currency_04_med_balance_50 {
-    group_label: "Median Daily Lives Balance"
+    group_label: "Daily Lives Balance - Median"
     label: "Median Daily Lives Balance - Median"
     type: median
     sql: ${currency_04_balance_med} ;;
   }
   measure: currency_04_med_balance_75 {
-    group_label: "Median Daily Lives Balance"
+    group_label: "Daily Lives Balance - Median"
     label: "Median Daily Lives Balance - 75%"
     type: percentile
     percentile: 75
     sql: ${currency_04_balance_med} ;;
   }
   measure: currency_04_med_balance_975 {
-    group_label: "Median Daily Lives Balance"
+    group_label: "Daily Lives Balance - Median"
     label: "Median Daily Lives Balance - 97.5%"
     type: percentile
     percentile: 97.5
@@ -434,34 +492,34 @@ view: user_fact {
     sql: ${TABLE}.currency_07_balance_med ;;
   }
   measure: currency_07_med_balance_025 {
-    group_label: "Median Daily Star Balance"
+    group_label: "Daily Star Balance - Median"
     label: "Median Daily Star Balance - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${currency_07_balance_med} ;;
   }
   measure: currency_07_med_balance_25 {
-    group_label: "Median Daily Star Balance"
+    group_label: "Daily Star Balance - Median"
     label: "Median Daily Star Balance - 25%"
     type: percentile
     percentile: 25
     sql: ${currency_07_balance_med} ;;
   }
   measure: currency_07_med_balance_50 {
-    group_label: "Median Daily Star Balance"
+    group_label: "Daily Star Balance - Median"
     label: "Median Daily Star Balance - Median"
     type: median
     sql: ${currency_07_balance_med} ;;
   }
   measure: currency_07_med_balance_75 {
-    group_label: "Median Daily Star Balance"
+    group_label: "Daily Star Balance - Median"
     label: "Median Daily Star Balance - 75%"
     type: percentile
     percentile: 75
     sql: ${currency_07_balance_med} ;;
   }
   measure: currency_07_med_balance_975 {
-    group_label: "Median Daily Star Balance"
+    group_label: "Daily Star Balance - Median"
     label: "Median Daily Star Balance - 97.5%"
     type: percentile
     percentile: 97.5

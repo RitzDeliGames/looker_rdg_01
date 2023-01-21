@@ -60,5 +60,40 @@ view: user_activity {
     type: count_distinct
     sql: ${user_id} ;;
   }
+  measure:  days_since_created_025 {
+    group_label: "Days Played"
+    label: "Days Played - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${days_since_created} ;;
+  }
+  measure:  days_since_created_25 {
+    group_label: "Days Played"
+    label: "Days Played - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${days_since_created} ;;
+  }
+  measure:  days_since_created_med {
+    group_label: "Days Played"
+    label: "Days Played - Median"
+    type: median
+    sql: ${days_since_created} ;;
+  }
+  measure:  days_since_created_75 {
+    group_label: "Days Played"
+    label: "Days Played - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${days_since_created} ;;
+  }
+  measure:  days_since_created_975 {
+    group_label: "Days Played"
+    label: "Days Played - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${days_since_created} ;;
+  }
+
   drill_fields: [rdg_id,days_since_created,user_retention.days_played_past_week]
 }

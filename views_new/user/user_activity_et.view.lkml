@@ -109,7 +109,7 @@ view: user_activity_engagement_min {
   }
   measure:  engagement_min_med {
     group_label: "Minutes Played"
-    label: "Minutes Played - Median%"
+    label: "Minutes Played - Median"
     type: median
     sql: ${engagement_min} ;;
   }

@@ -77,7 +77,7 @@ view: user_fact {
               rdg_id
               ,timestamp
               ,last_value(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric))
-                over (partition by rdg_id,date(timestamp) order by date(timestamp) asc--EXTRACT(part FROM timestamp_expression
+                over (partition by rdg_id,date(timestamp) order by date(timestamp) asc
                 rows between unbounded preceding and unbounded following) daily_ending_coin_balance
             from `eraser-blast.game_data.events`
             where date(timestamp) between '2019-01-01' and current_date())

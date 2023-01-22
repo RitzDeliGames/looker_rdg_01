@@ -155,7 +155,8 @@ constant: purchase_exclusion_list {
             ,'7ad84723-eca2-4343-988a-a3e5bbd3e499'
             ,'21b7b19b-1ee9-4091-b144-70a32ca9a0bc'
             ,'3a8ea274-debc-46c5-81b1-c8315740db25'
-            ,'e5bfaf46-af13-45ea-b5a3-d068777a42df')"
+            ,'e5bfaf46-af13-45ea-b5a3-d068777a42df'
+            ,'0c8df7f6-02fb-4ee8-a5df-a5c8f4f169d3')"
 }
 
 constant: cheaters {
@@ -243,6 +244,7 @@ constant: release_version_minor {
             when ${TABLE}.version = '13084' then'1.13.084'
             when ${TABLE}.version = '13092' then'1.13.092'
             when ${TABLE}.version = '13093' then'1.13.093'
+            when ${TABLE}.version = '13101' then'1.13.101'
             else ''
           end"
 }
@@ -328,6 +330,7 @@ constant: install_release_version_minor {
             when ${TABLE}.install_version = '13084' then'1.13.084'
             when ${TABLE}.install_version = '13092' then'1.13.092'
             when ${TABLE}.install_version = '13093' then'1.13.093'
+            when ${TABLE}.install_version = '13101' then'1.13.101'
             else ''
           end"
 }

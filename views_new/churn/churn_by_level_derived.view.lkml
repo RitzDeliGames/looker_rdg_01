@@ -80,11 +80,14 @@ view: churn_by_level_derived {
       ,"$.blockSymbols_20221017"
       ,"$.blockSymbolFrames_20221027"
       ,"$.blockSymbolFrames2_20221109"
+      ,"$.boardColor_01122023"
+      ,"$.collection_01192023"
       ,"$.difficultyStars_09202022"
       ,"$.dynamicRewards_20221018"
       ,"$.extraMovesCurrency_20221017"
       ,"$.flourFrenzy_20221215"
       ,"$.fueDismiss_20221010"
+      ,"$.fue00_v3_01182023"
       ,"$.gridGravity_20221003"
       ,"$.gridGravity2_20221012"
       ,"$.livesTimer_01092023"
@@ -92,6 +95,7 @@ view: churn_by_level_derived {
       ,"$.mMStreaks_09302022"
       ,"$.mMStreaksv2_20221031"
       ,"$.newLevelPass_20220926"
+      ,"$.pizzaTime_01192023"
       ,"$.seedTest_20221028"
       ,"$.storeUnlock_20221102"
       ,"$.treasureTrove_20221114"
@@ -101,7 +105,7 @@ view: churn_by_level_derived {
       ,"$.vfxReduce_2_20221024"
       ,"$.zoneOrder2_09302022"
       ,"$.zoneStarCosts_09222022"]
-  }
+    }
   filter: variant_filter {
     type: string
     suggestions: ["control","variant_a","variant_b","variant_c"]

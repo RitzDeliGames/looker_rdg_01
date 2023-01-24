@@ -271,7 +271,7 @@ view: transactions_new {
     group_label: "Total Spend"
     label: "Total Net Dollars Spent"
     type: sum
-    value_format: "$#,###"
+    value_format: "$#,###.00"
     sql: if(${currency_spent} = 'CURRENCY_01',(${currency_spent_amount}/100 * .85), 0) ;;
     drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }

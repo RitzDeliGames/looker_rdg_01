@@ -554,6 +554,7 @@ constant: button_tags {
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRound_BuyExtra.Continue' then 'Mini-Game - Extra Time - Continue'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRound_BuyExtra.Close' then 'Mini-Game - Extra Time - Close'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_FirstComboPowerup.Continue' then 'Mini-Game - FUE - First Combo'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_StreakBonusInfo.PlayFromQuest' then 'Mini-Game - EoR - Streak Bonus - Continue'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_PreGame.Close' then 'Mini-Game - Pre-Game - Close'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_PreGame.Play' then 'Mini-Game - Pre-Game - Play'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_PreGame.Bomb' then 'Mini-Game - Pre-Game - Boost'

@@ -149,6 +149,18 @@ view: click_stream {
     type: count
     drill_fields: [rdg_id,event_time,button_tag,button_tag_raw]
   }
+  measure: filtered_click_count {
+    label: "Click Count (Filtered)"
+    type: count_distinct
+    sql:
+        case
+          when
+            {% condition player_button_tag_filter %} ${button_tag} {% endcondition %}
+          then ${primary_key}
+        end
+      ;;
+    drill_fields: [rdg_id,event_time,button_tag,button_tag_raw]
+  }
   dimension: experiments {
     type: string
     sql: ${TABLE}.experiments ;;

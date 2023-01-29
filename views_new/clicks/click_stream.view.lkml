@@ -95,6 +95,13 @@ view: click_stream {
     label: "Lives"
     type: number
   }
+  dimension:  currency_04_balance_tiers {
+    group_label: "Currencies"
+    label: "Lives Tiers"
+    tiers: [0,1,2,3,4,5]
+    style: integer
+    sql: ${currency_04_balance} ;;
+  }
   dimension: currency_05_balance {
     group_label: "Currencies"
     label: "AFH Tokens"

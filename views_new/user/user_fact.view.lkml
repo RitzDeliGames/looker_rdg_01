@@ -407,34 +407,34 @@ view: user_fact {
     sql: ${TABLE}.currency_03_balance_med ;;
   }
   measure: currency_03_med_balance_025 {
-    group_label: "Daily Coin Balance- Median"
+    group_label: "Daily Coin Balance - Median"
     label: "Median Daily Coin Balance - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${currency_03_balance_med} ;;
   }
   measure: currency_03_med_balance_25 {
-    group_label: "Daily Coin Balance- Median"
+    group_label: "Daily Coin Balance - Median"
     label: "Median Daily Coin Balance - 25%"
     type: percentile
     percentile: 25
     sql: ${currency_03_balance_med} ;;
   }
   measure: currency_03_med_balance_50 {
-    group_label: "Daily Coin Balance- Median"
+    group_label: "Daily Coin Balance - Median"
     label: "Median Daily Coin Balance - Median"
     type: median
     sql: ${currency_03_balance_med} ;;
   }
   measure: currency_03_med_balance_75 {
-    group_label: "Daily Coin Balance- Median"
+    group_label: "Daily Coin Balance - Median"
     label: "Median Daily Coin Balance - 75%"
     type: percentile
     percentile: 75
     sql: ${currency_03_balance_med} ;;
   }
   measure: currency_03_med_balance_975 {
-    group_label: "Daily Coin Balance- Median"
+    group_label: "Daily Coin Balance - Median"
     label: "Median Daily Coin Balance - 97.5%"
     type: percentile
     percentile: 97.5

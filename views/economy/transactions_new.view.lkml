@@ -273,7 +273,7 @@ view: transactions_new {
     type: sum
     value_format: "$#,###.00"
     sql: if(${currency_spent} = 'CURRENCY_01',(${currency_spent_amount}/100 * .85), 0) ;;
-    drill_fields: [rdg_id, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
+    drill_fields: [rdg_id, created_date, transaction_date, transaction_count, iap_id, iap_purchase_item, currency_spent, currency_spent_amount]
   }
   measure: transactions_per_spender {
     label: "Transactions per Spender"

@@ -112,6 +112,7 @@ view: singular_daily_agg_export {
     type: sum
     value_format:"$#,###"
     sql: ${spend} ;;
+    drill_fields: [campaign_name,date,spend]
   }
   measure: total_original_spend {
     label: "Total Original Spend"

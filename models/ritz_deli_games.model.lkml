@@ -629,3 +629,13 @@ explore: firebase_analytics {
     filters: [firebase_analytics.date_filter: "7 days"]
   }
 }
+
+################################################################
+
+## Player Summary By Day
+
+################################################################
+
+explore: player_summary_by_day {
+  label: "Player Summary By Day"
+}

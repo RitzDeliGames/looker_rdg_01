@@ -2,7 +2,7 @@ view: player_summary_by_day {
   # # You can specify the table name if it's different from the view name:
   derived_table: {
     sql: select * from eraser-blast.game_data_aggregate.player_summary_by_day ;;
-    datagroup_trigger: change_24_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
     }

@@ -651,3 +651,7 @@ explore: firebase_analytics {
 explore: player_summary_by_day {
   label: "Player Summary By Day"
 }
+
+explore: player_summary_by_day_test {
+  label: "Player Summary By Day (Incremental Test Version)"
+}

@@ -52,6 +52,18 @@ datagroup: incremental_daily_group {
   ;;
 }
 
+## Dependent daily group. This is for tables that I want to be dependent on the incremental tables
+## Right now I want them to run 1 hour after the Incremental group
+datagroup: dependent_daily_group {
+  sql_trigger:
+    SELECT
+      helper_functions.get_rdg_date(
+        TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL -4 HOUR)
+        )
+
+    ;;
+}
+
 explore: user_retention {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} ;;
   label: "Users"

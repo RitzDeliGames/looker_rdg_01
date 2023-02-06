@@ -667,3 +667,7 @@ explore: player_summary_by_day {
 explore: player_summary_by_day_test {
   label: "Player Summary By Day (Incremental Test Version)"
 }
+
+explore: player_summary_test {
+  label: "Player Summary Test (Dependent on Incremental Test Version)"
+}

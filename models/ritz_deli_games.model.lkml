@@ -40,6 +40,18 @@ datagroup: change_at_midnight {
   max_cache_age: "23 hours"
 }
 
+## Incremental daily group. This is for tables that I want to increment on rather than rebuilding fully every day.
+## I'm starting w/ 3AM as a rebuild time, will adjust if needed.
+datagroup: incremental_daily_group {
+  sql_trigger:
+    SELECT
+      helper_functions.get_rdg_date(
+        TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL -3 HOUR)
+        )
+
+  ;;
+}
+
 explore: user_retention {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} ;;
   label: "Users"

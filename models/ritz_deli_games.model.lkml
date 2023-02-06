@@ -62,6 +62,7 @@ datagroup: dependent_daily_group {
         )
 
     ;;
+  max_cache_age: "26 hours"
 }
 
 explore: user_retention {

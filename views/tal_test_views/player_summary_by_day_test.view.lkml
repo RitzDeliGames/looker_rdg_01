@@ -33,10 +33,11 @@ view: player_summary_by_day_test {
           FROM
             `eraser-blast.game_data.events`
           WHERE
-            DATE(timestamp) >= '2023-02-01'
+            DATE(timestamp) >= '2023-01-01'
             -- SELECT TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL -42 HOUR)
             -- SELECT DATE(TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL -42 HOUR))
-            AND DATE(timestamp) <= DATE(TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL -42 HOUR))
+            -- AND DATE(timestamp) <= DATE(TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL -42 HOUR))
+            AND DATE(timestamp) <= DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
             AND user_type = 'external'
             -- AND country != 'ZZ' I would take this out
         )

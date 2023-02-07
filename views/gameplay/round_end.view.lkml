@@ -66,9 +66,16 @@ view: round_end {
     ]
   }
   dimension: days_since_created {
+    group_label: "Since Created"
     label: "Days Since Created"
     type: number
     sql: date_diff(${event_date},${user_fact.created_date},day) ;;
+  }
+  dimension: weeks_since_created {
+    group_label: "Since Created"
+    label: "Weeks Since Created"
+    type: number
+    sql: date_diff(${event_date},${user_fact.created_date},week) ;;
   }
   # dimension: retention_days_cohort {
   #   label: "Days Since Created"
@@ -198,34 +205,34 @@ view: round_end {
     type: max
     sql: ${last_level_serial} ;;
   }
-  measure: last_level_completed_025 {
+  measure: last_level_completed_025 { #do not use...migrated to user_activity table
     group_label: "Level Measures"
     label: "Levels Completed - 2.5%"
     type: percentile
     percentile: 2.5
     sql: ${last_level_serial} ;;
   }
-  measure: last_level_completed_25 {
+  measure: last_level_completed_25 { #do not use...migrated to user_activity table
     group_label: "Level Measures"
     label: "Levels Completed - 25%"
     type: percentile
     percentile: 25
     sql: ${last_level_serial} ;;
   }
-  measure: last_level_completed_med {
+  measure: last_level_completed_med { #do not use...migrated to user_activity table
     group_label: "Level Measures"
     label: "Levels Completed - Median"
     type: median
     sql: ${last_level_serial} ;;
   }
-  measure: last_level_completed_75 {
+  measure: last_level_completed_75 { #do not use...migrated to user_activity table
     group_label: "Level Measures"
     label: "Levels Completed - 75%"
     type: percentile
     percentile: 75
     sql: ${last_level_serial} ;;
   }
-  measure: last_level_completed_975 {
+  measure: last_level_completed_975 { #do not use...migrated to user_activity table
     group_label: "Level Measures"
     label: "Levels Completed - 97.5%"
     type: percentile

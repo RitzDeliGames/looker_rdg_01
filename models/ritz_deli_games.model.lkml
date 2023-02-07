@@ -119,7 +119,7 @@ explore: user_retention {
     type: left_outer
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${ads.rdg_id}
-      and  ${user_activity.activity_date} = ${ads.ad_event_date};;
+      and ${user_activity.activity_date} = ${ads.ad_event_date};;
   }
   join: rewards {
     view_label: "Rewards"

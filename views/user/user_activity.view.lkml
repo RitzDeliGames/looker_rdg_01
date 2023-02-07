@@ -6,6 +6,7 @@ view: user_activity {
         rdg_id
         ,user_id
         ,timestamp_trunc(timestamp,day) activity
+        ,max(cast(last_level_serial as int64)) last_level_serial
       from `eraser-blast.game_data.events`
       where date(created_at) between '2019-01-01' and current_date()
         and date(timestamp) between '2019-01-01' and current_date()
@@ -42,13 +43,32 @@ view: user_activity {
     ]
   }
   dimension: days_since_created {
+    group_label: "Since Created"
+    label: "Days Since Created"
     type: number
     sql: date_diff(${activity_date},${user_retention.created_date},day) ;;
+  }
+  dimension: weeks_since_created {
+    group_label: "Since Created"
+    label: "Weeks Since Created"
+    type: number
+    sql: date_diff(${activity_date},${user_retention.created_date},week) ;;
   }
   dimension: retention_days_cohort {
     type: string
     sql: 'D' || cast((${days_since_created} + 1) as string) ;;
     order_by_field: days_since_created
+  }
+  dimension: last_level_serial {
+    group_label: "Level Dimensions"
+    label: "Last Level Completed"
+    type: number
+  }
+  dimension: last_level_serial_offset {
+    group_label: "Level Dimensions"
+    label: "Current Level"
+    type: number
+    sql: ${last_level_serial} + 1 ;;
   }
   measure: active_user_count {
     label: "Active Players (RDG Ids)"
@@ -94,6 +114,53 @@ view: user_activity {
     percentile: 97.5
     sql: ${days_since_created} ;;
   }
-
+  measure: last_level_completed_025 {
+    group_label: "Level Measures"
+    label: "Levels Completed - 2.5%"
+    type: percentile
+    percentile: 2.5
+    sql: ${last_level_serial} ;;
+  }
+  measure: last_level_completed_10 {
+    group_label: "Level Measures"
+    label: "Levels Completed - 10%"
+    type: percentile
+    percentile: 10
+    sql: ${last_level_serial} ;;
+  }
+  measure: last_level_completed_25 {
+    group_label: "Level Measures"
+    label: "Levels Completed - 25%"
+    type: percentile
+    percentile: 25
+    sql: ${last_level_serial} ;;
+  }
+  measure: last_level_completed_med {
+    group_label: "Level Measures"
+    label: "Levels Completed - Median"
+    type: median
+    sql: ${last_level_serial} ;;
+  }
+  measure: last_level_completed_75 {
+    group_label: "Level Measures"
+    label: "Levels Completed - 75%"
+    type: percentile
+    percentile: 75
+    sql: ${last_level_serial} ;;
+  }
+  measure: last_level_completed_90 {
+    group_label: "Level Measures"
+    label: "Levels Completed - 90%"
+    type: percentile
+    percentile: 90
+    sql: ${last_level_serial} ;;
+  }
+  measure: last_level_completed_975 {
+    group_label: "Level Measures"
+    label: "Levels Completed - 97.5%"
+    type: percentile
+    percentile: 97.5
+    sql: ${last_level_serial} ;;
+  }
   drill_fields: [rdg_id,days_since_created,user_retention.days_played_past_week]
 }

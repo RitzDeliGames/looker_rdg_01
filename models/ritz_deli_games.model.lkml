@@ -45,7 +45,7 @@ datagroup: change_at_midnight {
 datagroup: incremental_daily_group {
   sql_trigger:
     SELECT
-      helper_functions.get_rdg_date(
+      DATE(
         TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL -3 HOUR)
         )
 

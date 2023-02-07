@@ -46,7 +46,7 @@ datagroup: incremental_daily_group {
   sql_trigger:
     SELECT
       helper_functions.get_rdg_date(
-        TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL -9 HOUR)
+        TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL -10 HOUR)
         )
 
   ;;

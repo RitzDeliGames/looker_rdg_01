@@ -64,12 +64,16 @@ view: player_summary_by_day_test {
   }
   #
   # # Define your dimensions and measures here, like this:
-  dimension_group: rdg_date {
+  dimension_group: rdg_date_analysis {
     description: "date as defined by rdg_date function"
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.rdg_date ;;
   }
+  dimension: rdg_date {
+    type: date
+  }
+
   #
   dimension: rdg_id {
     description: "Ritz Deli Game ID"

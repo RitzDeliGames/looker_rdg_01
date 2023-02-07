@@ -41,12 +41,12 @@ datagroup: change_at_midnight {
 }
 
 ## Incremental daily group. This is for tables that I want to increment on rather than rebuilding fully every day.
-## I'm starting w/ 3AM as a rebuild time, will adjust if needed.
+## I'm starting w/ 3AM UTC (7PM PST) as a rebuild time, will adjust if needed.
 datagroup: incremental_daily_group {
   sql_trigger:
     SELECT
       helper_functions.get_rdg_date(
-        TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL -10 HOUR)
+        TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL -3 HOUR)
         )
 
   ;;

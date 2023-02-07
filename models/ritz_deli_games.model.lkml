@@ -54,12 +54,12 @@ datagroup: incremental_daily_group {
 
 ## Dependent daily group. This is for tables that I want to be dependent on the incremental tables
 ## Right now I want them to run 1 hour after the Incremental group
-datagroup: dependent_daily_group {
+datagroup: dependent_on_player_summary_by_day {
   sql_trigger:
-    SELECT
-      helper_functions.get_rdg_date(
-        TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL -4 HOUR)
-        )
+    select
+        sum(1) as count_rows
+      from
+        ${player_summary_by_day_test.SQL_TABLE_NAME}
 
     ;;
   max_cache_age: "26 hours"

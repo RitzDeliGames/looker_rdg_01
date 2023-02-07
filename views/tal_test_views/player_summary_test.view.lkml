@@ -9,7 +9,7 @@ view: player_summary_test {
         ${player_summary_by_day_test.SQL_TABLE_NAME}
 
           ;;
-    datagroup_trigger: dependent_daily_group
+    datagroup_trigger: dependent_on_player_summary_by_day
     publish_as_db_view: yes
 
   }

@@ -39,21 +39,26 @@ view: player_summary_by_day_test {
               AS first_config_timestamp
             , LAST_VALUE(days_played_past_week) OVER (PARTITION BY rdg_id, DATE(timestamp) ORDER BY timestamp ASC) days_played_past_week
             , PERCENTILE_CONT(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_03") AS NUMERIC), 0.5)
-               OVER (PARTITION BY rdg_id, DATE(timestamp))
-               AS daily_median_coin_balance
+                OVER (PARTITION BY rdg_id, DATE(timestamp))
+                AS daily_median_coin_balance
             , PERCENTILE_CONT(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_04") AS NUMERIC), 0.5)
-               OVER (PARTITION BY rdg_id, DATE(timestamp))
-               AS daily_median_life_balance
+                OVER (PARTITION BY rdg_id, DATE(timestamp))
+                AS daily_median_life_balance
             , PERCENTILE_CONT(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_07") AS NUMERIC), 0.5)
-               OVER (PARTITION BY rdg_id, DATE(timestamp))
-               AS daily_median_star_balance
+                OVER (PARTITION BY rdg_id, DATE(timestamp))
+                AS daily_median_star_balance
             , LAST_VALUE(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_03") AS NUMERIC))
-               OVER (PARTITION BY rdg_id, DATE(timestamp) ORDER BY timestamp ASC)
-               AS daily_ending_coin_balance
+                OVER (PARTITION BY rdg_id, DATE(timestamp) ORDER BY timestamp ASC)
+                AS daily_ending_coin_balance
           FROM
             `eraser-blast.game_data.events`
           WHERE
-            DATE(timestamp) >= '2023-01-01'
+            DATE(timestamp) >=
+              CASE
+                WHEN DATE(CURRENT_DATE()) <= '2023-02-08' -- Last Full Update
+                THEN '2023-01-01'
+                ELSE DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
+                END
             AND DATE(timestamp) <= DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
             AND user_type = 'external'
         )

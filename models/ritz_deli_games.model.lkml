@@ -56,11 +56,10 @@ datagroup: incremental_daily_group {
 ## Right now I want them to run 1 hour after the Incremental group
 datagroup: dependent_on_player_summary_by_day {
   sql_trigger:
-    select
-        sum(1) as count_rows
-      from
-        ${player_summary_by_day_test.SQL_TABLE_NAME}
-
+    SELECT
+      SUM(1)
+    FROM
+      `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_by_day_test`
     ;;
   max_cache_age: "26 hours"
 }

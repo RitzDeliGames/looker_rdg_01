@@ -656,7 +656,8 @@ explore: firebase_analytics {
 
 ################################################################
 
-## Player Summary By Day
+## TEST Files: Player Summary By Day
+## Remove these after the new aggregate files are validated
 
 ################################################################
 
@@ -670,4 +671,14 @@ explore: player_summary_by_day_test {
 
 explore: player_summary_test {
   label: "Player Summary Test (Dependent on Incremental Test Version)"
+}
+
+################################################################
+
+## ccb_aggregates
+
+################################################################
+
+explore: player_daily_incremental {
+  label: "Player Daily (Incremental Build)"
 }

@@ -6,7 +6,7 @@ view: player_daily_incremental {
       WITH
 
       ------------------------------------------------------------------------
-      -- player_daily_build
+      -- player_daily_incremental
       ------------------------------------------------------------------------
       ------------------------------------------------------------------------
       -- Select all columns w/ the current date range
@@ -44,6 +44,11 @@ view: player_daily_incremental {
         FROM
           `eraser-blast.game_data.events` a
         WHERE
+          ------------------------------------------------------------------------
+          -- Date selection
+          -- We use this because the FIRST time we run this query we want all the data going back
+          -- but future runs we only want the last 9 days
+          ------------------------------------------------------------------------
           DATE(timestamp) >=
             CASE
               -- SELECT DATE(CURRENT_DATE())
@@ -52,6 +57,12 @@ view: player_daily_incremental {
               ELSE DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
               END
           AND DATE(timestamp) <= DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
+
+          ------------------------------------------------------------------------
+          -- user type selection
+          -- We only want users that are marked as "external"
+          -- This removes any bots or internal QA accounts
+          ------------------------------------------------------------------------
           AND user_type = 'external'
       )
 

@@ -86,16 +86,77 @@ view: player_daily_incremental {
           -- General player info
           -------------------------------------------------
 
-          , FIRST_VALUE(device_id) OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC) device_id
-          , FIRST_VALUE(advertising_id) OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC) advertising_id
-          , FIRST_VALUE(user_id) OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC) user_id
-          , FIRST_VALUE(platform) OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC) platform
-          , FIRST_VALUE(country) OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC) country
-          , FIRST_VALUE(created_at) OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC) created_utc
-          , FIRST_VALUE(DATE(created_at)) OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC) created_date
-          , LAST_VALUE(experiments) OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC) experiments
-          , LAST_VALUE(version) OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC) version
-          , FIRST_VALUE(install_version) OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC) install_version
+          -- device_id
+          , FIRST_VALUE(device_id) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) device_id
+
+          -- advertising_id
+          , FIRST_VALUE(advertising_id) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) advertising_id
+
+          -- user_id
+          , FIRST_VALUE(user_id) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) user_id
+
+          -- platform
+          , FIRST_VALUE(platform) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) platform
+
+          -- country
+          , FIRST_VALUE(country) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) country
+
+          -- created_utc
+          , FIRST_VALUE(created_at) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) created_utc
+
+          -- created_date
+          , FIRST_VALUE(DATE(created_at)) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) created_date
+
+          -- experiements
+          -- uses LAST value rather than first value
+          , LAST_VALUE(experiments) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) experiments
+
+          -- version
+          -- uses LAST value rather than first value
+          , LAST_VALUE(version) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) version
+
+          -- install_version
+          , FIRST_VALUE(install_version) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) install_version
 
           -------------------------------------------------
           -- Dollar Events
@@ -121,7 +182,11 @@ view: player_daily_incremental {
               END AS NUMERIC) AS ad_view_dollars
 
           -- ltv from data (for checking)
-          , LAST_VALUE(ltv) OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC) mtx_ltv_from_data_in_cents
+          , LAST_VALUE(ltv) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) mtx_ltv_from_data_in_cents
 
           -------------------------------------------------
           -- additional ads information
@@ -138,8 +203,19 @@ view: player_daily_incremental {
           -- session/play info
           -------------------------------------------------
 
-          , LAST_VALUE(session_count) OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC) cumulative_session_count
-          , LAST_VALUE(engagement_ticks) OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC) cumulative_engagement_ticks
+          -- cumulative session count
+          , LAST_VALUE(session_count) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) cumulative_session_count
+
+          -- cumulative engagement ticks
+          , LAST_VALUE(engagement_ticks) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) cumulative_engagement_ticks
 
           -- round start events
           , CAST(CASE
@@ -156,22 +232,26 @@ view: player_daily_incremental {
               END AS INT64) AS round_end_events
 
           -- Lowest Last level serial recorded
-          , MIN(CAST(last_level_serial AS INT64))
-              OVER (PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC)
+          , MIN(CAST(last_level_serial AS INT64)) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              )
               AS lowest_last_level_serial
 
           -- Highest Last level serial recorded
-          , MAX(CAST(last_level_serial AS INT64))
-              OVER (PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC)
-              AS highest_last_level_serial
+          , MAX(CAST(last_level_serial AS INT64)) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) AS highest_last_level_serial
 
           -- Highest quests completed recorded
-          , MAX(CAST(quests_completed AS INT64))
-              OVER (PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC)
-              AS highest_quests_completed
+          , MAX(CAST(quests_completed AS INT64)) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) AS highest_quests_completed
 
           -------------------------------------------------
           -- currency spend info
@@ -216,24 +296,33 @@ view: player_daily_incremental {
           -------------------------------------------------
 
           -- ending_gems_balance
-          , LAST_VALUE(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_02") AS NUMERIC))
-              OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC)
-              AS ending_gems_balance
+          , LAST_VALUE(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_02") AS NUMERIC)) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) AS ending_gems_balance
 
           -- ending_coins_balance
-          , LAST_VALUE(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_03") AS NUMERIC))
-              OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC)
-              AS ending_coins_balance
+          , LAST_VALUE(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_03") AS NUMERIC)) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) AS ending_coins_balance
 
           -- ending_lives_balance
-          , LAST_VALUE(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_04") AS NUMERIC))
-              OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC)
-              AS ending_lives_balance
+          , LAST_VALUE(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_04") AS NUMERIC)) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) AS ending_lives_balance
 
           -- ending_stars_balance
-          , LAST_VALUE(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_07") AS NUMERIC))
-              OVER (PARTITION BY rdg_id, DATE(timestamp_utc) ORDER BY timestamp_utc ASC)
-              AS ending_stars_balance
+          , LAST_VALUE(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_07") AS NUMERIC)) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) AS ending_stars_balance
+
         FROM
           base_data
       )
@@ -261,8 +350,8 @@ view: player_daily_incremental {
         , SUM(ad_view_indicator) AS ad_views
         , MAX(cumulative_session_count) AS cumulative_session_count
         , MAX(cumulative_engagement_ticks) AS cumulative_engagement_ticks
-        , MAX(round_start_events) AS round_start_events
-        , MAX(round_end_events) AS round_end_events
+        , SUM(round_start_events) AS round_start_events
+        , SUM(round_end_events) AS round_end_events
         , MAX(lowest_last_level_serial) AS lowest_last_level_serial
         , MAX(highest_last_level_serial) AS highest_last_level_serial
         , MAX(highest_quests_completed) AS highest_quests_completed

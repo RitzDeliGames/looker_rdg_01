@@ -184,4 +184,10 @@ view: player_daily_summary {
     sql: ${TABLE}.rdg_id ;;
   }
 
+  measure: sum_mtx_purchase_dollars {
+    description: "Sum of MTX dollars"
+    type: sum
+    sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
+
 }

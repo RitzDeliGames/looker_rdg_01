@@ -67,6 +67,49 @@ view: player_daily_summary {
             ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
             ) cumulative_combined_dollars
 
+        -- daily_mtx_spend_indicator
+        , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN 1 ELSE 0 END AS daily_mtx_spend_indicator
+
+        -- daily_mtx_spender_rdg_id
+        , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN rdg_id ELSE NULL END AS daily_mtx_spender_rdg_id
+
+        -- first_mtx_spend_indicator
+        , CASE
+            WHEN IFNULL(mtx_purchase_dollars,0) > 0
+            AND
+              SUM(mtx_purchase_dollars) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING )
+              = 0
+            THEN 1
+            ELSE 0
+            END AS first_mtx_spend_indicator
+
+        -- lifetime_mtx_spend_indicator
+        , CASE
+            WHEN
+              SUM(mtx_purchase_dollars) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              > 0
+            THEN 1
+            ELSE 0
+            END AS lifetime_mtx_spend_indicator
+
+        -- lifetime_mtx_spender_rdg_id
+        , CASE
+            WHEN
+              SUM(mtx_purchase_dollars) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              > 0
+            THEN rdg_id
+            ELSE NULL
+            END AS lifetime_mtx_spender_rdg_id
+
         -- cumulative_ad_views
         , SUM(ad_views) OVER (
             PARTITION BY rdg_id
@@ -196,6 +239,34 @@ view: player_daily_summary {
     description: "Count of days played, each player per day = 1 "
     type: sum
     sql: ${TABLE}.count_days_played ;;
+  }
+
+  # Add up daily spend days
+  measure: sum_daily_mtx_spend_indicator {
+    description: "Count of mtx spend days played, each spend day per player = 1 "
+    type: sum
+    sql: ${TABLE}.daily_mtx_spend_indicator ;;
+  }
+
+  # count unique daily spenders
+  measure: count_distinct_daily_mtx_spender_rdg_id {
+    description: "Count of Distinct Daily Spenders, Player must spend on day to be counted "
+    type: count_distinct
+    sql: ${TABLE}.daily_mtx_spender_rdg_id ;;
+  }
+
+  # count unique lifetime spenders
+  measure: count_distinct_lifetime_mtx_spender_rdg_id {
+    description: "Count of Distinct Lifetime Spenders, Players who have EVER spent on MTX are counted"
+    type: count_distinct
+    sql: ${TABLE}.lifetime_mtx_spender_rdg_id ;;
+  }
+
+  # Add up daily first spends
+  measure: sum_first_mtx_spend_indicator {
+    description: "Count of FIRST mtx spend days played, each FIRST spend day per player = 1 "
+    type: sum
+    sql: ${TABLE}.first_mtx_spend_indicator ;;
   }
 
 }

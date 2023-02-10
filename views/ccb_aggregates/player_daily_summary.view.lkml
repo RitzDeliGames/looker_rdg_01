@@ -78,22 +78,23 @@ view: player_daily_summary {
         -- Calculate engagement ticks
         -- uses prior row cumulative_engagement_ticks
         , IFNULL(cumulative_engagement_ticks,0) -
-            IFNULL(LAG(cumulative_engagement_ticks,0) OVER (
+            IFNULL(LAG(cumulative_engagement_ticks,1) OVER (
                 PARTITION BY rdg_id
                 ORDER BY rdg_date ASC
                 ),0) AS engagement_ticks
 
         -- time played
         -- This is calculated as engagement ticks / 2
-        , IFNULL(cumulative_engagement_ticks,0) -
-            IFNULL(LAG(cumulative_engagement_ticks,0) OVER (
-                PARTITION BY rdg_id
-                ORDER BY rdg_date ASC
-                ),0) / 2
+        , 0.5 * (
+            IFNULL(cumulative_engagement_ticks,0) -
+            IFNULL(LAG(cumulative_engagement_ticks,1) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ),0))
             AS time_played_minutes
 
         -- cumulative_time_played_minutes
-        , IFNULL(cumulative_engagement_ticks,0) / 2 AS cumulative_time_played_minutes
+        , 0.5 * ( IFNULL(cumulative_engagement_ticks,0) ) AS cumulative_time_played_minutes
 
         -- cumulative_round_start_events
         , SUM(round_start_events) OVER (
@@ -110,12 +111,38 @@ view: player_daily_summary {
             ) cumulative_round_end_events
 
         -- Calculate quests_completed
-        -- uses prior row cumulative_engagement_ticks
+        -- uses prior row highest_quests_completed
         , IFNULL(highest_quests_completed,0) -
-            IFNULL(LAG(highest_quests_completed,0) OVER (
-                PARTITION BY rdg_id
-                ORDER BY rdg_date ASC
-                ),0) AS quests_completed
+            IFNULL(LAG(highest_quests_completed,1) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ),0) AS quests_completed
+
+        -- count_days_played
+        -- this is just always 1
+        , 1 as count_days_played
+
+        -- cumulative_count_days_played
+        , SUM(1) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_count_days_played
+
+        -- Calculate levels_progressed
+        -- uses prior row highest_last_level_serial
+        , IFNULL(highest_last_level_serial,0) -
+            IFNULL(LAG(highest_last_level_serial,1) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ),0) AS levels_progressed
+
+        -- cumulative_count_days_played
+        , SUM(1) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_count_days_played
 
         -- cumulative_gems_spend
         , SUM(gems_spend) OVER (

@@ -137,13 +137,6 @@ view: player_daily_summary {
               ORDER BY rdg_date ASC
               ),0) AS levels_progressed
 
-        -- cumulative_count_days_played
-        , SUM(1) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_count_days_played
-
         -- cumulative_gems_spend
         , SUM(gems_spend) OVER (
             PARTITION BY rdg_id

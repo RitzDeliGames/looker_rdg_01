@@ -184,10 +184,18 @@ view: player_daily_summary {
     sql: ${TABLE}.rdg_id ;;
   }
 
+  # Sum up MTX purchase dollars
   measure: sum_mtx_purchase_dollars {
     description: "Sum of MTX dollars"
     type: sum
     sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
+
+  # Add up days played
+  measure: sum_count_days_played {
+    description: "Count of days played, each player per day = 1 "
+    type: sum
+    sql: ${TABLE}.count_days_played ;;
   }
 
 }

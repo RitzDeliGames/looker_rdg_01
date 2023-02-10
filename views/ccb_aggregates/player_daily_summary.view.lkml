@@ -1,5 +1,9 @@
 view: player_daily_summary {
-# # You can specify the table name if it's different from the view name:
+
+################################################################
+## View SQL
+################################################################
+
   derived_table: {
     sql:
 
@@ -210,6 +214,10 @@ view: player_daily_summary {
 
   }
 
+################################################################
+## Dimensions
+################################################################
+
   dimension_group: rdg_date_analysis {
     description: "date as defined by rdg_date function"
     type: time
@@ -220,6 +228,18 @@ view: player_daily_summary {
   dimension: rdg_date {
     type: date
   }
+
+  dimension: days_since_created {
+    type: number
+  }
+
+  dimension: created_date {
+    type: date
+  }
+
+################################################################
+## Measures
+################################################################
 
   measure: count_distinct_active_users {
     description: "Use this for counting lifetime orders across many users"

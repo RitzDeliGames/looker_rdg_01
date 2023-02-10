@@ -52,8 +52,8 @@ view: player_daily_incremental {
           DATE(timestamp) >=
             CASE
               -- SELECT DATE(CURRENT_DATE())
-              WHEN DATE(CURRENT_DATE()) <= '2023-02-09' -- Last Full Update
-              THEN '2023-01-01'
+              WHEN DATE(CURRENT_DATE()) <= '2023-02-10' -- Last Full Update
+              THEN '2019-01-01'
               ELSE DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
               END
           AND DATE(timestamp) <= DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
@@ -203,6 +203,9 @@ view: player_daily_incremental {
           -- session/play info
           -------------------------------------------------
 
+          -- session_id (for count distinct sessions played)
+          , session_id
+
           -- cumulative session count
           , LAST_VALUE(session_count) OVER (
               PARTITION BY rdg_id, DATE(timestamp_utc)
@@ -232,7 +235,7 @@ view: player_daily_incremental {
               END AS INT64) AS round_end_events
 
           -- Lowest Last level serial recorded
-          , MIN(CAST(last_level_serial AS INT64)) OVER (
+          , MIN(IFNULL(CAST(last_level_serial AS INT64),0)) OVER (
               PARTITION BY rdg_id, DATE(timestamp_utc)
               ORDER BY timestamp_utc ASC
               ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
@@ -240,7 +243,7 @@ view: player_daily_incremental {
               AS lowest_last_level_serial
 
           -- Highest Last level serial recorded
-          , MAX(CAST(last_level_serial AS INT64)) OVER (
+          , MAX(IFNULL(CAST(last_level_serial AS INT64),0)) OVER (
               PARTITION BY rdg_id, DATE(timestamp_utc)
               ORDER BY timestamp_utc ASC
               ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
@@ -296,28 +299,28 @@ view: player_daily_incremental {
           -------------------------------------------------
 
           -- ending_gems_balance
-          , LAST_VALUE(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_02") AS NUMERIC)) OVER (
+          , LAST_VALUE(IFNULL(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_02") AS NUMERIC),0)) OVER (
               PARTITION BY rdg_id, DATE(timestamp_utc)
               ORDER BY timestamp_utc ASC
               ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
               ) AS ending_gems_balance
 
           -- ending_coins_balance
-          , LAST_VALUE(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_03") AS NUMERIC)) OVER (
+          , LAST_VALUE(IFNULL(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_03") AS NUMERIC),0)) OVER (
               PARTITION BY rdg_id, DATE(timestamp_utc)
               ORDER BY timestamp_utc ASC
               ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
               ) AS ending_coins_balance
 
           -- ending_lives_balance
-          , LAST_VALUE(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_04") AS NUMERIC)) OVER (
+          , LAST_VALUE(IFNULL(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_04") AS NUMERIC),0)) OVER (
               PARTITION BY rdg_id, DATE(timestamp_utc)
               ORDER BY timestamp_utc ASC
               ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
               ) AS ending_lives_balance
 
           -- ending_stars_balance
-          , LAST_VALUE(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_07") AS NUMERIC)) OVER (
+          , LAST_VALUE(IFNULL(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_07") AS NUMERIC),0)) OVER (
               PARTITION BY rdg_id, DATE(timestamp_utc)
               ORDER BY timestamp_utc ASC
               ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
@@ -346,8 +349,9 @@ view: player_daily_incremental {
         , MAX(install_version) AS install_version
         , SUM(mtx_purchase_dollars) AS mtx_purchase_dollars
         , SUM(ad_view_dollars) AS ad_view_dollars
-        , MAX(CAST(mtx_ltv_from_data_in_cents/100 AS NUMERIC)) AS ltv_data
+        , MAX(CAST(mtx_ltv_from_data_in_cents/100 AS NUMERIC)) AS mtx_ltv_from_data
         , SUM(ad_view_indicator) AS ad_views
+        , COUNT(DISTINCT session_id) AS count_sessions
         , MAX(cumulative_session_count) AS cumulative_session_count
         , MAX(cumulative_engagement_ticks) AS cumulative_engagement_ticks
         , SUM(round_start_events) AS round_start_events

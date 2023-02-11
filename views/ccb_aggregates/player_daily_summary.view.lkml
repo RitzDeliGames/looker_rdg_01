@@ -277,7 +277,7 @@ view: player_daily_summary {
   #####################################
 
   measure: count_distinct_active_users {
-    description: "Use this for counting lifetime orders across many users"
+    description: "Use this for counting unique players"
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
   }
@@ -287,6 +287,19 @@ view: player_daily_summary {
     description: "Count of days played, each player per day = 1 "
     type: sum
     sql: ${TABLE}.count_days_played ;;
+  }
+
+  measure: count_distinct_new_player_rdg_id {
+    description: "count of distinct new players over a window"
+    type: count_distinct
+    sql: ${TABLE}.new_player_rdg_id ;;
+  }
+
+  # Add up days played
+  measure: sum_new_player_indicator {
+    description: "Count of new players per day "
+    type: sum
+    sql: ${TABLE}.new_player_indicator ;;
   }
 
   #####################################

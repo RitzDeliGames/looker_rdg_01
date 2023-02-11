@@ -241,11 +241,9 @@ view: player_daily_summary {
 ## Measures
 ################################################################
 
-  measure: count_distinct_active_users {
-    description: "Use this for counting lifetime orders across many users"
-    type: count_distinct
-    sql: ${TABLE}.rdg_id ;;
-  }
+  #####################################
+  ## Sum Dollars
+  #####################################
 
   # Sum up MTX purchase dollars
   measure: sum_mtx_purchase_dollars {
@@ -253,6 +251,32 @@ view: player_daily_summary {
     type: sum
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
+
+  # Sum up Ad Views purchase dollars
+  measure: sum_ad_view_dollars {
+    description: "Sum of dollars from Ad Views"
+    type: sum
+    sql: ${TABLE}.ad_view_dollars ;;
+  }
+
+  # Sum up combined dollars
+  measure: sum_combined_dollars {
+    description: "Sum of MTX + Ad dollars"
+    type: sum
+    sql: ${TABLE}.combined_dollars ;;
+  }
+
+  #####################################
+  ## Other
+  #####################################
+
+  measure: count_distinct_active_users {
+    description: "Use this for counting lifetime orders across many users"
+    type: count_distinct
+    sql: ${TABLE}.rdg_id ;;
+  }
+
+
 
   # Add up days played
   measure: sum_count_days_played {

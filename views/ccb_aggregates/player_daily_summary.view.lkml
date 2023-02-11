@@ -15,6 +15,12 @@ view: player_daily_summary {
         -- Days Since Created
         , DATE_DIFF(DATE(rdg_date), created_date, DAY) AS days_since_created
 
+        -- new_player_indicator
+        , CASE WHEN DATE_DIFF(DATE(rdg_date), created_date, DAY) = 0 THEN 1 ELSE 0 END AS new_player_indicator
+
+         -- new_player_rdg_id
+        , CASE WHEN DATE_DIFF(DATE(rdg_date), created_date, DAY) = 0 THEN rdg_id ELSE NULL END AS new_player_rdg_id
+
         -- Date last played
         , LAG(DATE(rdg_date), 1) OVER (
             PARTITION BY rdg_id
@@ -267,7 +273,7 @@ view: player_daily_summary {
   }
 
   #####################################
-  ## Other
+  ## Player Counts
   #####################################
 
   measure: count_distinct_active_users {
@@ -276,14 +282,18 @@ view: player_daily_summary {
     sql: ${TABLE}.rdg_id ;;
   }
 
-
-
   # Add up days played
   measure: sum_count_days_played {
     description: "Count of days played, each player per day = 1 "
     type: sum
     sql: ${TABLE}.count_days_played ;;
   }
+
+  #####################################
+  ## Other
+  #####################################
+
+
 
   # Add up daily spend days
   measure: sum_daily_mtx_spend_indicator {

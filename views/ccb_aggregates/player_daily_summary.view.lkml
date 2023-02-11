@@ -12,6 +12,9 @@ view: player_daily_summary {
         -- Start with all the rows from player_daily_incremental
         *
 
+        -- create_date_timestamp
+        , TIMESTAMP(created_date) as created_date_timestamp
+
         -- Days Since Created
         , DATE_DIFF(DATE(rdg_date), created_date, DAY) AS days_since_created
 
@@ -239,7 +242,7 @@ view: player_daily_summary {
     type: number
   }
 
-  dimension: created_date {
+  dimension: created_date_timestamp {
     type: date
   }
 

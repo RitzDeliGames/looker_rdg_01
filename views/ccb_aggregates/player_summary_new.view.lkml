@@ -13,13 +13,9 @@ view: player_summary_new {
       -- Get base data
       -----------------------------------------------------------------------
 
-      base_data AS (
+      latest_update_table AS (
         SELECT
-          *
-          , MAX(DATE(rdg_date)) OVER (
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-          ) latest_update
+          MAX(DATE(rdg_date)) AS latest_update
 
         FROM
           `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
@@ -37,7 +33,7 @@ view: player_summary_new {
 
           rdg_id
 
-          , latest_update
+          , latest_update_table.latest_update
 
           -- device_id
           , FIRST_VALUE(device_id) OVER (
@@ -347,7 +343,8 @@ view: player_summary_new {
             ) highest_last_level_serial
 
       FROM
-        base_data
+        `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
+        , latest_update_table
 
       )
 

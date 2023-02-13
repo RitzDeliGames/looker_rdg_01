@@ -12,7 +12,6 @@ view: player_daily_summary {
         -- Start with all the rows from player_daily_incremental
         *
 
-        -- create_date_timestamp
         , TIMESTAMP(created_date) as created_date_timestamp
 
         -- Days Since Created
@@ -45,6 +44,28 @@ view: player_daily_summary {
             PARTITION BY rdg_id
             ORDER BY rdg_date ASC
             ) next_date_played
+
+        -- churn_indicator
+        , CASE
+            WHEN
+              LEAD(DATE(rdg_date), 1) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ) IS NULL
+            THEN 1
+            ELSE 0
+            END AS churn_indicator
+
+        -- churn_rdg_id
+        , CASE
+            WHEN
+              LEAD(DATE(rdg_date), 1) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ) IS NULL
+            THEN rdg_id
+            ELSE NULL
+            END AS churn_rdg_id
 
         -- days_until_next_played
         , DATE_DIFF(
@@ -216,6 +237,7 @@ view: player_daily_summary {
 
       FROM
         `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
+
       ;;
     datagroup_trigger: dependent_on_player_daily_incremental
     publish_as_db_view: yes
@@ -244,6 +266,10 @@ view: player_daily_summary {
 
   dimension: created_date_timestamp {
     type: date
+  }
+
+  dimension: version {
+    type: string
   }
 
 ################################################################
@@ -303,6 +329,19 @@ view: player_daily_summary {
     description: "Count of new players per day "
     type: sum
     sql: ${TABLE}.new_player_indicator ;;
+  }
+
+  measure: count_distinct_churn_rdg_id {
+    description: "count of distinct churned players"
+    type: count_distinct
+    sql: ${TABLE}.churn_rdg_id ;;
+  }
+
+  # Add up days played
+  measure: sum_churn_indicator {
+    description: "Count of churned players per day "
+    type: sum
+    sql: ${TABLE}.churn_indicator ;;
   }
 
   #####################################

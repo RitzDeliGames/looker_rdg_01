@@ -451,6 +451,13 @@ view: player_summary_new {
     sql: ${TABLE}.sum_d0_cumulative_mtx_purchase_dollars ;;
   }
 
+  # current_cumulative_combined_dollars
+  measure: sum_current_cumulative_combined_dollars {
+    description: "Sum of MTX dollars"
+    type: sum
+    sql: ${TABLE}.current_cumulative_combined_dollars ;;
+  }
+
   #####################################
   ## Player Counts
   #####################################
@@ -460,6 +467,8 @@ view: player_summary_new {
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
   }
+
+
 
 
 }

@@ -436,6 +436,14 @@ view: player_summary_new {
       ;;
   }
 
+  dimension: highest_last_level_serial_bucket{
+    description: "The highest level a player is currently at"
+    type:  tier
+    tiers: [0,50,100,150,200,250,300]
+    sql:  ${TABLE}.highest_last_level_serial ;;
+
+  }
+
 ################################################################
 ## Measures
 ################################################################
@@ -467,6 +475,7 @@ view: player_summary_new {
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
   }
+
 
 
 

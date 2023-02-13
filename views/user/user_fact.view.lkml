@@ -219,6 +219,13 @@ view: user_fact {
     type: number
     sql: (${TABLE}.ltv / 100) * 0.85 ;;
   }
+  dimension: ltv_tier {
+    label: "Net LTV Tiers"
+    value_format: "$#.00"
+    tiers: [0,5,10]
+    style: integer
+    sql: ${ltv};;
+  }
   dimension: payer {
     type: yesno
     sql:  ${ltv} > 0;;
@@ -228,9 +235,9 @@ view: user_fact {
   }
   dimension: session_tier {
     type: tier
-    sql: ${lifetime_sessions} ;;
     tiers: [1,2,3,5,10,20,50,100]
     style: integer
+    sql: ${lifetime_sessions} ;;
   }
   measure: lifetime_sessions_025 {
     group_label: "Lifetime Sessions"

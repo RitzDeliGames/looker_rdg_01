@@ -246,31 +246,31 @@ view: player_daily_summary {
   }
 
 ################################################################
-## Dimensions
+## Unchanged Column Dimensions
 ################################################################
 
-  dimension_group: rdg_date_analysis {
+  dimension: days_since_created {type: number}
+  dimension: created_date_timestamp {type: date}
+  dimension: version {type: string}
+
+################################################################
+## Calculated Dimensions
+################################################################
+
+  dimension_group: rdg_date {
     description: "date as defined by rdg_date function"
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.rdg_date ;;
   }
 
-  dimension: rdg_date {
-    type: date
+  dimension: levels_progressed{
+    type: tier
+    tiers: [0,5,10,20,50,100]
+    sql:  ${TABLE}.levels_progressed ;;
   }
 
-  dimension: days_since_created {
-    type: number
-  }
 
-  dimension: created_date_timestamp {
-    type: date
-  }
-
-  dimension: version {
-    type: string
-  }
 
 ################################################################
 ## Measures

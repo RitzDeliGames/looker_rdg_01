@@ -705,14 +705,14 @@ explore: firebase_analytics {
 
 ################################################################
 
-explore: player_daily_incremental {
-  label: "Player Daily (Incremental Build)"
-}
+# explore: player_daily_incremental {
+#   label: "Player Daily (Incremental Build)"
+# }
 
 explore: player_daily_summary {
   label: "Player Daily Summary"
 }
 
 explore: player_summary_new {
-  label: "Player Summary New"
+  label: "Player Summary"
 }

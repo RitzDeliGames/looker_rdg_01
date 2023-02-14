@@ -456,11 +456,17 @@ FROM
 ################################################################
 
   dimension_group: created_date {
-    description: "date as defined by rdg_date function"
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.created_date ;;
   }
+
+  dimension_group: last_played_date {
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.last_played_date ;;
+  }
+
 
   dimension: highest_last_level_serial_bucket{
     description: "The highest level a player is currently at"

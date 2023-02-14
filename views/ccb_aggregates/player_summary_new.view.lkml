@@ -438,7 +438,7 @@ FROM
   LEFT JOIN percentile_current_cumulative_mtx_purchase_dollars_table B
     ON A.rdg_id = B.rdg_id
             ;;
-    datagroup_trigger: dependent_on_player_daily_incremental
+    datagroup_trigger: dependent_on_player_daily_summary
     publish_as_db_view: yes
     partition_keys: ["created_date"]
 

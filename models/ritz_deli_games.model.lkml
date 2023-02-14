@@ -65,6 +65,19 @@ datagroup: dependent_on_player_daily_incremental {
   max_cache_age: "26 hours"
 }
 
+## Dependent on the dependent_on_player_daily_summary view
+## This is for tables that I want to be dependent on player_daily_incremental
+## Right now I want them to run 1 hour after the Incremental group
+datagroup: dependent_on_player_daily_summary {
+  sql_trigger:
+    SELECT
+      SUM(1)
+    FROM
+      `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
+    ;;
+  max_cache_age: "26 hours"
+}
+
 ## Dependent daily group. This is for tables that I want to be dependent on the incremental tables
 ## Right now I want them to run 1 hour after the Incremental group
 datagroup: dependent_on_player_summary_by_day {

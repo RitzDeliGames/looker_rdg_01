@@ -277,29 +277,12 @@ view: player_daily_summary {
 ################################################################
 
   #####################################
-  ## Sum Dollars
+  ## Dollars
   #####################################
 
-  # Sum up MTX purchase dollars
-  measure: sum_mtx_purchase_dollars {
-    description: "Sum of MTX dollars"
-    type: sum
-    sql: ${TABLE}.mtx_purchase_dollars ;;
-  }
-
-  # Sum up Ad Views purchase dollars
-  measure: sum_ad_view_dollars {
-    description: "Sum of dollars from Ad Views"
-    type: sum
-    sql: ${TABLE}.ad_view_dollars ;;
-  }
-
-  # Sum up combined dollars
-  measure: sum_combined_dollars {
-    description: "Sum of MTX + Ad dollars"
-    type: sum
-    sql: ${TABLE}.combined_dollars ;;
-  }
+  measure: mtx_purchase_dollars {type: sum}
+  measure: ad_view_dollars {type: sum}
+  measure: combined_dollars {type: sum}
 
   #####################################
   ## Player Counts
@@ -311,12 +294,7 @@ view: player_daily_summary {
     sql: ${TABLE}.rdg_id ;;
   }
 
-  # Add up days played
-  measure: sum_count_days_played {
-    description: "Count of days played, each player per day = 1 "
-    type: sum
-    sql: ${TABLE}.count_days_played ;;
-  }
+  measure: count_days_played {type: sum}
 
   measure: count_distinct_new_player_rdg_id {
     description: "count of distinct new players over a window"

@@ -397,16 +397,33 @@ FROM
 )
 
 -----------------------------------------------------------------------
+-- spender percentile
+-----------------------------------------------------------------------
+
+, percentile_current_cumulative_mtx_purchase_dollars_table AS (
+
+  SELECT
+    rdg_id
+    , FLOOR(100*CUME_DIST() OVER (
+        ORDER BY current_cumulative_mtx_purchase_dollars
+        )) percentile_current_cumulative_mtx_purchase_dollars
+  FROM
+    summarize_data
+  WHERE
+    current_cumulative_mtx_purchase_dollars > 0
+)
+
+-----------------------------------------------------------------------
 -- Select output
 -----------------------------------------------------------------------
 
 SELECT
-  *
-  , FLOOR(100*PERCENT_RANK() OVER (
-      ORDER BY current_cumulative_combined_dollars
-      )) percent_rank_current_cumulative_combined_dollars
+  A.*
+  , B.percentile_current_cumulative_mtx_purchase_dollars
 FROM
-  summarize_data
+  summarize_data A
+  LEFT JOIN percentile_current_cumulative_mtx_purchase_dollars_table B
+    ON A.rdg_id = B.rdg_id
             ;;
     datagroup_trigger: dependent_on_player_daily_incremental
     publish_as_db_view: yes
@@ -451,7 +468,7 @@ FROM
     sql:  ${TABLE}.current_cumulative_combined_dollars ;;
 
   }
-  dimension: percent_rank_current_cumulative_combined_dollars {
+  dimension: percentile_current_cumulative_mtx_purchase_dollars {
     type: number
   }
 

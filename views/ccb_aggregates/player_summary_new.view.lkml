@@ -441,6 +441,14 @@ view: player_summary_new {
 
   }
 
+  dimension: current_cumulative_combined_dollars_bucket{
+    description: "The highest level a player is currently at"
+    type:  tier
+    tiers: [0,1,5,10,20]
+    sql:  ${TABLE}.current_cumulative_combined_dollars ;;
+
+  }
+
 ################################################################
 ## Measures
 ################################################################

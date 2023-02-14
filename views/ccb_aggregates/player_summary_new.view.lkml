@@ -511,12 +511,42 @@ FROM
   ## Sum Dollars
   #####################################
 
-  # d0_cumulative_mtx_purchase_dollars
-  measure: sum_d0_cumulative_mtx_purchase_dollars {
-    description: "Sum of MTX dollars"
-    type: sum
-    sql: ${TABLE}.sum_d0_cumulative_mtx_purchase_dollars ;;
-  }
+      # , MAX(d0_cumulative_mtx_purchase_dollars) AS d0_cumulative_mtx_purchase_dollars
+      # , MAX(d1_cumulative_mtx_purchase_dollars) AS d1_cumulative_mtx_purchase_dollars
+      # , MAX(d7_cumulative_mtx_purchase_dollars) AS d7_cumulative_mtx_purchase_dollars
+      # , MAX(d14_cumulative_mtx_purchase_dollars) AS d14_cumulative_mtx_purchase_dollars
+      # , MAX(d30_cumulative_mtx_purchase_dollars) AS d30_cumulative_mtx_purchase_dollars
+      # , MAX(d60_cumulative_mtx_purchase_dollars) AS d60_cumulative_mtx_purchase_dollars
+      # , MAX(current_cumulative_mtx_purchase_dollars) AS current_cumulative_mtx_purchase_dollars
+      # , MAX(d0_cumulative_ad_view_dollars) AS d0_cumulative_ad_view_dollars
+      # , MAX(d1_cumulative_ad_view_dollars) AS d1_cumulative_ad_view_dollars
+      # , MAX(d7_cumulative_ad_view_dollars) AS d7_cumulative_ad_view_dollars
+      # , MAX(d14_cumulative_ad_view_dollars) AS d14_cumulative_ad_view_dollars
+      # , MAX(d30_cumulative_ad_view_dollars) AS d30_cumulative_ad_view_dollars
+      # , MAX(d60_cumulative_ad_view_dollars) AS d60_cumulative_ad_view_dollars
+      # , MAX(current_cumulative_ad_view_dollars) AS current_cumulative_ad_view_dollars
+      # , MAX(d0_cumulative_combined_dollars) AS d0_cumulative_combined_dollars
+      # , MAX(d1_cumulative_combined_dollars) AS d1_cumulative_combined_dollars
+      # , MAX(d7_cumulative_combined_dollars) AS d7_cumulative_combined_dollars
+      # , MAX(d14_cumulative_combined_dollars) AS d14_cumulative_combined_dollars
+      # , MAX(d30_cumulative_combined_dollars) AS d30_cumulative_combined_dollars
+      # , MAX(d60_cumulative_combined_dollars) AS d60_cumulative_combined_dollars
+      # , MAX(current_cumulative_combined_dollars) AS current_cumulative_combined_dollars
+
+  # MTX Dollars
+  measure: d0_cumulative_mtx_purchase_dollars {type: sum}
+
+
+
+
+
+
+
+
+
+
+
+
 
   # current_cumulative_combined_dollars
   measure: sum_current_cumulative_combined_dollars {
@@ -524,6 +554,9 @@ FROM
     type: sum
     sql: ${TABLE}.current_cumulative_combined_dollars ;;
   }
+
+
+
 
   #####################################
   ## Player Counts

@@ -221,8 +221,8 @@ view: user_fact {
     sql: (${TABLE}.ltv / 100) * 0.85 ;;
   }
   dimension: ltv_tier {
-    group_label: "Net LTV - $5 Tiers"
-    label: "Net LTV Tiers"
+    group_label: "Net LTV"
+    label: "Net LTV - $5 Tiers"
     value_format: "$#.00"
     tiers: [0,5,10,15,20]
     style: integer

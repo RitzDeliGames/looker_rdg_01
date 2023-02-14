@@ -363,7 +363,7 @@ view: player_summary_new {
             , MAX(platform) AS platform
             , MAX(country) AS country
             , MAX(created_utc) AS created_utc
-            , MAX(created_date) AS created_date
+            , MAX(TIMESTAMP(created_date)) AS created_date
             , MAX(experiments) AS experiments
             , MAX(install_version) AS install_version
             , MAX(d0_cumulative_mtx_purchase_dollars) AS d0_cumulative_mtx_purchase_dollars

@@ -674,17 +674,17 @@ explore: firebase_analytics {
 
 ################################################################
 
-explore: player_summary_by_day {
-  label: "Player Summary By Day"
-}
+# explore: player_summary_by_day {
+#   label: "Player Summary By Day"
+# }
 
-explore: player_summary_by_day_test {
-  label: "Player Summary By Day (Incremental Test Version)"
-}
+# explore: player_summary_by_day_test {
+#   label: "Player Summary By Day (Incremental Test Version)"
+# }
 
-explore: player_summary_test {
-  label: "Player Summary Test (Dependent on Incremental Test Version)"
-}
+# explore: player_summary_test {
+#   label: "Player Summary Test (Dependent on Incremental Test Version)"
+# }
 
 ################################################################
 
@@ -698,4 +698,8 @@ explore: player_daily_incremental {
 
 explore: player_daily_summary {
   label: "Player Daily Summary"
+}
+
+explore: player_summary_new {
+  label: "Player Summary New"
 }

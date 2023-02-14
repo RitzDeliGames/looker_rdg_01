@@ -35,6 +35,10 @@ SELECT
 
     , latest_update_table.latest_update
 
+    , days_since_created
+
+    , rdg_date
+
     -- device_id
     , FIRST_VALUE(device_id) OVER (
       PARTITION BY rdg_id
@@ -356,6 +360,7 @@ FROM
 
   SELECT
       rdg_id
+      , MAX(rdg_date) as last_played_date
       , MAX(latest_update) AS latest_update
       , MAX(device_id) AS device_id
       , MAX(advertising_id) AS advertising_id
@@ -389,6 +394,14 @@ FROM
       , MAX(current_cumulative_combined_dollars) AS current_cumulative_combined_dollars
       , MAX(mtx_ltv_from_data) AS mtx_ltv_from_data
       , MAX(highest_last_level_serial) AS highest_last_level_serial
+
+      -- Calculate Retention Here
+      , MAX(CASE WHEN days_since_created = 1 THEN 1 ELSE 0 END ) AS d1_retention
+      , MAX(CASE WHEN days_since_created = 7 THEN 1 ELSE 0 END ) AS d7_retention
+      , MAX(CASE WHEN days_since_created = 14 THEN 1 ELSE 0 END ) AS d14_retention
+      , MAX(CASE WHEN days_since_created = 30 THEN 1 ELSE 0 END ) AS d30_retention
+      , MAX(CASE WHEN days_since_created = 60 THEN 1 ELSE 0 END ) AS d60_retention
+
   FROM
     pre_aggregate_calculations_from_base_data
   GROUP BY
@@ -472,6 +485,24 @@ FROM
     type: number
   }
 
+      # , MAX(rdg_date) as last_played_date
+      # , MAX(latest_update) AS latest_update
+      # , MAX(device_id) AS device_id
+      # , MAX(advertising_id) AS advertising_id
+      # , MAX(user_id) AS user_id
+      # , MAX(platform) AS platform
+      # , MAX(country) AS country
+      # , MAX(created_utc) AS created_utc
+      # , MAX(TIMESTAMP(created_date)) AS created_date
+
+  dimension: days_from_created_to_last_played {
+    type:  number
+    sql:
+      DATE_DIFF(${TABLE}.{last_played_date}, ${TABLE}.{created_date}, DAY)
+      ;;
+
+  }
+
 ################################################################
 ## Measures
 ################################################################
@@ -504,8 +535,33 @@ FROM
     sql: ${TABLE}.rdg_id ;;
   }
 
+  #####################################
+  ## Retention
+  #####################################
 
+  measure: sum_d1_retention {
+    type: sum
+    sql: ${TABLE}.d1_retention ;;
+  }
 
+  measure: d7_retention {
+    type: sum
+    sql: ${TABLE}.d7_retention ;;
+  }
 
+  measure: d14_retention {
+    type: sum
+    sql: ${TABLE}.d14_retention ;;
+  }
+
+  measure: d30_retention {
+    type: sum
+    sql: ${TABLE}.d30_retention ;;
+  }
+
+  measure: d60_retention {
+    type: sum
+    sql: ${TABLE}.d60_retention ;;
+  }
 
 }

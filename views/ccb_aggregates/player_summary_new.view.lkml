@@ -472,7 +472,7 @@ FROM
   dimension: days_from_created_to_last_played {
     type: number
     sql:
-      DATE_DIFF(${TABLE}.{last_played_date}, ${TABLE}.{created_date}, DAY)
+      DATE_DIFF(${TABLE}.last_played_date, ${TABLE}.created_date, DAY)
       ;;
   }
 

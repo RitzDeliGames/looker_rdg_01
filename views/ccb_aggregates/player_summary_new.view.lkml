@@ -445,62 +445,35 @@ FROM
   }
 
 ################################################################
-## Dimensions
+## Unchanged Column Dimensions
 ################################################################
 
-  dimension_group: created_date_analysis {
+  dimension: install_version {type: string}
+  dimension: percentile_current_cumulative_mtx_purchase_dollars {type: number}
+
+################################################################
+## Calculated Dimensions
+################################################################
+
+  dimension_group: created_date {
     description: "date as defined by rdg_date function"
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.created_date ;;
   }
 
-  dimension: created_date {
-    type: date
-  }
-
-# MAX(install_version) AS install_version
-  dimension: install_version {
-    type: string
-    sql: ${TABLE}.install_version
-      ;;
-  }
-
   dimension: highest_last_level_serial_bucket{
     description: "The highest level a player is currently at"
-    type:  tier
+    type: tier
     tiers: [0,50,100,150,200,250,300]
     sql:  ${TABLE}.highest_last_level_serial ;;
-
   }
-
-  dimension: current_cumulative_combined_dollars_bucket{
-    description: "The highest level a player is currently at"
-    type:  tier
-    tiers: [0,1,5,10,20]
-    sql:  ${TABLE}.current_cumulative_combined_dollars ;;
-
-  }
-  dimension: percentile_current_cumulative_mtx_purchase_dollars {
-    type: number
-  }
-
-      # , MAX(rdg_date) as last_played_date
-      # , MAX(latest_update) AS latest_update
-      # , MAX(device_id) AS device_id
-      # , MAX(advertising_id) AS advertising_id
-      # , MAX(user_id) AS user_id
-      # , MAX(platform) AS platform
-      # , MAX(country) AS country
-      # , MAX(created_utc) AS created_utc
-      # , MAX(TIMESTAMP(created_date)) AS created_date
 
   dimension: days_from_created_to_last_played {
-    type:  number
+    type: number
     sql:
       DATE_DIFF(${TABLE}.{last_played_date}, ${TABLE}.{created_date}, DAY)
       ;;
-
   }
 
 ################################################################
@@ -511,52 +484,32 @@ FROM
   ## Sum Dollars
   #####################################
 
-      # , MAX(d0_cumulative_mtx_purchase_dollars) AS d0_cumulative_mtx_purchase_dollars
-      # , MAX(d1_cumulative_mtx_purchase_dollars) AS d1_cumulative_mtx_purchase_dollars
-      # , MAX(d7_cumulative_mtx_purchase_dollars) AS d7_cumulative_mtx_purchase_dollars
-      # , MAX(d14_cumulative_mtx_purchase_dollars) AS d14_cumulative_mtx_purchase_dollars
-      # , MAX(d30_cumulative_mtx_purchase_dollars) AS d30_cumulative_mtx_purchase_dollars
-      # , MAX(d60_cumulative_mtx_purchase_dollars) AS d60_cumulative_mtx_purchase_dollars
-      # , MAX(current_cumulative_mtx_purchase_dollars) AS current_cumulative_mtx_purchase_dollars
-      # , MAX(d0_cumulative_ad_view_dollars) AS d0_cumulative_ad_view_dollars
-      # , MAX(d1_cumulative_ad_view_dollars) AS d1_cumulative_ad_view_dollars
-      # , MAX(d7_cumulative_ad_view_dollars) AS d7_cumulative_ad_view_dollars
-      # , MAX(d14_cumulative_ad_view_dollars) AS d14_cumulative_ad_view_dollars
-      # , MAX(d30_cumulative_ad_view_dollars) AS d30_cumulative_ad_view_dollars
-      # , MAX(d60_cumulative_ad_view_dollars) AS d60_cumulative_ad_view_dollars
-      # , MAX(current_cumulative_ad_view_dollars) AS current_cumulative_ad_view_dollars
-      # , MAX(d0_cumulative_combined_dollars) AS d0_cumulative_combined_dollars
-      # , MAX(d1_cumulative_combined_dollars) AS d1_cumulative_combined_dollars
-      # , MAX(d7_cumulative_combined_dollars) AS d7_cumulative_combined_dollars
-      # , MAX(d14_cumulative_combined_dollars) AS d14_cumulative_combined_dollars
-      # , MAX(d30_cumulative_combined_dollars) AS d30_cumulative_combined_dollars
-      # , MAX(d60_cumulative_combined_dollars) AS d60_cumulative_combined_dollars
-      # , MAX(current_cumulative_combined_dollars) AS current_cumulative_combined_dollars
-
   # MTX Dollars
   measure: d0_cumulative_mtx_purchase_dollars {type: sum}
+  measure: d1_cumulative_mtx_purchase_dollars {type: sum}
+  measure: d7_cumulative_mtx_purchase_dollars {type: sum}
+  measure: d14_cumulative_mtx_purchase_dollars {type: sum}
+  measure: d30_cumulative_mtx_purchase_dollars {type: sum}
+  measure: d60_cumulative_mtx_purchase_dollars {type: sum}
+  measure: current_cumulative_mtx_purchase_dollars {type: sum}
 
+  # Ad View Dollars
+  measure: d0_cumulative_ad_view_dollars {type: sum}
+  measure: d1_cumulative_ad_view_dollars {type: sum}
+  measure: d7_cumulative_ad_view_dollars {type: sum}
+  measure: d14_cumulative_ad_view_dollars {type: sum}
+  measure: d30_cumulative_ad_view_dollars {type: sum}
+  measure: d60_cumulative_ad_view_dollars {type: sum}
+  measure: current_cumulative_ad_view_dollars {type: sum}
 
-
-
-
-
-
-
-
-
-
-
-
-  # current_cumulative_combined_dollars
-  measure: sum_current_cumulative_combined_dollars {
-    description: "Sum of MTX dollars"
-    type: sum
-    sql: ${TABLE}.current_cumulative_combined_dollars ;;
-  }
-
-
-
+  # Combined Dollars
+  measure: d0_cumulative_combined_dollars {type: sum}
+  measure: d1_cumulative_combined_dollars {type: sum}
+  measure: d7_cumulative_combined_dollars {type: sum}
+  measure: d14_cumulative_combined_dollars {type: sum}
+  measure: d30_cumulative_combined_dollars {type: sum}
+  measure: d60_cumulative_combined_dollars {type: sum}
+  measure: current_cumulative_combined_dollars {type: sum}
 
   #####################################
   ## Player Counts
@@ -572,29 +525,11 @@ FROM
   ## Retention
   #####################################
 
-  measure: sum_d1_retention {
-    type: sum
-    sql: ${TABLE}.d1_retention ;;
-  }
+  measure: d1_retention {type: sum}
+  measure: d7_retention {type: sum}
+  measure: d14_retention {type: sum}
+  measure: d30_retention {type: sum}
+  measure: d60_retention {type: sum}
 
-  measure: d7_retention {
-    type: sum
-    sql: ${TABLE}.d7_retention ;;
-  }
-
-  measure: d14_retention {
-    type: sum
-    sql: ${TABLE}.d14_retention ;;
-  }
-
-  measure: d30_retention {
-    type: sum
-    sql: ${TABLE}.d30_retention ;;
-  }
-
-  measure: d60_retention {
-    type: sum
-    sql: ${TABLE}.d60_retention ;;
-  }
 
 }

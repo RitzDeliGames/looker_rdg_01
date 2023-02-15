@@ -32,11 +32,8 @@ latest_update_table AS (
 SELECT
 
     rdg_id
-
     , latest_update_table.latest_update
-
     , days_since_created
-
     , rdg_date
 
     -- device_id
@@ -338,6 +335,83 @@ SELECT
        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
        ) AS mtx_ltv_from_data
 
+  -----------------------------------------------------------------
+  -- Highest last level serial by day
+  -----------------------------------------------------------------
+
+  -- d0_highest_last_level_serial
+   , MAX( CASE
+           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 0
+           AND days_since_created <= 0
+           THEN highest_last_level_serial
+           ELSE NULL END ) OVER (
+       PARTITION BY rdg_id
+       ORDER BY rdg_date ASC
+       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+       ) AS d0_highest_last_level_serial
+
+   -- d1_highest_last_level_serial
+   , MAX( CASE
+           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 1
+           AND days_since_created <= 1
+           THEN highest_last_level_serial
+           ELSE NULL END ) OVER (
+       PARTITION BY rdg_id
+       ORDER BY rdg_date ASC
+       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+       ) AS d1_highest_last_level_serial
+
+
+   -- d7_highest_last_level_serial
+   , MAX( CASE
+           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 7
+           AND days_since_created <= 7
+           THEN highest_last_level_serial
+           ELSE NULL END ) OVER (
+       PARTITION BY rdg_id
+       ORDER BY rdg_date ASC
+       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+       ) AS d7_highest_last_level_serial
+
+
+   -- d14_highest_last_level_serial
+   , MAX( CASE
+           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 14
+           AND days_since_created <= 14
+           THEN highest_last_level_serial
+           ELSE NULL END ) OVER (
+       PARTITION BY rdg_id
+       ORDER BY rdg_date ASC
+       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+       ) AS d14_highest_last_level_serial
+
+
+   -- d30_highest_last_level_serial
+   , MAX( CASE
+           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 30
+           AND days_since_created <= 30
+           THEN highest_last_level_serial
+           ELSE NULL END ) OVER (
+       PARTITION BY rdg_id
+       ORDER BY rdg_date ASC
+       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+       ) AS d30_highest_last_level_serial
+
+
+   -- d60_highest_last_level_serial
+   , MAX( CASE
+           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 60
+           AND days_since_created <= 60
+           THEN highest_last_level_serial
+           ELSE NULL END ) OVER (
+       PARTITION BY rdg_id
+       ORDER BY rdg_date ASC
+       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+       ) AS d60_highest_last_level_serial
+
+
+
+
 
     -- highest level
     , LAST_VALUE(highest_last_level_serial) OVER (
@@ -393,14 +467,56 @@ FROM
       , MAX(d60_cumulative_combined_dollars) AS d60_cumulative_combined_dollars
       , MAX(current_cumulative_combined_dollars) AS current_cumulative_combined_dollars
       , MAX(mtx_ltv_from_data) AS mtx_ltv_from_data
+
+      -- last level serial stats
+      , MAX(d0_highest_last_level_serial) AS d0_highest_last_level_serial
+      , MAX(d1_highest_last_level_serial) AS d1_highest_last_level_serial
+      , MAX(d7_highest_last_level_serial) AS d7_highest_last_level_serial
+      , MAX(d14_highest_last_level_serial) AS d14_highest_last_level_serial
+      , MAX(d30_highest_last_level_serial) AS d30_highest_last_level_serial
+      , MAX(d60_highest_last_level_serial) AS d60_highest_last_level_serial
       , MAX(highest_last_level_serial) AS highest_last_level_serial
 
       -- Calculate Retention Here
-      , MAX(CASE WHEN days_since_created = 1 THEN 1 ELSE 0 END ) AS d1_retention
-      , MAX(CASE WHEN days_since_created = 7 THEN 1 ELSE 0 END ) AS d7_retention
-      , MAX(CASE WHEN days_since_created = 14 THEN 1 ELSE 0 END ) AS d14_retention
-      , MAX(CASE WHEN days_since_created = 30 THEN 1 ELSE 0 END ) AS d30_retention
-      , MAX(CASE WHEN days_since_created = 60 THEN 1 ELSE 0 END ) AS d60_retention
+      , MAX(CASE
+          WHEN DATE_DIFF(latest_update,created_date,DAY) < 1
+          THEN NULL
+          WHEN
+            DATE_DIFF(latest_update,created_date,DAY) >= 1
+            AND days_since_created = 1
+          THEN 1 ELSE 0 END ) AS d1_retention
+
+      , MAX(CASE
+          WHEN DATE_DIFF(latest_update,created_date,DAY) < 7
+          THEN NULL
+          WHEN
+            DATE_DIFF(latest_update,created_date,DAY) >= 7
+            AND days_since_created = 7
+          THEN 1 ELSE 0 END ) AS d7_retention
+
+      , MAX(CASE
+          WHEN DATE_DIFF(latest_update,created_date,DAY) < 14
+          THEN NULL
+          WHEN
+            DATE_DIFF(latest_update,created_date,DAY) >= 14
+            AND days_since_created = 14
+          THEN 1 ELSE 0 END ) AS d14_retention
+
+      , MAX(CASE
+          WHEN DATE_DIFF(latest_update,created_date,DAY) < 30
+          THEN NULL
+          WHEN
+            DATE_DIFF(latest_update,created_date,DAY) >= 30
+            AND days_since_created = 30
+          THEN 1 ELSE 0 END ) AS d30_retention
+
+      , MAX(CASE
+          WHEN DATE_DIFF(latest_update,created_date,DAY) < 60
+          THEN NULL
+          WHEN
+            DATE_DIFF(latest_update,created_date,DAY) >= 60
+            AND days_since_created = 60
+          THEN 1 ELSE 0 END ) AS d60_retention
 
   FROM
     pre_aggregate_calculations_from_base_data
@@ -437,6 +553,7 @@ FROM
   summarize_data A
   LEFT JOIN percentile_current_cumulative_mtx_purchase_dollars_table B
     ON A.rdg_id = B.rdg_id
+
             ;;
     datagroup_trigger: dependent_on_player_daily_summary
     publish_as_db_view: yes
@@ -451,6 +568,14 @@ FROM
   dimension: install_version {type: string}
   dimension: percentile_current_cumulative_mtx_purchase_dollars {type: number}
   dimension: rdg_id {type: string}
+
+  dimension: d0_highest_last_level_serial {type: number}
+  dimension: d1_highest_last_level_serial {type: number}
+  dimension: d7_highest_last_level_serial {type: number}
+  dimension: d14_highest_last_level_serial {type: number}
+  dimension: d30_highest_last_level_serial {type: number}
+  dimension: d60_highest_last_level_serial {type: number}
+  dimension: highest_last_level_serial {type: number}
 
 ################################################################
 ## Calculated Dimensions
@@ -469,8 +594,13 @@ FROM
   }
 
 
+  dimension: d7_highest_last_level_serial_bucket{
+    type: tier
+    tiers: [0,50,100,150,200,250,300]
+    sql:  ${TABLE}.d7_highest_last_level_serial ;;
+  }
+
   dimension: highest_last_level_serial_bucket{
-    description: "The highest level a player is currently at"
     type: tier
     tiers: [0,50,100,150,200,250,300]
     sql:  ${TABLE}.highest_last_level_serial ;;

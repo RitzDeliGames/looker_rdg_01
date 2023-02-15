@@ -52,43 +52,25 @@ datagroup: incremental_daily_group {
   ;;
 }
 
-## Dependent on the player_daily_incremental view
-## This is for tables that I want to be dependent on player_daily_incremental
-## Right now I want them to run 1 hour after the Incremental group
+######################################################################
+## Data Groups for ccb aggregates
+######################################################################
 datagroup: dependent_on_player_daily_incremental {
-  sql_trigger:
-    SELECT
-      SUM(1)
-    FROM
-      `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
-    ;;
+  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`;;
   max_cache_age: "26 hours"
 }
 
-## Dependent on the dependent_on_player_daily_summary view
-## This is for tables that I want to be dependent on player_daily_incremental
-## Right now I want them to run 1 hour after the Incremental group
 datagroup: dependent_on_player_daily_summary {
-  sql_trigger:
-    SELECT
-      SUM(1)
-    FROM
-      `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
-    ;;
+  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`;;
   max_cache_age: "26 hours"
 }
 
-## Dependent daily group. This is for tables that I want to be dependent on the incremental tables
-## Right now I want them to run 1 hour after the Incremental group
-datagroup: dependent_on_player_summary_by_day {
-  sql_trigger:
-    SELECT
-      SUM(1)
-    FROM
-      `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_by_day_test`
-    ;;
+datagroup: dependent_on_player_summary {
+  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary`;;
   max_cache_age: "26 hours"
 }
+
+
 
 explore: user_retention {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} ;;

@@ -55,6 +55,7 @@ datagroup: incremental_daily_group {
 ######################################################################
 ## Data Groups for ccb aggregates
 ######################################################################
+
 datagroup: dependent_on_player_daily_incremental {
   sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`;;
   max_cache_age: "26 hours"
@@ -70,6 +71,9 @@ datagroup: dependent_on_player_summary {
   max_cache_age: "26 hours"
 }
 
+######################################################################
+## Explores
+######################################################################
 
 
 explore: user_retention {
@@ -702,6 +706,19 @@ explore: player_daily_summary {
       ;;
   }
 }
+
+explore: player_daily_summary_complete {
+  label: "Player Daily Summary Complete"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_daily_summary_complete.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
 
 explore: player_summary_new {
   label: "Player Summary"

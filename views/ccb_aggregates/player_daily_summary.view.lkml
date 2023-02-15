@@ -252,6 +252,7 @@ view: player_daily_summary {
   dimension: days_since_created {type: number}
   dimension: created_date_timestamp {type: date}
   dimension: version {type: string}
+  dimension: highest_last_level_serial {type: number}
 
 ################################################################
 ## Calculated Dimensions
@@ -270,6 +271,13 @@ view: player_daily_summary {
     sql:  ${TABLE}.levels_progressed ;;
   }
 
+  dimension: highest_last_level_serial_tiers {
+    type:  tier
+    tiers: [0,50,100,150,200,250,300,350,400,450,500,550]
+    style: integer
+    sql: ${TABLE}.highest_last_level_serial ;;
+
+  }
 
 
 ################################################################

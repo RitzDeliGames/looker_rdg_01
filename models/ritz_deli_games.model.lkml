@@ -711,6 +711,14 @@ explore: firebase_analytics {
 
 explore: player_daily_summary {
   label: "Player Daily Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_daily_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
 }
 
 explore: player_summary_new {

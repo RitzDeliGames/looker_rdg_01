@@ -450,6 +450,7 @@ FROM
 
   dimension: install_version {type: string}
   dimension: percentile_current_cumulative_mtx_purchase_dollars {type: number}
+  dimension: rdg_id {type: string}
 
 ################################################################
 ## Calculated Dimensions

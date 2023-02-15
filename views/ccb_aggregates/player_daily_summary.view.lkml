@@ -253,6 +253,7 @@ view: player_daily_summary {
   dimension: created_date_timestamp {type: date}
   dimension: version {type: string}
   dimension: highest_last_level_serial {type: number}
+  dimension: rdg_id {type: string}
 
 ################################################################
 ## Calculated Dimensions

@@ -203,6 +203,12 @@ FROM
     sql: ${TABLE}.active_rdg_id ;;
   }
 
+  measure: count_distinct_possible_users {
+    type: count_distinct
+    sql: ${TABLE}.rdg_id ;;
+  }
+
+
   measure: count_days_played {type: sum}
 
   measure: count_distinct_churn_rdg_id {

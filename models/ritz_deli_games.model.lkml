@@ -52,30 +52,29 @@ datagroup: incremental_daily_group {
   ;;
 }
 
-## Dependent on the player_daily_incremental view
-## This is for tables that I want to be dependent on player_daily_incremental
-## Right now I want them to run 1 hour after the Incremental group
+######################################################################
+## Data Groups for ccb aggregates
+######################################################################
+
 datagroup: dependent_on_player_daily_incremental {
-  sql_trigger:
-    SELECT
-      SUM(1)
-    FROM
-      `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
-    ;;
+  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`;;
   max_cache_age: "26 hours"
 }
 
-## Dependent daily group. This is for tables that I want to be dependent on the incremental tables
-## Right now I want them to run 1 hour after the Incremental group
-datagroup: dependent_on_player_summary_by_day {
-  sql_trigger:
-    SELECT
-      SUM(1)
-    FROM
-      `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_by_day_test`
-    ;;
+datagroup: dependent_on_player_daily_summary {
+  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`;;
   max_cache_age: "26 hours"
 }
+
+datagroup: dependent_on_player_summary {
+  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary`;;
+  max_cache_age: "26 hours"
+}
+
+######################################################################
+## Explores
+######################################################################
+
 
 explore: user_retention {
   sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping} and ${rdg_id} not in @{purchase_exclusion_list} ;;
@@ -692,14 +691,35 @@ explore: firebase_analytics {
 
 ################################################################
 
-explore: player_daily_incremental {
-  label: "Player Daily (Incremental Build)"
-}
+# explore: player_daily_incremental {
+#   label: "Player Daily (Incremental Build)"
+# }
 
 explore: player_daily_summary {
   label: "Player Daily Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_daily_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
 }
 
+explore: player_daily_summary_complete {
+  label: "Player Daily Summary Complete"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_daily_summary_complete.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+
 explore: player_summary_new {
-  label: "Player Summary New"
+  label: "Player Summary"
 }

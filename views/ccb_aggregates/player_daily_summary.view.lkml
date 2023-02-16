@@ -246,60 +246,52 @@ view: player_daily_summary {
   }
 
 ################################################################
-## Dimensions
+## Unchanged Column Dimensions
 ################################################################
 
-  dimension_group: rdg_date_analysis {
+  dimension: days_since_created {type: number}
+  dimension: created_date_timestamp {type: date}
+  dimension: version {type: string}
+  dimension: highest_last_level_serial {type: number}
+  dimension: rdg_id {type: string}
+
+################################################################
+## Calculated Dimensions
+################################################################
+
+  dimension_group: rdg_date {
     description: "date as defined by rdg_date function"
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.rdg_date ;;
   }
 
-  dimension: rdg_date {
-    type: date
+  dimension: levels_progressed{
+    type: tier
+    tiers: [0,5,10,20,50,100]
+    sql:  ${TABLE}.levels_progressed ;;
   }
 
-  dimension: days_since_created {
-    type: number
+  dimension: highest_last_level_serial_tiers {
+    type:  tier
+    tiers: [0,50,100,150,200,250,300,350,400,450,500,550]
+    style: integer
+    sql: ${TABLE}.highest_last_level_serial ;;
+
   }
 
-  dimension: created_date_timestamp {
-    type: date
-  }
-
-  dimension: version {
-    type: string
-  }
 
 ################################################################
 ## Measures
 ################################################################
 
   #####################################
-  ## Sum Dollars
+  ## Dollars
   #####################################
 
-  # Sum up MTX purchase dollars
-  measure: sum_mtx_purchase_dollars {
-    description: "Sum of MTX dollars"
-    type: sum
-    sql: ${TABLE}.mtx_purchase_dollars ;;
-  }
-
-  # Sum up Ad Views purchase dollars
-  measure: sum_ad_view_dollars {
-    description: "Sum of dollars from Ad Views"
-    type: sum
-    sql: ${TABLE}.ad_view_dollars ;;
-  }
-
-  # Sum up combined dollars
-  measure: sum_combined_dollars {
-    description: "Sum of MTX + Ad dollars"
-    type: sum
-    sql: ${TABLE}.combined_dollars ;;
-  }
+  measure: mtx_purchase_dollars {type: sum}
+  measure: ad_view_dollars {type: sum}
+  measure: combined_dollars {type: sum}
 
   #####################################
   ## Player Counts
@@ -311,12 +303,7 @@ view: player_daily_summary {
     sql: ${TABLE}.rdg_id ;;
   }
 
-  # Add up days played
-  measure: sum_count_days_played {
-    description: "Count of days played, each player per day = 1 "
-    type: sum
-    sql: ${TABLE}.count_days_played ;;
-  }
+  measure: count_days_played {type: sum}
 
   measure: count_distinct_new_player_rdg_id {
     description: "count of distinct new players over a window"

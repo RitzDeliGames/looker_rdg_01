@@ -606,6 +606,7 @@ FROM
   dimension: d14_version {type: string}
   dimension: d30_version {type: string}
   dimension: d60_version {type: string}
+  dimension: latest_version {type: string}
 
 ################################################################
 ## Calculated Dimensions

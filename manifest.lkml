@@ -801,3 +801,23 @@ visualization: {
   dependencies: ["https://code.highcharts.com/highcharts.js"]
   file: "visualizations/scatter.js"
 }
+
+###################################################################
+# version summary overrides
+###################################################################
+
+constant: max_highest_last_level_serial_override {
+  value:
+    "case
+      when ${TABLE}.version = '99999999999' THEN 0
+      else ${TABLE}.version
+      end"
+}
+
+constant: max_cumulative_star_spend_override {
+  value:
+  "case
+    when ${TABLE}.version = '99999999999' THEN 0
+    else ${TABLE}.version
+    end"
+}

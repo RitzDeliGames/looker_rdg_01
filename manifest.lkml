@@ -591,6 +591,10 @@ constant: button_tags {
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_FlourFrenzy_Leaderboard.PlayFromFeature' then 'Flour Frenzy - Play'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_FlourFrenzy_Leaderboard.CloseInfo' then 'Flour Frenzy - Info - Close'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_FlourFrenzy_Leaderboard.Close' then 'Flour Frenzy - Leaderboard - Close'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_CharacterUnlock.Continue' then 'Collection - Character Unlock - Continue'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_PreGame.EditCollection' then 'Collection - Edit Collection'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Collection.CharacterCard.shuffle' then 'Collection - Edit Collection - Use'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Collection.Try' then 'Collection - Edit Collection - Try'
             else json_extract_scalar(extra_json,'$.button_tag')
           end"
 }

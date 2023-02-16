@@ -575,7 +575,19 @@ FROM
   dimension: d14_highest_last_level_serial {type: number}
   dimension: d30_highest_last_level_serial {type: number}
   dimension: d60_highest_last_level_serial {type: number}
-  dimension: highest_last_level_serial {type: number}
+  dimension: highest_last_level_serial {
+    type: number
+    drill_fields: [
+      rdg_id
+      , created_date_date
+      , d0_highest_last_level_serial
+      , d1_highest_last_level_serial
+      , d7_highest_last_level_serial
+      , d14_highest_last_level_serial
+      , current_cumulative_mtx_purchase_dollars
+
+    ]
+    }
 
 ################################################################
 ## Calculated Dimensions

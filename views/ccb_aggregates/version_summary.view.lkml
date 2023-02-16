@@ -38,9 +38,19 @@ view: version_summary {
     sql: @{max_highest_last_level_serial_override} ;;
   }
 
+  dimension: max_highest_last_level_serial_override_string {
+    type: string
+    sql:  cast(@{max_highest_last_level_serial_override} as string) ;;
+  }
+
   dimension: max_cumulative_star_spend_override {
     type: number
     sql: @{max_cumulative_star_spend_override} ;;
+  }
+
+  dimension: max_cumulative_star_spend_override_string {
+    type: string
+    sql:  cast(@{max_cumulative_star_spend_override} as string) ;;
   }
 
 }

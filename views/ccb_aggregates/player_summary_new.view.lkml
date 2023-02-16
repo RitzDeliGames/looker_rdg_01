@@ -7,6 +7,7 @@ view: player_summary_new {
   derived_table: {
     sql:
 
+
 WITH
 
 -----------------------------------------------------------------------
@@ -35,6 +36,7 @@ SELECT
     , latest_update_table.latest_update
     , days_since_created
     , rdg_date
+    , version
 
     -- device_id
     , FIRST_VALUE(device_id) OVER (
@@ -445,6 +447,16 @@ FROM
       , MAX(TIMESTAMP(created_date)) AS created_date
       , MAX(experiments) AS experiments
       , MAX(install_version) AS install_version
+
+      , max( case when days_since_created <= 1 then version else null end ) as d1_version
+      , max( case when days_since_created <= 7 then version else null end ) as d7_version
+      , max( case when days_since_created <= 14 then version else null end ) as d14_version
+      , max( case when days_since_created <= 30 then version else null end ) as d30_version
+      , max( case when days_since_created <= 60 then version else null end ) as d60_version
+      , max( version ) as latest_version
+
+
+
       , MAX(d0_cumulative_mtx_purchase_dollars) AS d0_cumulative_mtx_purchase_dollars
       , MAX(d1_cumulative_mtx_purchase_dollars) AS d1_cumulative_mtx_purchase_dollars
       , MAX(d7_cumulative_mtx_purchase_dollars) AS d7_cumulative_mtx_purchase_dollars
@@ -588,6 +600,12 @@ FROM
 
     ]
     }
+
+  dimension: d1_version {type: string}
+  dimension: d7_version {type: string}
+  dimension: d14_version {type: string}
+  dimension: d30_version {type: string}
+  dimension: d60_version {type: string}
 
 ################################################################
 ## Calculated Dimensions

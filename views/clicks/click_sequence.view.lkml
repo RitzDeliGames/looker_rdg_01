@@ -84,6 +84,7 @@ view: click_sequence {
       ,"$.altFUE2v2_20221024"
       ,"$.autoPurchase_20221017"
       ,"$.blockSymbols_20221017"
+      ,"$.collection_01192023"
       ,"$.difficultyStars_09202022"
       ,"$.dynamicRewards_20221018"
       ,"$.extraMovesCurrency_20221017"

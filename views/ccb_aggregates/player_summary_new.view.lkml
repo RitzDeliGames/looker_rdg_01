@@ -8,6 +8,10 @@ view: player_summary_new {
     sql:
 
 
+-- SELECT * FROM `tal_scratch.test_player_summary` WHERE rdg_id = 'f205e9e2-b1fd-4bed-be82-799a7df56a84'
+-- CREATE OR REPLACE TABLE `tal_scratch.test_player_summary` AS
+
+
 WITH
 
 -----------------------------------------------------------------------
@@ -37,6 +41,7 @@ SELECT
     , days_since_created
     , rdg_date
     , version
+    , cumulative_star_spend
 
     -- device_id
     , FIRST_VALUE(device_id) OVER (
@@ -411,11 +416,7 @@ SELECT
        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
        ) AS d60_highest_last_level_serial
 
-
-
-
-
-    -- highest level
+  -- highest level
     , LAST_VALUE(highest_last_level_serial) OVER (
       PARTITION BY rdg_id
       ORDER BY rdg_date ASC
@@ -530,6 +531,60 @@ FROM
             AND days_since_created = 60
           THEN 1 ELSE 0 END ) AS d60_retention
 
+        -- cumulative d0_star_spend
+
+        , max(
+            case
+              when date_diff(latest_update,created_date,day) < 0
+              then null
+              when days_since_created <= 0
+              then cumulative_star_spend
+              else 0
+              end ) as d0_cumulative_star_spend
+        , max(
+            case
+              when date_diff(latest_update,created_date,day) < 1
+              then null
+              when days_since_created <= 1
+              then cumulative_star_spend
+              else 0
+              end ) as d1_cumulative_star_spend
+        , max(
+            case
+              when date_diff(latest_update,created_date,day) < 7
+              then null
+              when days_since_created <= 7
+              then cumulative_star_spend
+              else 0
+              end ) as d7_cumulative_star_spend
+        , max(
+            case
+              when date_diff(latest_update,created_date,day) < 14
+              then null
+              when days_since_created <= 14
+              then cumulative_star_spend
+              else 0
+              end ) as d14_cumulative_star_spend
+        , max(
+            case
+              when date_diff(latest_update,created_date,day) < 30
+              then null
+              when days_since_created <= 30
+              then cumulative_star_spend
+              else 0
+              end ) as d30_cumulative_star_spend
+        , max(
+            case
+              when date_diff(latest_update,created_date,day) < 60
+              then null
+              when days_since_created <= 60
+              then cumulative_star_spend
+              else 0
+              end ) as d60_cumulative_star_spend
+        , max( cumulative_star_spend ) as current_cumulative_star_spend
+
+
+
   FROM
     pre_aggregate_calculations_from_base_data
   GROUP BY
@@ -565,6 +620,9 @@ FROM
   summarize_data A
   LEFT JOIN percentile_current_cumulative_mtx_purchase_dollars_table B
     ON A.rdg_id = B.rdg_id
+
+
+
 
             ;;
     datagroup_trigger: dependent_on_player_daily_summary
@@ -607,6 +665,14 @@ FROM
   dimension: d30_version {type: string}
   dimension: d60_version {type: string}
   dimension: latest_version {type: string}
+
+  dimension: d0_cumulative_star_spend {type: number}
+  dimension: d1_cumulative_star_spend {type: number}
+  dimension: d7_cumulative_star_spend {type: number}
+  dimension: d14_cumulative_star_spend {type: number}
+  dimension: d30_cumulative_star_spend {type: number}
+  dimension: d60_cumulative_star_spend {type: number}
+  dimension: current_cumulative_star_spend {type: number}
 
 ################################################################
 ## Calculated Dimensions

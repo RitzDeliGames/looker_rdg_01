@@ -666,34 +666,12 @@ explore: firebase_analytics {
   }
 }
 
-################################################################
-
-## TEST Files: Player Summary By Day
-## Remove these after the new aggregate files are validated
-
-################################################################
-
-# explore: player_summary_by_day {
-#   label: "Player Summary By Day"
-# }
-
-# explore: player_summary_by_day_test {
-#   label: "Player Summary By Day (Incremental Test Version)"
-# }
-
-# explore: player_summary_test {
-#   label: "Player Summary Test (Dependent on Incremental Test Version)"
-# }
 
 ################################################################
 
 ## ccb_aggregates
 
 ################################################################
-
-# explore: player_daily_incremental {
-#   label: "Player Daily (Incremental Build)"
-# }
 
 explore: player_daily_summary {
   label: "Player Daily Summary"
@@ -706,19 +684,6 @@ explore: player_daily_summary {
       ;;
   }
 }
-
-explore: player_daily_summary_complete {
-  label: "Player Daily Summary Complete"
-  join: player_summary_new {
-    view_label: "Player Summary"
-    type: left_outer
-    relationship: many_to_one
-    sql_on:
-      ${player_daily_summary_complete.rdg_id} = ${player_summary_new.rdg_id}
-      ;;
-  }
-}
-
 
 explore: player_summary_new {
   label: "Player Summary"

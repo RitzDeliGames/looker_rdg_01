@@ -31,4 +31,18 @@ view: version_summary {
   dimension: max_cumulative_star_spend {type: number}
   dimension: count_distinct_players {type: number}
 
+################################################################
+## Calculated Dimensions
+################################################################
+
+  dimension: max_highest_last_level_serial_override {
+    type: number
+    sql: @{max_highest_last_level_serial_override} ;;
+  }
+
+  dimension: max_cumulative_star_spend_override {
+    type: number
+    sql: @{max_cumulative_star_spend_override} ;;
+  }
+
 }

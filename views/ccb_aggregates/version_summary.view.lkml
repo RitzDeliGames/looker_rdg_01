@@ -18,8 +18,6 @@ view: version_summary {
       ;;
     datagroup_trigger: dependent_on_player_daily_summary
     publish_as_db_view: yes
-    partition_keys: ["version"]
-
   }
 
 ################################################################

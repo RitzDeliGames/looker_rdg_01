@@ -67,7 +67,7 @@ datagroup: dependent_on_player_daily_summary {
 }
 
 datagroup: dependent_on_player_summary {
-  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary`;;
+  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new`;;
   max_cache_age: "26 hours"
 }
 

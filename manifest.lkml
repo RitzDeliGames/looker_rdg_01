@@ -810,7 +810,7 @@ constant: max_highest_last_level_serial_override {
   value:
     "case
       when ${TABLE}.version = '99999999999' THEN 0
-      else ${TABLE}.version
+      else ${TABLE}.max_highest_last_level_serial
       end"
 }
 
@@ -818,6 +818,6 @@ constant: max_cumulative_star_spend_override {
   value:
   "case
     when ${TABLE}.version = '99999999999' THEN 0
-    else ${TABLE}.version
+    else ${TABLE}.max_cumulative_star_spend
     end"
 }

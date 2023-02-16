@@ -687,4 +687,53 @@ explore: player_daily_summary {
 
 explore: player_summary_new {
   label: "Player Summary"
+
+###################################
+  ## Join Version Information
+  ###################################
+
+  join: version_summary_d0 {
+    view_label:  "Version Summary D0"
+    from:  version_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_summary_new.install_version} = ${version_summary_d0.version};;
+  }
+  join: version_summary_d1 {
+    from:  version_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_summary_new.d1_version} = ${version_summary_d1.version};;
+  }
+  join: version_summary_d7 {
+    from:  version_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_summary_new.d7_version} = ${version_summary_d7.version};;
+  }
+  join: version_summary_d14 {
+    from:  version_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_summary_new.d14_version} = ${version_summary_d14.version};;
+  }
+  join: version_summary_d30 {
+    from:  version_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_summary_new.d30_version} = ${version_summary_d30.version};;
+  }
+  join: version_summary_d60 {
+    from:  version_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_summary_new.d60_version} = ${version_summary_d60.version};;
+  }
+  join: version_summary_latest {
+    from:  version_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_summary_new.latest_version} = ${version_summary_latest.version};;
+  }
+
 }

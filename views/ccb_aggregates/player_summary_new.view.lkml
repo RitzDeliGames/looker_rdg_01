@@ -234,43 +234,6 @@ FROM
 
 
 
-  FROM
-    pre_aggregate_calculations_from_base_data
-  GROUP BY
-    1
-
-)
-
------------------------------------------------------------------------
--- spender percentile
------------------------------------------------------------------------
-
-, percentile_current_cumulative_mtx_purchase_dollars_table AS (
-
-  SELECT
-    rdg_id
-    , FLOOR(100*CUME_DIST() OVER (
-        ORDER BY current_cumulative_mtx_purchase_dollars
-        )) percentile_current_cumulative_mtx_purchase_dollars
-  FROM
-    summarize_data
-  WHERE
-    current_cumulative_mtx_purchase_dollars > 0
-)
-
------------------------------------------------------------------------
--- Select output
------------------------------------------------------------------------
-
-SELECT
-  A.*
-  , B.percentile_current_cumulative_mtx_purchase_dollars
-FROM
-  summarize_data A
-  LEFT JOIN percentile_current_cumulative_mtx_purchase_dollars_table B
-    ON A.rdg_id = B.rdg_id
-
-
 
 
             ;;

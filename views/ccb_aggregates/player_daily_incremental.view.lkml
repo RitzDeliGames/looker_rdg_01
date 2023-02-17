@@ -349,7 +349,7 @@ view: player_daily_incremental {
         , MAX(install_version) AS install_version
         , SUM(mtx_purchase_dollars) AS mtx_purchase_dollars
         , SUM(ad_view_dollars) AS ad_view_dollars
-        , MAX(CAST(mtx_ltv_from_data_in_cents/100 AS NUMERIC)) AS mtx_ltv_from_data
+        , MAX(CAST( ( mtx_ltv_from_data_in_cents * 0.01 * 0.70 )  AS NUMERIC)) AS mtx_ltv_from_data -- Includes app store adjustment
         , SUM(ad_view_indicator) AS ad_views
         , COUNT(DISTINCT session_id) AS count_sessions
         , MAX(cumulative_session_count) AS cumulative_session_count

@@ -8,10 +8,6 @@ view: player_summary_new {
     sql:
 
 
--- SELECT * FROM `tal_scratch.test_player_summary` WHERE rdg_id = 'f205e9e2-b1fd-4bed-be82-799a7df56a84'
--- CREATE OR REPLACE TABLE `tal_scratch.test_player_summary` AS
-
-
 WITH
 
 -----------------------------------------------------------------------
@@ -39,8 +35,14 @@ SELECT
     rdg_id
     , latest_update_table.latest_update
     , days_since_created
+    , day_number
     , rdg_date
     , version
+    , cumulative_mtx_purchase_dollars
+    , cumulative_ad_view_dollars
+    , cumulative_combined_dollars
+    , mtx_ltv_from_data
+    , highest_last_level_serial
     , cumulative_star_spend
 
     -- device_id
@@ -106,323 +108,6 @@ SELECT
       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
       ) install_version
 
-    -- d0_cumulative_mtx_purchase_dollars
-    , MAX( CASE
-            WHEN DATE_DIFF(latest_update,created_date,DAY) >= 0
-            AND days_since_created <= 0
-            THEN cumulative_mtx_purchase_dollars
-            ELSE NULL END ) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-        ) AS d0_cumulative_mtx_purchase_dollars
-
-    -- d1_cumulative_mtx_purchase_dollars
-    , MAX( CASE
-            WHEN DATE_DIFF(latest_update,created_date,DAY) >= 1
-            AND days_since_created <= 1
-            THEN cumulative_mtx_purchase_dollars
-            ELSE NULL END ) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-        ) AS d1_cumulative_mtx_purchase_dollars
-
-    -- d7_cumulative_mtx_purchase_dollars
-    , MAX( CASE
-            WHEN DATE_DIFF(latest_update,created_date,DAY) >= 7
-            AND days_since_created <= 7
-            THEN cumulative_mtx_purchase_dollars
-            ELSE NULL END ) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-        ) AS d7_cumulative_mtx_purchase_dollars
-
-    -- d14_cumulative_mtx_purchase_dollars
-    , MAX( CASE
-            WHEN DATE_DIFF(latest_update,created_date,DAY) >= 14
-            AND days_since_created <= 14
-            THEN cumulative_mtx_purchase_dollars
-            ELSE NULL END ) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-        ) AS d14_cumulative_mtx_purchase_dollars
-
-    -- d30_cumulative_mtx_purchase_dollars
-    , MAX( CASE
-            WHEN DATE_DIFF(latest_update,created_date,DAY) >= 30
-            AND days_since_created <= 30
-            THEN cumulative_mtx_purchase_dollars
-            ELSE NULL END ) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-        ) AS d30_cumulative_mtx_purchase_dollars
-
-    -- d60_cumulative_mtx_purchase_dollars
-    , MAX( CASE
-            WHEN DATE_DIFF(latest_update,created_date,DAY) >= 60
-            AND days_since_created <= 60
-            THEN cumulative_mtx_purchase_dollars
-            ELSE NULL END ) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-        ) AS d60_cumulative_mtx_purchase_dollars
-
-    -- current_cumulative_mtx_purchase_dollars
-    , MAX( cumulative_mtx_purchase_dollars ) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-        ) AS current_cumulative_mtx_purchase_dollars
-
-   -- d0_cumulative_ad_view_dollars
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 0
-           AND days_since_created <= 0
-           THEN cumulative_ad_view_dollars
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d0_cumulative_ad_view_dollars
-
-   -- d1_cumulative_ad_view_dollars
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 1
-           AND days_since_created <= 1
-           THEN cumulative_ad_view_dollars
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d1_cumulative_ad_view_dollars
-
-
-   -- d7_cumulative_ad_view_dollars
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 7
-           AND days_since_created <= 7
-           THEN cumulative_ad_view_dollars
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d7_cumulative_ad_view_dollars
-
-
-   -- d14_cumulative_ad_view_dollars
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 14
-           AND days_since_created <= 14
-           THEN cumulative_ad_view_dollars
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d14_cumulative_ad_view_dollars
-
-
-   -- d30_cumulative_ad_view_dollars
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 30
-           AND days_since_created <= 30
-           THEN cumulative_ad_view_dollars
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d30_cumulative_ad_view_dollars
-
-
-   -- d60_cumulative_ad_view_dollars
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 60
-           AND days_since_created <= 60
-           THEN cumulative_ad_view_dollars
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d60_cumulative_ad_view_dollars
-
-
-   -- current_cumulative_ad_view_dollars
-   , MAX( cumulative_ad_view_dollars ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS current_cumulative_ad_view_dollars
-
-  -- d0_cumulative_combined_dollars
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 0
-           AND days_since_created <= 0
-           THEN cumulative_combined_dollars
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d0_cumulative_combined_dollars
-
-   -- d1_cumulative_combined_dollars
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 1
-           AND days_since_created <= 1
-           THEN cumulative_combined_dollars
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d1_cumulative_combined_dollars
-
-
-   -- d7_cumulative_combined_dollars
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 7
-           AND days_since_created <= 7
-           THEN cumulative_combined_dollars
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d7_cumulative_combined_dollars
-
-
-   -- d14_cumulative_combined_dollars
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 14
-           AND days_since_created <= 14
-           THEN cumulative_combined_dollars
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d14_cumulative_combined_dollars
-
-
-   -- d30_cumulative_combined_dollars
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 30
-           AND days_since_created <= 30
-           THEN cumulative_combined_dollars
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d30_cumulative_combined_dollars
-
-
-   -- d60_cumulative_combined_dollars
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 60
-           AND days_since_created <= 60
-           THEN cumulative_combined_dollars
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d60_cumulative_combined_dollars
-
-
-   -- current_cumulative_combined_dollars
-   , MAX( cumulative_combined_dollars ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS current_cumulative_combined_dollars
-
-   -- current_cumulative_combined_dollars
-   , MAX( mtx_ltv_from_data ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS mtx_ltv_from_data
-
-  -----------------------------------------------------------------
-  -- Highest last level serial by day
-  -----------------------------------------------------------------
-
-  -- d0_highest_last_level_serial
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 0
-           AND days_since_created <= 0
-           THEN highest_last_level_serial
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d0_highest_last_level_serial
-
-   -- d1_highest_last_level_serial
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 1
-           AND days_since_created <= 1
-           THEN highest_last_level_serial
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d1_highest_last_level_serial
-
-
-   -- d7_highest_last_level_serial
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 7
-           AND days_since_created <= 7
-           THEN highest_last_level_serial
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d7_highest_last_level_serial
-
-
-   -- d14_highest_last_level_serial
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 14
-           AND days_since_created <= 14
-           THEN highest_last_level_serial
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d14_highest_last_level_serial
-
-
-   -- d30_highest_last_level_serial
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 30
-           AND days_since_created <= 30
-           THEN highest_last_level_serial
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d30_highest_last_level_serial
-
-
-   -- d60_highest_last_level_serial
-   , MAX( CASE
-           WHEN DATE_DIFF(latest_update,created_date,DAY) >= 60
-           AND days_since_created <= 60
-           THEN highest_last_level_serial
-           ELSE NULL END ) OVER (
-       PARTITION BY rdg_id
-       ORDER BY rdg_date ASC
-       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS d60_highest_last_level_serial
-
-  -- highest level
-    , LAST_VALUE(highest_last_level_serial) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-      ) highest_last_level_serial
-
 FROM
   `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
   , latest_update_table
@@ -435,153 +120,117 @@ FROM
 
 , summarize_data AS (
 
-  SELECT
+  select
       rdg_id
-      , MAX(rdg_date) as last_played_date
-      , MAX(latest_update) AS latest_update
-      , MAX(device_id) AS device_id
-      , MAX(advertising_id) AS advertising_id
-      , MAX(user_id) AS user_id
-      , MAX(platform) AS platform
-      , MAX(country) AS country
-      , MAX(created_utc) AS created_utc
-      , MAX(TIMESTAMP(created_date)) AS created_date
-      , MAX(experiments) AS experiments
-      , MAX(install_version) AS install_version
+      , max(rdg_date) as last_played_date
+      , max(latest_update) as latest_table_update
+      , max(device_id) as device_id
+      , max(advertising_id) as advertising_id
+      , max(user_id) as user_id
+      , max(platform) as platform
+      , max(country) as country
+      , max(created_utc) as created_utc
+      , max(timestamp(created_date)) as created_date
+      , max(date_diff(latest_update,created_date,DAY) + 1) as max_available_day_number
+      , max(experiments) AS experiments
 
-      , max( case when days_since_created <= 1 then version else null end ) as d1_version
-      , max( case when days_since_created <= 7 then version else null end ) as d7_version
-      , max( case when days_since_created <= 14 then version else null end ) as d14_version
-      , max( case when days_since_created <= 30 then version else null end ) as d30_version
-      , max( case when days_since_created <= 60 then version else null end ) as d60_version
-      , max( version ) as latest_version
+      -- versions
+      , max(install_version) AS version_at_install
+      , max( case when day_number <= 2 then version else null end ) as version_d2
+      , max( case when day_number <= 7 then version else null end ) as version_d7
+      , max( case when day_number <= 14 then version else null end ) as version_d14
+      , max( case when day_number <= 30 then version else null end ) as version_d30
+      , max( case when day_number <= 60 then version else null end ) as version_d60
+      , max( version ) as version_current
 
+     -- mtx dollars
+     , max( case when day_number <= 1 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d1
+     , max( case when day_number <= 2 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d2
+     , max( case when day_number <= 7 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d7
+     , max( case when day_number <= 14 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d14
+     , max( case when day_number <= 30 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d30
+     , max( case when day_number <= 60 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d60
+     , max( cumulative_mtx_purchase_dollars ) as cumulative_mtx_purchase_dollars_current
+     , max(mtx_ltv_from_data) as mtx_ltv_from_data
 
+     -- ad view dollars
+     , max( case when day_number <= 1 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d1
+     , max( case when day_number <= 2 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d2
+     , max( case when day_number <= 7 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d7
+     , max( case when day_number <= 14 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d14
+     , max( case when day_number <= 30 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d30
+     , max( case when day_number <= 60 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d60
+     , max( cumulative_ad_view_dollars ) as cumulative_ad_view_dollars_current
 
-      , MAX(d0_cumulative_mtx_purchase_dollars) AS d0_cumulative_mtx_purchase_dollars
-      , MAX(d1_cumulative_mtx_purchase_dollars) AS d1_cumulative_mtx_purchase_dollars
-      , MAX(d7_cumulative_mtx_purchase_dollars) AS d7_cumulative_mtx_purchase_dollars
-      , MAX(d14_cumulative_mtx_purchase_dollars) AS d14_cumulative_mtx_purchase_dollars
-      , MAX(d30_cumulative_mtx_purchase_dollars) AS d30_cumulative_mtx_purchase_dollars
-      , MAX(d60_cumulative_mtx_purchase_dollars) AS d60_cumulative_mtx_purchase_dollars
-      , MAX(current_cumulative_mtx_purchase_dollars) AS current_cumulative_mtx_purchase_dollars
-      , MAX(d0_cumulative_ad_view_dollars) AS d0_cumulative_ad_view_dollars
-      , MAX(d1_cumulative_ad_view_dollars) AS d1_cumulative_ad_view_dollars
-      , MAX(d7_cumulative_ad_view_dollars) AS d7_cumulative_ad_view_dollars
-      , MAX(d14_cumulative_ad_view_dollars) AS d14_cumulative_ad_view_dollars
-      , MAX(d30_cumulative_ad_view_dollars) AS d30_cumulative_ad_view_dollars
-      , MAX(d60_cumulative_ad_view_dollars) AS d60_cumulative_ad_view_dollars
-      , MAX(current_cumulative_ad_view_dollars) AS current_cumulative_ad_view_dollars
-      , MAX(d0_cumulative_combined_dollars) AS d0_cumulative_combined_dollars
-      , MAX(d1_cumulative_combined_dollars) AS d1_cumulative_combined_dollars
-      , MAX(d7_cumulative_combined_dollars) AS d7_cumulative_combined_dollars
-      , MAX(d14_cumulative_combined_dollars) AS d14_cumulative_combined_dollars
-      , MAX(d30_cumulative_combined_dollars) AS d30_cumulative_combined_dollars
-      , MAX(d60_cumulative_combined_dollars) AS d60_cumulative_combined_dollars
-      , MAX(current_cumulative_combined_dollars) AS current_cumulative_combined_dollars
-      , MAX(mtx_ltv_from_data) AS mtx_ltv_from_data
+     -- combined dollars
+     , max( case when day_number <= 1 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d1
+     , max( case when day_number <= 2 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d2
+     , max( case when day_number <= 7 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d7
+     , max( case when day_number <= 14 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d14
+     , max( case when day_number <= 30 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d30
+     , max( case when day_number <= 60 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d60
+     , max( cumulative_combined_dollars ) as cumulative_combined_dollars_current
 
-      -- last level serial stats
-      , MAX(d0_highest_last_level_serial) AS d0_highest_last_level_serial
-      , MAX(d1_highest_last_level_serial) AS d1_highest_last_level_serial
-      , MAX(d7_highest_last_level_serial) AS d7_highest_last_level_serial
-      , MAX(d14_highest_last_level_serial) AS d14_highest_last_level_serial
-      , MAX(d30_highest_last_level_serial) AS d30_highest_last_level_serial
-      , MAX(d60_highest_last_level_serial) AS d60_highest_last_level_serial
-      , MAX(highest_last_level_serial) AS highest_last_level_serial
+     -- highest last level serial
+     , max( case when day_number <= 1 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d1
+     , max( case when day_number <= 2 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d2
+     , max( case when day_number <= 7 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d7
+     , max( case when day_number <= 14 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d14
+     , max( case when day_number <= 30 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d30
+     , max( case when day_number <= 60 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d60
+     , max( highest_last_level_serial ) as highest_last_level_serial_current
 
-      -- Calculate Retention Here
-      , MAX(CASE
-          WHEN DATE_DIFF(latest_update,created_date,DAY) < 1
-          THEN NULL
-          WHEN
-            DATE_DIFF(latest_update,created_date,DAY) >= 1
-            AND days_since_created = 1
-          THEN 1 ELSE 0 END ) AS d1_retention
+    -- retention
+    , max( case when day_number = 2 then 1 else 0 end ) as retention_d2
+    , max( case when day_number = 7 then 1 else 0 end ) as retention_d7
+    , max( case when day_number = 14 then 1 else 0 end ) as retention_d14
+    , max( case when day_number = 30 then 1 else 0 end ) as retention_d30
+    , max( case when day_number = 60 then 1 else 0 end ) as retention_d60
 
-      , MAX(CASE
-          WHEN DATE_DIFF(latest_update,created_date,DAY) < 7
-          THEN NULL
-          WHEN
-            DATE_DIFF(latest_update,created_date,DAY) >= 7
-            AND days_since_created = 7
-          THEN 1 ELSE 0 END ) AS d7_retention
+    -- cumulative star spend
+    , max( case when day_number <= 1 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d1
+    , max( case when day_number <= 2 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d2
+    , max( case when day_number <= 7 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d7
+    , max( case when day_number <= 14 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d14
+    , max( case when day_number <= 30 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d30
+    , max( case when day_number <= 60 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d60
+    , max( cumulative_star_spend ) as cumulative_star_spend_current
 
-      , MAX(CASE
-          WHEN DATE_DIFF(latest_update,created_date,DAY) < 14
-          THEN NULL
-          WHEN
-            DATE_DIFF(latest_update,created_date,DAY) >= 14
-            AND days_since_created = 14
-          THEN 1 ELSE 0 END ) AS d14_retention
+  FROM
+    pre_aggregate_calculations_from_base_data
+  GROUP BY
+    1
 
-      , MAX(CASE
-          WHEN DATE_DIFF(latest_update,created_date,DAY) < 30
-          THEN NULL
-          WHEN
-            DATE_DIFF(latest_update,created_date,DAY) >= 30
-            AND days_since_created = 30
-          THEN 1 ELSE 0 END ) AS d30_retention
+)
 
-      , MAX(CASE
-          WHEN DATE_DIFF(latest_update,created_date,DAY) < 60
-          THEN NULL
-          WHEN
-            DATE_DIFF(latest_update,created_date,DAY) >= 60
-            AND days_since_created = 60
-          THEN 1 ELSE 0 END ) AS d60_retention
+-----------------------------------------------------------------------
+-- spender percentile
+-----------------------------------------------------------------------
 
-        -- cumulative d0_star_spend
+, percentile_current_cumulative_mtx_purchase_dollars_table AS (
 
-        , max(
-            case
-              when date_diff(latest_update,created_date,day) < 0
-              then null
-              when days_since_created <= 0
-              then cumulative_star_spend
-              else 0
-              end ) as d0_cumulative_star_spend
-        , max(
-            case
-              when date_diff(latest_update,created_date,day) < 1
-              then null
-              when days_since_created <= 1
-              then cumulative_star_spend
-              else 0
-              end ) as d1_cumulative_star_spend
-        , max(
-            case
-              when date_diff(latest_update,created_date,day) < 7
-              then null
-              when days_since_created <= 7
-              then cumulative_star_spend
-              else 0
-              end ) as d7_cumulative_star_spend
-        , max(
-            case
-              when date_diff(latest_update,created_date,day) < 14
-              then null
-              when days_since_created <= 14
-              then cumulative_star_spend
-              else 0
-              end ) as d14_cumulative_star_spend
-        , max(
-            case
-              when date_diff(latest_update,created_date,day) < 30
-              then null
-              when days_since_created <= 30
-              then cumulative_star_spend
-              else 0
-              end ) as d30_cumulative_star_spend
-        , max(
-            case
-              when date_diff(latest_update,created_date,day) < 60
-              then null
-              when days_since_created <= 60
-              then cumulative_star_spend
-              else 0
-              end ) as d60_cumulative_star_spend
-        , max( cumulative_star_spend ) as current_cumulative_star_spend
+  SELECT
+    rdg_id
+    , FLOOR(100*CUME_DIST() OVER (
+        ORDER BY cumulative_mtx_purchase_dollars_current
+        )) cumulative_mtx_purchase_dollars_current_percentile
+  FROM
+    summarize_data
+  WHERE
+    cumulative_mtx_purchase_dollars_current > 0
+)
+
+-----------------------------------------------------------------------
+-- Select output
+-----------------------------------------------------------------------
+
+SELECT
+  A.*
+  , B.cumulative_mtx_purchase_dollars_current_percentile
+FROM
+  summarize_data A
+  LEFT JOIN percentile_current_cumulative_mtx_purchase_dollars_table B
+    ON A.rdg_id = B.rdg_id
 
 
 
@@ -632,138 +281,227 @@ FROM
   }
 
 ################################################################
-## Unchanged Column Dimensions
+## Dimensions
 ################################################################
 
-  dimension: install_version {type: string}
-  dimension: percentile_current_cumulative_mtx_purchase_dollars {type: number}
+  # strings
   dimension: rdg_id {type: string}
+  dimension: experiments {type: string}
+  dimension: version_at_install {type: string}
+  dimension: version_d2 {type: string}
+  dimension: version_d7 {type: string}
+  dimension: version_d14 {type: string}
+  dimension: version_d30 {type: string}
+  dimension: version_d60 {type: string}
+  dimension: version_current {type: string}
+  dimension: device_id {type: string}
+  dimension: advertising_id {type: string}
+  dimension: user_id {type: string}
+  dimension: platform {type: string}
+  dimension: country {type: string}
 
-  dimension: d0_highest_last_level_serial {type: number}
-  dimension: d1_highest_last_level_serial {type: number}
-  dimension: d7_highest_last_level_serial {type: number}
-  dimension: d14_highest_last_level_serial {type: number}
-  dimension: d30_highest_last_level_serial {type: number}
-  dimension: d60_highest_last_level_serial {type: number}
-  dimension: highest_last_level_serial {
-    type: number
-    drill_fields: [
-      rdg_id
-      , created_date_date
-      , d0_highest_last_level_serial
-      , d1_highest_last_level_serial
-      , d7_highest_last_level_serial
-      , d14_highest_last_level_serial
-      , current_cumulative_mtx_purchase_dollars
-
-    ]
-    }
-
-  dimension: d1_version {type: string}
-  dimension: d7_version {type: string}
-  dimension: d14_version {type: string}
-  dimension: d30_version {type: string}
-  dimension: d60_version {type: string}
-  dimension: latest_version {type: string}
-
-  dimension: d0_cumulative_star_spend {type: number}
-  dimension: d1_cumulative_star_spend {type: number}
-  dimension: d7_cumulative_star_spend {type: number}
-  dimension: d14_cumulative_star_spend {type: number}
-  dimension: d30_cumulative_star_spend {type: number}
-  dimension: d60_cumulative_star_spend {type: number}
-  dimension: current_cumulative_star_spend {type: number}
-
-################################################################
-## Calculated Dimensions
-################################################################
-
-  dimension_group: created_date {
-    type: time
-    timeframes: [date, week, month, year]
-    sql: ${TABLE}.created_date ;;
-  }
-
+  # dates
   dimension_group: last_played_date {
     type: time
     timeframes: [date, week, month, year]
-    sql: ${TABLE}.last_played_date ;;
+  }
+  dimension_group: created_date {
+    type: time
+    timeframes: [date, week, month, year]
   }
 
+  # numbers
+  dimension: max_available_day_number {type: number}
+  dimension: cumulative_mtx_purchase_dollars_d1 {type: number}
+  dimension: cumulative_mtx_purchase_dollars_d2 {type: number}
+  dimension: cumulative_mtx_purchase_dollars_d7 {type: number}
+  dimension: cumulative_mtx_purchase_dollars_d14 {type: number}
+  dimension: cumulative_mtx_purchase_dollars_d30 {type: number}
+  dimension: cumulative_mtx_purchase_dollars_d60 {type: number}
+  dimension: cumulative_mtx_purchase_dollars_current {type: number}
+  dimension: mtx_ltv_from_data {type: number}
+  dimension: cumulative_ad_view_dollars_d1 {type: number}
+  dimension: cumulative_ad_view_dollars_d2 {type: number}
+  dimension: cumulative_ad_view_dollars_d7 {type: number}
+  dimension: cumulative_ad_view_dollars_d14 {type: number}
+  dimension: cumulative_ad_view_dollars_d60 {type: number}
+  dimension: cumulative_ad_view_dollars_current {type: number}
+  dimension: cumulative_combined_dollars_d1 {type: number}
+  dimension: cumulative_combined_dollars_d2 {type: number}
+  dimension: cumulative_combined_dollars_d7 {type: number}
+  dimension: cumulative_combined_dollars_d14 {type: number}
+  dimension: cumulative_combined_dollars_d30 {type: number}
+  dimension: cumulative_combined_dollars_d60 {type: number}
+  dimension: cumulative_combined_dollars_current {type: number}
+  dimension: highest_last_level_serial_d1 {type: number}
+  dimension: highest_last_level_serial_d2 {type: number}
+  dimension: highest_last_level_serial_d7 {type: number}
+  dimension: highest_last_level_serial_d14 {type: number}
+  dimension: highest_last_level_serial_d30 {type: number}
+  dimension: highest_last_level_serial_d60 {type: number}
+  dimension: highest_last_level_serial_current {type: number}
+  dimension: retention_d2 {type: number}
+  dimension: retention_d7 {type: number}
+  dimension: retention_d14 {type: number}
+  dimension: retention_d30 {type: number}
+  dimension: retention_d60 {type: number}
+  dimension: cumulative_star_spend_d1 {type: number}
+  dimension: cumulative_star_spend_d2 {type: number}
+  dimension: cumulative_star_spend_d7 {type: number}
+  dimension: cumulative_star_spend_d14 {type: number}
+  dimension: cumulative_star_spend_d30 {type: number}
+  dimension: cumulative_star_spend_d60 {type: number}
+  dimension: cumulative_star_spend_current {type: number}
+  dimension: cumulative_mtx_purchase_dollars_current_percentile {type: number}
 
-  dimension: d7_highest_last_level_serial_bucket{
-    type: tier
-    tiers: [0,50,100,150,200,250,300]
-    sql:  ${TABLE}.d7_highest_last_level_serial ;;
-  }
 
-  dimension: highest_last_level_serial_bucket{
-    type: tier
-    tiers: [0,50,100,150,200,250,300]
-    sql:  ${TABLE}.highest_last_level_serial ;;
-  }
-
-  dimension: days_from_created_to_last_played {
-    type: number
-    sql:
-      DATE_DIFF(${TABLE}.last_played_date, ${TABLE}.created_date, DAY)
-      ;;
-  }
 
 ################################################################
 ## Measures
 ################################################################
 
-  #####################################
-  ## Sum Dollars
-  #####################################
-
-  # MTX Dollars
-  measure: d0_cumulative_mtx_purchase_dollars {type: sum}
-  measure: d1_cumulative_mtx_purchase_dollars {type: sum}
-  measure: d7_cumulative_mtx_purchase_dollars {type: sum}
-  measure: d14_cumulative_mtx_purchase_dollars {type: sum}
-  measure: d30_cumulative_mtx_purchase_dollars {type: sum}
-  measure: d60_cumulative_mtx_purchase_dollars {type: sum}
-  measure: current_cumulative_mtx_purchase_dollars {type: sum}
-
-  # Ad View Dollars
-  measure: d0_cumulative_ad_view_dollars {type: sum}
-  measure: d1_cumulative_ad_view_dollars {type: sum}
-  measure: d7_cumulative_ad_view_dollars {type: sum}
-  measure: d14_cumulative_ad_view_dollars {type: sum}
-  measure: d30_cumulative_ad_view_dollars {type: sum}
-  measure: d60_cumulative_ad_view_dollars {type: sum}
-  measure: current_cumulative_ad_view_dollars {type: sum}
-
-  # Combined Dollars
-  measure: d0_cumulative_combined_dollars {type: sum}
-  measure: d1_cumulative_combined_dollars {type: sum}
-  measure: d7_cumulative_combined_dollars {type: sum}
-  measure: d14_cumulative_combined_dollars {type: sum}
-  measure: d30_cumulative_combined_dollars {type: sum}
-  measure: d60_cumulative_combined_dollars {type: sum}
-  measure: current_cumulative_combined_dollars {type: sum}
-
-  #####################################
-  ## Player Counts
-  #####################################
-
+  # Player Count
   measure: count_distinct_players {
-    description: "Use this for counting unique players"
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
   }
 
-  #####################################
-  ## Retention
-  #####################################
+  # Sums
+  measure: sum_cumulative_mtx_purchase_dollars_d1 {
+    type: sum
+    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d1 ;;
+  }
+  measure: sum_cumulative_mtx_purchase_dollars_d2 {
+    type: sum
+    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d2 ;;
+  }
+  measure: sum_cumulative_mtx_purchase_dollars_d7 {
+    type: sum
+    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d7 ;;
+  }
+  measure: sum_cumulative_mtx_purchase_dollars_d14 {
+    type: sum
+    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d14 ;;
+  }
+  measure: sum_cumulative_mtx_purchase_dollars_d30 {
+    type: sum
+    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d30 ;;
+  }
+  measure: sum_cumulative_mtx_purchase_dollars_d60 {
+    type: sum
+    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d60 ;;
+  }
+  measure: sum_cumulative_mtx_purchase_dollars_current {
+    type: sum
+    sql: ${TABLE}.cumulative_mtx_purchase_dollars_current ;;
+  }
+  measure: sum_mtx_ltv_from_data {
+    type: sum
+    sql: ${TABLE}.mtx_ltv_from_data ;;
+  }
+  measure: sum_cumulative_ad_view_dollars_d1 {
+    type: sum
+    sql: ${TABLE}.cumulative_ad_view_dollars_d1 ;;
+  }
+  measure: sum_cumulative_ad_view_dollars_d2 {
+    type: sum
+    sql: ${TABLE}.cumulative_ad_view_dollars_d2 ;;
+  }
+  measure: sum_cumulative_ad_view_dollars_d7 {
+    type: sum
+    sql: ${TABLE}.cumulative_ad_view_dollars_d7 ;;
+  }
+  measure: sum_cumulative_ad_view_dollars_d14 {
+    type: sum
+    sql: ${TABLE}.cumulative_ad_view_dollars_d14 ;;
+  }
+  measure: sum_cumulative_ad_view_dollars_d60 {
+    type: sum
+    sql: ${TABLE}.cumulative_ad_view_dollars_d60 ;;
+  }
+  measure: sum_cumulative_ad_view_dollars_current {
+    type: sum
+    sql: ${TABLE}.cumulative_ad_view_dollars_current ;;
+  }
+  measure: sum_cumulative_combined_dollars_d1 {
+    type: sum
+    sql: ${TABLE}.cumulative_combined_dollars_d1 ;;
+  }
+  measure: sum_cumulative_combined_dollars_d2 {
+    type: sum
+    sql: ${TABLE}.cumulative_combined_dollars_d2 ;;
+  }
+  measure: sum_cumulative_combined_dollars_d7 {
+    type: sum
+    sql: ${TABLE}.cumulative_combined_dollars_d7 ;;
+  }
+  measure: sum_cumulative_combined_dollars_d14 {
+    type: sum
+    sql: ${TABLE}.cumulative_combined_dollars_d14 ;;
+  }
+  measure: sum_cumulative_combined_dollars_d30 {
+    type: sum
+    sql: ${TABLE}.cumulative_combined_dollars_d30 ;;
+  }
+  measure: sum_cumulative_combined_dollars_d60 {
+    type: sum
+    sql: ${TABLE}.cumulative_combined_dollars_d60 ;;
+  }
+  measure: sum_cumulative_combined_dollars_current {
+    type: sum
+    sql: ${TABLE}.cumulative_combined_dollars_current ;;
+  }
+  measure: sum_retention_d2 {
+    type: sum
+    sql: ${TABLE}.retention_d2 ;;
+  }
+  measure: sum_retention_d7 {
+    type: sum
+    sql: ${TABLE}.retention_d7 ;;
+  }
+  measure: sum_retention_d14 {
+    type: sum
+    sql: ${TABLE}.retention_d14 ;;
+  }
+  measure: sum_retention_d30 {
+    type: sum
+    sql: ${TABLE}.retention_d30 ;;
+  }
+  measure: sum_retention_d60 {
+    type: sum
+    sql: ${TABLE}.retention_d60 ;;
+  }
+  measure: sum_cumulative_star_spend_d1 {
+    type: sum
+    sql: ${TABLE}.cumulative_star_spend_d1 ;;
+  }
+  measure: sum_cumulative_star_spend_d2 {
+    type: sum
+    sql: ${TABLE}.cumulative_star_spend_d2 ;;
+  }
+  measure: sum_cumulative_star_spend_d7 {
+    type: sum
+    sql: ${TABLE}.cumulative_star_spend_d7 ;;
+  }
+  measure: sum_cumulative_star_spend_d14 {
+    type: sum
+    sql: ${TABLE}.cumulative_star_spend_d14 ;;
+  }
+  measure: sum_cumulative_star_spend_d30 {
+    type: sum
+    sql: ${TABLE}.cumulative_star_spend_d30 ;;
+  }
+  measure: sum_cumulative_star_spend_d60{
+    type: sum
+    sql: ${TABLE}.cumulative_star_spend_d60 ;;
+  }
+  measure: sum_cumulative_star_spend_current {
+    type: sum
+    sql: ${TABLE}.cumulative_star_spend_current ;;
+  }
 
-  measure: d1_retention {type: sum}
-  measure: d7_retention {type: sum}
-  measure: d14_retention {type: sum}
-  measure: d30_retention {type: sum}
-  measure: d60_retention {type: sum}
+
+
 
 
 }

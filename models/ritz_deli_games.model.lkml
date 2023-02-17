@@ -688,52 +688,58 @@ explore: player_daily_summary {
 explore: player_summary_new {
   label: "Player Summary"
 
-###################################
   ## Join Version Information
-  ###################################
 
-  join: version_summary_d0 {
-    view_label:  "Version Summary D0"
-    from:  version_summary
-    type:  left_outer
-    relationship:  many_to_one
-    sql_on: ${player_summary_new.install_version} = ${version_summary_d0.version};;
-  }
-  join: version_summary_d1 {
-    from:  version_summary
-    type:  left_outer
-    relationship:  many_to_one
-    sql_on: ${player_summary_new.d1_version} = ${version_summary_d1.version};;
-  }
-  join: version_summary_d7 {
-    from:  version_summary
-    type:  left_outer
-    relationship:  many_to_one
-    sql_on: ${player_summary_new.d7_version} = ${version_summary_d7.version};;
-  }
-  join: version_summary_d14 {
-    from:  version_summary
-    type:  left_outer
-    relationship:  many_to_one
-    sql_on: ${player_summary_new.d14_version} = ${version_summary_d14.version};;
-  }
-  join: version_summary_d30 {
-    from:  version_summary
-    type:  left_outer
-    relationship:  many_to_one
-    sql_on: ${player_summary_new.d30_version} = ${version_summary_d30.version};;
-  }
-  join: version_summary_d60 {
-    from:  version_summary
-    type:  left_outer
-    relationship:  many_to_one
-    sql_on: ${player_summary_new.d60_version} = ${version_summary_d60.version};;
-  }
-  join: version_summary_latest {
-    from:  version_summary
-    type:  left_outer
-    relationship:  many_to_one
-    sql_on: ${player_summary_new.latest_version} = ${version_summary_latest.version};;
-  }
+  # dimension: version_at_install {type: string}
+  # dimension: version_d2 {type: string}
+  # dimension: version_d7 {type: string}
+  # dimension: version_d14 {type: string}
+  # dimension: version_d30 {type: string}
+  # dimension: version_d60 {type: string}
+  # dimension: version_current {type: string}
+
+  # join: version_summary_at_install {
+  #   view_label:  "Version Summary At Install"
+  #   from:  version_summary
+  #   type:  left_outer
+  #   relationship:  many_to_one
+  #   sql_on: ${player_summary_new.version_at_install} = ${version_summary_at_install.version};;
+  # }
+  # join: version_summary_d1 {
+  #   from:  version_summary
+  #   type:  left_outer
+  #   relationship:  many_to_one
+  #   sql_on: ${player_summary_new.d1_version} = ${version_summary_d1.version};;
+  # }
+  # join: version_summary_d7 {
+  #   from:  version_summary
+  #   type:  left_outer
+  #   relationship:  many_to_one
+  #   sql_on: ${player_summary_new.d7_version} = ${version_summary_d7.version};;
+  # }
+  # join: version_summary_d14 {
+  #   from:  version_summary
+  #   type:  left_outer
+  #   relationship:  many_to_one
+  #   sql_on: ${player_summary_new.d14_version} = ${version_summary_d14.version};;
+  # }
+  # join: version_summary_d30 {
+  #   from:  version_summary
+  #   type:  left_outer
+  #   relationship:  many_to_one
+  #   sql_on: ${player_summary_new.d30_version} = ${version_summary_d30.version};;
+  # }
+  # join: version_summary_d60 {
+  #   from:  version_summary
+  #   type:  left_outer
+  #   relationship:  many_to_one
+  #   sql_on: ${player_summary_new.d60_version} = ${version_summary_d60.version};;
+  # }
+  # join: version_summary_latest {
+  #   from:  version_summary
+  #   type:  left_outer
+  #   relationship:  many_to_one
+  #   sql_on: ${player_summary_new.latest_version} = ${version_summary_latest.version};;
+  # }
 
 }

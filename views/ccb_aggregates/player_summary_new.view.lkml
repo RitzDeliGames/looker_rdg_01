@@ -273,6 +273,11 @@ FROM
     timeframes: [date, week, month, year]
   }
 
+  dimension: highest_played_day_number  {
+    type:  number
+    sql: DATE_DIFF( DATE(${TABLE}.last_played_date) , DATE( ${TABLE}.created_date ), DAY) + 1 ;;
+  }
+
   # numbers
   dimension: max_available_day_number {type: number}
   dimension: cumulative_mtx_purchase_dollars_d1 {type: number}

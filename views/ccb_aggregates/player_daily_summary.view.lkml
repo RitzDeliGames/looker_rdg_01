@@ -253,124 +253,310 @@ FROM
   }
 
 ################################################################
-## Unchanged Column Dimensions
+## Dimensions
 ################################################################
 
-  dimension: days_since_created {type: number}
-  dimension: day_number {type: number}
-  dimension: created_date_timestamp {type: date}
-  dimension: version {type: string}
-  dimension: highest_last_level_serial {type: number}
-  dimension: rdg_id {type: string}
-
-################################################################
-## Calculated Dimensions
-################################################################
-
+  # dates
   dimension_group: rdg_date {
-    description: "date as defined by rdg_date function"
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.rdg_date ;;
   }
-
-  dimension: levels_progressed{
-    type: tier
-    tiers: [0,5,10,20,50,100]
-    sql:  ${TABLE}.levels_progressed ;;
+  dimension_group: created_date_timestamp {
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.created_date ;;
   }
 
-  dimension: highest_last_level_serial_tiers {
-    type:  tier
-    tiers: [0,50,100,150,200,250,300,350,400,450,500,550]
-    style: integer
-    sql: ${TABLE}.highest_last_level_serial ;;
+  # strings
+  dimension: rdg_id {type:string}
+  dimension: new_player_rdg_id {type:string}
+  dimension: lifetime_mtx_spender_rdg_id {type:string}
+  dimension: churn_rdg_id {type:string}
+  dimension: device_id {type:string}
+  dimension: advertising_id {type:string}
+  dimension: user_id {type:string}
+  dimension: platform {type:string}
+  dimension: country {type:string}
+  dimension: experiments {type:string}
+  dimension: version {type:string}
+  dimension: install_version {type:string}
 
-  }
-
+  # numbers
+  dimension: mtx_purchase_dollars {type:number}
+  dimension: ad_view_dollars {type:number}
+  dimension: mtx_ltv_from_data {type:number}
+  dimension: ad_views {type:number}
+  dimension: count_sessions {type:number}
+  dimension: cumulative_session_count {type:number}
+  dimension: cumulative_engagement_ticks {type:number}
+  dimension: round_start_events {type:number}
+  dimension: round_end_events {type:number}
+  dimension: lowest_last_level_serial {type:number}
+  dimension: highest_last_level_serial {type:number}
+  dimension: highest_quests_completed {type:number}
+  dimension: gems_spend {type:number}
+  dimension: coins_spend {type:number}
+  dimension: stars_spend {type:number}
+  dimension: ending_gems_balance {type:number}
+  dimension: ending_coins_balance {type:number}
+  dimension: ending_lives_balance {type:number}
+  dimension: ending_stars_balance {type:number}
+  dimension: days_since_created {type:number}
+  dimension: day_number {type:number}
+  dimension: new_player_indicator {type:number}
+  dimension: date_last_played {type:number}
+  dimension: days_since_last_played {type:number}
+  dimension: next_date_played {type:number}
+  dimension: churn_indicator {type:number}
+  dimension: days_until_next_played {type:number}
+  dimension: cumulative_mtx_purchase_dollars {type:number}
+  dimension: cumulative_ad_view_dollars {type:number}
+  dimension: combined_dollars {type:number}
+  dimension: cumulative_combined_dollars {type:number}
+  dimension: daily_mtx_spend_indicator {type:number}
+  dimension: daily_mtx_spender_rdg_id {type:number}
+  dimension: first_mtx_spend_indicator {type:number}
+  dimension: lifetime_mtx_spend_indicator {type:number}
+  dimension: cumulative_ad_views {type:number}
+  dimension: engagement_ticks {type:number}
+  dimension: time_played_minutes {type:number}
+  dimension: cumulative_time_played_minutes {type:number}
+  dimension: cumulative_round_start_events {type:number}
+  dimension: cumulative_round_end_events {type:number}
+  dimension: quests_completed {type:number}
+  dimension: count_days_played {type:number}
+  dimension: cumulative_count_days_played {type:number}
+  dimension: levels_progressed {type:number}
+  dimension: cumulative_gems_spend {type:number}
+  dimension: cumulative_coins_spend {type:number}
+  dimension: cumulative_star_spend {type:number}
 
 ################################################################
 ## Measures
 ################################################################
 
-  #####################################
-  ## Dollars
-  #####################################
-
-  measure: mtx_purchase_dollars {type: sum}
-  measure: ad_view_dollars {type: sum}
-  measure: combined_dollars {type: sum}
-
-  #####################################
   ## Player Counts
-  #####################################
-
   measure: count_distinct_active_users {
     description: "Use this for counting unique players"
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
   }
-
-  measure: count_days_played {type: sum}
-
   measure: count_distinct_new_player_rdg_id {
     description: "count of distinct new players over a window"
     type: count_distinct
     sql: ${TABLE}.new_player_rdg_id ;;
   }
-
-  # Add up days played
-  measure: sum_new_player_indicator {
-    description: "Count of new players per day "
-    type: sum
-    sql: ${TABLE}.new_player_indicator ;;
-  }
-
   measure: count_distinct_churn_rdg_id {
     description: "count of distinct churned players"
     type: count_distinct
     sql: ${TABLE}.churn_rdg_id ;;
   }
-
-  # Add up days played
-  measure: sum_churn_indicator {
-    description: "Count of churned players per day "
-    type: sum
-    sql: ${TABLE}.churn_indicator ;;
-  }
-
-  #####################################
-  ## Other
-  #####################################
-
-
-
-  # Add up daily spend days
-  measure: sum_daily_mtx_spend_indicator {
-    description: "Count of mtx spend days played, each spend day per player = 1 "
-    type: sum
-    sql: ${TABLE}.daily_mtx_spend_indicator ;;
-  }
-
-  # count unique daily spenders
   measure: count_distinct_daily_mtx_spender_rdg_id {
     description: "Count of Distinct Daily Spenders, Player must spend on day to be counted "
     type: count_distinct
     sql: ${TABLE}.daily_mtx_spender_rdg_id ;;
   }
-
-  # count unique lifetime spenders
   measure: count_distinct_lifetime_mtx_spender_rdg_id {
     description: "Count of Distinct Lifetime Spenders, Players who have EVER spent on MTX are counted"
     type: count_distinct
     sql: ${TABLE}.lifetime_mtx_spender_rdg_id ;;
   }
 
-  # Add up daily first spends
-  measure: sum_first_mtx_spend_indicator {
-    description: "Count of FIRST mtx spend days played, each FIRST spend day per player = 1 "
-    type: sum
-    sql: ${TABLE}.first_mtx_spend_indicator ;;
+  ## Sums
+  measure: sum_mtx_purchase_dollars {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
   }
+  measure: sum_ad_view_dollars {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_mtx_ltv_from_data {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_ad_views {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_count_sessions {
+   type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_cumulative_session_count {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_cumulative_engagement_ticks {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_round_start_events {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_round_end_events {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_lowest_last_level_serial {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_highest_last_level_serial {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_highest_quests_completed {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_gems_spend {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_coins_spend {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_stars_spend {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_ending_gems_balance {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_ending_coins_balance {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_ending_lives_balance {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_ending_stars_balance {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_days_since_created {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_day_number {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_new_player_indicator {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_date_last_played {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_days_since_last_played {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_next_date_played {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_churn_indicator {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_days_until_next_played {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_cumulative_mtx_purchase_dollars {
+   type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_cumulative_ad_view_dollars {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_combined_dollars {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_cumulative_combined_dollars {
+   type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_daily_mtx_spend_indicator {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_daily_mtx_spender_rdg_id {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_first_mtx_spend_indicator {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_lifetime_mtx_spend_indicator {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_cumulative_ad_views {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_engagement_ticks {
+   type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_time_played_minutes {
+   type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_cumulative_time_played_minutes {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_cumulative_round_start_events {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_cumulative_round_end_events {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_quests_completed {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_count_days_played {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_cumulative_count_days_played {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_levels_progressed {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_cumulative_gems_spend {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_cumulative_coins_spend {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+  measure: sum_cumulative_star_spend {
+    type:sum
+    sql: ${TABLE}.sum_mtx_purchase_dollars ;;
+  }
+
+
 
 }

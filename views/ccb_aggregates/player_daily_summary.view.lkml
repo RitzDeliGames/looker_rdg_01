@@ -83,15 +83,14 @@ SELECT
 
   -- cumulative_mtx_purchase_dollars
   -- Includes adjustment for App Store %
-  , SUM(
-      (ifnull( mtx_purchase_dollars, 0 ) * 0.7) ) OVER (
+  , SUM( ifnull( mtx_purchase_dollars, 0 ) ) OVER (
       PARTITION BY rdg_id
       ORDER BY rdg_date ASC
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
       ) cumulative_mtx_purchase_dollars
 
   -- cumulative_ad_view_dollars
-  , SUM(ad_view_dollars) OVER (
+  , SUM(IFNULL(ad_view_dollars,0)) OVER (
       PARTITION BY rdg_id
       ORDER BY rdg_date ASC
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
@@ -99,11 +98,11 @@ SELECT
 
   -- combined_dollars
   -- Includes adjustment for App Store %
-  , (ifnull( mtx_purchase_dollars, 0 ) * 0.7) + IFNULL(ad_view_dollars,0) AS combined_dollars
+  , ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0) AS combined_dollars
 
   -- cumulative_combined_dollars
   -- Includes adjustment for App Store %
-  , SUM((ifnull( mtx_purchase_dollars, 0 ) * 0.7) + IFNULL(ad_view_dollars,0)) OVER (
+  , SUM(ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0)) OVER (
       PARTITION BY rdg_id
       ORDER BY rdg_date ASC
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW

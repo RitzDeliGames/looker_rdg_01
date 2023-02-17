@@ -7,6 +7,7 @@ view: player_daily_summary {
   derived_table: {
     sql:
 
+
 SELECT
 
   -- Start with all the rows from player_daily_incremental
@@ -81,7 +82,9 @@ SELECT
       ) days_until_next_played
 
   -- cumulative_mtx_purchase_dollars
-  , SUM(mtx_purchase_dollars) OVER (
+  -- Includes adjustment for App Store %
+  , SUM(
+      (ifnull( mtx_purchase_dollars, 0 ) * 0.7) ) OVER (
       PARTITION BY rdg_id
       ORDER BY rdg_date ASC
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
@@ -95,10 +98,12 @@ SELECT
       ) cumulative_ad_view_dollars
 
   -- combined_dollars
-  , IFNULL(mtx_purchase_dollars,0) + IFNULL(ad_view_dollars,0) AS combined_dollars
+  -- Includes adjustment for App Store %
+  , (ifnull( mtx_purchase_dollars, 0 ) * 0.7) + IFNULL(ad_view_dollars,0) AS combined_dollars
 
   -- cumulative_combined_dollars
-  , SUM(IFNULL(mtx_purchase_dollars,0) + IFNULL(ad_view_dollars,0)) OVER (
+  -- Includes adjustment for App Store %
+  , SUM((ifnull( mtx_purchase_dollars, 0 ) * 0.7) + IFNULL(ad_view_dollars,0)) OVER (
       PARTITION BY rdg_id
       ORDER BY rdg_date ASC
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW

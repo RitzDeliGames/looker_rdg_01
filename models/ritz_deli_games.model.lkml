@@ -683,6 +683,13 @@ explore: player_daily_summary {
       ${player_daily_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
+  join: version_summary {
+    view_label:  "Version Summary"
+    from:  version_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_daily_summary.version} = ${version_summary.version};;
+  }
 }
 
 explore: player_summary_new {

@@ -5,7 +5,7 @@ view: click_stream {
         rdg_id
         ,country
         ,install_version
-        ,release_version
+        ,version
         ,timestamp
         ,event_name
         ,engagement_ticks
@@ -74,8 +74,9 @@ view: click_stream {
   dimension: install_version {
     group_label: "Versions"
   }
-  dimension: release_version {
+  dimension: version {
     group_label: "Versions"
+    label: "Release Version"
   }
   dimension: event_name {}
   dimension: engagement_ticks {

@@ -15,7 +15,7 @@ view: click_sequence {
       column: rdg_id {}
       column: is_churned {}
       column: install_version {}
-      column: release_version {}
+      column: version {}
       column: experiments {}
       column: experiment_variant {}
       derived_column: click_sequence_num {
@@ -66,8 +66,9 @@ view: click_sequence {
   dimension: install_version {
     group_label: "Versions"
   }
-  dimension: release_version {
+  dimension: version {
     group_label: "Versions"
+    label: "Release Version"
   }
   measure: count {
     type: count_distinct

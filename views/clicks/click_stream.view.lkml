@@ -5,6 +5,7 @@ view: click_stream {
         rdg_id
         ,country
         ,install_version
+        ,release_version
         ,timestamp
         ,event_name
         ,engagement_ticks
@@ -25,7 +26,7 @@ view: click_stream {
         and user_type = 'external'
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
-      group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+      group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
       ;;
     datagroup_trigger: change_6_hrs
     publish_as_db_view: yes
@@ -70,7 +71,12 @@ view: click_stream {
     type: yesno
     sql: ${greater_level_completed} is null ;;
   }
-  dimension: install_version {}
+  dimension: install_version {
+    group_label: "Versions"
+  }
+  dimension: release_version {
+    group_label: "Versions"
+  }
   dimension: event_name {}
   dimension: engagement_ticks {
     type: number

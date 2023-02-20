@@ -15,6 +15,7 @@ view: click_sequence {
       column: rdg_id {}
       column: is_churned {}
       column: install_version {}
+      column: release_version {}
       column: experiments {}
       column: experiment_variant {}
       derived_column: click_sequence_num {
@@ -62,8 +63,12 @@ view: click_sequence {
     label: "Click Stream Testing Is Churned (Yes / No)"
     type: yesno
   }
-  dimension: install_version {}
-
+  dimension: install_version {
+    group_label: "Versions"
+  }
+  dimension: release_version {
+    group_label: "Versions"
+  }
   measure: count {
     type: count_distinct
     sql: ${rdg_id} ;;

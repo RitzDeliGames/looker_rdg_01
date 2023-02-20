@@ -560,6 +560,7 @@ constant: button_tags {
             when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_ZoneExplorer.Zone.zone_03' then 'Zone Explorer - Zone 3'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRound_Success.Collect' then 'Mini-Game - EoR - Collect'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRound_Failure.TryAgain' then 'Mini-Game - EoR - Try Again'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRound_Success.WatchAd' then 'Mini-Game - EoR - Watch Ad'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRound_BuyExtra.Continue' then 'Mini-Game - Extra Moves - Continue'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRound_BuyExtra.Close' then 'Mini-Game - Extra Moves - Close'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_FirstComboPowerup.Continue' then 'Mini-Game - FUE - First Combo'
@@ -595,6 +596,11 @@ constant: button_tags {
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_PreGame.EditCollection' then 'Collection - Edit Collection'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Collection.CharacterCard.shuffle' then 'Collection - Edit Collection - Use'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Collection.Try' then 'Collection - Edit Collection - Try'
+            when json_extract_scalar(extra_json,'$.button_tag') like 'MovesChallenge.mc_event_id_%' then 'Moves Master - Open'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_MovesChallenge_Preview.Continue' then 'Moves Master - Start'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_MovesChallenge_Leaderboard.' then 'Moves Master - Play'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_MovesChallenge_Leaderboard.Close' then 'Moves Master - Close'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_MovesChallenge_Leaderboard.MovesMasterInfo' then 'Moves Master - Info'
             else json_extract_scalar(extra_json,'$.button_tag')
           end"
 }

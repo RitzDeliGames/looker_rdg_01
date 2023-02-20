@@ -52,7 +52,7 @@ view: player_daily_incremental {
           DATE(timestamp) >=
             CASE
               -- SELECT DATE(CURRENT_DATE())
-              WHEN DATE(CURRENT_DATE()) <= '2023-02-10' -- Last Full Update
+              WHEN DATE(CURRENT_DATE()) <= '2023-02-17' -- Last Full Update
               THEN '2019-01-01'
               ELSE DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
               END
@@ -170,7 +170,7 @@ view: player_daily_incremental {
                 JSON_EXTRACT_SCALAR(extra_json,"$.rvs_id") LIKE '%GPA%' -- check for valid transactions on Google Play
                 OR JSON_EXTRACT_SCALAR(extra_json,"$.rvs_id") LIKE '%AppleAppStore%' -- check for valid transactions on Apple
                 )
-              THEN IFNULL(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS NUMERIC) / 100,0) -- purchase amount
+              THEN IFNULL(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS NUMERIC) * 0.01 * 0.70 ,0) -- purchase amount + app store cut
               ELSE 0
               END AS NUMERIC) AS mtx_purchase_dollars
 
@@ -349,7 +349,7 @@ view: player_daily_incremental {
         , MAX(install_version) AS install_version
         , SUM(mtx_purchase_dollars) AS mtx_purchase_dollars
         , SUM(ad_view_dollars) AS ad_view_dollars
-        , MAX(CAST(mtx_ltv_from_data_in_cents/100 AS NUMERIC)) AS mtx_ltv_from_data
+        , MAX(CAST( ( mtx_ltv_from_data_in_cents * 0.01 * 0.70 )  AS NUMERIC)) AS mtx_ltv_from_data -- Includes app store adjustment
         , SUM(ad_view_indicator) AS ad_views
         , COUNT(DISTINCT session_id) AS count_sessions
         , MAX(cumulative_session_count) AS cumulative_session_count

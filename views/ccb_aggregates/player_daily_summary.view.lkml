@@ -541,7 +541,38 @@ FROM
     sql: ${TABLE}.cumulative_star_spend ;;
   }
 
+## Percentiles
 
+  measure: levels_progressed_10 {
+    group_label: "Levels Progressed"
+    type: percentile
+    percentile: 10
+    sql: ${levels_progressed} ;;
+  }
+  measure: levels_progressed_25 {
+    group_label: "Levels Progressed"
+    type: percentile
+    percentile: 25
+    sql: ${levels_progressed} ;;
+  }
+  measure: levels_progressed_50 {
+    group_label: "Levels Progressed"
+    type: percentile
+    percentile: 50
+    sql: ${levels_progressed} ;;
+  }
+  measure: levels_progressed_75 {
+    group_label: "Levels Progressed"
+    type: percentile
+    percentile: 75
+    sql: ${levels_progressed} ;;
+  }
+  measure: levels_progressed_95 {
+    group_label: "Levels Progressed"
+    type: percentile
+    percentile: 95
+    sql: ${levels_progressed} ;;
+  }
 
 
 }

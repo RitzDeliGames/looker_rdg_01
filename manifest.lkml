@@ -684,6 +684,7 @@ constant: reward_events {
             when ${TABLE}.reward_event = 'round_end' then 'Round End'
             when ${TABLE}.reward_event = 'zone_restore' then 'Zone Restore'
             when ${TABLE}.reward_event = 'gacha_box_004' then 'Free Coins'
+            when ${TABLE}.reward_event = 'incetivized_ads' then 'Ads'
             else ${TABLE}.reward_event
           end"
 }

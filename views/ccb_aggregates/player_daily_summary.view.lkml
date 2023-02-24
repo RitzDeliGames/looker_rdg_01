@@ -338,208 +338,30 @@ FROM
 
   ## Player Counts
   measure: count_distinct_active_users {
-    description: "Use this for counting unique players"
+    group_label: "Unique Player Counts"
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
   }
   measure: count_distinct_new_player_rdg_id {
-    description: "count of distinct new players over a window"
+    group_label: "Unique Player Counts"
     type: count_distinct
     sql: ${TABLE}.new_player_rdg_id ;;
   }
   measure: count_distinct_churn_rdg_id {
-    description: "count of distinct churned players"
+    group_label: "Unique Player Counts"
     type: count_distinct
     sql: ${TABLE}.churn_rdg_id ;;
   }
   measure: count_distinct_daily_mtx_spender_rdg_id {
-    description: "Count of Distinct Daily Spenders, Player must spend on day to be counted "
+    group_label: "Unique Player Counts"
     type: count_distinct
     sql: ${TABLE}.daily_mtx_spender_rdg_id ;;
   }
   measure: count_distinct_lifetime_mtx_spender_rdg_id {
-    description: "Count of Distinct Lifetime Spenders, Players who have EVER spent on MTX are counted"
+    group_label: "Unique Player Counts"
     type: count_distinct
     sql: ${TABLE}.lifetime_mtx_spender_rdg_id ;;
   }
-
-## Sums
-  # measure: sum_mtx_purchase_dollars {
-  #   type:sum
-  #   sql: ${TABLE}.mtx_purchase_dollars ;;
-  # }
-  # measure: sum_ad_view_dollars {
-  #   type:sum
-  #   sql: ${TABLE}.ad_view_dollars ;;
-  # }
-  # measure: sum_mtx_ltv_from_data {
-  #   type:sum
-  #   sql: ${TABLE}.mtx_ltv_from_data ;;
-  # }
-  # measure: sum_ad_views {
-  #   type:sum
-  #   sql: ${TABLE}.ad_views ;;
-  # }
-  # measure: sum_count_sessions {
-  #   type:sum
-  #   sql: ${TABLE}.count_sessions ;;
-  # }
-  # measure: sum_cumulative_session_count {
-  #   type:sum
-  #   sql: ${TABLE}.cumulative_session_count ;;
-  # }
-  # measure: sum_cumulative_engagement_ticks {
-  #   type:sum
-  #   sql: ${TABLE}.cumulative_engagement_ticks ;;
-  # }
-  # measure: sum_round_start_events {
-  #   type:sum
-  #   sql: ${TABLE}.round_start_events ;;
-  # }
-  # measure: sum_round_end_events {
-  #   type:sum
-  #   sql: ${TABLE}.round_end_events ;;
-  # }
-  # measure: sum_lowest_last_level_serial {
-  #   type:sum
-  #   sql: ${TABLE}.lowest_last_level_serial ;;
-  # }
-  # measure: sum_highest_last_level_serial {
-  #   type:sum
-  #   sql: ${TABLE}.highest_last_level_serial ;;
-  # }
-  # measure: sum_highest_quests_completed {
-  #   type:sum
-  #   sql: ${TABLE}.highest_quests_completed ;;
-  # }
-  # measure: sum_gems_spend {
-  #   type:sum
-  #   sql: ${TABLE}.gems_spend ;;
-  # }
-  # measure: sum_coins_spend {
-  #   type:sum
-  #   sql: ${TABLE}.coins_spend ;;
-  # }
-  # measure: sum_stars_spend {
-  #   type:sum
-  #   sql: ${TABLE}.stars_spend ;;
-  # }
-  # measure: sum_ending_gems_balance {
-  #   type:sum
-  #   sql: ${TABLE}.ending_gems_balance ;;
-  # }
-  # measure: sum_ending_coins_balance {
-  #   type:sum
-  #   sql: ${TABLE}.ending_coins_balance ;;
-  # }
-  # measure: sum_ending_lives_balance {
-  #   type:sum
-  #   sql: ${TABLE}.ending_lives_balance ;;
-  # }
-  # measure: sum_ending_stars_balance {
-  #   type:sum
-  #   sql: ${TABLE}.ending_stars_balance ;;
-  # }
-  # measure: sum_days_since_created {
-  #   type:sum
-  #   sql: ${TABLE}.days_since_created ;;
-  # }
-  # measure: sum_day_number {
-  #   type:sum
-  #   sql: ${TABLE}.day_number ;;
-  # }
-  # measure: sum_new_player_indicator {
-  #   type:sum
-  #   sql: ${TABLE}.new_player_indicator ;;
-  # }
-  # measure: sum_churn_indicator {
-  #   type:sum
-  #   sql: ${TABLE}.churn_indicator ;;
-  # }
-  # measure: sum_cumulative_mtx_purchase_dollars {
-  #   type:sum
-  #   sql: ${TABLE}.cumulative_mtx_purchase_dollars ;;
-  # }
-  # measure: sum_cumulative_ad_view_dollars {
-  #   type:sum
-  #   sql: ${TABLE}.cumulative_ad_view_dollars ;;
-  # }
-  # measure: sum_combined_dollars {
-  #   type:sum
-  #   sql: ${TABLE}.combined_dollars ;;
-  # }
-  # measure: sum_cumulative_combined_dollars {
-  #   type:sum
-  #   sql: ${TABLE}.cumulative_combined_dollars ;;
-  # }
-  # measure: sum_daily_mtx_spend_indicator {
-  #   type:sum
-  #   sql: ${TABLE}.daily_mtx_spend_indicator ;;
-  # }
-  # measure: sum_daily_mtx_spender_rdg_id {
-  #   type:sum
-  #   sql: ${TABLE}.daily_mtx_spender_rdg_id ;;
-  # }
-  # measure: sum_first_mtx_spend_indicator {
-  #   type:sum
-  #   sql: ${TABLE}.first_mtx_spend_indicator ;;
-  # }
-  # measure: sum_lifetime_mtx_spend_indicator {
-  #   type:sum
-  #   sql: ${TABLE}.lifetime_mtx_spend_indicator ;;
-  # }
-  # measure: sum_cumulative_ad_views {
-  #   type:sum
-  #   sql: ${TABLE}.cumulative_ad_views ;;
-  # }
-  # measure: sum_engagement_ticks {
-  #   type:sum
-  #   sql: ${TABLE}.engagement_ticks ;;
-  # }
-  # measure: sum_time_played_minutes {
-  #   type:sum
-  #   sql: ${TABLE}.time_played_minutes ;;
-  # }
-  # measure: sum_cumulative_time_played_minutes {
-  #   type:sum
-  #   sql: ${TABLE}.cumulative_time_played_minutes ;;
-  # }
-  # measure: sum_cumulative_round_start_events {
-  #   type:sum
-  #   sql: ${TABLE}.cumulative_round_start_events ;;
-  # }
-  # measure: sum_cumulative_round_end_events {
-  #   type:sum
-  #   sql: ${TABLE}.cumulative_round_end_events ;;
-  # }
-  # measure: sum_quests_completed {
-  #   type:sum
-  #   sql: ${TABLE}.quests_completed ;;
-  # }
-  # measure: sum_count_days_played {
-  #   type:sum
-  #   sql: ${TABLE}.count_days_played ;;
-  # }
-  # measure: sum_cumulative_count_days_played {
-  #   type:sum
-  #   sql: ${TABLE}.cumulative_count_days_played ;;
-  # }
-  # measure: sum_levels_progressed {
-  #   type:sum
-  #   sql: ${TABLE}.levels_progressed ;;
-  # }
-  # measure: sum_cumulative_gems_spend {
-  #   type:sum
-  #   sql: ${TABLE}.cumulative_gems_spend ;;
-  # }
-  # measure: sum_cumulative_coins_spend {
-  #   type:sum
-  #   sql: ${TABLE}.cumulative_coins_spend ;;
-  # }
-  # measure: sum_cumulative_star_spend {
-  #   type:sum
-  #   sql: ${TABLE}.cumulative_star_spend ;;
-  # }
 
 ## Sums / Percentiles
 

@@ -52,7 +52,7 @@ view: player_daily_incremental {
           DATE(timestamp) >=
             CASE
               -- SELECT DATE(CURRENT_DATE())
-              WHEN DATE(CURRENT_DATE()) <= '2023-02-17' -- Last Full Update
+              WHEN DATE(CURRENT_DATE()) <= '2023-02-24' -- Last Full Update
               THEN '2019-01-01'
               ELSE DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
               END
@@ -177,7 +177,9 @@ view: player_daily_incremental {
           -- ad view dollars
           , CAST(CASE
               WHEN event_name = 'ad'
-              THEN IFNULL(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.publisher_revenue_per_impression") AS NUMERIC),0) -- revenue per impression
+              THEN
+                IFNULL(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.publisher_revenue_per_impression") AS NUMERIC),0) -- revenue per impression
+                + IFNULL(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.revenue") AS NUMERIC),0) -- revenue per impression
               ELSE 0
               END AS NUMERIC) AS ad_view_dollars
 

@@ -83,9 +83,6 @@ view: firebase_player_daily_incremental {
         base_data
       group by
         1,2
-      order by
-        1,2
-
 
       ;;
     datagroup_trigger: incremental_daily_group

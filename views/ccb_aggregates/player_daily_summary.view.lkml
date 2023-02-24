@@ -245,6 +245,10 @@ SELECT
 FROM
   `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
 
+where
+    -- select date_add( current_date(), interval -1 day )
+    rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
+
       ;;
     datagroup_trigger: dependent_on_player_daily_incremental
     publish_as_db_view: yes

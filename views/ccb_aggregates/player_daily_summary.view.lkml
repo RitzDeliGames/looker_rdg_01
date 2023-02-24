@@ -364,10 +364,10 @@ FROM
   }
 
 ## Sums
-  measure: sum_mtx_purchase_dollars {
-    type:sum
-    sql: ${TABLE}.mtx_purchase_dollars ;;
-  }
+  # measure: sum_mtx_purchase_dollars {
+  #   type:sum
+  #   sql: ${TABLE}.mtx_purchase_dollars ;;
+  # }
   measure: sum_ad_view_dollars {
     type:sum
     sql: ${TABLE}.ad_view_dollars ;;
@@ -572,6 +572,42 @@ FROM
     type: percentile
     percentile: 95
     sql: ${levels_progressed} ;;
+  }
+
+  measure: sum_mtx_purchase_dollars {
+    group_label: "MTX Purchase Dollars"
+    type:sum
+    sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
+  measure: mtx_purchase_dollars_10 {
+    group_label: "MTX Purchase Dollars"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
+  measure: mtx_purchase_dollars_25 {
+    group_label: "MTX Purchase Dollars"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
+  measure: mtx_purchase_dollars_50 {
+    group_label: "MTX Purchase Dollars"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
+  measure: mtx_purchase_dollars_75 {
+    group_label: "MTX Purchase Dollars"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
+  measure: mtx_purchase_dollars_95 {
+    group_label: "MTX Purchase Dollars"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.mtx_purchase_dollars ;;
   }
 
 

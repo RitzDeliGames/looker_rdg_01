@@ -754,3 +754,4 @@ explore: player_summary_new {
 ## Firebase daily table
 explore:  firebase_player_daily_incremental {
 }
+explore: player_daily_incremental {}

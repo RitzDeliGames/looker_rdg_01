@@ -9,11 +9,16 @@ view: ads {
         ,timestamp
         ,created_at created
         ,cast(last_level_serial as int64) last_level_serial
-        ,json_extract_scalar(extra_json,"$.ad_unit_name") ad_unit_name
+        ,json_extract_scalar(extra_json,"$.ad_network") ad_network
+        ,json_extract_scalar(extra_json,"$.placement") placement
+        ,cast(json_extract_scalar(extra_json,"$.ad_value") as numeric) ad_value
+        ,cast(json_extract_scalar(extra_json,"$.revenue") as numeric) revenue --this ironSource value is usually identical to ad_value
+        ,json_extract_scalar(extra_json,"$.ad_source_name") ad_source_name --old Unity mediation parameter...eventually can be deprecated
+        ,json_extract_scalar(extra_json,"$.ad_unit_name") ad_unit_name --old Unity mediation parameter...eventually can be deprecated
         ,json_extract_scalar(extra_json,"$.impression_id") impression_id
         ,json_extract_scalar(extra_json,"$.line_item_id") line_item_id
         ,json_extract_scalar(extra_json,"$.transaction_currency") transaction_currency
-        ,cast(json_extract_scalar(extra_json,"$.publisher_revenue_per_impression") as numeric) publisher_revenue_per_impression
+        ,cast(json_extract_scalar(extra_json,"$.publisher_revenue_per_impression") as numeric) publisher_revenue_per_impression --old Unity mediation parameter...eventually can be deprecated
       from game_data.events
       where event_name = 'ad'
       and date(timestamp) between '2023-01-01' and current_date()
@@ -76,6 +81,40 @@ view: ads {
     sql_start: ${created_date} ;;
     sql_end: ${ad_event_date} ;;
   }
+  dimension: ad_network {
+    group_label: "Networks"
+    type: string
+    sql: ${TABLE}.ad_network  ;;
+  }
+  dimension: ad_source_name {
+    group_label: "Networks"
+    type: string
+    sql: ${TABLE}.ad_source_name  ;;
+  }
+  dimension: network_name {
+    group_label: "Networks"
+    label: "Network"
+    type: string
+    sql: coalesce(${ad_source_name},${ad_network}) ;;
+  }
+  dimension: ad_unit_name {
+    group_label: "Placements"
+    label: "Ad Unit"
+    type: string
+    sql: ${TABLE}.ad_unit_name  ;;
+  }
+  dimension: placement {
+    group_label: "Placements"
+    label: "Ad Placement"
+    type: string
+    sql: ${TABLE}.placement  ;;
+  }
+  dimension: ad_placement {
+    group_label: "Placements"
+    label: "Placement"
+    type: string
+    sql: coalesce(${ad_unit_name},${placement}) ;;
+  }
   dimension: impression_id {
     type: string
     sql: ${TABLE}.impression_id  ;;
@@ -88,10 +127,6 @@ view: ads {
   dimension: line_item_id {
     type: string
     sql: ${TABLE}.line_item_id  ;;
-  }
-  dimension: ad_unit_name {
-    type: string
-    sql: ${TABLE}.ad_unit_name  ;;
   }
   dimension: last_level_id {
     group_label: "Level Dimensions"
@@ -112,22 +147,51 @@ view: ads {
     sql: ${last_level_serial} + 1 ;;
   }
   dimension: publisher_revenue_per_impression {
-    label: "Ad Revenue per Impression"
+    group_label: "Ad Revenue per Impression"
+    label: "Publisher Revenue per Impression"
     type: number
     value_format: "$#,##0.00"
     sql: ${TABLE}.publisher_revenue_per_impression ;;
+  }
+  measure: publisher_revenue_sum {
+    group_label: "Revenue"
+    label: "Total Publisher Revenue"
+    type: sum
+    value_format: "$#,##0.0000"
+    sql: ${publisher_revenue_per_impression} ;;
+  }
+  dimension: ad_value {
+    group_label: "Ad Revenue per Impression"
+    label: "Ad Value"
+    type: number
+    value_format: "$#,##0.00"
+    sql: ${TABLE}.ad_value ;;
+  }
+  measure: ad_value_sum {
+    group_label: "Revenue"
+    label: "Total Ad Value"
+    type: sum
+    value_format: "$#,##0.0000"
+    sql: ${ad_value} ;;
+  }
+  dimension: revenue {
+    group_label: "Ad Revenue per Impression"
+    label: "Revenue"
+    type: number
+    value_format: "$#,##0.00"
+    sql: ${TABLE}.revenue ;;
+  }
+  measure: revenue_sum {
+    group_label: "Revenue"
+    label: "Total Revenue"
+    type: sum
+    value_format: "$#,##0.0000"
+    sql: ${revenue} ;;
   }
   measure: player_count {
     label: "Unique Ad Viewing Players"
     type: count_distinct
     sql: ${rdg_id} ;;
-  }
-  measure: publisher_revenue_sum {
-    label: "Total Ad Revenue"
-    type: sum
-    value_format: "$#,##0.0000"
-    sql: ${publisher_revenue_per_impression} ;;
-    #drill_fields: [reward_event_raw,reward_amount_sum]
   }
   measure: revenue_per_impression {
     label: "Ad Revenue per Impression"
@@ -147,39 +211,5 @@ view: ads {
     value_format: "#,##0.00"
     sql: ${impression_count} / nullif(${player_count},0) ;;
   }
-  # measure: currency_rewarded_amount_025 {
-  #   group_label: "Currency Rewards"
-  #   label: "Currency Rewards - 2.5%"
-  #   type: percentile
-  #   percentile: 2.5
-  #   sql: ${reward_amount} ;;
-  # }
-  # measure: currency_rewarded_amount_25th {
-  #   group_label: "Currency Rewards"
-  #   label: "Currency Rewards - 25%"
-  #   type: percentile
-  #   percentile: 25
-  #   sql: ${reward_amount} ;;
-  # }
-  # measure: currency_rewarded_amount_med {
-  #   group_label: "Currency Rewards"
-  #   label: "Currency Rewards - Median"
-  #   type: median
-  #   sql: ${reward_amount} ;;
-  # }
-  # measure: currency_rewarded_amount_75th {
-  #   group_label: "Currency Rewards"
-  #   label: "Currency Rewards - 75%"
-  #   type: percentile
-  #   percentile: 75
-  #   sql: ${reward_amount} ;;
-  # }
-  # measure: currency_rewarded_amount_975th {
-  #   group_label: "Currency Rewards"
-  #   label: "Currency Rewards - 97.5%"
-  #   type: percentile
-  #   percentile: 97.5
-  #   sql: ${reward_amount} ;;
-  # }
   drill_fields: [rdg_id,ad_event_time,last_level_serial,publisher_revenue_per_impression]
 }

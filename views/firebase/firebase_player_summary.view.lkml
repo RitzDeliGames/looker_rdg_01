@@ -1,69 +1,135 @@
 view: firebase_player_summary {
-  # # You can specify the table name if it's different from the view name:
-  # sql_table_name: my_schema_name.tester ;;
-  #
-  # # Define your dimensions and measures here, like this:
-  # dimension: user_id {
-  #   description: "Unique ID for each user that has ordered"
-  #   type: number
-  #   sql: ${TABLE}.user_id ;;
-  # }
-  #
-  # dimension: lifetime_orders {
-  #   description: "The total number of orders for each user"
-  #   type: number
-  #   sql: ${TABLE}.lifetime_orders ;;
-  # }
-  #
-  # dimension_group: most_recent_purchase {
-  #   description: "The date when each user last ordered"
-  #   type: time
-  #   timeframes: [date, week, month, year]
-  #   sql: ${TABLE}.most_recent_purchase_at ;;
-  # }
-  #
-  # measure: total_lifetime_orders {
-  #   description: "Use this for counting lifetime orders across many users"
-  #   type: sum
-  #   sql: ${lifetime_orders} ;;
-  # }
-}
 
-# view: firebase_player_summary {
-#   # Or, you could make this view a derived table, like this:
-#   derived_table: {
-#     sql: SELECT
-#         user_id as user_id
-#         , COUNT(*) as lifetime_orders
-#         , MAX(orders.created_at) as most_recent_purchase_at
-#       FROM orders
-#       GROUP BY user_id
-#       ;;
-#   }
-#
-#   # Define your dimensions and measures here, like this:
-#   dimension: user_id {
-#     description: "Unique ID for each user that has ordered"
-#     type: number
-#     sql: ${TABLE}.user_id ;;
-#   }
-#
-#   dimension: lifetime_orders {
-#     description: "The total number of orders for each user"
-#     type: number
-#     sql: ${TABLE}.lifetime_orders ;;
-#   }
-#
-#   dimension_group: most_recent_purchase {
-#     description: "The date when each user last ordered"
-#     type: time
-#     timeframes: [date, week, month, year]
-#     sql: ${TABLE}.most_recent_purchase_at ;;
-#   }
-#
-#   measure: total_lifetime_orders {
-#     description: "Use this for counting lifetime orders across many users"
-#     type: sum
-#     sql: ${lifetime_orders} ;;
-#   }
-# }
+################################################################
+## View SQL
+################################################################
+
+  derived_table: {
+    sql:
+
+
+       WITH
+
+      -----------------------------------------------------------------------
+      -- Get base data
+      -----------------------------------------------------------------------
+
+      latest_update_table as (
+        select
+          max(date(rdg_date)) as latest_update
+
+        from
+          `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_daily_incremental`
+
+      )
+
+
+      -----------------------------------------------------------------------
+      -- Get values from player summary
+      -----------------------------------------------------------------------
+
+      , pre_aggregate_calculations_from_base_data AS (
+
+      SELECT
+
+          firebase_user_id
+          , latest_update_table.latest_update
+          , rdg_date
+
+          -- device_id
+          , FIRST_VALUE(firebase_advertising_id) OVER (
+            PARTITION BY firebase_user_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+            ) firebase_advertising_id
+
+          -- platform
+          , FIRST_VALUE(firebase_platform) OVER (
+            PARTITION BY firebase_user_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+            ) firebase_platform
+
+          -- created_date
+          , FIRST_VALUE(firebase_created_date) OVER (
+            PARTITION BY firebase_user_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+            ) firebase_created_date
+
+
+      FROM
+        `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_daily_incremental`
+        , latest_update_table
+
+      )
+
+      -----------------------------------------------------------------------
+      -- Summarize Data
+      -----------------------------------------------------------------------
+
+      , summarize_data AS (
+
+        select
+            firebase_user_id
+            , max(rdg_date) as last_played_date
+            , max(latest_update) as latest_table_update
+            , max(firebase_advertising_id) as firebase_advertising_id
+            , max(firebase_platform) as firebase_platform
+            , max(firebase_created_date) as firebase_created_date
+
+        FROM
+          pre_aggregate_calculations_from_base_data
+        GROUP BY
+          1
+
+      )
+
+      -----------------------------------------------------------------------
+      -- Select output
+      -----------------------------------------------------------------------
+
+      SELECT
+        A.*
+      FROM
+        summarize_data A
+
+
+      ;;
+    datagroup_trigger: dependent_on_firebase_player_daily_incremental
+    publish_as_db_view: yes
+    partition_keys: ["firebase_created_date"]
+
+  }
+
+################################################################
+## Dimensions
+################################################################
+
+  # strings
+  dimension: firebase_user_id {type: string}
+  dimension: firebase_advertising_id {type: string}
+  dimension: firebase_platform {type: string}
+
+  # dates
+  dimension_group: last_played_date {
+    type: time
+    timeframes: [date, week, month, year]
+  }
+  dimension_group: firebase_created_date {
+    type: time
+    timeframes: [date, week, month, year]
+  }
+
+################################################################
+## Measures
+################################################################
+
+  # Player Count
+  measure: count_distinct_players {
+    type: count_distinct
+    sql: ${TABLE}.firebase_user_id ;;
+  }
+
+
+}

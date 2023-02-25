@@ -756,7 +756,7 @@ explore: player_summary_new {
 
 }
 
-## Firebase daily table
-explore:  firebase_player_daily_incremental {
-}
+## Temporary explores for firebase
+explore: firebase_player_daily_incremental {}
 explore: player_daily_incremental {}
+explore: firebase_player_summary {}

@@ -182,7 +182,7 @@ view: ads {
     label: "Ad Value"
     type: number
     value_format: "$#,##0.00"
-    sql: if(date(timestamp) > '2023-02-22',${TABLE}.ad_value,0) ;;
+    sql: if(date(${TABLE}.timestamp) > '2023-02-22',${TABLE}.ad_value,0) ;;
   }
   measure: ad_value_sum {
     group_label: "Revenue"

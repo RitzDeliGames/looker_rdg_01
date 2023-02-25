@@ -71,6 +71,11 @@ datagroup: dependent_on_player_summary {
   max_cache_age: "26 hours"
 }
 
+datagroup: dependent_on_firebase_player_daily_incremental {
+  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_daily_incremental`;;
+  max_cache_age: "26 hours"
+}
+
 ######################################################################
 ## Explores
 ######################################################################

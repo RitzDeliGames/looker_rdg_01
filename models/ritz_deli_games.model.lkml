@@ -760,3 +760,4 @@ explore: player_summary_new {
 explore: firebase_player_daily_incremental {}
 explore: player_daily_incremental {}
 explore: firebase_player_summary {}
+explore: player_round_incremental {}

@@ -557,7 +557,7 @@ constant: button_tags {
             when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_ZoneHome.NewZone' then 'Zones Home - New Zone'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Tasks_Zones.Restore' then 'Zone Task List - Restore'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Tasks_Zones.Close' then 'Zone Task List - Close'
-            when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_ZoneExplorer.Zone.zone_03' then 'Zone Explorer - Zone 3'
+            when json_extract_scalar(extra_json,'$.button_tag') like '%Panel_ZoneExplorer.Zone.%' then 'Zone Explorer'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRound_Success.Collect' then 'Mini-Game - EoR - Collect'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRound_Failure.TryAgain' then 'Mini-Game - EoR - Try Again'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRound_Success.WatchAd' then 'Mini-Game - EoR - Watch Ad'

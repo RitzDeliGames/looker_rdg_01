@@ -98,7 +98,18 @@ view: player_ad_view_summary {
   dimension: cumulative_count_ad_views {type:number}
 
 ################################################################
-## Measures
+## Player Counts
+################################################################
+
+  ## Player Counts
+  measure: count_distinct_active_users {
+    group_label: "Unique Player Counts"
+    type: count_distinct
+    sql: ${TABLE}.rdg_id ;;
+  }
+
+################################################################
+## Sums and Percentiles
 ################################################################
 
   measure: sum_win_streak {

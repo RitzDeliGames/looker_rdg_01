@@ -89,9 +89,9 @@ view: player_ad_view_summary {
   # Numbers
   dimension: current_level_serial {type:number}
   dimension: ad_view_dollars {type:number}
-  dimension: currency_03_balance {type:number}
-  dimension: currency_04_balance {type:number}
-  dimension: currency_07_balance {type:number}
+  dimension: coins_balance {type:number}
+  dimension: lives_balance {type:number}
+  dimension: stars_balance {type:number}
   dimension: days_since_created {type:number}
   dimension: day_number {type:number}
   dimension: cumulative_ad_view_dollars {type:number}

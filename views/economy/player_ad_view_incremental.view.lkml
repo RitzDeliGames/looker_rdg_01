@@ -128,9 +128,9 @@ view: player_ad_view_incremental {
                   , revenue
                   , ad_value
                   , 0 ) ) as ad_view_dollars
-          , max(currency_03_balance) as currency_03_balance
-          , max(currency_04_balance) as currency_04_balance
-          , max(currency_07_balance) as currency_07_balance
+          , max(currency_03_balance) as coins_balance
+          , max(currency_04_balance) as lives_balance
+          , max(currency_07_balance) as stars_balance
 
       from
           get_data_from_extra_json

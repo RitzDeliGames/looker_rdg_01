@@ -3,7 +3,7 @@ view: player_round_incremental {
   derived_table: {
     sql:
 
-       -- create or replace table tal_scratch.player_round_incremental as
+      -- create or replace table tal_scratch.player_round_incremental as
 
       with
 
@@ -39,7 +39,7 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-02-27' -- Last Full Update
+                      when date(current_date()) <= '2023-02-28' -- Last Full Update
                       then '2019-01-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -157,9 +157,9 @@ view: player_round_incremental {
           , max(primary_team_slot_skill) as primary_team_slot_skill
           , max(primary_team_slot_level) as primary_team_slot_level
           , max(proximity_to_completion) as proximity_to_completion
-          , max(currency_03_balance) as currency_03_balance
-          , max(currency_04_balance) as currency_04_balance
-          , max(currency_07_balance) as currency_07_balance
+          , max(currency_03_balance) as coins_balance
+          , max(currency_04_balance) as lives_balance
+          , max(currency_07_balance) as stars_balance
       from
           get_round_ends_events_only
       group by
@@ -168,6 +168,7 @@ view: player_round_incremental {
           , game_mode
           , level_serial
           , round_end_timestamp_utc
+
 
 
       ;;

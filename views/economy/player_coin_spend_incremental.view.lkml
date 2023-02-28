@@ -136,14 +136,16 @@ view: player_coin_spend_incremental {
           , max(level_serial) as level_serial
           , max(level_id) as level_id
           , max(coin_spend) as coin_spend
-          , max(currency_03_balance) as currency_03_balance
-          , max(currency_04_balance) as currency_04_balance
-          , max(currency_07_balance) as currency_07_balance
+          , max(currency_03_balance) as coins_balance
+          , max(currency_04_balance) as lives_balance
+          , max(currency_07_balance) as stars_balance
 
       from
           get_data_from_extra_json
       group by
           1,2,3,4,5
+
+
 
       ;;
     datagroup_trigger: incremental_daily_group

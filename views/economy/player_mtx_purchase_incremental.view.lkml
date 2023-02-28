@@ -3,6 +3,7 @@ view: player_mtx_purchase_incremental {
   derived_table: {
     sql:
 
+
       -- create or replace table tal_scratch.player_mtx_purchase_incremental as
 
       with
@@ -134,9 +135,9 @@ view: player_mtx_purchase_incremental {
           , max(iap_purchase_item) as iap_purchase_item
           , max(iap_purchase_qty) as iap_purchase_qty
           , max(mtx_purchase_dollars) as mtx_purchase_dollars
-          , max(currency_03_balance) as currency_03_balance
-          , max(currency_04_balance) as currency_04_balance
-          , max(currency_07_balance) as currency_07_balance
+          , max(currency_03_balance) as coins_balance
+          , max(currency_04_balance) as lives_balance
+          , max(currency_07_balance) as stars_balance
           , max(cumulative_time_played_minutes) as cumulative_time_played_minutes
 
       from

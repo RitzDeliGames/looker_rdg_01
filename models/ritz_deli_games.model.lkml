@@ -761,3 +761,4 @@ explore: firebase_player_daily_incremental {}
 explore: player_daily_incremental {}
 explore: firebase_player_summary {}
 explore: player_round_incremental {}
+explore: player_ad_view_incremental {}

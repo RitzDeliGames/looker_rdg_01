@@ -3,6 +3,7 @@ view: player_coin_spend_incremental {
   derived_table: {
     sql:
 
+
       -- create or replace table tal_scratch.player_coin_spend_incremental as
 
       with
@@ -45,7 +46,7 @@ view: player_coin_spend_incremental {
                       else date_add(current_date(), interval -9 day)
                       end
               and date(timestamp) <= date_add(current_date(), interval -1 DAY)
-              -- and date(timestamp) = '2023-02-26'
+              -- and date(timestamp) = '2023-02-22'
 
               ------------------------------------------------------------------------
               -- user type selection
@@ -120,6 +121,7 @@ view: player_coin_spend_incremental {
           , rdg_date
           , timestamp_utc
           , store_session_id
+          , source_id as source_id
           , max(created_at) as created_at
           , max(version) as version
           , max(session_id) as session_id
@@ -128,7 +130,6 @@ view: player_coin_spend_incremental {
           , max(last_level_serial) as last_level_serial
           , max(cumulative_time_played_minutes) as cumulative_time_played_minutes
           , max(count_coin_spend_events) as count_coin_spend_events
-          , max(source_id) as source_id
           , max(iap_purchase_item) as iap_purchase_item
           , max(iap_purchase_qty) as iap_purchase_qty
           , max(transaction_id) as transaction_id
@@ -142,7 +143,7 @@ view: player_coin_spend_incremental {
       from
           get_data_from_extra_json
       group by
-          1,2,3,4
+          1,2,3,4,5
 
       ;;
     datagroup_trigger: incremental_daily_group
@@ -164,6 +165,7 @@ view: player_coin_spend_incremental {
       || '_' || ${TABLE}.rdg_date
       || '_' || ${TABLE}.timestamp_utc
       || '_' || ${TABLE}.store_session_id
+      || '_' || ${TABLE}.source_id
       ;;
     primary_key: yes
     hidden: yes

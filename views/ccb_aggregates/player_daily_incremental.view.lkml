@@ -382,7 +382,23 @@ view: player_daily_incremental {
     increment_offset: 7
 
   }
-  #
+
+####################################################################
+## Primary Key
+####################################################################
+
+dimension: primary_key {
+  type: string
+  sql:
+    ${TABLE}.rdg_id
+    || '_' || ${TABLE}.rdg_date
+    ;;
+  primary_key: yes
+  hidden: yes
+}
+
+
+
   # # Define your dimensions and measures here, like this:
   dimension_group: rdg_date_analysis {
     description: "date as defined by rdg_date function"

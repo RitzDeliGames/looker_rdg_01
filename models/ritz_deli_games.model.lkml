@@ -756,10 +756,11 @@ explore: player_summary_new {
 
 }
 
-## Temporary explores for firebase
+## Temporary explores to build incremental tables
 explore: firebase_player_daily_incremental {}
 explore: player_daily_incremental {}
 explore: firebase_player_summary {}
 explore: player_round_incremental {}
 explore: player_ad_view_incremental {}
 explore: player_mtx_purchase_incremental {}
+explore: player_coin_spend_incremental {}

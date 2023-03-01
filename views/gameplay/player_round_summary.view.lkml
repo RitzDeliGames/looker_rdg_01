@@ -536,6 +536,14 @@ view: player_round_summary {
 
   }
 
+  measure: coin_spend_per_player {
+    group_label: "Calculated Fields"
+    type: number
+    sql: SUM(${TABLE}.in_round_coin_spend)/COUNT(DISTINCT ${TABLE}.rdg_id) ;;
+    value_format_name: decimal_0
+
+  }
+
   measure: level_efficiency_estimate_dollars {
     group_label: "Level Efficiency Estimates"
     type: number

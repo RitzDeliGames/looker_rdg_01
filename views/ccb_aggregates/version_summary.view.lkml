@@ -16,7 +16,7 @@ view: version_summary {
       group by
         1
       ;;
-    datagroup_trigger: dependent_on_player_daily_summary
+    sql_trigger_value: select sum(1) from `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new` ;;
     publish_as_db_view: yes
   }
 

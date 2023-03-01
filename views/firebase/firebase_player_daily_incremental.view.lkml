@@ -85,7 +85,7 @@ view: firebase_player_daily_incremental {
         1,2
 
       ;;
-    datagroup_trigger: incremental_daily_group
+    sql_trigger_value: select sum(1) from `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_coin_spend_incremental` ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
     increment_key: "rdg_date"

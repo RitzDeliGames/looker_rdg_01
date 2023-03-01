@@ -375,7 +375,7 @@ view: player_daily_incremental {
         1,2
 
       ;;
-    datagroup_trigger: incremental_daily_group
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -3 hour)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
     increment_key: "rdg_date"

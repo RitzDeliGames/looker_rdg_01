@@ -37,7 +37,7 @@ view: player_coin_spend_summary {
 
 
       ;;
-    datagroup_trigger: dependent_on_player_coin_spend_incremental
+    sql_trigger_value: select sum(1) from `eraser-blast.looker_scratch.6Y_ritz_deli_games_version_summary` ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
 

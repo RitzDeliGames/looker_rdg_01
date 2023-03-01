@@ -91,6 +91,11 @@ datagroup: dependent_on_player_coin_spend_incremental {
   max_cache_age: "26 hours"
 }
 
+datagroup: dependent_on_player_round_incremental {
+  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_incremental`;;
+  max_cache_age: "26 hours"
+}
+
 ######################################################################
 ## Explores
 ######################################################################
@@ -776,6 +781,7 @@ explore: firebase_player_daily_incremental {}
 explore: player_daily_incremental {}
 explore: firebase_player_summary {}
 explore: player_round_incremental {}
+explore: player_round_summary {}
 explore: player_ad_view_incremental {}
 explore: player_ad_view_summary {}
 explore: player_mtx_purchase_incremental {}

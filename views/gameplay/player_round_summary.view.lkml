@@ -512,6 +512,30 @@ view: player_round_summary {
 
   }
 
+  measure: mtx_dollars_per_player {
+    group_label: "Calculated Fields"
+    type: number
+    sql: SUM(${TABLE}.in_round_mtx_purchase_dollars)/COUNT(DISTINCT ${TABLE}.rdg_id) ;;
+    value_format_name: usd
+
+  }
+
+  measure: ad_dollars_per_player {
+    group_label: "Calculated Fields"
+    type: number
+    sql: SUM(${TABLE}.in_round_ad_view_dollars)/COUNT(DISTINCT ${TABLE}.rdg_id) ;;
+    value_format_name: usd
+
+  }
+
+  measure: total_dollars_per_player {
+    group_label: "Calculated Fields"
+    type: number
+    sql: SUM(${TABLE}.in_round_combined_dollars)/COUNT(DISTINCT ${TABLE}.rdg_id) ;;
+    value_format_name: usd
+
+  }
+
 ################################################################
 ## Sums and Percentiles
 ################################################################

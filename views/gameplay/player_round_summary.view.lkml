@@ -536,6 +536,22 @@ view: player_round_summary {
 
   }
 
+  measure: level_efficiency_estimate_dollars {
+    group_label: "Level Efficiency Estimates"
+    type: number
+    sql: SUM(${TABLE}.in_round_combined_dollars) - SUM(${TABLE}.cumulative_combined_dollars_at_churn) ;;
+    value_format_name: usd
+
+  }
+
+  measure: level_efficiency_estimate_coin_spend {
+    group_label: "Level Efficiency Estimates"
+    type: number
+    sql: SUM(${TABLE}.in_round_coin_spend) - SUM(${TABLE}.cumulative_coin_spend_at_churn) ;;
+    value_format_name: usd
+
+  }
+
 ################################################################
 ## Sums and Percentiles
 ################################################################

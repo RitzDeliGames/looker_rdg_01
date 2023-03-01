@@ -507,7 +507,7 @@ view: player_round_summary {
   measure: churn_rate {
     group_label: "Calculated Fields"
     type: number
-    sql: COUNT(DISTNCT ${TABLE}.churn_rdg_id)/COUNT(DISTNCT ${TABLE}.rdg_id) ;;
+    sql: COUNT(DISTINCT ${TABLE}.churn_rdg_id)/COUNT(DISTINCT ${TABLE}.rdg_id) ;;
     value_format_name: percent_0
 
   }

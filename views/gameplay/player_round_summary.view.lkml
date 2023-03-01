@@ -1757,5 +1757,13 @@ view: player_round_summary {
     sql: ${TABLE}.cumulative_combined_dollars_at_churn ;;
   }
 
+  measure: mean_attempts_per_success {
+    group_label: "Calculated Fields"
+    type: number
+    sql: SUM(${TABLE}.count_rounds)/SUM(${TABLE}.count_wins) ;;
+
+  }
+
+
 
 }

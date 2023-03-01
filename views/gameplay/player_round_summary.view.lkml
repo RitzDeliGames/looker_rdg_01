@@ -1761,6 +1761,7 @@ view: player_round_summary {
     group_label: "Calculated Fields"
     type: number
     sql: SUM(${TABLE}.count_rounds)/SUM(${TABLE}.count_wins) ;;
+    value_format_name: decimal_1
 
   }
 

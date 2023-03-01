@@ -3,6 +3,8 @@ view: firebase_player_daily_incremental {
   derived_table: {
     sql:
 
+      -- ccb_aggregate_update_tag
+
       with
 
       ------------------------------------------------------------------------

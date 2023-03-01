@@ -7,6 +7,8 @@ view: player_coin_spend_summary {
   derived_table: {
     sql:
 
+      -- ccb_aggregate_update_tag
+
       -- create or replace table tal_scratch.player_coin_spend_summary as
 
       select

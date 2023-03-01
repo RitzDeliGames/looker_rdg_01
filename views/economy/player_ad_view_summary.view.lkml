@@ -7,6 +7,8 @@ view: player_ad_view_summary {
   derived_table: {
     sql:
 
+      -- ccb_aggregate_update_tag
+
       -- create or replace table tal_scratch.player_ad_view_summary as
 
       select

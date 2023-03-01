@@ -3,6 +3,8 @@ view: player_round_incremental {
   derived_table: {
     sql:
 
+      -- ccb_aggregate_update_tag
+
       -- create or replace table tal_scratch.player_round_incremental as
 
       with

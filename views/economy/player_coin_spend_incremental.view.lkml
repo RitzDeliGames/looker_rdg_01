@@ -4,6 +4,8 @@ view: player_coin_spend_incremental {
     sql:
 
 
+      -- ccb_aggregate_update_tag
+
       -- create or replace table tal_scratch.player_coin_spend_incremental as
 
       with

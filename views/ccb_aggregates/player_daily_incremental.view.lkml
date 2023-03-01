@@ -3,6 +3,8 @@ view: player_daily_incremental {
   derived_table: {
     sql:
 
+      -- ccb_aggregate_update_tag
+
       WITH
 
       ------------------------------------------------------------------------

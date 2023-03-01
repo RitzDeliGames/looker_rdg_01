@@ -6,6 +6,9 @@ view: version_summary {
 
   derived_table: {
     sql:
+
+      -- ccb_aggregate_update_tag
+
       select
         version
         , max(highest_last_level_serial) as max_highest_last_level_serial

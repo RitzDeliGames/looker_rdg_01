@@ -7,7 +7,7 @@ view: player_round_summary {
   derived_table: {
     sql:
 
-
+  -- ccb_aggregate_update_tag
 
     -- select * from tal_scratch.player_round_summary order by round_start_timestamp_utc
     -- create or replace table tal_scratch.player_round_summary as

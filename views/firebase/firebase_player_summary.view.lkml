@@ -7,8 +7,9 @@ view: firebase_player_summary {
   derived_table: {
     sql:
 
+      -- ccb_aggregate_update_tag
 
-       WITH
+      WITH
 
       -----------------------------------------------------------------------
       -- Get base data

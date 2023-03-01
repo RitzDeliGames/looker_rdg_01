@@ -7,6 +7,7 @@ view: player_daily_summary {
   derived_table: {
     sql:
 
+-- ccb_aggregate_update_tag
 
 SELECT
 

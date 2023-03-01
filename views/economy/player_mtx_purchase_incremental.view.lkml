@@ -4,6 +4,8 @@ view: player_mtx_purchase_incremental {
     sql:
 
 
+      -- ccb_aggregate_update_tag
+
       -- create or replace table tal_scratch.player_mtx_purchase_incremental as
 
       with

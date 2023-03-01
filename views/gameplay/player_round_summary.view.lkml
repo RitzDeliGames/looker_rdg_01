@@ -548,7 +548,7 @@ view: player_round_summary {
     group_label: "Level Efficiency Estimates"
     type: number
     sql: SUM(${TABLE}.in_round_coin_spend) - SUM(${TABLE}.cumulative_coin_spend_at_churn) ;;
-    value_format_name: usd
+    value_format_name: decimal_0
 
   }
 

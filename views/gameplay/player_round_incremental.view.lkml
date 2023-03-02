@@ -4,6 +4,7 @@ view: player_round_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
+      -- update on '2023-03-02'
 
       -- create or replace table tal_scratch.player_round_incremental as
 

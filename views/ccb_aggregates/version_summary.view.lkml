@@ -8,6 +8,7 @@ view: version_summary {
     sql:
 
       -- ccb_aggregate_update_tag
+      -- last update: '2023-03-01'
 
       select
         version
@@ -19,7 +20,7 @@ view: version_summary {
       group by
         1
       ;;
-    sql_trigger_value: select sum(1) from `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new` ;;
+    sql_trigger_value: select sum(1) from `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_summary` ;;
     publish_as_db_view: yes
   }
 

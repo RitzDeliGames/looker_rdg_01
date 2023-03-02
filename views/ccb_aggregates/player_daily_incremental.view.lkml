@@ -4,6 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
+      -- update '2023-03-02'
 
       WITH
 
@@ -377,7 +378,7 @@ view: player_daily_incremental {
         1,2
 
       ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -3 hour)) ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
     increment_key: "rdg_date"

@@ -4,7 +4,7 @@ view: player_round_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update on '2023-03-02'
+      -- update on '2023-03-02' (2)
 
       -- create or replace table tal_scratch.player_round_incremental as
 
@@ -175,7 +175,7 @@ view: player_round_incremental {
 
 
       ;;
-    sql_trigger_value: select sum(1) from `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental` ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
     increment_key: "rdg_date"

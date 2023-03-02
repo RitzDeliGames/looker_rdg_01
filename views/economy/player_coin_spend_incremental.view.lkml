@@ -5,6 +5,7 @@ view: player_coin_spend_incremental {
 
 
       -- ccb_aggregate_update_tag
+      -- update '2023-03-02'
 
       -- create or replace table tal_scratch.player_coin_spend_incremental as
 
@@ -150,7 +151,7 @@ view: player_coin_spend_incremental {
 
 
       ;;
-    sql_trigger_value: select sum(1) from `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_incremental` ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
     increment_key: "rdg_date"

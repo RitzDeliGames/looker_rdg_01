@@ -98,7 +98,7 @@ view: firebase_player_summary {
 
 
       ;;
-    sql_trigger_value: select sum(1) from `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary` ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
     publish_as_db_view: yes
     partition_keys: ["firebase_created_date"]
 

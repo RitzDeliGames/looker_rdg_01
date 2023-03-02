@@ -41,7 +41,7 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-02-28' -- Last Full Update
+                      when date(current_date()) <= '2023-03-02' -- Last Full Update
                       then '2019-01-01'
                       else date_add(current_date(), interval -9 day)
                       end

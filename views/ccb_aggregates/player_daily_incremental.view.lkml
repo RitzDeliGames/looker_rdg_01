@@ -54,7 +54,7 @@ view: player_daily_incremental {
           DATE(timestamp) >=
             CASE
               -- SELECT DATE(CURRENT_DATE())
-              WHEN DATE(CURRENT_DATE()) <= '2023-02-24' -- Last Full Update
+              WHEN DATE(CURRENT_DATE()) <= '2023-03-02' -- Last Full Update
               THEN '2019-01-01'
               ELSE DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
               END

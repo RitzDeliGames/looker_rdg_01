@@ -574,6 +574,20 @@ dimension: primary_key {
   dimension: percentage_of_singular_campaign_cost_attributed_to_spenders {type:number}
   dimension: singular_campaign_cost_attributed_to_spenders {type:number}
 
+################################################################
+## Calculated Dimensions
+################################################################
+
+dimension: paid_or_organic {
+  type: string
+  sql:
+    case
+      when ${TABLE}.singular_campaign_id is not null
+      then 'paid'
+      else 'organic'
+      end
+  ;;
+}
 
 ################################################################
 ## Measures

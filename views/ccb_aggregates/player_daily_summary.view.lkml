@@ -8,6 +8,7 @@ view: player_daily_summary {
     sql:
 
 -- ccb_aggregate_update_tag
+-- last update: '2023-03-01'
 
 SELECT
 

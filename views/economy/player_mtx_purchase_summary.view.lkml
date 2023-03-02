@@ -8,6 +8,7 @@ view: player_mtx_purchase_summary {
     sql:
 
       -- ccb_aggregate_update_tag
+      -- last update: '2023-03-01'
 
       -- create or replace table tal_scratch.player_mtx_purchase_summary as
 

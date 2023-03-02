@@ -8,6 +8,7 @@ view: player_coin_spend_summary {
     sql:
 
       -- ccb_aggregate_update_tag
+      -- last update: '2023-03-01'
 
       -- create or replace table tal_scratch.player_coin_spend_summary as
 
@@ -39,7 +40,7 @@ view: player_coin_spend_summary {
 
 
       ;;
-    sql_trigger_value: select sum(1) from `eraser-blast.looker_scratch.6Y_ritz_deli_games_version_summary` ;;
+    sql_trigger_value: select sum(1) from `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new` ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
 

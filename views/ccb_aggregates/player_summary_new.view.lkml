@@ -596,7 +596,7 @@ dimension: paid_or_organic {
   parameter: selected_experiment {
     type: string
     suggestions:  [
-      "No Experiment"
+      "$.No_Experiment"
       ,"$.altFUE2_20221011"
       ,"$.altFUE2v2_20221024"
       ,"$.altFUE2v3_20221031"

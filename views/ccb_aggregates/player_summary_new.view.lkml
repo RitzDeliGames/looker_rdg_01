@@ -589,6 +589,51 @@ dimension: paid_or_organic {
   ;;
 }
 
+######################################################################
+## Expirements
+######################################################################
+
+  parameter: selected_experiment {
+    type: string
+    suggestions:  ["$.altFUE2_20221011"
+      ,"$.altFUE2v2_20221024"
+      ,"$.altFUE2v3_20221031"
+      ,"$.autoPurchase_20221017"
+      ,"$.blockSymbols_20221017"
+      ,"$.blockSymbolFrames_20221027"
+      ,"$.blockSymbolFrames2_20221109"
+      ,"$.boardColor_01122023"
+      ,"$.collection_01192023"
+      ,"$.difficultyStars_09202022"
+      ,"$.dynamicRewards_20221018"
+      ,"$.extraMovesCurrency_20221017"
+      ,"$.flourFrenzy_20221215"
+      ,"$.fueDismiss_20221010"
+      ,"$.fue00_v3_01182023"
+      ,"$.gridGravity_20221003"
+      ,"$.gridGravity2_20221012"
+      ,"$.livesTimer_01092023"
+      ,"$.MMads_01052023"
+      ,"$.mMStreaks_09302022"
+      ,"$.mMStreaksv2_20221031"
+      ,"$.newLevelPass_20220926"
+      ,"$.pizzaTime_01192023"
+      ,"$.seedTest_20221028"
+      ,"$.storeUnlock_20221102"
+      ,"$.treasureTrove_20221114"
+      ,"$.u2aFUE20221115"
+      ,"$.u2ap2_FUE20221209"
+      ,"$.vfxReduce_20221017"
+      ,"$.vfxReduce_2_20221024"
+      ,"$.zoneOrder2_09302022"
+      ,"$.zoneStarCosts_09222022"]
+  }
+
+  dimension: experiment_variant {
+    type: string
+    sql: safe_cast( ${TABLE}.experiments,{% parameter selected_experiment %}) as string) ;;
+  }
+
 ################################################################
 ## Revenue Per Install
 ################################################################
@@ -1025,6 +1070,7 @@ measure: revenue_per_install_d7 {
     ;;
     value_format_name: percent_0
   }
+
 
 
 

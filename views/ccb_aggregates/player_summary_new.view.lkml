@@ -861,7 +861,170 @@ measure: revenue_per_install_d7 {
 
   }
 
+################################################################
+## Return on Ad Spend (ROAS)
+################################################################
 
+  measure: return_on_ad_spend_d1 {
+    group_label: "Return on Ad Spend (ROAS)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 1
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.cumulative_combined_dollars_d1
+          else 0
+          end )
+      ,
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 1
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+  measure: return_on_ad_spend_d2 {
+    group_label: "Return on Ad Spend (ROAS)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 2
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.cumulative_combined_dollars_d2
+          else 0
+          end )
+      ,
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 2
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: return_on_ad_spend_d7 {
+    group_label: "Return on Ad Spend (ROAS)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 7
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.cumulative_combined_dollars_d7
+          else 0
+          end )
+      ,
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 7
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: return_on_ad_spend_d14 {
+    group_label: "Return on Ad Spend (ROAS)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 14
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.cumulative_combined_dollars_d14
+          else 0
+          end )
+      ,
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 14
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: return_on_ad_spend_d30 {
+    group_label: "Return on Ad Spend (ROAS)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 30
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.cumulative_combined_dollars_d30
+          else 0
+          end )
+      ,
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 30
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: return_on_ad_spend_d60 {
+    group_label: "Return on Ad Spend (ROAS)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 60
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.cumulative_combined_dollars_d60
+          else 0
+          end )
+      ,
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 60
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+    )
+    ;;
+    value_format_name: percent_0
+  }
 
 
 

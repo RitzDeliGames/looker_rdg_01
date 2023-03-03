@@ -8,7 +8,7 @@ view: player_round_summary {
     sql:
 
   -- ccb_aggregate_update_tag
-  -- last update: '2023-03-02'
+  -- last manual update: '2023-03-03'
 
 
 -- select * from tal_scratch.player_round_summary order by round_start_timestamp_utc

@@ -8,7 +8,7 @@ view: player_round_summary {
     sql:
 
   -- ccb_aggregate_update_tag
-  -- last update: '2023-03-01'
+  -- last update: '2023-03-02'
 
 
 -- select * from tal_scratch.player_round_summary order by round_start_timestamp_utc
@@ -64,18 +64,13 @@ base_data as (
 
   from
     `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_incremental`
-
-  -- where
-    -- rdg_id = '3989ffa2-2b93-4f33-a940-86c4746036ba'
-    -- rdg_id = 'f205e9e2-b1fd-4bed-be82-799a7df56a84'
-
 )
 
 -----------------------------------------------------------------------------
--- join on mtx_spend, ad_view, coin spend
+-- join on mtx_spend
 -----------------------------------------------------------------------------
 
-, join_on_spend_summaries as (
+, join_on_mtx_spend as (
 
   select
     a.rdg_id
@@ -158,6 +153,71 @@ base_data as (
 
     , sum( ifnull(b.count_mtx_purchases,0) ) as total_count_mtx_purchases
 
+  from
+    base_data a
+    left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary` b
+      on b.rdg_id = a.rdg_id
+      and b.timestamp_utc > a.previous_round_end_timestamp_utc
+      and b.timestamp_utc <= a.round_end_timestamp_utc
+
+  group by
+    1,2,3,4,5,6
+
+)
+
+-----------------------------------------------------------------------------
+-- join on ad_spend
+-----------------------------------------------------------------------------
+
+, join_on_ad_spend as (
+
+  select
+    a.rdg_id
+    , a.rdg_date
+    , a.game_mode
+    , a.level_serial
+    , a.round_start_timestamp_utc
+    , a.round_end_timestamp_utc
+    , max(a.created_at) as created_at
+    , max(a.version) as version
+    , max(a.session_id) as session_id
+    , max(a.experiments) as experiments
+    , max(a.win_streak_at_round_start) as win_streak_at_round_start
+    , max(a.win_streak_at_round_end) as win_streak_at_round_end
+    , max(a.count_rounds) as count_rounds
+    , max(a.lives) as lives
+    , max(a.round_length_minutes) as round_length_minutes
+    , max(a.quest_complete) as quest_complete
+    , max(a.count_wins) as count_wins
+    , max(a.count_losses) as count_losses
+    , max(a.moves_remaining) as moves_remaining
+    , max(a.moves_added) as moves_added
+    , max(a.count_rounds_with_moves_added) as count_rounds_with_moves_added
+    , max(a.coins_earned) as coins_earned
+    , max(a.objective_count_total) as objective_count_total
+    , max(a.objective_progress) as objective_progress
+    , max(a.moves) as moves
+    , max(a.level_id) as level_id
+    , max(a.last_level_serial) as last_level_serial
+    , max(a.primary_team_slot) as primary_team_slot
+    , max(a.primary_team_slot_skill) as primary_team_slot_skill
+    , max(a.primary_team_slot_level) as primary_team_slot_level
+    , max(a.proximity_to_completion) as proximity_to_completion
+    , max(a.coins_balance) as coins_balance
+    , max(a.lives_balance) as lives_balance
+    , max(a.stars_balance) as stars_balance
+    , max(a.created_date) as created_date
+    , max(a.days_since_created) as days_since_created
+    , max(a.day_number) as day_number
+    , max(a.previous_round_end_timestamp_utc) as previous_round_end_timestamp_utc
+    , max(a.next_round_start_timestamp_utc) as next_round_start_timestamp_utc
+
+    , max(a.before_round_start_mtx_purchase_dollars) as before_round_start_mtx_purchase_dollars
+    , max(a.in_round_mtx_purchase_dollars) as in_round_mtx_purchase_dollars
+    , max(a.total_mtx_purchase_dollars) as total_mtx_purchase_dollars
+    , max(a.before_round_start_count_mtx_purchases) as before_round_start_count_mtx_purchases
+    , max(a.in_round_count_mtx_purchases) as in_round_count_mtx_purchases
+    , max(a.total_count_mtx_purchases) as total_count_mtx_purchases
 
     --------------------------------------------------------------------------
     -- ad_view_dollars
@@ -198,6 +258,80 @@ base_data as (
           ,0) ) as in_round_count_ad_views
 
     , sum( ifnull(c.count_ad_views,0) ) as total_count_ad_views
+
+  from
+    join_on_mtx_spend a
+    left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary` c
+      on c.rdg_id = a.rdg_id
+      and c.timestamp_utc > a.previous_round_end_timestamp_utc
+      and c.timestamp_utc <= a.round_end_timestamp_utc
+
+
+  group by
+    1,2,3,4,5,6
+
+)
+
+-----------------------------------------------------------------------------
+-- join on coin_spend
+-----------------------------------------------------------------------------
+
+, join_on_coin_spend as (
+
+  select
+    a.rdg_id
+    , a.rdg_date
+    , a.game_mode
+    , a.level_serial
+    , a.round_start_timestamp_utc
+    , a.round_end_timestamp_utc
+    , max(a.created_at) as created_at
+    , max(a.version) as version
+    , max(a.session_id) as session_id
+    , max(a.experiments) as experiments
+    , max(a.win_streak_at_round_start) as win_streak_at_round_start
+    , max(a.win_streak_at_round_end) as win_streak_at_round_end
+    , max(a.count_rounds) as count_rounds
+    , max(a.lives) as lives
+    , max(a.round_length_minutes) as round_length_minutes
+    , max(a.quest_complete) as quest_complete
+    , max(a.count_wins) as count_wins
+    , max(a.count_losses) as count_losses
+    , max(a.moves_remaining) as moves_remaining
+    , max(a.moves_added) as moves_added
+    , max(a.count_rounds_with_moves_added) as count_rounds_with_moves_added
+    , max(a.coins_earned) as coins_earned
+    , max(a.objective_count_total) as objective_count_total
+    , max(a.objective_progress) as objective_progress
+    , max(a.moves) as moves
+    , max(a.level_id) as level_id
+    , max(a.last_level_serial) as last_level_serial
+    , max(a.primary_team_slot) as primary_team_slot
+    , max(a.primary_team_slot_skill) as primary_team_slot_skill
+    , max(a.primary_team_slot_level) as primary_team_slot_level
+    , max(a.proximity_to_completion) as proximity_to_completion
+    , max(a.coins_balance) as coins_balance
+    , max(a.lives_balance) as lives_balance
+    , max(a.stars_balance) as stars_balance
+    , max(a.created_date) as created_date
+    , max(a.days_since_created) as days_since_created
+    , max(a.day_number) as day_number
+    , max(a.previous_round_end_timestamp_utc) as previous_round_end_timestamp_utc
+    , max(a.next_round_start_timestamp_utc) as next_round_start_timestamp_utc
+
+    , max(a.before_round_start_mtx_purchase_dollars) as before_round_start_mtx_purchase_dollars
+    , max(a.in_round_mtx_purchase_dollars) as in_round_mtx_purchase_dollars
+    , max(a.total_mtx_purchase_dollars) as total_mtx_purchase_dollars
+    , max(a.before_round_start_count_mtx_purchases) as before_round_start_count_mtx_purchases
+    , max(a.in_round_count_mtx_purchases) as in_round_count_mtx_purchases
+    , max(a.total_count_mtx_purchases) as total_count_mtx_purchases
+
+    , max(a.before_round_start_ad_view_dollars) as before_round_start_ad_view_dollars
+    , max(a.in_round_ad_view_dollars) as in_round_ad_view_dollars
+    , max(a.total_ad_view_dollars) as total_ad_view_dollars
+    , max(a.before_round_start_count_ad_views) as before_round_start_count_ad_views
+    , max(a.in_round_count_ad_views) as in_round_count_ad_views
+    , max(a.total_count_ad_views) as total_count_ad_views
 
     --------------------------------------------------------------------------
     -- coin_spend
@@ -240,15 +374,7 @@ base_data as (
     , sum( ifnull(d.count_coin_spend_events,0) ) as total_count_coin_spend_events
 
   from
-    base_data a
-    left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary` b
-      on b.rdg_id = a.rdg_id
-      and b.timestamp_utc > a.previous_round_end_timestamp_utc
-      and b.timestamp_utc <= a.round_end_timestamp_utc
-    left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary` c
-      on c.rdg_id = a.rdg_id
-      and c.timestamp_utc > a.previous_round_end_timestamp_utc
-      and c.timestamp_utc <= a.round_end_timestamp_utc
+    join_on_ad_spend a
     left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_coin_spend_summary` d
       on d.rdg_id = a.rdg_id
       and d.timestamp_utc > a.previous_round_end_timestamp_utc
@@ -259,6 +385,20 @@ base_data as (
     1,2,3,4,5,6
 
 )
+
+-- select
+--   date(rdg_date) as rdg_date
+--   , sum( before_round_start_mtx_purchase_dollars ) as before_round_start_count_mtx_purchases
+--   , sum( in_round_mtx_purchase_dollars ) as in_round_mtx_purchase_dollars
+--   , sum( total_mtx_purchase_dollars ) as total_mtx_purchase_dollars
+-- from
+--   join_on_coin_spend
+-- where
+--   date(rdg_date) between '2023-02-11' and '2023-03-01'
+-- group by
+--   1
+-- order by
+--   1
 
 -----------------------------------------------------------------------------
 -- window functions
@@ -326,7 +466,7 @@ base_data as (
         ) round_end_cumulative_combined_dollars
 
   from
-    join_on_spend_summaries
+    join_on_coin_spend
 
 )
 
@@ -374,6 +514,8 @@ select
 
 from
   add_window_functions
+
+
 
 
 

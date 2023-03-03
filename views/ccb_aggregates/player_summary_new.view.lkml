@@ -631,7 +631,7 @@ dimension: paid_or_organic {
 
   dimension: experiment_variant {
     type: string
-    sql: safe_cast( ${TABLE}.experiments,{% parameter selected_experiment %}) as string) ;;
+    sql: safe_cast( json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %}) as string) ;;
   }
 
 ################################################################

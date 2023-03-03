@@ -593,145 +593,275 @@ dimension: paid_or_organic {
 ## Measures
 ################################################################
 
-  # Player Count
-  measure: count_distinct_players {
-    type: count_distinct
-    sql: ${TABLE}.rdg_id ;;
+measure: mtx_revenue_per_install_d1 {
+  group_label: "Revenue Per Install (RPI)"
+  type: number
+  sql:
+    sum(
+      case
+        when ${TABLE}.max_available_day_number >= 1
+        then ${TABLE}.cumulative_mtx_purchase_dollars_d1
+        else 0
+        end )
+    /
+    count( distinct
+      case
+        when ${TABLE}.max_available_day_number >= 1
+        then ${TABLE}.rdg_id
+        else null
+        end )
+    ;;
+  value_format_name: usd
+
+}
+
+  measure: mtx_revenue_per_install_d2 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    sum(
+      case
+        when ${TABLE}.max_available_day_number >= 2
+        then ${TABLE}.cumulative_mtx_purchase_dollars_d2
+        else 0
+        end )
+    /
+    count( distinct
+      case
+        when ${TABLE}.max_available_day_number >= 2
+        then ${TABLE}.rdg_id
+        else null
+        end )
+    ;;
+    value_format_name: usd
+
   }
 
-  # Sums
-  measure: sum_cumulative_mtx_purchase_dollars_d1 {
-    type: sum
-    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d1 ;;
+measure: mtx_revenue_per_install_d7 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    sum(
+      case
+        when ${TABLE}.max_available_day_number >= 7
+        then ${TABLE}.cumulative_mtx_purchase_dollars_d7
+        else 0
+        end )
+    /
+    count( distinct
+      case
+        when ${TABLE}.max_available_day_number >= 7
+        then ${TABLE}.rdg_id
+        else null
+        end )
+    ;;
+    value_format_name: usd
+
   }
-  measure: sum_cumulative_mtx_purchase_dollars_d2 {
-    type: sum
-    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d2 ;;
+
+measure: mtx_revenue_per_install_d14 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    sum(
+      case
+        when ${TABLE}.max_available_day_number >= 14
+        then ${TABLE}.cumulative_mtx_purchase_dollars_d14
+        else 0
+        end )
+    /
+    count( distinct
+      case
+        when ${TABLE}.max_available_day_number >= 14
+        then ${TABLE}.rdg_id
+        else null
+        end )
+    ;;
+    value_format_name: usd
+
   }
-  measure: sum_cumulative_mtx_purchase_dollars_d7 {
-    type: sum
-    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d7 ;;
+
+measure: mtx_revenue_per_install_d30 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    sum(
+      case
+        when ${TABLE}.max_available_day_number >= 30
+        then ${TABLE}.cumulative_mtx_purchase_dollars_d30
+        else 0
+        end )
+    /
+    count( distinct
+      case
+        when ${TABLE}.max_available_day_number >= 30
+        then ${TABLE}.rdg_id
+        else null
+        end )
+    ;;
+    value_format_name: usd
+
   }
-  measure: sum_cumulative_mtx_purchase_dollars_d14 {
-    type: sum
-    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d14 ;;
+
+measure: mtx_revenue_per_install_d60 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    sum(
+      case
+        when ${TABLE}.max_available_day_number >= 60
+        then ${TABLE}.cumulative_mtx_purchase_dollars_d60
+        else 0
+        end )
+    /
+    count( distinct
+      case
+        when ${TABLE}.max_available_day_number >= 60
+        then ${TABLE}.rdg_id
+        else null
+        end )
+    ;;
+    value_format_name: usd
+
   }
-  measure: sum_cumulative_mtx_purchase_dollars_d30 {
-    type: sum
-    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d30 ;;
+
+  measure: ad_revenue_per_install_d1 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    sum(
+      case
+        when ${TABLE}.max_available_day_number >= 1
+        then ${TABLE}.cumulative_ad_view_dollars_d1
+        else 0
+        end )
+    /
+    count( distinct
+      case
+        when ${TABLE}.max_available_day_number >= 1
+        then ${TABLE}.rdg_id
+        else null
+        end )
+    ;;
+    value_format_name: usd
+
   }
-  measure: sum_cumulative_mtx_purchase_dollars_d60 {
-    type: sum
-    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d60 ;;
+
+  measure: ad_revenue_per_install_d2 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    sum(
+      case
+        when ${TABLE}.max_available_day_number >= 2
+        then ${TABLE}.cumulative_ad_view_dollars_d2
+        else 0
+        end )
+    /
+    count( distinct
+      case
+        when ${TABLE}.max_available_day_number >= 2
+        then ${TABLE}.rdg_id
+        else null
+        end )
+    ;;
+    value_format_name: usd
+
   }
-  measure: sum_cumulative_mtx_purchase_dollars_current {
-    type: sum
-    sql: ${TABLE}.cumulative_mtx_purchase_dollars_current ;;
+
+  measure: ad_revenue_per_install_d7 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    sum(
+      case
+        when ${TABLE}.max_available_day_number >= 7
+        then ${TABLE}.cumulative_ad_view_dollars_d7
+        else 0
+        end )
+    /
+    count( distinct
+      case
+        when ${TABLE}.max_available_day_number >= 7
+        then ${TABLE}.rdg_id
+        else null
+        end )
+    ;;
+    value_format_name: usd
+
   }
-  measure: sum_mtx_ltv_from_data {
-    type: sum
-    sql: ${TABLE}.mtx_ltv_from_data ;;
+
+  measure: ad_revenue_per_install_d14 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    sum(
+      case
+        when ${TABLE}.max_available_day_number >= 14
+        then ${TABLE}.cumulative_ad_view_dollars_d14
+        else 0
+        end )
+    /
+    count( distinct
+      case
+        when ${TABLE}.max_available_day_number >= 14
+        then ${TABLE}.rdg_id
+        else null
+        end )
+    ;;
+    value_format_name: usd
+
   }
-  measure: sum_cumulative_ad_view_dollars_d1 {
-    type: sum
-    sql: ${TABLE}.cumulative_ad_view_dollars_d1 ;;
+
+  measure: ad_revenue_per_install_d30 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    sum(
+      case
+        when ${TABLE}.max_available_day_number >= 30
+        then ${TABLE}.cumulative_ad_view_dollars_d30
+        else 0
+        end )
+    /
+    count( distinct
+      case
+        when ${TABLE}.max_available_day_number >= 30
+        then ${TABLE}.rdg_id
+        else null
+        end )
+    ;;
+    value_format_name: usd
+
   }
-  measure: sum_cumulative_ad_view_dollars_d2 {
-    type: sum
-    sql: ${TABLE}.cumulative_ad_view_dollars_d2 ;;
+
+  measure: ad_revenue_per_install_d60 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    sum(
+      case
+        when ${TABLE}.max_available_day_number >= 60
+        then ${TABLE}.cumulative_ad_view_dollars_d60
+        else 0
+        end )
+    /
+    count( distinct
+      case
+        when ${TABLE}.max_available_day_number >= 60
+        then ${TABLE}.rdg_id
+        else null
+        end )
+    ;;
+    value_format_name: usd
+
   }
-  measure: sum_cumulative_ad_view_dollars_d7 {
-    type: sum
-    sql: ${TABLE}.cumulative_ad_view_dollars_d7 ;;
-  }
-  measure: sum_cumulative_ad_view_dollars_d14 {
-    type: sum
-    sql: ${TABLE}.cumulative_ad_view_dollars_d14 ;;
-  }
-  measure: sum_cumulative_ad_view_dollars_d60 {
-    type: sum
-    sql: ${TABLE}.cumulative_ad_view_dollars_d60 ;;
-  }
-  measure: sum_cumulative_ad_view_dollars_current {
-    type: sum
-    sql: ${TABLE}.cumulative_ad_view_dollars_current ;;
-  }
-  measure: sum_cumulative_combined_dollars_d1 {
-    type: sum
-    sql: ${TABLE}.cumulative_combined_dollars_d1 ;;
-  }
-  measure: sum_cumulative_combined_dollars_d2 {
-    type: sum
-    sql: ${TABLE}.cumulative_combined_dollars_d2 ;;
-  }
-  measure: sum_cumulative_combined_dollars_d7 {
-    type: sum
-    sql: ${TABLE}.cumulative_combined_dollars_d7 ;;
-  }
-  measure: sum_cumulative_combined_dollars_d14 {
-    type: sum
-    sql: ${TABLE}.cumulative_combined_dollars_d14 ;;
-  }
-  measure: sum_cumulative_combined_dollars_d30 {
-    type: sum
-    sql: ${TABLE}.cumulative_combined_dollars_d30 ;;
-  }
-  measure: sum_cumulative_combined_dollars_d60 {
-    type: sum
-    sql: ${TABLE}.cumulative_combined_dollars_d60 ;;
-  }
-  measure: sum_cumulative_combined_dollars_current {
-    type: sum
-    sql: ${TABLE}.cumulative_combined_dollars_current ;;
-  }
-  measure: sum_retention_d2 {
-    type: sum
-    sql: ${TABLE}.retention_d2 ;;
-  }
-  measure: sum_retention_d7 {
-    type: sum
-    sql: ${TABLE}.retention_d7 ;;
-  }
-  measure: sum_retention_d14 {
-    type: sum
-    sql: ${TABLE}.retention_d14 ;;
-  }
-  measure: sum_retention_d30 {
-    type: sum
-    sql: ${TABLE}.retention_d30 ;;
-  }
-  measure: sum_retention_d60 {
-    type: sum
-    sql: ${TABLE}.retention_d60 ;;
-  }
-  measure: sum_cumulative_star_spend_d1 {
-    type: sum
-    sql: ${TABLE}.cumulative_star_spend_d1 ;;
-  }
-  measure: sum_cumulative_star_spend_d2 {
-    type: sum
-    sql: ${TABLE}.cumulative_star_spend_d2 ;;
-  }
-  measure: sum_cumulative_star_spend_d7 {
-    type: sum
-    sql: ${TABLE}.cumulative_star_spend_d7 ;;
-  }
-  measure: sum_cumulative_star_spend_d14 {
-    type: sum
-    sql: ${TABLE}.cumulative_star_spend_d14 ;;
-  }
-  measure: sum_cumulative_star_spend_d30 {
-    type: sum
-    sql: ${TABLE}.cumulative_star_spend_d30 ;;
-  }
-  measure: sum_cumulative_star_spend_d60{
-    type: sum
-    sql: ${TABLE}.cumulative_star_spend_d60 ;;
-  }
-  measure: sum_cumulative_star_spend_current {
-    type: sum
-    sql: ${TABLE}.cumulative_star_spend_current ;;
-  }
+
+
+
+
+
+
 
 
 

@@ -593,269 +593,29 @@ dimension: paid_or_organic {
 ## Measures
 ################################################################
 
-measure: mtx_revenue_per_install_d1 {
+measure: mtx_revenue_per_install_d60 {
   group_label: "Revenue Per Install (RPI)"
   type: number
   sql:
-    sum(
-      case
-        when ${TABLE}.max_available_day_number >= 1
-        then ${TABLE}.cumulative_mtx_purchase_dollars_d1
-        else 0
-        end )
-    /
-    count( distinct
-      case
-        when ${TABLE}.max_available_day_number >= 1
-        then ${TABLE}.rdg_id
-        else null
-        end )
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 60
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d60
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 60
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
     ;;
   value_format_name: usd
 
 }
-
-  measure: mtx_revenue_per_install_d2 {
-    group_label: "Revenue Per Install (RPI)"
-    type: number
-    sql:
-    sum(
-      case
-        when ${TABLE}.max_available_day_number >= 2
-        then ${TABLE}.cumulative_mtx_purchase_dollars_d2
-        else 0
-        end )
-    /
-    count( distinct
-      case
-        when ${TABLE}.max_available_day_number >= 2
-        then ${TABLE}.rdg_id
-        else null
-        end )
-    ;;
-    value_format_name: usd
-
-  }
-
-measure: mtx_revenue_per_install_d7 {
-    group_label: "Revenue Per Install (RPI)"
-    type: number
-    sql:
-    sum(
-      case
-        when ${TABLE}.max_available_day_number >= 7
-        then ${TABLE}.cumulative_mtx_purchase_dollars_d7
-        else 0
-        end )
-    /
-    count( distinct
-      case
-        when ${TABLE}.max_available_day_number >= 7
-        then ${TABLE}.rdg_id
-        else null
-        end )
-    ;;
-    value_format_name: usd
-
-  }
-
-measure: mtx_revenue_per_install_d14 {
-    group_label: "Revenue Per Install (RPI)"
-    type: number
-    sql:
-    sum(
-      case
-        when ${TABLE}.max_available_day_number >= 14
-        then ${TABLE}.cumulative_mtx_purchase_dollars_d14
-        else 0
-        end )
-    /
-    count( distinct
-      case
-        when ${TABLE}.max_available_day_number >= 14
-        then ${TABLE}.rdg_id
-        else null
-        end )
-    ;;
-    value_format_name: usd
-
-  }
-
-measure: mtx_revenue_per_install_d30 {
-    group_label: "Revenue Per Install (RPI)"
-    type: number
-    sql:
-    sum(
-      case
-        when ${TABLE}.max_available_day_number >= 30
-        then ${TABLE}.cumulative_mtx_purchase_dollars_d30
-        else 0
-        end )
-    /
-    count( distinct
-      case
-        when ${TABLE}.max_available_day_number >= 30
-        then ${TABLE}.rdg_id
-        else null
-        end )
-    ;;
-    value_format_name: usd
-
-  }
-
-measure: mtx_revenue_per_install_d60 {
-    group_label: "Revenue Per Install (RPI)"
-    type: number
-    sql:
-    sum(
-      case
-        when ${TABLE}.max_available_day_number >= 60
-        then ${TABLE}.cumulative_mtx_purchase_dollars_d60
-        else 0
-        end )
-    /
-    count( distinct
-      case
-        when ${TABLE}.max_available_day_number >= 60
-        then ${TABLE}.rdg_id
-        else null
-        end )
-    ;;
-    value_format_name: usd
-
-  }
-
-  measure: ad_revenue_per_install_d1 {
-    group_label: "Revenue Per Install (RPI)"
-    type: number
-    sql:
-    sum(
-      case
-        when ${TABLE}.max_available_day_number >= 1
-        then ${TABLE}.cumulative_ad_view_dollars_d1
-        else 0
-        end )
-    /
-    count( distinct
-      case
-        when ${TABLE}.max_available_day_number >= 1
-        then ${TABLE}.rdg_id
-        else null
-        end )
-    ;;
-    value_format_name: usd
-
-  }
-
-  measure: ad_revenue_per_install_d2 {
-    group_label: "Revenue Per Install (RPI)"
-    type: number
-    sql:
-    sum(
-      case
-        when ${TABLE}.max_available_day_number >= 2
-        then ${TABLE}.cumulative_ad_view_dollars_d2
-        else 0
-        end )
-    /
-    count( distinct
-      case
-        when ${TABLE}.max_available_day_number >= 2
-        then ${TABLE}.rdg_id
-        else null
-        end )
-    ;;
-    value_format_name: usd
-
-  }
-
-  measure: ad_revenue_per_install_d7 {
-    group_label: "Revenue Per Install (RPI)"
-    type: number
-    sql:
-    sum(
-      case
-        when ${TABLE}.max_available_day_number >= 7
-        then ${TABLE}.cumulative_ad_view_dollars_d7
-        else 0
-        end )
-    /
-    count( distinct
-      case
-        when ${TABLE}.max_available_day_number >= 7
-        then ${TABLE}.rdg_id
-        else null
-        end )
-    ;;
-    value_format_name: usd
-
-  }
-
-  measure: ad_revenue_per_install_d14 {
-    group_label: "Revenue Per Install (RPI)"
-    type: number
-    sql:
-    sum(
-      case
-        when ${TABLE}.max_available_day_number >= 14
-        then ${TABLE}.cumulative_ad_view_dollars_d14
-        else 0
-        end )
-    /
-    count( distinct
-      case
-        when ${TABLE}.max_available_day_number >= 14
-        then ${TABLE}.rdg_id
-        else null
-        end )
-    ;;
-    value_format_name: usd
-
-  }
-
-  measure: ad_revenue_per_install_d30 {
-    group_label: "Revenue Per Install (RPI)"
-    type: number
-    sql:
-    sum(
-      case
-        when ${TABLE}.max_available_day_number >= 30
-        then ${TABLE}.cumulative_ad_view_dollars_d30
-        else 0
-        end )
-    /
-    count( distinct
-      case
-        when ${TABLE}.max_available_day_number >= 30
-        then ${TABLE}.rdg_id
-        else null
-        end )
-    ;;
-    value_format_name: usd
-
-  }
-
-  measure: ad_revenue_per_install_d60 {
-    group_label: "Revenue Per Install (RPI)"
-    type: number
-    sql:
-    sum(
-      case
-        when ${TABLE}.max_available_day_number >= 60
-        then ${TABLE}.cumulative_ad_view_dollars_d60
-        else 0
-        end )
-    /
-    count( distinct
-      case
-        when ${TABLE}.max_available_day_number >= 60
-        then ${TABLE}.rdg_id
-        else null
-        end )
-    ;;
-    value_format_name: usd
-
-  }
 
 
 

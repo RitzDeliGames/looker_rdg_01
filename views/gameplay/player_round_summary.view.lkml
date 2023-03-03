@@ -660,13 +660,7 @@ from
 
   }
 
-  measure: churn_rate {
-    group_label: "Calculated Fields"
-    type: number
-    sql: COUNT(DISTINCT ${TABLE}.churn_rdg_id)/COUNT(DISTINCT ${TABLE}.rdg_id) ;;
-    value_format_name: percent_0
 
-  }
 
   measure: mtx_dollars_per_player {
     group_label: "Calculated Fields"
@@ -714,6 +708,78 @@ from
     sql: ( SUM(${TABLE}.in_round_coin_spend) - SUM(${TABLE}.cumulative_coin_spend_at_churn) ) /COUNT(DISTINCT ${TABLE}.rdg_id) ;;
     value_format_name: decimal_0
 
+  }
+
+  measure: churn_rate {
+    group_label: "Excess Churn Estimate"
+    type: number
+    sql: count(distinct ${TABLE}.churn_rdg_id)/count(distinct ${TABLE}.rdg_id) ;;
+    value_format_name: percent_0
+
+  }
+  measure: churn_rate_on_win {
+    group_label: "Excess Churn Estimate"
+    type: number
+    sql:
+      count( distinct
+        case
+          when
+            ${TABLE}.count_wins = 1
+            and ${TABLE}.churn_indicator = 1
+          then ${TABLE}.churn_rdg_id
+          else null
+          end )
+        /
+      count( distinct ${TABLE}.rdg_id )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: churn_rate_on_loss {
+    group_label: "Excess Churn Estimate"
+    type: number
+    sql:
+      count( distinct
+        case
+          when
+            ${TABLE}.count_wins = 0
+            and ${TABLE}.churn_indicator = 1
+          then ${TABLE}.churn_rdg_id
+          else null
+          end )
+        /
+      count( distinct ${TABLE}.rdg_id )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: excess_churn_rate {
+      group_label: "Excess Churn Estimate"
+      type: number
+      sql:
+      ( count( distinct
+        case
+          when
+            ${TABLE}.count_wins = 0
+            and ${TABLE}.churn_indicator = 1
+          then ${TABLE}.churn_rdg_id
+          else null
+          end )
+      -
+      count( distinct
+        case
+          when
+            ${TABLE}.count_wins = 1
+            and ${TABLE}.churn_indicator = 1
+          then ${TABLE}.churn_rdg_id
+          else null
+          end )
+          )
+
+        /
+      count( distinct ${TABLE}.rdg_id )
+    ;;
+    value_format_name: percent_0
   }
 
 ################################################################

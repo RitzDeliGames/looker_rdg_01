@@ -590,7 +590,7 @@ dimension: paid_or_organic {
 }
 
 ################################################################
-## Measures
+## Revenue Per Install
 ################################################################
 
 measure: revenue_per_install_d1 {
@@ -737,8 +737,129 @@ measure: revenue_per_install_d7 {
 
   }
 
+################################################################
+## Retention
+################################################################
 
+  measure: average_retention_d2 {
+    group_label: "Average Retention"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.retention_d2
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
 
+  }
+
+  measure: average_retention_d7 {
+    group_label: "Average Retention"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.retention_d7
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: average_retention_d14 {
+    group_label: "Average Retention"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 14
+          then ${TABLE}.retention_d14
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 14
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: average_retention_d30 {
+    group_label: "Average Retention"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 30
+          then ${TABLE}.retention_d30
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 30
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: average_retention_d60 {
+    group_label: "Average Retention"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 60
+          then ${TABLE}.retention_d60
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 60
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
 
 
 

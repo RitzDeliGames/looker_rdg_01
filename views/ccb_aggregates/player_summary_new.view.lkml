@@ -593,15 +593,111 @@ dimension: paid_or_organic {
 ## Measures
 ################################################################
 
-measure: mtx_revenue_per_install_d60 {
+measure: revenue_per_install_d1 {
   group_label: "Revenue Per Install (RPI)"
   type: number
   sql:
     safe_divide(
       sum(
         case
+          when ${TABLE}.max_available_day_number >= 1
+          then ${TABLE}.cumulative_combined_dollars_d1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 1
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+  value_format_name: usd
+
+}
+
+  measure: revenue_per_install_d2 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.cumulative_combined_dollars_d2
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+measure: revenue_per_install_d7 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.cumulative_combined_dollars_d7
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: revenue_per_install_d30 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 30
+          then ${TABLE}.cumulative_combined_dollars_d30
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 30
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: revenue_per_install_d60 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
           when ${TABLE}.max_available_day_number >= 60
-          then ${TABLE}.cumulative_mtx_purchase_dollars_d60
+          then ${TABLE}.cumulative_combined_dollars_d60
           else 0
           end )
       ,
@@ -613,12 +709,9 @@ measure: mtx_revenue_per_install_d60 {
           end )
     )
     ;;
-  value_format_name: usd
+    value_format_name: usd
 
-}
-
-
-
+  }
 
 
 

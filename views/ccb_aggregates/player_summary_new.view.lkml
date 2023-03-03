@@ -665,6 +665,30 @@ measure: revenue_per_install_d7 {
 
   }
 
+  measure: revenue_per_install_d14 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 14
+          then ${TABLE}.cumulative_combined_dollars_d14
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 14
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
   measure: revenue_per_install_d30 {
     group_label: "Revenue Per Install (RPI)"
     type: number

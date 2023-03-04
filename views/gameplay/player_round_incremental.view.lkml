@@ -3,6 +3,9 @@ view: player_round_incremental {
   derived_table: {
     sql:
 
+      -- ccb_aggregate_update_tag
+      -- update on '2023-03-02' (2)
+
       -- create or replace table tal_scratch.player_round_incremental as
 
       with
@@ -39,7 +42,7 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-02-28' -- Last Full Update
+                      when date(current_date()) <= '2023-03-02' -- Last Full Update
                       then '2019-01-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -172,7 +175,7 @@ view: player_round_incremental {
 
 
       ;;
-    datagroup_trigger: incremental_daily_group
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
     increment_key: "rdg_date"

@@ -6,6 +6,10 @@ view: version_summary {
 
   derived_table: {
     sql:
+
+      -- ccb_aggregate_update_tag
+      -- last update: '2023-03-01'
+
       select
         version
         , max(highest_last_level_serial) as max_highest_last_level_serial
@@ -16,7 +20,7 @@ view: version_summary {
       group by
         1
       ;;
-    datagroup_trigger: dependent_on_player_daily_summary
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;
     publish_as_db_view: yes
   }
 

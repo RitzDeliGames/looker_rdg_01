@@ -7,6 +7,8 @@ view: player_daily_summary {
   derived_table: {
     sql:
 
+-- ccb_aggregate_update_tag
+-- last update: '2023-03-01'
 
 SELECT
 
@@ -250,7 +252,7 @@ where
     rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
 
       ;;
-    datagroup_trigger: dependent_on_player_daily_incremental
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -3 hour)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
 

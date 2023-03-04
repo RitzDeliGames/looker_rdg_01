@@ -7,6 +7,9 @@ view: player_coin_spend_summary {
   derived_table: {
     sql:
 
+      -- ccb_aggregate_update_tag
+      -- last update: '2023-03-03'
+
       -- create or replace table tal_scratch.player_coin_spend_summary as
 
       select
@@ -37,7 +40,7 @@ view: player_coin_spend_summary {
 
 
       ;;
-    datagroup_trigger: dependent_on_player_coin_spend_incremental
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
 

@@ -3,6 +3,9 @@ view: player_daily_incremental {
   derived_table: {
     sql:
 
+      -- ccb_aggregate_update_tag
+      -- update '2023-03-02'
+
       WITH
 
       ------------------------------------------------------------------------
@@ -52,7 +55,7 @@ view: player_daily_incremental {
           DATE(timestamp) >=
             CASE
               -- SELECT DATE(CURRENT_DATE())
-              WHEN DATE(CURRENT_DATE()) <= '2023-02-24' -- Last Full Update
+              WHEN DATE(CURRENT_DATE()) <= '2023-03-02' -- Last Full Update
               THEN '2019-01-01'
               ELSE DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
               END
@@ -375,7 +378,7 @@ view: player_daily_incremental {
         1,2
 
       ;;
-    datagroup_trigger: incremental_daily_group
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
     increment_key: "rdg_date"

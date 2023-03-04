@@ -7,8 +7,10 @@ view: firebase_player_summary {
   derived_table: {
     sql:
 
+      -- ccb_aggregate_update_tag
+      -- last update: '2023-03-01'
 
-       WITH
+      WITH
 
       -----------------------------------------------------------------------
       -- Get base data
@@ -96,7 +98,7 @@ view: firebase_player_summary {
 
 
       ;;
-    datagroup_trigger: dependent_on_firebase_player_daily_incremental
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
     publish_as_db_view: yes
     partition_keys: ["firebase_created_date"]
 

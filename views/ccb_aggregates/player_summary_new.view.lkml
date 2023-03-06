@@ -1171,5 +1171,170 @@ measure: revenue_per_install_d7 {
 
   }
 
+################################################################
+## Mean Cost to Acquire
+################################################################
+
+  measure: cost_to_acquire_d1 {
+    group_label: "Cost to Acquire"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 1
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when
+            ${TABLE}.max_available_day_number >= 1
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: cost_to_acquire_d2 {
+    group_label: "Cost to Acquire"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 2
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when
+            ${TABLE}.max_available_day_number >= 2
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: cost_to_acquire_d7 {
+    group_label: "Cost to Acquire"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 7
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when
+            ${TABLE}.max_available_day_number >= 7
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: cost_to_acquire_d14 {
+    group_label: "Cost to Acquire"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 14
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when
+            ${TABLE}.max_available_day_number >= 14
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: cost_to_acquire_d30 {
+    group_label: "Cost to Acquire"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 30
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when
+            ${TABLE}.max_available_day_number >= 30
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: cost_to_acquire_d60 {
+    group_label: "Cost to Acquire"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 60
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when
+            ${TABLE}.max_available_day_number >= 60
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+  }
 
 }

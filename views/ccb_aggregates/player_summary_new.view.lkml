@@ -808,7 +808,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
 
   }
 
@@ -832,7 +832,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
 
   }
 
@@ -856,7 +856,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
 
   }
 
@@ -880,7 +880,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
 
   }
 
@@ -904,7 +904,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
 
   }
 

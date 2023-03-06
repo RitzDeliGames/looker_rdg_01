@@ -357,11 +357,37 @@ explore: ads {
       and ${ads.ad_event_date} = ${user_activity.activity_date};;
     relationship: many_to_many
   }
-  # join: user_activity_engagement_min {
+}
+
+explore: ads_ironsource {
+  join: android_advertising_id_helper {
+    view_label: "Firebase Helper"
+    type: left_outer
+    sql_on: ${ads_ironsource.user_id} = ${android_advertising_id_helper.advertising_id};;
+    relationship: one_to_one
+  }
+  join: user_retention {
+    from: user_fact
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${android_advertising_id_helper.user_id} = ${user_retention.user_id} ;;
+  }
+  # join: user_last_event {
   #   type: left_outer
-  #   relationship: many_to_many
-  #   sql_on: ${ads.rdg_id} = ${user_activity_engagement_min.rdg_id}
-  #     and ${transactions.engagement_ticks} = ${user_activity_engagement_min.engagement_ticks};;
+  #   relationship: one_to_one
+  #   sql_on: ${ads_ironsource.user_id} = ${user_last_event.user_id} ;;
+  # }
+  join: user_activity {
+    type: left_outer
+    sql_on: ${ads_ironsource.user_id} = ${user_activity.user_id}
+      and ${ads_ironsource.ad_event_date} = ${user_activity.activity_date};;
+    relationship: many_to_many
+  }
+  # join: singular_daily_user_attribution_export {
+  #   view_label: "Singular User Level"
+  #   type: left_outer
+  #   sql_on: ${singular_daily_user_attribution_export.device_id} = ${android_advertising_id_helper.advertising_id};;
+  #   relationship: one_to_one
   # }
 
 }

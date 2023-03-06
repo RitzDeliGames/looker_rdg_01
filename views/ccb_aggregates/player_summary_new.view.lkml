@@ -1088,7 +1088,7 @@ measure: revenue_per_install_d7 {
           else null
           end )
     ;;
-    value_format_name: usd
+    value_format_name: decimal_0
 
   }
 
@@ -1103,7 +1103,7 @@ measure: revenue_per_install_d7 {
           else null
           end )
     ;;
-    value_format_name: usd
+    value_format_name: decimal_0
 
   }
 
@@ -1118,7 +1118,7 @@ measure: revenue_per_install_d7 {
           else null
           end )
     ;;
-    value_format_name: usd
+    value_format_name: decimal_0
 
   }
 
@@ -1133,7 +1133,7 @@ measure: revenue_per_install_d7 {
           else null
           end )
     ;;
-    value_format_name: usd
+    value_format_name: decimal_0
 
   }
 
@@ -1148,7 +1148,7 @@ measure: revenue_per_install_d7 {
           else null
           end )
     ;;
-    value_format_name: usd
+    value_format_name: decimal_0
 
   }
 
@@ -1163,7 +1163,7 @@ measure: revenue_per_install_d7 {
           else null
           end )
     ;;
-    value_format_name: usd
+    value_format_name: decimal_0
 
   }
 

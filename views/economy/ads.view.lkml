@@ -9,15 +9,15 @@ view: ads {
         ,timestamp
         ,created_at created
         ,cast(last_level_serial as int64) last_level_serial
-        ,json_extract_scalar(extra_json,"$.transaction_currency") transaction_currency
         ,json_extract_scalar(extra_json,"$.ad_network") ad_network
         ,json_extract_scalar(extra_json,"$.placement") placement
-        ,json_extract_scalar(extra_json,"$.auction_id") auction_id
         ,cast(json_extract_scalar(extra_json,"$.ad_value") as numeric) ad_value
+        ,cast(json_extract_scalar(extra_json,"$.revenue") as numeric) revenue --this ironSource value is usually identical to ad_value
         ,json_extract_scalar(extra_json,"$.ad_source_name") ad_source_name --old Unity mediation parameter...eventually can be deprecated
         ,json_extract_scalar(extra_json,"$.ad_unit_name") ad_unit_name --old Unity mediation parameter...eventually can be deprecated
         ,json_extract_scalar(extra_json,"$.impression_id") impression_id
         ,json_extract_scalar(extra_json,"$.line_item_id") line_item_id
+        ,json_extract_scalar(extra_json,"$.transaction_currency") transaction_currency
         ,cast(json_extract_scalar(extra_json,"$.publisher_revenue_per_impression") as numeric) publisher_revenue_per_impression --old Unity mediation parameter...eventually can be deprecated
       from game_data.events
       where event_name = 'ad'
@@ -119,27 +119,10 @@ view: ads {
     type: string
     sql: ${TABLE}.impression_id  ;;
   }
-  measure: impression_id_count {
-    group_label: "Impression Counts"
-    label: "Impression Id Count"
-    type: count_distinct
-    sql: ${impression_id} ;;
-  }
-  dimension: auction_id {
-    type: string
-    sql: ${TABLE}.auction_id  ;;
-  }
-  measure: auction_id_count {
-    group_label: "Impression Counts"
-    label: "Auction Id Count"
-    type: count_distinct
-    sql: ${auction_id} ;;
-  }
   measure: impression_count {
-    group_label: "Impression Counts"
     label: "Total Impression Count"
     type: count_distinct
-    sql: coalesce(${impression_id},${auction_id});;
+    sql: ${impression_id} ;;
   }
   dimension: line_item_id {
     type: string
@@ -182,7 +165,7 @@ view: ads {
     label: "Ad Value"
     type: number
     value_format: "$#,##0.00"
-    sql: if(date(timestamp) > '2023-02-22',${TABLE}.ad_value,0) ;;
+    sql: ${TABLE}.ad_value ;;
   }
   measure: ad_value_sum {
     group_label: "Revenue"
@@ -196,13 +179,13 @@ view: ads {
     label: "Revenue"
     type: number
     value_format: "$#,##0.00"
-    sql: ${publisher_revenue_per_impression} + ${ad_value} ;;
+    sql: ${TABLE}.revenue ;;
   }
   measure: revenue_sum {
     group_label: "Revenue"
     label: "Total Revenue"
     type: sum
-    value_format: "$#,##0.00"
+    value_format: "$#,##0.0000"
     sql: ${revenue} ;;
   }
   measure: player_count {
@@ -214,13 +197,13 @@ view: ads {
     label: "Ad Revenue per Impression"
     type: number
     value_format: "$#,##0.0000"
-    sql: ${revenue_sum} / nullif(${impression_count},0) ;;
+    sql: ${publisher_revenue_sum} / nullif(${impression_count},0) ;;
   }
   measure: revenue_per_ad_viewing_player {
     label: "Ad Revenue per Viewing Player"
     type: number
     value_format: "$#,##0.0000"
-    sql: ${revenue_sum} / nullif(${player_count},0) ;;
+    sql: ${publisher_revenue_sum} / nullif(${player_count},0) ;;
   }
   measure: impressions_per_ad_viewing_player {
     label: "Impressions per Viewing Player"

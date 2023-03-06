@@ -353,35 +353,35 @@ explore: ads {
   }
   join: user_activity {
     type: left_outer
+    relationship: many_to_many
     sql_on: ${ads.rdg_id} = ${user_activity.rdg_id}
       and ${ads.ad_event_date} = ${user_activity.activity_date};;
-    relationship: many_to_many
   }
 }
 
 explore: ads_ironsource {
-  join: android_advertising_id_helper {
+  join: firebase_player_summary {
     view_label: "Firebase Helper"
     type: left_outer
-    sql_on: ${ads_ironsource.user_id} = ${android_advertising_id_helper.advertising_id};;
-    relationship: many_to_many
+    sql_on: ${ads_ironsource.user_id} = ${firebase_player_summary.firebase_advertising_id};;
+    relationship: many_to_one
   }
   join: user_retention {
     from: user_fact
     type: left_outer
     relationship: one_to_one
-    sql_on: ${android_advertising_id_helper.user_id} = ${user_retention.user_id} ;;
+    sql_on: ${firebase_player_summary.firebase_user_id} = ${user_retention.user_id} ;;
   }
-  # join: user_last_event {
-  #   type: left_outer
-  #   relationship: one_to_one
-  #   sql_on: ${user_retention.rdg_id} = ${user_last_event.rdg_id} ;;
-  # }
+  join: user_last_event {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${user_retention.rdg_id} = ${user_last_event.rdg_id} ;;
+  }
   # join: user_activity {
   #   type: left_outer
-  #   sql_on: ${android_advertising_id_helper.user_id} = ${user_activity.user_id}
-  #     and ${ads_ironsource.ad_event_date} = ${user_activity.activity_date};;
   #   relationship: many_to_many
+  #   sql_on:sql_on: ${ads_ironsource.user_id} = ${firebase_player_summary.firebase_advertising_id}
+  #     and ${ads_ironsource.ad_event_date} = ${user_activity.activity_date};;
   # }
 }
 

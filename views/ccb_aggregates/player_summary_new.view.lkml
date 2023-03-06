@@ -593,6 +593,14 @@ dimension: paid_or_organic {
 ## Expirements
 ######################################################################
 
+  parameter: view_ab_tests_yes_no {
+    type: string
+    default_value: "no"
+    suggestions:  [
+      "no"
+      ,"yes"]
+  }
+
   parameter: selected_experiment {
     type: string
     suggestions:  [
@@ -633,7 +641,17 @@ dimension: paid_or_organic {
 
   dimension: experiment_variant {
     type: string
-    sql: safe_cast( json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %}) as string) ;;
+    sql:
+      case
+        when {% parameter view_ab_tests_yes_no %} = 'yes'
+        then
+          safe_cast(
+            json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
+            as string)
+        else
+          null
+        end
+    ;;
   }
 
 ################################################################

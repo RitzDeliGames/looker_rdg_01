@@ -593,18 +593,18 @@ dimension: paid_or_organic {
 ## Expirements
 ######################################################################
 
-  parameter: view_ab_tests_yes_no {
-    type: string
-    default_value: "no"
-    suggestions:  [
-      "no"
-      ,"yes"]
-  }
+  # parameter: view_ab_tests_yes_no {
+  #   type: string
+  #   default_value: "no"
+  #   suggestions:  [
+  #     "no"
+  #     ,"yes"]
+  # }
 
   parameter: selected_experiment {
     type: string
     suggestions:  [
-      "$.No_Experiment"
+      "$.No_AB_Test_Split"
       ,"$.altFUE2_20221011"
       ,"$.altFUE2v2_20221024"
       ,"$.altFUE2v3_20221031"
@@ -639,20 +639,29 @@ dimension: paid_or_organic {
       ,"$.zoneStarCosts_09222022"]
   }
 
-  dimension: experiment_variant {
-    type: string
-    sql:
-      case
-        when {% parameter view_ab_tests_yes_no %} = 'yes'
-        then
-          safe_cast(
-            json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
-            as string)
-        else
-          null
-        end
+dimension: experiment_variant {
+  type: string
+  sql:
+    safe_cast(
+        json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
+        as string)
     ;;
-  }
+}
+
+  # dimension: experiment_variant {
+  #   type: string
+  #   sql:
+  #     case
+  #       when {% parameter view_ab_tests_yes_no %} = 'yes'
+  #       then
+  #         safe_cast(
+  #           json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
+  #           as string)
+  #       else
+  #         null
+  #       end
+  #   ;;
+  # }
 
 ################################################################
 ## Revenue Per Install

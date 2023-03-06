@@ -593,14 +593,6 @@ dimension: paid_or_organic {
 ## Expirements
 ######################################################################
 
-  # parameter: view_ab_tests_yes_no {
-  #   type: string
-  #   default_value: "no"
-  #   suggestions:  [
-  #     "no"
-  #     ,"yes"]
-  # }
-
   parameter: selected_experiment {
     type: string
     suggestions:  [
@@ -647,21 +639,6 @@ dimension: experiment_variant {
         as string)
     ;;
 }
-
-  # dimension: experiment_variant {
-  #   type: string
-  #   sql:
-  #     case
-  #       when {% parameter view_ab_tests_yes_no %} = 'yes'
-  #       then
-  #         safe_cast(
-  #           json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
-  #           as string)
-  #       else
-  #         null
-  #       end
-  #   ;;
-  # }
 
 ################################################################
 ## Revenue Per Install
@@ -963,7 +940,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
   measure: return_on_ad_spend_d2 {
     group_label: "Return on Ad Spend (ROAS)"
@@ -989,7 +966,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
 
   measure: return_on_ad_spend_d7 {
@@ -1016,7 +993,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
 
   measure: return_on_ad_spend_d14 {
@@ -1043,7 +1020,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
 
   measure: return_on_ad_spend_d30 {
@@ -1070,7 +1047,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
 
   measure: return_on_ad_spend_d60 {
@@ -1097,7 +1074,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
 
 ################################################################

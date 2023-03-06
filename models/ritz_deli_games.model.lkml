@@ -131,9 +131,15 @@ explore: user_retention {
     relationship: many_to_many
   }
   join: android_advertising_id_helper {
-    view_label: "Singular User Level w/Firebase Helper"
+    view_label: "Firebase Helper (old)"
     type: left_outer
     sql_on: ${user_retention.user_id} = ${android_advertising_id_helper.user_id};;
+    relationship: one_to_one
+  }
+  join: firebase_player_summary {
+    view_label: "Firebase Helper"
+    type: left_outer
+    sql_on: ${user_retention.user_id} = ${firebase_player_summary.firebase_user_id};;
     relationship: one_to_one
   }
   join: singular_daily_user_attribution_export {
@@ -151,11 +157,18 @@ explore: user_retention {
       and ${user_activity_engagement_min.engagement_ticks} = ${transactions_new.engagement_ticks};;
   }
   join: ads {
-    view_label: "Ads"
+    view_label: "Ads - Unity"
     type: left_outer
     relationship: one_to_many
     sql_on: ${user_retention.rdg_id} = ${ads.rdg_id}
       and ${user_activity.activity_date} = ${ads.ad_event_date};;
+  }
+  join: ads_ironsource {
+    view_label: "Ads - ironSource"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${ads_ironsource.user_id} = ${firebase_player_summary.firebase_advertising_id}
+      and ${ads_ironsource.ad_event_date} = ${user_activity.activity_date};;
   }
   join: rewards {
     view_label: "Rewards"

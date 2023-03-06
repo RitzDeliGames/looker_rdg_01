@@ -1073,7 +1073,99 @@ measure: revenue_per_install_d7 {
     value_format_name: percent_0
   }
 
+################################################################
+## Player Count By Day
+################################################################
 
+  measure: available_player_count_d1 {
+    group_label: "Available  Player Count"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 1
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: available_player_count_d2 {
+    group_label: "Available  Player Count"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: available_player_count_d7 {
+    group_label: "Available  Player Count"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: available_player_count_d14 {
+    group_label: "Available  Player Count"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 14
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: available_player_count_d30 {
+    group_label: "Available  Player Count"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 30
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: available_player_count_d60 {
+    group_label: "Available  Player Count"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 60
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: usd
+
+  }
 
 
 }

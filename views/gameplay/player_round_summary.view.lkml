@@ -692,6 +692,19 @@ from
 
   }
 
+  measure: percent_of_rounds_with_moves_added {
+    group_label: "Calculated Fields"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.count_rounds_with_moves_added)
+        ,
+        sum(${TABLE}.count_rounds)
+      )
+    ;;
+    value_format_name: percent_1
+  }
+
   measure: mtx_dollars_per_player {
     group_label: "Calculated Fields"
     type: number

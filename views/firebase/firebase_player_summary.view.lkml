@@ -8,7 +8,7 @@ view: firebase_player_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-01'
+      -- last update: '2023-03-06'
 
       WITH
 
@@ -39,21 +39,21 @@ view: firebase_player_summary {
           , rdg_date
 
           -- device_id
-          , FIRST_VALUE(firebase_advertising_id) OVER (
+          , LAST_VALUE(firebase_advertising_id) OVER (
             PARTITION BY firebase_user_id
             ORDER BY rdg_date ASC
             ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             ) firebase_advertising_id
 
           -- platform
-          , FIRST_VALUE(firebase_platform) OVER (
+          , LAST_VALUE(firebase_platform) OVER (
             PARTITION BY firebase_user_id
             ORDER BY rdg_date ASC
             ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             ) firebase_platform
 
           -- created_date
-          , FIRST_VALUE(firebase_created_date) OVER (
+          , LAST_VALUE(firebase_created_date) OVER (
             PARTITION BY firebase_user_id
             ORDER BY rdg_date ASC
             ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
@@ -88,13 +88,96 @@ view: firebase_player_summary {
       )
 
       -----------------------------------------------------------------------
+      -- De Dupe Advertising ID Step 1
+      -----------------------------------------------------------------------
+
+      , de_dupe_advertising_id_step_1 AS (
+
+      SELECT
+
+            -- firebase_user_id
+            -- , max(rdg_date) as last_played_date
+            -- , max(latest_update) as latest_table_update
+            -- , max(firebase_advertising_id) as firebase_advertising_id
+            -- , max(firebase_platform) as firebase_platform
+            -- , max(firebase_created_date) as firebase_created_date
+
+          firebase_advertising_id
+
+          , last_value(firebase_user_id) over (
+              partition by firebase_advertising_id
+              order by last_played_date
+              rows between unbounded preceding and unbounded following
+
+          ) as firebase_user_id
+
+          , last_value(last_played_date) over (
+              partition by firebase_advertising_id
+              order by last_played_date
+              rows between unbounded preceding and unbounded following
+
+          ) as last_played_date
+
+          , last_value(latest_table_update) over (
+              partition by firebase_advertising_id
+              order by last_played_date
+              rows between unbounded preceding and unbounded following
+
+          ) as latest_table_update
+
+          , last_value(firebase_platform) over (
+              partition by firebase_advertising_id
+              order by last_played_date
+              rows between unbounded preceding and unbounded following
+
+          ) as firebase_platform
+
+          , last_value(firebase_created_date) over (
+              partition by firebase_advertising_id
+              order by last_played_date
+              rows between unbounded preceding and unbounded following
+
+          ) as firebase_created_date
+
+      FROM
+        summarize_data
+      where
+        firebase_advertising_id is not null
+
+      )
+
+      -----------------------------------------------------------------------
+      -- Summarize Data
+      -----------------------------------------------------------------------
+
+      , de_dupe_advertising_id_step_2 AS (
+
+        select
+            firebase_advertising_id
+            , max(last_played_date) as last_played_date
+            , max(latest_table_update) as latest_table_update
+            , max(firebase_user_id) as firebase_user_id
+            , max(firebase_platform) as firebase_platform
+            , max(firebase_created_date) as firebase_created_date
+
+        FROM
+          de_dupe_advertising_id_step_1
+        GROUP BY
+          1
+
+      )
+
+      -----------------------------------------------------------------------
       -- Select output
       -----------------------------------------------------------------------
 
       SELECT
         A.*
       FROM
-        summarize_data A
+        de_dupe_advertising_id_step_2 A
+
+
+
 
 
       ;;

@@ -596,7 +596,7 @@ dimension: paid_or_organic {
   parameter: selected_experiment {
     type: string
     suggestions:  [
-      "$.No_Experiment"
+      "$.No_AB_Test_Split"
       ,"$.altFUE2_20221011"
       ,"$.altFUE2v2_20221024"
       ,"$.altFUE2v3_20221031"
@@ -631,10 +631,14 @@ dimension: paid_or_organic {
       ,"$.zoneStarCosts_09222022"]
   }
 
-  dimension: experiment_variant {
-    type: string
-    sql: safe_cast( json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %}) as string) ;;
-  }
+dimension: experiment_variant {
+  type: string
+  sql:
+    safe_cast(
+        json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
+        as string)
+    ;;
+}
 
 ################################################################
 ## Revenue Per Install
@@ -808,7 +812,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
 
   }
 
@@ -832,7 +836,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
 
   }
 
@@ -856,7 +860,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
 
   }
 
@@ -880,7 +884,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
 
   }
 
@@ -904,7 +908,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
 
   }
 
@@ -936,7 +940,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
   measure: return_on_ad_spend_d2 {
     group_label: "Return on Ad Spend (ROAS)"
@@ -962,7 +966,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
 
   measure: return_on_ad_spend_d7 {
@@ -989,7 +993,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
 
   measure: return_on_ad_spend_d14 {
@@ -1016,7 +1020,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
 
   measure: return_on_ad_spend_d30 {
@@ -1043,7 +1047,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
 
   measure: return_on_ad_spend_d60 {
@@ -1070,10 +1074,267 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
 
+################################################################
+## Player Count By Day
+################################################################
 
+  measure: available_player_count_d1 {
+    group_label: "Available  Player Count"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 1
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
 
+  }
+
+  measure: available_player_count_d2 {
+    group_label: "Available  Player Count"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+
+  }
+
+  measure: available_player_count_d7 {
+    group_label: "Available  Player Count"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+
+  }
+
+  measure: available_player_count_d14 {
+    group_label: "Available  Player Count"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 14
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+
+  }
+
+  measure: available_player_count_d30 {
+    group_label: "Available  Player Count"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 30
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+
+  }
+
+  measure: available_player_count_d60 {
+    group_label: "Available  Player Count"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 60
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+
+  }
+
+################################################################
+## Mean Cost to Acquire
+################################################################
+
+  measure: cost_to_acquire_d1 {
+    group_label: "Cost to Acquire"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 1
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when
+            ${TABLE}.max_available_day_number >= 1
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: cost_to_acquire_d2 {
+    group_label: "Cost to Acquire"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 2
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when
+            ${TABLE}.max_available_day_number >= 2
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: cost_to_acquire_d7 {
+    group_label: "Cost to Acquire"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 7
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when
+            ${TABLE}.max_available_day_number >= 7
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: cost_to_acquire_d14 {
+    group_label: "Cost to Acquire"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 14
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when
+            ${TABLE}.max_available_day_number >= 14
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: cost_to_acquire_d30 {
+    group_label: "Cost to Acquire"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 30
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when
+            ${TABLE}.max_available_day_number >= 30
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: cost_to_acquire_d60 {
+    group_label: "Cost to Acquire"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when
+            ${TABLE}.max_available_day_number >= 60
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.singular_campaign_cost_attributed
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when
+            ${TABLE}.max_available_day_number >= 60
+            and ${TABLE}.singular_campaign_cost_attributed > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+  }
 
 }

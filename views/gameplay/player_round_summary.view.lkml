@@ -655,17 +655,53 @@ from
   measure: mean_attempts_per_success {
     group_label: "Calculated Fields"
     type: number
-    sql: SUM(${TABLE}.count_rounds)/SUM(${TABLE}.count_wins) ;;
+    sql:
+      safe_divide(
+        sum(${TABLE}.count_rounds)
+        ,
+        sum(${TABLE}.count_wins)
+      )
+    ;;
     value_format_name: decimal_1
 
   }
 
+  measure: mean_proximity_to_completion_on_loss {
+    group_label: "Calculated Fields"
+    type: number
+    sql:
+      safe_divide(
+        sum(
+          case
+            when ${TABLE}.count_wins = 0
+            then ${TABLE}.proximity_to_completion
+            else 0
+          end
+          )
+        ,
+        sum(
+          case
+            when ${TABLE}.count_wins = 0
+            then ${TABLE}.count_rounds
+            else 0
+          end
+          )
+      )
+    ;;
+    value_format_name: percent_1
 
+  }
 
   measure: mtx_dollars_per_player {
     group_label: "Calculated Fields"
     type: number
-    sql: SUM(${TABLE}.in_round_mtx_purchase_dollars)/COUNT(DISTINCT ${TABLE}.rdg_id) ;;
+    sql:
+      safe_divide(
+        sum(${TABLE}.in_round_mtx_purchase_dollars)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+      ;;
     value_format_name: usd
 
   }
@@ -673,7 +709,13 @@ from
   measure: ad_dollars_per_player {
     group_label: "Calculated Fields"
     type: number
-    sql: SUM(${TABLE}.in_round_ad_view_dollars)/COUNT(DISTINCT ${TABLE}.rdg_id) ;;
+    sql:
+      safe_divide(
+        sum(${TABLE}.in_round_ad_view_dollars)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
     value_format_name: usd
 
   }
@@ -681,7 +723,13 @@ from
   measure: total_dollars_per_player {
     group_label: "Calculated Fields"
     type: number
-    sql: SUM(${TABLE}.in_round_combined_dollars)/COUNT(DISTINCT ${TABLE}.rdg_id) ;;
+    sql:
+      safe_divide(
+        sum(${TABLE}.in_round_combined_dollars)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
     value_format_name: usd
 
   }
@@ -689,7 +737,13 @@ from
   measure: coin_spend_per_player {
     group_label: "Calculated Fields"
     type: number
-    sql: SUM(${TABLE}.in_round_coin_spend)/COUNT(DISTINCT ${TABLE}.rdg_id) ;;
+    sql:
+      safe_divide(
+        sum(${TABLE}.in_round_coin_spend)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
     value_format_name: decimal_0
 
   }
@@ -697,7 +751,7 @@ from
   measure: level_efficiency_estimate_dollars {
     group_label: "Level Efficiency Estimates"
     type: number
-    sql: SUM(${TABLE}.in_round_combined_dollars) - SUM(${TABLE}.cumulative_combined_dollars_at_churn) ;;
+    sql: sum(${TABLE}.in_round_combined_dollars) - sum(${TABLE}.cumulative_combined_dollars_at_churn) ;;
     value_format_name: usd
 
   }
@@ -705,7 +759,13 @@ from
   measure: level_efficiency_estimate_coin_spend {
     group_label: "Level Efficiency Estimates"
     type: number
-    sql: ( SUM(${TABLE}.in_round_coin_spend) - SUM(${TABLE}.cumulative_coin_spend_at_churn) ) /COUNT(DISTINCT ${TABLE}.rdg_id) ;;
+    sql:
+      safe_divide(
+        sum(${TABLE}.in_round_coin_spend) - sum(${TABLE}.cumulative_coin_spend_at_churn)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
     value_format_name: decimal_0
 
   }
@@ -713,7 +773,13 @@ from
   measure: churn_rate {
     group_label: "Excess Churn Estimate"
     type: number
-    sql: count(distinct ${TABLE}.churn_rdg_id)/count(distinct ${TABLE}.rdg_id) ;;
+    sql:
+      safe_divide(
+        count(distinct ${TABLE}.churn_rdg_id)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
     value_format_name: percent_0
 
   }
@@ -721,16 +787,18 @@ from
     group_label: "Excess Churn Estimate"
     type: number
     sql:
-      count( distinct
-        case
-          when
-            ${TABLE}.count_wins = 1
-            and ${TABLE}.churn_indicator = 1
-          then ${TABLE}.churn_rdg_id
-          else null
-          end )
-        /
-      count( distinct ${TABLE}.rdg_id )
+      safe_divide(
+        count( distinct
+          case
+            when
+              ${TABLE}.count_wins = 1
+              and ${TABLE}.churn_indicator = 1
+            then ${TABLE}.churn_rdg_id
+            else null
+            end )
+        ,
+        count( distinct ${TABLE}.rdg_id )
+      )
     ;;
     value_format_name: percent_0
   }
@@ -739,16 +807,18 @@ from
     group_label: "Excess Churn Estimate"
     type: number
     sql:
-      count( distinct
-        case
-          when
-            ${TABLE}.count_wins = 0
-            and ${TABLE}.churn_indicator = 1
-          then ${TABLE}.churn_rdg_id
-          else null
-          end )
-        /
-      count( distinct ${TABLE}.rdg_id )
+      safe_divide(
+        count( distinct
+          case
+            when
+              ${TABLE}.count_wins = 0
+              and ${TABLE}.churn_indicator = 1
+            then ${TABLE}.churn_rdg_id
+            else null
+            end )
+        ,
+        count( distinct ${TABLE}.rdg_id )
+      )
     ;;
     value_format_name: percent_0
   }
@@ -757,30 +827,33 @@ from
       group_label: "Excess Churn Estimate"
       type: number
       sql:
-      ( count( distinct
-        case
-          when
-            ${TABLE}.count_wins = 0
-            and ${TABLE}.churn_indicator = 1
-          then ${TABLE}.churn_rdg_id
-          else null
-          end )
-      -
-      count( distinct
-        case
-          when
-            ${TABLE}.count_wins = 1
-            and ${TABLE}.churn_indicator = 1
-          then ${TABLE}.churn_rdg_id
-          else null
-          end )
-          )
-
-        /
-      count( distinct ${TABLE}.rdg_id )
+      safe_divide(
+        count( distinct
+          case
+            when
+              ${TABLE}.count_wins = 0
+              and ${TABLE}.churn_indicator = 1
+            then ${TABLE}.churn_rdg_id
+            else null
+            end )
+        -
+        count( distinct
+          case
+            when
+              ${TABLE}.count_wins = 1
+              and ${TABLE}.churn_indicator = 1
+            then ${TABLE}.churn_rdg_id
+            else null
+            end )
+        ,
+        count( distinct ${TABLE}.rdg_id )
+      )
     ;;
     value_format_name: percent_0
   }
+
+
+
 
 ################################################################
 ## Sums and Percentiles

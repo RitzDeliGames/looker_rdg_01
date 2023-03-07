@@ -8,7 +8,7 @@ view: player_ad_view_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-01'
+      -- last update: '2023-03-07'
 
       -- create or replace table tal_scratch.player_ad_view_summary as
 
@@ -16,20 +16,19 @@ view: player_ad_view_summary {
 
       ------------------------------------------------------------------
       -- get rows from iron source
-      -- (for iron source we are just pulling in the facebook data )
+      -- we use iron source to estimate facebook ad view dollars after the mediation update
+      -- here we are taking the average price by day and country
       ------------------------------------------------------------------
 
-      iron_source_data as (
+      iron_source_facebook_data as (
 
         select
-          c.rdg_id
-          , timestamp(date(a.event_timestamp)) as rdg_date
-          , a.event_timestamp as timestamp_utc
-          , max(a.placement) as source_id
-          , max(1) as count_ad_views
-          , max(a.ad_network) as ad_network
-          , sum(a.revenue) as ad_view_dollars
-          , max(a.country) as country
+          timestamp(date(a.event_timestamp)) as rdg_date
+          , c.country
+          , sum(1) as count_rows
+          , sum(a.revenue) as sum_revenue
+          , safe_divide(sum(a.revenue), sum(1)) as estimated_ad_view_dollars_per_view
+
         from
           eraser-blast.ironsource.ironsource_daily_impressions_export a
           left join eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_summary b
@@ -41,82 +40,45 @@ view: player_ad_view_summary {
           timestamp(date(a.event_timestamp)) >= '2023-02-23'
           and ad_network = 'facebook'
         group by
-          1,2,3
+          1,2
 
       )
 
       ------------------------------------------------------------------
       -- get rows from ad_view_incremental
-      -- (for dates after '2023-02-23' we exclude facebook and UNITY because it it contained in the iron source data)
+      -- we use the iron source data for any facebook impressions after the mediation update, but otherwise just use our data
       ------------------------------------------------------------------
 
       , ad_view_incremental_table as (
 
         select
-          *
+          a.rdg_id
+          , a.rdg_date
+          , a.timestamp_utc
+          , a.created_at
+          , a.version
+          , a.session_id
+          , a.experiments
+          , a.win_streak
+          , a.count_ad_views
+          , a.source_id
+          , a.ad_network
+          , a.country
+          , a.current_level_id
+          , a.current_level_serial
+          , ifnulL( b.estimated_ad_view_dollars_per_view, a.ad_view_dollars ) as ad_view_dollars
+          , a.coins_balance
+          , a.lives_balance
+          , a.stars_balance
         from
-          `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental`
-        where
-          case
-            when (
-                ad_network = 'facebook'
-                or ad_network = 'UNITY' )
-            and date(rdg_date) >= '2023-02-23'
-            then 1
-            else 0
-            end = 0
+          `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental` a
+          left join iron_source_facebook_data b
+            on a.ad_network = 'facebook'
+            and safe_cast(a.version as int64) >= 13122
+            and a.rdg_date >= '2023-02-23'
+            and a.rdg_date = b.rdg_date
+            and a.country = b.country
 
-      )
-
-      ------------------------------------------------------------------
-      -- combine ad_view_incremental_table + iron source
-      ------------------------------------------------------------------
-
-      , combined_tables as (
-
-        select
-          rdg_id
-          , rdg_date
-          , timestamp_utc
-          , created_at
-          , version
-          , session_id
-          , experiments
-          , win_streak
-          , count_ad_views
-          , source_id
-          , ad_network
-          , country
-          , current_level_id
-          , current_level_serial
-          , ad_view_dollars
-          , coins_balance
-          , lives_balance
-          , stars_balance
-        from
-          ad_view_incremental_table
-        union all
-        select
-          rdg_id
-          , rdg_date
-          , timestamp_utc
-          , null as created_at
-          , null as version
-          , null as session_id
-          , null as experiments
-          , null as win_streak
-          , count_ad_views
-          , source_id
-          , ad_network
-          , country
-          , null as current_level_id
-          , null as current_level_serial
-          , ad_view_dollars
-          , null as coins_balance
-          , null as lives_balance
-          , null as stars_balance
-        from
-          iron_source_data
 
       )
 
@@ -148,7 +110,7 @@ view: player_ad_view_summary {
             ) cumulative_count_ad_views
 
       from
-        combined_tables
+        ad_view_incremental_table
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -3 hour)) ;;

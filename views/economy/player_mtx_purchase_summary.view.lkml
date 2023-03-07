@@ -69,6 +69,8 @@ dimension: primary_key {
 
   # dates
   dimension_group: rdg_date {
+    group_label: "Activity Dates"
+    label: "Activity Date"
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.rdg_date ;;

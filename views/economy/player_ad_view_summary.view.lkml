@@ -12,6 +12,118 @@ view: player_ad_view_summary {
 
       -- create or replace table tal_scratch.player_ad_view_summary as
 
+      with
+
+      ------------------------------------------------------------------
+      -- get rows from iron source
+      -- (for iron source we are just pulling in the facebook data )
+      ------------------------------------------------------------------
+
+      iron_source_data as (
+
+        select
+          c.rdg_id
+          , timestamp(date(a.event_timestamp)) as rdg_date
+          , a.event_timestamp as timestamp_utc
+          , max(a.placement) as source_id
+          , max(1) as count_ad_views
+          , max(a.ad_network) as ad_network
+          , sum(a.revenue) as ad_view_dollars
+          , max(a.country) as country
+        from
+          eraser-blast.ironsource.ironsource_daily_impressions_export a
+          left join eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_summary b
+            on a.user_id = b.firebase_advertising_id
+          left join eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new c
+            on b.firebase_user_id = c.user_id
+
+        where
+          timestamp(date(a.event_timestamp)) >= '2023-02-23'
+          and ad_network = 'facebook'
+        group by
+          1,2,3
+
+      )
+
+      ------------------------------------------------------------------
+      -- get rows from ad_view_incremental
+      -- (for dates after '2023-02-23' we exclude facebook and UNITY because it it contained in the iron source data)
+      ------------------------------------------------------------------
+
+      , ad_view_incremental_table as (
+
+        select
+          *
+        from
+          `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental`
+        where
+          case
+            when (
+                ad_network = 'facebook'
+                or ad_network = 'UNITY' )
+            and date(rdg_date) >= '2023-02-23'
+            then 1
+            else 0
+            end = 0
+
+      )
+
+      ------------------------------------------------------------------
+      -- combine ad_view_incremental_table + iron source
+      ------------------------------------------------------------------
+
+      , combined_tables as (
+
+        select
+          rdg_id
+          , rdg_date
+          , timestamp_utc
+          , created_at
+          , version
+          , session_id
+          , experiments
+          , win_streak
+          , count_ad_views
+          , source_id
+          , ad_network
+          , country
+          , current_level_id
+          , current_level_serial
+          , ad_view_dollars
+          , coins_balance
+          , lives_balance
+          , stars_balance
+        from
+          ad_view_incremental_table
+        union all
+        select
+          rdg_id
+          , rdg_date
+          , timestamp_utc
+          , null as created_at
+          , null as version
+          , null as session_id
+          , null as experiments
+          , null as win_streak
+          , count_ad_views
+          , source_id
+          , ad_network
+          , country
+          , null as current_level_id
+          , null as current_level_serial
+          , ad_view_dollars
+          , null as coins_balance
+          , null as lives_balance
+          , null as stars_balance
+        from
+          iron_source_data
+
+      )
+
+      ------------------------------------------------------------------
+      -- add cumulative calculations
+      ------------------------------------------------------------------
+
       select
 
         -- All columns from player_ad_view_incremental
@@ -36,8 +148,7 @@ view: player_ad_view_summary {
             ) cumulative_count_ad_views
 
       from
-        `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental`
-
+        combined_tables
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;

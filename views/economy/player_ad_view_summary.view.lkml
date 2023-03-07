@@ -151,7 +151,7 @@ view: player_ad_view_summary {
         combined_tables
 
       ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -3 hour)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
 

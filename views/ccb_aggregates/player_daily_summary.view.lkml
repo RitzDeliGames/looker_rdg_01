@@ -7,250 +7,338 @@ view: player_daily_summary {
   derived_table: {
     sql:
 
--- ccb_aggregate_update_tag
--- last update: '2023-03-01'
+      -- ccb_aggregate_update_tag
+      -- last update: '2023-03-07'
 
-SELECT
+      -- CREATE OR REPLACE TABLE `tal_scratch.test_player_daily_summary` AS
 
-  -- Start with all the rows from player_daily_incremental
-  *
+      with
+      -----------------------------------------------------------------------
+      -- ads by date
+      -----------------------------------------------------------------------
 
-  , TIMESTAMP(created_date) as created_date_timestamp
+      ads_by_date as (
+          select
+              rdg_id
+              , rdg_date
+              , sum(count_ad_views) as count_ad_views
+              , sum( ad_view_dollars ) as ad_view_dollars
+          from
+              eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
+          group by
+              1,2
+      )
 
-  -- Days Since Created
-  , DATE_DIFF(DATE(rdg_date), created_date, DAY) AS days_since_created
+      -----------------------------------------------------------------------
+      -- mtx by date
+      -----------------------------------------------------------------------
 
-  -- Player Day Number
-  , 1 + DATE_DIFF(DATE(rdg_date), created_date, DAY) AS day_number
+      , mtx_by_date as (
+          select
+              rdg_id
+              , rdg_date
+              , sum( count_mtx_purchases ) as count_mtx_purchases
+              , sum( mtx_purchase_dollars ) as mtx_purchase_dollars
+          from
+              eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary
+          group by
+              1,2
+      )
 
-  -- new_player_indicator
-  , CASE WHEN DATE_DIFF(DATE(rdg_date), created_date, DAY) = 0 THEN 1 ELSE 0 END AS new_player_indicator
+      -----------------------------------------------------------------------
+      -- join to player daily incremental
+      -----------------------------------------------------------------------
 
-   -- new_player_rdg_id
-  , CASE WHEN DATE_DIFF(DATE(rdg_date), created_date, DAY) = 0 THEN rdg_id ELSE NULL END AS new_player_rdg_id
+      , join_to_player_daily_incremental as (
 
-  -- Date last played
-  , LAG(DATE(rdg_date), 1) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ) date_last_played
+          select
+              a.rdg_date
+              , a.rdg_id
+              , a.device_id
+              , a.advertising_id
+              , a.user_id
+              , a.platform
+              , a.country
+              , a.created_utc
+              , a.created_date
+              , a.experiments
+              , a.version
+              , a.install_version
+              , b.mtx_purchase_dollars
+              , c.ad_view_dollars
+              , a.mtx_ltv_from_data
+              , b.count_mtx_purchases
+              , c.count_ad_views as ad_views
+              , a.count_sessions
+              , a.cumulative_session_count
+              , a.cumulative_engagement_ticks
+              , a.round_start_events
+              , a.round_end_events
+              , a.lowest_last_level_serial
+              , a.highest_last_level_serial
+              , a.highest_quests_completed
+              , a.gems_spend
+              , a.coins_spend
+              , a.stars_spend
+              , a.ending_gems_balance
+              , a.ending_coins_balance
+              , a.ending_lives_balance
+              , a.ending_stars_balance
+          from
+              `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental` a
+              left join mtx_by_date b
+                  on a.rdg_id = b.rdg_id
+                  and a.rdg_date = b.rdg_date
+              left join ads_by_date c
+                  on a.rdg_id = c.rdg_id
+                  and a.rdg_date = c.rdg_date
 
-  -- Days Since Last Played
-  , DATE_DIFF(
-      DATE(rdg_date)
-      , LAG(DATE(rdg_date), 1) OVER (
-          PARTITION BY rdg_id
-          ORDER BY rdg_date ASC
-          )
-      , DAY
-      ) days_since_last_played
+      )
 
-  -- next_date_played
-  , LEAD(DATE(rdg_date), 1) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ) next_date_played
+      -----------------------------------------------------------------------
+      -- cumulative calculations
+      -----------------------------------------------------------------------
 
-  -- churn_indicator
-  , CASE
-      WHEN
-        LEAD(DATE(rdg_date), 1) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ) IS NULL
-      THEN 1
-      ELSE 0
-      END AS churn_indicator
+      select
 
-  -- churn_rdg_id
-  , CASE
-      WHEN
-        LEAD(DATE(rdg_date), 1) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ) IS NULL
-      THEN rdg_id
-      ELSE NULL
-      END AS churn_rdg_id
+        -- Start with all the rows from join_to_player_daily_incremental
+        *
 
-  -- days_until_next_played
-  , DATE_DIFF(
-      LEAD(DATE(rdg_date), 1) OVER (
-          PARTITION BY rdg_id
-          ORDER BY rdg_date ASC
-          )
-      , DATE(rdg_date)
-      , DAY
-      ) days_until_next_played
+        , TIMESTAMP(created_date) as created_date_timestamp
 
-  -- cumulative_mtx_purchase_dollars
-  -- Includes adjustment for App Store %
-  , SUM( ifnull( mtx_purchase_dollars, 0 ) ) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_mtx_purchase_dollars
+        -- Days Since Created
+        , DATE_DIFF(DATE(rdg_date), created_date, DAY) AS days_since_created
 
-  -- cumulative_ad_view_dollars
-  , SUM(IFNULL(ad_view_dollars,0)) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_ad_view_dollars
+        -- Player Day Number
+        , 1 + DATE_DIFF(DATE(rdg_date), created_date, DAY) AS day_number
 
-  -- combined_dollars
-  -- Includes adjustment for App Store %
-  , ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0) AS combined_dollars
+        -- new_player_indicator
+        , CASE WHEN DATE_DIFF(DATE(rdg_date), created_date, DAY) = 0 THEN 1 ELSE 0 END AS new_player_indicator
 
-  -- cumulative_combined_dollars
-  -- Includes adjustment for App Store %
-  , SUM(ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0)) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_combined_dollars
+         -- new_player_rdg_id
+        , CASE WHEN DATE_DIFF(DATE(rdg_date), created_date, DAY) = 0 THEN rdg_id ELSE NULL END AS new_player_rdg_id
 
-  -- daily_mtx_spend_indicator
-  , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN 1 ELSE 0 END AS daily_mtx_spend_indicator
+        -- Date last played
+        , LAG(DATE(rdg_date), 1) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ) date_last_played
 
-  -- daily_mtx_spender_rdg_id
-  , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN rdg_id ELSE NULL END AS daily_mtx_spender_rdg_id
+        -- Days Since Last Played
+        , DATE_DIFF(
+            DATE(rdg_date)
+            , LAG(DATE(rdg_date), 1) OVER (
+                PARTITION BY rdg_id
+                ORDER BY rdg_date ASC
+                )
+            , DAY
+            ) days_since_last_played
 
-  -- first_mtx_spend_indicator
-  , CASE
-      WHEN IFNULL(mtx_purchase_dollars,0) > 0
-      AND
-        SUM(mtx_purchase_dollars) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING )
-        = 0
-      THEN 1
-      ELSE 0
-      END AS first_mtx_spend_indicator
+        -- next_date_played
+        , LEAD(DATE(rdg_date), 1) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ) next_date_played
 
-  -- lifetime_mtx_spend_indicator
-  , CASE
-      WHEN
-        SUM(mtx_purchase_dollars) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
-        > 0
-      THEN 1
-      ELSE 0
-      END AS lifetime_mtx_spend_indicator
+        -- churn_indicator
+        , CASE
+            WHEN
+              LEAD(DATE(rdg_date), 1) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ) IS NULL
+            THEN 1
+            ELSE 0
+            END AS churn_indicator
 
-  -- lifetime_mtx_spender_rdg_id
-  , CASE
-      WHEN
-        SUM(mtx_purchase_dollars) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
-        > 0
-      THEN rdg_id
-      ELSE NULL
-      END AS lifetime_mtx_spender_rdg_id
+        -- churn_rdg_id
+        , CASE
+            WHEN
+              LEAD(DATE(rdg_date), 1) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ) IS NULL
+            THEN rdg_id
+            ELSE NULL
+            END AS churn_rdg_id
 
-  -- cumulative_ad_views
-  , SUM(ad_views) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_ad_views
+        -- days_until_next_played
+        , DATE_DIFF(
+            LEAD(DATE(rdg_date), 1) OVER (
+                PARTITION BY rdg_id
+                ORDER BY rdg_date ASC
+                )
+            , DATE(rdg_date)
+            , DAY
+            ) days_until_next_played
+
+        -- cumulative_mtx_purchase_dollars
+        -- Includes adjustment for App Store %
+        , SUM( ifnull( mtx_purchase_dollars, 0 ) ) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_mtx_purchase_dollars
+
+        -- cumulative_ad_view_dollars
+        , SUM(IFNULL(ad_view_dollars,0)) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_ad_view_dollars
+
+        -- combined_dollars
+        -- Includes adjustment for App Store %
+        , ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0) AS combined_dollars
+
+        -- cumulative_combined_dollars
+        -- Includes adjustment for App Store %
+        , SUM(ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0)) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_combined_dollars
+
+        -- daily_mtx_spend_indicator
+        , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN 1 ELSE 0 END AS daily_mtx_spend_indicator
+
+        -- daily_mtx_spender_rdg_id
+        , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN rdg_id ELSE NULL END AS daily_mtx_spender_rdg_id
+
+        -- first_mtx_spend_indicator
+        , CASE
+            WHEN IFNULL(mtx_purchase_dollars,0) > 0
+            AND
+              SUM(mtx_purchase_dollars) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING )
+              = 0
+            THEN 1
+            ELSE 0
+            END AS first_mtx_spend_indicator
+
+        -- lifetime_mtx_spend_indicator
+        , CASE
+            WHEN
+              SUM(mtx_purchase_dollars) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              > 0
+            THEN 1
+            ELSE 0
+            END AS lifetime_mtx_spend_indicator
+
+        -- lifetime_mtx_spender_rdg_id
+        , CASE
+            WHEN
+              SUM(mtx_purchase_dollars) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              > 0
+            THEN rdg_id
+            ELSE NULL
+            END AS lifetime_mtx_spender_rdg_id
+
+        -- cumulative_ad_views
+        , SUM(ad_views) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_ad_views
 
 
-  -- Calculate engagement ticks
-  -- uses prior row cumulative_engagement_ticks
-  , IFNULL(cumulative_engagement_ticks,0) -
-      IFNULL(LAG(cumulative_engagement_ticks,1) OVER (
-          PARTITION BY rdg_id
-          ORDER BY rdg_date ASC
-          ),0) AS engagement_ticks
+        -- Calculate engagement ticks
+        -- uses prior row cumulative_engagement_ticks
+        , IFNULL(cumulative_engagement_ticks,0) -
+            IFNULL(LAG(cumulative_engagement_ticks,1) OVER (
+                PARTITION BY rdg_id
+                ORDER BY rdg_date ASC
+                ),0) AS engagement_ticks
 
-  -- time played
-  -- This is calculated as engagement ticks / 2
-  , 0.5 * (
-      IFNULL(cumulative_engagement_ticks,0) -
-      IFNULL(LAG(cumulative_engagement_ticks,1) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ),0))
-      AS time_played_minutes
+        -- time played
+        -- This is calculated as engagement ticks / 2
+        , 0.5 * (
+            IFNULL(cumulative_engagement_ticks,0) -
+            IFNULL(LAG(cumulative_engagement_ticks,1) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ),0))
+            AS time_played_minutes
 
-  -- cumulative_time_played_minutes
-  , 0.5 * ( IFNULL(cumulative_engagement_ticks,0) ) AS cumulative_time_played_minutes
+        -- cumulative_time_played_minutes
+        , 0.5 * ( IFNULL(cumulative_engagement_ticks,0) ) AS cumulative_time_played_minutes
 
-  -- cumulative_round_start_events
-  , SUM(round_start_events) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_start_events
+        -- cumulative_round_start_events
+        , SUM(round_start_events) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_round_start_events
 
-  -- cumulative_round_end_events
-  , SUM(round_end_events) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_end_events
+        -- cumulative_round_end_events
+        , SUM(round_end_events) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_round_end_events
 
-  -- Calculate quests_completed
-  -- uses prior row highest_quests_completed
-  , IFNULL(highest_quests_completed,0) -
-      IFNULL(LAG(highest_quests_completed,1) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ),0) AS quests_completed
+        -- Calculate quests_completed
+        -- uses prior row highest_quests_completed
+        , IFNULL(highest_quests_completed,0) -
+            IFNULL(LAG(highest_quests_completed,1) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ),0) AS quests_completed
 
-  -- count_days_played
-  -- this is just always 1
-  , 1 as count_days_played
+        -- count_days_played
+        -- this is just always 1
+        , 1 as count_days_played
 
-  -- cumulative_count_days_played
-  , SUM(1) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_count_days_played
+        -- cumulative_count_days_played
+        , SUM(1) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_count_days_played
 
-  -- Calculate levels_progressed
-  -- uses prior row highest_last_level_serial
-  , IFNULL(highest_last_level_serial,0) -
-      IFNULL(LAG(highest_last_level_serial,1) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ),0) AS levels_progressed
+        -- Calculate levels_progressed
+        -- uses prior row highest_last_level_serial
+        , IFNULL(highest_last_level_serial,0) -
+            IFNULL(LAG(highest_last_level_serial,1) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ),0) AS levels_progressed
 
-  -- cumulative_gems_spend
-  , SUM(gems_spend) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_gems_spend
+        -- cumulative_gems_spend
+        , SUM(gems_spend) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_gems_spend
 
-  -- cumulative_coins_spend
-  , SUM(coins_spend) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_coins_spend
+        -- cumulative_coins_spend
+        , SUM(coins_spend) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_coins_spend
 
-  -- cumulative_star_spend
-  , SUM(stars_spend) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_star_spend
+        -- cumulative_star_spend
+        , SUM(stars_spend) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_star_spend
 
-FROM
-  `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
+      FROM
+        join_to_player_daily_incremental
 
-where
-    -- select date_add( current_date(), interval -1 day )
-    rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
-
+      where
+          -- select date_add( current_date(), interval -1 day )
+          rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -4 hour)) ;;
     publish_as_db_view: yes

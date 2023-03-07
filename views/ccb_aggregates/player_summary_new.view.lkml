@@ -450,7 +450,7 @@ view: player_summary_new {
 
 
             ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -4 hour)) ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;
     publish_as_db_view: yes
     partition_keys: ["created_date"]
 

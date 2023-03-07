@@ -20,7 +20,7 @@ view: version_summary {
       group by
         1
       ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -6 hour)) ;;
     publish_as_db_view: yes
   }
 

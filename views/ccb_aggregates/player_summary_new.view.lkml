@@ -599,6 +599,8 @@ dimension: paid_or_organic {
     type: string
     suggestions:  [
       "$.No_AB_Test_Split"
+      ,"$.frameRate_20230302"
+      ,"$.navBar_20230228"
       ,"$.altFUE2_20221011"
       ,"$.altFUE2v2_20221024"
       ,"$.altFUE2v3_20221031"

@@ -496,6 +496,8 @@ dimension: primary_key {
     timeframes: [date, week, month, year]
   }
   dimension_group: created_date {
+    group_label: "Install Date"
+    label: "Installed On"
     type: time
     timeframes: [date, week, month, year]
   }
@@ -520,12 +522,12 @@ dimension: primary_key {
   dimension: cumulative_mtx_purchase_dollars_d60 {type: number}
   dimension: cumulative_mtx_purchase_dollars_current {type: number}
   dimension: mtx_ltv_from_data {type: number}
-  dimension: cumulative_ad_view_dollars_d1 {type: number}
-  dimension: cumulative_ad_view_dollars_d2 {type: number}
-  dimension: cumulative_ad_view_dollars_d7 {type: number}
-  dimension: cumulative_ad_view_dollars_d14 {type: number}
-  dimension: cumulative_ad_view_dollars_d60 {type: number}
-  dimension: cumulative_ad_view_dollars_current {type: number}
+  dimension: cumulative_ad_view_dollars_d1 {group_label:"Cumulative Ad View Dollars" type: number}
+  dimension: cumulative_ad_view_dollars_d2 {group_label:"Cumulative Ad View Dollars" type: number}
+  dimension: cumulative_ad_view_dollars_d7 {group_label:"Cumulative Ad View Dollars" type: number}
+  dimension: cumulative_ad_view_dollars_d14 {group_label:"Cumulative Ad View Dollars" type: number}
+  dimension: cumulative_ad_view_dollars_d60 {group_label:"Cumulative Ad View Dollars" type: number}
+  dimension: cumulative_ad_view_dollars_current {group_label:"Cumulative Ad View Dollars" type: number}
   dimension: cumulative_combined_dollars_d1 {type: number}
   dimension: cumulative_combined_dollars_d2 {type: number}
   dimension: cumulative_combined_dollars_d7 {type: number}

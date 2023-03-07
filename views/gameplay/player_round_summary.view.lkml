@@ -692,6 +692,32 @@ from
 
   }
 
+  measure: percent_moves_remaing_vs_moves_at_start_on_win {
+    group_label: "Calculated Fields"
+    type: number
+    sql:
+      safe_divide(
+        sum(
+          case
+            when ${TABLE}.count_wins = 1
+            then ${TABLE}.moves_remaining
+            else 0
+          end
+          )
+        ,
+        sum(
+          case
+            when ${TABLE}.count_wins = 1
+            then ${TABLE}.moves
+            else 0
+          end
+          )
+      )
+    ;;
+    value_format_name: percent_1
+
+  }
+
   measure: percent_of_rounds_with_moves_added {
     group_label: "Calculated Fields"
     type: number

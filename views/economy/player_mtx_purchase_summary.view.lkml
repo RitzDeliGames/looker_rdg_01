@@ -72,10 +72,12 @@ dimension: primary_key {
     group_label: "Activity Dates"
     label: "Activity Date"
     type: time
-    timeframes: [date, week, month, year]
-    sql: ${TABLE}.rdg_date ;;
+    timeframes: [hour, date, week, month, year]
+    sql: ${TABLE}.timestamp_utc ;;
   }
   dimension_group: created_date_timestamp {
+    group_label: "Installed On Dates"
+    label: "Installed On"
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.created_date ;;
@@ -228,7 +230,9 @@ dimension: primary_key {
   }
   measure: sum_mtx_purchase_dollars {
     group_label: "MTX Purchase Dollars"
+    label: "MTX Purchase Dollars"
     type:sum
+    value_format: "$#.00"
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: mtx_purchase_dollars_10 {
@@ -368,7 +372,9 @@ dimension: primary_key {
   }
   measure: sum_cumulative_mtx_purchase_dollars {
     group_label: "Cumulative MTX Purchase Dollars"
+    label: "Cumulative MTX Purchase Dollars"
     type:sum
+    value_format: "$#.00"
     sql: ${TABLE}.cumulative_mtx_purchase_dollars ;;
   }
   measure: cumulative_mtx_purchase_dollars_10 {

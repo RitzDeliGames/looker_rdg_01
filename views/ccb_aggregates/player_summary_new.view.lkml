@@ -1303,6 +1303,7 @@ measure: revenue_per_install_d7 {
 ################################################################
 
   measure: engagement_milestone_5_minutes {
+    label: "Percent Installs to play 5+ minutes"
     group_label: "Engagement Milestones"
     type: number
     sql:
@@ -1321,6 +1322,7 @@ measure: revenue_per_install_d7 {
   }
 
   measure: engagement_milestone_15_minutes {
+    label: "Percent Installs to play 15+ minutes"
     group_label: "Engagement Milestones"
     type: number
     sql:
@@ -1339,6 +1341,7 @@ measure: revenue_per_install_d7 {
   }
 
   measure: engagement_milestone_30_minutes {
+    label: "Percent Installs to play 30+ minutes"
     group_label: "Engagement Milestones"
     type: number
     sql:
@@ -1357,6 +1360,7 @@ measure: revenue_per_install_d7 {
   }
 
   measure: engagement_milestone_60_minutes {
+    label: "Percent Installs to play 60+ minutes"
     group_label: "Engagement Milestones"
     type: number
     sql:
@@ -1375,6 +1379,7 @@ measure: revenue_per_install_d7 {
   }
 
   measure: engagement_milestone_120_minutes {
+    label: "Percent Installs to play 120+ minutes"
     group_label: "Engagement Milestones"
     type: number
     sql:

@@ -808,15 +808,50 @@ explore: player_summary_new {
 
 }
 
-## Temporary explores to build incremental tables
-explore: firebase_player_daily_incremental {}
-explore: player_daily_incremental {}
-explore: firebase_player_summary {}
-explore: player_round_incremental {}
-explore: player_round_summary {}
-explore: player_ad_view_incremental {}
-explore: player_ad_view_summary {}
-explore: player_mtx_purchase_incremental {}
-explore: player_mtx_purchase_summary {}
-explore: player_coin_spend_incremental {}
-explore: player_coin_spend_summary {}
+explore: player_round_summary {
+  label: "Player Round Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_round_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+explore: player_ad_view_summary {
+  label: "Player Ad View Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_ad_view_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+explore: player_mtx_purchase_summary {
+  label: "Player Mtx Purchase Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_mtx_purchase_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+explore: player_coin_spend_summary {
+  label: "Player Coin Spend Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_coin_spend_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}

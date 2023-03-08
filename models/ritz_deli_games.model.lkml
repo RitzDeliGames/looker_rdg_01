@@ -855,3 +855,5 @@ explore: player_coin_spend_summary {
       ;;
   }
 }
+
+explore: player_daily_incremental {}

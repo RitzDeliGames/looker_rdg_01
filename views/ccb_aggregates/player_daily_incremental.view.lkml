@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-03-02'
+      -- update '2023-03-08'
 
       WITH
 
@@ -55,7 +55,7 @@ view: player_daily_incremental {
           DATE(timestamp) >=
             CASE
               -- SELECT DATE(CURRENT_DATE())
-              WHEN DATE(CURRENT_DATE()) <= '2023-03-02' -- Last Full Update
+              WHEN DATE(CURRENT_DATE()) <= '2023-03-08' -- Last Full Update
               THEN '2019-01-01'
               ELSE DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
               END
@@ -145,6 +145,14 @@ view: player_daily_incremental {
               ORDER BY timestamp_utc ASC
               ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
               ) experiments
+
+          -- display_name
+          -- uses LAST value rather than first value
+          , LAST_VALUE(display_name) OVER (
+              PARTITION BY rdg_id, DATE(timestamp_utc)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) display_name
 
           -- version
           -- uses LAST value rather than first value
@@ -345,6 +353,7 @@ view: player_daily_incremental {
         , MAX(device_id) AS device_id
         , MAX(advertising_id) AS advertising_id
         , MAX(user_id) AS user_id
+        , max(display_name) as display_name
         , MAX(platform) AS platform
         , MAX(country) AS country
         , MAX(created_utc) AS created_utc

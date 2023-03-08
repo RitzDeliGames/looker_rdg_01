@@ -88,14 +88,36 @@ dimension: primary_key {
   dimension: session_id {type:string}
   dimension: experiments {type:string}
   dimension: win_streak {type:number}
-  dimension: source_id {type:string}
   dimension: store_session_id {type:string}
-  dimension: iap_purchase_item {type:string}
+
+
+  dimension: source_id {
+    group_label: "SKU Information"
+    type:string}
+
+  dimension: iap_purchase_item {
+    group_label: "SKU Information"
+    type:string}
+
+  dimension: iap_id {
+    group_label: "SKU Information"
+    type:string}
+
+  dimension: iap_id_strings {
+    group_label: "SKU Information"
+    label: "IAP Names"
+    sql: @{iap_id_strings} ;;
+  }
+
+  dimension: iap_purchase_qty {
+    group_label: "SKU Information"
+    type:number}
+
 
   # Numbers
   dimension: last_level_serial {type:number}
   dimension: count_mtx_purchases {type:number}
-  dimension: iap_purchase_qty {type:number}
+
   dimension: mtx_purchase_dollars {type:number}
   dimension: coins_balance {type:number}
   dimension: lives_balance {type:number}

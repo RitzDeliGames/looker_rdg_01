@@ -1048,6 +1048,21 @@ measure: revenue_per_install_d7 {
   }
 
 ################################################################
+## Unique Player
+################################################################
+
+measure: count_distinct_players {
+  group_label: "Unique Player Counts"
+  label: "Count Distinct Players"
+  type: number
+  sql:
+    count( distinct ${TABLE}.rdg_id )
+  ;;
+  value_format_name: decimal_0
+
+}
+
+################################################################
 ## Player Count By Day
 ################################################################
 

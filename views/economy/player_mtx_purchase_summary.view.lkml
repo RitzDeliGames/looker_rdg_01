@@ -8,7 +8,7 @@ view: player_mtx_purchase_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-01'
+      -- last update: '2023-03-08'
 
       -- create or replace table tal_scratch.player_mtx_purchase_summary as
 
@@ -37,8 +37,6 @@ view: player_mtx_purchase_summary {
 
       from
         `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_incremental`
-
-
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;

@@ -10,6 +10,7 @@ view: player_summary_new {
       -- ccb_aggregate_update_tag
       -- last update: '2023-03-08'
 
+
       -- CREATE OR REPLACE TABLE `tal_scratch.player_summary_new` AS
 
       WITH
@@ -339,7 +340,7 @@ view: player_summary_new {
           , d.singular_device_id
           , e.singular_campaign_id
           , e.singular_campaign_min_date
-          , e.singular_campaign_name
+          , e.singular_campaign_name as campaign_name
           , e.singular_source
           , e.singular_platform
           , e.singular_country_name
@@ -562,7 +563,7 @@ dimension: singular_campaign_id {
   group_label: "Singular Campaign Info"
   type:string}
 
-dimension: singular_campaign_name {
+dimension: campaign_name {
   group_label: "Singular Campaign Info"
   type:string}
 

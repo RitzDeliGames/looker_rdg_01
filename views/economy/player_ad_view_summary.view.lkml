@@ -8,7 +8,7 @@ view: player_ad_view_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-07'
+      -- last update: '2023-03-08'
 
       -- create or replace table tal_scratch.player_ad_view_summary as
 

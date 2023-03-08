@@ -373,9 +373,11 @@ dimension: primary_key {
     sql: ${TABLE}.rdg_date ;;
   }
   dimension_group: created_date_timestamp {
+    group_label: "Install Date"
+    label: "Installed On"
     type: time
     timeframes: [date, week, month, year]
-    sql: ${TABLE}.created_date ;;
+    sql: ${TABLE}.created_date_timestamp ;;
   }
 
   # strings

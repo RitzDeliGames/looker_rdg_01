@@ -5,7 +5,8 @@ view: player_mtx_purchase_incremental {
 
 
       -- ccb_aggregate_update_tag
-      -- update '2023-03-02'
+      -- update '2023-03-08'
+
 
       -- create or replace table tal_scratch.player_mtx_purchase_incremental as
 
@@ -44,7 +45,7 @@ view: player_mtx_purchase_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-03-02' -- Last Full Update
+                      when date(current_date()) <= '2023-03-08' -- Last Full Update
                       then '2019-01-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -99,6 +100,7 @@ view: player_mtx_purchase_incremental {
               , json_extract_scalar(extra_json,"$.iap_purchase_item") iap_purchase_item
               , cast(json_extract_scalar(extra_json,"$.iap_purchase_qty") as numeric) iap_purchase_qty
               , json_extract_scalar(extra_json,"$.transaction_id") transaction_id
+              , json_extract_scalar(extra_json,'$.iap_id') iap_id
 
               -- purchase amount + app store cut
                 , ifnull(cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") as numeric) * 0.01 * 0.70 ,0) mtx_purchase_dollars
@@ -137,6 +139,7 @@ view: player_mtx_purchase_incremental {
           , max(store_session_id) as store_session_id
           , max(iap_purchase_item) as iap_purchase_item
           , max(iap_purchase_qty) as iap_purchase_qty
+          , max(iap_id) as iap_id
           , max(mtx_purchase_dollars) as mtx_purchase_dollars
           , max(currency_03_balance) as coins_balance
           , max(currency_04_balance) as lives_balance

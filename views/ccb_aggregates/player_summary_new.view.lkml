@@ -818,6 +818,7 @@ measure: revenue_per_install_d7 {
 
   measure: average_retention_d2 {
     group_label: "Average Retention"
+    label: "D2"
     type: number
     sql:
     safe_divide(
@@ -842,6 +843,7 @@ measure: revenue_per_install_d7 {
 
   measure: average_retention_d7 {
     group_label: "Average Retention"
+    label: "D7"
     type: number
     sql:
     safe_divide(
@@ -866,6 +868,7 @@ measure: revenue_per_install_d7 {
 
   measure: average_retention_d14 {
     group_label: "Average Retention"
+    label: "D14"
     type: number
     sql:
     safe_divide(
@@ -890,6 +893,7 @@ measure: revenue_per_install_d7 {
 
   measure: average_retention_d30 {
     group_label: "Average Retention"
+    label: "D30"
     type: number
     sql:
     safe_divide(
@@ -914,6 +918,7 @@ measure: revenue_per_install_d7 {
 
   measure: average_retention_d60 {
     group_label: "Average Retention"
+    label: "D60"
     type: number
     sql:
     safe_divide(
@@ -1381,7 +1386,7 @@ measure: count_distinct_players {
 ################################################################
 
   measure: engagement_milestone_5_minutes {
-    label: "Percent Installs to play 5+ minutes"
+    label: "5+ Min"
     group_label: "Engagement Milestones"
     type: number
     sql:
@@ -1400,7 +1405,7 @@ measure: count_distinct_players {
   }
 
   measure: engagement_milestone_15_minutes {
-    label: "Percent Installs to play 15+ minutes"
+    label: "15+ Min"
     group_label: "Engagement Milestones"
     type: number
     sql:
@@ -1419,7 +1424,7 @@ measure: count_distinct_players {
   }
 
   measure: engagement_milestone_30_minutes {
-    label: "Percent Installs to play 30+ minutes"
+    label: "30+ Min"
     group_label: "Engagement Milestones"
     type: number
     sql:
@@ -1438,7 +1443,7 @@ measure: count_distinct_players {
   }
 
   measure: engagement_milestone_60_minutes {
-    label: "Percent Installs to play 60+ minutes"
+    label: "60+ Min"
     group_label: "Engagement Milestones"
     type: number
     sql:
@@ -1457,7 +1462,7 @@ measure: count_distinct_players {
   }
 
   measure: engagement_milestone_120_minutes {
-    label: "Percent Installs to play 120+ minutes"
+    label: "120+ Min"
     group_label: "Engagement Milestones"
     type: number
     sql:

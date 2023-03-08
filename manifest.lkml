@@ -352,7 +352,7 @@ constant: country_region {
             when ${TABLE}.country = 'BR' then 'LATAM-BR'
             when ${TABLE}.country in ('SE','DK','FI','IS','NO','SE') then 'Scandinavia'
             when ${TABLE}.country in ('GB','AT','BE','BG','CH','CY','CZ','ES','EE','FR','DE','GR','HR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','TR') then 'UK-EU'
-            when ${TABLE}.country in ('US','CA') then 'NA-EN'
+            when ${TABLE}.country in ('US','CA') then 'USA & Canada'
             when ${TABLE}.country in ('JP','HK','KR','TW') then 'East Asia xChina'
             when ${TABLE}.country in ('ID','IN','MY','PH','SG','TH','VN') then 'SE Asia & India'
             when ${TABLE}.country in ('AU', 'NZ') then 'AU-NZ'

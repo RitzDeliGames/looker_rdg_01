@@ -265,6 +265,7 @@ view: player_summary_new {
         select
           device_id as singular_device_id
           , max( campaign_id ) as singular_campaign_id
+          , max( singular_partner_name ) as singular_partner_name
         from
           `eraser-blast.singular.user_level_attributions`
         where
@@ -338,6 +339,7 @@ view: player_summary_new {
           , b.cumulative_mtx_purchase_dollars_current_percentile
           , c.firebase_advertising_id
           , d.singular_device_id
+          , d.singular_partner_name
           , e.singular_campaign_id
           , e.singular_campaign_min_date
           , e.singular_campaign_name as campaign_name
@@ -414,6 +416,7 @@ view: player_summary_new {
       -----------------------------------------------------------------------
 
       select * from add_on_singular_stats
+
 
 
             ;;
@@ -554,6 +557,10 @@ dimension: singular_campaign_name_clean {
   type: string
   sql: @{campaign_name_clean} ;;
 }
+
+dimension: singular_partner_name {
+  group_label: "Singular Campaign Info"
+  type:string}
 
 dimension: singular_device_id {
   group_label: "Singular Campaign Info"

@@ -11,6 +11,7 @@ view: player_summary_new {
       -- last update: '2023-03-08'
 
 
+
       -- CREATE OR REPLACE TABLE `tal_scratch.player_summary_new` AS
 
       WITH
@@ -49,6 +50,7 @@ view: player_summary_new {
           , mtx_ltv_from_data
           , highest_last_level_serial
           , cumulative_star_spend
+          , cumulative_time_played_minutes
 
           -- device_id
           , last_value(device_id) OVER (
@@ -138,6 +140,7 @@ view: player_summary_new {
             , max(timestamp(created_date)) as created_date
             , max(date_diff(latest_update,created_date,DAY) + 1) as max_available_day_number
             , max(experiments) AS experiments
+            , max(cumulative_time_played_minutes) as cumulative_time_played_minutes
 
             -- versions
             , max(install_version) AS version_at_install
@@ -405,9 +408,6 @@ view: player_summary_new {
 
       select * from add_on_singular_stats
 
-      --select sum(1), count(distinct rdg_id) from add_on_singular_stats
-
-
             ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;
     publish_as_db_view: yes
@@ -448,6 +448,7 @@ dimension: primary_key {
   dimension: user_id {type: string}
   dimension: platform {type: string}
   dimension: country {type: string}
+  dimension: cumulative_time_played_minutes {type: number}
 
   # dates
   dimension_group: last_played_date {
@@ -531,9 +532,6 @@ dimension: primary_key {
   dimension: total_players_attributed_to_singular_campaign {type:number}
   dimension: percentage_of_singular_campaign_cost_attributed {type:number}
   dimension: singular_campaign_cost_attributed {type:number}
-  dimension: total_spenders_attributed_to_singular_campaign {type:number}
-  dimension: percentage_of_singular_campaign_cost_attributed_to_spenders {type:number}
-  dimension: singular_campaign_cost_attributed_to_spenders {type:number}
 
 ################################################################
 ## Calculated Dimensions
@@ -1298,6 +1296,100 @@ measure: revenue_per_install_d7 {
     )
     ;;
     value_format_name: usd
+  }
+
+################################################################
+## Engagement Milestones
+################################################################
+
+  measure: engagement_milestone_5_minutes {
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 5
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_15_minutes {
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 15
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_30_minutes {
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 30
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_60_minutes {
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 60
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_120_minutes {
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 120
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
   }
 
 }

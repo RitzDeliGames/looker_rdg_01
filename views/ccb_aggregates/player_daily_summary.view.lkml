@@ -21,7 +21,7 @@ view: player_daily_summary {
           select
               rdg_id
               , rdg_date
-              , sum(count_ad_views) as count_ad_views
+              , sum( count_ad_views ) as ad_views
               , sum( ad_view_dollars ) as ad_view_dollars
           from
               eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
@@ -46,53 +46,128 @@ view: player_daily_summary {
       )
 
       -----------------------------------------------------------------------
-      -- join to player daily incremental
+      -- player_daily_incremental w/ prior date played
       -----------------------------------------------------------------------
 
-      , join_to_player_daily_incremental as (
-
+      , player_daily_incremental_w_prior_date as (
           select
-              a.rdg_date
-              , a.rdg_id
-              , a.device_id
-              , a.advertising_id
-              , a.user_id
-              , a.platform
-              , a.country
-              , a.created_utc
-              , a.created_date
-              , a.experiments
-              , a.version
-              , a.install_version
-              , b.mtx_purchase_dollars
-              , c.ad_view_dollars
-              , a.mtx_ltv_from_data
-              , b.count_mtx_purchases
-              , c.count_ad_views as ad_views
-              , a.count_sessions
-              , a.cumulative_session_count
-              , a.cumulative_engagement_ticks
-              , a.round_start_events
-              , a.round_end_events
-              , a.lowest_last_level_serial
-              , a.highest_last_level_serial
-              , a.highest_quests_completed
-              , a.gems_spend
-              , a.coins_spend
-              , a.stars_spend
-              , a.ending_gems_balance
-              , a.ending_coins_balance
-              , a.ending_lives_balance
-              , a.ending_stars_balance
+              *
+              -- Date last played
+              , ifnull(
+                      lag(rdg_date, 1) over (
+                  partition by rdg_id
+                  order by rdg_date ASC
+                  )
+                  ,timestamp(date(created_utc))) as rdg_date_last_played
           from
-              `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental` a
-              left join mtx_by_date b
-                  on a.rdg_id = b.rdg_id
-                  and a.rdg_date = b.rdg_date
-              left join ads_by_date c
-                  on a.rdg_id = c.rdg_id
-                  and a.rdg_date = c.rdg_date
+              `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
 
+      )
+
+      -----------------------------------------------------------------------
+      -- join ads data
+      -----------------------------------------------------------------------
+
+      , join_on_ads_data as (
+          select
+              a.rdg_id
+              , a.rdg_date
+              , max(a.rdg_date_last_played) as rdg_date_last_played
+              , max(a.device_id) as device_id
+              , max(a.advertising_id) as advertising_id
+              , max(a.user_id) as user_id
+              , max(a.display_name) as display_name
+              , max(a.platform) as platform
+              , max(a.country) as country
+              , max(a.created_utc) as created_utc
+              , max(a.created_date) as created_date
+              , max(a.experiments) as experiments
+              , max(a.version) as version
+              , max(a.install_version) as install_version
+              , sum( ifnull(b.ad_view_dollars,0) + ifnull(c.ad_view_dollars,0)) as ad_view_dollars
+              , max(a.mtx_ltv_from_data) as mtx_ltv_from_data
+              , sum( ifnull(b.ad_views,0) + ifnull(c.ad_views,0)) as ad_views
+              , max(a.count_sessions) as count_sessions
+              , max(a.cumulative_session_count) as cumulative_session_count
+              , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
+              , max(a.round_start_events) as round_start_events
+              , max(a.round_end_events) as round_end_events
+              , max(a.lowest_last_level_serial) as lowest_last_level_serial
+              , max(a.highest_last_level_serial) as highest_last_level_serial
+              , max(a.highest_quests_completed) as highest_quests_completed
+              , max(a.gems_spend) as gems_spend
+              , max(a.coins_spend) as coins_spend
+              , max(a.stars_spend) as stars_spend
+              , max(a.ending_gems_balance) as ending_gems_balance
+              , max(a.ending_coins_balance) as ending_coins_balance
+              , max(a.ending_lives_balance) as ending_lives_balance
+              , max(a.ending_stars_balance) as ending_stars_balance
+
+          from
+              player_daily_incremental_w_prior_date a
+              left join ads_by_date b
+                  on b.rdg_id = a.rdg_id
+                  and b.rdg_date = a.rdg_date
+              left join ads_by_date c
+                  on c.rdg_id = a.rdg_id
+                  and c.rdg_date < a.rdg_date
+                  and c.rdg_date > a.rdg_date_last_played
+          group by
+              1,2
+      )
+
+
+      -----------------------------------------------------------------------
+      -- join ads data
+      -----------------------------------------------------------------------
+
+      , join_on_mtx_data as (
+          select
+              a.rdg_id
+              , a.rdg_date
+              , max(a.rdg_date_last_played) as rdg_date_last_played
+              , max(a.device_id) as device_id
+              , max(a.advertising_id) as advertising_id
+              , max(a.user_id) as user_id
+              , max(a.display_name) as display_name
+              , max(a.platform) as platform
+              , max(a.country) as country
+              , max(a.created_utc) as created_utc
+              , max(a.created_date) as created_date
+              , max(a.experiments) as experiments
+              , max(a.version) as version
+              , max(a.install_version) as install_version
+              , max(a.ad_view_dollars) as ad_view_dollars
+              , sum( ifnull(b.mtx_purchase_dollars,0) + ifnull(c.mtx_purchase_dollars,0)) as mtx_purchase_dollars
+              , max(a.mtx_ltv_from_data) as mtx_ltv_from_data
+              , max(a.ad_views) as ad_views
+              , max(a.count_sessions) as count_sessions
+              , max(a.cumulative_session_count) as cumulative_session_count
+              , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
+              , max(a.round_start_events) as round_start_events
+              , max(a.round_end_events) as round_end_events
+              , max(a.lowest_last_level_serial) as lowest_last_level_serial
+              , max(a.highest_last_level_serial) as highest_last_level_serial
+              , max(a.highest_quests_completed) as highest_quests_completed
+              , max(a.gems_spend) as gems_spend
+              , max(a.coins_spend) as coins_spend
+              , max(a.stars_spend) as stars_spend
+              , max(a.ending_gems_balance) as ending_gems_balance
+              , max(a.ending_coins_balance) as ending_coins_balance
+              , max(a.ending_lives_balance) as ending_lives_balance
+              , max(a.ending_stars_balance) as ending_stars_balance
+
+          from
+              join_on_ads_data a
+              left join mtx_by_date b
+                  on b.rdg_id = a.rdg_id
+                  and b.rdg_date = a.rdg_date
+              left join mtx_by_date c
+                  on c.rdg_id = a.rdg_id
+                  and c.rdg_date < a.rdg_date
+                  and c.rdg_date > a.rdg_date_last_played
+          group by
+              1,2
       )
 
       -----------------------------------------------------------------------
@@ -334,11 +409,13 @@ view: player_daily_summary {
             ) cumulative_star_spend
 
       FROM
-        join_to_player_daily_incremental
+        join_on_mtx_data
 
       where
           -- select date_add( current_date(), interval -1 day )
           rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
+
+
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -4 hour)) ;;
     publish_as_db_view: yes

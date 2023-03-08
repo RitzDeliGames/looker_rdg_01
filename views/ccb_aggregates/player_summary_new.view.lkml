@@ -8,8 +8,7 @@ view: player_summary_new {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-02'
-
+      -- last update: '2023-03-08'
 
 
       -- CREATE OR REPLACE TABLE `tal_scratch.player_summary_new` AS
@@ -52,35 +51,35 @@ view: player_summary_new {
           , cumulative_star_spend
 
           -- device_id
-          , FIRST_VALUE(device_id) OVER (
+          , last_value(device_id) OVER (
             PARTITION BY rdg_id
             ORDER BY rdg_date ASC
             ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             ) device_id
 
           -- advertising_id
-          , FIRST_VALUE(advertising_id) OVER (
+          , last_value(advertising_id) OVER (
             PARTITION BY rdg_id
             ORDER BY rdg_date ASC
             ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             ) advertising_id
 
           -- user_id
-          , FIRST_VALUE(user_id) OVER (
+          , last_value(user_id) OVER (
             PARTITION BY rdg_id
             ORDER BY rdg_date ASC
             ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             ) user_id
 
           -- platform
-          , FIRST_VALUE(platform) OVER (
+          , last_value(platform) OVER (
             PARTITION BY rdg_id
             ORDER BY rdg_date ASC
             ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             ) platform
 
           -- country
-          , FIRST_VALUE(country) OVER (
+          , last_value(country) OVER (
             PARTITION BY rdg_id
             ORDER BY rdg_date ASC
             ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
@@ -305,6 +304,9 @@ view: player_summary_new {
           , sum( cast(a.adn_cost as float64)) as singular_total_cost
           , sum( cast(a.adn_original_cost as float64)) as singular_total_original_cost
           , sum( cast(a.adn_installs AS int64)) as singular_total_installs
+          , safe_divide(
+              sum( cast(a.adn_cost as float64))
+              , sum( cast(a.adn_installs AS int64)) ) as singular_total_cost_per_install
         from
           `eraser-blast.singular.marketing_data` a
           left join singular_country_code_helper b
@@ -337,6 +339,7 @@ view: player_summary_new {
           , e.singular_total_cost
           , e.singular_total_original_cost
           , e.singular_total_installs
+          , e.singular_total_cost_per_install
         from
           summarize_data A
           left join percentile_current_cumulative_mtx_purchase_dollars_table B
@@ -358,7 +361,7 @@ view: player_summary_new {
 
       select
         *
-        , sum( 1 ) over (
+        , sum( singular_total_cost_per_install ) over (
             partition by singular_campaign_id
             rows between unbounded preceding and unbounded following
           ) as total_players_attributed_to_singular_campaign
@@ -369,51 +372,12 @@ view: player_summary_new {
             rows between unbounded preceding and unbounded following
           ) as percentage_of_singular_campaign_cost_attributed
 
-        , singular_total_cost * (
-            1 /
-            sum( 1 ) over (
-              partition by singular_campaign_id
-              rows between unbounded preceding and unbounded following
-            ))
-            as singular_campaign_cost_attributed
+        , singular_total_cost_per_install as singular_campaign_cost_attributed
       from
         add_on_mtx_percentile_and_singular_data
       where
         singular_campaign_id is not null
 
-      )
-
-      -----------------------------------------------------------------------
-      -- Distribute Singular Campaign Costs - Spenders
-      -----------------------------------------------------------------------
-
-      , singular_campaign_costs_spenders as (
-
-      select
-        *
-        , sum( 1 ) over (
-            partition by singular_campaign_id
-            rows between unbounded preceding and unbounded following
-          ) as total_spenders_attributed_to_singular_campaign
-
-        , 1 /
-          sum( 1 ) over (
-            partition by singular_campaign_id
-            rows between unbounded preceding and unbounded following
-          ) as percentage_of_singular_campaign_cost_attributed_to_spenders
-
-        , singular_total_cost * (
-            1 /
-            sum( 1 ) over (
-              partition by singular_campaign_id
-              rows between unbounded preceding and unbounded following
-            ))
-            as singular_campaign_cost_attributed_to_spenders
-      from
-        add_on_mtx_percentile_and_singular_data
-      where
-        singular_campaign_id is not null
-        and cumulative_mtx_purchase_dollars_current > 0
       )
 
       -----------------------------------------------------------------------
@@ -427,16 +391,11 @@ view: player_summary_new {
           , b.total_players_attributed_to_singular_campaign
           , b.percentage_of_singular_campaign_cost_attributed
           , b.singular_campaign_cost_attributed
-          , c.total_spenders_attributed_to_singular_campaign
-          , c.percentage_of_singular_campaign_cost_attributed_to_spenders
-          , c.singular_campaign_cost_attributed_to_spenders
 
         from
           add_on_mtx_percentile_and_singular_data a
           left join singular_campaign_costs_all_players b
             on a.rdg_id = b.rdg_id
-          left join singular_campaign_costs_spenders c
-            on a.rdg_id = c.rdg_id
 
       )
 

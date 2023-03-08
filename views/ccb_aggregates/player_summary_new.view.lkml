@@ -526,21 +526,7 @@ dimension: primary_key {
   dimension: cumulative_mtx_purchase_dollars_current_percentile {type: number}
 
   dimension: firebase_advertising_id {type:string}
-  dimension: singular_device_id {type:string}
-  dimension: singular_campaign_id {type:string}
 
-  dimension: singular_campaign_name {type:string}
-  dimension: singular_source {type:string}
-  dimension: singular_platform {type:string}
-  dimension: singular_country_name {type:string}
-  dimension: singular_country {type:string}
-  dimension: singular_total_impressions {type:number}
-  dimension: singular_total_cost {type:number}
-  dimension: singular_total_original_cost {type:number}
-  dimension: singular_total_installs {type:number}
-  dimension: total_players_attributed_to_singular_campaign {type:number}
-  dimension: percentage_of_singular_campaign_cost_attributed {type:number}
-  dimension: singular_campaign_cost_attributed {type:number}
 
 ################################################################
 ## Calculated Dimensions
@@ -556,6 +542,74 @@ dimension: paid_or_organic {
       end
   ;;
 }
+
+######################################################################
+## Singular Campaign Info
+######################################################################
+
+dimension: singular_campaign_name_clean {
+  group_label: "Singular Campaign Info"
+  label: "Campaign Name (Clean)"
+  type: string
+  sql: @{campaign_name_clean} ;;
+}
+
+dimension: singular_device_id {
+  group_label: "Singular Campaign Info"
+  type:string}
+
+dimension: singular_campaign_id {
+  group_label: "Singular Campaign Info"
+  type:string}
+
+dimension: singular_campaign_name {
+  group_label: "Singular Campaign Info"
+  type:string}
+
+dimension: singular_source {
+  group_label: "Singular Campaign Info"
+  type:string}
+
+dimension: singular_platform {
+  group_label: "Singular Campaign Info"
+  type:string}
+
+dimension: singular_country_name {
+  group_label: "Singular Campaign Info"
+  type:string}
+
+dimension: singular_country {
+  group_label: "Singular Campaign Info"
+  type:string}
+
+dimension: singular_total_impressions {
+  group_label: "Singular Campaign Info"
+  type:number}
+
+dimension: singular_total_cost {
+  group_label: "Singular Campaign Info"
+  type:number}
+
+dimension: singular_total_original_cost {
+  group_label: "Singular Campaign Info"
+  type:number}
+
+dimension: singular_total_installs {
+  group_label: "Singular Campaign Info"
+  type:number}
+
+dimension: total_players_attributed_to_singular_campaign {
+  group_label: "Singular Campaign Info"
+  type:number}
+
+dimension: percentage_of_singular_campaign_cost_attributed {
+  group_label: "Singular Campaign Info"
+  type:number}
+
+dimension: singular_campaign_cost_attributed {
+  group_label: "Singular Campaign Info"
+  type:number}
+
 
 ######################################################################
 ## Expirements

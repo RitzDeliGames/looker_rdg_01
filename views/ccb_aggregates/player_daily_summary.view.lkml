@@ -388,6 +388,7 @@ dimension: primary_key {
   dimension: user_id {type:string}
   dimension: platform {type:string}
   dimension: country {type:string}
+  dimension: region {type:string sql:@{country_region};;}
   dimension: experiments {type:string}
   dimension: version {type:string}
   dimension: install_version {type:string}

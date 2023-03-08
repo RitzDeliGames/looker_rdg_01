@@ -448,6 +448,7 @@ dimension: primary_key {
   dimension: user_id {type: string}
   dimension: platform {type: string}
   dimension: country {type: string}
+  dimension: region {type:string sql:@{country_region};;}
   dimension: cumulative_time_played_minutes {type: number}
 
   # dates

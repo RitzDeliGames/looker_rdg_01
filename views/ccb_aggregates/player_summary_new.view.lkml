@@ -10,8 +10,6 @@ view: player_summary_new {
       -- ccb_aggregate_update_tag
       -- last update: '2023-03-08'
 
-
-
       -- CREATE OR REPLACE TABLE `tal_scratch.player_summary_new` AS
 
       WITH
@@ -72,6 +70,13 @@ view: player_summary_new {
             ORDER BY rdg_date ASC
             ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             ) user_id
+
+          -- display_name
+          , last_value(display_name) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+            ) display_name
 
           -- platform
           , last_value(platform) OVER (
@@ -134,6 +139,7 @@ view: player_summary_new {
             , max(device_id) as device_id
             , max(advertising_id) as advertising_id
             , max(user_id) as user_id
+            , max(display_name) as display_name
             , max(platform) as platform
             , max(country) as country
             , max(created_utc) as created_utc
@@ -408,6 +414,7 @@ view: player_summary_new {
 
       select * from add_on_singular_stats
 
+
             ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;
     publish_as_db_view: yes
@@ -450,6 +457,7 @@ dimension: primary_key {
   dimension: country {type: string}
   dimension: region {type:string sql:@{country_region};;}
   dimension: cumulative_time_played_minutes {type: number}
+  dimension: display_name {type: string}
 
   # dates
   dimension_group: last_played_date {

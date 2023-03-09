@@ -494,7 +494,7 @@ dimension: primary_key {
   dimension: cumulative_mtx_purchase_dollars_d14 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_d30 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_d60 {group_label:"LTV - IAPs" type: number}
-  dimension: cumulative_mtx_purchase_dollars_current {group_label:"LTV - IAPs" label:"LTV - IAP" value_format:"$#.##" type: number}
+  dimension: cumulative_mtx_purchase_dollars_current {group_label:"LTV - IAPs" label:"LTV - IAP" value_format:"$0.00" type: number}
   dimension: cumulative_mtx_purchase_dollars_current_percentile {group_label:"LTV - IAPs" type: number}
   dimension: mtx_ltv_from_data {type: number}
   dimension: cumulative_ad_view_dollars_d1 {group_label:"LTV - Ads" type: number}
@@ -503,14 +503,14 @@ dimension: primary_key {
   dimension: cumulative_ad_view_dollars_d14 {group_label:"LTV - Ads" type: number}
   dimension: cumulative_ad_view_dollars_d30 {group_label:"LTV - Ads" type: number}
   dimension: cumulative_ad_view_dollars_d60 {group_label:"LTV - Ads" type: number}
-  dimension: cumulative_ad_view_dollars_current {group_label:"LTV - Ads" label:"LTV - Ads" value_format:"$#.##" type: number}
+  dimension: cumulative_ad_view_dollars_current {group_label:"LTV - Ads" label:"LTV - Ads" value_format:"$0.00" type: number}
   dimension: cumulative_combined_dollars_d1 {group_label:"LTV - Cumulative" type: number}
   dimension: cumulative_combined_dollars_d2 {group_label:"LTV - Cumulative" type: number}
   dimension: cumulative_combined_dollars_d7 {group_label:"LTV - Cumulative" type: number}
   dimension: cumulative_combined_dollars_d14 {group_label:"LTV - Cumulative" type: number}
   dimension: cumulative_combined_dollars_d30 {group_label:"LTV - Cumulative" type: number}
   dimension: cumulative_combined_dollars_d60 {group_label:"LTV - Cumulative" type: number}
-  dimension: cumulative_combined_dollars_current {group_label:"LTV - Cumulative" label:"LTV - Cumulative" value_format:"$#.##" type: number}
+  dimension: cumulative_combined_dollars_current {group_label:"LTV - Cumulative" label:"LTV - Cumulative" value_format:"$0.00" type: number}
   dimension: highest_last_level_serial_d1 {group_label:"Highest Level" type: number}
   dimension: highest_last_level_serial_d2 {group_label:"Highest Level" type: number}
   dimension: highest_last_level_serial_d7 {group_label:"Highest Level" type: number}

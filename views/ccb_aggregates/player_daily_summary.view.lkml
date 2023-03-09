@@ -558,6 +558,7 @@ dimension: primary_key {
   measure: sum_mtx_purchase_dollars {
     group_label: "MTX Purchase Dollars"
     type:sum
+    value_format: "$0.00"
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: mtx_purchase_dollars_10 {
@@ -593,6 +594,7 @@ dimension: primary_key {
   measure: sum_ad_view_dollars {
     group_label: "Ad View Dollars"
     type:sum
+    value_format: "$0.00"
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_10 {

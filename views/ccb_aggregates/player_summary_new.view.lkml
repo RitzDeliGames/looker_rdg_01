@@ -445,7 +445,11 @@ dimension: primary_key {
 ################################################################
 
   # strings
-  dimension: rdg_id {type: string}
+  dimension: rdg_id {group_label:"Player IDs" type: string}
+  dimension: device_id {group_label:"Player IDs" type: string}
+  dimension: display_name {group_label:"Player IDs" type: string}
+  dimension: advertising_id {group_label:"Player IDs" type: string}
+  dimension: user_id {group_label:"Player IDs" type: string}
   dimension: experiments {type: string}
   dimension: version_at_install {type: string}
   dimension: version_d2 {type: string}
@@ -454,14 +458,10 @@ dimension: primary_key {
   dimension: version_d30 {type: string}
   dimension: version_d60 {type: string}
   dimension: version_current {type: string}
-  dimension: device_id {type: string}
-  dimension: advertising_id {type: string}
-  dimension: user_id {type: string}
   dimension: platform {type: string}
   dimension: country {type: string}
   dimension: region {type:string sql:@{country_region};;}
   dimension: cumulative_time_played_minutes {label:"Minutes Played" value_format:"#,##0" type: number}
-  dimension: display_name {type: string}
 
   # dates
   dimension_group: last_played_date {

@@ -70,7 +70,7 @@ dimension: primary_key {
     group_label: "Activity Dates"
     label: "Activity Date"
     type: time
-    timeframes: [hour, date, week, month, year]
+    timeframes: [time, hour, date, week, month, year]
     sql: ${TABLE}.timestamp_utc ;;
   }
   dimension_group: created_date_timestamp {

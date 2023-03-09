@@ -465,6 +465,7 @@ dimension: primary_key {
 
   # dates
   dimension_group: last_played_date {
+    label: "Last Played"
     type: time
     timeframes: [date, week, month, year]
   }
@@ -487,34 +488,36 @@ dimension: primary_key {
 
   # numbers
   dimension: max_available_day_number {type: number}
-  dimension: cumulative_mtx_purchase_dollars_d1 {type: number}
-  dimension: cumulative_mtx_purchase_dollars_d2 {type: number}
-  dimension: cumulative_mtx_purchase_dollars_d7 {type: number}
-  dimension: cumulative_mtx_purchase_dollars_d14 {type: number}
-  dimension: cumulative_mtx_purchase_dollars_d30 {type: number}
-  dimension: cumulative_mtx_purchase_dollars_d60 {type: number}
-  dimension: cumulative_mtx_purchase_dollars_current {type: number}
+  dimension: cumulative_mtx_purchase_dollars_d1 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d2 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d7 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d14 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d30 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d60 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_current {group_label:"LTV - IAPs" label:"LTV - IAP" value_format:"$#.##" type: number}
+  dimension: cumulative_mtx_purchase_dollars_current_percentile {group_label:"LTV - IAPs" type: number}
   dimension: mtx_ltv_from_data {type: number}
-  dimension: cumulative_ad_view_dollars_d1 {group_label:"Cumulative Ad View Dollars" type: number}
-  dimension: cumulative_ad_view_dollars_d2 {group_label:"Cumulative Ad View Dollars" type: number}
-  dimension: cumulative_ad_view_dollars_d7 {group_label:"Cumulative Ad View Dollars" type: number}
-  dimension: cumulative_ad_view_dollars_d14 {group_label:"Cumulative Ad View Dollars" type: number}
-  dimension: cumulative_ad_view_dollars_d60 {group_label:"Cumulative Ad View Dollars" type: number}
-  dimension: cumulative_ad_view_dollars_current {group_label:"Cumulative Ad View Dollars" type: number}
-  dimension: cumulative_combined_dollars_d1 {type: number}
-  dimension: cumulative_combined_dollars_d2 {type: number}
-  dimension: cumulative_combined_dollars_d7 {type: number}
-  dimension: cumulative_combined_dollars_d14 {type: number}
-  dimension: cumulative_combined_dollars_d30 {type: number}
-  dimension: cumulative_combined_dollars_d60 {type: number}
-  dimension: cumulative_combined_dollars_current {type: number}
-  dimension: highest_last_level_serial_d1 {type: number}
-  dimension: highest_last_level_serial_d2 {type: number}
-  dimension: highest_last_level_serial_d7 {type: number}
-  dimension: highest_last_level_serial_d14 {type: number}
-  dimension: highest_last_level_serial_d30 {type: number}
-  dimension: highest_last_level_serial_d60 {type: number}
-  dimension: highest_last_level_serial_current {type: number}
+  dimension: cumulative_ad_view_dollars_d1 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d2 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d7 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d14 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d30 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d60 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_current {group_label:"LTV - Ads" label:"LTV - Ads" value_format:"$#.##" type: number}
+  dimension: cumulative_combined_dollars_d1 {group_label:"LTV - Cumulative" type: number}
+  dimension: cumulative_combined_dollars_d2 {group_label:"LTV - Cumulative" type: number}
+  dimension: cumulative_combined_dollars_d7 {group_label:"LTV - Cumulative" type: number}
+  dimension: cumulative_combined_dollars_d14 {group_label:"LTV - Cumulative" type: number}
+  dimension: cumulative_combined_dollars_d30 {group_label:"LTV - Cumulative" type: number}
+  dimension: cumulative_combined_dollars_d60 {group_label:"LTV - Cumulative" type: number}
+  dimension: cumulative_combined_dollars_current {group_label:"LTV - Cumulative" label:"LTV - Cumulative" value_format:"$#.##" type: number}
+  dimension: highest_last_level_serial_d1 {group_label:"Highest Level" type: number}
+  dimension: highest_last_level_serial_d2 {group_label:"Highest Level" type: number}
+  dimension: highest_last_level_serial_d7 {group_label:"Highest Level" type: number}
+  dimension: highest_last_level_serial_d14 {group_label:"Highest Level" type: number}
+  dimension: highest_last_level_serial_d30 {group_label:"Highest Level" type: number}
+  dimension: highest_last_level_serial_d60 {group_label:"Highest Level" type: number}
+  dimension: highest_last_level_serial_current {group_label:"Highest Level" label:"Highest Level" type: number}
   dimension: retention_d2 {group_label:"Retention" type: number}
   dimension: retention_d7 {group_label:"Retention" type: number}
   dimension: retention_d14 {group_label:"Retention" type: number}
@@ -527,7 +530,6 @@ dimension: primary_key {
   dimension: cumulative_star_spend_d30 {type: number}
   dimension: cumulative_star_spend_d60 {type: number}
   dimension: cumulative_star_spend_current {type: number}
-  dimension: cumulative_mtx_purchase_dollars_current_percentile {type: number}
 
   dimension: firebase_advertising_id {type:string}
 

@@ -715,7 +715,20 @@ from
       )
     ;;
     value_format_name: percent_1
+  }
 
+  measure: median_moves_remaing_on_win {
+    group_label: "Calculated Fields"
+    type: percentile
+    percentile: 50
+    sql:
+      case
+          when ${TABLE}.count_wins = 1
+          then ${TABLE}.moves_remaining
+          else null
+        end
+    ;;
+    value_format_name: decimal_0
   }
 
   measure: percent_of_rounds_with_moves_added {

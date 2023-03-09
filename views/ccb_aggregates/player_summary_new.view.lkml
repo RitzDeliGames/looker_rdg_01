@@ -460,7 +460,7 @@ dimension: primary_key {
   dimension: platform {type: string}
   dimension: country {type: string}
   dimension: region {type:string sql:@{country_region};;}
-  dimension: cumulative_time_played_minutes {type: number}
+  dimension: cumulative_time_played_minutes {label:"Minutes Played" value_format:"#,##0" type: number}
   dimension: display_name {type: string}
 
   # dates

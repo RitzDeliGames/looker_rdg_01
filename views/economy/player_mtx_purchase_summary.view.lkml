@@ -106,7 +106,13 @@ dimension: primary_key {
   dimension: iap_id_strings {
     group_label: "SKU Information"
     label: "IAP Names"
-    sql: @{iap_id_strings} ;;
+    sql: @{iap_id_strings_new} ;;
+  }
+
+  dimension: iap_id_strings_grouped {
+    group_label: "SKU Information"
+    label: "IAP Names Grouped"
+    sql: @{iap_id_strings_grouped_new} ;;
   }
 
   dimension: iap_purchase_qty {

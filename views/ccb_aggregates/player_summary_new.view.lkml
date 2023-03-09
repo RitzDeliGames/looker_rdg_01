@@ -515,11 +515,11 @@ dimension: primary_key {
   dimension: highest_last_level_serial_d30 {type: number}
   dimension: highest_last_level_serial_d60 {type: number}
   dimension: highest_last_level_serial_current {type: number}
-  dimension: retention_d2 {type: number}
-  dimension: retention_d7 {type: number}
-  dimension: retention_d14 {type: number}
-  dimension: retention_d30 {type: number}
-  dimension: retention_d60 {type: number}
+  dimension: retention_d2 {group_label:"Retention" type: number}
+  dimension: retention_d7 {group_label:"Retention" type: number}
+  dimension: retention_d14 {group_label:"Retention" type: number}
+  dimension: retention_d30 {group_label:"Retention" type: number}
+  dimension: retention_d60 {group_label:"Retention" type: number}
   dimension: cumulative_star_spend_d1 {type: number}
   dimension: cumulative_star_spend_d2 {type: number}
   dimension: cumulative_star_spend_d7 {type: number}

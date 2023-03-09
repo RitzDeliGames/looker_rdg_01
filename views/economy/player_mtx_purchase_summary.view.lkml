@@ -8,7 +8,7 @@ view: player_mtx_purchase_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-01'
+      -- last update: '2023-03-08'
 
       -- create or replace table tal_scratch.player_mtx_purchase_summary as
 
@@ -37,8 +37,6 @@ view: player_mtx_purchase_summary {
 
       from
         `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_incremental`
-
-
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
@@ -90,14 +88,42 @@ dimension: primary_key {
   dimension: session_id {type:string}
   dimension: experiments {type:string}
   dimension: win_streak {type:number}
-  dimension: source_id {type:string}
   dimension: store_session_id {type:string}
-  dimension: iap_purchase_item {type:string}
+
+
+  dimension: source_id {
+    group_label: "SKU Information"
+    type:string}
+
+  dimension: iap_purchase_item {
+    group_label: "SKU Information"
+    type:string}
+
+  dimension: iap_id {
+    group_label: "SKU Information"
+    type:string}
+
+  dimension: iap_id_strings {
+    group_label: "SKU Information"
+    label: "IAP Names"
+    sql: @{iap_id_strings_new} ;;
+  }
+
+  dimension: iap_id_strings_grouped {
+    group_label: "SKU Information"
+    label: "IAP Names Grouped"
+    sql: @{iap_id_strings_grouped_new} ;;
+  }
+
+  dimension: iap_purchase_qty {
+    group_label: "SKU Information"
+    type:number}
+
 
   # Numbers
   dimension: last_level_serial {type:number}
   dimension: count_mtx_purchases {type:number}
-  dimension: iap_purchase_qty {type:number}
+
   dimension: mtx_purchase_dollars {type:number}
   dimension: coins_balance {type:number}
   dimension: lives_balance {type:number}

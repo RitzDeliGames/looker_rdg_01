@@ -155,6 +155,7 @@ dimension: primary_key {
         sum(${TABLE}.count_mtx_purchases)
         )
     ;;
+    value_format_name: usd
   }
 
 

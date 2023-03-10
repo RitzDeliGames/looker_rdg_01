@@ -13,7 +13,7 @@ view: cohort_selection {
       column: total_currency_spent_amount { field: transactions_new.total_currency_spent_amount }
       column: first_created_date {}
     }
-    datagroup_trigger: change_6_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
   }
   dimension: rdg_id {

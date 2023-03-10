@@ -17,7 +17,7 @@ view: loading_times {
       and coalesce(install_version,'null') <> '-1'
     order by rdg_id, timestamp
   ;;
-    datagroup_trigger: change_8_hrs
+    datagroup_trigger: change_at_midnight
   }
 
   dimension: primary_key {

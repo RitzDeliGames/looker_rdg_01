@@ -11,7 +11,7 @@ view: user_activity_engagement_min {
         and user_type = 'external'
       group by 1,2,3
     ;;
-    datagroup_trigger: change_6_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
     #partition_keys: ["activity"]
   }

@@ -18,7 +18,7 @@ view: rewards {
       and country != 'ZZ'
       and coalesce(install_version,'null') <> '-1'
     ;;
-    datagroup_trigger: change_6_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
   }
   dimension: primary_key {

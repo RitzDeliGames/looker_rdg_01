@@ -16,7 +16,7 @@ view: singular_daily_user_attribution_export {
         from `eraser-blast.singular.user_level_attributions`
         where date(event_timestamp) between '2022-06-01' and current_date()
         ;;
-    datagroup_trigger: change_6_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
     partition_keys: ["etl_record_processing_hour_utc"]
     }

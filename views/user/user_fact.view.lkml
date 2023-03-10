@@ -91,7 +91,7 @@ view: user_fact {
         and gde.last_event = ending_balance.last_event
         where rn = 1
     ;;
-    datagroup_trigger: change_6_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
     partition_keys: ["created"]
   }

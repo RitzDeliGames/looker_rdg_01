@@ -34,7 +34,7 @@ view: transactions_new {
         and date(timestamp) between '2022-06-01' and current_date()
       order by timestamp
     ;;
-    datagroup_trigger: change_6_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
   }
   parameter: spenders_currency_filter {

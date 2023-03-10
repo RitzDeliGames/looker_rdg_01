@@ -59,7 +59,7 @@ view: churn_by_level_by_attempt {
         and a.round_id = b.round_id
       order by 1, 2 desc
       ;;
-    datagroup_trigger: change_6_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
   }
   dimension: primary_key {

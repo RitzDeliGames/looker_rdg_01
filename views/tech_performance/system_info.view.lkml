@@ -17,7 +17,7 @@ view: system_info {
           and user_type = 'external'
           and event_name = 'system_info'
     ;;
-    datagroup_trigger: change_8_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
   }
 

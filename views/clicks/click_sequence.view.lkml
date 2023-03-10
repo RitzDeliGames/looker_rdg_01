@@ -22,7 +22,7 @@ view: click_sequence {
         sql: row_number() over (partition by rdg_id order by event_time) ;;
       }
     }
-    datagroup_trigger: change_6_hrs
+    datagroup_trigger: change_at_midnight
   }
   dimension: button_tag {}
   dimension: button_tag_raw {}

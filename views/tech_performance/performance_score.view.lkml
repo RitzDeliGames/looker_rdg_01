@@ -12,7 +12,7 @@ view: performance_score {
           and country != 'ZZ'
         and event_name = 'TitleScreenAwake'
     ;;
-    datagroup_trigger: change_8_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
   }
 

@@ -20,7 +20,7 @@ view: churn_by_match_made {
       and user_type = 'external'
       and country != 'ZZ'
     ;;
-    datagroup_trigger: change_6_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
   }
 

@@ -20,7 +20,7 @@ view: fps {
    group by 1,2,3,5,6,7,8
    order by ms_per_frame asc
   ;;
-    datagroup_trigger: change_8_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
   }
 

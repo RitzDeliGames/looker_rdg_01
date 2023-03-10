@@ -21,7 +21,7 @@ view: display_name_helper {
         group by 1,2
       ;;
 
-    datagroup_trigger: change_8_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
     #partition_keys: ["created"]
   }

@@ -6,7 +6,7 @@ view: rounds_per_day_per_player {
       column: created_date { field: user_fact.created_date }
       column: rdg_id { field: user_fact.rdg_id }
     }
-    datagroup_trigger: change_8_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
     partition_keys: ["event_date"]
   }

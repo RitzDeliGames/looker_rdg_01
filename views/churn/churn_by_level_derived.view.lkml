@@ -62,7 +62,7 @@ view: churn_by_level_derived {
         and a.install_config = b.install_config
       order by a.last_level_completed asc
       ;;
-    datagroup_trigger: change_6_hrs
+    datagroup_trigger: change_at_midnight
     publish_as_db_view: yes
   }
   dimension: primary_key {

@@ -147,7 +147,7 @@ dimension: primary_key {
   measure: mean_cost_per_purchase {
     group_label: "Calculated Fields"
     label: "Average Selling Price (ASP)"
-    type: count_distinct
+    type: number
     sql:
       safe_divide(
         sum(${TABLE}.mtx_purchase_dollars)

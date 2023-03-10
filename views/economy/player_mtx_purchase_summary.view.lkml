@@ -158,7 +158,33 @@ dimension: primary_key {
     value_format_name: usd
   }
 
+  measure: mtx_dollars_per_spender {
+    group_label: "Calculated Fields"
+    label: "MTX Dollars Per Spender"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+        )
+    ;;
+    value_format_name: usd
+  }
 
+  measure: mean_purchases_per_spender {
+    group_label: "Calculated Fields"
+    label: "Purchases Per Spender"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.count_mtx_purchases)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+        )
+    ;;
+    value_format_name: decimal_1
+  }
 ################################################################
 ## Player Counts
 ################################################################

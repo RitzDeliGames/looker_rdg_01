@@ -185,6 +185,19 @@ dimension: primary_key {
     ;;
     value_format_name: decimal_1
   }
+  measure: mtx_dollars_per_unique_day {
+    group_label: "Calculated Fields"
+    label: "MTX Dollars Per Day"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars)
+        ,
+        count(distinct ${TABLE}.rdg_date)
+        )
+    ;;
+    value_format_name: usd
+  }
 ################################################################
 ## Player Counts
 ################################################################

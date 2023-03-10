@@ -535,6 +535,7 @@ dimension: primary_key {
   measure: count_distinct_new_player_rdg_id {
     group_label: "Unique Player Counts"
     type: count_distinct
+    value_format: "#,###"
     sql: ${TABLE}.new_player_rdg_id ;;
   }
   measure: count_distinct_churn_rdg_id {
@@ -558,7 +559,7 @@ dimension: primary_key {
   measure: sum_mtx_purchase_dollars {
     group_label: "MTX Purchase Dollars"
     type:sum
-    value_format: "$0.00"
+    value_format: "$#,###"
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: mtx_purchase_dollars_10 {
@@ -594,7 +595,7 @@ dimension: primary_key {
   measure: sum_ad_view_dollars {
     group_label: "Ad View Dollars"
     type:sum
-    value_format: "$0.00"
+    value_format: "$#,###"
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_10 {
@@ -1435,6 +1436,7 @@ dimension: primary_key {
   measure: sum_combined_dollars {
     group_label: "Combined Dollars"
     type:sum
+    value_format: "$#,###"
     sql: ${TABLE}.combined_dollars ;;
   }
   measure: combined_dollars_10 {

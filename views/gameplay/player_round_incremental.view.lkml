@@ -4,7 +4,7 @@ view: player_round_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update on '2023-03-02' (2)
+      -- update on '2023-03-10'
 
       -- create or replace table tal_scratch.player_round_incremental as
 
@@ -42,12 +42,11 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-03-02' -- Last Full Update
-                      then '2019-01-01'
+                      when date(current_date()) <= '2023-03-10' -- Last Full Update
+                      then '2022-06-01' -- Only data from June 2022 Onward
                       else date_add(current_date(), interval -9 day)
                       end
               and date(timestamp) <= date_add(current_date(), interval -1 DAY)
-              -- and date(timestamp) = '2023-02-26'
 
               ------------------------------------------------------------------------
               -- user type selection
@@ -116,6 +115,15 @@ view: player_round_incremental {
               , cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
               , cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
 
+              , safe_cast(json_extract_scalar( extra_json , "$.objective_0") as numeric) as objective_0
+              , safe_cast(json_extract_scalar( extra_json , "$.objective_1") as numeric) as objective_1
+              , safe_cast(json_extract_scalar( extra_json , "$.objective_2") as numeric) as objective_2
+              , safe_cast(json_extract_scalar( extra_json , "$.objective_3") as numeric) as objective_3
+              , safe_cast(json_extract_scalar( extra_json , "$.objective_4") as numeric) as objective_4
+              , safe_cast(json_extract_scalar( extra_json , "$.objective_5") as numeric) as objective_5
+
+
+
           from
               get_round_start_timestamp
           where
@@ -163,6 +171,14 @@ view: player_round_incremental {
           , max(currency_03_balance) as coins_balance
           , max(currency_04_balance) as lives_balance
           , max(currency_07_balance) as stars_balance
+          , max(objective_0) as objective_0
+          , max(objective_1) as objective_1
+          , max(objective_2) as objective_2
+          , max(objective_3) as objective_3
+          , max(objective_4) as objective_4
+          , max(objective_5) as objective_5
+
+
       from
           get_round_ends_events_only
       group by
@@ -171,6 +187,7 @@ view: player_round_incremental {
           , game_mode
           , level_serial
           , round_end_timestamp_utc
+
 
 
 

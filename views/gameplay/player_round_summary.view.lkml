@@ -764,7 +764,15 @@ from
     value_format_name: decimal_0
   }
 
-
+  measure: median_round_length_in_minutes {
+    group_label: "Calculated Fields"
+    type: percentile
+    percentile: 50
+    sql:
+      ${TABLE}.round_length_minutes
+      ;;
+    value_format_name: decimal_1
+  }
   measure: percent_of_rounds_with_moves_added {
     group_label: "Calculated Fields"
     type: number

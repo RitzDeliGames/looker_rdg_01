@@ -131,6 +131,14 @@ dimension: primary_key {
   dimension: cumulative_time_played_minutes {type:number}
   dimension: days_since_created {type:number}
   dimension: day_number {type:number}
+  dimension: cumulative_mtx_purchase_dollars {
+    type: number
+    value_format_name: usd
+  }
+  dimension: cumulative_count_mtx_purchases {
+    type: number
+    value_format_name: decimal_0
+  }
 
 
 

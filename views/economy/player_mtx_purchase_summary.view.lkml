@@ -140,6 +140,22 @@ dimension: primary_key {
     value_format_name: decimal_0
   }
 
+################################################################
+## Calculated Fields
+################################################################
+
+  measure: mean_cost_per_purchase {
+    group_label: "Calculated Fields"
+    label: "Average Selling Price (ASP)"
+    type: count_distinct
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars)
+        ,
+        sum(${TABLE}.count_mtx_purchases)
+        )
+    ;;
+  }
 
 
 ################################################################

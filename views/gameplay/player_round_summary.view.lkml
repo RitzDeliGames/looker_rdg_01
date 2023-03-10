@@ -563,7 +563,10 @@ from
   # Strings and Numbers
   dimension: rdg_id {type:string}
   dimension: game_mode {type:string}
-  dimension: level_serial {type:number}
+  dimension: level_serial {
+    label: "Current Level"
+    type:number
+    }
   dimension: version {type:string}
   dimension: session_id {type:string}
   dimension: experiments {type:string}

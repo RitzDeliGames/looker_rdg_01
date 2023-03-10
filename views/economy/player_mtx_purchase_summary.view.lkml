@@ -198,6 +198,10 @@ dimension: primary_key {
     ;;
     value_format_name: usd_0
   }
+
+
+
+
 ################################################################
 ## Player Counts
 ################################################################
@@ -208,6 +212,22 @@ dimension: primary_key {
     label: "Count Distinct Spenders"
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
+  }
+
+  measure: new_spender_count {
+    group_label: "Unique Player Counts"
+    label: "New Spender Count"
+    type: number
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.cumulative_count_mtx_purchases = 1
+          then ${TABLE}.rdg_id
+          else null
+          end
+        )
+    ;;
+    value_format_name: decimal_0
   }
 
 ################################################################

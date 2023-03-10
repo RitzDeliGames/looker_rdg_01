@@ -196,7 +196,7 @@ dimension: primary_key {
         count(distinct ${TABLE}.rdg_date)
         )
     ;;
-    value_format_name: usd
+    value_format_name: usd_0
   }
 ################################################################
 ## Player Counts

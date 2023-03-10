@@ -856,4 +856,4 @@ explore: player_coin_spend_summary {
   }
 }
 
-explore: player_mtx_purchase_incremental {}
+explore: player_round_incremental {}

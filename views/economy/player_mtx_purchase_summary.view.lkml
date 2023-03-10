@@ -149,6 +149,7 @@ dimension: primary_key {
   ## Player Counts
   measure: count_distinct_active_users {
     group_label: "Unique Player Counts"
+    label: "Count Distinct Spenders"
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
   }

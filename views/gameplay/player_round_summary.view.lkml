@@ -8,7 +8,8 @@ view: player_round_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last manual update: '2023-03-10'
+      -- last manual update: '2023-03-13'
+
 
 
       -- select * from tal_scratch.player_round_summary order by round_start_timestamp_utc
@@ -118,6 +119,7 @@ view: player_round_summary {
           , max(a.objective_3) as objective_3
           , max(a.objective_4) as objective_4
           , max(a.objective_5) as objective_5
+          , max(a.config_timestamp) as config_timestamp
 
           --------------------------------------------------------------------------
           -- mtx purchase dollars
@@ -230,6 +232,7 @@ view: player_round_summary {
           , max(a.objective_3) as objective_3
           , max(a.objective_4) as objective_4
           , max(a.objective_5) as objective_5
+          , max(a.config_timestamp) as config_timestamp
 
           --------------------------------------------------------------------------
           -- ad_view_dollars
@@ -336,7 +339,7 @@ view: player_round_summary {
           , max(a.objective_3) as objective_3
           , max(a.objective_4) as objective_4
           , max(a.objective_5) as objective_5
-
+          , max(a.config_timestamp) as config_timestamp
 
           , max(a.before_round_start_mtx_purchase_dollars) as before_round_start_mtx_purchase_dollars
           , max(a.in_round_mtx_purchase_dollars) as in_round_mtx_purchase_dollars
@@ -533,8 +536,6 @@ view: player_round_summary {
 
       from
         add_window_functions
-
-
 
 
 

@@ -42,7 +42,7 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-03-10' -- Last Full Update
+                      when date(current_date()) <= '2023-03-13' -- Last Full Update
                       then '2022-06-01' -- Only data from June 2022 Onward
                       else date_add(current_date(), interval -9 day)
                       end
@@ -122,6 +122,7 @@ view: player_round_incremental {
               , safe_cast(json_extract_scalar( extra_json , "$.objective_4") as numeric) as objective_4
               , safe_cast(json_extract_scalar( extra_json , "$.objective_5") as numeric) as objective_5
 
+              , cast(json_extract_scalar( extra_json , "$.config_timestamp") as numeric) as config_timestamp
 
 
           from
@@ -177,6 +178,7 @@ view: player_round_incremental {
           , max(objective_3) as objective_3
           , max(objective_4) as objective_4
           , max(objective_5) as objective_5
+          , max(config_timestamp) as config_timestamp
 
 
       from
@@ -187,8 +189,6 @@ view: player_round_incremental {
           , game_mode
           , level_serial
           , round_end_timestamp_utc
-
-
 
 
       ;;

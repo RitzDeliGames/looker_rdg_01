@@ -650,6 +650,8 @@ view: player_round_summary {
   dimension: cumulative_coin_spend_at_churn {type:number}
   dimension: cumulative_count_coin_spend_events_at_churn {type:number}
   dimension: cumulative_combined_dollars_at_churn {type:number}
+  dimension: config_timestamp {type: number}
+
 
   dimension: round_attempt_number_at_churn_tiers {
     type:tier

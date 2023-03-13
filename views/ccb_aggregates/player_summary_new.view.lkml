@@ -8,10 +8,10 @@ view: player_summary_new {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-08'
+      -- last update: '2023-03-13'
 
 
-      -- CREATE OR REPLACE TABLE `tal_scratch.player_summary_new` AS
+      -- CREATE OR REPLACE TABLE `tal_scratch.player_summary` AS
 
       WITH
 
@@ -121,6 +121,59 @@ view: player_summary_new {
             ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             ) install_version
 
+          -------------------------------------------------------------------
+          -- system info
+          -------------------------------------------------------------------
+
+          , last_value(hardware) over (
+            partition by rdg_id
+            order by rdg_date ASC
+            rows between unbounded preceding and unbounded following
+            ) hardware
+
+          , last_value(processor_type) over (
+            partition by rdg_id
+            order by rdg_date ASC
+            rows between unbounded preceding and unbounded following
+            ) processor_type
+
+          , last_value(graphics_device_name) over (
+            partition by rdg_id
+            order by rdg_date ASC
+            rows between unbounded preceding and unbounded following
+            ) graphics_device_name
+
+            , last_value(device_model) over (
+            partition by rdg_id
+            order by rdg_date ASC
+            rows between unbounded preceding and unbounded following
+            ) device_model
+
+            , last_value(system_memory_size) over (
+            partition by rdg_id
+            order by rdg_date ASC
+            rows between unbounded preceding and unbounded following
+            ) system_memory_size
+
+            , last_value(graphics_memory_size) over (
+            partition by rdg_id
+            order by rdg_date ASC
+            rows between unbounded preceding and unbounded following
+            ) graphics_memory_size
+
+            , last_value(screen_width) over (
+            partition by rdg_id
+            order by rdg_date ASC
+            rows between unbounded preceding and unbounded following
+            ) screen_width
+
+              , last_value(screen_height) over (
+            partition by rdg_id
+            order by rdg_date ASC
+            rows between unbounded preceding and unbounded following
+            ) screen_height
+
+
       FROM
         `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
         , latest_update_table
@@ -210,6 +263,16 @@ view: player_summary_new {
           , max( case when day_number <= 30 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d30
           , max( case when day_number <= 60 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d60
           , max( cumulative_star_spend ) as cumulative_star_spend_current
+
+          -- system_info
+          , max( hardware ) as hardware
+          , max( processor_type ) as processor_type
+          , max( graphics_device_name ) as graphics_device_name
+          , max( device_model ) as device_model
+          , max( system_memory_size ) as system_memory_size
+          , max( graphics_memory_size ) as graphics_memory_size
+          , max( screen_width ) as screen_width
+          , max( screen_height ) as screen_height
 
         FROM
           pre_aggregate_calculations_from_base_data
@@ -418,7 +481,6 @@ view: player_summary_new {
       select * from add_on_singular_stats
 
 
-
             ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;
     publish_as_db_view: yes
@@ -532,6 +594,17 @@ dimension: primary_key {
   dimension: cumulative_star_spend_current {type: number}
 
   dimension: firebase_advertising_id {type:string}
+
+  ## system_info
+  dimension: hardware {type: string}
+  dimension: processor_type {type: string}
+  dimension: graphics_device_name {type: string}
+  dimension: device_model {type: string}
+  dimension: system_memory_size {type: number}
+  dimension: graphics_memory_size {type: number}
+  dimension: screen_width {type: number}
+  dimension: screen_height {type: number}
+
 
 
 ################################################################

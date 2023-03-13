@@ -596,14 +596,48 @@ dimension: primary_key {
   dimension: firebase_advertising_id {type:string}
 
   ## system_info
-  dimension: hardware {type: string}
-  dimension: processor_type {type: string}
-  dimension: graphics_device_name {type: string}
-  dimension: device_model {type: string}
-  dimension: system_memory_size {type: number}
-  dimension: graphics_memory_size {type: number}
-  dimension: screen_width {type: number}
-  dimension: screen_height {type: number}
+  dimension: hardware {
+    group_label: "System Info"
+    type: string
+    }
+  dimension: processor_type {
+    group_label: "System Info"
+    type: string
+    }
+  dimension: graphics_device_name {
+    group_label: "System Info"
+    type: string
+    }
+  dimension: device_model {
+    group_label: "System Info"
+    type: string
+    }
+  dimension: system_memory_size {
+    group_label: "System Info"
+    type: number
+    }
+  dimension: graphics_memory_size {
+    group_label: "System Info"
+    type: number
+    }
+  dimension: screen_width {
+    group_label: "System Info"
+    type: number
+    }
+  dimension: screen_height {
+    group_label: "System Info"
+    type: number
+    }
+  dimension: screen_dimensions {
+    group_label: "System Info"
+    type: string
+    sql:
+      safe_cast(${TABLE}.screen_width as string)
+      || ' x '
+      || safe_cast(${TABLE}.screen_height as string) ;;
+
+
+  }
 
 
 

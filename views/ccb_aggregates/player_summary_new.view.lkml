@@ -639,6 +639,30 @@ dimension: primary_key {
 
   }
 
+  dimension: device_model_mapping {
+    group_label: "System Info"
+    type: string
+    sql: @{device_model_mapping} ;;
+  }
+
+  dimension: device_manufacturer_mapping {
+    group_label: "System Info"
+    type: string
+    sql: @{device_manufacturer_mapping} ;;
+  }
+
+  dimension: device_os_version_mapping {
+    group_label: "System Info"
+    type: string
+    sql: @{device_os_version_mapping} ;;
+  }
+
+  dimension: device_platform_mapping {
+    group_label: "System Info"
+    type: string
+    sql: @{device_platform_mapping} ;;
+  }
+
 
 
 ################################################################

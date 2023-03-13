@@ -4,7 +4,9 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-03-08'
+      -- update '2023-03-13'
+
+      -- create or replace table tal_scratch.player_daily_incremental as
 
       WITH
 
@@ -44,6 +46,8 @@ view: player_daily_incremental {
           , last_level_serial
           , win_streak
           , user_id
+          , hardware
+          , devices
         FROM
           `eraser-blast.game_data.events` a
         WHERE
@@ -55,8 +59,8 @@ view: player_daily_incremental {
           DATE(timestamp) >=
             CASE
               -- SELECT DATE(CURRENT_DATE())
-              WHEN DATE(CURRENT_DATE()) <= '2023-03-08' -- Last Full Update
-              THEN '2019-01-01'
+              WHEN DATE(CURRENT_DATE()) <= '2023-03-13' -- Last Full Update
+              THEN '2022-06-01'
               ELSE DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
               END
           AND DATE(timestamp) <= DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
@@ -339,6 +343,63 @@ view: player_daily_incremental {
               ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
               ) AS ending_stars_balance
 
+          -------------------------------------------------
+          -- system info
+          -------------------------------------------------
+
+          , safe_cast(case
+              when event_name = 'system_info'
+              then hardware
+              else null
+              end as string) as hardware
+
+          , safe_cast(case
+              when event_name = 'system_info'
+              then json_extract_scalar(extra_json, "$.processorType")
+              else null
+              end as string) as processor_type
+
+          , safe_cast(case
+              when event_name = 'system_info'
+              then json_extract_scalar(extra_json, "$.graphicsDeviceName")
+              else null
+              end as string) as graphics_device_name
+
+          , safe_cast(case
+              when event_name = 'system_info'
+              then json_extract_scalar(extra_json, "$.deviceModel")
+              else null
+              end as string) as device_model
+
+          , safe_cast(case
+              when event_name = 'system_info'
+              then json_extract_scalar(extra_json, "$.systemMemorySize")
+              else null
+              end as int64) as system_memory_size
+
+          , safe_cast(case
+              when event_name = 'system_info'
+              then json_extract_scalar(extra_json, "$.graphicsMemorySize")
+              else null
+              end as int64) as graphics_memory_size
+
+          , (select
+                string_agg(
+                    safe_cast(json_extract_scalar(device_array, '$.screenWidth') as string)
+                    , ' ,' )
+                from
+                    unnest(json_extract_array(devices)) device_array
+                ) screen_width
+
+          , (select
+                string_agg(
+                    safe_cast(json_extract_scalar(device_array, '$.screenHeight') as string)
+                    , ' ,' )
+                from
+                    unnest(json_extract_array(devices)) device_array
+                ) screen_height
+
+
         FROM
           base_data
       )
@@ -375,15 +436,25 @@ view: player_daily_incremental {
         , MAX(highest_quests_completed) AS highest_quests_completed
         , SUM(gems_spend) AS gems_spend
         , SUM(coins_spend) AS coins_spend
-        --, SUM(lives_spend) AS lives_spend
         , SUM(stars_spend) AS stars_spend
         , MAX(ending_gems_balance) AS ending_gems_balance
         , MAX(ending_coins_balance) AS ending_coins_balance
         , MAX(ending_lives_balance) AS ending_lives_balance
         , MAX(ending_stars_balance) AS ending_stars_balance
-      FROM
+
+        -- system_info
+        , max( hardware ) as hardware
+        , max( processor_type ) as processor_type
+        , max( graphics_device_name ) as graphics_device_name
+        , max( device_model ) as device_model
+        , max( system_memory_size ) as system_memory_size
+        , max( graphics_memory_size ) as graphics_memory_size
+        , max( screen_width ) as screen_width
+        , max( screen_height ) as screen_height
+
+      from
         pre_aggregate_calculations_from_base_data
-      GROUP BY
+      group by
         1,2
 
       ;;

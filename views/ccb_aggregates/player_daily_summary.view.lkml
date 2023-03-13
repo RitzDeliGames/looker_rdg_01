@@ -8,9 +8,9 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-08'
+      -- last update: '2023-03-13'
 
-      -- CREATE OR REPLACE TABLE `tal_scratch.test_player_daily_summary` AS
+      -- CREATE OR REPLACE TABLE `tal_scratch.player_daily_summary` AS
 
       with
       -----------------------------------------------------------------------
@@ -103,6 +103,16 @@ view: player_daily_summary {
               , max(a.ending_lives_balance) as ending_lives_balance
               , max(a.ending_stars_balance) as ending_stars_balance
 
+              -- system_info
+              , max( a.hardware ) as hardware
+              , max( a.processor_type ) as processor_type
+              , max( a.graphics_device_name ) as graphics_device_name
+              , max( a.device_model ) as device_model
+              , max( a.system_memory_size ) as system_memory_size
+              , max( a.graphics_memory_size ) as graphics_memory_size
+              , max( a.screen_width ) as screen_width
+              , max( a.screen_height ) as screen_height
+
           from
               player_daily_incremental_w_prior_date a
               left join ads_by_date b
@@ -156,6 +166,16 @@ view: player_daily_summary {
               , max(a.ending_coins_balance) as ending_coins_balance
               , max(a.ending_lives_balance) as ending_lives_balance
               , max(a.ending_stars_balance) as ending_stars_balance
+
+              -- system_info
+              , max( a.hardware ) as hardware
+              , max( a.processor_type ) as processor_type
+              , max( a.graphics_device_name ) as graphics_device_name
+              , max( a.device_model ) as device_model
+              , max( a.system_memory_size ) as system_memory_size
+              , max( a.graphics_memory_size ) as graphics_memory_size
+              , max( a.screen_width ) as screen_width
+              , max( a.screen_height ) as screen_height
 
           from
               join_on_ads_data a
@@ -414,6 +434,7 @@ view: player_daily_summary {
       where
           -- select date_add( current_date(), interval -1 day )
           rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
+
 
 
       ;;

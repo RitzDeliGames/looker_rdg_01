@@ -856,4 +856,14 @@ explore: player_coin_spend_summary {
   }
 }
 
-## explore: player_daily_incremental {}
+explore: player_hourly {
+  label: "Player Hourly"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_hourly.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}

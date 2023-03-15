@@ -8,8 +8,7 @@ view: player_summary_new {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-13'
-
+      -- last update: '2023-03-15'
 
       -- CREATE OR REPLACE TABLE `tal_scratch.player_summary` AS
 
@@ -475,10 +474,39 @@ view: player_summary_new {
       )
 
       -----------------------------------------------------------------------
-      -- select * data
+      -- prepare supported_devices table
       -----------------------------------------------------------------------
 
-      select * from add_on_singular_stats
+      , supported_devices_table as (
+
+        select
+          retail_name || ' ' || model_name as device_model
+          , max(retail_name) as retail_name
+          , max(marketing_name) as marketing_name
+          , max(device_name) as device_name
+          , max(model_name) as model_name
+        from
+          `eraser-blast.game_data.supported_devices`
+        where
+          retail_name != "Retail Branding"
+        group by
+          1
+      )
+
+      -----------------------------------------------------------------------
+      -- add on supported_devices
+      -----------------------------------------------------------------------
+
+      select
+        a.*
+        , b.retail_name as supported_devices_retail_name
+        , b.marketing_name as supported_devices_marketing_name
+        , b.device_name as supported_devices_device_name
+        , b.model_name as supported_devices_model_name
+      from
+        add_on_singular_stats a
+        left join supported_devices_table b
+          on a.device_model = b.device_model
 
 
             ;;
@@ -639,29 +667,46 @@ dimension: primary_key {
 
   }
 
-  dimension: device_model_mapping {
-    group_label: "System Info"
-    type: string
-    sql: @{device_model_mapping} ;;
-  }
+  # dimension: device_model_mapping {
+  #   group_label: "System Info"
+  #   type: string
+  #   sql: @{device_model_mapping} ;;
+  # }
 
-  dimension: device_manufacturer_mapping {
-    group_label: "System Info"
-    type: string
-    sql: @{device_manufacturer_mapping} ;;
-  }
+  # dimension: device_manufacturer_mapping {
+  #   group_label: "System Info"
+  #   type: string
+  #   sql: @{device_manufacturer_mapping} ;;
+  # }
 
-  dimension: device_os_version_mapping {
-    group_label: "System Info"
-    type: string
-    sql: @{device_os_version_mapping} ;;
-  }
+  # dimension: device_os_version_mapping {
+  #   group_label: "System Info"
+  #   type: string
+  #   sql: @{device_os_version_mapping} ;;
+  # }
 
   dimension: device_platform_mapping {
     group_label: "System Info"
     type: string
     sql: @{device_platform_mapping} ;;
   }
+
+    dimension: supported_devices_retail_name {
+      group_label: "System Info"
+      type: string
+    }
+    dimension: supported_devices_marketing_name {
+      group_label: "System Info"
+      type: string
+    }
+    dimension: supported_devices_device_name {
+      group_label: "System Info"
+      type: string
+    }
+    dimension: supported_devices_model_name {
+      group_label: "System Info"
+      type: string
+    }
 
 
 

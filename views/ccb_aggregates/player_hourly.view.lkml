@@ -597,5 +597,11 @@ view: player_hourly {
     value_format_name: percent_0
   }
 
+  measure: sum_mtx_purchase_dollars {
+    group_label: "Dollars"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
 
 }

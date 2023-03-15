@@ -8,8 +8,7 @@ view: player_round_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last manual update: '2023-03-13'
-
+      -- last manual update: '2023-03-15'
 
 
       -- select * from tal_scratch.player_round_summary order by round_start_timestamp_utc
@@ -119,7 +118,7 @@ view: player_round_summary {
           , max(a.objective_3) as objective_3
           , max(a.objective_4) as objective_4
           , max(a.objective_5) as objective_5
-          , max(a.config_timestamp) as config_timestamp
+          , max(timestamp(timestamp_millis(safe_cast(a.config_timestamp as int64)))) as config_timestamp
 
           --------------------------------------------------------------------------
           -- mtx purchase dollars
@@ -578,6 +577,12 @@ view: player_round_summary {
     sql: ${TABLE}.created_date ;;
   }
 
+  dimension_group: config_timestamp {
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.config_timestamp ;;
+  }
+
   # Strings and Numbers
   dimension: rdg_id {type:string}
   dimension: game_mode {type:string}
@@ -650,7 +655,6 @@ view: player_round_summary {
   dimension: cumulative_coin_spend_at_churn {type:number}
   dimension: cumulative_count_coin_spend_events_at_churn {type:number}
   dimension: cumulative_combined_dollars_at_churn {type:number}
-  dimension: config_timestamp {type: number}
 
 
   dimension: round_attempt_number_at_churn_tiers {

@@ -509,10 +509,19 @@ view: player_hourly {
 
   # # Define your dimensions and measures here, like this:
   dimension_group: rdg_date_analysis {
-    description: "date as defined by rdg_date function"
+    group_label: "Time Frames"
+    label: "Activity Hour"
     type: time
     timeframes: [hour, date, week, month, year]
     sql: ${TABLE}.rdg_date_hour ;;
+  }
+  # # Define your dimensions and measures here, like this:
+  dimension_group: install_hour {
+    group_label: "Time Frames"
+    label: "Install Hour"
+    type: time
+    timeframes: [hour, date, week, month, year]
+    sql: ${TABLE}.created_hour ;;
   }
 
   ## Player Counts

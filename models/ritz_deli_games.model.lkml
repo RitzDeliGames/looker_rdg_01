@@ -867,3 +867,5 @@ explore: player_hourly {
       ;;
   }
 }
+
+explore: player_daily_incremental {}

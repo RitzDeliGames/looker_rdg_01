@@ -664,12 +664,30 @@ dimension: primary_key {
   }
 
 ################################################################
+## Average Daily Numbers
+################################################################
+
+  measure: average_daily_active_users {
+    group_label: "Average Daily Numbers"
+    label: "Average Daily Active Users (DAU)"
+    type: number
+    sql:
+      safe_divide(
+        sum(1)
+        ,
+        count(distinct ${TABLE}.rdg_date)
+      )
+    ;;
+    value_format_name: decimal_0
+  }
+
+################################################################
 ## Other Calculations
 ################################################################
 
   measure: percent_players_playing_rounds {
     group_label: "Calculated Fields"
-    type: count_distinct
+    type: number
     sql:
       safe_divide(
         count(distinct
@@ -686,7 +704,7 @@ dimension: primary_key {
 
   measure: percent_players_playing_campaign {
     group_label: "Calculated Fields"
-    type: count_distinct
+    type: number
     sql:
       safe_divide(
         count(distinct
@@ -702,7 +720,7 @@ dimension: primary_key {
   }
   measure: percent_players_playing_movesmaster {
     group_label: "Calculated Fields"
-    type: count_distinct
+    type: number
     sql:
       safe_divide(
         count(distinct
@@ -719,7 +737,7 @@ dimension: primary_key {
 
   measure: percent_players_playing_puzzle {
     group_label: "Calculated Fields"
-    type: count_distinct
+    type: number
     sql:
       safe_divide(
         count(distinct
@@ -740,7 +758,7 @@ dimension: primary_key {
 
   measure: average_mtx_purchase_revenue_per_player{
     group_label: "Revenue Metrics"
-    type: count_distinct
+    type: number
     sql:
       safe_divide(
         sum(${TABLE}.mtx_purchase_dollars)
@@ -753,7 +771,7 @@ dimension: primary_key {
 
   measure: average_daily_mtx_conversion {
     group_label: "Revenue Metrics"
-    type: count_distinct
+    type: number
     sql:
       safe_divide(
         sum(${TABLE}.daily_mtx_spend_indicator)
@@ -766,7 +784,7 @@ dimension: primary_key {
 
   measure: average_ad_revenue_per_player{
     group_label: "Revenue Metrics"
-    type: count_distinct
+    type: number
     sql:
       safe_divide(
         sum(${TABLE}.ad_view_dollars)
@@ -779,7 +797,7 @@ dimension: primary_key {
 
   measure: average_daily_ads_conversion {
     group_label: "Revenue Metrics"
-    type: count_distinct
+    type: number
     sql:
       safe_divide(
         sum( case
@@ -796,7 +814,7 @@ dimension: primary_key {
 
   measure: average_combined_revenue_per_player{
     group_label: "Revenue Metrics"
-    type: count_distinct
+    type: number
     sql:
       safe_divide(
         sum(${TABLE}.combined_dollars)

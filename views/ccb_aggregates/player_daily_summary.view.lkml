@@ -632,7 +632,7 @@ dimension: primary_key {
 
 
 ################################################################
-## Measures
+## Unique Player Counts
 ################################################################
 
   ## Player Counts
@@ -662,6 +662,151 @@ dimension: primary_key {
     type: count_distinct
     sql: ${TABLE}.lifetime_mtx_spender_rdg_id ;;
   }
+
+################################################################
+## Other Calculations
+################################################################
+
+  measure: percent_players_playing_rounds {
+    group_label: "Calculated Fields"
+    type: count_distinct
+    sql:
+      safe_divide(
+        count(distinct
+          when ${TABLE}.round_end_events > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_playing_campaign {
+    group_label: "Calculated Fields"
+    type: count_distinct
+    sql:
+      safe_divide(
+        count(distinct
+          when ${TABLE}.round_end_events_campaign > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+  measure: percent_players_playing_movesmaster {
+    group_label: "Calculated Fields"
+    type: count_distinct
+    sql:
+      safe_divide(
+        count(distinct
+          when ${TABLE}.round_end_events_movesmaster > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_playing_puzzle {
+    group_label: "Calculated Fields"
+    type: count_distinct
+    sql:
+      safe_divide(
+        count(distinct
+          when ${TABLE}.round_end_events_puzzle > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+################################################################
+## Revenue Metrics
+################################################################
+
+  measure: average_mtx_purchase_revenue_per_player{
+    group_label: "Revenue Metrics"
+    type: count_distinct
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: average_daily_mtx_conversion {
+    group_label: "Revenue Metrics"
+    type: count_distinct
+    sql:
+      safe_divide(
+        sum(${TABLE}.daily_mtx_spend_indicator)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_1
+  }
+
+  measure: average_ad_revenue_per_player{
+    group_label: "Revenue Metrics"
+    type: count_distinct
+    sql:
+      safe_divide(
+        sum(${TABLE}.ad_view_dollars)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: average_daily_ads_conversion {
+    group_label: "Revenue Metrics"
+    type: count_distinct
+    sql:
+      safe_divide(
+        sum( case
+          when ${TABLE}.count_ad_views > 0
+          then 1
+          else 0
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_1
+  }
+
+  measure: average_combined_revenue_per_player{
+    group_label: "Revenue Metrics"
+    type: count_distinct
+    sql:
+      safe_divide(
+        sum(${TABLE}.combined_dollars)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: usd
+  }
+
 
 ## Sums / Percentiles
 

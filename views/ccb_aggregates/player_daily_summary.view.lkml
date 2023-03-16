@@ -8,9 +8,9 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-13'
+      -- last update: '2023-03-16'
 
-      -- CREATE OR REPLACE TABLE `tal_scratch.player_daily_summary` AS
+       -- CREATE OR REPLACE TABLE `tal_scratch.player_daily_summary` AS
 
       with
       -----------------------------------------------------------------------
@@ -91,7 +91,17 @@ view: player_daily_summary {
               , max(a.cumulative_session_count) as cumulative_session_count
               , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
               , max(a.round_start_events) as round_start_events
+
               , max(a.round_end_events) as round_end_events
+              , max(a.round_end_events_campaign) as round_end_events_campaign
+              , max(a.round_end_events_movesmaster) as round_end_events_movesmaster
+              , max(a.round_end_events_puzzle) as round_end_events_puzzle
+              , max(a.round_time_in_minutes) as round_time_in_minutes
+              , max(a.round_time_in_minutes_campaign) as round_time_in_minutes_campaign
+              , max(a.round_time_in_minutes_movesmaster) as round_time_in_minutes_movesmaster
+              , max(a.round_time_in_minutes_puzzle) AS round_time_in_minutes_puzzle
+
+
               , max(a.lowest_last_level_serial) as lowest_last_level_serial
               , max(a.highest_last_level_serial) as highest_last_level_serial
               , max(a.highest_quests_completed) as highest_quests_completed
@@ -155,7 +165,16 @@ view: player_daily_summary {
               , max(a.cumulative_session_count) as cumulative_session_count
               , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
               , max(a.round_start_events) as round_start_events
+
               , max(a.round_end_events) as round_end_events
+              , max(a.round_end_events_campaign) as round_end_events_campaign
+              , max(a.round_end_events_movesmaster) as round_end_events_movesmaster
+              , max(a.round_end_events_puzzle) as round_end_events_puzzle
+              , max(a.round_time_in_minutes) as round_time_in_minutes
+              , max(a.round_time_in_minutes_campaign) as round_time_in_minutes_campaign
+              , max(a.round_time_in_minutes_movesmaster) as round_time_in_minutes_movesmaster
+              , max(a.round_time_in_minutes_puzzle) AS round_time_in_minutes_puzzle
+
               , max(a.lowest_last_level_serial) as lowest_last_level_serial
               , max(a.highest_last_level_serial) as highest_last_level_serial
               , max(a.highest_quests_completed) as highest_quests_completed
@@ -380,6 +399,57 @@ view: player_daily_summary {
             ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
             ) cumulative_round_end_events
 
+        -- round_end_events_campaign
+        , SUM(round_end_events_campaign) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_round_end_events_campaign
+
+        -- round_end_events_movesmaster
+        , SUM(round_end_events_movesmaster) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_round_end_events_movesmaster
+
+        -- round_end_events_puzzle
+        , SUM(round_end_events_puzzle) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_round_end_events_puzzle
+
+        -- round_time_in_minutes
+        , SUM(round_time_in_minutes) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_round_time_in_minutes
+
+        -- round_time_in_minutes_campaign
+        , SUM(round_time_in_minutes_campaign) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_round_time_in_minutes_campaign
+
+        -- round_time_in_minutes_movesmaster
+        , SUM(round_time_in_minutes_movesmaster) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_round_time_in_minutes_movesmaster
+
+        -- round_time_in_minutes_puzzle
+        , SUM(round_time_in_minutes_puzzle) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) cumulative_round_time_in_minutes_puzzle
+
+
+
         -- Calculate quests_completed
         -- uses prior row highest_quests_completed
         , IFNULL(highest_quests_completed,0) -
@@ -434,6 +504,7 @@ view: player_daily_summary {
       where
           -- select date_add( current_date(), interval -1 day )
           rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
+
 
 
 
@@ -542,6 +613,23 @@ dimension: primary_key {
   dimension: cumulative_gems_spend {type:number}
   dimension: cumulative_coins_spend {type:number}
   dimension: cumulative_star_spend {type:number}
+
+  dimension: round_end_events_campaign {type:number}
+  dimension: round_end_events_movesmaster {type:number}
+  dimension: round_end_events_puzzle {type:number}
+  dimension: round_time_in_minutes {type:number}
+  dimension: round_time_in_minutes_campaign {type:number}
+  dimension: round_time_in_minutes_movesmaster {type:number}
+  dimension: round_time_in_minutes_puzzle {type:number}
+  dimension: cumulative_round_end_events_campaign {type:number}
+  dimension: cumulative_round_end_events_movesmaster {type:number}
+  dimension: cumulative_round_end_events_puzzle {type:number}
+  dimension: cumulative_round_time_in_minutes {type:number}
+  dimension: cumulative_round_time_in_minutes_campaign {type:number}
+  dimension: cumulative_round_time_in_minutes_movesmaster {type:number}
+  dimension: cumulative_round_time_in_minutes_puzzle {type:number}
+
+
 
 ################################################################
 ## Measures
@@ -2120,5 +2208,497 @@ dimension: primary_key {
     percentile: 95
     sql: ${TABLE}.cumulative_star_spend ;;
   }
+
+  measure: sum_round_end_events_campaign {
+    group_label: "Round End Events Campaign"
+    type:sum
+    sql: ${TABLE}.round_end_events_campaign ;;
+  }
+  measure: round_end_events_campaign_10 {
+    group_label: "Round End Events Campaign"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.round_end_events_campaign ;;
+  }
+  measure: round_end_events_campaign_25 {
+    group_label: "Round End Events Campaign"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.round_end_events_campaign ;;
+  }
+  measure: round_end_events_campaign_50 {
+    group_label: "Round End Events Campaign"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.round_end_events_campaign ;;
+  }
+  measure: round_end_events_campaign_75 {
+    group_label: "Round End Events Campaign"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.round_end_events_campaign ;;
+  }
+  measure: round_end_events_campaign_95 {
+    group_label: "Round End Events Campaign"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.round_end_events_campaign ;;
+  }
+  measure: sum_round_end_events_movesmaster {
+    group_label: "Round End Events Movesmaster"
+    type:sum
+    sql: ${TABLE}.round_end_events_movesmaster ;;
+  }
+  measure: round_end_events_movesmaster_10 {
+    group_label: "Round End Events Movesmaster"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.round_end_events_movesmaster ;;
+  }
+  measure: round_end_events_movesmaster_25 {
+    group_label: "Round End Events Movesmaster"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.round_end_events_movesmaster ;;
+  }
+  measure: round_end_events_movesmaster_50 {
+    group_label: "Round End Events Movesmaster"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.round_end_events_movesmaster ;;
+  }
+  measure: round_end_events_movesmaster_75 {
+    group_label: "Round End Events Movesmaster"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.round_end_events_movesmaster ;;
+  }
+  measure: round_end_events_movesmaster_95 {
+    group_label: "Round End Events Movesmaster"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.round_end_events_movesmaster ;;
+  }
+  measure: sum_round_end_events_puzzle {
+    group_label: "Round End Events Puzzle"
+    type:sum
+    sql: ${TABLE}.round_end_events_puzzle ;;
+  }
+  measure: round_end_events_puzzle_10 {
+    group_label: "Round End Events Puzzle"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.round_end_events_puzzle ;;
+  }
+  measure: round_end_events_puzzle_25 {
+    group_label: "Round End Events Puzzle"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.round_end_events_puzzle ;;
+  }
+  measure: round_end_events_puzzle_50 {
+    group_label: "Round End Events Puzzle"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.round_end_events_puzzle ;;
+  }
+  measure: round_end_events_puzzle_75 {
+    group_label: "Round End Events Puzzle"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.round_end_events_puzzle ;;
+  }
+  measure: round_end_events_puzzle_95 {
+    group_label: "Round End Events Puzzle"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.round_end_events_puzzle ;;
+  }
+  measure: sum_round_time_in_minutes {
+    group_label: "Round Time In Minutes"
+    type:sum
+    sql: ${TABLE}.round_time_in_minutes ;;
+  }
+  measure: round_time_in_minutes_10 {
+    group_label: "Round Time In Minutes"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.round_time_in_minutes ;;
+  }
+  measure: round_time_in_minutes_25 {
+    group_label: "Round Time In Minutes"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.round_time_in_minutes ;;
+  }
+  measure: round_time_in_minutes_50 {
+    group_label: "Round Time In Minutes"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.round_time_in_minutes ;;
+  }
+  measure: round_time_in_minutes_75 {
+    group_label: "Round Time In Minutes"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.round_time_in_minutes ;;
+  }
+  measure: round_time_in_minutes_95 {
+    group_label: "Round Time In Minutes"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.round_time_in_minutes ;;
+  }
+  measure: sum_round_time_in_minutes_campaign {
+    group_label: "Round Time In Minutes Campaign"
+    type:sum
+    sql: ${TABLE}.round_time_in_minutes_campaign ;;
+  }
+  measure: round_time_in_minutes_campaign_10 {
+    group_label: "Round Time In Minutes Campaign"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.round_time_in_minutes_campaign ;;
+  }
+  measure: round_time_in_minutes_campaign_25 {
+    group_label: "Round Time In Minutes Campaign"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.round_time_in_minutes_campaign ;;
+  }
+  measure: round_time_in_minutes_campaign_50 {
+    group_label: "Round Time In Minutes Campaign"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.round_time_in_minutes_campaign ;;
+  }
+  measure: round_time_in_minutes_campaign_75 {
+    group_label: "Round Time In Minutes Campaign"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.round_time_in_minutes_campaign ;;
+  }
+  measure: round_time_in_minutes_campaign_95 {
+    group_label: "Round Time In Minutes Campaign"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.round_time_in_minutes_campaign ;;
+  }
+  measure: sum_round_time_in_minutes_movesmaster {
+    group_label: "Round Time In Minutes Movesmaster"
+    type:sum
+    sql: ${TABLE}.round_time_in_minutes_movesmaster ;;
+  }
+  measure: round_time_in_minutes_movesmaster_10 {
+    group_label: "Round Time In Minutes Movesmaster"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.round_time_in_minutes_movesmaster ;;
+  }
+  measure: round_time_in_minutes_movesmaster_25 {
+    group_label: "Round Time In Minutes Movesmaster"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.round_time_in_minutes_movesmaster ;;
+  }
+  measure: round_time_in_minutes_movesmaster_50 {
+    group_label: "Round Time In Minutes Movesmaster"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.round_time_in_minutes_movesmaster ;;
+  }
+  measure: round_time_in_minutes_movesmaster_75 {
+    group_label: "Round Time In Minutes Movesmaster"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.round_time_in_minutes_movesmaster ;;
+  }
+  measure: round_time_in_minutes_movesmaster_95 {
+    group_label: "Round Time In Minutes Movesmaster"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.round_time_in_minutes_movesmaster ;;
+  }
+  measure: sum_round_time_in_minutes_puzzle {
+    group_label: "Round Time In Minutes Puzzle"
+    type:sum
+    sql: ${TABLE}.round_time_in_minutes_puzzle ;;
+  }
+  measure: round_time_in_minutes_puzzle_10 {
+    group_label: "Round Time In Minutes Puzzle"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.round_time_in_minutes_puzzle ;;
+  }
+  measure: round_time_in_minutes_puzzle_25 {
+    group_label: "Round Time In Minutes Puzzle"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.round_time_in_minutes_puzzle ;;
+  }
+  measure: round_time_in_minutes_puzzle_50 {
+    group_label: "Round Time In Minutes Puzzle"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.round_time_in_minutes_puzzle ;;
+  }
+  measure: round_time_in_minutes_puzzle_75 {
+    group_label: "Round Time In Minutes Puzzle"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.round_time_in_minutes_puzzle ;;
+  }
+  measure: round_time_in_minutes_puzzle_95 {
+    group_label: "Round Time In Minutes Puzzle"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.round_time_in_minutes_puzzle ;;
+  }
+  measure: sum_cumulative_round_end_events_campaign {
+    group_label: "Cumulative Round End Events Campaign"
+    type:sum
+    sql: ${TABLE}.cumulative_round_end_events_campaign ;;
+  }
+  measure: cumulative_round_end_events_campaign_10 {
+    group_label: "Cumulative Round End Events Campaign"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.cumulative_round_end_events_campaign ;;
+  }
+  measure: cumulative_round_end_events_campaign_25 {
+    group_label: "Cumulative Round End Events Campaign"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.cumulative_round_end_events_campaign ;;
+  }
+  measure: cumulative_round_end_events_campaign_50 {
+    group_label: "Cumulative Round End Events Campaign"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.cumulative_round_end_events_campaign ;;
+  }
+  measure: cumulative_round_end_events_campaign_75 {
+    group_label: "Cumulative Round End Events Campaign"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.cumulative_round_end_events_campaign ;;
+  }
+  measure: cumulative_round_end_events_campaign_95 {
+    group_label: "Cumulative Round End Events Campaign"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.cumulative_round_end_events_campaign ;;
+  }
+  measure: sum_cumulative_round_end_events_movesmaster {
+    group_label: "Cumulative Round End Events Movesmaster"
+    type:sum
+    sql: ${TABLE}.cumulative_round_end_events_movesmaster ;;
+  }
+  measure: cumulative_round_end_events_movesmaster_10 {
+    group_label: "Cumulative Round End Events Movesmaster"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.cumulative_round_end_events_movesmaster ;;
+  }
+  measure: cumulative_round_end_events_movesmaster_25 {
+    group_label: "Cumulative Round End Events Movesmaster"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.cumulative_round_end_events_movesmaster ;;
+  }
+  measure: cumulative_round_end_events_movesmaster_50 {
+    group_label: "Cumulative Round End Events Movesmaster"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.cumulative_round_end_events_movesmaster ;;
+  }
+  measure: cumulative_round_end_events_movesmaster_75 {
+    group_label: "Cumulative Round End Events Movesmaster"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.cumulative_round_end_events_movesmaster ;;
+  }
+  measure: cumulative_round_end_events_movesmaster_95 {
+    group_label: "Cumulative Round End Events Movesmaster"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.cumulative_round_end_events_movesmaster ;;
+  }
+  measure: sum_cumulative_round_end_events_puzzle {
+    group_label: "Cumulative Round End Events Puzzle"
+    type:sum
+    sql: ${TABLE}.cumulative_round_end_events_puzzle ;;
+  }
+  measure: cumulative_round_end_events_puzzle_10 {
+    group_label: "Cumulative Round End Events Puzzle"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.cumulative_round_end_events_puzzle ;;
+  }
+  measure: cumulative_round_end_events_puzzle_25 {
+    group_label: "Cumulative Round End Events Puzzle"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.cumulative_round_end_events_puzzle ;;
+  }
+  measure: cumulative_round_end_events_puzzle_50 {
+    group_label: "Cumulative Round End Events Puzzle"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.cumulative_round_end_events_puzzle ;;
+  }
+  measure: cumulative_round_end_events_puzzle_75 {
+    group_label: "Cumulative Round End Events Puzzle"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.cumulative_round_end_events_puzzle ;;
+  }
+  measure: cumulative_round_end_events_puzzle_95 {
+    group_label: "Cumulative Round End Events Puzzle"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.cumulative_round_end_events_puzzle ;;
+  }
+  measure: sum_cumulative_round_time_in_minutes {
+    group_label: "Cumulative Round Time In Minutes"
+    type:sum
+    sql: ${TABLE}.cumulative_round_time_in_minutes ;;
+  }
+  measure: cumulative_round_time_in_minutes_10 {
+    group_label: "Cumulative Round Time In Minutes"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.cumulative_round_time_in_minutes ;;
+  }
+  measure: cumulative_round_time_in_minutes_25 {
+    group_label: "Cumulative Round Time In Minutes"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.cumulative_round_time_in_minutes ;;
+  }
+  measure: cumulative_round_time_in_minutes_50 {
+    group_label: "Cumulative Round Time In Minutes"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.cumulative_round_time_in_minutes ;;
+  }
+  measure: cumulative_round_time_in_minutes_75 {
+    group_label: "Cumulative Round Time In Minutes"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.cumulative_round_time_in_minutes ;;
+  }
+  measure: cumulative_round_time_in_minutes_95 {
+    group_label: "Cumulative Round Time In Minutes"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.cumulative_round_time_in_minutes ;;
+  }
+  measure: sum_cumulative_round_time_in_minutes_campaign {
+    group_label: "Cumulative Round Time In Minutes Campaign"
+    type:sum
+    sql: ${TABLE}.cumulative_round_time_in_minutes_campaign ;;
+  }
+  measure: cumulative_round_time_in_minutes_campaign_10 {
+    group_label: "Cumulative Round Time In Minutes Campaign"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.cumulative_round_time_in_minutes_campaign ;;
+  }
+  measure: cumulative_round_time_in_minutes_campaign_25 {
+    group_label: "Cumulative Round Time In Minutes Campaign"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.cumulative_round_time_in_minutes_campaign ;;
+  }
+  measure: cumulative_round_time_in_minutes_campaign_50 {
+    group_label: "Cumulative Round Time In Minutes Campaign"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.cumulative_round_time_in_minutes_campaign ;;
+  }
+  measure: cumulative_round_time_in_minutes_campaign_75 {
+    group_label: "Cumulative Round Time In Minutes Campaign"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.cumulative_round_time_in_minutes_campaign ;;
+  }
+  measure: cumulative_round_time_in_minutes_campaign_95 {
+    group_label: "Cumulative Round Time In Minutes Campaign"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.cumulative_round_time_in_minutes_campaign ;;
+  }
+  measure: sum_cumulative_round_time_in_minutes_movesmaster {
+    group_label: "Cumulative Round Time In Minutes Movesmaster"
+    type:sum
+    sql: ${TABLE}.cumulative_round_time_in_minutes_movesmaster ;;
+  }
+  measure: cumulative_round_time_in_minutes_movesmaster_10 {
+    group_label: "Cumulative Round Time In Minutes Movesmaster"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.cumulative_round_time_in_minutes_movesmaster ;;
+  }
+  measure: cumulative_round_time_in_minutes_movesmaster_25 {
+    group_label: "Cumulative Round Time In Minutes Movesmaster"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.cumulative_round_time_in_minutes_movesmaster ;;
+  }
+  measure: cumulative_round_time_in_minutes_movesmaster_50 {
+    group_label: "Cumulative Round Time In Minutes Movesmaster"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.cumulative_round_time_in_minutes_movesmaster ;;
+  }
+  measure: cumulative_round_time_in_minutes_movesmaster_75 {
+    group_label: "Cumulative Round Time In Minutes Movesmaster"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.cumulative_round_time_in_minutes_movesmaster ;;
+  }
+  measure: cumulative_round_time_in_minutes_movesmaster_95 {
+    group_label: "Cumulative Round Time In Minutes Movesmaster"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.cumulative_round_time_in_minutes_movesmaster ;;
+  }
+  measure: sum_cumulative_round_time_in_minutes_puzzle {
+    group_label: "Cumulative Round Time In Minutes Puzzle"
+    type:sum
+    sql: ${TABLE}.cumulative_round_time_in_minutes_puzzle ;;
+  }
+  measure: cumulative_round_time_in_minutes_puzzle_10 {
+    group_label: "Cumulative Round Time In Minutes Puzzle"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.cumulative_round_time_in_minutes_puzzle ;;
+  }
+  measure: cumulative_round_time_in_minutes_puzzle_25 {
+    group_label: "Cumulative Round Time In Minutes Puzzle"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.cumulative_round_time_in_minutes_puzzle ;;
+  }
+  measure: cumulative_round_time_in_minutes_puzzle_50 {
+    group_label: "Cumulative Round Time In Minutes Puzzle"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.cumulative_round_time_in_minutes_puzzle ;;
+  }
+  measure: cumulative_round_time_in_minutes_puzzle_75 {
+    group_label: "Cumulative Round Time In Minutes Puzzle"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.cumulative_round_time_in_minutes_puzzle ;;
+  }
+  measure: cumulative_round_time_in_minutes_puzzle_95 {
+    group_label: "Cumulative Round Time In Minutes Puzzle"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.cumulative_round_time_in_minutes_puzzle ;;
+  }
+
 
 }

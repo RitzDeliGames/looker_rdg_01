@@ -852,6 +852,99 @@ dimension: experiment_variant {
 }
 
 ################################################################
+## Available Total Revenue
+################################################################
+
+  measure: available_combined_dollars_d1 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 1
+          then ${TABLE}.cumulative_combined_dollars_d1
+          else 0
+          end )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: available_combined_dollars_d2 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.cumulative_combined_dollars_d2
+          else 0
+          end )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: available_combined_dollars_d7 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.cumulative_combined_dollars_d7
+          else 0
+          end )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: available_combined_dollars_d14 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 14
+          then ${TABLE}.cumulative_combined_dollars_d14
+          else 0
+          end )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: available_combined_dollars_d30 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 30
+          then ${TABLE}.cumulative_combined_dollars_d30
+          else 0
+          end )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: available_combined_dollars_d60 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 60
+          then ${TABLE}.cumulative_combined_dollars_d60
+          else 0
+          end )
+    ;;
+    value_format_name: usd
+
+  }
+################################################################
 ## Revenue Per Install
 ################################################################
 

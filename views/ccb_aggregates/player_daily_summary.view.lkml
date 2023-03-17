@@ -10,514 +10,520 @@ view: player_daily_summary {
       -- ccb_aggregate_update_tag
       -- last update: '2023-03-17'
 
-       -- CREATE OR REPLACE TABLE `tal_scratch.player_daily_summary` AS
+-- CREATE OR REPLACE TABLE `tal_scratch.player_daily_summary` AS
 
-      with
-      -----------------------------------------------------------------------
-      -- ads by date
-      -----------------------------------------------------------------------
+with
 
-      ads_by_date as (
-          select
-              rdg_id
-              , rdg_date
-              , sum( count_ad_views ) as ad_views
-              , sum( ad_view_dollars ) as ad_view_dollars
-          from
-              eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
-          group by
-              1,2
-      )
+-----------------------------------------------------------------------
+-- ads by date
+-----------------------------------------------------------------------
 
-      -----------------------------------------------------------------------
-      -- mtx by date
-      -----------------------------------------------------------------------
+ads_by_date as (
+    select
+        rdg_id
+        , rdg_date
+        , sum( count_ad_views ) as ad_views
+        , sum( ad_view_dollars ) as ad_view_dollars
+    from
+        eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
+    group by
+        1,2
+)
 
-      , mtx_by_date as (
-          select
-              rdg_id
-              , rdg_date
-              , sum( count_mtx_purchases ) as count_mtx_purchases
-              , sum( mtx_purchase_dollars ) as mtx_purchase_dollars
-          from
-              eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary
-          group by
-              1,2
-      )
+-----------------------------------------------------------------------
+-- mtx by date
+-----------------------------------------------------------------------
 
-      -----------------------------------------------------------------------
-      -- player_daily_incremental w/ prior date played
-      -----------------------------------------------------------------------
+, mtx_by_date as (
+    select
+        rdg_id
+        , rdg_date
+        , sum( count_mtx_purchases ) as count_mtx_purchases
+        , sum( mtx_purchase_dollars ) as mtx_purchase_dollars
+    from
+        eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary
+    group by
+        1,2
+)
 
-      , player_daily_incremental_w_prior_date as (
-          select
-              *
-              -- Date last played
-              , ifnull(
-                      lag(rdg_date, 1) over (
-                  partition by rdg_id
-                  order by rdg_date ASC
-                  )
-                  ,timestamp(date(created_utc))) as rdg_date_last_played
-          from
-              `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
+-----------------------------------------------------------------------
+-- player_daily_incremental w/ prior date played
+-----------------------------------------------------------------------
 
-      )
-
-      -----------------------------------------------------------------------
-      -- join ads data
-      -----------------------------------------------------------------------
-
-      , join_on_ads_data as (
-          select
-              a.rdg_id
-              , a.rdg_date
-              , max(a.rdg_date_last_played) as rdg_date_last_played
-              , max(a.device_id) as device_id
-              , max(a.advertising_id) as advertising_id
-              , max(a.user_id) as user_id
-              , max(a.display_name) as display_name
-              , max(a.platform) as platform
-              , max(a.country) as country
-              , max(a.created_utc) as created_utc
-              , max(a.created_date) as created_date
-              , max(a.experiments) as experiments
-              , max(a.version) as version
-              , max(a.install_version) as install_version
-              , sum( ifnull(b.ad_view_dollars,0) + ifnull(c.ad_view_dollars,0)) as ad_view_dollars
-              , max(a.mtx_ltv_from_data) as mtx_ltv_from_data
-              , sum( ifnull(b.ad_views,0) + ifnull(c.ad_views,0)) as ad_views
-              , max(a.count_sessions) as count_sessions
-              , max(a.cumulative_session_count) as cumulative_session_count
-              , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
-              , max(a.round_start_events) as round_start_events
-
-              , max(a.round_end_events) as round_end_events
-              , max(a.round_end_events_campaign) as round_end_events_campaign
-              , max(a.round_end_events_movesmaster) as round_end_events_movesmaster
-              , max(a.round_end_events_puzzle) as round_end_events_puzzle
-              , max(a.round_time_in_minutes) as round_time_in_minutes
-              , max(a.round_time_in_minutes_campaign) as round_time_in_minutes_campaign
-              , max(a.round_time_in_minutes_movesmaster) as round_time_in_minutes_movesmaster
-              , max(a.round_time_in_minutes_puzzle) AS round_time_in_minutes_puzzle
-
-
-              , max(a.lowest_last_level_serial) as lowest_last_level_serial
-              , max(a.highest_last_level_serial) as highest_last_level_serial
-              , max(a.highest_quests_completed) as highest_quests_completed
-              , max(a.gems_spend) as gems_spend
-              , max(a.coins_spend) as coins_spend
-              , max(a.stars_spend) as stars_spend
-              , max(a.ending_gems_balance) as ending_gems_balance
-              , max(a.ending_coins_balance) as ending_coins_balance
-              , max(a.ending_lives_balance) as ending_lives_balance
-              , max(a.ending_stars_balance) as ending_stars_balance
-
-              -- system_info
-              , max( a.hardware ) as hardware
-              , max( a.processor_type ) as processor_type
-              , max( a.graphics_device_name ) as graphics_device_name
-              , max( a.device_model ) as device_model
-              , max( a.system_memory_size ) as system_memory_size
-              , max( a.graphics_memory_size ) as graphics_memory_size
-              , max( a.screen_width ) as screen_width
-              , max( a.screen_height ) as screen_height
-
-              -- end of content and zones
-              , max( a.end_of_content_levels ) as end_of_content_levels
-              , max( a.end_of_content_zones ) as end_of_content_zones
-              , max( a.current_zone ) as current_zone
-              , max( a.current_zone_progress ) as current_zone_progress
-
-
-
-          from
-              player_daily_incremental_w_prior_date a
-              left join ads_by_date b
-                  on b.rdg_id = a.rdg_id
-                  and b.rdg_date = a.rdg_date
-              left join ads_by_date c
-                  on c.rdg_id = a.rdg_id
-                  and c.rdg_date < a.rdg_date
-                  and c.rdg_date > a.rdg_date_last_played
-          group by
-              1,2
-      )
-
-
-      -----------------------------------------------------------------------
-      -- join ads data
-      -----------------------------------------------------------------------
-
-      , join_on_mtx_data as (
-          select
-              a.rdg_id
-              , a.rdg_date
-              , max(a.rdg_date_last_played) as rdg_date_last_played
-              , max(a.device_id) as device_id
-              , max(a.advertising_id) as advertising_id
-              , max(a.user_id) as user_id
-              , max(a.display_name) as display_name
-              , max(a.platform) as platform
-              , max(a.country) as country
-              , max(a.created_utc) as created_utc
-              , max(a.created_date) as created_date
-              , max(a.experiments) as experiments
-              , max(a.version) as version
-              , max(a.install_version) as install_version
-              , max(a.ad_view_dollars) as ad_view_dollars
-              , sum( ifnull(b.mtx_purchase_dollars,0) + ifnull(c.mtx_purchase_dollars,0)) as mtx_purchase_dollars
-              , max(a.mtx_ltv_from_data) as mtx_ltv_from_data
-              , max(a.ad_views) as ad_views
-              , max(a.count_sessions) as count_sessions
-              , max(a.cumulative_session_count) as cumulative_session_count
-              , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
-              , max(a.round_start_events) as round_start_events
-
-              , max(a.round_end_events) as round_end_events
-              , max(a.round_end_events_campaign) as round_end_events_campaign
-              , max(a.round_end_events_movesmaster) as round_end_events_movesmaster
-              , max(a.round_end_events_puzzle) as round_end_events_puzzle
-              , max(a.round_time_in_minutes) as round_time_in_minutes
-              , max(a.round_time_in_minutes_campaign) as round_time_in_minutes_campaign
-              , max(a.round_time_in_minutes_movesmaster) as round_time_in_minutes_movesmaster
-              , max(a.round_time_in_minutes_puzzle) AS round_time_in_minutes_puzzle
-
-              , max(a.lowest_last_level_serial) as lowest_last_level_serial
-              , max(a.highest_last_level_serial) as highest_last_level_serial
-              , max(a.highest_quests_completed) as highest_quests_completed
-              , max(a.gems_spend) as gems_spend
-              , max(a.coins_spend) as coins_spend
-              , max(a.stars_spend) as stars_spend
-              , max(a.ending_gems_balance) as ending_gems_balance
-              , max(a.ending_coins_balance) as ending_coins_balance
-              , max(a.ending_lives_balance) as ending_lives_balance
-              , max(a.ending_stars_balance) as ending_stars_balance
-
-              -- system_info
-              , max( a.hardware ) as hardware
-              , max( a.processor_type ) as processor_type
-              , max( a.graphics_device_name ) as graphics_device_name
-              , max( a.device_model ) as device_model
-              , max( a.system_memory_size ) as system_memory_size
-              , max( a.graphics_memory_size ) as graphics_memory_size
-              , max( a.screen_width ) as screen_width
-              , max( a.screen_height ) as screen_height
-
-              -- end of content and zones
-              , max( a.end_of_content_levels ) as end_of_content_levels
-              , max( a.end_of_content_zones ) as end_of_content_zones
-              , max( a.current_zone ) as current_zone
-              , max( a.current_zone_progress ) as current_zone_progress
-
-          from
-              join_on_ads_data a
-              left join mtx_by_date b
-                  on b.rdg_id = a.rdg_id
-                  and b.rdg_date = a.rdg_date
-              left join mtx_by_date c
-                  on c.rdg_id = a.rdg_id
-                  and c.rdg_date < a.rdg_date
-                  and c.rdg_date > a.rdg_date_last_played
-          group by
-              1,2
-      )
-
-      -----------------------------------------------------------------------
-      -- cumulative calculations
-      -----------------------------------------------------------------------
-
-      select
-
-        -- Start with all the rows from join_to_player_daily_incremental
+, player_daily_incremental_w_prior_date as (
+    select
         *
-
-        , TIMESTAMP(created_date) as created_date_timestamp
-
-        -- Days Since Created
-        , DATE_DIFF(DATE(rdg_date), created_date, DAY) AS days_since_created
-
-        -- Player Day Number
-        , 1 + DATE_DIFF(DATE(rdg_date), created_date, DAY) AS day_number
-
-        -- new_player_indicator
-        , CASE WHEN DATE_DIFF(DATE(rdg_date), created_date, DAY) = 0 THEN 1 ELSE 0 END AS new_player_indicator
-
-         -- new_player_rdg_id
-        , CASE WHEN DATE_DIFF(DATE(rdg_date), created_date, DAY) = 0 THEN rdg_id ELSE NULL END AS new_player_rdg_id
-
         -- Date last played
-        , LAG(DATE(rdg_date), 1) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ) date_last_played
+        , ifnull(
+                lag(rdg_date, 1) over (
+            partition by rdg_id
+            order by rdg_date ASC
+            )
+            ,timestamp(date(created_utc))) as rdg_date_last_played
 
-        -- Days Since Last Played
-        , DATE_DIFF(
-            DATE(rdg_date)
-            , LAG(DATE(rdg_date), 1) OVER (
-                PARTITION BY rdg_id
-                ORDER BY rdg_date ASC
-                )
-            , DAY
-            ) days_since_last_played
+        -- To prevent multiple created dates for an rdg_id
+        , min(created_date) over (
+            partition by rdg_id
+            order by rdg_date ASC
+            ) as created_date_fix
 
-        -- next_date_played
-        , LEAD(DATE(rdg_date), 1) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ) next_date_played
+    from
+        `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
 
-        -- churn_indicator
-        , CASE
-            WHEN
-              LEAD(DATE(rdg_date), 1) OVER (
-              PARTITION BY rdg_id
-              ORDER BY rdg_date ASC
-              ) IS NULL
-            THEN 1
-            ELSE 0
-            END AS churn_indicator
+)
 
-        -- churn_rdg_id
-        , CASE
-            WHEN
-              LEAD(DATE(rdg_date), 1) OVER (
-              PARTITION BY rdg_id
-              ORDER BY rdg_date ASC
-              ) IS NULL
-            THEN rdg_id
-            ELSE NULL
-            END AS churn_rdg_id
+-----------------------------------------------------------------------
+-- join ads data
+-----------------------------------------------------------------------
 
-        -- days_until_next_played
-        , DATE_DIFF(
-            LEAD(DATE(rdg_date), 1) OVER (
-                PARTITION BY rdg_id
-                ORDER BY rdg_date ASC
-                )
-            , DATE(rdg_date)
-            , DAY
-            ) days_until_next_played
+, join_on_ads_data as (
+    select
+        a.rdg_id
+        , a.rdg_date
+        , max(a.rdg_date_last_played) as rdg_date_last_played
+        , max(a.device_id) as device_id
+        , max(a.advertising_id) as advertising_id
+        , max(a.user_id) as user_id
+        , max(a.display_name) as display_name
+        , max(a.platform) as platform
+        , max(a.country) as country
+        , max(a.created_date_fix) as created_date
+        , max(a.experiments) as experiments
+        , max(a.version) as version
+        , max(a.install_version) as install_version
+        , sum( ifnull(b.ad_view_dollars,0) + ifnull(c.ad_view_dollars,0)) as ad_view_dollars
+        , max(a.mtx_ltv_from_data) as mtx_ltv_from_data
+        , sum( ifnull(b.ad_views,0) + ifnull(c.ad_views,0)) as ad_views
+        , max(a.count_sessions) as count_sessions
+        , max(a.cumulative_session_count) as cumulative_session_count
+        , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
+        , max(a.round_start_events) as round_start_events
 
-        -- cumulative_mtx_purchase_dollars
-        -- Includes adjustment for App Store %
-        , SUM( ifnull( mtx_purchase_dollars, 0 ) ) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_mtx_purchase_dollars
-
-        -- cumulative_ad_view_dollars
-        , SUM(IFNULL(ad_view_dollars,0)) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_ad_view_dollars
-
-        -- combined_dollars
-        -- Includes adjustment for App Store %
-        , ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0) AS combined_dollars
-
-        -- cumulative_combined_dollars
-        -- Includes adjustment for App Store %
-        , SUM(ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0)) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_combined_dollars
-
-        -- daily_mtx_spend_indicator
-        , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN 1 ELSE 0 END AS daily_mtx_spend_indicator
-
-        -- daily_mtx_spender_rdg_id
-        , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN rdg_id ELSE NULL END AS daily_mtx_spender_rdg_id
-
-        -- first_mtx_spend_indicator
-        , CASE
-            WHEN IFNULL(mtx_purchase_dollars,0) > 0
-            AND
-              SUM(mtx_purchase_dollars) OVER (
-              PARTITION BY rdg_id
-              ORDER BY rdg_date ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING )
-              = 0
-            THEN 1
-            ELSE 0
-            END AS first_mtx_spend_indicator
-
-        -- lifetime_mtx_spend_indicator
-        , CASE
-            WHEN
-              SUM(mtx_purchase_dollars) OVER (
-              PARTITION BY rdg_id
-              ORDER BY rdg_date ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
-              > 0
-            THEN 1
-            ELSE 0
-            END AS lifetime_mtx_spend_indicator
-
-        -- lifetime_mtx_spender_rdg_id
-        , CASE
-            WHEN
-              SUM(mtx_purchase_dollars) OVER (
-              PARTITION BY rdg_id
-              ORDER BY rdg_date ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
-              > 0
-            THEN rdg_id
-            ELSE NULL
-            END AS lifetime_mtx_spender_rdg_id
-
-        -- cumulative_ad_views
-        , SUM(ad_views) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_ad_views
+        , max(a.round_end_events) as round_end_events
+        , max(a.round_end_events_campaign) as round_end_events_campaign
+        , max(a.round_end_events_movesmaster) as round_end_events_movesmaster
+        , max(a.round_end_events_puzzle) as round_end_events_puzzle
+        , max(a.round_time_in_minutes) as round_time_in_minutes
+        , max(a.round_time_in_minutes_campaign) as round_time_in_minutes_campaign
+        , max(a.round_time_in_minutes_movesmaster) as round_time_in_minutes_movesmaster
+        , max(a.round_time_in_minutes_puzzle) AS round_time_in_minutes_puzzle
 
 
-        -- Calculate engagement ticks
-        -- uses prior row cumulative_engagement_ticks
-        , IFNULL(cumulative_engagement_ticks,0) -
-            IFNULL(LAG(cumulative_engagement_ticks,1) OVER (
-                PARTITION BY rdg_id
-                ORDER BY rdg_date ASC
-                ),0) AS engagement_ticks
+        , max(a.lowest_last_level_serial) as lowest_last_level_serial
+        , max(a.highest_last_level_serial) as highest_last_level_serial
+        , max(a.highest_quests_completed) as highest_quests_completed
+        , max(a.gems_spend) as gems_spend
+        , max(a.coins_spend) as coins_spend
+        , max(a.stars_spend) as stars_spend
+        , max(a.ending_gems_balance) as ending_gems_balance
+        , max(a.ending_coins_balance) as ending_coins_balance
+        , max(a.ending_lives_balance) as ending_lives_balance
+        , max(a.ending_stars_balance) as ending_stars_balance
 
-        -- time played
-        -- This is calculated as engagement ticks / 2
-        , 0.5 * (
-            IFNULL(cumulative_engagement_ticks,0) -
-            IFNULL(LAG(cumulative_engagement_ticks,1) OVER (
-              PARTITION BY rdg_id
-              ORDER BY rdg_date ASC
-              ),0))
-            AS time_played_minutes
+        -- system_info
+        , max( a.hardware ) as hardware
+        , max( a.processor_type ) as processor_type
+        , max( a.graphics_device_name ) as graphics_device_name
+        , max( a.device_model ) as device_model
+        , max( a.system_memory_size ) as system_memory_size
+        , max( a.graphics_memory_size ) as graphics_memory_size
+        , max( a.screen_width ) as screen_width
+        , max( a.screen_height ) as screen_height
 
-        -- cumulative_time_played_minutes
-        , 0.5 * ( IFNULL(cumulative_engagement_ticks,0) ) AS cumulative_time_played_minutes
-
-        -- cumulative_round_start_events
-        , SUM(round_start_events) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_round_start_events
-
-        -- cumulative_round_end_events
-        , SUM(round_end_events) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_round_end_events
-
-        -- round_end_events_campaign
-        , SUM(round_end_events_campaign) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_round_end_events_campaign
-
-        -- round_end_events_movesmaster
-        , SUM(round_end_events_movesmaster) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_round_end_events_movesmaster
-
-        -- round_end_events_puzzle
-        , SUM(round_end_events_puzzle) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_round_end_events_puzzle
-
-        -- round_time_in_minutes
-        , SUM(round_time_in_minutes) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_round_time_in_minutes
-
-        -- round_time_in_minutes_campaign
-        , SUM(round_time_in_minutes_campaign) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_round_time_in_minutes_campaign
-
-        -- round_time_in_minutes_movesmaster
-        , SUM(round_time_in_minutes_movesmaster) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_round_time_in_minutes_movesmaster
-
-        -- round_time_in_minutes_puzzle
-        , SUM(round_time_in_minutes_puzzle) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_round_time_in_minutes_puzzle
+        -- end of content and zones
+        , max( a.end_of_content_levels ) as end_of_content_levels
+        , max( a.end_of_content_zones ) as end_of_content_zones
+        , max( a.current_zone ) as current_zone
+        , max( a.current_zone_progress ) as current_zone_progress
 
 
 
-        -- Calculate quests_completed
-        -- uses prior row highest_quests_completed
-        , IFNULL(highest_quests_completed,0) -
-            IFNULL(LAG(highest_quests_completed,1) OVER (
-              PARTITION BY rdg_id
-              ORDER BY rdg_date ASC
-              ),0) AS quests_completed
+    from
+        player_daily_incremental_w_prior_date a
+        left join ads_by_date b
+            on b.rdg_id = a.rdg_id
+            and b.rdg_date = a.rdg_date
+        left join ads_by_date c
+            on c.rdg_id = a.rdg_id
+            and c.rdg_date < a.rdg_date
+            and c.rdg_date > a.rdg_date_last_played
+    group by
+        1,2
+)
 
-        -- count_days_played
-        -- this is just always 1
-        , 1 as count_days_played
 
-        -- cumulative_count_days_played
-        , SUM(1) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_count_days_played
+-----------------------------------------------------------------------
+-- join ads data
+-----------------------------------------------------------------------
 
-        -- Calculate levels_progressed
-        -- uses prior row highest_last_level_serial
-        , IFNULL(highest_last_level_serial,0) -
-            IFNULL(LAG(highest_last_level_serial,1) OVER (
-              PARTITION BY rdg_id
-              ORDER BY rdg_date ASC
-              ),0) AS levels_progressed
+, join_on_mtx_data as (
+    select
+        a.rdg_id
+        , a.rdg_date
+        , max(a.rdg_date_last_played) as rdg_date_last_played
+        , max(a.device_id) as device_id
+        , max(a.advertising_id) as advertising_id
+        , max(a.user_id) as user_id
+        , max(a.display_name) as display_name
+        , max(a.platform) as platform
+        , max(a.country) as country
+        , max(a.created_date) as created_date
+        , max(a.experiments) as experiments
+        , max(a.version) as version
+        , max(a.install_version) as install_version
+        , max(a.ad_view_dollars) as ad_view_dollars
+        , sum( ifnull(b.mtx_purchase_dollars,0) + ifnull(c.mtx_purchase_dollars,0)) as mtx_purchase_dollars
+        , max(a.mtx_ltv_from_data) as mtx_ltv_from_data
+        , max(a.ad_views) as ad_views
+        , max(a.count_sessions) as count_sessions
+        , max(a.cumulative_session_count) as cumulative_session_count
+        , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
+        , max(a.round_start_events) as round_start_events
 
-        -- cumulative_gems_spend
-        , SUM(gems_spend) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_gems_spend
+        , max(a.round_end_events) as round_end_events
+        , max(a.round_end_events_campaign) as round_end_events_campaign
+        , max(a.round_end_events_movesmaster) as round_end_events_movesmaster
+        , max(a.round_end_events_puzzle) as round_end_events_puzzle
+        , max(a.round_time_in_minutes) as round_time_in_minutes
+        , max(a.round_time_in_minutes_campaign) as round_time_in_minutes_campaign
+        , max(a.round_time_in_minutes_movesmaster) as round_time_in_minutes_movesmaster
+        , max(a.round_time_in_minutes_puzzle) AS round_time_in_minutes_puzzle
 
-        -- cumulative_coins_spend
-        , SUM(coins_spend) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_coins_spend
+        , max(a.lowest_last_level_serial) as lowest_last_level_serial
+        , max(a.highest_last_level_serial) as highest_last_level_serial
+        , max(a.highest_quests_completed) as highest_quests_completed
+        , max(a.gems_spend) as gems_spend
+        , max(a.coins_spend) as coins_spend
+        , max(a.stars_spend) as stars_spend
+        , max(a.ending_gems_balance) as ending_gems_balance
+        , max(a.ending_coins_balance) as ending_coins_balance
+        , max(a.ending_lives_balance) as ending_lives_balance
+        , max(a.ending_stars_balance) as ending_stars_balance
 
-        -- cumulative_star_spend
-        , SUM(stars_spend) OVER (
-            PARTITION BY rdg_id
-            ORDER BY rdg_date ASC
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-            ) cumulative_star_spend
+        -- system_info
+        , max( a.hardware ) as hardware
+        , max( a.processor_type ) as processor_type
+        , max( a.graphics_device_name ) as graphics_device_name
+        , max( a.device_model ) as device_model
+        , max( a.system_memory_size ) as system_memory_size
+        , max( a.graphics_memory_size ) as graphics_memory_size
+        , max( a.screen_width ) as screen_width
+        , max( a.screen_height ) as screen_height
 
-      FROM
-        join_on_mtx_data
+        -- end of content and zones
+        , max( a.end_of_content_levels ) as end_of_content_levels
+        , max( a.end_of_content_zones ) as end_of_content_zones
+        , max( a.current_zone ) as current_zone
+        , max( a.current_zone_progress ) as current_zone_progress
 
-      where
-          -- select date_add( current_date(), interval -1 day )
-          rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
+    from
+        join_on_ads_data a
+        left join mtx_by_date b
+            on b.rdg_id = a.rdg_id
+            and b.rdg_date = a.rdg_date
+        left join mtx_by_date c
+            on c.rdg_id = a.rdg_id
+            and c.rdg_date < a.rdg_date
+            and c.rdg_date > a.rdg_date_last_played
+    group by
+        1,2
+)
+
+-----------------------------------------------------------------------
+-- cumulative calculations
+-----------------------------------------------------------------------
+
+select
+
+  -- Start with all the rows from join_to_player_daily_incremental
+  *
+
+  , TIMESTAMP(created_date) as created_date_timestamp
+
+  -- Days Since Created
+  , DATE_DIFF(DATE(rdg_date), created_date, DAY) AS days_since_created
+
+  -- Player Day Number
+  , 1 + DATE_DIFF(DATE(rdg_date), created_date, DAY) AS day_number
+
+  -- new_player_indicator
+  , CASE WHEN DATE_DIFF(DATE(rdg_date), created_date, DAY) = 0 THEN 1 ELSE 0 END AS new_player_indicator
+
+   -- new_player_rdg_id
+  , CASE WHEN DATE_DIFF(DATE(rdg_date), created_date, DAY) = 0 THEN rdg_id ELSE NULL END AS new_player_rdg_id
+
+  -- Date last played
+  , LAG(DATE(rdg_date), 1) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ) date_last_played
+
+  -- Days Since Last Played
+  , DATE_DIFF(
+      DATE(rdg_date)
+      , LAG(DATE(rdg_date), 1) OVER (
+          PARTITION BY rdg_id
+          ORDER BY rdg_date ASC
+          )
+      , DAY
+      ) days_since_last_played
+
+  -- next_date_played
+  , LEAD(DATE(rdg_date), 1) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ) next_date_played
+
+  -- churn_indicator
+  , CASE
+      WHEN
+        LEAD(DATE(rdg_date), 1) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ) IS NULL
+      THEN 1
+      ELSE 0
+      END AS churn_indicator
+
+  -- churn_rdg_id
+  , CASE
+      WHEN
+        LEAD(DATE(rdg_date), 1) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ) IS NULL
+      THEN rdg_id
+      ELSE NULL
+      END AS churn_rdg_id
+
+  -- days_until_next_played
+  , DATE_DIFF(
+      LEAD(DATE(rdg_date), 1) OVER (
+          PARTITION BY rdg_id
+          ORDER BY rdg_date ASC
+          )
+      , DATE(rdg_date)
+      , DAY
+      ) days_until_next_played
+
+  -- cumulative_mtx_purchase_dollars
+  -- Includes adjustment for App Store %
+  , SUM( ifnull( mtx_purchase_dollars, 0 ) ) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_mtx_purchase_dollars
+
+  -- cumulative_ad_view_dollars
+  , SUM(IFNULL(ad_view_dollars,0)) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_ad_view_dollars
+
+  -- combined_dollars
+  -- Includes adjustment for App Store %
+  , ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0) AS combined_dollars
+
+  -- cumulative_combined_dollars
+  -- Includes adjustment for App Store %
+  , SUM(ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0)) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_combined_dollars
+
+  -- daily_mtx_spend_indicator
+  , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN 1 ELSE 0 END AS daily_mtx_spend_indicator
+
+  -- daily_mtx_spender_rdg_id
+  , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN rdg_id ELSE NULL END AS daily_mtx_spender_rdg_id
+
+  -- first_mtx_spend_indicator
+  , CASE
+      WHEN IFNULL(mtx_purchase_dollars,0) > 0
+      AND
+        SUM(mtx_purchase_dollars) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING )
+        = 0
+      THEN 1
+      ELSE 0
+      END AS first_mtx_spend_indicator
+
+  -- lifetime_mtx_spend_indicator
+  , CASE
+      WHEN
+        SUM(mtx_purchase_dollars) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+        > 0
+      THEN 1
+      ELSE 0
+      END AS lifetime_mtx_spend_indicator
+
+  -- lifetime_mtx_spender_rdg_id
+  , CASE
+      WHEN
+        SUM(mtx_purchase_dollars) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+        > 0
+      THEN rdg_id
+      ELSE NULL
+      END AS lifetime_mtx_spender_rdg_id
+
+  -- cumulative_ad_views
+  , SUM(ad_views) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_ad_views
+
+
+  -- Calculate engagement ticks
+  -- uses prior row cumulative_engagement_ticks
+  , IFNULL(cumulative_engagement_ticks,0) -
+      IFNULL(LAG(cumulative_engagement_ticks,1) OVER (
+          PARTITION BY rdg_id
+          ORDER BY rdg_date ASC
+          ),0) AS engagement_ticks
+
+  -- time played
+  -- This is calculated as engagement ticks / 2
+  , 0.5 * (
+      IFNULL(cumulative_engagement_ticks,0) -
+      IFNULL(LAG(cumulative_engagement_ticks,1) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ),0))
+      AS time_played_minutes
+
+  -- cumulative_time_played_minutes
+  , 0.5 * ( IFNULL(cumulative_engagement_ticks,0) ) AS cumulative_time_played_minutes
+
+  -- cumulative_round_start_events
+  , SUM(round_start_events) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_round_start_events
+
+  -- cumulative_round_end_events
+  , SUM(round_end_events) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_round_end_events
+
+  -- round_end_events_campaign
+  , SUM(round_end_events_campaign) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_round_end_events_campaign
+
+  -- round_end_events_movesmaster
+  , SUM(round_end_events_movesmaster) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_round_end_events_movesmaster
+
+  -- round_end_events_puzzle
+  , SUM(round_end_events_puzzle) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_round_end_events_puzzle
+
+  -- round_time_in_minutes
+  , SUM(round_time_in_minutes) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_round_time_in_minutes
+
+  -- round_time_in_minutes_campaign
+  , SUM(round_time_in_minutes_campaign) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_round_time_in_minutes_campaign
+
+  -- round_time_in_minutes_movesmaster
+  , SUM(round_time_in_minutes_movesmaster) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_round_time_in_minutes_movesmaster
+
+  -- round_time_in_minutes_puzzle
+  , SUM(round_time_in_minutes_puzzle) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_round_time_in_minutes_puzzle
+
+
+
+  -- Calculate quests_completed
+  -- uses prior row highest_quests_completed
+  , IFNULL(highest_quests_completed,0) -
+      IFNULL(LAG(highest_quests_completed,1) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ),0) AS quests_completed
+
+  -- count_days_played
+  -- this is just always 1
+  , 1 as count_days_played
+
+  -- cumulative_count_days_played
+  , SUM(1) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_count_days_played
+
+  -- Calculate levels_progressed
+  -- uses prior row highest_last_level_serial
+  , IFNULL(highest_last_level_serial,0) -
+      IFNULL(LAG(highest_last_level_serial,1) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ),0) AS levels_progressed
+
+  -- cumulative_gems_spend
+  , SUM(gems_spend) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_gems_spend
+
+  -- cumulative_coins_spend
+  , SUM(coins_spend) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_coins_spend
+
+  -- cumulative_star_spend
+  , SUM(stars_spend) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_star_spend
+
+FROM
+  join_on_mtx_data
+
+where
+    -- select date_add( current_date(), interval -1 day )
+    rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
 
 
 

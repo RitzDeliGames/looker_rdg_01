@@ -65,6 +65,7 @@ ads_by_date as (
         , min(created_date) over (
             partition by rdg_id
             order by rdg_date ASC
+            rows between unbounded preceding and unbounded following
             ) as created_date_fix
 
     from

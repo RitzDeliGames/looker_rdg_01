@@ -8,7 +8,7 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-16'
+      -- last update: '2023-03-17'
 
        -- CREATE OR REPLACE TABLE `tal_scratch.player_daily_summary` AS
 
@@ -123,6 +123,14 @@ view: player_daily_summary {
               , max( a.screen_width ) as screen_width
               , max( a.screen_height ) as screen_height
 
+              -- end of content and zones
+              , max( a.end_of_content_levels ) as end_of_content_levels
+              , max( a.end_of_content_zones ) as end_of_content_zones
+              , max( a.current_zone ) as current_zone
+              , max( a.current_zone_progress ) as current_zone_progress
+
+
+
           from
               player_daily_incremental_w_prior_date a
               left join ads_by_date b
@@ -195,6 +203,12 @@ view: player_daily_summary {
               , max( a.graphics_memory_size ) as graphics_memory_size
               , max( a.screen_width ) as screen_width
               , max( a.screen_height ) as screen_height
+
+              -- end of content and zones
+              , max( a.end_of_content_levels ) as end_of_content_levels
+              , max( a.end_of_content_zones ) as end_of_content_zones
+              , max( a.current_zone ) as current_zone
+              , max( a.current_zone_progress ) as current_zone_progress
 
           from
               join_on_ads_data a
@@ -507,7 +521,6 @@ view: player_daily_summary {
 
 
 
-
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -4 hour)) ;;
     publish_as_db_view: yes
@@ -629,7 +642,11 @@ dimension: primary_key {
   dimension: cumulative_round_time_in_minutes_movesmaster {type:number}
   dimension: cumulative_round_time_in_minutes_puzzle {type:number}
 
-
+  ## end of content and zones
+  dimension: end_of_content_levels {type: yesno}
+  dimension: end_of_content_zones {type: yesno}
+  dimension: current_zone {type: number}
+  dimension: current_zone_progress {type: number}
 
 ################################################################
 ## Unique Player Counts

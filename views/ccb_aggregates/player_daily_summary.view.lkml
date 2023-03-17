@@ -592,7 +592,7 @@ dimension: primary_key {
 
   dimension: lowest_last_level_serial_bin {
     type: bin
-    bins: [1,50,150,250,400,600,800,1000]
+    bins: [0,50,150,250,400,600,800,1000]
     style: interval
     sql: ${TABLE}.lowest_last_level_serial ;;
     }

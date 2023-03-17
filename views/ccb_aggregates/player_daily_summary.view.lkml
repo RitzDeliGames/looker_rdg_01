@@ -589,6 +589,14 @@ dimension: primary_key {
   dimension: round_end_events {type:number}
   dimension: lowest_last_level_serial {type:number}
   dimension: highest_last_level_serial {type:number}
+
+  dimension: lowest_last_level_serial_bin {
+    type: bin
+    bins: [1,50,150,250,400,600,800,1000]
+    style: interval
+    sql: ${TABLE}.lowest_last_level_serial ;;
+    }
+
   dimension: highest_quests_completed {type:number}
   dimension: gems_spend {type:number}
   dimension: coins_spend {type:number}

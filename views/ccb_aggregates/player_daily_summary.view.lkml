@@ -707,7 +707,7 @@ dimension: primary_key {
     type: number
     sql:
       safe_divide(
-        count(distinct
+        count(distinct case
           when ${TABLE}.round_end_events > 0
           then ${TABLE}.rdg_id
           else null
@@ -724,7 +724,7 @@ dimension: primary_key {
     type: number
     sql:
       safe_divide(
-        count(distinct
+        count(distinct case
           when ${TABLE}.round_end_events_campaign > 0
           then ${TABLE}.rdg_id
           else null
@@ -740,7 +740,7 @@ dimension: primary_key {
     type: number
     sql:
       safe_divide(
-        count(distinct
+        count(distinct case
           when ${TABLE}.round_end_events_movesmaster > 0
           then ${TABLE}.rdg_id
           else null
@@ -757,7 +757,7 @@ dimension: primary_key {
     type: number
     sql:
       safe_divide(
-        count(distinct
+        count(distinct case
           when ${TABLE}.round_end_events_puzzle > 0
           then ${TABLE}.rdg_id
           else null

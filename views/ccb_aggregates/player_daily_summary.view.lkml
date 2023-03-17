@@ -769,6 +769,19 @@ dimension: primary_key {
     value_format_name: percent_0
   }
 
+  measure: churn_rate {
+    group_label: "Calculated Fields"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct ${TABLE}.churn_rdg_id )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
 ################################################################
 ## Revenue Metrics
 ################################################################

@@ -868,4 +868,14 @@ explore: player_hourly {
   }
 }
 
-explore: player_daily_incremental {}
+explore: player_weekly_summary {
+  label: "Player Weekly Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_weekly_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}

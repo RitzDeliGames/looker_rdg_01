@@ -575,17 +575,17 @@ view: player_weekly_summary {
 
   # dates
   dimension_group: rdg_week {
-    group_label: "Activity Dates"
-    label: "Activity Date"
+    group_label: "Activity Weeks"
+    label: "Activity Week"
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [week]
     sql: ${TABLE}.rdg_week ;;
   }
   dimension_group: created_week {
-    group_label: "Install Date"
+    group_label: "Install Week"
     label: "Installed On"
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [week]
     sql: ${TABLE}.created_week ;;
   }
 

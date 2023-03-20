@@ -524,9 +524,9 @@ view: player_weekly_summary {
             , week
             ) as weeks_since_last_played
 
-          , date_diff(date(rdg_week), date(created_week), week) as weeks_since_created_week
+          , date_diff(date(rdg_week), date(created_week), week(monday)) as weeks_since_created_week
 
-          , 1 + date_diff(date(rdg_week), date(created_week), week) as week_number
+          , 1 + date_diff(date(rdg_week), date(created_week), week(monday)) as week_number
 
         from
           my_weekly_aggregate
@@ -543,8 +543,7 @@ view: player_weekly_summary {
       from
         my_table_calculations_on_weekly_aggregates
       where
-        rdg_week <= timestamp(date_add(date_trunc(current_date(),week), interval - 1 week))
-
+        rdg_week <= timestamp(date_add(date_trunc(current_date(),week(monday)), interval - 1 week))
 
 
 

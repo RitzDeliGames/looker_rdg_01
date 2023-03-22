@@ -744,11 +744,12 @@ dimension: primary_key {
 
 dimension: paid_or_organic {
   type: string
+  label: "Singluar Mapping"
   sql:
     case
-      when ${TABLE}.singular_campaign_id is not null then 'paid'
-      when ${TABLE}.campaign_name = 'Unattributed' then 'paid'
-      else 'organic'
+      when ${TABLE}.singular_campaign_id is not null then 'Singular Mapped'
+      when ${TABLE}.campaign_name is 'Unattributed' then 'Singular Mapped'
+      else 'Not Mapped To Singular'
       end
   ;;
 }

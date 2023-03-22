@@ -746,8 +746,8 @@ dimension: paid_or_organic {
   type: string
   sql:
     case
-      when ${TABLE}.singular_campaign_id is not null
-      then 'paid'
+      when ${TABLE}.singular_campaign_id is not null then 'paid'
+      when ${TABLE}.campaign_name = 'Unattributed' then 'paid'
       else 'organic'
       end
   ;;

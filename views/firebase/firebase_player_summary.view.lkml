@@ -10,6 +10,9 @@ view: firebase_player_summary {
       -- ccb_aggregate_update_tag
       -- last update: '2023-03-06'
 
+       -- CREATE OR REPLACE TABLE `tal_scratch.firebase_player_summary` AS
+
+
       WITH
 
       -----------------------------------------------------------------------
@@ -39,21 +42,21 @@ view: firebase_player_summary {
           , rdg_date
 
           -- device_id
-          , LAST_VALUE(firebase_advertising_id) OVER (
+          , first_value(firebase_advertising_id) OVER (
             PARTITION BY firebase_user_id
             ORDER BY rdg_date ASC
             ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             ) firebase_advertising_id
 
           -- platform
-          , LAST_VALUE(firebase_platform) OVER (
+          , first_value(firebase_platform) OVER (
             PARTITION BY firebase_user_id
             ORDER BY rdg_date ASC
             ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             ) firebase_platform
 
           -- created_date
-          , LAST_VALUE(firebase_created_date) OVER (
+          , first_value(firebase_created_date) OVER (
             PARTITION BY firebase_user_id
             ORDER BY rdg_date ASC
             ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
@@ -104,7 +107,7 @@ view: firebase_player_summary {
 
           firebase_advertising_id
 
-          , last_value(firebase_user_id) over (
+          , first_value(firebase_user_id) over (
               partition by firebase_advertising_id
               order by last_played_date
               rows between unbounded preceding and unbounded following
@@ -132,7 +135,7 @@ view: firebase_player_summary {
 
           ) as firebase_platform
 
-          , last_value(firebase_created_date) over (
+          , first_value(firebase_created_date) over (
               partition by firebase_advertising_id
               order by last_played_date
               rows between unbounded preceding and unbounded following
@@ -175,10 +178,6 @@ view: firebase_player_summary {
         A.*
       FROM
         de_dupe_advertising_id_step_2 A
-
-
-
-
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;

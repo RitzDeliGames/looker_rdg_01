@@ -742,17 +742,17 @@ dimension: primary_key {
 ## Calculated Dimensions
 ################################################################
 
-dimension: paid_or_organic {
-  type: string
-  label: "Singluar Mapping"
-  sql:
-    case
-      when ${TABLE}.singular_campaign_id is not null then 'Singular Mapped'
-      when ${TABLE}.campaign_name is 'Unattributed' then 'Singular Mapped'
-      else 'Not Mapped To Singular'
-      end
-  ;;
-}
+# dimension: paid_or_organic {
+#   type: string
+#   label: "Singluar Mapping"
+#   sql:
+#     case
+#       when ${TABLE}.singular_campaign_id is not null then 'Singular Mapped'
+#       when ${TABLE}.campaign_name is 'Unattributed' then 'Singular Mapped'
+#       else 'Not Mapped To Singular'
+#       end
+#   ;;
+# }
 
 ######################################################################
 ## Singular Campaign Info

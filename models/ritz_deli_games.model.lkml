@@ -868,6 +868,8 @@ explore: player_hourly {
   }
 }
 
+explore: firebase_player_summary {}
+
 explore: player_weekly_summary {
   label: "Player Weekly Summary"
   join: player_summary_new {

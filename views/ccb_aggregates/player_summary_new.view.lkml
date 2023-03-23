@@ -8,7 +8,7 @@ view: player_summary_new {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-22'
+      -- last update: '2023-03-23'
 
 
       -- CREATE OR REPLACE TABLE `tal_scratch.player_summary` AS

@@ -834,6 +834,8 @@ dimension: singular_campaign_cost_attributed {
     type: string
     suggestions:  [
       "$.No_AB_Test_Split"
+      ,"$.puzzleEvent_20230318"
+      ,"$.extraMoves_20230313"
       ,"$.fastLifeTimer_20230313"
       ,"$.frameRate_20230302"
       ,"$.navBar_20230228"

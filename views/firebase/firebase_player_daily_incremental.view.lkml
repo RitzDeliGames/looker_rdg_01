@@ -4,7 +4,10 @@ view: firebase_player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update '2023-03-02'
+      -- last update '2023-03-23'
+
+
+      -- create or replace table `tal_scratch.firebase_player_daily_incremental` as
 
       with
 
@@ -52,8 +55,8 @@ view: firebase_player_daily_incremental {
           ) >=
           case
             -- select date(current_date())
-            when date(current_date()) <= '2023-03-02' -- Last Full Update
-            then '2019-01-01'
+            when date(current_date()) <= '2023-03-23' -- Last Full Update
+            then '2022-06-01'
             else date_add(current_date(), interval -9 DAY)
             end
 
@@ -69,6 +72,7 @@ view: firebase_player_daily_incremental {
         ------------------------------------------------------------------------
 
         and user_id is not null
+        and device.advertising_id is not null
 
       )
 
@@ -86,6 +90,9 @@ view: firebase_player_daily_incremental {
         base_data
       group by
         1,2
+
+
+
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

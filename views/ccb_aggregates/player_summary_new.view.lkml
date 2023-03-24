@@ -1437,7 +1437,8 @@ measure: count_distinct_players {
 ################################################################
 
   measure: available_player_count_d1 {
-    group_label: "Available  Player Count"
+    group_label: "Average Retention"
+    label: "Total Installs"
     type: number
     sql:
     count( distinct
@@ -1452,7 +1453,8 @@ measure: count_distinct_players {
   }
 
   measure: available_player_count_d2 {
-    group_label: "Available  Player Count"
+    group_label: "Average Retention"
+    label: "Retention Denominator D2"
     type: number
     sql:
     count( distinct
@@ -1467,7 +1469,8 @@ measure: count_distinct_players {
   }
 
   measure: available_player_count_d7 {
-    group_label: "Available  Player Count"
+    group_label: "Average Retention"
+    label: "Retention Denominator D7"
     type: number
     sql:
     count( distinct
@@ -1482,7 +1485,8 @@ measure: count_distinct_players {
   }
 
   measure: available_player_count_d14 {
-    group_label: "Available  Player Count"
+    group_label: "Average Retention"
+    label: "Retention Denominator D14"
     type: number
     sql:
     count( distinct
@@ -1497,7 +1501,8 @@ measure: count_distinct_players {
   }
 
   measure: available_player_count_d30 {
-    group_label: "Available  Player Count"
+    group_label: "Average Retention"
+    label: "Retention Denominator D30"
     type: number
     sql:
     count( distinct
@@ -1512,7 +1517,8 @@ measure: count_distinct_players {
   }
 
   measure: available_player_count_d60 {
-    group_label: "Available  Player Count"
+    group_label: "Average Retention"
+    label: "Retention Denominator D60"
     type: number
     sql:
     count( distinct
@@ -1790,5 +1796,90 @@ measure: count_distinct_players {
     ;;
     value_format_name: percent_0
   }
+
+################################################################
+## Retention Numerator
+################################################################
+
+  measure: numerator_retention_d2 {
+    group_label: "Average Retention"
+    label: "Retention Numerator D2"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.retention_d2
+          else 0
+          end )
+    ;;
+    value_format_name: percent_1
+
+  }
+
+  measure: numerator_retention_d7 {
+    group_label: "Average Retention"
+    label: "Retention Numerator D7"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.retention_d7
+          else 0
+          end )
+    ;;
+    value_format_name: percent_1
+
+  }
+
+  measure: numerator_retention_d14 {
+    group_label: "Average Retention"
+    label: "Retention Numerator D14"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 14
+          then ${TABLE}.retention_d14
+          else 0
+          end )
+    ;;
+    value_format_name: percent_1
+
+  }
+
+  measure: numerator_retention_d30 {
+    group_label: "Average Retention"
+    label: "Retention Numerator D30"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 30
+          then ${TABLE}.retention_d30
+          else 0
+          end )
+    ;;
+    value_format_name: percent_1
+
+  }
+
+  measure: numerator_retention_d60 {
+    group_label: "Average Retention"
+    label: "Retention Numerator D60"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 60
+          then ${TABLE}.retention_d60
+          else 0
+          end )
+    ;;
+    value_format_name: percent_1
+
+  }
+
 
 }

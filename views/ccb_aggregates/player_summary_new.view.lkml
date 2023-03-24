@@ -1798,6 +1798,85 @@ measure: count_distinct_players {
   }
 
 ################################################################
+## Engagement Milestones Numerator
+################################################################
+
+  measure: numerator_engagement_milestone_5_minutes {
+    label: "5+ Min Numerator"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 5
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: numerator_engagement_milestone_15_minutes {
+    label: "15+ Min Numerator"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 15
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: numerator_engagement_milestone_30_minutes {
+    label: "30+ Min Numerator"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 30
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: numerator_engagement_milestone_60_minutes {
+    label: "60+ Min Numerator"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 60
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: numerator_engagement_milestone_120_minutes {
+    label: "120+ Min Numerator"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 120
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+
+################################################################
 ## Retention Numerator
 ################################################################
 

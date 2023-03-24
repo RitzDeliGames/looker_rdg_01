@@ -1813,7 +1813,7 @@ measure: count_distinct_players {
           else 0
           end )
     ;;
-    value_format_name: percent_1
+    value_format_name: decimal_0
 
   }
 
@@ -1829,7 +1829,7 @@ measure: count_distinct_players {
           else 0
           end )
     ;;
-    value_format_name: percent_1
+    value_format_name: decimal_0
 
   }
 
@@ -1845,7 +1845,7 @@ measure: count_distinct_players {
           else 0
           end )
     ;;
-    value_format_name: percent_1
+    value_format_name: decimal_0
 
   }
 
@@ -1861,7 +1861,7 @@ measure: count_distinct_players {
           else 0
           end )
     ;;
-    value_format_name: percent_1
+    value_format_name: decimal_0
 
   }
 
@@ -1877,7 +1877,7 @@ measure: count_distinct_players {
           else 0
           end )
     ;;
-    value_format_name: percent_1
+    value_format_name: decimal_0
 
   }
 

@@ -520,7 +520,7 @@ view: player_hourly {
     group_label: "Time Frames"
     label: "Install Hour"
     type: time
-    timeframes: [hour, date, week, month, year]
+    timeframes: [time_of_day, hour, date, week, month, year]
     sql: ${TABLE}.created_hour ;;
   }
 

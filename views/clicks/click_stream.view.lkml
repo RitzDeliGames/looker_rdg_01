@@ -1,6 +1,7 @@
 view: click_stream {
   derived_table: {
     sql:
+      /*
       select
         rdg_id
         ,country
@@ -27,6 +28,318 @@ view: click_stream {
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
       group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+      */
+
+      -- New SQL For Puzzles Only
+      -- 2023-03-28
+      -- SQL To Analyze First Week of Puzzles
+
+      with
+
+      ---------------------------------------------------------------------------
+      -- Puzzle Button Clicks
+      ---------------------------------------------------------------------------
+
+      puzzle_button_clicks as (
+
+        select
+          rdg_id
+          , first_value(country) over (
+              partition by rdg_id, json_extract_scalar(extra_json,"$.button_tag")
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as country
+
+          , first_value(install_version) over (
+              partition by rdg_id, json_extract_scalar(extra_json,"$.button_tag")
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as install_version
+
+          , first_value(version) over (
+              partition by rdg_id, json_extract_scalar(extra_json,"$.button_tag")
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as version
+
+          , first_value(timestamp) over (
+              partition by rdg_id, json_extract_scalar(extra_json,"$.button_tag")
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as timestamp
+
+          , first_value(event_name) over (
+              partition by rdg_id, json_extract_scalar(extra_json,"$.button_tag")
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as event_name
+
+          , first_value(engagement_ticks) over (
+              partition by rdg_id, json_extract_scalar(extra_json,"$.button_tag")
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as engagement_ticks
+
+          , first_value(cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric)) over (
+              partition by rdg_id, json_extract_scalar(extra_json,"$.button_tag")
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as currency_02_balance
+
+          , first_value(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) over (
+              partition by rdg_id, json_extract_scalar(extra_json,"$.button_tag")
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as currency_03_balance
+
+          , first_value(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) over (
+              partition by rdg_id, json_extract_scalar(extra_json,"$.button_tag")
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as currency_04_balance
+
+          , first_value(cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric)) over (
+              partition by rdg_id, json_extract_scalar(extra_json,"$.button_tag")
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as currency_05_balance
+
+          , first_value(last_level_serial) over (
+              partition by rdg_id, json_extract_scalar(extra_json,"$.button_tag")
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as last_level_serial
+
+          ,json_extract_scalar(extra_json,"$.button_tag") button_tag
+
+          , first_value(experiments) over (
+              partition by rdg_id, json_extract_scalar(extra_json,"$.button_tag")
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as experiments
+
+          , first_value(extra_json) over (
+              partition by rdg_id, json_extract_scalar(extra_json,"$.button_tag")
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as extra_json
+
+          , first_value(last_level_id) over (
+              partition by rdg_id, json_extract_scalar(extra_json,"$.button_tag")
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as last_level_id
+
+            ,lag(timestamp)
+                over (partition by rdg_id order by timestamp desc) greater_level_completed
+        from
+          `eraser-blast.game_data.events`
+        where
+          date(timestamp) between "2023-03-22" and '2023-03-27'
+          and event_name = 'ButtonClicked'
+          and json_extract_scalar(extra_json,"$.button_tag") in (
+            'Puzzle.pz_event_01'
+            , 'Sheet_Puzzles.GotIt'
+            , 'Sheet_Puzzles.Pregame'
+            , 'Sheet_Puzzles.RewardReveal'
+            , 'Sheet_Puzzles.Claim'
+            , 'Sheet_Puzzles.Finish' )
+
+      )
+
+      ---------------------------------------------------------------------------
+      -- Puzzle Button Clicks Summarized By Player
+      ---------------------------------------------------------------------------
+
+      , puzzle_button_clicks_summarized_by_player as (
+
+        select
+          rdg_id
+          ,min(country) as country
+          ,min(install_version) as install_version
+          ,min(version) as version
+          ,min(timestamp) as timestamp
+          ,min(event_name) as event_name
+          ,min(engagement_ticks) as engagement_ticks
+          ,min(currency_02_balance) as currency_02_balance
+          ,min(currency_03_balance) as currency_03_balance
+          ,min(currency_04_balance) as currency_04_balance
+          ,min(currency_05_balance) as currency_05_balance
+          ,min(last_level_serial) as last_level_serial
+          ,button_tag
+          ,min(experiments) as experiments
+          ,min(extra_json) as extra_json
+          ,min(last_level_id) as last_level_id
+          ,min(greater_level_completed) as greater_level_completed
+        from
+          puzzle_button_clicks
+        group by
+          rdg_id, button_tag
+      )
+
+      ---------------------------------------------------------------------------
+      -- Round End Win Events For Puzzle
+      ---------------------------------------------------------------------------
+
+      , puzzle_round_wins as (
+
+        select
+          rdg_id
+          , 1 as count_wins
+
+          , first_value(country) over (
+              partition by rdg_id
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as country
+
+          , first_value(install_version) over (
+              partition by rdg_id
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as install_version
+
+          , first_value(version) over (
+              partition by rdg_id
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as version
+
+          , first_value(timestamp) over (
+              partition by rdg_id
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as timestamp
+
+          , first_value(event_name) over (
+              partition by rdg_id
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as event_name
+
+          , first_value(engagement_ticks) over (
+              partition by rdg_id
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as engagement_ticks
+
+          , first_value(cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric)) over (
+              partition by rdg_id
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as currency_02_balance
+
+          , first_value(cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric)) over (
+              partition by rdg_id
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as currency_03_balance
+
+          , first_value(cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric)) over (
+              partition by rdg_id
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as currency_04_balance
+
+          , first_value(cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric)) over (
+              partition by rdg_id
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as currency_05_balance
+
+          , first_value(last_level_serial) over (
+              partition by rdg_id
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as last_level_serial
+
+          , first_value(experiments) over (
+              partition by rdg_id
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as experiments
+
+          , first_value(extra_json) over (
+              partition by rdg_id
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as extra_json
+
+          , first_value(last_level_id) over (
+              partition by rdg_id
+              order by timestamp
+              rows between unbounded preceding and unbounded following
+              ) as last_level_id
+
+            ,lag(timestamp)
+                over (partition by rdg_id order by timestamp desc) greater_level_completed
+
+
+
+        from
+          `eraser-blast.game_data.events`
+        where
+          date(timestamp) between "2023-03-22" and '2023-03-27'
+          and event_name = 'round_end'
+          and json_extract_scalar(extra_json,"$.game_mode") = 'puzzle'
+          and cast(json_extract_scalar( extra_json , "$.quest_complete") as boolean) = true
+
+
+      )
+
+      ---------------------------------------------------------------------------
+      -- Round End Win Events For Puzzle Summarized
+      ---------------------------------------------------------------------------
+
+      , puzzle_round_wins_summarized as (
+
+      select
+
+          rdg_id
+          ,min(country) as country
+          ,min(install_version) as install_version
+          ,min(version) as version
+          ,min(timestamp) as timestamp
+          ,min(event_name) as event_name
+          ,min(engagement_ticks) as engagement_ticks
+          ,min(currency_02_balance) as currency_02_balance
+          ,min(currency_03_balance) as currency_03_balance
+          ,min(currency_04_balance) as currency_04_balance
+          ,min(currency_05_balance) as currency_05_balance
+          ,min(last_level_serial) as last_level_serial
+          ,'Puzzle Round Wins: '|| sum(1) as button_tag
+          ,min(experiments) as experiments
+          ,min(extra_json) as extra_json
+          ,min(last_level_id) as last_level_id
+          ,min(greater_level_completed) as greater_level_completed
+
+
+      from
+        puzzle_round_wins
+      group by
+        1
+      )
+
+      ---------------------------------------------------------------------------
+      -- Union Together
+      ---------------------------------------------------------------------------
+
+      select
+        *
+      from
+        puzzle_round_wins_summarized
+      union all
+      select
+        *
+      from
+        puzzle_button_clicks_summarized_by_player
+      order by
+        timestamp
+
+
+
+
+
       ;;
     datagroup_trigger: change_at_midnight
     publish_as_db_view: yes

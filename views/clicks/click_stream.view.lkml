@@ -307,7 +307,12 @@ view: click_stream {
           ,min(currency_04_balance) as currency_04_balance
           ,min(currency_05_balance) as currency_05_balance
           ,min(last_level_serial) as last_level_serial
-          ,'Puzzle Round Wins: '|| sum(1) as button_tag
+          ,case
+            when sum(1) <= 1 then '1 Puzzle Round Won'
+            when sum(1) between 2 and 9 then '2-9 Puzzle Rounds Won'
+            else '10+ Puzzle Rounds Won'
+            end as button_tag
+          -- 'Puzzle Round Wins: '|| sum(1) as button_tag
           ,min(experiments) as experiments
           ,min(extra_json) as extra_json
           ,min(last_level_id) as last_level_id
@@ -335,7 +340,6 @@ view: click_stream {
         puzzle_button_clicks_summarized_by_player
       order by
         timestamp
-
 
 
 

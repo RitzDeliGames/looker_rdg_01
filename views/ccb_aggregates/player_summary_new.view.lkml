@@ -765,6 +765,12 @@ dimension: singular_campaign_name_clean {
   sql: @{campaign_name_clean} ;;
 }
 
+  dimension: singular_campaign_id_override {
+    group_label: "Singular Campaign Info"
+    type: string
+    sql: @{singular_campaign_id_override} ;;
+  }
+
 dimension: singular_partner_name {
   group_label: "Singular Campaign Info"
   type:string}

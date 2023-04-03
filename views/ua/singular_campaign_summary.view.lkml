@@ -129,7 +129,7 @@ view: singular_campaign_summary {
     group_label: "Singular Campaign Info"
     label: "Campaign Name (Clean)"
     type: string
-    sql: @{campaign_name_clean} ;;
+    sql: @{campaign_name_clean_update} ;;
   }
 
 }

@@ -869,7 +869,7 @@ explore: player_hourly {
 }
 
 explore: firebase_player_summary {}
-# explore: bot_round_end_incremental {}
+explore: singular_campaign_summary {}
 
 explore: player_weekly_summary {
   label: "Player Weekly Summary"

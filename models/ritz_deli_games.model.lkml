@@ -740,6 +740,14 @@ explore: player_daily_summary {
       ${player_daily_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
+  join: singular_campaign_summary {
+    view_label:  "Singular Campaign Info"
+    from:  singular_campaign_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id};;
+  }
+
   join: version_summary {
     view_label:  "Version Summary"
     from:  version_summary

@@ -694,14 +694,16 @@ constant: reward_events {
 constant: campaign_name_clean {
   value: "case
             when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_US_N/A' then 'AAA - USA - Purchase'
+            when player_summary_new.singular_partner_name = 'Unattributed' and player_summary_new.country = 'US' and player_summary_new.created_date between '2023-01-30' and '2023-02-14' then 'AAA - USA - Purchase'
             when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_US_N/A' then 'AAA - USA - 15 Min'
             when ${TABLE}.campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - No Event'
             when ${TABLE}.campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_LATAM/ES_N/A v2' then 'AAA - LATAM/ES - No Event'
-            when ${TABLE}.campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_Scan_N/A' then 'AAA - Scandinavia - No Event'
             when ${TABLE}.campaign_name = 'Android_AAA_Events_5_Minutes_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - 5 Min'
             when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - 15 Min'
             when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_LATAM/PTBR_N/A' then 'AAA - LATAM/BR - 15 Min'
-            when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_Scan_N/A' then 'AAA - Scandinavia - 15 Min'
+            when ${TABLE}.campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_Scan_N/A' then'AAA - Scandinavia - No Event'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_Scan_N/A' then'AAA - Scandinavia - 15 Min'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchases_Women&Men_Scandinavia_N/A' then 'AAA - Scandinavia - Purchase'
             when ${TABLE}.campaign_name = 'Android_AAA_Events_30_Minutes_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - 30 Min'
             when ${TABLE}.campaign_name = 'Android_AAA_Events_30_Minutes_Women&Men_LATAM/BR_N/A' then 'AAA - LATAM/BR - 30 Min'
             when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_LATAM/PTBR_N/A' then 'AAA - LATAM/BR - Purchase'
@@ -743,8 +745,8 @@ constant: campaign_name_clean {
             when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 5 Min - Walmart'
             when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 15 Min - Walmart'
             when ${TABLE}.campaign_name = 'Android_Manual_Events_30_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 30 Min - Walmart'
-            when ${TABLE}.singular_partner_name = 'Organic' then 'Organic'
             when ${TABLE}.singular_partner_name = 'Unattributed' then 'Unattributed'
+            when ${TABLE}.singular_partner_name = 'Organic' then 'Organic'
             else ${TABLE}.campaign_name
           end"
 }

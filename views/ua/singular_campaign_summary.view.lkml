@@ -60,7 +60,6 @@ view: singular_campaign_summary {
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
     publish_as_db_view: yes
-    partition_keys: ["singular_campaign_id"]
 
   }
 

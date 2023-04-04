@@ -826,6 +826,7 @@ explore: player_summary_new {
 
 explore: player_round_summary {
   label: "Player Round Summary"
+
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -833,6 +834,14 @@ explore: player_round_summary {
     sql_on:
       ${player_round_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
+  }
+
+  join: singular_campaign_summary {
+    view_label:  "Singular Campaign Info"
+    from:  singular_campaign_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id};;
   }
 }
 
@@ -846,6 +855,13 @@ explore: player_ad_view_summary {
       ${player_ad_view_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
+  join: singular_campaign_summary {
+    view_label:  "Singular Campaign Info"
+    from:  singular_campaign_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id};;
+  }
 }
 
 explore: player_mtx_purchase_summary {
@@ -857,6 +873,13 @@ explore: player_mtx_purchase_summary {
     sql_on:
       ${player_mtx_purchase_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
+  }
+  join: singular_campaign_summary {
+    view_label:  "Singular Campaign Info"
+    from:  singular_campaign_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id};;
   }
 }
 
@@ -870,6 +893,13 @@ explore: player_coin_spend_summary {
       ${player_coin_spend_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
+  join: singular_campaign_summary {
+    view_label:  "Singular Campaign Info"
+    from:  singular_campaign_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id};;
+  }
 }
 
 explore: player_hourly {
@@ -881,6 +911,13 @@ explore: player_hourly {
     sql_on:
       ${player_hourly.rdg_id} = ${player_summary_new.rdg_id}
       ;;
+  }
+  join: singular_campaign_summary {
+    view_label:  "Singular Campaign Info"
+    from:  singular_campaign_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id};;
   }
 }
 
@@ -896,5 +933,12 @@ explore: player_weekly_summary {
     sql_on:
       ${player_weekly_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
+  }
+  join: singular_campaign_summary {
+    view_label:  "Singular Campaign Info"
+    from:  singular_campaign_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id};;
   }
 }

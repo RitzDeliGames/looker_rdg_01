@@ -812,7 +812,7 @@ constant: singular_campaign_id_override {
     case
       when
         ${TABLE}.singular_partner_name = 'Unattributed'
-        and ${TABLE}.singular_campaign_id is ''
+        and ${TABLE}.singular_campaign_id = ''
         and ${TABLE}.country = 'US'
         and date(${TABLE}.created_date) between '2023-01-30' and '2023-02-14'
         then '6289277953122'

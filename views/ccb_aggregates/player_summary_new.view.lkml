@@ -8,10 +8,11 @@ view: player_summary_new {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-23'
+      -- last update: '2023-04-04'
 
 
-      -- CREATE OR REPLACE TABLE `tal_scratch.player_summary` AS
+
+      -- CREATE OR REPLACE TABLE `tal_scratch.player_summary_new` AS
 
       WITH
 
@@ -363,56 +364,8 @@ view: player_summary_new {
       )
 
       -----------------------------------------------------------------------
-      -- singular_country_code_helper
-      -----------------------------------------------------------------------
-
-      , singular_country_code_helper as (
-
-        select
-          Alpha_3_code
-          , max(country) as singular_country_name
-          , max(Alpha_2_code) as singular_country
-        from
-          `eraser-blast.singular.country_codes`
-        group by
-          1
-
-      )
-
-      -----------------------------------------------------------------------
-      -- singular_campaign_summary
-      -----------------------------------------------------------------------
-
-      , singular_campaign_summary as (
-
-        select
-          a.adn_campaign_id as singular_campaign_id
-          , min( timestamp(a.date) ) as singular_campaign_min_date
-          , max( a.adn_campaign_name ) singular_campaign_name
-          , max( a.source ) as singular_source
-          , max( a.platform ) as singular_platform
-          , max( b.singular_country_name ) as singular_country_name
-          , max( b.singular_country ) as singular_country
-          , sum( cast(a.adn_impressions as int64)) as singular_total_impressions
-          , sum( cast(a.adn_cost as float64)) as singular_total_cost
-          , sum( cast(a.adn_original_cost as float64)) as singular_total_original_cost
-          , sum( cast(a.adn_installs AS int64)) as singular_total_installs
-          , safe_divide(
-              sum( cast(a.adn_cost as float64))
-              , sum( cast(a.adn_installs AS int64)) ) as singular_total_cost_per_install
-        from
-          `eraser-blast.singular.marketing_data` a
-          left join singular_country_code_helper b
-            on a.country_field = b.Alpha_3_code
-        group by
-          1
-      )
-
-      -----------------------------------------------------------------------
       -- add on singular data
       -----------------------------------------------------------------------
-
-      -- -- select column_name from `eraser-blast`.tal_scratch.INFORMATION_SCHEMA.COLUMNS where table_name = 'test_player_summary' order by ordinal_position
 
       , add_on_mtx_percentile_and_singular_data as (
 
@@ -421,25 +374,9 @@ view: player_summary_new {
           , b.cumulative_mtx_purchase_dollars_current_percentile
           , c.firebase_advertising_id
           , d.singular_device_id
+          , d.singular_campaign_id
           , d.singular_partner_name
-          , e.singular_campaign_id
-          , e.singular_campaign_min_date
-          , case
-              when e.singular_campaign_name is not null then e.singular_campaign_name
-              when
-                e.singular_campaign_name is null
-                and d.singular_device_id is not null then 'Unattributed'
-              else null
-              end as campaign_name
-          , e.singular_source
-          , e.singular_platform
-          , e.singular_country_name
-          , e.singular_country
-          , e.singular_total_impressions
-          , e.singular_total_cost
-          , e.singular_total_original_cost
-          , e.singular_total_installs
-          , e.singular_total_cost_per_install
+
         from
           summarize_data A
           left join percentile_current_cumulative_mtx_purchase_dollars_table B
@@ -448,54 +385,6 @@ view: player_summary_new {
             on a.user_id = c.firebase_user_id
           left join singular_player_summary d
             on c.firebase_advertising_id = d.singular_device_id
-          left join singular_campaign_summary e
-            on d.singular_campaign_id = e.singular_campaign_id
-
-      )
-
-      -----------------------------------------------------------------------
-      -- Distribute Singular Campaign Costs - All Players
-      -----------------------------------------------------------------------
-
-      , singular_campaign_costs_all_players as (
-
-      select
-        *
-        , sum( singular_total_cost_per_install ) over (
-            partition by singular_campaign_id
-            rows between unbounded preceding and unbounded following
-          ) as total_players_attributed_to_singular_campaign
-
-        , 1 /
-          sum( 1 ) over (
-            partition by singular_campaign_id
-            rows between unbounded preceding and unbounded following
-          ) as percentage_of_singular_campaign_cost_attributed
-
-        , singular_total_cost_per_install as singular_campaign_cost_attributed
-      from
-        add_on_mtx_percentile_and_singular_data
-      where
-        singular_campaign_id is not null
-
-      )
-
-      -----------------------------------------------------------------------
-      -- Add on Singular Stats to the data
-      -----------------------------------------------------------------------
-
-      , add_on_singular_stats as (
-
-        select
-          a.*
-          , b.total_players_attributed_to_singular_campaign
-          , b.percentage_of_singular_campaign_cost_attributed
-          , b.singular_campaign_cost_attributed
-
-        from
-          add_on_mtx_percentile_and_singular_data a
-          left join singular_campaign_costs_all_players b
-            on a.rdg_id = b.rdg_id
 
       )
 
@@ -530,7 +419,7 @@ view: player_summary_new {
         , b.device_name as supported_devices_device_name
         , b.model_name as supported_devices_model_name
       from
-        add_on_singular_stats a
+        add_on_mtx_percentile_and_singular_data a
         left join supported_devices_table b
           on a.device_model = b.device_model
 
@@ -755,82 +644,26 @@ dimension: primary_key {
 # }
 
 ######################################################################
-## Singular Campaign Info
+## Singular Campaign Mapping
 ######################################################################
 
-dimension: singular_campaign_name_clean {
-  group_label: "Singular Campaign Info"
-  label: "Campaign Name (Clean)"
-  type: string
-  sql: @{campaign_name_clean} ;;
-}
+  dimension: singular_device_id {
+    group_label: "Singular Campaign Mapping"
+    type:string}
+
+  dimension: singular_partner_name {
+    group_label: "Singular Campaign Mapping"
+    type:string}
+
+  dimension: singular_campaign_id {
+    group_label: "Singular Campaign Mapping"
+    type:string}
 
   dimension: singular_campaign_id_override {
-    group_label: "Singular Campaign Info"
+    group_label: "Singular Campaign Mapping"
     type: string
     sql: @{singular_campaign_id_override} ;;
   }
-
-dimension: singular_partner_name {
-  group_label: "Singular Campaign Info"
-  type:string}
-
-dimension: singular_device_id {
-  group_label: "Singular Campaign Info"
-  type:string}
-
-dimension: singular_campaign_id {
-  group_label: "Singular Campaign Info"
-  type:string}
-
-dimension: campaign_name {
-  group_label: "Singular Campaign Info"
-  type:string}
-
-dimension: singular_source {
-  group_label: "Singular Campaign Info"
-  type:string}
-
-dimension: singular_platform {
-  group_label: "Singular Campaign Info"
-  type:string}
-
-dimension: singular_country_name {
-  group_label: "Singular Campaign Info"
-  type:string}
-
-dimension: singular_country {
-  group_label: "Singular Campaign Info"
-  type:string}
-
-dimension: singular_total_impressions {
-  group_label: "Singular Campaign Info"
-  type:number}
-
-dimension: singular_total_cost {
-  group_label: "Singular Campaign Info"
-  type:number}
-
-dimension: singular_total_original_cost {
-  group_label: "Singular Campaign Info"
-  type:number}
-
-dimension: singular_total_installs {
-  group_label: "Singular Campaign Info"
-  type:number}
-
-dimension: total_players_attributed_to_singular_campaign {
-  group_label: "Singular Campaign Info"
-  type:number}
-
-dimension: percentage_of_singular_campaign_cost_attributed {
-  group_label: "Singular Campaign Info"
-  type:number}
-
-dimension: singular_campaign_cost_attributed {
-  group_label: "Singular Campaign Info"
-  type:number}
-
 
 ######################################################################
 ## Expirements
@@ -1258,170 +1091,6 @@ measure: revenue_per_install_d7 {
 
   }
 
-################################################################
-## Return on Ad Spend (ROAS)
-################################################################
-
-  measure: return_on_ad_spend_d1 {
-    group_label: "Return on Ad Spend (ROAS)"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 1
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.cumulative_combined_dollars_d1
-          else 0
-          end )
-      ,
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 1
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.singular_campaign_cost_attributed
-          else 0
-          end )
-    )
-    ;;
-    value_format_name: percent_1
-  }
-  measure: return_on_ad_spend_d2 {
-    group_label: "Return on Ad Spend (ROAS)"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 2
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.cumulative_combined_dollars_d2
-          else 0
-          end )
-      ,
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 2
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.singular_campaign_cost_attributed
-          else 0
-          end )
-    )
-    ;;
-    value_format_name: percent_1
-  }
-
-  measure: return_on_ad_spend_d7 {
-    group_label: "Return on Ad Spend (ROAS)"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 7
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.cumulative_combined_dollars_d7
-          else 0
-          end )
-      ,
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 7
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.singular_campaign_cost_attributed
-          else 0
-          end )
-    )
-    ;;
-    value_format_name: percent_1
-  }
-
-  measure: return_on_ad_spend_d14 {
-    group_label: "Return on Ad Spend (ROAS)"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 14
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.cumulative_combined_dollars_d14
-          else 0
-          end )
-      ,
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 14
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.singular_campaign_cost_attributed
-          else 0
-          end )
-    )
-    ;;
-    value_format_name: percent_1
-  }
-
-  measure: return_on_ad_spend_d30 {
-    group_label: "Return on Ad Spend (ROAS)"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 30
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.cumulative_combined_dollars_d30
-          else 0
-          end )
-      ,
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 30
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.singular_campaign_cost_attributed
-          else 0
-          end )
-    )
-    ;;
-    value_format_name: percent_1
-  }
-
-  measure: return_on_ad_spend_d60 {
-    group_label: "Return on Ad Spend (ROAS)"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 60
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.cumulative_combined_dollars_d60
-          else 0
-          end )
-      ,
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 60
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.singular_campaign_cost_attributed
-          else 0
-          end )
-    )
-    ;;
-    value_format_name: percent_1
-  }
 
 ################################################################
 ## Unique Player
@@ -1536,172 +1205,6 @@ measure: count_distinct_players {
     ;;
     value_format_name: decimal_0
 
-  }
-
-################################################################
-## Mean Cost to Acquire
-################################################################
-
-  measure: cost_to_acquire_d1 {
-    group_label: "Cost to Acquire"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 1
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.singular_campaign_cost_attributed
-          else 0
-          end )
-      ,
-      count( distinct
-        case
-          when
-            ${TABLE}.max_available_day_number >= 1
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.rdg_id
-          else null
-          end )
-    )
-    ;;
-    value_format_name: usd
-  }
-
-  measure: cost_to_acquire_d2 {
-    group_label: "Cost to Acquire"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 2
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.singular_campaign_cost_attributed
-          else 0
-          end )
-      ,
-      count( distinct
-        case
-          when
-            ${TABLE}.max_available_day_number >= 2
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.rdg_id
-          else null
-          end )
-    )
-    ;;
-    value_format_name: usd
-  }
-
-  measure: cost_to_acquire_d7 {
-    group_label: "Cost to Acquire"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 7
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.singular_campaign_cost_attributed
-          else 0
-          end )
-      ,
-      count( distinct
-        case
-          when
-            ${TABLE}.max_available_day_number >= 7
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.rdg_id
-          else null
-          end )
-    )
-    ;;
-    value_format_name: usd
-  }
-
-  measure: cost_to_acquire_d14 {
-    group_label: "Cost to Acquire"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 14
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.singular_campaign_cost_attributed
-          else 0
-          end )
-      ,
-      count( distinct
-        case
-          when
-            ${TABLE}.max_available_day_number >= 14
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.rdg_id
-          else null
-          end )
-    )
-    ;;
-    value_format_name: usd
-  }
-
-  measure: cost_to_acquire_d30 {
-    group_label: "Cost to Acquire"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 30
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.singular_campaign_cost_attributed
-          else 0
-          end )
-      ,
-      count( distinct
-        case
-          when
-            ${TABLE}.max_available_day_number >= 30
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.rdg_id
-          else null
-          end )
-    )
-    ;;
-    value_format_name: usd
-  }
-
-  measure: cost_to_acquire_d60 {
-    group_label: "Cost to Acquire"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when
-            ${TABLE}.max_available_day_number >= 60
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.singular_campaign_cost_attributed
-          else 0
-          end )
-      ,
-      count( distinct
-        case
-          when
-            ${TABLE}.max_available_day_number >= 60
-            and ${TABLE}.singular_campaign_cost_attributed > 0
-          then ${TABLE}.rdg_id
-          else null
-          end )
-    )
-    ;;
-    value_format_name: usd
   }
 
 ################################################################

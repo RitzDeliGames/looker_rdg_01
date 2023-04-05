@@ -663,6 +663,14 @@ dimension: primary_key {
   dimension: current_zone {type: number}
   dimension: current_zone_progress {type: number}
 
+   ## player age bins
+  dimension: player_day_number_bin {
+    type:  tier
+    style: integer
+    tiers: [0,1,2,7,30,60]
+    sql: ${TABLE}.day_number ;;
+  }
+
 ################################################################
 ## Unique Player Counts
 ################################################################

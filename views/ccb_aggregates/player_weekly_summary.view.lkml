@@ -595,6 +595,14 @@ view: player_weekly_summary {
     sql: ${TABLE}.lowest_last_level_serial ;;
   }
 
+  ## player age bins
+  dimension: player_week_number_bin {
+    type:  tier
+    style: integer
+    tiers: [0,1,2,4,8,26,52]
+    sql: ${TABLE}.week_number ;;
+  }
+
 ################################################################
 ## Generic Dimensions
 ################################################################

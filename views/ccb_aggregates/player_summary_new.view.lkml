@@ -673,6 +673,11 @@ dimension: primary_key {
     type: string
     suggestions:  [
       "$.No_AB_Test_Split"
+      ,"$.haptic_20230326"
+      ,"$.dynamicDropBias_20230329"
+      ,"$.moldBehavior_20230329"
+      ,"$.strawSkills_20230331"
+      ,"$.mustardSingleClear_20230329"
       ,"$.puzzleEvent_20230318"
       ,"$.extraMoves_20230313"
       ,"$.fastLifeTimer_20230313"

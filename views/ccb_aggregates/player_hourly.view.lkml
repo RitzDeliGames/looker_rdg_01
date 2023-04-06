@@ -4,7 +4,7 @@ view: player_hourly {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-03-15'
+      -- update '2023-04-06'
 
       -- create or replace table tal_scratch.player_hourly_base_data as
 
@@ -57,9 +57,9 @@ view: player_hourly {
                 -- up to 1 hour ago
                 ------------------------------------------------------------------------
 
-                -- select DATE_ADD(timestamp_trunc(current_timestamp, hour), INTERVAL -1 hour)
+                -- select DATE_ADD(timestamp_trunc(current_timestamp, hour), INTERVAL 0 hour)
                 DATE(timestamp) >= DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
-                AND timestamp <= DATE_ADD(timestamp_trunc(current_timestamp, hour), INTERVAL -1 hour)
+                AND timestamp < DATE_ADD(timestamp_trunc(current_timestamp, hour), INTERVAL 0 hour)
 
                 ------------------------------------------------------------------------
                 -- user type selection
@@ -482,7 +482,6 @@ view: player_hourly {
           , 0.5 * ( IFNULL(cumulative_engagement_ticks,0) ) AS cumulative_time_played_minutes
       from
           summarize_data
-
 
 
       ;;

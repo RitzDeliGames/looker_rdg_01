@@ -694,6 +694,24 @@ view: player_round_summary {
 ## Calculated Fields for Dashboards
 ################################################################
 
+  measure: count_7_day_churn_players {
+    group_label: "Calculated Fields"
+    type: number
+    sql:
+      sum(
+          case
+            when date_diff(date(${TABLE}.next_round_start_timestamp_utc),date(${TABLE}.rdg_date),DAY) >= 7
+            then 1
+            when ${TABLE}.next_round_start_timestamp_utc is null
+            then 1
+            else 0
+            end
+        )
+    ;;
+    value_format_name: decimal_1
+
+  }
+
   measure: mean_attempts_per_success {
     group_label: "Calculated Fields"
     type: number

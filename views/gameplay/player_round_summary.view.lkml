@@ -584,9 +584,13 @@ view: player_round_summary {
   }
 
   # Strings and Numbers
-  dimension: rdg_id {type:string}
+  dimension: rdg_id {
+    group_label:"Player IDs"
+    type:string
+    }
   dimension: game_mode {type:string}
   dimension: level_serial {
+    group_label: "Level Fields"
     label: "Current Level"
     type:number
     }
@@ -605,8 +609,14 @@ view: player_round_summary {
   dimension: objective_count_total {type:number}
   dimension: objective_progress {type:number}
   dimension: moves {type:number}
-  dimension: level_id {type:string}
-  dimension: last_level_serial {type:number}
+  dimension: level_id {
+    group_label: "Level Fields"
+    type:string
+    }
+  dimension: last_level_serial {
+    group_label: "Level Fields"
+    type:number
+    }
   dimension: primary_team_slot {type:string}
   dimension: primary_team_slot_skill {type:string}
   dimension: primary_team_slot_level {type:number}

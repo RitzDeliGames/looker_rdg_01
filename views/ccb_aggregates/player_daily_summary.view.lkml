@@ -702,6 +702,22 @@ dimension: primary_key {
     type: count_distinct
     sql: ${TABLE}.lifetime_mtx_spender_rdg_id ;;
   }
+  measure: count_distinct_7_day_churn_rdg_id {
+    group_label: "Unique Player Counts"
+    type: number
+    sql:
+      count(distinct
+        case
+          when date_diff(${TABLE}.next_date_played,date(${TABLE}.rdg_date),DAY) >= 7
+          then ${TABLE}.rdg_id
+          when ${TABLE}.next_date_played is null
+          then ${TABLE}.rdg_id
+          else null
+          end
+      )
+     ;;
+    value_format_name: decimal_0
+  }
 
 ################################################################
 ## Average Daily Numbers
@@ -802,6 +818,27 @@ dimension: primary_key {
         count(distinct ${TABLE}.rdg_id)
       )
     ;;
+    value_format_name: percent_0
+  }
+
+  measure: count_distinct_7_day_churn_rate {
+    group_label: "Calculated Fields"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct
+          case
+            when date_diff(${TABLE}.next_date_played,date(${TABLE}.rdg_date),DAY) >= 7
+            then ${TABLE}.rdg_id
+            when ${TABLE}.next_date_played is null
+            then ${TABLE}.rdg_id
+            else null
+            end
+        )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+     ;;
     value_format_name: percent_0
   }
 

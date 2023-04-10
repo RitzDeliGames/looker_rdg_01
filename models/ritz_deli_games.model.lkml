@@ -923,7 +923,6 @@ explore: player_hourly {
 
 explore: firebase_player_summary {}
 explore: singular_campaign_summary {}
-explore: player_daily_incremental {}
 
 explore: player_weekly_summary {
   label: "Player Weekly Summary"

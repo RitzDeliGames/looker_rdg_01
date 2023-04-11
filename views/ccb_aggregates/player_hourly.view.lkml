@@ -510,6 +510,8 @@ view: player_hourly {
 
   dimension: rdg_id {type: string}
 
+  dimension: version {type: number}
+
   measure: max_highest_last_level_serial {
     type: number
     label: "Highest Level"

@@ -504,7 +504,23 @@ view: player_hourly {
     hidden: yes
   }
 
+####################################################################
+## Dimensions
+####################################################################
+
   dimension: rdg_id {type: string}
+
+  measure: max_highest_last_level_serial {
+    type: number
+    label: "Highest Level"
+    sql: max(${TABLE}.highest_last_level_serial) ;;
+  }
+
+  measure: max_mtx_ltv_from_data {
+    type: number
+    label: "LTV - IAP"
+    sql: max(${TABLE}.mtx_ltv_from_data) ;;
+  }
 
   # # Define your dimensions and measures here, like this:
   dimension_group: rdg_date_analysis {

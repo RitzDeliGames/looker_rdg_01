@@ -726,6 +726,21 @@ view: player_round_summary {
 
   }
 
+  measure: mean_win_rate {
+    group_label: "Calculated Fields"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.count_wins)
+        ,
+        sum(${TABLE}.count_rounds)
+      )
+    ;;
+    value_format_name: decimal_1
+
+  }
+
+
   measure: mean_proximity_to_completion_on_loss {
     group_label: "Calculated Fields"
     type: number

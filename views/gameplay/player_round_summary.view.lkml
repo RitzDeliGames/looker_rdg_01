@@ -712,6 +712,29 @@ view: player_round_summary {
 
   }
 
+  measure: 7_day_churn_rate {
+    group_label: "Calculated Fields"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct
+          case
+            when date_diff(date(${TABLE}.next_round_start_timestamp_utc),date(${TABLE}.rdg_date),DAY) >= 7
+            then ${TABLE}.rdg_id
+            when ${TABLE}.next_round_start_timestamp_utc is null
+            then ${TABLE}.rdg_id
+            else null
+            end
+        )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+
+  }
+
+
   measure: mean_attempts_per_success {
     group_label: "Calculated Fields"
     type: number

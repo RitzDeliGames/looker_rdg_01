@@ -491,6 +491,12 @@ view: player_round_summary {
                   rows between 19 preceding and current row
                   ) count_wins_over_prior_20_rounds
 
+          , sum(ifnull(count_wins,0)) over (
+                partition by rdg_id
+                order by round_start_timestamp_utc asc
+                rows between 9 preceding and current row
+                ) count_wins_over_prior_10_rounds
+
         from
           join_on_coin_spend
 
@@ -540,6 +546,7 @@ view: player_round_summary {
 
       from
         add_window_functions
+
 
 
 
@@ -673,6 +680,7 @@ view: player_round_summary {
   dimension: cumulative_count_coin_spend_events_at_churn {type:number}
   dimension: cumulative_combined_dollars_at_churn {type:number}
   dimension: count_wins_over_prior_20_rounds {type:number}
+  dimension: count_wins_over_prior_10_rounds {type:number}
 
   dimension: round_attempt_number_at_churn_tiers {
     type:tier

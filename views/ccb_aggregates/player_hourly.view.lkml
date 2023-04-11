@@ -522,6 +522,12 @@ view: player_hourly {
     sql: max(${TABLE}.mtx_ltv_from_data) ;;
   }
 
+  measure: max_minutes_played {
+    type: number
+    label: "Minutes Played"
+    sql: max(${TABLE}.cumulative_engagement_ticks * 0.5) ;;
+  }
+
   # # Define your dimensions and measures here, like this:
   dimension_group: rdg_date_analysis {
     group_label: "Time Frames"

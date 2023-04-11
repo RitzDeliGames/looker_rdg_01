@@ -509,7 +509,8 @@ view: player_hourly {
 ####################################################################
 
   dimension: rdg_id {type: string}
-
+  dimension: region {type:string sql:@{country_region};;}
+  dimension: country {type:string}
   dimension: version {type: number}
 
   measure: max_highest_last_level_serial {

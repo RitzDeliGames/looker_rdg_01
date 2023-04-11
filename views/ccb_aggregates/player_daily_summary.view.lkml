@@ -752,6 +752,30 @@ dimension: primary_key {
   dimension: lowest_last_level_serial {type:number}
   dimension: highest_last_level_serial {type:number}
 
+  # feature participation
+  dimension: feature_participation_daily_reward {
+    group_label: "Daily Feature Participation"
+    label: "Daily Reward"
+    type:number}
+  dimension: feature_participation_pizza_time {
+    group_label: "Daily Feature Participation"
+    label: "Pizza Time"
+    type:number}
+  dimension: feature_participation_flour_frenzy {
+    group_label: "Daily Feature Participation"
+    label: "Flour Frenzy"
+    type:number}
+  dimension: feature_participation_lucky_dice {
+    group_label: "Daily Feature Participation"
+    label: "Lucky Dice"
+    type:number}
+  dimension: feature_participation_treasure_trove {
+    group_label: "Daily Feature Participation"
+    label: "Treasure Trove"
+    type:number}
+
+
+
   dimension: lowest_last_level_serial_bin {
     type: bin
     bins: [0,50,150,250,400,600,800,1000]
@@ -895,6 +919,92 @@ dimension: primary_key {
 ################################################################
 ## Other Calculations
 ################################################################
+
+  measure: percent_players_engaged_with_treasure_trove {
+    group_label: "Daily Feature Participation"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_treasure_trove > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_engaged_with_lucky_dice {
+    group_label: "Daily Feature Participation"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_lucky_dice > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_engaged_with_flour_frenzy {
+    group_label: "Daily Feature Participation"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_flour_frenzy > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_engaged_with_pizza_time {
+    group_label: "Daily Feature Participation"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_pizza_time > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_engaged_with_daily_reward {
+    group_label: "Daily Feature Participation"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_daily_reward > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
 
   measure: percent_players_playing_rounds {
     group_label: "Calculated Fields"

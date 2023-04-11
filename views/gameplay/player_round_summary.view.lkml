@@ -736,7 +736,7 @@ view: player_round_summary {
         sum(${TABLE}.count_rounds)
       )
     ;;
-    value_format_name: decimal_1
+    value_format_name: percent_0
 
   }
 

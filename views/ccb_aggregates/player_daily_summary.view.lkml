@@ -8,9 +8,9 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-04-10'
+      -- last update: '2023-04-11'
 
-      -- create or replace table `tal_scratch.player_daily_summary` as
+       -- create or replace table `tal_scratch.player_daily_summary` as
 
       with
 
@@ -137,7 +137,12 @@ view: player_daily_summary {
               , max( a.current_zone ) as current_zone
               , max( a.current_zone_progress ) as current_zone_progress
 
-
+              -- feature participation
+              , max( a.feature_participation_daily_reward ) as feature_participation_daily_reward
+              , max( a.feature_participation_pizza_time ) as feature_participation_pizza_time
+              , max( a.feature_participation_flour_frenzy ) as feature_participation_flour_frenzy
+              , max( a.feature_participation_lucky_dice ) as feature_participation_lucky_dice
+              , max( a.feature_participation_treasure_trove ) as feature_participation_treasure_trove
 
           from
               player_daily_incremental_w_prior_date a
@@ -216,6 +221,13 @@ view: player_daily_summary {
               , max( a.end_of_content_zones ) as end_of_content_zones
               , max( a.current_zone ) as current_zone
               , max( a.current_zone_progress ) as current_zone_progress
+
+              -- feature participation
+              , max( a.feature_participation_daily_reward ) as feature_participation_daily_reward
+              , max( a.feature_participation_pizza_time ) as feature_participation_pizza_time
+              , max( a.feature_participation_flour_frenzy ) as feature_participation_flour_frenzy
+              , max( a.feature_participation_lucky_dice ) as feature_participation_lucky_dice
+              , max( a.feature_participation_treasure_trove ) as feature_participation_treasure_trove
 
           from
               join_on_ads_data a
@@ -333,6 +345,13 @@ view: player_daily_summary {
               , a.end_of_content_zones
               , a.current_zone
               , a.current_zone_progress
+
+              -- feature participation
+              , a.feature_participation_daily_reward
+              , a.feature_participation_pizza_time
+              , a.feature_participation_flour_frenzy
+              , a.feature_participation_lucky_dice
+              , a.feature_participation_treasure_trove
 
               -- system info fixes
               , ifnull( a.hardware, b.hardware ) as hardware

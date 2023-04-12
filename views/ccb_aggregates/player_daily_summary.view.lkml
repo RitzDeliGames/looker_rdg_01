@@ -922,6 +922,7 @@ dimension: primary_key {
 
   measure: percent_players_engaged_with_treasure_trove {
     group_label: "Daily Feature Participation"
+    label: "Treasure Trove"
     type: number
     sql:
       safe_divide(
@@ -939,6 +940,7 @@ dimension: primary_key {
 
   measure: percent_players_engaged_with_lucky_dice {
     group_label: "Daily Feature Participation"
+    label: "Lucky Time"
     type: number
     sql:
       safe_divide(
@@ -956,6 +958,7 @@ dimension: primary_key {
 
   measure: percent_players_engaged_with_flour_frenzy {
     group_label: "Daily Feature Participation"
+    label: "Flour Frenzy"
     type: number
     sql:
       safe_divide(
@@ -973,6 +976,7 @@ dimension: primary_key {
 
   measure: percent_players_engaged_with_pizza_time {
     group_label: "Daily Feature Participation"
+    label: "Pizza Time"
     type: number
     sql:
       safe_divide(
@@ -990,6 +994,7 @@ dimension: primary_key {
 
   measure: percent_players_engaged_with_daily_reward {
     group_label: "Daily Feature Participation"
+    label: "Daily Reward"
     type: number
     sql:
       safe_divide(
@@ -1025,6 +1030,7 @@ dimension: primary_key {
 
   measure: percent_players_playing_campaign {
     group_label: "Calculated Fields"
+    label: "Campaign"
     type: number
     sql:
       safe_divide(
@@ -1041,6 +1047,7 @@ dimension: primary_key {
   }
   measure: percent_players_playing_movesmaster {
     group_label: "Calculated Fields"
+    label: "Moves Master"
     type: number
     sql:
       safe_divide(
@@ -1058,6 +1065,7 @@ dimension: primary_key {
 
   measure: percent_players_playing_puzzle {
     group_label: "Calculated Fields"
+    label: "Puzzle"
     type: number
     sql:
       safe_divide(

@@ -940,7 +940,7 @@ dimension: primary_key {
 
   measure: percent_players_engaged_with_lucky_dice {
     group_label: "Daily Feature Participation"
-    label: "Lucky Time"
+    label: "Lucky Dice"
     type: number
     sql:
       safe_divide(

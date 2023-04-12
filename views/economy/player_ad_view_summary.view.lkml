@@ -262,6 +262,7 @@ view: player_ad_view_summary {
     group_label: "Ad View Dollars"
     type:sum
     sql: ${TABLE}.ad_view_dollars ;;
+    value_format_name: usd
   }
   measure: ad_view_dollars_10 {
     group_label: "Ad View Dollars"

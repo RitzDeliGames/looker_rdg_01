@@ -11,10 +11,9 @@ view: player_summary_new {
       -- last update: '2023-04-13'
 
 
+      -- create or replace table `tal_scratch.player_summary_new` AS
 
-      -- CREATE OR REPLACE TABLE `tal_scratch.player_summary_new` AS
-
-      WITH
+      with
 
       -----------------------------------------------------------------------
       -- Get base data
@@ -47,6 +46,7 @@ view: player_summary_new {
           , cumulative_mtx_purchase_dollars
           , cumulative_ad_view_dollars
           , cumulative_combined_dollars
+          , cumulative_ad_views
           , mtx_ltv_from_data
           , highest_last_level_serial
           , cumulative_star_spend
@@ -222,6 +222,15 @@ view: player_summary_new {
            , max( case when day_number <= 30 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d30
            , max( case when day_number <= 60 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d60
            , max( cumulative_ad_view_dollars ) as cumulative_ad_view_dollars_current
+
+           -- cumulative ad views
+           , max( case when day_number <= 1 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d1
+           , max( case when day_number <= 2 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d2
+           , max( case when day_number <= 7 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d7
+           , max( case when day_number <= 14 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d14
+           , max( case when day_number <= 30 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d30
+           , max( case when day_number <= 60 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d60
+           , max(cumulative_ad_views) as cumulative_ad_views_current
 
            -- combined dollars
            , max( case when day_number <= 1 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d1
@@ -426,6 +435,8 @@ view: player_summary_new {
 
 
 
+
+
             ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;
     publish_as_db_view: yes
@@ -539,8 +550,16 @@ dimension: primary_key {
   dimension: cumulative_star_spend_d30 {type: number}
   dimension: cumulative_star_spend_d60 {type: number}
   dimension: cumulative_star_spend_current {type: number}
-
   dimension: firebase_advertising_id {type:string}
+  dimension: cumulative_ad_views_d1 {group_label:"Cumulative Ad Views" type: number}
+  dimension: cumulative_ad_views_d2 {group_label:"Cumulative Ad Views" type: number}
+  dimension: cumulative_ad_views_d7 {group_label:"Cumulative Ad Views" type: number}
+  dimension: cumulative_ad_views_d14 {group_label:"Cumulative Ad Views" type: number}
+  dimension: cumulative_ad_views_d30 {group_label:"Cumulative Ad Views" type: number}
+  dimension: cumulative_ad_views_d60 {group_label:"Cumulative Ad Views" type: number}
+  dimension: cumulative_ad_views_current {group_label:"Cumulative Ad Views" type: number}
+
+
 
   ## system_info
   dimension: hardware {

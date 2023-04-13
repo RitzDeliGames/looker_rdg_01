@@ -588,7 +588,7 @@ dimension: primary_key {
     group_label: "System Info"
     type: string
     sql:
-      cast( 9 * safe_divide( ${TABLE}.screen_height , ${TABLE}.screen_width ) as string )
+      cast( round(9 * safe_divide( ${TABLE}.screen_height , ${TABLE}.screen_width ),0) as string )
       || ':9'
     ;;
 

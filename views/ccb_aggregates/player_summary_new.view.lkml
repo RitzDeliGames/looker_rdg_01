@@ -8,7 +8,7 @@ view: player_summary_new {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-04-10'
+      -- last update: '2023-04-13'
 
 
 
@@ -582,9 +582,18 @@ dimension: primary_key {
       safe_cast(${TABLE}.screen_width as string)
       || ' x '
       || safe_cast(${TABLE}.screen_height as string) ;;
+  }
 
+  dimension: aspect_ratio_9 {
+    group_label: "System Info"
+    type: string
+    sql:
+      cast( 9 * safe_divide( ${TABLE}.screen_height , ${TABLE}.screen_width ) as string )
+      || ':9'
+    ;;
 
   }
+
 
   # dimension: device_model_mapping {
   #   group_label: "System Info"

@@ -70,7 +70,9 @@ view: singular_campaign_summary {
   dimension: primary_key {
     type: string
     sql:
-    ${TABLE}.singular_campaign_id;;
+    ${TABLE}.singular_campaign_id
+    || '_' || ${TABLE}.singular_install_date
+    ;;
     primary_key: yes
     hidden: yes
   }

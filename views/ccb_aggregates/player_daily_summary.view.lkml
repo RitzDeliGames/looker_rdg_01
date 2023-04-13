@@ -8,9 +8,9 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-04-11'
+      -- last update: '2023-04-13'
 
-       -- create or replace table `tal_scratch.player_daily_summary` as
+      -- create or replace table `tal_scratch.player_daily_summary` as
 
       with
 
@@ -358,22 +358,26 @@ view: player_daily_summary {
               , ifnull( a.processor_type, b.processor_type ) as processor_type
               , ifnull( a.graphics_device_name, b.graphics_device_name ) as graphics_device_name
               , ifnull( a.device_model, b.device_model ) as device_model
-              , ifnull( a.system_memory_size, b.system_memory_size ) as system_memory_size
-              , ifnull( a.graphics_memory_size, b.graphics_memory_size ) as graphics_memory_size
+              , safe_cast(ifnull( a.system_memory_size, b.system_memory_size ) as int64) as system_memory_size
+              , safe_cast(ifnull( a.graphics_memory_size, b.graphics_memory_size ) as int64) as graphics_memory_size
 
-              , right(ifnull( a.screen_width, b.screen_width ),
+              , safe_cast(
+                  right(ifnull( a.screen_width, b.screen_width ),
                   case
                       when instr(reverse(ifnull( a.screen_width, b.screen_width )),',',1)-1 < 0
                       then length(ifnull( a.screen_width, b.screen_width ))
                       else instr(reverse(ifnull( a.screen_width, b.screen_width )),',',1)-1
-                      end ) as screen_width
+                      end )
+                  as int64) as screen_width
 
-               , right(ifnull( a.screen_height, b.screen_height ),
+              , safe_cast(
+                  right(ifnull( a.screen_height, b.screen_height ),
                   case
                       when instr(reverse(ifnull( a.screen_height, b.screen_height )),',',1)-1 < 0
                       then length(ifnull( a.screen_height, b.screen_height ))
                       else instr(reverse(ifnull( a.screen_height, b.screen_height )),',',1)-1
-                      end ) as screen_height
+                      end )
+                  as int64) as screen_height
 
           from
               join_on_mtx_data a

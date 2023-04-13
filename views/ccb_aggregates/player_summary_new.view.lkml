@@ -476,6 +476,8 @@ dimension: primary_key {
     type: time
     timeframes: [date, week, month, year]
   }
+
+  dimension: created_date {type: date}
   dimension_group: created_date {
     group_label: "Install Date"
     label: "Installed On"

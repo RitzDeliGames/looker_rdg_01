@@ -4,7 +4,7 @@ view: singular_campaign_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-04-03'
+      -- update '2023-04-13'
 
       -- create or replace table tal_scratch.singular_campaign_summary as
 
@@ -35,7 +35,7 @@ view: singular_campaign_summary {
 
         select
           a.adn_campaign_id as singular_campaign_id
-          , min( timestamp(a.date) ) as singular_campaign_min_date
+          , timestamp(a.date) as singular_install_date
           , max( a.adn_campaign_name ) campaign_name
           , max( a.source ) as singular_source
           , max( a.platform ) as singular_platform
@@ -50,7 +50,7 @@ view: singular_campaign_summary {
           left join singular_country_code_helper b
             on a.country_field = b.Alpha_3_code
         group by
-          1
+          1,2
       )
 
 
@@ -79,8 +79,10 @@ view: singular_campaign_summary {
 ## Date Groups
 ####################################################################
 
-  dimension_group: singular_campaign_min_date {
-    label: "Campaign Date"
+dimension: singular_install_date {type: date}
+
+  dimension_group: singular_install_date {
+    label: "Install Date Group"
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.rdg_date ;;

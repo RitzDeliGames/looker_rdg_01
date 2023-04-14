@@ -17,7 +17,7 @@ view: singular_creative_summary {
       singular_creative_data as (
           select
             -- primary key
-            timestamp(date) as rgd_date
+            timestamp(date) as rdg_date
             , adn_creative_id
             , country_field
 
@@ -101,7 +101,7 @@ view: singular_creative_summary {
   dimension: primary_key {
     type: string
     sql:
-    ${TABLE}.rgd_date
+    ${TABLE}.rdg_date
     || '_' || ${TABLE}.adn_creative_id
     || '_' || ${TABLE}.country_field
     ;;
@@ -117,7 +117,7 @@ view: singular_creative_summary {
     label: "Creative Date"
     type: time
     timeframes: [date, week, month, year]
-    sql: ${TABLE}.rgd_date ;;
+    sql: ${TABLE}.rdg_date ;;
   }
 
 ####################################################################

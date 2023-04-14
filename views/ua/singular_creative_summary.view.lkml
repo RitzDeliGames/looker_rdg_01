@@ -54,7 +54,7 @@ view: singular_creative_summary {
           , full_ad_name
           , simple_ad_name
         from
-          `eraser-blast.singular.creative_meta_data`
+          `eraser-blast.singular.creative_meta_data_hardcoded`
         where
           adn_creative_id is not null
           and full_ad_name is not null
@@ -88,9 +88,10 @@ view: singular_creative_summary {
 
 
 
-
       ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
+    ## the hardcoded meta data table is scheduled for 1AM UTC
+    ## So this will run at 2AM UTC
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
     publish_as_db_view: yes
 
   }

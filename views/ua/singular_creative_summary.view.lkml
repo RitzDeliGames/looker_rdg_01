@@ -17,7 +17,7 @@ view: singular_creative_summary {
       singular_creative_data as (
           select
             -- primary key
-            date
+            timestamp(date) as rgd_date
             , adn_creative_id
             , country_field
 
@@ -84,8 +84,6 @@ view: singular_creative_summary {
       ----------------------------------------------------------------------
 
       select * from join_data_together
-      order by date desc
-
 
 
       ;;
@@ -93,7 +91,7 @@ view: singular_creative_summary {
     ## So this will run at 2AM UTC
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
     publish_as_db_view: yes
-
+    partition_keys: ["rdg_date"]
   }
 
 ####################################################################
@@ -103,7 +101,7 @@ view: singular_creative_summary {
   dimension: primary_key {
     type: string
     sql:
-    ${TABLE}.date
+    ${TABLE}.rgd_date
     || '_' || ${TABLE}.adn_creative_id
     || '_' || ${TABLE}.country_field
     ;;
@@ -116,10 +114,10 @@ view: singular_creative_summary {
 ####################################################################
 
   dimension_group: date {
-    label: "Date"
+    label: "Creative Date"
     type: time
     timeframes: [date, week, month, year]
-    sql: ${TABLE}.date ;;
+    sql: ${TABLE}.rgd_date ;;
   }
 
 ####################################################################

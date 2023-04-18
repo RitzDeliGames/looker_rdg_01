@@ -817,6 +817,20 @@ constant: singular_campaign_id_override {
         and date(${TABLE}.created_date) between '2023-01-30' and '2023-02-14'
         then '6289277953122'
 
+      when
+        ${TABLE}.singular_partner_name = 'Unattributed'
+        and ${TABLE}.singular_campaign_id = ''
+        and ${TABLE}.country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
+        and date(${TABLE}.created_date) between '2023-04-11' and '2023-04-13'
+        then '6250035906122'
+
+      when
+        ${TABLE}.singular_partner_name = 'Unattributed'
+        and ${TABLE}.singular_campaign_id = ''
+        and ${TABLE}.country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
+        and date(${TABLE}.created_date) between '2023-04-14' and '2023-04-16'
+        then '6299378813122'
+
       else ${TABLE}.singular_campaign_id
     end
   "

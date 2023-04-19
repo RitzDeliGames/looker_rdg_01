@@ -767,7 +767,7 @@ dimension: primary_key {
   }
 
   dimension: experiment_variant_1_check {
-    type: string
+    type: yesno
     sql:
       ${experiment_variant} = {% parameter experiment_variant_1 %}
       ;;
@@ -784,7 +784,7 @@ dimension: primary_key {
   }
 
   dimension: experiment_variant_2_check {
-    type: string
+    type: yesno
     sql:
       ${experiment_variant} = {% parameter experiment_variant_2 %}
       ;;

@@ -747,6 +747,26 @@ dimension: primary_key {
       ,"$.zoneStarCosts_09222022"]
   }
 
+  parameter: experiment_variant_1 {
+    type: string
+    suggestions:  [
+      "control"
+      ,"variant_a"
+      ,"variant_b"
+      ,"variant_c"
+      ,"variant_c"]
+  }
+  parameter: experiment_variant_2 {
+    type: string
+    suggestions:  [
+      "control"
+      ,"variant_a"
+      ,"variant_b"
+      ,"variant_c"
+      ,"variant_c"]
+  }
+
+
 dimension: experiment_variant {
   type: string
   sql:

@@ -747,6 +747,15 @@ dimension: primary_key {
       ,"$.zoneStarCosts_09222022"]
   }
 
+  dimension: experiment_variant {
+    type: string
+    sql:
+    safe_cast(
+        json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
+        as string)
+    ;;
+  }
+
   parameter: experiment_variant_1 {
     type: string
     suggestions:  [
@@ -756,6 +765,14 @@ dimension: primary_key {
       ,"variant_c"
       ,"variant_c"]
   }
+
+  dimension: experiment_variant_1_check {
+    type: string
+    sql:
+      ${experiment_variant} = {% parameter experiment_variant_1 %}
+      ;;
+  }
+
   parameter: experiment_variant_2 {
     type: string
     suggestions:  [
@@ -766,15 +783,13 @@ dimension: primary_key {
       ,"variant_c"]
   }
 
+  dimension: experiment_variant_2_check {
+    type: string
+    sql:
+      ${experiment_variant} = {% parameter experiment_variant_2 %}
+      ;;
+  }
 
-dimension: experiment_variant {
-  type: string
-  sql:
-    safe_cast(
-        json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
-        as string)
-    ;;
-}
 
 ################################################################
 ## Available Total Revenue

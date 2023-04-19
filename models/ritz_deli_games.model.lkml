@@ -40,62 +40,6 @@ datagroup: change_at_midnight {
   max_cache_age: "23 hours"
 }
 
-## Incremental daily group. This is for tables that I want to increment on rather than rebuilding fully every day.
-## I'm starting w/ 3AM UTC (7PM PST) as a rebuild time, will adjust if needed.
-datagroup: incremental_daily_group {
-  sql_trigger:
-    SELECT
-      DATE(
-        TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL -3 HOUR)
-        )
-
-  ;;
-}
-
-######################################################################
-## Data Groups for ccb aggregates
-######################################################################
-
-datagroup: dependent_on_player_daily_incremental {
-  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`;;
-  max_cache_age: "26 hours"
-}
-
-datagroup: dependent_on_player_daily_summary {
-  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`;;
-  max_cache_age: "26 hours"
-}
-
-datagroup: dependent_on_player_summary {
-  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new`;;
-  max_cache_age: "26 hours"
-}
-
-datagroup: dependent_on_firebase_player_daily_incremental {
-  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_daily_incremental`;;
-  max_cache_age: "26 hours"
-}
-
-datagroup: dependent_on_player_ad_view_incremental {
-  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental`;;
-  max_cache_age: "26 hours"
-}
-
-datagroup: dependent_on_player_mtx_purchase_incremental {
-  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_incremental`;;
-  max_cache_age: "26 hours"
-}
-
-datagroup: dependent_on_player_coin_spend_incremental {
-  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_coin_spend_incremental`;;
-  max_cache_age: "26 hours"
-}
-
-datagroup: dependent_on_player_round_incremental {
-  sql_trigger: SELECT SUM(1) FROM `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_incremental`;;
-  max_cache_age: "26 hours"
-}
-
 ######################################################################
 ## Explores
 ######################################################################
@@ -852,6 +796,18 @@ explore: player_round_summary {
       and date(${player_summary_new.created_date}) = date(${singular_campaign_summary.singular_install_date})
       ;;
   }
+
+  join: level_mechanics {
+    view_label:  "Level Mechanics"
+    from:  level_mechanics
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on:
+      ${player_round_summary.level_serial} = ${level_mechanics.level_serial}
+      ;;
+  }
+
+
 }
 
 explore: player_ad_view_summary {

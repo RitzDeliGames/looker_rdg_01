@@ -1585,7 +1585,7 @@ measure: significance_d2_retention_standard_deviation_variant_1 {
   type: number
   value_format_name: decimal_4
   sql:
-    1.0 * STDDEV(all ${significance_d2_retention_numerator_variant_1})
+    1.0 * STDDEV(${significance_d2_retention_numerator_variant_1})
   ;;
 }
 

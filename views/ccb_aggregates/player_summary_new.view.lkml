@@ -1586,9 +1586,9 @@ dimension: significance_d2_retention_numerator_variant_1 {
     value_format_name: percent_4
     sql:
       safe_divide(
-        ${significance_d2_retention_numerator_variant_1}
+        sum(${significance_d2_retention_numerator_variant_1})
         ,
-        ${significance_d2_retention_denominator_variant_1}
+        sum(${significance_d2_retention_denominator_variant_1})
       )
   ;;
   }

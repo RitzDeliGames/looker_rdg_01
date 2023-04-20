@@ -4,7 +4,7 @@ view: player_ad_view_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-03-02'
+      -- update '2023-04-20'
 
       -- create or replace table tal_scratch.player_ad_view_incremental as
 
@@ -14,7 +14,7 @@ view: player_ad_view_incremental {
       -- Select all columns w/ the current date range
       ------------------------------------------------------------------------
 
-      base_data as (
+      full_base_data as (
 
           select
               rdg_id
@@ -42,7 +42,7 @@ view: player_ad_view_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-03-02' -- Last Full Update
+                      when date(current_date()) <= '2023-04-20' -- Last Full Update
                       then '2019-01-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -55,10 +55,48 @@ view: player_ad_view_incremental {
               -- This removes any bots or internal QA accounts
               ------------------------------------------------------------------------
               and user_type = 'external'
-              and event_name = 'ad'
+              and event_name in ('ad','transaction')
           )
 
-      -- SELECT * FROM base_data
+      ------------------------------------------------------------------------
+      -- Get the transaction that follows the ad
+      ------------------------------------------------------------------------
+
+      , full_base_data_with_next_record as (
+
+          select
+              *
+              , lead(json_extract_scalar(extra_json,"$.source_id")) over (
+                  partition by rdg_id
+                  order by timestamp_utc asc ) as ad_reward_source_id_all
+
+              , lead(event_name) over (
+                  partition by rdg_id
+                  order by timestamp_utc asc ) as ad_reward_event_name_all
+
+          from
+              full_base_data
+
+      )
+
+      ------------------------------------------------------------------------
+      -- filter back down to ads data only
+      ------------------------------------------------------------------------
+
+      , base_data as (
+
+          select
+              *
+              , case
+                  when ad_reward_event_name_all = 'transaction'
+                  then  ad_reward_source_id_all
+                  else null
+                  end as ad_reward_source_id
+          from
+              full_base_data_with_next_record
+          where
+              event_name = 'ad'
+      )
 
       ------------------------------------------------------------------------
       -- data_from_extra_json
@@ -77,6 +115,7 @@ view: player_ad_view_incremental {
               , session_id
               , experiments
               , win_streak
+              , ad_reward_source_id
               , 1 as count_ad_views
 
               -- Ad Informaion
@@ -116,6 +155,7 @@ view: player_ad_view_incremental {
           , max(win_streak) as win_streak
           , max(count_ad_views) as count_ad_views
           , max(source_id) as source_id
+          , max(ad_reward_source_id) as ad_reward_source_id
           , max(
               coalesce(
                   ad_source_name

@@ -1603,6 +1603,24 @@ measure: significance_d2_retention_standard_deviation_variant_1 {
   ;;
 }
 
+measure: test_significance_d7_retention_stddev {
+    group_label: "AB Test Significance"
+    label: "D7 Test Retention Standard Deviation"
+    type: number
+    value_format_name: decimal_4
+    sql:
+    1.0 * stddev(
+      case
+        when ${TABLE}.max_available_day_number < 7
+        then null
+        when ${TABLE}.max_available_day_number >= 7
+        then ${TABLE}.retention_d7
+        else 0
+        end)
+  ;;
+  }
+
+
 dimension: significance_d2_retention_denominator_variant_2 {
   group_label: "AB Test Significance"
   label: "D2 Retention Denominator Variant 2"

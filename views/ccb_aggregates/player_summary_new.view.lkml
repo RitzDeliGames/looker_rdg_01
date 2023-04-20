@@ -1579,6 +1579,20 @@ dimension: significance_d2_retention_numerator_variant_1 {
   ;;
   }
 
+  measure: significance_d2_retention_variant_1 {
+    group_label: "AB Test Significance"
+    label: "D2 Retention Variant 1"
+    type: number
+    value_format_name: percent_4
+    sql:
+      safe_divide(
+        ${significance_d2_retention_numerator_variant_1}
+        ,
+        ${significance_d2_retention_denominator_variant_1}
+      )
+  ;;
+  }
+
 measure: significance_d2_retention_standard_deviation_variant_1 {
   group_label: "AB Test Significance"
   label: "D2 Retention Standard Deviation Variant 1"

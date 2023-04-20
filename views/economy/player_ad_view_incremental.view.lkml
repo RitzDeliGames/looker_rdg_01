@@ -72,7 +72,11 @@ view: player_ad_view_incremental {
 
               , lead(event_name) over (
                   partition by rdg_id
-                  order by timestamp_utc asc ) as ad_reward_event_name_all
+                  order by timestamp_utc asc ) as ad_reward_event_name
+
+              , lead(json_extract_scalar(extra_json,"$.transaction_purchase_currency")) over (
+                  partition by rdg_id
+                  order by timestamp_utc asc ) as ad_reward_transaction_purchase_currency
 
           from
               full_base_data
@@ -88,7 +92,9 @@ view: player_ad_view_incremental {
           select
               *
               , case
-                  when ad_reward_event_name_all = 'transaction'
+                  when
+                      ad_reward_event_name = 'transaction'
+                      and ad_reward_transaction_purchase_currency = 'REWARDED_AD'
                   then  ad_reward_source_id_all
                   else null
                   end as ad_reward_source_id

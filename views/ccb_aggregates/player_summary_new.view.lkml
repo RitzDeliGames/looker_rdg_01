@@ -2334,7 +2334,7 @@ measure: significance_d2_retention_t_score {
 
 
 ################################################################
-## 30+Minutes Significance Calculations
+## 30+ Minutes Significance Calculations
 ################################################################
 
   dimension: significance_30min_denominator_variant_1 {
@@ -2480,6 +2480,604 @@ measure: significance_d2_retention_t_score {
       end
 ;;
   }
+
+################################################################
+## 5+ Minutes Significance Calculations
+################################################################
+
+  dimension: significance_5min_denominator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "5+ Min Denominator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  dimension: significance_5min_numerator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "5+ Min Numerator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+        and ${TABLE}.cumulative_time_played_minutes >= 5
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  measure: significance_5min_variant_1 {
+    group_label: "AB Test Significance"
+    label: "5+ Min Variant 1"
+    type: number
+    value_format_name: percent_4
+    sql:
+      safe_divide(
+        sum(${significance_5min_numerator_variant_1})
+        ,
+        sum(${significance_5min_denominator_variant_1})
+      )
+  ;;
+  }
+
+  measure: significance_5min_standard_deviation_variant_1 {
+    group_label: "AB Test Significance"
+    label: "5+ Min Standard Deviation Variant 1"
+    type: number
+    value_format_name: decimal_4
+    sql:
+    1.0 * stddev(${significance_5min_numerator_variant_1})
+  ;;
+  }
+
+  dimension: significance_5min_denominator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "5+ Min Denominator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  dimension: significance_5min_numerator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "5+ Min Numerator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+          and ${TABLE}.cumulative_time_played_minutes >= 5
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  measure: significance_5min_variant_2 {
+    group_label: "AB Test Significance"
+    label: "5+ Min Variant 2"
+    type: number
+    value_format_name: percent_4
+    sql:
+    safe_divide(
+      sum(${significance_5min_numerator_variant_2})
+      ,
+      sum(${significance_5min_denominator_variant_2})
+    )
+;;
+  }
+
+  measure: significance_5min_standard_deviation_variant_2 {
+    group_label: "AB Test Significance"
+    label: "5+ Min Standard Deviation Variant 2"
+    type: number
+    value_format_name: decimal_4
+    sql:
+      1.0 * stddev(${significance_5min_numerator_variant_2})
+    ;;
+  }
+
+  measure: significance_5min_t_score {
+    group_label: "AB Test Significance"
+    label: "5+ Min T Score"
+    type: number
+    value_format_name: decimal_4
+    sql:
+
+    1.0 * (${significance_5min_variant_1} - ${significance_5min_variant_2}) /
+
+      sqrt(
+        (power(${significance_5min_standard_deviation_variant_1},2) / sum(${significance_5min_denominator_variant_1}))
+        + (power(${significance_5min_standard_deviation_variant_2},2) / sum(${significance_5min_denominator_variant_2}))
+      )
+;;
+  }
+
+  measure: significance_5min_significance {
+    group_label: "AB Test Significance"
+    label: "5+ Min Signifiance"
+    type: string
+    sql:
+      case
+        when (abs(${significance_5min_t_score}) > 3.291) then '(7) .0005 sig. level'
+        when (abs(${significance_5min_t_score}) > 3.091) then '(6) .001 sig. level'
+        when (abs(${significance_5min_t_score}) > 2.576) then '(5) .005 sig. level'
+        when (abs(${significance_5min_t_score}) > 2.326) then '(4) .01 sig. level'
+        when (abs(${significance_5min_t_score}) > 1.960) then '(3) .025 sig. level'
+        when (abs(${significance_5min_t_score}) > 1.645) then '(2) .05 sig. level'
+        when (abs(${significance_5min_t_score}) > 1.282) then '(1) .1 sig. level'
+        else '(0) Insignificant'
+      end
+;;
+  }
+
+
+################################################################
+## 15+ Minutes Significance Calculations
+################################################################
+
+  dimension: significance_15min_denominator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "15+ Min Denominator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  dimension: significance_15min_numerator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "15+ Min Numerator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+        and ${TABLE}.cumulative_time_played_minutes >= 15
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  measure: significance_15min_variant_1 {
+    group_label: "AB Test Significance"
+    label: "15+ Min Variant 1"
+    type: number
+    value_format_name: percent_4
+    sql:
+      safe_divide(
+        sum(${significance_15min_numerator_variant_1})
+        ,
+        sum(${significance_15min_denominator_variant_1})
+      )
+  ;;
+  }
+
+  measure: significance_15min_standard_deviation_variant_1 {
+    group_label: "AB Test Significance"
+    label: "15+ Min Standard Deviation Variant 1"
+    type: number
+    value_format_name: decimal_4
+    sql:
+    1.0 * stddev(${significance_15min_numerator_variant_1})
+  ;;
+  }
+
+  dimension: significance_15min_denominator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "15+ Min Denominator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  dimension: significance_15min_numerator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "15+ Min Numerator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+          and ${TABLE}.cumulative_time_played_minutes >= 15
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  measure: significance_15min_variant_2 {
+    group_label: "AB Test Significance"
+    label: "15+ Min Variant 2"
+    type: number
+    value_format_name: percent_4
+    sql:
+    safe_divide(
+      sum(${significance_15min_numerator_variant_2})
+      ,
+      sum(${significance_15min_denominator_variant_2})
+    )
+;;
+  }
+
+  measure: significance_15min_standard_deviation_variant_2 {
+    group_label: "AB Test Significance"
+    label: "15+ Min Standard Deviation Variant 2"
+    type: number
+    value_format_name: decimal_4
+    sql:
+      1.0 * stddev(${significance_15min_numerator_variant_2})
+    ;;
+  }
+
+  measure: significance_15min_t_score {
+    group_label: "AB Test Significance"
+    label: "15+ Min T Score"
+    type: number
+    value_format_name: decimal_4
+    sql:
+
+    1.0 * (${significance_15min_variant_1} - ${significance_15min_variant_2}) /
+
+      sqrt(
+        (power(${significance_15min_standard_deviation_variant_1},2) / sum(${significance_15min_denominator_variant_1}))
+        + (power(${significance_15min_standard_deviation_variant_2},2) / sum(${significance_15min_denominator_variant_2}))
+      )
+;;
+  }
+
+  measure: significance_15min_significance {
+    group_label: "AB Test Significance"
+    label: "15+ Min Signifiance"
+    type: string
+    sql:
+      case
+        when (abs(${significance_15min_t_score}) > 3.291) then '(7) .0005 sig. level'
+        when (abs(${significance_15min_t_score}) > 3.091) then '(6) .001 sig. level'
+        when (abs(${significance_15min_t_score}) > 2.576) then '(5) .005 sig. level'
+        when (abs(${significance_15min_t_score}) > 2.326) then '(4) .01 sig. level'
+        when (abs(${significance_15min_t_score}) > 1.960) then '(3) .025 sig. level'
+        when (abs(${significance_15min_t_score}) > 1.645) then '(2) .05 sig. level'
+        when (abs(${significance_15min_t_score}) > 1.282) then '(1) .1 sig. level'
+        else '(0) Insignificant'
+      end
+;;
+  }
+
+################################################################
+## 60+ Minutes Significance Calculations
+################################################################
+
+  dimension: significance_60min_denominator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "60+ Min Denominator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  dimension: significance_60min_numerator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "60+ Min Numerator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+        and ${TABLE}.cumulative_time_played_minutes >= 60
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  measure: significance_60min_variant_1 {
+    group_label: "AB Test Significance"
+    label: "60+ Min Variant 1"
+    type: number
+    value_format_name: percent_4
+    sql:
+      safe_divide(
+        sum(${significance_60min_numerator_variant_1})
+        ,
+        sum(${significance_60min_denominator_variant_1})
+      )
+  ;;
+  }
+
+  measure: significance_60min_standard_deviation_variant_1 {
+    group_label: "AB Test Significance"
+    label: "60+ Min Standard Deviation Variant 1"
+    type: number
+    value_format_name: decimal_4
+    sql:
+    1.0 * stddev(${significance_60min_numerator_variant_1})
+  ;;
+  }
+
+  dimension: significance_60min_denominator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "60+ Min Denominator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  dimension: significance_60min_numerator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "60+ Min Numerator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+          and ${TABLE}.cumulative_time_played_minutes >= 60
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  measure: significance_60min_variant_2 {
+    group_label: "AB Test Significance"
+    label: "60+ Min Variant 2"
+    type: number
+    value_format_name: percent_4
+    sql:
+    safe_divide(
+      sum(${significance_60min_numerator_variant_2})
+      ,
+      sum(${significance_60min_denominator_variant_2})
+    )
+;;
+  }
+
+  measure: significance_60min_standard_deviation_variant_2 {
+    group_label: "AB Test Significance"
+    label: "60+ Min Standard Deviation Variant 2"
+    type: number
+    value_format_name: decimal_4
+    sql:
+      1.0 * stddev(${significance_60min_numerator_variant_2})
+    ;;
+  }
+
+  measure: significance_60min_t_score {
+    group_label: "AB Test Significance"
+    label: "60+ Min T Score"
+    type: number
+    value_format_name: decimal_4
+    sql:
+
+    1.0 * (${significance_60min_variant_1} - ${significance_60min_variant_2}) /
+
+      sqrt(
+        (power(${significance_60min_standard_deviation_variant_1},2) / sum(${significance_60min_denominator_variant_1}))
+        + (power(${significance_60min_standard_deviation_variant_2},2) / sum(${significance_60min_denominator_variant_2}))
+      )
+;;
+  }
+
+  measure: significance_60min_significance {
+    group_label: "AB Test Significance"
+    label: "60+ Min Signifiance"
+    type: string
+    sql:
+      case
+        when (abs(${significance_60min_t_score}) > 3.291) then '(7) .0005 sig. level'
+        when (abs(${significance_60min_t_score}) > 3.091) then '(6) .001 sig. level'
+        when (abs(${significance_60min_t_score}) > 2.576) then '(5) .005 sig. level'
+        when (abs(${significance_60min_t_score}) > 2.326) then '(4) .01 sig. level'
+        when (abs(${significance_60min_t_score}) > 1.960) then '(3) .025 sig. level'
+        when (abs(${significance_60min_t_score}) > 1.645) then '(2) .05 sig. level'
+        when (abs(${significance_60min_t_score}) > 1.282) then '(1) .1 sig. level'
+        else '(0) Insignificant'
+      end
+;;
+  }
+
+
+################################################################
+## 120+ Minutes Significance Calculations
+################################################################
+
+  dimension: significance_120min_denominator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "120+ Min Denominator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  dimension: significance_120min_numerator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "120+ Min Numerator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+        and ${TABLE}.cumulative_time_played_minutes >= 120
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  measure: significance_120min_variant_1 {
+    group_label: "AB Test Significance"
+    label: "120+ Min Variant 1"
+    type: number
+    value_format_name: percent_4
+    sql:
+      safe_divide(
+        sum(${significance_120min_numerator_variant_1})
+        ,
+        sum(${significance_120min_denominator_variant_1})
+      )
+  ;;
+  }
+
+  measure: significance_120min_standard_deviation_variant_1 {
+    group_label: "AB Test Significance"
+    label: "120+ Min Standard Deviation Variant 1"
+    type: number
+    value_format_name: decimal_4
+    sql:
+    1.0 * stddev(${significance_120min_numerator_variant_1})
+  ;;
+  }
+
+  dimension: significance_120min_denominator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "120+ Min Denominator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  dimension: significance_120min_numerator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "120+ Min Numerator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+          and ${TABLE}.cumulative_time_played_minutes >= 120
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  measure: significance_120min_variant_2 {
+    group_label: "AB Test Significance"
+    label: "120+ Min Variant 2"
+    type: number
+    value_format_name: percent_4
+    sql:
+    safe_divide(
+      sum(${significance_120min_numerator_variant_2})
+      ,
+      sum(${significance_120min_denominator_variant_2})
+    )
+;;
+  }
+
+  measure: significance_120min_standard_deviation_variant_2 {
+    group_label: "AB Test Significance"
+    label: "120+ Min Standard Deviation Variant 2"
+    type: number
+    value_format_name: decimal_4
+    sql:
+      1.0 * stddev(${significance_120min_numerator_variant_2})
+    ;;
+  }
+
+  measure: significance_120min_t_score {
+    group_label: "AB Test Significance"
+    label: "120+ Min T Score"
+    type: number
+    value_format_name: decimal_4
+    sql:
+
+    1.0 * (${significance_120min_variant_1} - ${significance_120min_variant_2}) /
+
+      sqrt(
+        (power(${significance_120min_standard_deviation_variant_1},2) / sum(${significance_120min_denominator_variant_1}))
+        + (power(${significance_120min_standard_deviation_variant_2},2) / sum(${significance_120min_denominator_variant_2}))
+      )
+;;
+  }
+
+  measure: significance_120min_significance {
+    group_label: "AB Test Significance"
+    label: "120+ Min Signifiance"
+    type: string
+    sql:
+      case
+        when (abs(${significance_120min_t_score}) > 3.291) then '(7) .0005 sig. level'
+        when (abs(${significance_120min_t_score}) > 3.091) then '(6) .001 sig. level'
+        when (abs(${significance_120min_t_score}) > 2.576) then '(5) .005 sig. level'
+        when (abs(${significance_120min_t_score}) > 2.326) then '(4) .01 sig. level'
+        when (abs(${significance_120min_t_score}) > 1.960) then '(3) .025 sig. level'
+        when (abs(${significance_120min_t_score}) > 1.645) then '(2) .05 sig. level'
+        when (abs(${significance_120min_t_score}) > 1.282) then '(1) .1 sig. level'
+        else '(0) Insignificant'
+      end
+;;
+  }
+
+
+
+
 
 
 }

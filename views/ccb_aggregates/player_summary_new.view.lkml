@@ -2171,6 +2171,164 @@ measure: significance_d2_retention_t_score {
 ;;
   }
 
+################################################################
+## D60 Significance Calculations
+################################################################
+
+  dimension: significance_d60_retention_denominator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "D60 Retention Denominator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when ${TABLE}.max_available_day_number < 60
+      then null
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+        and ${TABLE}.max_available_day_number >= 60
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  dimension: significance_d60_retention_numerator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "D60 Retention Numerator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when ${TABLE}.max_available_day_number < 60
+      then null
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+        and ${TABLE}.max_available_day_number >= 60
+      then ${TABLE}.retention_d60
+      else 0
+      end
+  ;;
+  }
+
+  measure: significance_d60_retention_variant_1 {
+    group_label: "AB Test Significance"
+    label: "D60 Retention Variant 1"
+    type: number
+    value_format_name: percent_4
+    sql:
+      safe_divide(
+        sum(${significance_d60_retention_numerator_variant_1})
+        ,
+        sum(${significance_d60_retention_denominator_variant_1})
+      )
+  ;;
+  }
+
+  measure: significance_d60_retention_standard_deviation_variant_1 {
+    group_label: "AB Test Significance"
+    label: "D60 Retention Standard Deviation Variant 1"
+    type: number
+    value_format_name: decimal_4
+    sql:
+    1.0 * stddev(${significance_d60_retention_numerator_variant_1})
+  ;;
+  }
+
+  dimension: significance_d60_retention_denominator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "D60 Retention Denominator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when ${TABLE}.max_available_day_number < 60
+        then null
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+          and ${TABLE}.max_available_day_number >= 60
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  dimension: significance_d60_retention_numerator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "D60 Retention Numerator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when ${TABLE}.max_available_day_number < 60
+        then null
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+          and ${TABLE}.max_available_day_number >= 60
+        then ${TABLE}.retention_d60
+        else 0
+        end
+    ;;
+  }
+
+  measure: significance_d60_retention_variant_2 {
+    group_label: "AB Test Significance"
+    label: "D60 Retention Variant 2"
+    type: number
+    value_format_name: percent_4
+    sql:
+    safe_divide(
+      sum(${significance_d60_retention_numerator_variant_2})
+      ,
+      sum(${significance_d60_retention_denominator_variant_2})
+    )
+;;
+  }
+
+  measure: significance_d60_retention_standard_deviation_variant_2 {
+    group_label: "AB Test Significance"
+    label: "D60 Retention Standard Deviation Variant 2"
+    type: number
+    value_format_name: decimal_4
+    sql:
+      1.0 * stddev(${significance_d60_retention_numerator_variant_2})
+    ;;
+  }
+
+  measure: significance_d60_retention_t_score {
+    group_label: "AB Test Significance"
+    label: "D60 Retention T Score"
+    type: number
+    value_format_name: decimal_4
+    sql:
+
+    1.0 * (${significance_d60_retention_variant_1} - ${significance_d60_retention_variant_2}) /
+
+      sqrt(
+        (power(${significance_d60_retention_standard_deviation_variant_1},2) / sum(${significance_d60_retention_denominator_variant_1}))
+        + (power(${significance_d60_retention_standard_deviation_variant_2},2) / sum(${significance_d60_retention_denominator_variant_2}))
+      )
+;;
+  }
+
+  measure: significance_d60_retention_significance {
+    group_label: "AB Test Significance"
+    label: "D60 Retention Signifiance"
+    type: string
+    sql:
+      case
+        when (abs(${significance_d60_retention_t_score}) > 3.291) then '(7) .0005 sig. level'
+        when (abs(${significance_d60_retention_t_score}) > 3.091) then '(6) .001 sig. level'
+        when (abs(${significance_d60_retention_t_score}) > 2.576) then '(5) .005 sig. level'
+        when (abs(${significance_d60_retention_t_score}) > 2.326) then '(4) .01 sig. level'
+        when (abs(${significance_d60_retention_t_score}) > 1.960) then '(3) .025 sig. level'
+        when (abs(${significance_d60_retention_t_score}) > 1.645) then '(2) .05 sig. level'
+        when (abs(${significance_d60_retention_t_score}) > 1.282) then '(1) .1 sig. level'
+        else '(0) Insignificant'
+      end
+;;
+  }
+
 
 
 

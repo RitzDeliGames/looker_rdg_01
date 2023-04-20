@@ -1539,5 +1539,31 @@ measure: count_distinct_players {
 
   }
 
+################################################################
+## Significance Calculations
+################################################################
+
+## D2 Significance
+dimension: significance_d2_denominator_variant_1 {
+  group_label: "AB Test Significance"
+  label: "D2 Retention Denominator"
+  type: number
+  value_format_name: decimal_0
+  sql:
+    case
+      when ${TABLE}.max_available_day_number < 2
+      then null
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+        and ${TABLE}.max_available_day_number >= 2
+      then 1
+      else 0
+      end
+  ;;
+
+
+}
+
+
 
 }

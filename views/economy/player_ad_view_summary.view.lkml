@@ -8,7 +8,7 @@ view: player_ad_view_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-08'
+      -- last update: '2023-04-20'
 
       -- create or replace table tal_scratch.player_ad_view_summary as
 
@@ -62,6 +62,7 @@ view: player_ad_view_summary {
           , a.win_streak
           , a.count_ad_views
           , a.source_id
+          , a.ad_reward_source_id
           , a.ad_network
           , a.country
           , a.current_level_id
@@ -161,6 +162,11 @@ view: player_ad_view_summary {
   dimension: ad_network {type:string}
   dimension: country {type:string}
   dimension: current_level_id {type:string}
+
+  dimension: ad_reward_source_id {
+    label: "Ad Reward Source Id"
+    sql: ${TABLE}.ad_reward_source_id ;;
+  }
 
   # Numbers
   dimension: current_level_serial {type:number}

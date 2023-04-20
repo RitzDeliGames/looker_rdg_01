@@ -1692,7 +1692,7 @@ measure: significance_d2_retention_t_score {
         when (abs(${significance_d2_retention_t_score}) > 1.960) then '(3) .025 sig. level'
         when (abs(${significance_d2_retention_t_score}) > 1.645) then '(2) .05 sig. level'
         when (abs(${significance_d2_retention_t_score}) > 1.282) then '(1) .1 sig. level'
-        when '(0) Insignificant'
+        else '(0) Insignificant'
       end
 ;;
   }

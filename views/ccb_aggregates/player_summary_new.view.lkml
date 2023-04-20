@@ -3075,6 +3075,453 @@ measure: significance_d2_retention_t_score {
 ;;
   }
 
+################################################################
+## MTX Conversion Significance Calculations
+################################################################
+
+  dimension: significance_mtx_conversion_denominator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "MTX Conversion Denominator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  dimension: significance_mtx_conversion_numerator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "MTX Conversion Numerator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+        and ${TABLE}.cumulative_mtx_purchase_dollars_current > 0
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  measure: significance_mtx_conversion_variant_1 {
+    group_label: "AB Test Significance"
+    label: "MTX Conversion Variant 1"
+    type: number
+    value_format_name: percent_4
+    sql:
+      safe_divide(
+        sum(${significance_mtx_conversion_numerator_variant_1})
+        ,
+        sum(${significance_mtx_conversion_denominator_variant_1})
+      )
+  ;;
+  }
+
+  measure: significance_mtx_conversion_standard_deviation_variant_1 {
+    group_label: "AB Test Significance"
+    label: "MTX Conversion Standard Deviation Variant 1"
+    type: number
+    value_format_name: decimal_4
+    sql:
+    1.0 * stddev(${significance_mtx_conversion_numerator_variant_1})
+  ;;
+  }
+
+  dimension: significance_mtx_conversion_denominator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "MTX Conversion Denominator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  dimension: significance_mtx_conversion_numerator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "MTX Conversion Numerator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+          and ${TABLE}.cumulative_mtx_purchase_dollars_current > 0
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  measure: significance_mtx_conversion_variant_2 {
+    group_label: "AB Test Significance"
+    label: "MTX Conversion Variant 2"
+    type: number
+    value_format_name: percent_4
+    sql:
+    safe_divide(
+      sum(${significance_mtx_conversion_numerator_variant_2})
+      ,
+      sum(${significance_mtx_conversion_denominator_variant_2})
+    )
+;;
+  }
+
+  measure: significance_mtx_conversion_standard_deviation_variant_2 {
+    group_label: "AB Test Significance"
+    label: "MTX Conversion Standard Deviation Variant 2"
+    type: number
+    value_format_name: decimal_4
+    sql:
+      1.0 * stddev(${significance_mtx_conversion_numerator_variant_2})
+    ;;
+  }
+
+  measure: significance_mtx_conversion_t_score {
+    group_label: "AB Test Significance"
+    label: "MTX Conversion T Score"
+    type: number
+    value_format_name: decimal_4
+    sql:
+
+    1.0 * (${significance_mtx_conversion_variant_1} - ${significance_mtx_conversion_variant_2}) /
+
+      sqrt(
+        (power(${significance_mtx_conversion_standard_deviation_variant_1},2) / sum(${significance_mtx_conversion_denominator_variant_1}))
+        + (power(${significance_mtx_conversion_standard_deviation_variant_2},2) / sum(${significance_mtx_conversion_denominator_variant_2}))
+      )
+;;
+  }
+
+  measure: significance_mtx_conversion_significance {
+    group_label: "AB Test Significance"
+    label: "MTX Conversion Signifiance"
+    type: string
+    sql:
+      case
+        when (abs(${significance_mtx_conversion_t_score}) > 3.291) then '(7) .0005 sig. level'
+        when (abs(${significance_mtx_conversion_t_score}) > 3.091) then '(6) .001 sig. level'
+        when (abs(${significance_mtx_conversion_t_score}) > 2.576) then '(5) .005 sig. level'
+        when (abs(${significance_mtx_conversion_t_score}) > 2.326) then '(4) .01 sig. level'
+        when (abs(${significance_mtx_conversion_t_score}) > 1.960) then '(3) .025 sig. level'
+        when (abs(${significance_mtx_conversion_t_score}) > 1.645) then '(2) .05 sig. level'
+        when (abs(${significance_mtx_conversion_t_score}) > 1.282) then '(1) .1 sig. level'
+        else '(0) Insignificant'
+      end
+;;
+  }
+
+################################################################
+## Ads 1+ Conversion Significance Calculations
+################################################################
+
+  dimension: significance_ads_conversion_1_denominator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "Ads 1+ Conversion Denominator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  dimension: significance_ads_conversion_1_numerator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "Ads 1+ Conversion Numerator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+        and ${TABLE}.cumulative_ad_views_current > 0
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  measure: significance_ads_conversion_1_variant_1 {
+    group_label: "AB Test Significance"
+    label: "Ads 1+ Conversion Variant 1"
+    type: number
+    value_format_name: percent_4
+    sql:
+      safe_divide(
+        sum(${significance_ads_conversion_1_numerator_variant_1})
+        ,
+        sum(${significance_ads_conversion_1_denominator_variant_1})
+      )
+  ;;
+  }
+
+  measure: significance_ads_conversion_1_standard_deviation_variant_1 {
+    group_label: "AB Test Significance"
+    label: "Ads 1+ Conversion Standard Deviation Variant 1"
+    type: number
+    value_format_name: decimal_4
+    sql:
+    1.0 * stddev(${significance_ads_conversion_1_numerator_variant_1})
+  ;;
+  }
+
+  dimension: significance_ads_conversion_1_denominator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "Ads 1+ Conversion Denominator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  dimension: significance_ads_conversion_1_numerator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "Ads 1+ Conversion Numerator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+          and ${TABLE}.cumulative_ad_views_current > 0
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  measure: significance_ads_conversion_1_variant_2 {
+    group_label: "AB Test Significance"
+    label: "Ads 1+ Conversion Variant 2"
+    type: number
+    value_format_name: percent_4
+    sql:
+    safe_divide(
+      sum(${significance_ads_conversion_1_numerator_variant_2})
+      ,
+      sum(${significance_ads_conversion_1_denominator_variant_2})
+    )
+;;
+  }
+
+  measure: significance_ads_conversion_1_standard_deviation_variant_2 {
+    group_label: "AB Test Significance"
+    label: "Ads 1+ Conversion Standard Deviation Variant 2"
+    type: number
+    value_format_name: decimal_4
+    sql:
+      1.0 * stddev(${significance_ads_conversion_1_numerator_variant_2})
+    ;;
+  }
+
+  measure: significance_ads_conversion_1_t_score {
+    group_label: "AB Test Significance"
+    label: "Ads 1+ Conversion T Score"
+    type: number
+    value_format_name: decimal_4
+    sql:
+
+    1.0 * (${significance_ads_conversion_1_variant_1} - ${significance_ads_conversion_1_variant_2}) /
+
+      sqrt(
+        (power(${significance_ads_conversion_1_standard_deviation_variant_1},2) / sum(${significance_ads_conversion_1_denominator_variant_1}))
+        + (power(${significance_ads_conversion_1_standard_deviation_variant_2},2) / sum(${significance_ads_conversion_1_denominator_variant_2}))
+      )
+;;
+  }
+
+  measure: significance_ads_conversion_1_significance {
+    group_label: "AB Test Significance"
+    label: "Ads 1+ Conversion Signifiance"
+    type: string
+    sql:
+      case
+        when (abs(${significance_ads_conversion_1_t_score}) > 3.291) then '(7) .0005 sig. level'
+        when (abs(${significance_ads_conversion_1_t_score}) > 3.091) then '(6) .001 sig. level'
+        when (abs(${significance_ads_conversion_1_t_score}) > 2.576) then '(5) .005 sig. level'
+        when (abs(${significance_ads_conversion_1_t_score}) > 2.326) then '(4) .01 sig. level'
+        when (abs(${significance_ads_conversion_1_t_score}) > 1.960) then '(3) .025 sig. level'
+        when (abs(${significance_ads_conversion_1_t_score}) > 1.645) then '(2) .05 sig. level'
+        when (abs(${significance_ads_conversion_1_t_score}) > 1.282) then '(1) .1 sig. level'
+        else '(0) Insignificant'
+      end
+;;
+  }
+
+
+################################################################
+## Ads 20+ Conversion Significance Calculations
+################################################################
+
+  dimension: significance_ads_conversion_20_denominator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "Ads 20+ Conversion Denominator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  dimension: significance_ads_conversion_20_numerator_variant_1 {
+    group_label: "AB Test Significance"
+    label: "Ads 20+ Conversion Numerator Variant 1"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    case
+      when
+        ${experiment_variant} = {% parameter experiment_variant_1 %}
+        and ${TABLE}.cumulative_ad_views_current > 19
+      then 1
+      else 0
+      end
+  ;;
+  }
+
+  measure: significance_ads_conversion_20_variant_1 {
+    group_label: "AB Test Significance"
+    label: "Ads 20+ Conversion Variant 1"
+    type: number
+    value_format_name: percent_4
+    sql:
+      safe_divide(
+        sum(${significance_ads_conversion_20_numerator_variant_1})
+        ,
+        sum(${significance_ads_conversion_20_denominator_variant_1})
+      )
+  ;;
+  }
+
+  measure: significance_ads_conversion_20_standard_deviation_variant_1 {
+    group_label: "AB Test Significance"
+    label: "Ads 20+ Conversion Standard Deviation Variant 1"
+    type: number
+    value_format_name: decimal_4
+    sql:
+    1.0 * stddev(${significance_ads_conversion_20_numerator_variant_1})
+  ;;
+  }
+
+  dimension: significance_ads_conversion_20_denominator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "Ads 20+ Conversion Denominator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  dimension: significance_ads_conversion_20_numerator_variant_2 {
+    group_label: "AB Test Significance"
+    label: "Ads 20+ Conversion Numerator Variant 2"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      case
+        when
+          ${experiment_variant} = {% parameter experiment_variant_2 %}
+          and ${TABLE}.cumulative_ad_views_current > 19
+        then 1
+        else 0
+        end
+    ;;
+  }
+
+  measure: significance_ads_conversion_20_variant_2 {
+    group_label: "AB Test Significance"
+    label: "Ads 20+ Conversion Variant 2"
+    type: number
+    value_format_name: percent_4
+    sql:
+    safe_divide(
+      sum(${significance_ads_conversion_20_numerator_variant_2})
+      ,
+      sum(${significance_ads_conversion_20_denominator_variant_2})
+    )
+;;
+  }
+
+  measure: significance_ads_conversion_20_standard_deviation_variant_2 {
+    group_label: "AB Test Significance"
+    label: "Ads 20+ Conversion Standard Deviation Variant 2"
+    type: number
+    value_format_name: decimal_4
+    sql:
+      1.0 * stddev(${significance_ads_conversion_20_numerator_variant_2})
+    ;;
+  }
+
+  measure: significance_ads_conversion_20_t_score {
+    group_label: "AB Test Significance"
+    label: "Ads 20+ Conversion T Score"
+    type: number
+    value_format_name: decimal_4
+    sql:
+
+    1.0 * (${significance_ads_conversion_20_variant_1} - ${significance_ads_conversion_20_variant_2}) /
+
+      sqrt(
+        (power(${significance_ads_conversion_20_standard_deviation_variant_1},2) / sum(${significance_ads_conversion_20_denominator_variant_1}))
+        + (power(${significance_ads_conversion_20_standard_deviation_variant_2},2) / sum(${significance_ads_conversion_20_denominator_variant_2}))
+      )
+;;
+  }
+
+  measure: significance_ads_conversion_20_significance {
+    group_label: "AB Test Significance"
+    label: "Ads 20+ Conversion Significance"
+    type: string
+    sql:
+      case
+        when (abs(${significance_ads_conversion_20_t_score}) > 3.291) then '(7) .0005 sig. level'
+        when (abs(${significance_ads_conversion_20_t_score}) > 3.091) then '(6) .001 sig. level'
+        when (abs(${significance_ads_conversion_20_t_score}) > 2.576) then '(5) .005 sig. level'
+        when (abs(${significance_ads_conversion_20_t_score}) > 2.326) then '(4) .01 sig. level'
+        when (abs(${significance_ads_conversion_20_t_score}) > 1.960) then '(3) .025 sig. level'
+        when (abs(${significance_ads_conversion_20_t_score}) > 1.645) then '(2) .05 sig. level'
+        when (abs(${significance_ads_conversion_20_t_score}) > 1.282) then '(1) .1 sig. level'
+        else '(0) Insignificant'
+      end
+;;
+  }
+
+
+
 
 
 

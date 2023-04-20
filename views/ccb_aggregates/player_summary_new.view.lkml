@@ -1603,6 +1603,66 @@ measure: significance_d2_retention_standard_deviation_variant_1 {
   ;;
 }
 
+dimension: significance_d2_retention_denominator_variant_2 {
+  group_label: "AB Test Significance"
+  label: "D2 Retention Denominator Variant 2"
+  type: number
+  value_format_name: decimal_0
+  sql:
+  case
+    when ${TABLE}.max_available_day_number < 2
+    then null
+    when
+      ${experiment_variant} = {% parameter experiment_variant_2 %}
+      and ${TABLE}.max_available_day_number >= 2
+    then 1
+    else 0
+    end
+;;
+}
+
+dimension: significance_d2_retention_numerator_variant_2 {
+  group_label: "AB Test Significance"
+  label: "D2 Retention Numerator Variant 2"
+  type: number
+  value_format_name: decimal_0
+  sql:
+  case
+    when ${TABLE}.max_available_day_number < 2
+    then null
+    when
+      ${experiment_variant} = {% parameter experiment_variant_2 %}
+      and ${TABLE}.max_available_day_number >= 2
+    then ${TABLE}.retention_d2
+    else 0
+    end
+;;
+}
+
+measure: significance_d2_retention_variant_2 {
+  group_label: "AB Test Significance"
+  label: "D2 Retention Variant 2"
+  type: number
+  value_format_name: percent_4
+  sql:
+    safe_divide(
+      sum(${significance_d2_retention_numerator_variant_2})
+      ,
+      sum(${significance_d2_retention_denominator_variant_2})
+    )
+;;
+}
+
+measure: significance_d2_retention_standard_deviation_variant_2 {
+  group_label: "AB Test Significance"
+  label: "D2 Retention Standard Deviation Variant 2"
+  type: number
+  value_format_name: decimal_4
+  sql:
+  1.0 * STDDEV(${significance_d2_retention_numerator_variant_2})
+;;
+}
+
 
 
 }

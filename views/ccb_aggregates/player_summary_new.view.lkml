@@ -1599,7 +1599,7 @@ measure: significance_d2_retention_standard_deviation_variant_1 {
   type: number
   value_format_name: decimal_4
   sql:
-    1.0 * STDDEV(${significance_d2_retention_numerator_variant_1})
+    1.0 * stddev(${significance_d2_retention_numerator_variant_1})
   ;;
 }
 
@@ -1659,10 +1659,43 @@ measure: significance_d2_retention_standard_deviation_variant_2 {
   type: number
   value_format_name: decimal_4
   sql:
-  1.0 * STDDEV(${significance_d2_retention_numerator_variant_2})
+  1.0 * stddev(${significance_d2_retention_numerator_variant_2})
 ;;
 }
 
+measure: significance_d2_retention_t_score {
+  group_label: "AB Test Significance"
+  label: "D2 Retention T Score"
+  type: number
+  value_format_name: decimal_4
+  sql:
+
+    1.0 * (${significance_d2_retention_variant_1} - ${significance_d2_retention_variant_2}) /
+
+      sqrt(
+        (power(${significance_d2_retention_standard_deviation_variant_1},2) / sum(${significance_d2_retention_denominator_variant_1}))
+        + (power(${significance_d2_retention_standard_deviation_variant_2},2) / sum(${significance_d2_retention_denominator_variant_2}))
+      )
+;;
+}
+
+  measure: significance_d2_retention_significance {
+    group_label: "AB Test Significance"
+    label: "D2 Retention Signifiance"
+    type: string
+    sql:
+      case
+        when (abs(${significance_d2_retention_t_score}) > 3.291) then '(7) .0005 sig. level'
+        when (abs(${significance_d2_retention_t_score}) > 3.091) then '(6) .001 sig. level'
+        when (abs(${significance_d2_retention_t_score}) > 2.576) then '(5) .005 sig. level'
+        when (abs(${significance_d2_retention_t_score}) > 2.326) then '(4) .01 sig. level'
+        when (abs(${significance_d2_retention_t_score}) > 1.960) then '(3) .025 sig. level'
+        when (abs(${significance_d2_retention_t_score}) > 1.645) then '(2) .05 sig. level'
+        when (abs(${significance_d2_retention_t_score}) > 1.282) then '(1) .1 sig. level'
+        when '(0) Insignificant'
+      end
+;;
+  }
 
 
 }

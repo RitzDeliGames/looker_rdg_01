@@ -702,6 +702,7 @@ dimension: primary_key {
   parameter: selected_experiment {
     type: string
     suggestions:  [
+      "$.puzzleEventv2_20230421"
       ,"$.bigBombs_20230410"
       ,"$.boardClear_20230410"
       ,"$.iceCreamOrder_20230419"

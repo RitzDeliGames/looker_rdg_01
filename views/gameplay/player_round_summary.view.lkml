@@ -8,7 +8,7 @@ view: player_round_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last manual update: '2023-04-11'
+      -- last manual update: '2023-04-21'
 
 
       -- create or replace table tal_scratch.player_round_summary as
@@ -497,6 +497,18 @@ view: player_round_summary {
                 rows between 9 preceding and current row
                 ) count_wins_over_prior_10_rounds
 
+          , sum(ifnull(count_wins,0)) over (
+                  partition by rdg_id, game_mode
+                  order by round_start_timestamp_utc asc
+                  rows between 19 preceding and current row
+                  ) count_wins_over_prior_20_rounds_by_game_mode
+
+          , sum(ifnull(count_wins,0)) over (
+                partition by rdg_id, game_mode
+                order by round_start_timestamp_utc asc
+                rows between 9 preceding and current row
+                ) count_wins_over_prior_10_rounds_by_game_mode
+
         from
           join_on_coin_spend
 
@@ -546,12 +558,6 @@ view: player_round_summary {
 
       from
         add_window_functions
-
-
-
-
-
-
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -4 hour)) ;;
@@ -681,6 +687,8 @@ view: player_round_summary {
   dimension: cumulative_combined_dollars_at_churn {type:number}
   dimension: count_wins_over_prior_20_rounds {type:number}
   dimension: count_wins_over_prior_10_rounds {type:number}
+  dimension: count_wins_over_prior_20_rounds_by_game_mode {type:number}
+  dimension: count_wins_over_prior_10_rounds_by_game_mode {type:number}
 
   dimension: round_attempt_number_at_churn_tiers {
     type:tier

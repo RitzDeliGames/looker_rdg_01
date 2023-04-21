@@ -702,7 +702,12 @@ dimension: primary_key {
   parameter: selected_experiment {
     type: string
     suggestions:  [
-      "$.No_AB_Test_Split"
+      ,"$.bigBombs_20230410"
+      ,"$.boardClear_20230410"
+      ,"$.iceCreamOrder_20230419"
+      ,"$.diceGame_20230419"
+      ,"$.fueUnlocks_20230419"
+      ,"$.No_AB_Test_Split"
       ,"$.haptic_20230326"
       ,"$.dynamicDropBias_20230329"
       ,"$.moldBehavior_20230329"

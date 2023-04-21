@@ -791,8 +791,15 @@ dimension: primary_key {
   }
 
 
-  parameter: significance_level {
+  parameter: selected_significance_level {
     type: number
+  }
+
+  dimension: significance_level {
+    type: number
+    sql:
+      {% parameter selected_significance_level %}
+      ;;
   }
 
 ################################################################

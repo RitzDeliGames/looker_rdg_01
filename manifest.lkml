@@ -866,6 +866,17 @@ constant: game_mode_consolidated {
           end"
 }
 
+constant: ad_placements_clean {
+  value: "case
+            when ${TABLE}.source_id like '%DailyReward' then 'Daily Reward'
+            when ${TABLE}.source_id like '%Moves_Master%' then 'Moves Master'
+            when ${TABLE}.source_id like '%Pizza%' then 'Pizza'
+            when ${TABLE}.source_id like '%Lucky_Dice%' then 'Lucky Dice'
+            when ${TABLE}.source_id like '%Rewarded' then 'Generic Reward'
+            else ${TABLE}.source_id
+          end"
+}
+
 visualization: {
   id: "pivoted_boxplot"
   label: "Pivoted Boxplot"

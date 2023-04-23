@@ -202,6 +202,7 @@ view: player_summary_new {
             , max( case when day_number <= 14 then version else null end ) as version_d14
             , max( case when day_number <= 30 then version else null end ) as version_d30
             , max( case when day_number <= 60 then version else null end ) as version_d60
+            , max( case when day_number <= 90 then version else null end ) as version_d90
             , max( version ) as version_current
 
            -- mtx dollars
@@ -211,6 +212,7 @@ view: player_summary_new {
            , max( case when day_number <= 14 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d14
            , max( case when day_number <= 30 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d30
            , max( case when day_number <= 60 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d60
+           , max( case when day_number <= 90 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d90
            , max( cumulative_mtx_purchase_dollars ) as cumulative_mtx_purchase_dollars_current
            , max(mtx_ltv_from_data) as mtx_ltv_from_data
 
@@ -221,6 +223,7 @@ view: player_summary_new {
            , max( case when day_number <= 14 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d14
            , max( case when day_number <= 30 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d30
            , max( case when day_number <= 60 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d60
+           , max( case when day_number <= 90 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d90
            , max( cumulative_ad_view_dollars ) as cumulative_ad_view_dollars_current
 
            -- cumulative ad views
@@ -230,6 +233,7 @@ view: player_summary_new {
            , max( case when day_number <= 14 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d14
            , max( case when day_number <= 30 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d30
            , max( case when day_number <= 60 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d60
+           , max( case when day_number <= 90 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d90
            , max(cumulative_ad_views) as cumulative_ad_views_current
 
            -- combined dollars
@@ -239,6 +243,7 @@ view: player_summary_new {
            , max( case when day_number <= 14 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d14
            , max( case when day_number <= 30 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d30
            , max( case when day_number <= 60 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d60
+           , max( case when day_number <= 90 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d90
            , max( cumulative_combined_dollars ) as cumulative_combined_dollars_current
 
            -- highest last level serial
@@ -248,6 +253,7 @@ view: player_summary_new {
            , max( case when day_number <= 14 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d14
            , max( case when day_number <= 30 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d30
            , max( case when day_number <= 60 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d60
+           , max( case when day_number <= 90 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d90
            , max( highest_last_level_serial ) as highest_last_level_serial_current
 
           -- retention
@@ -256,6 +262,7 @@ view: player_summary_new {
           , max( case when day_number = 14 then 1 else 0 end ) as retention_d14
           , max( case when day_number = 30 then 1 else 0 end ) as retention_d30
           , max( case when day_number = 60 then 1 else 0 end ) as retention_d60
+          , max( case when day_number = 90 then 1 else 0 end ) as retention_d90
 
           -- cumulative star spend
           , max( case when day_number <= 1 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d1
@@ -264,6 +271,7 @@ view: player_summary_new {
           , max( case when day_number <= 14 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d14
           , max( case when day_number <= 30 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d30
           , max( case when day_number <= 60 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d60
+          , max( case when day_number <= 90 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d90
           , max( cumulative_star_spend ) as cumulative_star_spend_current
 
           -- system_info
@@ -475,6 +483,7 @@ dimension: primary_key {
   dimension: version_d14 {type: string}
   dimension: version_d30 {type: string}
   dimension: version_d60 {type: string}
+  dimension: version_d90 {type: string}
   dimension: version_current {type: string}
   dimension: platform {type: string}
   dimension: country {type: string}
@@ -514,6 +523,7 @@ dimension: primary_key {
   dimension: cumulative_mtx_purchase_dollars_d14 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_d30 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_d60 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d90 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_current {group_label:"LTV - IAPs" label:"LTV - IAP" value_format:"$0.00" type: number}
   dimension: cumulative_mtx_purchase_dollars_current_percentile {group_label:"LTV - IAPs" type: number}
   dimension: mtx_ltv_from_data {type: number}
@@ -523,6 +533,7 @@ dimension: primary_key {
   dimension: cumulative_ad_view_dollars_d14 {group_label:"LTV - Ads" type: number}
   dimension: cumulative_ad_view_dollars_d30 {group_label:"LTV - Ads" type: number}
   dimension: cumulative_ad_view_dollars_d60 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d90 {group_label:"LTV - Ads" type: number}
   dimension: cumulative_ad_view_dollars_current {group_label:"LTV - Ads" label:"LTV - Ads" value_format:"$0.00" type: number}
   dimension: cumulative_combined_dollars_d1 {group_label:"LTV - Cumulative" type: number}
   dimension: cumulative_combined_dollars_d2 {group_label:"LTV - Cumulative" type: number}
@@ -530,6 +541,7 @@ dimension: primary_key {
   dimension: cumulative_combined_dollars_d14 {group_label:"LTV - Cumulative" type: number}
   dimension: cumulative_combined_dollars_d30 {group_label:"LTV - Cumulative" type: number}
   dimension: cumulative_combined_dollars_d60 {group_label:"LTV - Cumulative" type: number}
+  dimension: cumulative_combined_dollars_d90 {group_label:"LTV - Cumulative" type: number}
   dimension: cumulative_combined_dollars_current {group_label:"LTV - Cumulative" label:"LTV - Cumulative" value_format:"$0.00" type: number}
   dimension: highest_last_level_serial_d1 {group_label:"Highest Level" type: number}
   dimension: highest_last_level_serial_d2 {group_label:"Highest Level" type: number}
@@ -537,18 +549,21 @@ dimension: primary_key {
   dimension: highest_last_level_serial_d14 {group_label:"Highest Level" type: number}
   dimension: highest_last_level_serial_d30 {group_label:"Highest Level" type: number}
   dimension: highest_last_level_serial_d60 {group_label:"Highest Level" type: number}
+  dimension: highest_last_level_serial_d90 {group_label:"Highest Level" type: number}
   dimension: highest_last_level_serial_current {group_label:"Highest Level" label:"Highest Level" type: number}
   dimension: retention_d2 {group_label:"Retention" type: number}
   dimension: retention_d7 {group_label:"Retention" type: number}
   dimension: retention_d14 {group_label:"Retention" type: number}
   dimension: retention_d30 {group_label:"Retention" type: number}
   dimension: retention_d60 {group_label:"Retention" type: number}
+  dimension: retention_d90 {group_label:"Retention" type: number}
   dimension: cumulative_star_spend_d1 {type: number}
   dimension: cumulative_star_spend_d2 {type: number}
   dimension: cumulative_star_spend_d7 {type: number}
   dimension: cumulative_star_spend_d14 {type: number}
   dimension: cumulative_star_spend_d30 {type: number}
   dimension: cumulative_star_spend_d60 {type: number}
+  dimension: cumulative_star_spend_d90 {type: number}
   dimension: cumulative_star_spend_current {type: number}
   dimension: firebase_advertising_id {type:string}
   dimension: cumulative_ad_views_d1 {group_label:"Cumulative Ad Views" type: number}
@@ -557,6 +572,7 @@ dimension: primary_key {
   dimension: cumulative_ad_views_d14 {group_label:"Cumulative Ad Views" type: number}
   dimension: cumulative_ad_views_d30 {group_label:"Cumulative Ad Views" type: number}
   dimension: cumulative_ad_views_d60 {group_label:"Cumulative Ad Views" type: number}
+  dimension: cumulative_ad_views_d90 {group_label:"Cumulative Ad Views" type: number}
   dimension: cumulative_ad_views_current {group_label:"Cumulative Ad Views" type: number}
 
 
@@ -901,6 +917,21 @@ dimension: primary_key {
     value_format_name: usd
 
   }
+
+  measure: available_combined_dollars_d90 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 90
+          then ${TABLE}.cumulative_combined_dollars_d90
+          else 0
+          end )
+    ;;
+    value_format_name: usd
+
+  }
 ################################################################
 ## Revenue Per Install
 ################################################################
@@ -1049,6 +1080,29 @@ measure: revenue_per_install_d7 {
 
   }
 
+  measure: revenue_per_install_d90 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 60
+          then ${TABLE}.cumulative_combined_dollars_d90
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 90
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
 ################################################################
 ## Retention
 ################################################################
@@ -1178,6 +1232,30 @@ measure: revenue_per_install_d7 {
 
   }
 
+  measure: average_retention_d90 {
+    group_label: "Average Retention"
+    label: "D60"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 90
+          then ${TABLE}.retention_d60
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 90
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+
+  }
 
 ################################################################
 ## Unique Player
@@ -1294,6 +1372,21 @@ measure: count_distinct_players {
 
   }
 
+  measure: available_player_count_d90 {
+    group_label: "Average Retention"
+    label: "Retention Denominator D90"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 90
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+
+  }
 ################################################################
 ## Engagement Milestones
 ################################################################
@@ -1556,6 +1649,21 @@ measure: count_distinct_players {
 
   }
 
+  measure: numerator_retention_d90 {
+    group_label: "Average Retention"
+    label: "Retention Numerator D90"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 90
+          then ${TABLE}.retention_d60
+          else 0
+          end )
+    ;;
+    value_format_name: decimal_0
+
+  }
 
 
 

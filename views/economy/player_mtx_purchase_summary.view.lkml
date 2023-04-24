@@ -246,6 +246,7 @@ dimension: primary_key {
     type:sum
     value_format: "$#.00"
     sql: ${TABLE}.mtx_purchase_dollars ;;
+    drill_fields: [rdg_date_time,rdg_id,iap_id,iap_id_strings,mtx_purchase_dollars]
   }
   measure: sum_cumulative_mtx_purchase_dollars {
     group_label: "Cumulative MTX Purchase Dollars"

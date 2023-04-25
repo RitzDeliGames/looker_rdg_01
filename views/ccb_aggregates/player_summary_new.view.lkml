@@ -786,7 +786,7 @@ dimension: primary_key {
       ,"variant_a"
       ,"variant_b"
       ,"variant_c"
-      ,"variant_c"]
+      ,"variant_d"]
   }
 
   dimension: experiment_variant_1_check {

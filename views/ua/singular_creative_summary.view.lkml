@@ -18,15 +18,15 @@ view: singular_creative_summary {
           select
             -- primary key
             timestamp(date) as rdg_date
-            , adn_creative_id
+            , asset_name
             , country_field
+            , platform
+            , adn_campaign_id
 
             -- summarized fields
             , max(data_connector_source_name) as data_connector_source_name
             , max(source) as source
             , max(os) as os
-            , max(platform) as platform
-            , max(adn_campaign_id) as singular_campaign_id
             , max(adn_campaign_name) as campaign_name
             , max(creative_type) as creative_type
             , sum(ifnull(adn_cost, 0)) as singular_total_cost
@@ -38,25 +38,28 @@ view: singular_creative_summary {
         where
           adn_cost is not null
         group by
-          1,2,3
+          1,2,3,4,5
       )
 
       ----------------------------------------------------------------------
       -- linked meta data
       -- google sheets link: https://docs.google.com/spreadsheets/d/1bxt-VukA_jjp5sV-ySbQfgr35keJOznzvBdPf8ilb9k/edit?usp=share_link
+      -- sheet name: hardcoded
       -- ask Rob or Tal for access
       ----------------------------------------------------------------------
 
       , linked_meta_data as (
 
-        select
-          adn_creative_id
+        select distinct
+          asset_name
           , full_ad_name
+          , full_name_with_id
           , simple_ad_name
         from
           `eraser-blast.singular.creative_meta_data_hardcoded`
         where
-          adn_creative_id is not null
+          asset_name is not null
+          and full_name_with_id is not null
           and full_ad_name is not null
           and simple_ad_name is not null
       )
@@ -71,10 +74,11 @@ view: singular_creative_summary {
           a.*
           , b.full_ad_name
           , b.simple_ad_name
+          , b.full_name_with_id
         from
           singular_creative_data a
           left join linked_meta_data b
-            on a.adn_creative_id = b.adn_creative_id
+            on a.asset_name = b.asset_name
 
       )
 
@@ -98,12 +102,20 @@ view: singular_creative_summary {
 ## Primary Key
 ####################################################################
 
+            # timestamp(date) as rdg_date
+            # , asset_name
+            # , country_field
+            # , platform
+            # , adn_campaign_id
+
   dimension: primary_key {
     type: string
     sql:
     ${TABLE}.rdg_date
-    || '_' || ${TABLE}.adn_creative_id
+    || '_' || ${TABLE}.asset_name
     || '_' || ${TABLE}.country_field
+    || '_' || ${TABLE}.platform
+    || '_' || ${TABLE}.adn_campaign_id
     ;;
     primary_key: yes
     hidden: yes
@@ -124,7 +136,7 @@ view: singular_creative_summary {
 ## Other Dimensions
 ####################################################################
 
-  dimension: adn_creative_id {type:string}
+  dimension: asset_name {type:string}
   dimension: country_field {type:string}
   dimension: data_connector_source_name {type:string}
   dimension: source {type:string}
@@ -139,6 +151,7 @@ view: singular_creative_summary {
   dimension: singular_total_installs {type:number}
   dimension: full_ad_name {type:string}
   dimension: simple_ad_name {type:string}
+  dimension: full_name_with_id {type:string}
 
 ####################################################################
 ## Campaign Name Clean

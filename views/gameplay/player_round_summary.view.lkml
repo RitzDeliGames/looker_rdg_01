@@ -8,7 +8,7 @@ view: player_round_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last manual update: '2023-04-21'
+      -- last manual update: '2023-04-25'
 
 
       -- create or replace table tal_scratch.player_round_summary as
@@ -509,6 +509,35 @@ view: player_round_summary {
                 rows between 9 preceding and current row
                 ) count_wins_over_prior_10_rounds_by_game_mode
 
+
+          -------------------------------------------------------------------------------------------
+          -- Lag Wins over last 20 rounds
+          ---- for Consecutive Losses
+          ---- and for discounting win rate
+          -------------------------------------------------------------------------------------------
+
+          , 0.90 as consecutive_loss_rate_discount
+          , count_losses as lag_losses_00
+          , lag(count_losses,1) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_01
+          , lag(count_losses,2) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_02
+          , lag(count_losses,3) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_03
+          , lag(count_losses,4) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_04
+          , lag(count_losses,5) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_05
+          , lag(count_losses,6) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_06
+          , lag(count_losses,7) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_07
+          , lag(count_losses,8) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_08
+          , lag(count_losses,9) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_09
+          , lag(count_losses,10) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_10
+          , lag(count_losses,11) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_11
+          , lag(count_losses,12) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_12
+          , lag(count_losses,13) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_13
+          , lag(count_losses,14) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_14
+          , lag(count_losses,15) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_15
+          , lag(count_losses,16) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_16
+          , lag(count_losses,17) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_17
+          , lag(count_losses,18) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_18
+          , lag(count_losses,19) over (partition by rdg_id, game_mode order by round_start_timestamp_utc asc) as lag_losses_19
+
         from
           join_on_coin_spend
 
@@ -520,7 +549,70 @@ view: player_round_summary {
 
       select
         *
+
+        -----------------------------------------------------------------------------
+        -- Consecutive losses
+        -----------------------------------------------------------------------------
+
+        , case
+            when ifnull(lag_losses_00,1) = 0 then 0
+            when ifnull(lag_losses_01,1) = 0 then 1
+            when ifnull(lag_losses_02,1) = 0 then 2
+            when ifnull(lag_losses_03,1) = 0 then 3
+            when ifnull(lag_losses_04,1) = 0 then 4
+            when ifnull(lag_losses_05,1) = 0 then 5
+            when ifnull(lag_losses_06,1) = 0 then 6
+            when ifnull(lag_losses_07,1) = 0 then 7
+            when ifnull(lag_losses_08,1) = 0 then 8
+            when ifnull(lag_losses_09,1) = 0 then 9
+            when ifnull(lag_losses_10,1) = 0 then 10
+            when ifnull(lag_losses_11,1) = 0 then 11
+            when ifnull(lag_losses_12,1) = 0 then 12
+            when ifnull(lag_losses_13,1) = 0 then 13
+            when ifnull(lag_losses_14,1) = 0 then 14
+            when ifnull(lag_losses_15,1) = 0 then 15
+            when ifnull(lag_losses_16,1) = 0 then 16
+            when ifnull(lag_losses_17,1) = 0 then 17
+            when ifnull(lag_losses_18,1) = 0 then 18
+            when ifnull(lag_losses_19,1) = 0 then 19
+            else 20
+            end as consecutive_losses_20
+
+
+        -----------------------------------------------------------------------------
+        -- Discounted Win Rate
+        -----------------------------------------------------------------------------
+
+        , round(
+            power(consecutive_loss_rate_discount,0)*(1-consecutive_loss_rate_discount) * lag_losses_00
+            + power(consecutive_loss_rate_discount,1)*(1-consecutive_loss_rate_discount) * lag_losses_01
+            + power(consecutive_loss_rate_discount,2)*(1-consecutive_loss_rate_discount) * lag_losses_02
+            + power(consecutive_loss_rate_discount,3)*(1-consecutive_loss_rate_discount) * lag_losses_03
+            + power(consecutive_loss_rate_discount,4)*(1-consecutive_loss_rate_discount) * lag_losses_04
+            + power(consecutive_loss_rate_discount,5)*(1-consecutive_loss_rate_discount) * lag_losses_05
+            + power(consecutive_loss_rate_discount,6)*(1-consecutive_loss_rate_discount) * lag_losses_06
+            + power(consecutive_loss_rate_discount,7)*(1-consecutive_loss_rate_discount) * lag_losses_07
+            + power(consecutive_loss_rate_discount,8)*(1-consecutive_loss_rate_discount) * lag_losses_08
+            + power(consecutive_loss_rate_discount,9)*(1-consecutive_loss_rate_discount) * lag_losses_09
+            + power(consecutive_loss_rate_discount,10)*(1-consecutive_loss_rate_discount) * lag_losses_10
+            + power(consecutive_loss_rate_discount,11)*(1-consecutive_loss_rate_discount) * lag_losses_11
+            + power(consecutive_loss_rate_discount,12)*(1-consecutive_loss_rate_discount) * lag_losses_12
+            + power(consecutive_loss_rate_discount,13)*(1-consecutive_loss_rate_discount) * lag_losses_13
+            + power(consecutive_loss_rate_discount,14)*(1-consecutive_loss_rate_discount) * lag_losses_14
+            + power(consecutive_loss_rate_discount,15)*(1-consecutive_loss_rate_discount) * lag_losses_15
+            + power(consecutive_loss_rate_discount,16)*(1-consecutive_loss_rate_discount) * lag_losses_16
+            + power(consecutive_loss_rate_discount,17)*(1-consecutive_loss_rate_discount) * lag_losses_17
+            + power(consecutive_loss_rate_discount,18)*(1-consecutive_loss_rate_discount) * lag_losses_18
+            + power(consecutive_loss_rate_discount,19)*(1-consecutive_loss_rate_discount) * lag_losses_19
+          , 2 )
+
+          as discounted_lose_win_ratio
+
+
+        -----------------------------------------------------------------------------
         -- Churn Stuff
+        -----------------------------------------------------------------------------
+
         , case when next_round_start_timestamp_utc is null then 1 else 0 end as churn_indicator
         , case when next_round_start_timestamp_utc is null then rdg_id else null end as churn_rdg_id
         , case
@@ -558,6 +650,10 @@ view: player_round_summary {
 
       from
         add_window_functions
+
+
+
+
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -4 hour)) ;;
@@ -685,10 +781,12 @@ view: player_round_summary {
   dimension: cumulative_coin_spend_at_churn {type:number}
   dimension: cumulative_count_coin_spend_events_at_churn {type:number}
   dimension: cumulative_combined_dollars_at_churn {type:number}
-  dimension: count_wins_over_prior_20_rounds {type:number}
-  dimension: count_wins_over_prior_10_rounds {type:number}
-  dimension: count_wins_over_prior_20_rounds_by_game_mode {type:number}
-  dimension: count_wins_over_prior_10_rounds_by_game_mode {type:number}
+  dimension: count_wins_over_prior_20_rounds {group_label: "Dynamic Difficulty Tuning" type:number}
+  dimension: count_wins_over_prior_10_rounds {group_label: "Dynamic Difficulty Tuning" type:number}
+  dimension: count_wins_over_prior_20_rounds_by_game_mode {group_label: "Dynamic Difficulty Tuning" type:number}
+  dimension: count_wins_over_prior_10_rounds_by_game_mode {group_label: "Dynamic Difficulty Tuning" type:number}
+  dimension: discounted_lose_win_ratio {group_label: "Dynamic Difficulty Tuning" type: number}
+  dimension: consecutive_losses_20 {group_label: "Dynamic Difficulty Tuning" type: number}
 
   dimension: round_attempt_number_at_churn_tiers {
     type:tier

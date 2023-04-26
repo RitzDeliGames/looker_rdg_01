@@ -8,8 +8,7 @@ view: player_round_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last manual update: '2023-04-25'
-
+      -- last manual update: '2023-04-26'
 
       -- create or replace table tal_scratch.player_round_summary as
 
@@ -551,6 +550,33 @@ view: player_round_summary {
         *
 
         -----------------------------------------------------------------------------
+        -- count losses over last 20 games
+        -----------------------------------------------------------------------------
+
+           , ifnull(lag_losses_00,0)
+            + ifnull(lag_losses_01,0)
+            + ifnull(lag_losses_02,0)
+            + ifnull(lag_losses_03,0)
+            + ifnull(lag_losses_04,0)
+            + ifnull(lag_losses_05,0)
+            + ifnull(lag_losses_06,0)
+            + ifnull(lag_losses_07,0)
+            + ifnull(lag_losses_08,0)
+            + ifnull(lag_losses_09,0)
+            + ifnull(lag_losses_10,0)
+            + ifnull(lag_losses_11,0)
+            + ifnull(lag_losses_12,0)
+            + ifnull(lag_losses_13,0)
+            + ifnull(lag_losses_14,0)
+            + ifnull(lag_losses_15,0)
+            + ifnull(lag_losses_16,0)
+            + ifnull(lag_losses_17,0)
+            + ifnull(lag_losses_18,0)
+            + ifnull(lag_losses_19,0)
+
+           as count_losse_over_last_20_rounds_by_game_mode
+
+        -----------------------------------------------------------------------------
         -- Consecutive losses
         -----------------------------------------------------------------------------
 
@@ -650,6 +676,8 @@ view: player_round_summary {
 
       from
         add_window_functions
+
+
 
 
 
@@ -781,12 +809,18 @@ view: player_round_summary {
   dimension: cumulative_coin_spend_at_churn {type:number}
   dimension: cumulative_count_coin_spend_events_at_churn {type:number}
   dimension: cumulative_combined_dollars_at_churn {type:number}
+
+  ## Dynamic Difficulty fields
   dimension: count_wins_over_prior_20_rounds {group_label: "Dynamic Difficulty Tuning" type:number}
   dimension: count_wins_over_prior_10_rounds {group_label: "Dynamic Difficulty Tuning" type:number}
   dimension: count_wins_over_prior_20_rounds_by_game_mode {group_label: "Dynamic Difficulty Tuning" type:number}
   dimension: count_wins_over_prior_10_rounds_by_game_mode {group_label: "Dynamic Difficulty Tuning" type:number}
   dimension: discounted_lose_win_ratio {group_label: "Dynamic Difficulty Tuning" type: number}
   dimension: consecutive_losses_20 {group_label: "Dynamic Difficulty Tuning" type: number}
+  dimension: count_losse_over_last_20_rounds_by_game_mode {
+    group_label: "Dynamic Difficulty Tuning"
+    label: "Count Losses Over Last 20 Rounds By Game Mode"
+    type: number}
 
   dimension: round_attempt_number_at_churn_tiers {
     type:tier

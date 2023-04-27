@@ -87,7 +87,7 @@ dimension: singular_install_date {type: date}
     label: "Install Date Group"
     type: time
     timeframes: [date, week, month, year]
-    sql: ${TABLE}.rdg_date ;;
+    sql: ${TABLE}.singular_install_date ;;
   }
 
 ####################################################################

@@ -805,6 +805,10 @@ constant: campaign_name_clean_update {
   when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 5 Min - Walmart'
   when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 15 Min - Walmart'
   when ${TABLE}.campaign_name = 'Android_Manual_Events_30_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 30 Min - Walmart'
+  when
+    ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_LATAM/ES_N/A'
+    and date(${TABLE}.singular_install_date) between '2023-04-11' and '2023-04-13'
+    then 'AAA - LATAM/ES - 15 Min - 20230413'
   else ${TABLE}.campaign_name
   end"
 }

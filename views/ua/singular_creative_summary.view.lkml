@@ -4,7 +4,7 @@ view: singular_creative_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-04-14'
+      -- update '2023-04-28'
 
       -- create or replace table tal_scratch.singular_creative_summary as
 
@@ -24,6 +24,7 @@ view: singular_creative_summary {
             , adn_campaign_id
 
             -- summarized fields
+            , max(adn_creative_id) as adn_creative_id
             , max(data_connector_source_name) as data_connector_source_name
             , max(source) as source
             , max(os) as os
@@ -48,7 +49,7 @@ view: singular_creative_summary {
       -- ask Rob or Tal for access
       ----------------------------------------------------------------------
 
-      , linked_meta_data as (
+      , linked_metadata_by_asset_name as (
 
         select distinct
           asset_name
@@ -56,7 +57,7 @@ view: singular_creative_summary {
           , full_name_with_id
           , simple_ad_name
         from
-          `eraser-blast.singular.creative_meta_data_hardcoded`
+          `eraser-blast.singular.creative_metadata_by_asset_name_hardcoded`
         where
           asset_name is not null
           and full_name_with_id is not null
@@ -68,7 +69,7 @@ view: singular_creative_summary {
       -- join together
       ----------------------------------------------------------------------
 
-      , join_data_together as (
+      , join_metadata_by_asset_name as (
 
         select
           a.*
@@ -77,8 +78,70 @@ view: singular_creative_summary {
           , b.full_name_with_id
         from
           singular_creative_data a
-          left join linked_meta_data b
+          left join linked_metadata_by_asset_name b
             on a.asset_name = b.asset_name
+
+      )
+
+      ----------------------------------------------------------------------
+      -- linked meta data by creative id
+      -- google sheets link: https://docs.google.com/spreadsheets/d/1bxt-VukA_jjp5sV-ySbQfgr35keJOznzvBdPf8ilb9k/edit?usp=share_link
+      -- sheet name: hardcoded
+      -- ask Rob or Tal for access
+      ----------------------------------------------------------------------
+
+      , linked_metadata_by_creative_id as (
+
+        select distinct
+          adn_creative_id
+          , full_ad_name
+          , simple_ad_name
+        from
+          `eraser-blast.singular.creative_metadata_by_creative_id_hardcoded`
+        where
+          adn_creative_id is not null
+          and full_ad_name is not null
+          and simple_ad_name is not null
+      )
+
+      ----------------------------------------------------------------------
+      -- join together
+      ----------------------------------------------------------------------
+
+      , join_metadata_by_creative_id as (
+
+        select
+            a.rdg_date
+            , a.asset_name
+            , a.country_field
+            , a.platform
+            , a.adn_campaign_id
+            , a.adn_creative_id
+            , a.data_connector_source_name
+            , a.source
+            , a.os
+            , a.campaign_name
+            , a.creative_type
+            , case
+                when asset_name = ''
+                and a.full_ad_name is null
+                then b.full_ad_name
+                else a.full_ad_name
+                end as full_ad_name
+            , case
+                when asset_name = ''
+                and a.simple_ad_name is null
+                then b.simple_ad_name
+                else a.simple_ad_name
+                end as simple_ad_name
+            , a.singular_total_cost
+            , a.singular_total_impressions
+            , a.singular_total_clicks
+            , a.singular_total_installs
+        from
+          join_metadata_by_asset_name a
+          left join linked_metadata_by_creative_id b
+            on a.adn_creative_id = b.adn_creative_id
 
       )
 
@@ -87,7 +150,7 @@ view: singular_creative_summary {
       -- select data
       ----------------------------------------------------------------------
 
-      select * from join_data_together
+      select * from join_metadata_by_creative_id
 
 
       ;;

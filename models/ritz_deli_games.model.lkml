@@ -691,7 +691,7 @@ explore: player_daily_summary {
     relationship:  many_to_one
     sql_on:
       ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.created_date}) = date(${singular_campaign_summary.singular_install_date})
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
       ;;
   }
 
@@ -724,7 +724,7 @@ explore: player_summary_new {
     relationship:  many_to_one
     sql_on:
       ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.created_date}) = date(${singular_campaign_summary.singular_install_date})
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
       ;;
   }
 
@@ -793,7 +793,7 @@ explore: player_round_summary {
     relationship:  many_to_one
     sql_on:
       ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.created_date}) = date(${singular_campaign_summary.singular_install_date})
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
       ;;
   }
 
@@ -827,7 +827,7 @@ explore: player_ad_view_summary {
     relationship:  many_to_one
     sql_on:
       ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.created_date}) = date(${singular_campaign_summary.singular_install_date})
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
       ;;
   }
 }
@@ -849,7 +849,7 @@ explore: player_mtx_purchase_summary {
     relationship:  many_to_one
     sql_on:
       ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.created_date}) = date(${singular_campaign_summary.singular_install_date})
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
       ;;
   }
 }
@@ -871,7 +871,7 @@ explore: player_coin_spend_summary {
     relationship:  many_to_one
     sql_on:
       ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.created_date}) = date(${singular_campaign_summary.singular_install_date})
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
       ;;
   }
 }
@@ -893,7 +893,7 @@ explore: player_hourly {
     relationship:  many_to_one
     sql_on:
       ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.created_date}) = date(${singular_campaign_summary.singular_install_date})
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
       ;;
   }
 }
@@ -920,7 +920,7 @@ explore: player_weekly_summary {
     relationship:  many_to_one
     sql_on:
       ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.created_date}) = date(${singular_campaign_summary.singular_install_date})
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
       ;;
   }
 }

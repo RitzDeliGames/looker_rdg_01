@@ -37,10 +37,10 @@ view: singular_campaign_summary {
           a.adn_campaign_id as singular_campaign_id
           , timestamp(a.date) as singular_install_date
           , max( a.adn_campaign_name ) campaign_name
-          , max( a.source ) as singular_source
-          , max( a.platform ) as singular_platform
-          , max( b.singular_country_name ) as singular_country_name
-          , max( b.singular_country ) as singular_country
+          -- , max( a.source ) as singular_source
+          -- , max( a.platform ) as singular_platform
+          -- , max( b.singular_country_name ) as singular_country_name
+          -- , max( b.singular_country ) as singular_country
           , sum( cast(a.adn_impressions as int64)) as singular_total_impressions
           , sum( cast(a.adn_cost as float64)) as singular_total_cost
           , sum( cast(a.adn_original_cost as float64)) as singular_total_original_cost
@@ -53,8 +53,14 @@ view: singular_campaign_summary {
           1,2
       )
 
+      -----------------------------------------------------------------------
+      -- add last install date for each campaign
+      -----------------------------------------------------------------------
+      select
+        *
+      from
+        singular_campaign_summary
 
-      select * from singular_campaign_summary
 
 
       ;;
@@ -98,18 +104,6 @@ dimension: singular_install_date {type: date}
     group_label: "Singular Campaign Info"
     type:string}
   dimension: campaign_name {
-    group_label: "Singular Campaign Info"
-    type:string}
-  dimension: singular_source {
-    group_label: "Singular Campaign Info"
-    type:string}
-  dimension: singular_platform {
-    group_label: "Singular Campaign Info"
-    type:string}
-  dimension: singular_country_name {
-    group_label: "Singular Campaign Info"
-    type:string}
-  dimension: singular_country {
     group_label: "Singular Campaign Info"
     type:string}
   dimension: singular_total_impressions {

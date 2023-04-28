@@ -855,6 +855,13 @@ constant: singular_created_date_override {
     and date(${TABLE}.created_date) > '2023-04-17'
     then timestamp(date('2023-04-17'))
 
+  when
+    ${TABLE}.singular_partner_name = 'Unattributed'
+    and ${TABLE}.singular_campaign_id = ''
+    and ${TABLE}.country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
+    and date(${TABLE}.created_date) > '2023-04-17'
+    then timestamp(date('2023-04-17'))
+
   else ${TABLE}.created_date
   end
   "

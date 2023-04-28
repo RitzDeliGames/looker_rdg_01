@@ -846,14 +846,14 @@ constant: singular_created_date_override {
   value: "
   case
   when
-  and ${TABLE}.singular_campaign_id = '6250035906122'
-  and date(${TABLE}.created_date) > '2023-04-13'
-  then timestamp(date('2023-04-13'))
+    ${TABLE}.singular_campaign_id = '6250035906122'
+    and date(${TABLE}.created_date) > '2023-04-13'
+    then timestamp(date('2023-04-13'))
 
   when
-  and ${TABLE}.singular_campaign_id = '6299378813122'
-  and date(${TABLE}.created_date) > '2023-04-17'
-  then timestamp(date('2023-04-17'))
+    ${TABLE}.singular_campaign_id = '6299378813122'
+    and date(${TABLE}.created_date) > '2023-04-17'
+    then timestamp(date('2023-04-17'))
 
   else ${TABLE}.created_date
   end

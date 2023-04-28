@@ -842,6 +842,24 @@ constant: singular_campaign_id_override {
   "
 }
 
+constant: singular_created_date_override {
+  value: "
+  case
+  when
+  and ${TABLE}.singular_campaign_id = '6250035906122'
+  and date(${TABLE}.created_date) > '2023-04-13'
+  then timestamp(date('2023-04-13'))
+
+  when
+  and ${TABLE}.singular_campaign_id = '6299378813122'
+  and date(${TABLE}.created_date) > '2023-04-17'
+  then timestamp(date('2023-04-17'))
+
+  else ${TABLE}.created_date
+  end
+  "
+}
+
 constant: creative_name_clean {
     value: "case
             when ${TABLE}.creative_name like 'Art Test - Playrix Style%' then 'Cottage Scene (Playrix)'

@@ -901,7 +901,7 @@ explore: player_hourly {
 explore: firebase_player_summary {}
 explore: singular_campaign_summary {}
 explore: singular_creative_summary {}
-explore: player_ad_view_incremental {}
+explore: firebase_player_daily_incremental {}
 
 explore: player_weekly_summary {
   label: "Player Weekly Summary"

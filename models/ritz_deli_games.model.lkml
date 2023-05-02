@@ -185,16 +185,6 @@ explore: gameplay {
     sql_on: ${gameplay.rdg_id} =  ${attempts_per_level.rdg_id}
       and ${gameplay.last_level_id} = ${attempts_per_level.last_level_id};;
   }
-  join: churn_by_level_derived {
-    view_label: "Churn by Level - Attempt (Derived)"
-    type: left_outer
-    relationship: many_to_many
-    sql_on: ${gameplay.last_level_id} = ${churn_by_level_derived.last_level_id}
-      and ${user_fact.install_version} = ${churn_by_level_derived.install_version_no}
-      and ${user_fact.version} = ${churn_by_level_derived.version_no}
-      and ${user_fact.config_version_string} = ${churn_by_level_derived.config_timestamp_string}
-      and ${user_fact.install_config_version_string} = ${churn_by_level_derived.install_config_version_string};;
-  }
   join: sessions_per_day_per_player {
     view_label: "Gameplay - Sessions"
     type: left_outer
@@ -385,61 +375,6 @@ explore: click_stream {
   join: user_last_event {
     type: left_outer
     sql_on: ${click_stream.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: many_to_one
-  }
-}
-
-explore: churn_by_level_by_attempt {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
-  view_label: "Churn by Level - Attempt"
-  join: user_fact {
-    type: left_outer
-    sql_on: ${churn_by_level_by_attempt.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: one_to_one
-  }
-  join: user_last_event {
-    type: left_outer
-    sql_on: ${churn_by_level_by_attempt.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: one_to_one
-  }
-}
-
-explore: churn_by_level_by_proximity {
- # sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
-  view_label: "Churn by Level - Proximity"
-  join: user_fact {
-    type: left_outer
-    sql_on: ${churn_by_level_by_proximity.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: one_to_one
-  }
-  join: user_last_event {
-    type: left_outer
-    sql_on: ${churn_by_level_by_proximity.rdg_id} = ${user_last_event.rdg_id} ;;
-    relationship: one_to_one
-  }
-}
-
-explore: churn_by_level_derived {
-   view_label: "Churn by Level - Attempt (Derived)"
-}
-
-explore: churn_by_match_made {
-  label: "Match Made"
-  hidden: yes
-}
-
-explore: churn_by_match_data {
-  label: "Churn by Matches Made"
-  #sql_always_where: ${churn_by_match_data.rdg_id} not in @{device_internal_tester_mapping};;
-  #view_label: "temp churn by tile"
-  join: user_fact {
-    type: left_outer
-    sql_on: ${churn_by_match_data.rdg_id} = ${user_fact.rdg_id} ;;
-    relationship: many_to_one
-  }
-  join: user_last_event {
-    type: left_outer
-    sql_on: ${churn_by_match_data.rdg_id} = ${user_last_event.rdg_id} ;;
     relationship: many_to_one
   }
 }

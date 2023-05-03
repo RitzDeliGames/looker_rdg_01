@@ -65,6 +65,21 @@ view: singular_creative_summary {
           and simple_ad_name is not null
       )
 
+      , linked_metadata_by_asset_name_actual_asset_name as (
+
+        select distinct
+          full_ad_name
+          , full_name_with_id
+          , simple_ad_name
+        from
+          `eraser-blast.singular.creative_metadata_by_asset_name_hardcoded`
+        where
+          asset_name is not null
+          and full_name_with_id is not null
+          and full_ad_name is not null
+          and simple_ad_name is not null
+      )
+
       ----------------------------------------------------------------------
       -- join together
       ----------------------------------------------------------------------
@@ -73,13 +88,26 @@ view: singular_creative_summary {
 
         select
           a.*
-          , b.full_ad_name
-          , b.simple_ad_name
-          , b.full_name_with_id
+          , case
+              when b.full_ad_name is null
+              then c.full_ad_name
+              else b.full_ad_name end as full_ad_name
+          ,
+            case
+              when b.simple_ad_name is null
+              then c.simple_ad_name
+              else b.simple_ad_name end as simple_ad_name
+          ,
+            case
+              when b.full_name_with_id is null
+              then c.full_name_with_id
+              else b.full_name_with_id end as full_name_with_id
         from
           singular_creative_data a
           left join linked_metadata_by_asset_name b
             on a.asset_name = b.asset_name
+          left join linked_metadata_by_asset_name_actual_asset_name c
+            on a.asset_name = c.full_ad_name
 
       )
 
@@ -152,6 +180,7 @@ view: singular_creative_summary {
       ----------------------------------------------------------------------
 
       select * from join_metadata_by_creative_id
+
 
 
 

@@ -116,7 +116,7 @@ view: singular_creative_summary {
             , a.asset_name
             , a.country_field
             , a.platform
-            , a.adn_campaign_id
+            , a.adn_campaign_id as singular_campaign_id
             , a.adn_creative_id
             , a.data_connector_source_name
             , a.source
@@ -152,6 +152,7 @@ view: singular_creative_summary {
       ----------------------------------------------------------------------
 
       select * from join_metadata_by_creative_id
+
 
 
 

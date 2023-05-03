@@ -217,7 +217,6 @@ view: singular_creative_summary {
   dimension: singular_total_installs {type:number}
   dimension: full_ad_name {type:string}
   dimension: simple_ad_name {type:string}
-  dimension: full_name_with_id {type:string}
   dimension: singular_install_date {type: date}
   dimension: adn_creative_id {type: string}
 

@@ -55,7 +55,7 @@ view: firebase_player_daily_incremental {
           ) >=
           case
             -- select date(current_date())
-            when date(current_date()) <= '2023-05-01' -- Last Full Update
+            when date(current_date()) <= '2023-05-03' -- Last Full Update
             then '2022-06-01'
             else date_add(current_date(), interval -9 DAY)
             end

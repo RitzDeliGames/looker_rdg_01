@@ -57,7 +57,7 @@ view: firebase_player_daily_incremental {
             -- select date(current_date())
             when date(current_date()) <= '2023-05-03' -- Last Full Update
             then '2022-06-01'
-            else date_add(current_date(), interval -9 DAY)
+            else date_add(current_date(), interval -15 DAY)
             end
 
          and date(
@@ -99,7 +99,7 @@ view: firebase_player_daily_incremental {
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
     increment_key: "rdg_date"
-    increment_offset: 5
+    increment_offset: 7
 
   }
   #

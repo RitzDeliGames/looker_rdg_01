@@ -112,6 +112,7 @@ view: singular_creative_summary {
 
         select
             a.rdg_date
+            , a.rdg_date as singular_install_date
             , a.asset_name
             , a.country_field
             , a.platform
@@ -151,6 +152,7 @@ view: singular_creative_summary {
       ----------------------------------------------------------------------
 
       select * from join_metadata_by_creative_id
+
 
 
       ;;
@@ -215,6 +217,7 @@ view: singular_creative_summary {
   dimension: full_ad_name {type:string}
   dimension: simple_ad_name {type:string}
   dimension: full_name_with_id {type:string}
+  dimension: singular_install_date {type: date}
 
 ####################################################################
 ## Campaign Name Clean

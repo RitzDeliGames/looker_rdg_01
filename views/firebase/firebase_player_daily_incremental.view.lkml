@@ -4,7 +4,7 @@ view: firebase_player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update '2023-05-01'
+      -- last update '2023-05-03'
 
 
       -- create or replace table `tal_scratch.firebase_player_daily_incremental` as
@@ -99,7 +99,7 @@ view: firebase_player_daily_incremental {
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
     increment_key: "rdg_date"
-    increment_offset: 7
+    increment_offset: 5
 
   }
   #

@@ -22,14 +22,14 @@ view: singular_creative_summary {
             , country_field
             , platform
             , adn_campaign_id
+            , adn_creative_id
+            , data_connector_source_name
+            , source
+            , os
+            , adn_campaign_name as campaign_name
+            , creative_type
 
             -- summarized fields
-            , max(adn_creative_id) as adn_creative_id
-            , max(data_connector_source_name) as data_connector_source_name
-            , max(source) as source
-            , max(os) as os
-            , max(adn_campaign_name) as campaign_name
-            , max(creative_type) as creative_type
             , sum(ifnull(adn_cost, 0)) as singular_total_cost
             , sum(ifnull(adn_impressions, 0)) as singular_total_impressions
             , sum(ifnull(adn_clicks, 0)) as singular_total_clicks
@@ -39,7 +39,7 @@ view: singular_creative_summary {
         where
           adn_cost is not null
         group by
-          1,2,3,4,5
+          1,2,3,4,5,6,7,8,9,10,11
       )
 
       ----------------------------------------------------------------------
@@ -181,10 +181,6 @@ view: singular_creative_summary {
 
       select * from join_metadata_by_creative_id
 
-
-
-
-
       ;;
     ## the hardcoded meta data table is scheduled for 1AM UTC
     ## So this will run at 2AM UTC
@@ -197,11 +193,17 @@ view: singular_creative_summary {
 ## Primary Key
 ####################################################################
 
-            # timestamp(date) as rdg_date
-            # , asset_name
-            # , country_field
-            # , platform
-            # , adn_campaign_id
+  # timestamp(date) as rdg_date
+  # , asset_name
+  # , country_field
+  # , platform
+  # , adn_campaign_id
+  # , adn_creative_id
+  # , data_connector_source_name
+  # , source
+  # , os
+  # , adn_campaign_name as campaign_name
+  # , creative_type
 
   dimension: primary_key {
     type: string
@@ -211,6 +213,12 @@ view: singular_creative_summary {
     || '_' || ${TABLE}.country_field
     || '_' || ${TABLE}.platform
     || '_' || ${TABLE}.adn_campaign_id
+    || '_' || ${TABLE}.adn_creative_id
+    || '_' || ${TABLE}.data_connector_source_name
+    || '_' || ${TABLE}.source
+    || '_' || ${TABLE}.os
+    || '_' || ${TABLE}.campaign_name
+    || '_' || ${TABLE}.creative_type
     ;;
     primary_key: yes
     hidden: yes

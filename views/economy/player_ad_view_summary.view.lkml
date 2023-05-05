@@ -22,25 +22,42 @@ view: player_ad_view_summary {
 
       iron_source_facebook_data as (
 
+        -- select
+        --   timestamp(date(a.event_timestamp)) as rdg_date
+        --   , c.country
+        --   , sum(1) as count_rows
+        --   , sum(a.revenue) as sum_revenue
+        --   , safe_divide(sum(a.revenue), sum(1)) as estimated_ad_view_dollars_per_view
+
+        -- from
+        --   eraser-blast.ironsource.ironsource_daily_impressions_export a
+        --   left join eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_summary b
+        --     on a.user_id = b.firebase_advertising_id
+        --   left join eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new c
+        --     on b.firebase_user_id = c.user_id
+
+        -- where
+        --   timestamp(date(a.event_timestamp)) >= '2023-02-23'
+        --   and ad_network = 'facebook'
+        -- group by
+        --   1,2
+
         select
           timestamp(date(a.event_timestamp)) as rdg_date
-          , c.country
+          , country
           , sum(1) as count_rows
           , sum(a.revenue) as sum_revenue
           , safe_divide(sum(a.revenue), sum(1)) as estimated_ad_view_dollars_per_view
 
         from
           eraser-blast.ironsource.ironsource_daily_impressions_export a
-          left join eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_summary b
-            on a.user_id = b.firebase_advertising_id
-          left join eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new c
-            on b.firebase_user_id = c.user_id
 
         where
           timestamp(date(a.event_timestamp)) >= '2023-02-23'
           and ad_network = 'facebook'
         group by
           1,2
+
 
       )
 
@@ -112,6 +129,11 @@ view: player_ad_view_summary {
 
       from
         ad_view_incremental_table
+
+
+
+
+
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -3 hour)) ;;

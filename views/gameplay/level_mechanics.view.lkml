@@ -8,7 +8,7 @@ view: level_mechanics {
       sql:
 
       -- ccb_aggregate_update_tag
-      -- last manual update: '2023-04-19' (2)
+      -- last manual update: '2023-05-09'
 
       select * from tal_scratch.level_mechanics_from_chum_mastersheet_hardcoded
 

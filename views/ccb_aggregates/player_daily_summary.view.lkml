@@ -854,6 +854,58 @@ dimension: primary_key {
     sql: ${TABLE}.day_number ;;
   }
 
+## system_info
+  dimension: hardware {
+    group_label: "System Info"
+    type: string
+  }
+  dimension: processor_type {
+    group_label: "System Info"
+    type: string
+  }
+  dimension: graphics_device_name {
+    group_label: "System Info"
+    type: string
+  }
+  dimension: device_model {
+    group_label: "System Info"
+    type: string
+  }
+  dimension: system_memory_size {
+    group_label: "System Info"
+    type: number
+  }
+  dimension: graphics_memory_size {
+    group_label: "System Info"
+    type: number
+  }
+  dimension: screen_width {
+    group_label: "System Info"
+    type: number
+  }
+  dimension: screen_height {
+    group_label: "System Info"
+    type: number
+  }
+  dimension: screen_dimensions {
+    group_label: "System Info"
+    type: string
+    sql:
+      safe_cast(${TABLE}.screen_width as string)
+      || ' x '
+      || safe_cast(${TABLE}.screen_height as string) ;;
+  }
+
+  dimension: aspect_ratio_9 {
+    group_label: "System Info"
+    type: string
+    sql:
+      cast( round(9 * safe_divide( ${TABLE}.screen_height , ${TABLE}.screen_width ),0) as string )
+      || ':9'
+    ;;
+
+  }
+
 ################################################################
 ## Unique Player Counts
 ################################################################

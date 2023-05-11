@@ -694,6 +694,16 @@ view: player_weekly_summary {
   dimension: weeks_since_last_played {type:number}
   dimension: weeks_since_created_week {type:number}
   dimension: week_number {type:number}
+  dimension: new_returning_winback {
+    type: string
+    sql:
+      case
+        when weeks_since_last_played is null then 'New'
+        when weeks_since_last_played <= 1 then 'Returning'
+        else 'Winback'
+        end
+    ;;
+  }
 
 ################################################################
 ## Unique Player Counts

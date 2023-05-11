@@ -726,6 +726,10 @@ dimension: primary_key {
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      ,"$.popUpManager_20230502"
+      ,"$.fueSkip_20230425"
+      ,"$.autoRestore_20230502"
+      ,"$.playNext_20230503"
       ,"$.dynamicDropBiasv2_20230423"
       ,"$.puzzleEventv2_20230421"
       ,"$.bigBombs_20230410"

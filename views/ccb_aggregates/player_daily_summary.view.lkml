@@ -938,7 +938,7 @@ dimension: primary_key {
   }
   dimension: rdg_id_with_errors_null_reference_exception {
     group_label: "Errors"
-    label: "Reference Exception Rdg ID"
+    label: "Null Reference Exception Rdg ID"
     type: number
     sql: case when ${TABLE}.errors_null_reference_exception > 0 then ${TABLE}.rdg_id else null end ;;
   }

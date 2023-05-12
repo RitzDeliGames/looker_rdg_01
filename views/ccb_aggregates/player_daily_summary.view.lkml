@@ -144,6 +144,10 @@ view: player_daily_summary {
               , max( a.feature_participation_lucky_dice ) as feature_participation_lucky_dice
               , max( a.feature_participation_treasure_trove ) as feature_participation_treasure_trove
 
+              -- errors
+              , max( a.errors_low_memory_warning ) as errors_low_memory_warning
+              , max( a.errors_null_reference_exception ) as errors_null_reference_exception
+
           from
               player_daily_incremental_w_prior_date a
               left join ads_by_date b
@@ -228,6 +232,10 @@ view: player_daily_summary {
               , max( a.feature_participation_flour_frenzy ) as feature_participation_flour_frenzy
               , max( a.feature_participation_lucky_dice ) as feature_participation_lucky_dice
               , max( a.feature_participation_treasure_trove ) as feature_participation_treasure_trove
+
+              -- errors
+              , max( a.errors_low_memory_warning ) as errors_low_memory_warning
+              , max( a.errors_null_reference_exception ) as errors_null_reference_exception
 
           from
               join_on_ads_data a
@@ -378,6 +386,10 @@ view: player_daily_summary {
                       else instr(reverse(ifnull( a.screen_height, b.screen_height )),',',1)-1
                       end )
                   as int64) as screen_height
+
+              -- errors
+              , a.errors_low_memory_warning
+              , a.errors_null_reference_exception
 
           from
               join_on_mtx_data a
@@ -687,6 +699,7 @@ view: player_daily_summary {
 
 
 
+
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -4 hour)) ;;
     publish_as_db_view: yes
@@ -904,6 +917,30 @@ dimension: primary_key {
       || ':9'
     ;;
 
+  }
+
+  ## errors
+  dimension: errors_low_memory_warning {
+    group_label: "Errors"
+    label: "Count Low Memory Warnings"
+    type: number
+  }
+  dimension: errors_null_reference_exception {
+    group_label: "Errors"
+    label: "Count Null Reference Exceptions"
+    type: number
+  }
+  dimension: rdg_id_with_errors_low_memory_warning {
+    group_label: "Errors"
+    label: "Low Memory Warning Rdg ID"
+    type: number
+    sql: case when ${TABLE}.errors_low_memory_warning > 0 then ${TABLE}.rdg_id else null end ;;
+  }
+  dimension: rdg_id_with_errors_null_reference_exception {
+    group_label: "Errors"
+    label: "Reference Exception Rdg ID"
+    type: number
+    sql: case when ${TABLE}.errors_null_reference_exception > 0 then ${TABLE}.rdg_id else null end ;;
   }
 
 ################################################################

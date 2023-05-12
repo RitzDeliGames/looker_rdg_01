@@ -415,6 +415,16 @@ explore: click_sequence {
   #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: "First in Sequence"
   description: "Identifies the common paths players take after triggering an event "
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${click_sequence.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+
   join: next_in_sequence {
     from: click_sequencing
     type: left_outer

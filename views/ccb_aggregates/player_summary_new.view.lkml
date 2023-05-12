@@ -8,8 +8,7 @@ view: player_summary_new {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-05-01'
-
+      -- last update: '2023-05-12'
 
       -- create or replace table `tal_scratch.player_summary_new` AS
 
@@ -202,7 +201,6 @@ view: player_summary_new {
             , max( case when day_number <= 14 then version else null end ) as version_d14
             , max( case when day_number <= 30 then version else null end ) as version_d30
             , max( case when day_number <= 60 then version else null end ) as version_d60
-            , max( case when day_number <= 90 then version else null end ) as version_d90
             , max( version ) as version_current
 
            -- mtx dollars
@@ -212,7 +210,6 @@ view: player_summary_new {
            , max( case when day_number <= 14 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d14
            , max( case when day_number <= 30 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d30
            , max( case when day_number <= 60 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d60
-           , max( case when day_number <= 90 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d90
            , max( cumulative_mtx_purchase_dollars ) as cumulative_mtx_purchase_dollars_current
            , max(mtx_ltv_from_data) as mtx_ltv_from_data
 
@@ -223,7 +220,6 @@ view: player_summary_new {
            , max( case when day_number <= 14 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d14
            , max( case when day_number <= 30 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d30
            , max( case when day_number <= 60 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d60
-           , max( case when day_number <= 90 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d90
            , max( cumulative_ad_view_dollars ) as cumulative_ad_view_dollars_current
 
            -- cumulative ad views
@@ -233,7 +229,6 @@ view: player_summary_new {
            , max( case when day_number <= 14 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d14
            , max( case when day_number <= 30 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d30
            , max( case when day_number <= 60 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d60
-           , max( case when day_number <= 90 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d90
            , max(cumulative_ad_views) as cumulative_ad_views_current
 
            -- combined dollars
@@ -243,7 +238,6 @@ view: player_summary_new {
            , max( case when day_number <= 14 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d14
            , max( case when day_number <= 30 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d30
            , max( case when day_number <= 60 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d60
-           , max( case when day_number <= 90 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d90
            , max( cumulative_combined_dollars ) as cumulative_combined_dollars_current
 
            -- highest last level serial
@@ -253,16 +247,18 @@ view: player_summary_new {
            , max( case when day_number <= 14 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d14
            , max( case when day_number <= 30 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d30
            , max( case when day_number <= 60 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d60
-           , max( case when day_number <= 90 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d90
            , max( highest_last_level_serial ) as highest_last_level_serial_current
 
           -- retention
           , max( case when day_number = 2 then 1 else 0 end ) as retention_d2
+          , max( case when day_number = 3 then 1 else 0 end ) as retention_d3
+          , max( case when day_number = 4 then 1 else 0 end ) as retention_d4
+          , max( case when day_number = 5 then 1 else 0 end ) as retention_d5
+          , max( case when day_number = 6 then 1 else 0 end ) as retention_d6
           , max( case when day_number = 7 then 1 else 0 end ) as retention_d7
           , max( case when day_number = 14 then 1 else 0 end ) as retention_d14
           , max( case when day_number = 30 then 1 else 0 end ) as retention_d30
           , max( case when day_number = 60 then 1 else 0 end ) as retention_d60
-          , max( case when day_number = 90 then 1 else 0 end ) as retention_d90
 
           -- cumulative star spend
           , max( case when day_number <= 1 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d1
@@ -271,7 +267,6 @@ view: player_summary_new {
           , max( case when day_number <= 14 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d14
           , max( case when day_number <= 30 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d30
           , max( case when day_number <= 60 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d60
-          , max( case when day_number <= 90 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d90
           , max( cumulative_star_spend ) as cumulative_star_spend_current
 
           -- system_info
@@ -439,6 +434,9 @@ view: player_summary_new {
         add_on_mtx_percentile_and_singular_data a
         left join supported_devices_table b
           on a.device_model = b.device_model
+
+
+
 
 
 
@@ -1141,7 +1139,102 @@ measure: revenue_per_install_d7 {
     )
     ;;
     value_format_name: percent_1
+  }
 
+  measure: average_retention_d3 {
+    group_label: "Average Retention"
+    label: "D3"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 3
+          then ${TABLE}.retention_d3
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 3
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+  }
+
+  measure: average_retention_d4 {
+    group_label: "Average Retention"
+    label: "D4"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          then ${TABLE}.retention_d4
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+  }
+
+  measure: average_retention_d5 {
+    group_label: "Average Retention"
+    label: "D5"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 5
+          then ${TABLE}.retention_d5
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 5
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+  }
+
+  measure: average_retention_d6 {
+    group_label: "Average Retention"
+    label: "D6"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 6
+          then ${TABLE}.retention_d6
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 6
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
   }
 
   measure: average_retention_d7 {
@@ -1317,9 +1410,64 @@ measure: count_distinct_players {
           end )
     ;;
     value_format_name: decimal_0
-
   }
 
+  measure: available_player_count_d3 {
+    group_label: "Average Retention"
+    label: "Retention Denominator D3"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 3
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+  measure: available_player_count_d4 {
+    group_label: "Average Retention"
+    label: "Retention Denominator D4"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+  measure: available_player_count_d5 {
+    group_label: "Average Retention"
+    label: "Retention Denominator D5"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 5
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+  measure: available_player_count_d6 {
+    group_label: "Average Retention"
+    label: "Retention Denominator D6"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 6
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
   measure: available_player_count_d7 {
     group_label: "Average Retention"
     label: "Retention Denominator D7"
@@ -1594,7 +1742,66 @@ measure: count_distinct_players {
           end )
     ;;
     value_format_name: decimal_0
+  }
 
+  measure: numerator_retention_d3 {
+    group_label: "Average Retention"
+    label: "Retention Numerator D3"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 3
+          then ${TABLE}.retention_d3
+          else 0
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: numerator_retention_d4 {
+    group_label: "Average Retention"
+    label: "Retention Numerator D4"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          then ${TABLE}.retention_d4
+          else 0
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: numerator_retention_d5 {
+    group_label: "Average Retention"
+    label: "Retention Numerator D5"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 5
+          then ${TABLE}.retention_d5
+          else 0
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: numerator_retention_d6 {
+    group_label: "Average Retention"
+    label: "Retention Numerator D6"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 6
+          then ${TABLE}.retention_d6
+          else 0
+          end )
+    ;;
+    value_format_name: decimal_0
   }
 
   measure: numerator_retention_d7 {

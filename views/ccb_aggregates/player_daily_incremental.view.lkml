@@ -6,7 +6,7 @@ view: player_daily_incremental {
       -- ccb_aggregate_update_tag
       -- update '2023-04-10'
 
-      --create or replace table tal_scratch.player_daily_incremental as
+      -- create or replace table tal_scratch.player_daily_incremental as
 
       WITH
 
@@ -63,7 +63,7 @@ view: player_daily_incremental {
           DATE(timestamp) >=
             CASE
               -- SELECT DATE(CURRENT_DATE())
-              WHEN DATE(CURRENT_DATE()) <= '2023-04-10' -- Last Full Update
+              WHEN DATE(CURRENT_DATE()) <= '2023-05-12' -- Last Full Update
               THEN '2022-06-01'
               ELSE DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
               END
@@ -556,6 +556,25 @@ view: player_daily_incremental {
               else 0
               end as int64) as feature_participation_treasure_trove
 
+        -------------------------------------------------
+        -- Errors
+        -------------------------------------------------
+
+          , cast(case
+              when
+                event_name = 'errors'
+                and safe_cast(json_extract(extra_json,'$.logs') as string) like '%low memory warning%'
+              then 1
+              else 0
+              end as int64) as errors_low_memory_warning
+
+          , cast(case
+              when
+                event_name = 'errors'
+                and safe_cast(json_extract(extra_json,'$.logs') as string) like '%NullReferenceException%'
+              then 1
+              else 0
+              end as int64) as errors_null_reference_exception
 
         FROM
             base_data
@@ -630,6 +649,10 @@ view: player_daily_incremental {
         , max( feature_participation_flour_frenzy ) as feature_participation_flour_frenzy
         , max( feature_participation_lucky_dice ) as feature_participation_lucky_dice
         , max( feature_participation_treasure_trove ) as feature_participation_treasure_trove
+
+        -- errors
+        , sum(errors_low_memory_warning) as errors_low_memory_warning
+        , sum(errors_null_reference_exception) as errors_null_reference_exception
 
       from
         pre_aggregate_calculations_from_base_data

@@ -1,7 +1,8 @@
 view: click_stream {
   derived_table: {
     sql:
-      /*
+
+    /*
       select
         rdg_id
         ,country
@@ -23,12 +24,16 @@ view: click_stream {
             over (partition by rdg_id order by timestamp desc) greater_level_completed
       from `eraser-blast.game_data.events`
       where event_name = 'ButtonClicked'
-        and date(timestamp) between '2022-06-01' and current_date()
+        and DATE(timestamp) >= DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
+        AND DATE(timestamp) <= DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
         and user_type = 'external'
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
       group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
-      */
+    /*
+
+
+      /*
 
       -- New SQL For Puzzles Only
       -- 2023-03-28
@@ -341,7 +346,39 @@ view: click_stream {
       order by
         timestamp
 
+    */
 
+  ---------------------------------------------------------------------------------
+  -- FUE Events
+  ---------------------------------------------------------------------------------
+
+  select
+        rdg_id
+        ,country
+        ,install_version
+        ,version
+        ,timestamp
+        ,event_name
+        ,engagement_ticks
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric) currency_02_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
+        ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric) currency_05_balance
+        ,cast(last_level_serial as int64) last_level_serial
+        ,json_extract_scalar(extra_json,"$.current_FueStep") button_tag
+        ,experiments
+        ,extra_json
+        ,last_level_id
+        ,lag(timestamp)
+            over (partition by rdg_id order by timestamp desc) greater_level_completed
+      from `eraser-blast.game_data.events`
+      where event_name = 'FUE'
+        and DATE(timestamp) >= DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
+        AND DATE(timestamp) <= DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
+        and user_type = 'external'
+        and country != 'ZZ'
+        and coalesce(install_version,'null') <> '-1'
+      group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
 
 
       ;;

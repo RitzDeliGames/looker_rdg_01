@@ -714,6 +714,7 @@ view: player_weekly_summary {
     group_label: "Unique Player Counts"
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
+    drill_fields: [display_name,cumulative_combined_dollars,rdg_id,install_version,created_week_week]
   }
   measure: count_distinct_new_player_rdg_id {
     group_label: "Unique Player Counts"

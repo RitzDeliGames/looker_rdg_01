@@ -667,7 +667,7 @@ view: player_weekly_summary {
   dimension: churn_rdg_id {type:string}
   dimension: cumulative_mtx_purchase_dollars {type:number}
   dimension: cumulative_ad_view_dollars {type:number}
-  dimension: cumulative_combined_dollars {type:number}
+  dimension: cumulative_combined_dollars {value_format:"$#.00" type:number}
   dimension: lifetime_mtx_spend_indicator {type:number}
   dimension: lifetime_mtx_spender_rdg_id {type:string}
   dimension: cumulative_ad_views {type:number}

@@ -1104,4 +1104,35 @@ view: player_weekly_summary {
     sql: ${TABLE}.time_played_minutes ;;
   }
 
+  measure: highest_last_level_serial_10 {
+    group_label: "Highest Last Level Serial"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.highest_last_level_serial ;;
+  }
+  measure: highest_last_level_serial_25 {
+    group_label: "Highest Last Level Serial"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.highest_last_level_serial ;;
+  }
+  measure: highest_last_level_serial_50 {
+    group_label: "Highest Last Level Serial"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.highest_last_level_serial ;;
+  }
+  measure: highest_last_level_serial_75 {
+    group_label: "Highest Last Level Serial"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.highest_last_level_serial ;;
+  }
+  measure: highest_last_level_serial_95 {
+    group_label: "Highest Last Level Serial"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.highest_last_level_serial ;;
+  }
+
 }

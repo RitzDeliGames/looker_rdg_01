@@ -8,7 +8,7 @@ view: player_weekly_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-20'
+      -- last update: '2023-05-15'
 
       -- create or replace table tal_scratch.player_weekly_summary as
 
@@ -384,6 +384,14 @@ view: player_weekly_summary {
             rows between unbounded preceding and unbounded following
             ) cumulative_star_spend
 
+          -- feature participation
+          , feature_participation_daily_reward
+          , feature_participation_pizza_time
+          , feature_participation_flour_frenzy
+          , feature_participation_lucky_dice
+          , feature_participation_treasure_trove
+
+
         from
           `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
 
@@ -490,6 +498,14 @@ view: player_weekly_summary {
           , max(a.cumulative_gems_spend) as cumulative_gems_spend
           , max(a.cumulative_coins_spend) as cumulative_coins_spend
           , max(a.cumulative_star_spend) as cumulative_star_spend
+
+          -- feature participation
+          , max( a.feature_participation_daily_reward ) as feature_participation_daily_reward
+          , max( a.feature_participation_pizza_time ) as feature_participation_pizza_time
+          , max( a.feature_participation_flour_frenzy ) as feature_participation_flour_frenzy
+          , max( a.feature_participation_lucky_dice ) as feature_participation_lucky_dice
+          , max( a.feature_participation_treasure_trove ) as feature_participation_treasure_trove
+
         from
           my_pre_aggregate_calculations a
         group by
@@ -967,6 +983,94 @@ view: player_weekly_summary {
     sql: ${TABLE}.combined_dollars ;;
   }
 
+  measure: percent_players_engaged_with_treasure_trove {
+    group_label: "Daily Feature Participation"
+    label: "Treasure Trove"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_treasure_trove > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
 
+  measure: percent_players_engaged_with_lucky_dice {
+    group_label: "Daily Feature Participation"
+    label: "Lucky Dice"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_lucky_dice > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_engaged_with_flour_frenzy {
+    group_label: "Daily Feature Participation"
+    label: "Flour Frenzy"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_flour_frenzy > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_engaged_with_pizza_time {
+    group_label: "Daily Feature Participation"
+    label: "Pizza Time"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_pizza_time > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_engaged_with_daily_reward {
+    group_label: "Daily Feature Participation"
+    label: "Daily Reward"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_daily_reward > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
 
 }

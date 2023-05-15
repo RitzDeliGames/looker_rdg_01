@@ -1073,4 +1073,35 @@ view: player_weekly_summary {
     value_format_name: percent_0
   }
 
+  measure: time_played_minutes_10 {
+    group_label: "Time Played Minutes"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.time_played_minutes ;;
+  }
+  measure: time_played_minutes_25 {
+    group_label: "Time Played Minutes"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.time_played_minutes ;;
+  }
+  measure: time_played_minutes_50 {
+    group_label: "Time Played Minutes"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.time_played_minutes ;;
+  }
+  measure: time_played_minutes_75 {
+    group_label: "Time Played Minutes"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.time_played_minutes ;;
+  }
+  measure: time_played_minutes_95 {
+    group_label: "Time Played Minutes"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.time_played_minutes ;;
+  }
+
 }

@@ -759,7 +759,7 @@ constant: campaign_name_clean_update {
     ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_LATAM/ES_N/A'
     and date(${TABLE}.singular_install_date) between '2023-04-11' and '2023-04-13'
     then 'AAA - LATAM/ES - 15 Min - 20230413'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_US_N/A' then 'AAA - USA - Purchase'
+  when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_US_N/A' then 'AAA - USA - Purchase - 20230131'
   when ${TABLE}.campaign_name = 'Android_AAA_Purchase_US_20230515' then 'AAA - USA - Purchase - 20230515'
   when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_US_N/A' then 'AAA - USA - 15 Min - 20230308'
   when ${TABLE}.campaign_name = 'Android_AAA_15_Minutes_US_20230427' then 'AAA - USA - 15 Min - 20230427'

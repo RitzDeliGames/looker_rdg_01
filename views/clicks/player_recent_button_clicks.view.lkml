@@ -136,14 +136,14 @@ view: player_recent_button_clicks {
 ####################################################################
 
   dimension_group: rdg_date {
-    label: "Install Date Group"
+    label: "Date"
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.rdg_date ;;
   }
 
   dimension_group: timestamp_utc {
-    label: "Campaign Start Date Group"
+    label: "Button Click Time"
     type: time
     timeframes: [time, date, week, month, year]
     sql: ${TABLE}.timestamp_utc ;;
@@ -162,13 +162,44 @@ view: player_recent_button_clicks {
   dimension: last_level_serial {type: number}
   dimension: count_button_clicks {type: number}
 
+####################################################################
+## Parameters
+####################################################################
 
   parameter: selected_button_click {
     type: string
     suggest_dimension: button_tag
   }
 
+####################################################################
+## Measures
+####################################################################
+
+  measure: count_distinct_users {
+    label: "Count Distinct Users"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      count(distinct ${TABLE}.rdg_id)
+
+  ;;
+  }
+
+  measure: count_distinct_users_to_click {
+    label: "Count Distinct Users to Click"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      count( distinct
+        case when ${TABLE}.button_tag = % parameter selected_button_click %
+        then ${TABLE}.rdg_id
+        else null end )
+
+  ;;
+  }
+
  measure: percent_of_users_to_click {
+  label: "Percent of Users to Click"
   type: number
   value_format_name: percent_1
   sql:

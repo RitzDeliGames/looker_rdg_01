@@ -191,7 +191,7 @@ view: player_recent_button_clicks {
     value_format_name: decimal_0
     sql:
       count( distinct
-        case when ${TABLE}.button_tag = % parameter selected_button_click %
+        case when ${TABLE}.button_tag = '% parameter selected_button_click %'
         then ${TABLE}.rdg_id
         else null end )
 
@@ -205,7 +205,7 @@ view: player_recent_button_clicks {
   sql:
     safe_divide(
       count( distinct
-        case when ${TABLE}.button_tag = % parameter selected_button_click %
+        case when ${TABLE}.button_tag = '% parameter selected_button_click %'
         then ${TABLE}.rdg_id
         else null end )
       ,

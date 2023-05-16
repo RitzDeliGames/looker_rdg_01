@@ -1646,6 +1646,25 @@ measure: count_distinct_players {
     value_format_name: percent_0
   }
 
+  measure: engagement_milestone_360_minutes {
+    label: "360+ Min"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 360
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
 ################################################################
 ## Engagement Milestones Numerator
 ################################################################
@@ -1718,6 +1737,21 @@ measure: count_distinct_players {
       count( distinct
         case
           when ${TABLE}.cumulative_time_played_minutes >= 120
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: numerator_engagement_milestone_360_minutes {
+    label: "360+ Min Numerator"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 360
           then ${TABLE}.rdg_id
           else null
           end )

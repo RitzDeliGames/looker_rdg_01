@@ -99,6 +99,13 @@ dimension: singular_install_date {type: date}
     sql: ${TABLE}.singular_install_date ;;
   }
 
+  dimension_group: campaign_start_date {
+    label: "Campaign Start Date Group"
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.campaign_start_date ;;
+  }
+
 ####################################################################
 ## Other Dimensions
 ####################################################################

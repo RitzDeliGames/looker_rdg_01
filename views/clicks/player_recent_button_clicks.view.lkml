@@ -153,7 +153,7 @@ view: player_recent_button_clicks {
 ## Other Dimensions
 ####################################################################
 
-  dimension: rgd_id {type: string}
+  dimension: rdg_id {type: string}
   dimension: button_tag {type: string}
 
   dimension: version {type: number}
@@ -178,7 +178,7 @@ view: player_recent_button_clicks {
         then ${TABLE}.rdg_id
         else null end )
       ,
-      count(distinct rdg_id)
+      count(distinct ${TABLE}.rdg_id)
       )
   ;;
   }

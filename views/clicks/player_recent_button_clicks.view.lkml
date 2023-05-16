@@ -153,11 +153,34 @@ view: player_recent_button_clicks {
 ## Other Dimensions
 ####################################################################
 
+  dimension: rgd_id {type: string}
+  dimension: button_tag {type: string}
+
   dimension: version {type: number}
   dimension: session_id {type: string}
   dimension: win_streak {type: number}
   dimension: last_level_serial {type: number}
   dimension: count_button_clicks {type: number}
 
+
+  parameter: selected_button_click {
+    type: string
+    suggest_dimension: button_tag
+  }
+
+ measure: percent_of_users_to_click {
+  type: number
+  value_format_name: percent_1
+  sql:
+    safe_divide(
+      count( distinct
+        case when ${TABLE}.button_tag = % parameter selected_button_click %
+        then ${TABLE}.rdg_id
+        else null end )
+      ,
+      count(distinct rdg_id)
+      )
+  ;;
+  }
 
 }

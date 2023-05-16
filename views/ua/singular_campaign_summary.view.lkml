@@ -4,7 +4,7 @@ view: singular_campaign_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-04-28'
+      -- update '2023-05-16'
 
       -- create or replace table tal_scratch.singular_campaign_summary as
 
@@ -58,8 +58,10 @@ view: singular_campaign_summary {
       -----------------------------------------------------------------------
       select
         *
+        , min( singular_install_date ) over ( partition by singular_campaign_id ) as campaign_start_date
       from
         singular_campaign_summary
+
 
 
 

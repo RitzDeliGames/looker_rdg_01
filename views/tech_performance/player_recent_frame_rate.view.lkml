@@ -312,7 +312,7 @@ view: player_recent_frame_rate {
   }
 
   measure: percent_of_events_with_frames_below_22 {
-    label: "Count Distinct Users"
+    label: "Percent Frames Below 22"
     type: number
     value_format_name: percent_1
     sql:
@@ -326,7 +326,7 @@ view: player_recent_frame_rate {
       );;
   }
   measure: percent_of_events_with_frames_between_23_and_40 {
-    label: "Count Distinct Users"
+    label: "Percent Frames Between 23 and 40"
     type: number
     value_format_name: percent_1
     sql:
@@ -340,7 +340,7 @@ view: player_recent_frame_rate {
       );;
   }
   measure: percent_of_events_with_frames_above_40 {
-    label: "Count Distinct Users"
+    label: "Percent Frames Above 40"
     type: number
     value_format_name: percent_1
     sql:

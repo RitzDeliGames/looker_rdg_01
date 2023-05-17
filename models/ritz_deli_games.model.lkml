@@ -871,7 +871,7 @@ explore: player_weekly_summary {
 }
 
 explore: player_recent_frame_rate {
-  label: "Player Recent Button Clicks"
+  label: "Player Recent Frame Rate"
 
   join: player_summary_new {
     view_label: "Player Summary"

@@ -691,6 +691,6 @@ view: player_hourly {
     ;;
   }
 
-
+  dimension: ending_coins_balance {type: number}
 
 }

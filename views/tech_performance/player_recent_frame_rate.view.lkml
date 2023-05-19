@@ -4,7 +4,7 @@ view: player_recent_frame_rate {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-05-17'
+      -- update '2023-05-19'
 
       -- create or replace table tal_scratch.player_recent_frame_rate as
 
@@ -78,7 +78,7 @@ view: player_recent_frame_rate {
               , a.currencies
               , a.last_level_serial
               , offset as ms_per_frame
-              , sum(cast(frame_time_histogram as int64)) as frame_count
+              , sum(safe_cast(frame_time_histogram as int64)) as frame_count
           from
               base_data a
               cross join unnest(split(json_extract_scalar(extra_json,'$.frame_time_histogram_values'))) as frame_time_histogram with offset
@@ -155,12 +155,12 @@ view: player_recent_frame_rate {
               , percent_frames_above_40
 
               -- config timestamp
-              , cast(json_extract_scalar( extra_json , "$.config_timestamp") as numeric) as config_timestamp
+              , safe_cast(json_extract_scalar( extra_json , "$.config_timestamp") as numeric) as config_timestamp
 
               -- currency balances
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
 
               -- transition event information
               , safe_cast(json_extract_scalar( extra_json , "$.transition_from") as string) as scene_transition_from

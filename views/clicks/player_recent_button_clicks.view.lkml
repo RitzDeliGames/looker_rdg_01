@@ -4,7 +4,7 @@ view: player_recent_button_clicks {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-05-16'
+      -- update '2023-05-19'
 
       -- create or replace table tal_scratch.player_recent_button_clicks as
 
@@ -73,11 +73,11 @@ view: player_recent_button_clicks {
               , currencies
               , last_level_serial
               , 1 as count_button_clicks
-              , cast(json_extract_scalar( extra_json , "$.button_tag") as string) as button_tag
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
-              , cast(json_extract_scalar( extra_json , "$.config_timestamp") as numeric) as config_timestamp
+              , safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) as button_tag
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
+              , safe_cast(json_extract_scalar( extra_json , "$.config_timestamp") as numeric) as config_timestamp
 
           from
               base_data
@@ -107,6 +107,8 @@ view: player_recent_button_clicks {
 
       group by
           1,2,3,4
+
+
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

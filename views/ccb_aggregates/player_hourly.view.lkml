@@ -4,415 +4,412 @@ view: player_hourly {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-04-06'
+      -- update '2023-05-19'
 
-      -- create or replace table tal_scratch.player_hourly_base_data as
+-- create or replace table tal_scratch.player_hourly_base_data as
 
-            WITH
+      WITH
 
-            ------------------------------------------------------------------------
-            -- player_daily_incremental
-            ------------------------------------------------------------------------
-            ------------------------------------------------------------------------
-            -- Select all columns w/ the current date range
-            ------------------------------------------------------------------------
+      ------------------------------------------------------------------------
+      -- Select all columns w/ the current date range
+      ------------------------------------------------------------------------
 
-            base_data AS (
+      base_data AS (
 
-              SELECT
-                timestamp as timestamp_utc
-                , created_at
-                , platform
-                , country
-                , version
-                , user_type
-                , session_id
-                , event_name
-                , extra_json
-                , ltv
-                , currencies
-                , experiments
-                , rdg_id
-                , device_id
-                , social_id
-                , `language` as language_json
-                , install_version
-                , engagement_ticks
-                , quests_completed
-                , session_count
-                , advertising_id
-                , display_name
-                , last_level_id
-                , last_level_serial
-                , win_streak
-                , user_id
-                , hardware
-                , devices
-              FROM
-                `eraser-blast.game_data.events` a
-              WHERE
-                ------------------------------------------------------------------------
-                -- Date selection
-                -- last 9 full days
-                -- up to 1 hour ago
-                ------------------------------------------------------------------------
+        SELECT
+          timestamp as timestamp_utc
+          , created_at
+          , platform
+          , country
+          , version
+          , user_type
+          , session_id
+          , event_name
+          , extra_json
+          , ltv
+          , currencies
+          , experiments
+          , rdg_id
+          , device_id
+          , social_id
+          , `language` as language_json
+          , install_version
+          , engagement_ticks
+          , quests_completed
+          , session_count
+          , advertising_id
+          , display_name
+          , last_level_id
+          , last_level_serial
+          , win_streak
+          , user_id
+          , hardware
+          , devices
+        FROM
+          `eraser-blast.game_data.events` a
+        WHERE
+          ------------------------------------------------------------------------
+          -- Date selection
+          -- last 9 full days
+          -- up to 1 hour ago
+          ------------------------------------------------------------------------
 
-                -- select DATE_ADD(timestamp_trunc(current_timestamp, hour), INTERVAL 0 hour)
-                DATE(timestamp) >= DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
-                AND timestamp < DATE_ADD(timestamp_trunc(current_timestamp, hour), INTERVAL 0 hour)
+          -- select DATE_ADD(timestamp_trunc(current_timestamp, hour), INTERVAL 0 hour)
+          DATE(timestamp) >= DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
+          AND timestamp < DATE_ADD(timestamp_trunc(current_timestamp, hour), INTERVAL 0 hour)
 
-                ------------------------------------------------------------------------
-                -- user type selection
-                -- We only want users that are marked as "external"
-                -- This removes any bots or internal QA accounts
-                ------------------------------------------------------------------------
-                AND user_type = 'external'
-            )
+          ------------------------------------------------------------------------
+          -- user type selection
+          -- We only want users that are marked as "external"
+          -- This removes any bots or internal QA accounts
+          ------------------------------------------------------------------------
+          AND user_type = 'external'
+      )
 
-            -- SELECT * FROM base_data
+      -- SELECT * FROM base_data
 
-            ------------------------------------------------------------------------
-            -- pre aggregate calculations from base data
-            ------------------------------------------------------------------------
+      ------------------------------------------------------------------------
+      -- pre aggregate calculations from base data
+      ------------------------------------------------------------------------
 
-            , pre_aggregate_calculations_from_base_data AS (
+      , pre_aggregate_calculations_from_base_data AS (
 
-              SELECT
-                -------------------------------------------------
-                -- Unique Fields
-                -------------------------------------------------
+        SELECT
+          -------------------------------------------------
+          -- Unique Fields
+          -------------------------------------------------
 
-                TIMESTAMP(DATE(timestamp_utc)) AS rdg_date
-                , timestamp_trunc(timestamp_utc, hour) as rdg_date_hour
+          TIMESTAMP(DATE(timestamp_utc)) AS rdg_date
+          , timestamp_trunc(timestamp_utc, hour) as rdg_date_hour
 
-                , rdg_id
+          , rdg_id
 
-                -------------------------------------------------
-                -- General player info
-                -------------------------------------------------
+          -------------------------------------------------
+          -- General player info
+          -------------------------------------------------
 
-                -- device_id
-                , FIRST_VALUE(device_id) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) device_id
+          -- device_id
+          , FIRST_VALUE(device_id) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) device_id
 
-                -- advertising_id
-                , FIRST_VALUE(advertising_id) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) advertising_id
+          -- advertising_id
+          , FIRST_VALUE(advertising_id) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) advertising_id
 
-                -- user_id
-                , FIRST_VALUE(user_id) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) user_id
+          -- user_id
+          , FIRST_VALUE(user_id) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) user_id
 
-                -- platform
-                , FIRST_VALUE(platform) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) platform
+          -- platform
+          , FIRST_VALUE(platform) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) platform
 
-                -- country
-                , FIRST_VALUE(country) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) country
+          -- country
+          , FIRST_VALUE(country) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) country
 
-                -- created_utc
-                , FIRST_VALUE(created_at) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) created_utc
+          -- created_utc
+          , FIRST_VALUE(created_at) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) created_utc
 
-                -- created_date
-                , FIRST_VALUE(DATE(created_at)) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) created_date
+          -- created_date
+          , FIRST_VALUE(DATE(created_at)) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) created_date
 
-              -- created_hour
-              -- timestamp_trunc(current_timestamp, hour)
-                , FIRST_VALUE(timestamp_trunc(created_at, hour)) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) created_hour
+        -- created_hour
+        -- timestamp_trunc(current_timestamp, hour)
+          , FIRST_VALUE(timestamp_trunc(created_at, hour)) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) created_hour
 
-                -- experiements
-                -- uses LAST value rather than first value
-                , LAST_VALUE(experiments) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) experiments
+          -- experiements
+          -- uses LAST value rather than first value
+          , LAST_VALUE(experiments) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) experiments
 
-                -- display_name
-                -- uses LAST value rather than first value
-                , LAST_VALUE(display_name) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) display_name
+          -- display_name
+          -- uses LAST value rather than first value
+          , LAST_VALUE(display_name) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) display_name
 
-                -- version
-                -- uses LAST value rather than first value
-                , LAST_VALUE(version) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) version
+          -- version
+          -- uses LAST value rather than first value
+          , LAST_VALUE(version) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) version
 
-                -- install_version
-                , FIRST_VALUE(install_version) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) install_version
+          -- install_version
+          , FIRST_VALUE(install_version) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) install_version
 
-                -------------------------------------------------
-                -- Dollar Events
-                -------------------------------------------------
+          -------------------------------------------------
+          -- Dollar Events
+          -------------------------------------------------
 
-                -- mtx purchase dollars
-                , CAST(CASE
-                    WHEN event_name = 'transaction'
-                    AND JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_01' -- real dollars
-                    AND (
-                      JSON_EXTRACT_SCALAR(extra_json,"$.rvs_id") LIKE '%GPA%' -- check for valid transactions on Google Play
-                      OR JSON_EXTRACT_SCALAR(extra_json,"$.rvs_id") LIKE '%AppleAppStore%' -- check for valid transactions on Apple
-                      )
-                    THEN IFNULL(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS NUMERIC) * 0.01 * 0.70 ,0) -- purchase amount + app store cut
-                    ELSE 0
-                    END AS NUMERIC) AS mtx_purchase_dollars
+          -- mtx purchase dollars
+          , safe_cast(CASE
+              WHEN event_name = 'transaction'
+              AND JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_01' -- real dollars
+              AND (
+                JSON_EXTRACT_SCALAR(extra_json,"$.rvs_id") LIKE '%GPA%' -- check for valid transactions on Google Play
+                OR JSON_EXTRACT_SCALAR(extra_json,"$.rvs_id") LIKE '%AppleAppStore%' -- check for valid transactions on Apple
+                )
+              THEN IFNULL(safe_cast(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS NUMERIC) * 0.01 * 0.70 ,0) -- purchase amount + app store cut
+              ELSE 0
+              END AS NUMERIC) AS mtx_purchase_dollars
 
-                -- ad view dollars
-                , CAST(CASE
-                    WHEN event_name = 'ad'
-                    THEN
-                      IFNULL(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.publisher_revenue_per_impression") AS NUMERIC),0) -- revenue per impression
-                      + IFNULL(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.revenue") AS NUMERIC),0) -- revenue per impression
-                    ELSE 0
-                    END AS NUMERIC) AS ad_view_dollars
+          -- ad view dollars
+          , safe_cast(CASE
+              WHEN event_name = 'ad'
+              THEN
+                IFNULL(safe_cast(JSON_EXTRACT_SCALAR(extra_json,"$.publisher_revenue_per_impression") AS NUMERIC),0) -- revenue per impression
+                + IFNULL(safe_cast(JSON_EXTRACT_SCALAR(extra_json,"$.revenue") AS NUMERIC),0) -- revenue per impression
+              ELSE 0
+              END AS NUMERIC) AS ad_view_dollars
 
-                -- ltv from data (for checking)
-                , LAST_VALUE(ltv) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) mtx_ltv_from_data_in_cents
+          -- ltv from data (for checking)
+          , LAST_VALUE(ltv) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) mtx_ltv_from_data_in_cents
 
-                -------------------------------------------------
-                -- additional ads information
-                -------------------------------------------------
+          -------------------------------------------------
+          -- additional ads information
+          -------------------------------------------------
 
-                -- ad views
-                , CAST(CASE
-                    WHEN event_name = 'ad'
-                    THEN 1 -- revenue per impression
-                    ELSE 0
-                    END AS INT64) AS ad_view_indicator
+          -- ad views
+          , safe_cast(CASE
+              WHEN event_name = 'ad'
+              THEN 1 -- revenue per impression
+              ELSE 0
+              END AS INT64) AS ad_view_indicator
 
-                -------------------------------------------------
-                -- session/play info
-                -------------------------------------------------
+          -------------------------------------------------
+          -- session/play info
+          -------------------------------------------------
 
-                -- session_id (for count distinct sessions played)
-                , session_id
+          -- session_id (for count distinct sessions played)
+          , session_id
 
-                -- cumulative session count
-                , LAST_VALUE(session_count) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) cumulative_session_count
+          -- cumulative session count
+          , LAST_VALUE(session_count) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) cumulative_session_count
 
-                -- cumulative engagement ticks
-                , LAST_VALUE(engagement_ticks) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) cumulative_engagement_ticks
+          -- cumulative engagement ticks
+          , LAST_VALUE(engagement_ticks) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) cumulative_engagement_ticks
 
-                -- round start events
-                , CAST(CASE
-                    WHEN event_name = 'round_start'
-                    THEN 1 -- count events
-                    ELSE 0
-                    END AS INT64) AS round_start_events
+          -- round start events
+          , safe_cast(CASE
+              WHEN event_name = 'round_start'
+              THEN 1 -- count events
+              ELSE 0
+              END AS INT64) AS round_start_events
 
-                -- round end events
-                , CAST(CASE
-                    WHEN event_name = 'round_end'
-                    THEN 1 -- count events
-                    ELSE 0
-                    END AS INT64) AS round_end_events
+          -- round end events
+          , safe_cast(CASE
+              WHEN event_name = 'round_end'
+              THEN 1 -- count events
+              ELSE 0
+              END AS INT64) AS round_end_events
 
-                -- Lowest Last level serial recorded
-                , MIN(IFNULL(CAST(last_level_serial AS INT64),0)) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    )
-                    AS lowest_last_level_serial
+          -- Lowest Last level serial recorded
+          , MIN(IFNULL(safe_cast(last_level_serial AS INT64),0)) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              )
+              AS lowest_last_level_serial
 
-                -- Highest Last level serial recorded
-                , MAX(IFNULL(CAST(last_level_serial AS INT64),0)) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) AS highest_last_level_serial
+          -- Highest Last level serial recorded
+          , MAX(IFNULL(safe_cast(last_level_serial AS INT64),0)) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) AS highest_last_level_serial
 
-                -- Highest quests completed recorded
-                , MAX(CAST(quests_completed AS INT64)) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) AS highest_quests_completed
+          -- Highest quests completed recorded
+          , MAX(safe_cast(quests_completed AS INT64)) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) AS highest_quests_completed
 
-                -------------------------------------------------
-                -- currency spend info
-                -------------------------------------------------
+          -------------------------------------------------
+          -- currency spend info
+          -------------------------------------------------
 
-                -- gems_spend
-                , CAST(CASE
-                    WHEN event_name = 'transaction'
-                    AND JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_02' -- gems
-                    THEN IFNULL(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS INT64),0) -- purchase amount
-                    ELSE 0
-                    END AS INT64) AS gems_spend
+          -- gems_spend
+          , safe_cast(CASE
+              WHEN event_name = 'transaction'
+              AND JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_02' -- gems
+              THEN IFNULL(safe_cast(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS INT64),0) -- purchase amount
+              ELSE 0
+              END AS INT64) AS gems_spend
 
-                -- coins spend
-                , CAST(CASE
-                    WHEN event_name = 'transaction'
-                    AND JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_03' -- coins currency
-                    THEN IFNULL(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS INT64),0) -- purchase amount
-                    ELSE 0
-                    END AS INT64) AS coins_spend
+          -- coins spend
+          , safe_cast(CASE
+              WHEN event_name = 'transaction'
+              AND JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_03' -- coins currency
+              THEN IFNULL(safe_cast(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS INT64),0) -- purchase amount
+              ELSE 0
+              END AS INT64) AS coins_spend
 
-                -- lives spend
-                -- NOTE: I'm currently just estimating this using a round end at a loss
-                -- This may be incorrect if the round end does not cost a life
-                -- , CAST(CASE
-                --     WHEN event_name = 'round_end'
-                --     AND IFNULL(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.proximity_to_completion") AS NUMERIC),1) < 1 -- Incomplete Round
-                --     THEN 1
-                --     ELSE 0
-                --     END AS INT64) AS lives_spend
+          -- lives spend
+          -- NOTE: I'm currently just estimating this using a round end at a loss
+          -- This may be incorrect if the round end does not cost a life
+          -- , CAST(CASE
+          --     WHEN event_name = 'round_end'
+          --     AND IFNULL(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.proximity_to_completion") AS NUMERIC),1) < 1 -- Incomplete Round
+          --     THEN 1
+          --     ELSE 0
+          --     END AS INT64) AS lives_spend
 
-                -- star spend
-                , CAST(CASE
-                    WHEN event_name = 'transaction'
-                    AND JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_07' -- star currency
-                    THEN IFNULL(CAST(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS INT64),0) -- purchase amount
-                    ELSE 0
-                    END AS INT64) AS stars_spend
+          -- star spend
+          , CAST(CASE
+              WHEN event_name = 'transaction'
+              AND JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_07' -- star currency
+              THEN IFNULL(safe_cast(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS INT64),0) -- purchase amount
+              ELSE 0
+              END AS INT64) AS stars_spend
 
-                -------------------------------------------------
-                -- ending currency balances
-                -------------------------------------------------
+          -------------------------------------------------
+          -- ending currency balances
+          -------------------------------------------------
 
-                -- ending_gems_balance
-                , LAST_VALUE(IFNULL(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_02") AS NUMERIC),0)) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) AS ending_gems_balance
+          -- ending_gems_balance
+          , LAST_VALUE(IFNULL(safe_cast(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_02") AS NUMERIC),0)) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) AS ending_gems_balance
 
-                -- ending_coins_balance
-                , LAST_VALUE(IFNULL(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_03") AS NUMERIC),0)) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) AS ending_coins_balance
+          -- ending_coins_balance
+          , LAST_VALUE(IFNULL(safe_cast(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_03") AS NUMERIC),0)) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) AS ending_coins_balance
 
-                -- ending_lives_balance
-                , LAST_VALUE(IFNULL(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_04") AS NUMERIC),0)) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) AS ending_lives_balance
+          -- ending_lives_balance
+          , LAST_VALUE(IFNULL(safe_cast(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_04") AS NUMERIC),0)) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) AS ending_lives_balance
 
-                -- ending_stars_balance
-                , LAST_VALUE(IFNULL(CAST(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_07") AS NUMERIC),0)) OVER (
-                    PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
-                    ORDER BY timestamp_utc ASC
-                    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-                    ) AS ending_stars_balance
+          -- ending_stars_balance
+          , LAST_VALUE(IFNULL(safe_cast(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_07") AS NUMERIC),0)) OVER (
+              PARTITION BY rdg_id, timestamp_trunc(timestamp_utc, hour)
+              ORDER BY timestamp_utc ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) AS ending_stars_balance
 
-                -------------------------------------------------
-                -- system info
-                -------------------------------------------------
+          -------------------------------------------------
+          -- system info
+          -------------------------------------------------
 
-                , safe_cast(case
-                    when event_name = 'system_info'
-                    then hardware
-                    else null
-                    end as string) as hardware
+          , safe_cast(case
+              when event_name = 'system_info'
+              then hardware
+              else null
+              end as string) as hardware
 
-                , safe_cast(case
-                    when event_name = 'system_info'
-                    then json_extract_scalar(extra_json, "$.processorType")
-                    else null
-                    end as string) as processor_type
+          , safe_cast(case
+              when event_name = 'system_info'
+              then json_extract_scalar(extra_json, "$.processorType")
+              else null
+              end as string) as processor_type
 
-                , safe_cast(case
-                    when event_name = 'system_info'
-                    then json_extract_scalar(extra_json, "$.graphicsDeviceName")
-                    else null
-                    end as string) as graphics_device_name
+          , safe_cast(case
+              when event_name = 'system_info'
+              then json_extract_scalar(extra_json, "$.graphicsDeviceName")
+              else null
+              end as string) as graphics_device_name
 
-                , safe_cast(case
-                    when event_name = 'system_info'
-                    then json_extract_scalar(extra_json, "$.deviceModel")
-                    else null
-                    end as string) as device_model
+          , safe_cast(case
+              when event_name = 'system_info'
+              then json_extract_scalar(extra_json, "$.deviceModel")
+              else null
+              end as string) as device_model
 
-                , safe_cast(case
-                    when event_name = 'system_info'
-                    then json_extract_scalar(extra_json, "$.systemMemorySize")
-                    else null
-                    end as int64) as system_memory_size
+          , safe_cast(case
+              when event_name = 'system_info'
+              then json_extract_scalar(extra_json, "$.systemMemorySize")
+              else null
+              end as int64) as system_memory_size
 
-                , safe_cast(case
-                    when event_name = 'system_info'
-                    then json_extract_scalar(extra_json, "$.graphicsMemorySize")
-                    else null
-                    end as int64) as graphics_memory_size
+          , safe_cast(case
+              when event_name = 'system_info'
+              then json_extract_scalar(extra_json, "$.graphicsMemorySize")
+              else null
+              end as int64) as graphics_memory_size
 
-                , (select
-                      string_agg(
-                          safe_cast(json_extract_scalar(device_array, '$.screenWidth') as string)
-                          , ' ,' )
-                      from
-                          unnest(json_extract_array(devices)) device_array
-                      ) screen_width
+          , (select
+                string_agg(
+                    safe_cast(json_extract_scalar(device_array, '$.screenWidth') as string)
+                    , ' ,' )
+                from
+                    unnest(json_extract_array(devices)) device_array
+                ) screen_width
 
-                , (select
-                      string_agg(
-                          safe_cast(json_extract_scalar(device_array, '$.screenHeight') as string)
-                          , ' ,' )
-                      from
-                          unnest(json_extract_array(devices)) device_array
-                      ) screen_height
+          , (select
+                string_agg(
+                    safe_cast(json_extract_scalar(device_array, '$.screenHeight') as string)
+                    , ' ,' )
+                from
+                    unnest(json_extract_array(devices)) device_array
+                ) screen_height
 
 
-              FROM
-                base_data
-            )
+        FROM
+          base_data
+      )
 
-            ------------------------------------------------------------------------
-            -- Summary
-            ------------------------------------------------------------------------
+      ------------------------------------------------------------------------
+      -- Summary
+      ------------------------------------------------------------------------
 
       , summarize_data as (
 
@@ -482,6 +479,8 @@ view: player_hourly {
           , 0.5 * ( IFNULL(cumulative_engagement_ticks,0) ) AS cumulative_time_played_minutes
       from
           summarize_data
+
+
 
 
       ;;

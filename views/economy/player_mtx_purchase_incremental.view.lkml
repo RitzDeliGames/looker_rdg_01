@@ -5,8 +5,7 @@ view: player_mtx_purchase_incremental {
 
 
       -- ccb_aggregate_update_tag
-      -- update '2023-03-08'
-
+      -- update '2023-05-19'
 
       -- create or replace table tal_scratch.player_mtx_purchase_incremental as
 
@@ -45,12 +44,11 @@ view: player_mtx_purchase_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-03-08' -- Last Full Update
-                      then '2019-01-01'
+                      when date(current_date()) <= '2023-05-19' -- Last Full Update
+                      then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
               and date(timestamp) <= date_add(current_date(), interval -1 DAY)
-              -- and date(timestamp) = '2023-02-26'
 
               ------------------------------------------------------------------------
               -- user type selection
@@ -91,24 +89,24 @@ view: player_mtx_purchase_incremental {
               , experiments
               , win_streak
               , last_level_serial
-              , round(cast(engagement_ticks as int64) / 2) cumulative_time_played_minutes
+              , round(safe_cast(engagement_ticks as int64) / 2) cumulative_time_played_minutes
               , 1 as count_mtx_purchases
 
               -- MTX Purchase Informaion
               , json_extract_scalar(extra_json,"$.source_id") as source_id
               , json_extract_scalar(extra_json,"$.store_session_id") store_session_id
               , json_extract_scalar(extra_json,"$.iap_purchase_item") iap_purchase_item
-              , cast(json_extract_scalar(extra_json,"$.iap_purchase_qty") as numeric) iap_purchase_qty
+              , safe_cast(json_extract_scalar(extra_json,"$.iap_purchase_qty") as numeric) iap_purchase_qty
               , json_extract_scalar(extra_json,"$.transaction_id") transaction_id
               , json_extract_scalar(extra_json,'$.iap_id') iap_id
 
               -- purchase amount + app store cut
-                , ifnull(cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") as numeric) * 0.01 * 0.70 ,0) mtx_purchase_dollars
+                , ifnull(safe_cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") as numeric) * 0.01 * 0.70 ,0) mtx_purchase_dollars
 
               -- currency balances
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
 
           from
               base_data

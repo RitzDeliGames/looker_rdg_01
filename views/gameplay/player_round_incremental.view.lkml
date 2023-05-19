@@ -4,7 +4,7 @@ view: player_round_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update on '2023-03-10'
+      -- update on '2023-05-19'
 
       -- create or replace table tal_scratch.player_round_incremental as
 
@@ -42,8 +42,8 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-03-13' -- Last Full Update
-                      then '2022-06-01' -- Only data from June 2022 Onward
+                      when date(current_date()) <= '2023-05-19' -- Last Full Update
+                      then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
               and date(timestamp) <= date_add(current_date(), interval -1 DAY)
@@ -91,29 +91,29 @@ view: player_round_incremental {
               , experiments
               , win_streak
               , 1 as count_rounds
-              , cast(json_extract_scalar( extra_json , "$.lives") as numeric) as lives
+              , safe_cast(json_extract_scalar( extra_json , "$.lives") as numeric) as lives
               , ifnull( cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 ) as round_length_minutes
-              , cast(json_extract_scalar( extra_json , "$.quest_complete") as boolean) as quest_complete
-              , case when cast( json_extract_scalar( extra_json , "$.quest_complete") as boolean) = true then 1 else 0 end as count_wins
-              , case when cast( json_extract_scalar( extra_json , "$.quest_complete") as boolean) = true then 0 else 1 end as count_losses
-              , cast(json_extract_scalar( extra_json , "$.game_mode") as string) as game_mode
-              , cast(json_extract_scalar( extra_json , "$.moves_remaining") as numeric) as moves_remaining
-              , cast(json_extract_scalar( extra_json , "$.moves_added") as boolean) as moves_added
-              , case when cast( json_extract_scalar( extra_json , "$.moves_added") as boolean) = true then 1 else 0 end as count_rounds_with_moved_added
-              , cast(json_extract_scalar( extra_json , "$.coins_earned") as numeric) as coins_earned
-              , cast(json_extract_scalar( extra_json , "$.objective_count_total") as numeric) as objective_count_total
-              , cast(json_extract_scalar( extra_json , "$.objective_progress") as numeric) as objective_progress
-              , cast(json_extract_scalar( extra_json , "$.moves") as numeric) as moves
-              , cast(json_extract_scalar( extra_json , "$.level_serial") as numeric) as level_serial
-              , cast(json_extract_scalar( extra_json , "$.level_id") as string) as level_id
-              , cast(last_level_serial as int64) last_level_serial
-              , cast(json_extract_scalar(extra_json,'$.team_slot_0') as string) primary_team_slot
-              , cast(json_extract_scalar(extra_json,'$.team_slot_skill_0') as string) primary_team_slot_skill
-              , cast(json_extract_scalar(extra_json,'$.team_slot_level_0') as int64) primary_team_slot_level
-              , cast(replace(json_extract_scalar(extra_json,'$.proximity_to_completion'),',','') as float64) proximity_to_completion
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
+              , safe_cast(json_extract_scalar( extra_json , "$.quest_complete") as boolean) as quest_complete
+              , case when safe_cast( json_extract_scalar( extra_json , "$.quest_complete") as boolean) = true then 1 else 0 end as count_wins
+              , case when safe_cast( json_extract_scalar( extra_json , "$.quest_complete") as boolean) = true then 0 else 1 end as count_losses
+              , safe_cast(json_extract_scalar( extra_json , "$.game_mode") as string) as game_mode
+              , safe_cast(json_extract_scalar( extra_json , "$.moves_remaining") as numeric) as moves_remaining
+              , safe_cast(json_extract_scalar( extra_json , "$.moves_added") as boolean) as moves_added
+              , case when safe_cast( json_extract_scalar( extra_json , "$.moves_added") as boolean) = true then 1 else 0 end as count_rounds_with_moved_added
+              , safe_cast(json_extract_scalar( extra_json , "$.coins_earned") as numeric) as coins_earned
+              , safe_cast(json_extract_scalar( extra_json , "$.objective_count_total") as numeric) as objective_count_total
+              , safe_cast(json_extract_scalar( extra_json , "$.objective_progress") as numeric) as objective_progress
+              , safe_cast(json_extract_scalar( extra_json , "$.moves") as numeric) as moves
+              , safe_cast(json_extract_scalar( extra_json , "$.level_serial") as numeric) as level_serial
+              , safe_cast(json_extract_scalar( extra_json , "$.level_id") as string) as level_id
+              , safe_cast(last_level_serial as int64) last_level_serial
+              , safe_cast(json_extract_scalar(extra_json,'$.team_slot_0') as string) primary_team_slot
+              , safe_cast(json_extract_scalar(extra_json,'$.team_slot_skill_0') as string) primary_team_slot_skill
+              , safe_cast(json_extract_scalar(extra_json,'$.team_slot_level_0') as int64) primary_team_slot_level
+              , safe_cast(replace(json_extract_scalar(extra_json,'$.proximity_to_completion'),',','') as float64) proximity_to_completion
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
 
               , safe_cast(json_extract_scalar( extra_json , "$.objective_0") as numeric) as objective_0
               , safe_cast(json_extract_scalar( extra_json , "$.objective_1") as numeric) as objective_1
@@ -122,7 +122,7 @@ view: player_round_incremental {
               , safe_cast(json_extract_scalar( extra_json , "$.objective_4") as numeric) as objective_4
               , safe_cast(json_extract_scalar( extra_json , "$.objective_5") as numeric) as objective_5
 
-              , cast(json_extract_scalar( extra_json , "$.config_timestamp") as numeric) as config_timestamp
+              , safe_cast(json_extract_scalar( extra_json , "$.config_timestamp") as numeric) as config_timestamp
 
 
           from
@@ -189,6 +189,7 @@ view: player_round_incremental {
           , game_mode
           , level_serial
           , round_end_timestamp_utc
+
 
 
       ;;

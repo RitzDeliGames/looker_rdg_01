@@ -5,7 +5,7 @@ view: player_coin_spend_incremental {
 
 
       -- ccb_aggregate_update_tag
-      -- update '2023-03-02'
+      -- update '2023-05-19'
 
       -- create or replace table tal_scratch.player_coin_spend_incremental as
 
@@ -44,12 +44,11 @@ view: player_coin_spend_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-03-02' -- Last Full Update
-                      then '2019-01-01'
+                      when date(current_date()) <= '2023-05-19' -- Last Full Update
+                      then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
               and date(timestamp) <= date_add(current_date(), interval -1 DAY)
-              -- and date(timestamp) = '2023-02-22'
 
               ------------------------------------------------------------------------
               -- user type selection
@@ -93,18 +92,18 @@ view: player_coin_spend_incremental {
               , json_extract_scalar(extra_json,"$.source_id") as source_id
               , json_extract_scalar(extra_json,"$.store_session_id") store_session_id
               , json_extract_scalar(extra_json,"$.iap_purchase_item") iap_purchase_item
-              , cast(json_extract_scalar(extra_json,"$.iap_purchase_qty") as numeric) iap_purchase_qty
+              , safe_cast(json_extract_scalar(extra_json,"$.iap_purchase_qty") as numeric) iap_purchase_qty
               , json_extract_scalar(extra_json,"$.transaction_id") transaction_id
-              , cast(json_extract_scalar(extra_json,"$.level_serial") as numeric) level_serial
+              , safe_cast(json_extract_scalar(extra_json,"$.level_serial") as numeric) level_serial
               , json_extract_scalar(extra_json,"$.level_id") level_id
 
               -- purchase amount
-                , ifnull(cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") as numeric) ,0) coin_spend
+                , ifnull(safe_cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") as numeric) ,0) coin_spend
 
               -- currency balances
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
 
           from
               base_data
@@ -147,8 +146,6 @@ view: player_coin_spend_incremental {
           get_data_from_extra_json
       group by
           1,2,3,4,5
-
-
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

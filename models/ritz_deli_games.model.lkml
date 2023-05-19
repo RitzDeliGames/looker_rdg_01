@@ -915,3 +915,10 @@ explore: player_recent_button_clicks {
       ;;
   }
 }
+
+# incremental tables
+explore: player_ad_view_incremental {}
+explore: player_coin_spend_incremental {}
+explore: player_daily_incremental {}
+explore: player_mtx_purchase_incremental {}
+explore: player_round_incremental {}

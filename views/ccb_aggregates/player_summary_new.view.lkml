@@ -1287,6 +1287,31 @@ measure: revenue_per_install_d7 {
 
   }
 
+  measure: average_retention_d21 {
+    group_label: "Average Retention"
+    label: "D21"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 21
+          then ${TABLE}.retention_d14
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 21
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+
+  }
+
   measure: average_retention_d30 {
     group_label: "Average Retention"
     label: "D30"

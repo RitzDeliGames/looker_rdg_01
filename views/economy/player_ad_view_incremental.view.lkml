@@ -4,7 +4,7 @@ view: player_ad_view_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-04-20'
+      -- update '2023-05-19'
 
       -- create or replace table tal_scratch.player_ad_view_incremental as
 
@@ -42,12 +42,11 @@ view: player_ad_view_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-04-20' -- Last Full Update
-                      then '2019-01-01'
+                      when date(current_date()) <= '2023-05-19' -- Last Full Update
+                      then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
               and date(timestamp) <= date_add(current_date(), interval -1 DAY)
-              -- and date(timestamp) = '2023-02-26'
 
               ------------------------------------------------------------------------
               -- user type selection
@@ -130,16 +129,16 @@ view: player_ad_view_incremental {
               , json_extract_scalar(extra_json,"$.ad_network") ad_network
               , json_extract_scalar(extra_json,"$.country") country
               , json_extract_scalar(extra_json,"$.current_level_id") current_level_id
-              , cast(json_extract_scalar(extra_json,"$.current_level_serial") as numeric) current_level_serial
+              , safe_cast(json_extract_scalar(extra_json,"$.current_level_serial") as numeric) current_level_serial
 
               -- Various ways to calculate revenue
-              , cast(json_extract_scalar(extra_json,"$.publisher_revenue_per_impression") as numeric) publisher_revenue_per_impression
-              , cast(json_extract_scalar(extra_json,"$.publisher_revenue_per_impression_in_micros") as numeric) / 100 publisher_revenue_per_impression_in_micros
-              , cast(json_extract_scalar(extra_json,"$.revenue") as numeric) revenue
-              , cast(json_extract_scalar(extra_json,"$.ad_value") as numeric) ad_value
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
-              , cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
+              , safe_cast(json_extract_scalar(extra_json,"$.publisher_revenue_per_impression") as numeric) publisher_revenue_per_impression
+              , safe_cast(json_extract_scalar(extra_json,"$.publisher_revenue_per_impression_in_micros") as numeric) / 100 publisher_revenue_per_impression_in_micros
+              , safe_cast(json_extract_scalar(extra_json,"$.revenue") as numeric) revenue
+              , safe_cast(json_extract_scalar(extra_json,"$.ad_value") as numeric) ad_value
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
+              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
           from
               base_data
       )

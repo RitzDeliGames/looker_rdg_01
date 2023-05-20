@@ -257,6 +257,7 @@ view: player_summary_new {
           , max( case when day_number = 6 then 1 else 0 end ) as retention_d6
           , max( case when day_number = 7 then 1 else 0 end ) as retention_d7
           , max( case when day_number = 14 then 1 else 0 end ) as retention_d14
+          , max( case when day_number = 21 then 1 else 0 end ) as retention_d21
           , max( case when day_number = 30 then 1 else 0 end ) as retention_d30
           , max( case when day_number = 60 then 1 else 0 end ) as retention_d60
 
@@ -552,6 +553,7 @@ dimension: primary_key {
   dimension: retention_d2 {group_label:"Retention" type: number}
   dimension: retention_d7 {group_label:"Retention" type: number}
   dimension: retention_d14 {group_label:"Retention" type: number}
+  dimension: retention_d21 {group_label:"Retention" type: number}
   dimension: retention_d30 {group_label:"Retention" type: number}
   dimension: retention_d60 {group_label:"Retention" type: number}
   dimension: retention_d90 {group_label:"Retention" type: number}
@@ -1296,7 +1298,7 @@ measure: revenue_per_install_d7 {
       sum(
         case
           when ${TABLE}.max_available_day_number >= 21
-          then ${TABLE}.retention_d14
+          then ${TABLE}.retention_d21
           else 0
           end )
       ,
@@ -1517,6 +1519,22 @@ measure: count_distinct_players {
     count( distinct
         case
           when ${TABLE}.max_available_day_number >= 14
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+
+  }
+
+  measure: available_player_count_d21 {
+    group_label: "Average Retention"
+    label: "Retention Denominator D21"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 21
           then ${TABLE}.rdg_id
           else null
           end )
@@ -1888,6 +1906,22 @@ measure: count_distinct_players {
         case
           when ${TABLE}.max_available_day_number >= 14
           then ${TABLE}.retention_d14
+          else 0
+          end )
+    ;;
+    value_format_name: decimal_0
+
+  }
+
+  measure: numerator_retention_d21 {
+    group_label: "Average Retention"
+    label: "Retention Numerator D21"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 21
+          then ${TABLE}.retention_d21
           else 0
           end )
     ;;

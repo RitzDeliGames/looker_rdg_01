@@ -1141,6 +1141,7 @@ measure: revenue_per_install_d7 {
     )
     ;;
     value_format_name: percent_1
+    drill_fields: [numerator_retention_d2,available_player_count_d2]
   }
 
   measure: average_retention_d3 {
@@ -1261,7 +1262,7 @@ measure: revenue_per_install_d7 {
     )
     ;;
     value_format_name: percent_1
-
+    drill_fields: [numerator_retention_d7,available_player_count_d7]
   }
 
   measure: average_retention_d14 {
@@ -1286,7 +1287,7 @@ measure: revenue_per_install_d7 {
     )
     ;;
     value_format_name: percent_1
-
+    drill_fields: [numerator_retention_d14,available_player_count_d14]
   }
 
   measure: average_retention_d21 {
@@ -1311,7 +1312,7 @@ measure: revenue_per_install_d7 {
     )
     ;;
     value_format_name: percent_1
-
+    drill_fields: [numerator_retention_d21,available_player_count_d21]
   }
 
   measure: average_retention_d30 {
@@ -1336,7 +1337,7 @@ measure: revenue_per_install_d7 {
     )
     ;;
     value_format_name: percent_1
-
+    drill_fields: [numerator_retention_d30,available_player_count_d30]
   }
 
   measure: average_retention_d60 {
@@ -1361,7 +1362,7 @@ measure: revenue_per_install_d7 {
     )
     ;;
     value_format_name: percent_1
-
+    drill_fields: [numerator_retention_d60,available_player_count_d60]
   }
 
   measure: average_retention_d90 {
@@ -1386,7 +1387,7 @@ measure: revenue_per_install_d7 {
     )
     ;;
     value_format_name: percent_1
-
+    drill_fields: [numerator_retention_d90,available_player_count_d90]
   }
 
 ################################################################

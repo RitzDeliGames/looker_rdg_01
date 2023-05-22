@@ -8,7 +8,7 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-04-13'
+      -- last update: '2023-05-22'
 
       -- create or replace table `tal_scratch.player_daily_summary` as
 
@@ -148,6 +148,12 @@ view: player_daily_summary {
               , max( a.errors_low_memory_warning ) as errors_low_memory_warning
               , max( a.errors_null_reference_exception ) as errors_null_reference_exception
 
+              -- load times
+              , max( a.average_load_time_all ) as average_load_time_all
+              , max( a.average_load_time_from_title_scene ) as average_load_time_from_title_scene
+              , max( a.average_load_time_from_meta_scene ) as average_load_time_from_meta_scene
+              , max( a.average_load_time_from_game_scene ) as average_load_time_from_game_scene
+
           from
               player_daily_incremental_w_prior_date a
               left join ads_by_date b
@@ -236,6 +242,12 @@ view: player_daily_summary {
               -- errors
               , max( a.errors_low_memory_warning ) as errors_low_memory_warning
               , max( a.errors_null_reference_exception ) as errors_null_reference_exception
+
+              -- load times
+              , max( a.average_load_time_all ) as average_load_time_all
+              , max( a.average_load_time_from_title_scene ) as average_load_time_from_title_scene
+              , max( a.average_load_time_from_meta_scene ) as average_load_time_from_meta_scene
+              , max( a.average_load_time_from_game_scene ) as average_load_time_from_game_scene
 
           from
               join_on_ads_data a
@@ -390,6 +402,12 @@ view: player_daily_summary {
               -- errors
               , a.errors_low_memory_warning
               , a.errors_null_reference_exception
+
+              -- load times
+              , a.average_load_time_all
+              , a.average_load_time_from_title_scene
+              , a.average_load_time_from_meta_scene
+              , a.average_load_time_from_game_scene
 
           from
               join_on_mtx_data a
@@ -3318,6 +3336,153 @@ dimension: primary_key {
     percentile: 95
     sql: ${TABLE}.cumulative_round_time_in_minutes_puzzle ;;
   }
+
+  ###############################################################
+  ## Load Times
+  ###############################################################
+
+  measure: average_load_time_all_10 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.average_load_time_all ;;
+  }
+
+  measure: average_load_time_all_25 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.average_load_time_all ;;
+  }
+
+  measure: average_load_time_all_50 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.average_load_time_all ;;
+  }
+
+  measure: average_load_time_all_75 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.average_load_time_all ;;
+  }
+
+  measure: average_load_time_all_95 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.average_load_time_all ;;
+  }
+
+  measure: average_load_time_from_title_scene_10 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.average_load_time_from_title_scene ;;
+  }
+
+  measure: average_load_time_from_title_scene_25 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.average_load_time_from_title_scene ;;
+  }
+
+  measure: average_load_time_from_title_scene_50 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.average_load_time_from_title_scene ;;
+  }
+
+  measure: average_load_time_from_title_scene_75 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.average_load_time_from_title_scene ;;
+  }
+
+  measure: average_load_time_from_title_scene_95 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.average_load_time_from_title_scene ;;
+  }
+
+  measure: average_load_time_from_meta_scene_10 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.average_load_time_from_meta_scene ;;
+  }
+
+  measure: average_load_time_from_meta_scene_25 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.average_load_time_from_meta_scene ;;
+  }
+
+  measure: average_load_time_from_meta_scene_50 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.average_load_time_from_meta_scene ;;
+  }
+
+  measure: average_load_time_from_meta_scene_75 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.average_load_time_from_meta_scene ;;
+  }
+
+  measure: average_load_time_from_meta_scene_95 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.average_load_time_from_meta_scene ;;
+  }
+
+    measure: average_load_time_from_game_scene_10 {
+      group_label: "Load Times"
+      type: percentile
+      percentile: 10
+      sql: ${TABLE}.average_load_time_from_game_scene ;;
+    }
+
+    measure: average_load_time_from_game_scene_25 {
+      group_label: "Load Times"
+      type: percentile
+      percentile: 25
+      sql: ${TABLE}.average_load_time_from_game_scene ;;
+    }
+
+    measure: average_load_time_from_game_scene_50 {
+      group_label: "Load Times"
+      type: percentile
+      percentile: 50
+      sql: ${TABLE}.average_load_time_from_game_scene ;;
+    }
+
+    measure: average_load_time_from_game_scene_75 {
+      group_label: "Load Times"
+      type: percentile
+      percentile: 75
+      sql: ${TABLE}.average_load_time_from_game_scene ;;
+    }
+
+    measure: average_load_time_from_game_scene_95 {
+      group_label: "Load Times"
+      type: percentile
+      percentile: 95
+      sql: ${TABLE}.average_load_time_from_game_scene ;;
+    }
+
+
+
 
 
 }

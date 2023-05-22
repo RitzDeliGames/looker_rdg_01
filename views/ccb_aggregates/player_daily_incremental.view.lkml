@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-05-19'
+      -- update '2023-05-22'
 
       -- create or replace table tal_scratch.player_daily_incremental as
 
@@ -65,18 +65,28 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-05-19' -- Last Full Update
+                when date(current_date()) <= '2023-05-22' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
         and date(timestamp) <= date_add(current_date(), interval -1 DAY)
 
-          ------------------------------------------------------------------------
-          -- user type selection
-          -- We only want users that are marked as "external"
-          -- This removes any bots or internal QA accounts
-          ------------------------------------------------------------------------
-          AND user_type = 'external'
+        ------------------------------------------------------------------------
+        -- user type selection
+        -- We only want users that are marked as "external"
+        -- This removes any bots or internal QA accounts
+        ------------------------------------------------------------------------
+
+        and user_type = 'external'
+
+        ------------------------------------------------------------------------
+        -- check my data
+        -- this is adhoc if I want to check a query with my own data
+        ------------------------------------------------------------------------
+
+        -- and rdg_id = '3989ffa2-2b93-4f33-a940-86c4746036ba'
+        -- and date(timestamp) = '2023-03-19'
+
       )
 
       -- SELECT * FROM base_data
@@ -98,6 +108,8 @@ view: player_daily_incremental {
           -------------------------------------------------
           -- General player info
           -------------------------------------------------
+
+          , event_name
 
           -- device_id
           , FIRST_VALUE(device_id) OVER (
@@ -568,6 +580,75 @@ view: player_daily_incremental {
               else 0
               end as int64) as errors_null_reference_exception
 
+        -------------------------------------------------
+        -- average loading times
+        -------------------------------------------------
+
+        , safe_cast(case
+              when event_name = 'transition'
+              then json_extract_scalar(extra_json, "$.load_time")
+              else null
+              end as int64) as load_time_all
+
+        , safe_cast(case
+              when
+                event_name = 'transition'
+                and safe_cast(json_extract_scalar(extra_json, "$.load_time") as int64) is not null
+              then 1
+              else 0
+              end as int64) as load_time_count_all
+
+        , safe_cast(case
+              when
+                event_name = 'transition'
+                and safe_cast(json_extract(extra_json,'$.transition_from') as string) like '%TitleScene%'
+              then json_extract_scalar(extra_json, "$.load_time")
+              else null
+              end as int64) as load_time_from_title_scene
+
+        , safe_cast(case
+              when
+                event_name = 'transition'
+                and safe_cast(json_extract_scalar(extra_json, "$.load_time") as int64) is not null
+                and safe_cast(json_extract(extra_json,'$.transition_from') as string) like '%TitleScene%'
+              then 1
+              else 0
+              end as int64) as load_time_count_from_title_scene
+
+        , safe_cast(case
+              when
+                event_name = 'transition'
+                and safe_cast(json_extract(extra_json,'$.transition_from') as string) like '%MetaScene%'
+              then json_extract_scalar(extra_json, "$.load_time")
+              else null
+              end as int64) as load_time_from_meta_scene
+
+        , safe_cast(case
+              when
+                event_name = 'transition'
+                and safe_cast(json_extract_scalar(extra_json, "$.load_time") as int64) is not null
+                and safe_cast(json_extract(extra_json,'$.transition_from') as string) like '%MetaScene%'
+              then 1
+              else 0
+              end as int64) as load_time_count_from_meta_scene
+
+        , safe_cast(case
+              when
+                event_name = 'transition'
+                and safe_cast(json_extract(extra_json,'$.transition_from') as string) like '%GameScene%'
+              then json_extract_scalar(extra_json, "$.load_time")
+              else null
+              end as int64) as load_time_from_game_scene
+
+        , safe_cast(case
+              when
+                event_name = 'transition'
+                and safe_cast(json_extract_scalar(extra_json, "$.load_time") as int64) is not null
+                and safe_cast(json_extract(extra_json,'$.transition_from') as string) like '%GameScene%'
+              then 1
+              else 0
+              end as int64) as load_time_count_from_game_scene
+
         FROM
             base_data
     )
@@ -646,10 +727,19 @@ view: player_daily_incremental {
         , sum(errors_low_memory_warning) as errors_low_memory_warning
         , sum(errors_null_reference_exception) as errors_null_reference_exception
 
+        -- average load times
+        , safe_cast( round( safe_divide( sum( load_time_all ) , sum( load_time_count_all ) ) , 0 ) as int64 ) as average_load_time_all
+        , safe_cast( round( safe_divide( sum( load_time_from_title_scene ) , sum( load_time_count_from_title_scene ) ) , 0 ) as int64 )  as average_load_time_from_title_scene
+        , safe_cast( round( safe_divide( sum( load_time_from_meta_scene ) , sum( load_time_count_from_meta_scene ) ) , 0 ) as int64 )  as average_load_time_from_meta_scene
+        , safe_cast( round( safe_divide( sum( load_time_from_game_scene ) , sum( load_time_count_from_game_scene ) ) , 0 ) as int64 )  as average_load_time_from_game_scene
+
       from
         pre_aggregate_calculations_from_base_data
       group by
         1,2
+
+
+
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

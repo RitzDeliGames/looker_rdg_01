@@ -915,3 +915,5 @@ explore: player_recent_button_clicks {
       ;;
   }
 }
+
+explore: player_daily_incremental {}

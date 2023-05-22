@@ -85,11 +85,59 @@ view: player_daily_incremental {
         ------------------------------------------------------------------------
 
         -- and rdg_id = '3989ffa2-2b93-4f33-a940-86c4746036ba'
-        -- and date(timestamp) = '2023-03-19'
+        -- and date(timestamp) = '2023-05-19'
 
       )
 
-      -- SELECT * FROM base_data
+      -----------------------------------------------------------------------
+      -- frame rate histogram breakout
+      ------------------------------------------------------------------------
+
+      , frame_rate_histogram_breakout as (
+          select
+              a.rdg_id
+              , a.timestamp_utc
+              , a.session_id
+              , a.event_name
+              , a.extra_json
+              , offset as ms_per_frame
+              , sum(safe_cast(frame_time_histogram as int64)) as frame_count
+          from
+              base_data a
+              cross join unnest(split(json_extract_scalar(extra_json,'$.frame_time_histogram_values'))) as frame_time_histogram with offset
+          group by
+              1,2,3,4,5,6
+      )
+
+      -----------------------------------------------------------------------
+      -- frame rate histogram collapse
+      ------------------------------------------------------------------------
+
+      , frame_rate_histogram_collapse as (
+          select
+              rdg_id
+              , timestamp(date( timestamp_utc )) as rdg_date
+
+              -- frame rate percentages
+              , safe_divide(
+                  sum( case when ms_per_frame <= 22 then frame_count else 0 end )
+                  , sum( frame_count )
+                  ) as percent_frames_below_22
+
+              , safe_divide(
+                  sum( case when ms_per_frame > 22 and ms_per_frame <= 40 then frame_count else 0 end )
+                  , sum( frame_count )
+                  ) as percent_frames_between_23_and_40
+
+              , safe_divide(
+                  sum( case when ms_per_frame > 40 then frame_count else 0 end )
+                  , sum( frame_count )
+                  ) as percent_frames_above_40
+          from
+              frame_rate_histogram_breakout a
+          group by
+              1,2
+      )
 
       ------------------------------------------------------------------------
       -- pre aggregate calculations from base data
@@ -654,8 +702,10 @@ view: player_daily_incremental {
     )
 
       ------------------------------------------------------------------------
-      -- Summary
+      -- Summary by date
       ------------------------------------------------------------------------
+
+    , summarized_by_date as (
 
       SELECT
         rdg_date
@@ -738,6 +788,22 @@ view: player_daily_incremental {
       group by
         1,2
 
+    )
+
+    ------------------------------------------------------------------------
+    -- Add on histogram
+    ------------------------------------------------------------------------
+
+    select
+        a.*
+        , b.percent_frames_below_22
+        , b.percent_frames_between_23_and_40
+        , b.percent_frames_above_40
+    from
+        summarized_by_date a
+        left join frame_rate_histogram_collapse b
+            on a.rdg_id = b.rdg_id
+            and a.rdg_date = b.rdg_date
 
 
 

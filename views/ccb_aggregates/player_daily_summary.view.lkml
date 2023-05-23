@@ -8,7 +8,7 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-05-22'
+      -- last update: '2023-05-23'
 
       -- create or replace table `tal_scratch.player_daily_summary` as
 
@@ -154,6 +154,11 @@ view: player_daily_summary {
               , max( a.average_load_time_from_meta_scene ) as average_load_time_from_meta_scene
               , max( a.average_load_time_from_game_scene ) as average_load_time_from_game_scene
 
+              -- frame rates
+              , max( a.percent_frames_below_22 ) as percent_frames_below_22
+              , max( a.percent_frames_between_23_and_40 ) as percent_frames_between_23_and_40
+              , max( a.percent_frames_above_40 ) as percent_frames_above_40
+
           from
               player_daily_incremental_w_prior_date a
               left join ads_by_date b
@@ -248,6 +253,11 @@ view: player_daily_summary {
               , max( a.average_load_time_from_title_scene ) as average_load_time_from_title_scene
               , max( a.average_load_time_from_meta_scene ) as average_load_time_from_meta_scene
               , max( a.average_load_time_from_game_scene ) as average_load_time_from_game_scene
+
+              -- frame rates
+              , max( a.percent_frames_below_22 ) as percent_frames_below_22
+              , max( a.percent_frames_between_23_and_40 ) as percent_frames_between_23_and_40
+              , max( a.percent_frames_above_40 ) as percent_frames_above_40
 
           from
               join_on_ads_data a
@@ -408,6 +418,11 @@ view: player_daily_summary {
               , a.average_load_time_from_title_scene
               , a.average_load_time_from_meta_scene
               , a.average_load_time_from_game_scene
+
+              -- frame rates
+              , a.percent_frames_below_22
+              , a.percent_frames_between_23_and_40
+              , a.percent_frames_above_40
 
           from
               join_on_mtx_data a
@@ -1299,9 +1314,56 @@ dimension: primary_key {
     value_format_name: usd
   }
 
+################################################################
+## Frame Rates
+################################################################
 
-## Sums / Percentiles
+  measure: percent_of_events_with_frames_below_22 {
+    label: "Percent Frames Below 22"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        sum( ${TABLE}.percent_frames_below_22 )
+        ,
+        ( sum( ${TABLE}.percent_frames_below_22 )
+          + sum( ${TABLE}.percent_frames_between_23_and_40 )
+          + sum( ${TABLE}.percent_frames_above_40 )
+          )
+      );;
+  }
+  measure: percent_of_events_with_frames_between_23_and_40 {
+    label: "Percent Frames Between 23 and 40"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        sum( ${TABLE}.percent_frames_between_23_and_40 )
+        ,
+        ( sum( ${TABLE}.percent_frames_below_22 )
+          + sum( ${TABLE}.percent_frames_between_23_and_40 )
+          + sum( ${TABLE}.percent_frames_above_40 )
+          )
+      );;
+  }
+  measure: percent_of_events_with_frames_above_40 {
+    label: "Percent Frames Above 40"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        sum( ${TABLE}.percent_frames_above_40 )
+        ,
+        ( sum( ${TABLE}.percent_frames_below_22 )
+          + sum( ${TABLE}.percent_frames_between_23_and_40 )
+          + sum( ${TABLE}.percent_frames_above_40 )
+          )
+      );;
+  }
 
+################################################################
+## Other Sums / Percentiles
+################################################################
   measure: sum_mtx_purchase_dollars {
     group_label: "MTX Purchase Dollars"
     type:sum

@@ -71,10 +71,6 @@ view: singular_daily_agg_export {
   dimension: campaign_name {
     label: "Campaign Name - Long"
   }
-  # dimension: campaign_name_clean {
-  #   label: "Campaign Name - Short"
-  #   sql: @{campaign_name_clean} ;;
-  # }
   dimension: ad_set_name {}
   dimension: ad_set_id {}
   dimension: impressions {

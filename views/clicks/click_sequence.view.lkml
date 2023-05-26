@@ -23,6 +23,7 @@ view: click_sequence {
       }
     }
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
+    publish_as_db_view: yes
   }
   dimension: button_tag {}
   dimension: button_tag_raw {}

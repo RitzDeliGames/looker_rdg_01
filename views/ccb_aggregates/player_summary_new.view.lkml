@@ -1208,6 +1208,7 @@ measure: revenue_per_install_d7 {
     )
     ;;
     value_format_name: percent_1
+    drill_fields: [numerator_retention_d3,available_player_count_d3]
   }
 
   measure: average_retention_d4 {
@@ -1232,6 +1233,7 @@ measure: revenue_per_install_d7 {
     )
     ;;
     value_format_name: percent_1
+    drill_fields: [numerator_retention_d4,available_player_count_d4]
   }
 
   measure: average_retention_d5 {
@@ -1256,6 +1258,7 @@ measure: revenue_per_install_d7 {
     )
     ;;
     value_format_name: percent_1
+    drill_fields: [numerator_retention_d5,available_player_count_d5]
   }
 
   measure: average_retention_d6 {
@@ -1280,6 +1283,7 @@ measure: revenue_per_install_d7 {
     )
     ;;
     value_format_name: percent_1
+    drill_fields: [numerator_retention_d6,available_player_count_d6]
   }
 
   measure: average_retention_d7 {

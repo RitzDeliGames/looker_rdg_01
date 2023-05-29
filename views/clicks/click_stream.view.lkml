@@ -382,7 +382,7 @@ view: click_stream {
 
 
       ;;
-    datagroup_trigger: change_at_midnight
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
     publish_as_db_view: yes
 
   }

@@ -239,7 +239,7 @@ view: player_summary_new {
            , max( case when day_number <= 30 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d30
            , max( case when day_number <= 60 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d60
            , max( case when day_number <= 90 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d90
-           , max( case when day_number <= 180 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d180
+           , max( case when day_number <= 120 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d120
            , max( cumulative_combined_dollars ) as cumulative_combined_dollars_current
 
            -- highest last level serial
@@ -543,7 +543,7 @@ dimension: primary_key {
   dimension: cumulative_combined_dollars_d30 {group_label:"LTV - Cumulative" type: number}
   dimension: cumulative_combined_dollars_d60 {group_label:"LTV - Cumulative" type: number}
   dimension: cumulative_combined_dollars_d90 {group_label:"LTV - Cumulative" type: number}
-  dimension: cumulative_combined_dollars_d180 {group_label:"LTV - Cumulative" type: number}
+  dimension: cumulative_combined_dollars_d120 {group_label:"LTV - Cumulative" type: number}
   dimension: cumulative_combined_dollars_current {group_label:"LTV - Cumulative" label:"LTV - Cumulative" value_format:"$0.00" type: number}
   dimension: highest_last_level_serial_d1 {group_label:"Highest Level" type: number}
   dimension: highest_last_level_serial_d2 {group_label:"Highest Level" type: number}
@@ -948,14 +948,14 @@ dimension: primary_key {
 
   }
 
-  measure: available_combined_dollars_d180 {
+  measure: available_combined_dollars_d120 {
     group_label: "Revenue Per Install (RPI)"
     type: number
     sql:
       sum(
         case
-          when ${TABLE}.max_available_day_number >= 180
-          then ${TABLE}.cumulative_combined_dollars_d180
+          when ${TABLE}.max_available_day_number >= 120
+          then ${TABLE}.cumulative_combined_dollars_d120
           else 0
           end )
     ;;
@@ -1134,21 +1134,21 @@ measure: revenue_per_install_d7 {
 
   }
 
-  measure: revenue_per_install_d180 {
+  measure: revenue_per_install_d120 {
     group_label: "Revenue Per Install (RPI)"
     type: number
     sql:
     safe_divide(
       sum(
         case
-          when ${TABLE}.max_available_day_number >= 180
-          then ${TABLE}.cumulative_combined_dollars_d180
+          when ${TABLE}.max_available_day_number >= 120
+          then ${TABLE}.cumulative_combined_dollars_d120
           else 0
           end )
       ,
       count( distinct
         case
-          when ${TABLE}.max_available_day_number >= 180
+          when ${TABLE}.max_available_day_number >= 120
           then ${TABLE}.rdg_id
           else null
           end )

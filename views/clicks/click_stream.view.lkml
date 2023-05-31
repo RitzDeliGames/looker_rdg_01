@@ -348,6 +348,7 @@ view: click_stream {
 
     */
 
+  /*
   ---------------------------------------------------------------------------------
   -- FUE Events
   ---------------------------------------------------------------------------------
@@ -379,6 +380,74 @@ view: click_stream {
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
       group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+    */
+
+
+  --------------------------------------------------------------
+  -- Click Stream Adhoc
+  -- Explore Churn at level 48
+  --------------------------------------------------------------
+
+  with
+
+  --------------------------------------------------------------
+  -- List of Churned players at level 48
+  -- (this bit originally from the level analysis dashboard )
+  -- when I ran this it was 212 players
+  --------------------------------------------------------------
+
+  list_of_churned_players_at_level_48 as (
+
+    select
+      distinct churn_rdg_id
+    from
+      eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary
+    where
+      game_mode IN ('CAMPAIGN', 'campaign')
+      and level_serial = 48
+      and date(rdg_date) >= '2023-05-02'
+      and date(rdg_date) < '2023-05-31'
+      and date(config_timestamp) >= '2023-05-02'
+      and date(rdg_date) < '2023-05-31'
+      and churn_rdg_id is not null
+
+  )
+
+  --------------------------------------------------------------------
+  -- Button Click Events for These Players Only
+  --------------------------------------------------------------------
+
+  select
+    rdg_id
+    ,country
+    ,install_version
+    ,version
+    ,timestamp
+    ,event_name
+    ,engagement_ticks
+    ,cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric) currency_02_balance
+    ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
+    ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
+    ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric) currency_05_balance
+    ,cast(last_level_serial as int64) last_level_serial
+    ,json_extract_scalar(extra_json,"$.button_tag") button_tag
+    ,experiments
+    ,extra_json
+    ,last_level_id
+    ,lag(timestamp) over (partition by rdg_id order by timestamp desc) greater_level_completed
+  from
+    `eraser-blast.game_data.events` a
+    inner join list_of_churned_players_at_level_48 b
+      on a.rdg_id = b.churn_rdg_id
+  where
+    event_name = 'ButtonClicked'
+    and DATE(timestamp) >= '2023-05-02'
+    AND DATE(timestamp) < '2023-05-31'
+    and user_type = 'external'
+    and country != 'ZZ'
+    and coalesce(install_version,'null') <> '-1'
+  group by
+    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
 
 
       ;;

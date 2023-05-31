@@ -964,6 +964,7 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_051' then 'Giant Power Up Pack!'
     when ${TABLE}.iap_id = 'item_052' then 'Hammer Chum Chums & Coins Special!'
     when ${TABLE}.iap_id = 'item_054' then 'Vertical Chum Chums & Coins Special!'
+    when ${TABLE}.iap_id = 'item_053' then 'Horizontal Chum Chums & Coins Special!'
     when ${TABLE}.iap_id = 'item_055' then 'Coins (S)'
     when ${TABLE}.iap_id = 'item_056' then 'Coins (M)'
     when ${TABLE}.iap_id = 'item_057' then 'Coins (L)'

@@ -8,7 +8,7 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-05-23'
+      -- last update: '2023-05-31'
 
       -- create or replace table `tal_scratch.player_daily_summary` as
 
@@ -589,6 +589,19 @@ view: player_daily_summary {
             ) cumulative_ad_views
 
 
+        -- first_ad_view_indicator
+        , CASE
+            WHEN IFNULL(ad_views,0) > 0
+            AND
+              SUM(ad_views) OVER (
+              PARTITION BY rdg_id
+              ORDER BY rdg_date ASC
+              ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING )
+              = 0
+            THEN 1
+            ELSE 0
+            END AS first_ad_view_indicator
+
         -- Calculate engagement ticks
         -- uses prior row cumulative_engagement_ticks
         , IFNULL(cumulative_engagement_ticks,0) -
@@ -856,6 +869,7 @@ dimension: primary_key {
   dimension: daily_mtx_spend_indicator {type:number}
   dimension: daily_mtx_spender_rdg_id {type:number}
   dimension: first_mtx_spend_indicator {type:number}
+  dimension: first_ad_view_indicator {type:number}
   dimension: lifetime_mtx_spend_indicator {type:number}
   dimension: cumulative_ad_views {type:number}
   dimension: engagement_ticks {type:number}

@@ -23,7 +23,7 @@ view: big_query_jobs {
         tal_scratch.big_query_jobs
 
       ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
     increment_key: "rdg_date"

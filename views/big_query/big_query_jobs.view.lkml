@@ -6,10 +6,8 @@ view: big_query_jobs {
       -- ccb_aggregate_update_tag
       -- update '2023-06-02'
 
-      -- create or replace table tal_scratch.big_query_jobs_incremental as
-
       select
-        timestamp(date(creation_time)) as rdg_date
+        rdg_date
         , creation_time
         , project_id
         , user_email
@@ -22,29 +20,7 @@ view: big_query_jobs {
         , total_bytes_processed
         , total_bytes_billed
       from
-        `region-us`.INFORMATION_SCHEMA.JOBS
-      where
-        -- Filter by the partition column first to limit the amount of data scanned.
-        -- Eight days allows for jobs created before the 7 day end_time filter.
-        -- creation_time BETWEEN TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 180 DAY) AND CURRENT_TIMESTAMP()
-
-        date(creation_time) >=
-            case
-                -- select date(current_date())
-                when date(current_date()) <= '2023-06-02' -- Last Full Update
-                then '2022-06-01'
-                else date_add(current_date(), interval -9 day)
-                end
-        and date(creation_time) <= date_add(current_date(), interval -1 DAY)
-
-        -- -- select distinct job_type from `region-us`.INFORMATION_SCHEMA.JOBS
-        -- AND job_type = 'QUERY'
-
-        -- -- select distinct statement_type from `region-us`.INFORMATION_SCHEMA.JOBS
-        -- AND statement_type != 'SCRIPT'
-
-        -- AND end_time BETWEEN TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 180 DAY) AND CURRENT_TIMESTAMP();
-
+        tal_scratch.big_query_jobs
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

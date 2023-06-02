@@ -63,13 +63,44 @@ view: big_query_jobs {
     sql: ${TABLE}.creation_time ;;
   }
 
-        #   , project_id
-        # , user_email
-        # , job_id
-        # , job_type
-        # , statement_type
-        # , priority
-        # , start_time
+  dimension: project_id {type:string}
+  dimension: user_email {type:string}
+  dimension: job_id {type:string}
+  dimension: job_type {type:string}
+  dimension: statement_type {type:string}
+  dimension: priority {type:string}
+
+  measure: cumulative_mtx_purchase_dollars_95 {
+    group_label: "Cumulative MTX Purchase Dollars"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.cumulative_mtx_purchase_dollars ;;
+  }
+
+  measure: MB_processed {
+    group_label: "Stats"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      safe_divide(
+        sum(${TABLE}.total_bytes_processed)
+        , 1000
+        )
+    ;;
+  }
+
+  measure: MB_billed {
+    group_label: "Stats"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    safe_divide(
+      sum(${TABLE}.total_bytes_billed)
+      , 1000
+      )
+  ;;
+  }
+
 
 
 

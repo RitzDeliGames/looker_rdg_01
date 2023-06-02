@@ -70,13 +70,6 @@ view: big_query_jobs {
   dimension: statement_type {type:string}
   dimension: priority {type:string}
 
-  measure: cumulative_mtx_purchase_dollars_95 {
-    group_label: "Cumulative MTX Purchase Dollars"
-    type: percentile
-    percentile: 95
-    sql: ${TABLE}.cumulative_mtx_purchase_dollars ;;
-  }
-
   measure: MB_processed {
     group_label: "Stats"
     type: number

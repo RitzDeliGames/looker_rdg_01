@@ -627,6 +627,13 @@ view: player_hourly {
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
 
+  measure: sum_ad_view_dollars {
+    group_label: "Dollars"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.ad_view_dollars ;;
+  }
+
   parameter: selected_experiment {
     type: string
     suggestions:  [

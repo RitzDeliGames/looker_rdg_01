@@ -301,55 +301,6 @@ constant: country_region {
           end"
 }
 
-constant: purchase_source {
-  value: "case
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Sheet_ManageLives.QuickPurchase.%' then 'Lives Quick Purchase Sheet'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_lives' then 'Quick Purchase - Lives'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Sheet_CurrencyPack.QuickPurchase.%' then 'Coins Quick Purchase Sheet'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_coins' then 'Quick Purchase - Coins'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_gems' then 'Quick Purchase - Coins'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_skill_clear_horizontal' then 'Quick Purchase - Horizontal Skill'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_skill_clear_vertical' then 'Quick Purchase - Vertical Skill'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_skill_clear_cell' then 'Quick Purchase - Clear Cell'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_boost_rocket' then 'Quick Purchase - Rocket'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_boost_color_ball' then 'Quick Purchase - Color Ball'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Panel_Store.Purchase.%' then 'Store'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Panel_QuickPurchase.Purchase.%' then 'Quick Purchase'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like '%BuyMoreTime%' then 'Mini-Game'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'endless_treasure' then 'Treasure Trove'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'treasure_trove' then 'Treasure Trove'
-              else json_extract_scalar(${TABLE}.extra_json,'$.source_id')
-          end"
-}
-
-constant: purchase_iap_strings {
-  value: "case
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_001%' then 'Free Ticket Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_017%' then 'Free Coin Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_018%' then 'Free Boost Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_004%' then 'Peewee Coin Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_005%' then 'Small Coin Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_006%' then 'Medium Coin Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_007%' then 'Large Coin Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_020%' then 'Huge Coin Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_021%' then 'Jumbo Coin Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_008%' then 'Peewee Gem Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_009%' then 'Small Gem Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_010%' then 'Medium Gem Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_011%' then 'Large Gem Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_012%' then 'Huge Gem Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_013%' then 'Jumbo Gem Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_023%' then 'Peewee Life Pack'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_014%' then 'Small Life Pack'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_015%' then 'Medium Life Pack'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_016%' then 'Large Life Pack'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_024%' then 'Huge Life Pack'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_025%' then 'Jumbo Life Pack'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_028%' then '24h Infinite Lives'
-          else 'OTHER'
-          end"
-}
-
 constant: iap_id_strings {
   value: "case
             when json_extract_scalar(extra_json,'$.iap_id') like 'item_001' then 'Free Ticket Machine'

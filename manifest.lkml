@@ -105,10 +105,6 @@ constant: device_platform_mapping {
 
 }
 
-constant: cheaters {
-  value: "('')"
-}
-
 constant: release_version_minor {
   value: "case
             when ${TABLE}.version = '1579' then'1.0.100'

@@ -190,6 +190,11 @@ view: player_ad_view_summary {
     sql: ${TABLE}.ad_reward_source_id ;;
   }
 
+  dimension: ad_reward_id_strings {
+    label: "Ad Reward Source Id (Clean)"
+    sql: @{ad_reward_id_strings} ;;
+  }
+
   # Numbers
   dimension: current_level_serial {type:number}
   dimension: ad_view_dollars {type:number}

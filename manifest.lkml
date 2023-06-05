@@ -301,55 +301,6 @@ constant: country_region {
           end"
 }
 
-constant: purchase_source {
-  value: "case
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Sheet_ManageLives.QuickPurchase.%' then 'Lives Quick Purchase Sheet'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_lives' then 'Quick Purchase - Lives'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Sheet_CurrencyPack.QuickPurchase.%' then 'Coins Quick Purchase Sheet'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_coins' then 'Quick Purchase - Coins'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_gems' then 'Quick Purchase - Coins'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_skill_clear_horizontal' then 'Quick Purchase - Horizontal Skill'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_skill_clear_vertical' then 'Quick Purchase - Vertical Skill'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_skill_clear_cell' then 'Quick Purchase - Clear Cell'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_boost_rocket' then 'Quick Purchase - Rocket'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'quick_boost_color_ball' then 'Quick Purchase - Color Ball'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Panel_Store.Purchase.%' then 'Store'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like 'Panel_QuickPurchase.Purchase.%' then 'Quick Purchase'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') like '%BuyMoreTime%' then 'Mini-Game'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'endless_treasure' then 'Treasure Trove'
-              when json_extract_scalar(${TABLE}.extra_json,'$.source_id') = 'treasure_trove' then 'Treasure Trove'
-              else json_extract_scalar(${TABLE}.extra_json,'$.source_id')
-          end"
-}
-
-constant: purchase_iap_strings {
-  value: "case
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_001%' then 'Free Ticket Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_017%' then 'Free Coin Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_018%' then 'Free Boost Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_004%' then 'Peewee Coin Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_005%' then 'Small Coin Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_006%' then 'Medium Coin Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_007%' then 'Large Coin Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_020%' then 'Huge Coin Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_021%' then 'Jumbo Coin Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_008%' then 'Peewee Gem Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_009%' then 'Small Gem Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_010%' then 'Medium Gem Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_011%' then 'Large Gem Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_012%' then 'Huge Gem Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_013%' then 'Jumbo Gem Machine'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_023%' then 'Peewee Life Pack'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_014%' then 'Small Life Pack'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_015%' then 'Medium Life Pack'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_016%' then 'Large Life Pack'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_024%' then 'Huge Life Pack'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_025%' then 'Jumbo Life Pack'
-            when json_extract_scalar(${TABLE}.extra_json,'$.sheet_id') like '%item_028%' then '24h Infinite Lives'
-          else 'OTHER'
-          end"
-}
-
 constant: iap_id_strings {
   value: "case
             when json_extract_scalar(extra_json,'$.iap_id') like 'item_001' then 'Free Ticket Machine'
@@ -557,81 +508,70 @@ constant: reward_types {
           end"
 }
 
-constant: reward_events {
-  value: "case
-            when ${TABLE}.reward_event like '%initial%' then 'Initial Reward'
-            when ${TABLE}.reward_event = 'round_end' then 'Round End'
-            when ${TABLE}.reward_event = 'zone_restore' then 'Zone Restore'
-            when ${TABLE}.reward_event = 'gacha_box_004' then 'Free Coins'
-            when ${TABLE}.reward_event = 'incetivized_ads' then 'Ads'
-            else ${TABLE}.reward_event
-          end"
-}
-
 constant: campaign_name_clean_update {
   value: "case
-  when
-    ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_LATAM/ES_N/A'
-    and date(${TABLE}.singular_install_date) between '2023-04-11' and '2023-04-13'
-    then 'AAA - LATAM/ES - 15 Min - 20230413'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_US_N/A' then 'AAA - USA - Purchase - 20230131'
-  when ${TABLE}.campaign_name = 'Android_AAA_Purchase_US_20230523' then 'AAA - USA - Purchase - 20230523'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_US_N/A' then 'AAA - USA - 15 Min - 20230308'
-  when ${TABLE}.campaign_name = 'Android_AAA_15_Minutes_US_20230427' then 'AAA - USA - 15 Min - 20230427'
-  when ${TABLE}.campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - No Event'
-  when ${TABLE}.campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_LATAM/ES_N/A v2' then 'AAA - LATAM/ES - No Event'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_5_Minutes_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - 5 Min'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - 15 Min'
-  when ${TABLE}.campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230413' then 'AAA - LATAM/ES - 15 Min - 20230413'
-  when ${TABLE}.campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230510' then 'AAA - LATAM/ES - 15 Min - 20230510'
-  when ${TABLE}.campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230523' then 'AAA - LATAM/ES - 15 Min - 20230523'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_LATAM/PTBR_N/A' then 'AAA - LATAM/BR - 15 Min'
-  when ${TABLE}.campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_Scan_N/A' then'AAA - Scandinavia - No Event'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_Scan_N/A' then'AAA - Scandinavia - 15 Min'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchases_Women&Men_Scandinavia_N/A' then 'AAA - Scandinavia - Purchase'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_30_Minutes_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - 30 Min'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_30_Minutes_Women&Men_LATAM/BR_N/A' then 'AAA - LATAM/BR - 30 Min'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_LATAM/PTBR_N/A' then 'AAA - LATAM/BR - Purchase'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_LATAM/PTBR_N/A_v2' then 'AAA - LATAM/BR - Purchase'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - Purchase'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_LATAM/ES_N/A_v2' then 'AAA - LATAM/ES - Purchase'
-  when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_Chile_N/A' then 'AAA - Chile - Purchase'
-  when ${TABLE}.campaign_name = 'Art_Test_Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Puzzle Games' then 'MAI - No Event - Puzzle Games'
-  when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Puzzle Games' then 'MAI - No Event - Puzzle Games'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Puzzle Games' then 'MAI - 5 Min - Puzzle Games'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Puzzle Games' then 'MAI - 15 Min - Puzzle Games'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_30_Minutes_Women&Men_LATAM/ES_Puzzle Games' then 'MAI - 30 Min - Puzzle Games'
-  when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Candy Crush' then 'MAI - No Event - Candy Crush'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Candy Crush' then 'MAI - 5 Min - Candy Crush'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Candy Crush' then 'MAI - 15 Min - Candy Crush'
-  when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Puzzle & Decorate' then 'MAI - No Event - Puzzle & Decorate'
-  when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Puzzle&Decorate' then 'MAI - No Event - Puzzle & Decorate'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Puzzle & Decorate' then 'MAI - 5 Min - Puzzle & Decorate'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Puzzle & Decorate' then 'MAI - 15 Min - Puzzle & Decorate'
-  when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Coin_Master' then 'MAI - No Event - Coin Master'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Coin Master' then 'MAI - 5 Min - Coin Master'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Coin Master' then 'MAI - 15 Min - Coin Master'
-  when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_LATAM/MX - LAL - 1% - L7D_4+' then 'MAI - No Event - 4 of 7 Days'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_LATAM/MX - LAL - 1% - L7D_4+' then 'MAI - 5 Min - 4 of 7 Days'
-  when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_LATAM/ES - LAL - 1% - Initiate Checkout' then 'MAI - No Event - Start Checkout'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES - LAL - 1% - Like Page' then 'MAI - 5 Min - Like Page'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_LATAM/ES - LAL - 1% - Initiate Checkout' then 'MAI - 5 Min - Start Checkout'
-  when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Bubble Shooter' then 'MAI - No Event - Bubble Shooter'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Bubble Shooter' then 'MAI - 5 Min - Bubble Shooter'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Bubble Shooter' then 'MAI - 15 Min - Bubble Shooter'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_30_Minutes_Women&Men_LATAM/ES_Bubble Shooter' then 'MAI - 30 Min - Bubble Shooter'
-  when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Tile Blast' then 'MAI - No Event - Tile Blast'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Tile Blast' then 'MAI - 5 Min - Tile Blast'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Tile Blast' then 'MAI - 15 Min - Tile Blast'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_30_Minutes_Women&Men_LATAM/ES_Tile Blast' then 'MAI - 30 Min - Tile Blast'
-  when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Blitz' then 'MAI - No Event - Blitz'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Blitz' then 'MAI - 5 Min - Blitz'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Blitz' then 'MAI - 15 Min - Blitz'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 5 Min - Walmart'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 15 Min - Walmart'
-  when ${TABLE}.campaign_name = 'Android_Manual_Events_30_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 30 Min - Walmart'
-  else ${TABLE}.campaign_name
-  end"
+            when
+              ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_LATAM/ES_N/A'
+              and date(${TABLE}.singular_install_date) between '2023-04-11' and '2023-04-13'
+              then 'AAA - LATAM/ES - 15 Min - 20230413'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_US_N/A' then 'AAA - USA - Purchase - 20230131'
+            when ${TABLE}.campaign_name = 'Android_AAA_Purchase_US_20230523' then 'AAA - USA - Purchase - 20230523'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_US_N/A' then 'AAA - USA - 15 Min - 20230308'
+            when ${TABLE}.campaign_name = 'Android_AAA_15_Minutes_US_20230427' then 'AAA - USA - 15 Min - 20230427'
+            when ${TABLE}.campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - No Event'
+            when ${TABLE}.campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_LATAM/ES_N/A v2' then 'AAA - LATAM/ES - No Event'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_5_Minutes_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - 5 Min'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - 15 Min'
+            when ${TABLE}.campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230413' then 'AAA - LATAM/ES - 15 Min - 20230413'
+            when ${TABLE}.campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230510' then 'AAA - LATAM/ES - 15 Min - 20230510'
+            when ${TABLE}.campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230523' then 'AAA - LATAM/ES - 15 Min - 20230523'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_LATAM/PTBR_N/A' then 'AAA - LATAM/BR - 15 Min'
+            when ${TABLE}.campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_Scan_N/A' then'AAA - Scandinavia - No Event'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_Scan_N/A' then'AAA - Scandinavia - 15 Min'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchases_Women&Men_Scandinavia_N/A' then 'AAA - Scandinavia - Purchase'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_30_Minutes_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - 30 Min'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_30_Minutes_Women&Men_LATAM/BR_N/A' then 'AAA - LATAM/BR - 30 Min'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_LATAM/PTBR_N/A' then 'AAA - LATAM/BR - Purchase'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_LATAM/PTBR_N/A_v2' then 'AAA - LATAM/BR - Purchase'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - Purchase'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_LATAM/ES_N/A_v2' then 'AAA - LATAM/ES - Purchase'
+            when ${TABLE}.campaign_name = 'Android_AAA_Events_Purchase_Women&Men_Chile_N/A' then 'AAA - Chile - Purchase'
+            when ${TABLE}.campaign_name = 'Art_Test_Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Puzzle Games' then 'MAI - No Event - Puzzle Games'
+            when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Puzzle Games' then 'MAI - No Event - Puzzle Games'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Puzzle Games' then 'MAI - 5 Min - Puzzle Games'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Puzzle Games' then 'MAI - 15 Min - Puzzle Games'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_30_Minutes_Women&Men_LATAM/ES_Puzzle Games' then 'MAI - 30 Min - Puzzle Games'
+            when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Candy Crush' then 'MAI - No Event - Candy Crush'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Candy Crush' then 'MAI - 5 Min - Candy Crush'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Candy Crush' then 'MAI - 15 Min - Candy Crush'
+            when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Puzzle & Decorate' then 'MAI - No Event - Puzzle & Decorate'
+            when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Puzzle&Decorate' then 'MAI - No Event - Puzzle & Decorate'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Puzzle & Decorate' then 'MAI - 5 Min - Puzzle & Decorate'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Puzzle & Decorate' then 'MAI - 15 Min - Puzzle & Decorate'
+            when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Coin_Master' then 'MAI - No Event - Coin Master'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Coin Master' then 'MAI - 5 Min - Coin Master'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Coin Master' then 'MAI - 15 Min - Coin Master'
+            when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_LATAM/MX - LAL - 1% - L7D_4+' then 'MAI - No Event - 4 of 7 Days'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_LATAM/MX - LAL - 1% - L7D_4+' then 'MAI - 5 Min - 4 of 7 Days'
+            when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_LATAM/ES - LAL - 1% - Initiate Checkout' then 'MAI - No Event - Start Checkout'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES - LAL - 1% - Like Page' then 'MAI - 5 Min - Like Page'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_LATAM/ES - LAL - 1% - Initiate Checkout' then 'MAI - 5 Min - Start Checkout'
+            when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Bubble Shooter' then 'MAI - No Event - Bubble Shooter'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Bubble Shooter' then 'MAI - 5 Min - Bubble Shooter'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Bubble Shooter' then 'MAI - 15 Min - Bubble Shooter'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_30_Minutes_Women&Men_LATAM/ES_Bubble Shooter' then 'MAI - 30 Min - Bubble Shooter'
+            when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Tile Blast' then 'MAI - No Event - Tile Blast'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Tile Blast' then 'MAI - 5 Min - Tile Blast'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Tile Blast' then 'MAI - 15 Min - Tile Blast'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_30_Minutes_Women&Men_LATAM/ES_Tile Blast' then 'MAI - 30 Min - Tile Blast'
+            when ${TABLE}.campaign_name = 'Android_Manual_Installs_No_Event_Women&Men_LATAM/ES_Blitz' then 'MAI - No Event - Blitz'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Blitz' then 'MAI - 5 Min - Blitz'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Blitz' then 'MAI - 15 Min - Blitz'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_5_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 5 Min - Walmart'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_15_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 15 Min - Walmart'
+            when ${TABLE}.campaign_name = 'Android_Manual_Events_30_Minutes_Women&Men_LATAM/ES_Walmart' then 'MAI - 30 Min - Walmart'
+            else ${TABLE}.campaign_name
+          end"
 }
 
 constant: singular_campaign_id_override {
@@ -740,45 +680,6 @@ constant: ad_placements_clean {
             else ${TABLE}.source_id
           end"
 }
-
-visualization: {
-  id: "pivoted_boxplot"
-  label: "Pivoted Boxplot"
-  dependencies: ["https://code.highcharts.com/highcharts.js", "https://code.highcharts.com/highcharts-more.js"]
-  file: "visualizations/pivoted_boxplot.js"
-}
-
-visualization: {
-  id: "2d_boxplot"
-  label: "2D Boxplot"
-  dependencies: ["https://code.highcharts.com/highcharts.js", "https://code.highcharts.com/highcharts-more.js"]
-  file: "visualizations/2d_boxplot.js"
-}
-
-visualization: {
-  id: "2d_line"
-  label: "2D Line"
-  dependencies: ["https://code.highcharts.com/highcharts.js"]
-  file: "visualizations/2d_line.js"
-}
-
-visualization: {
-  id: "2d_column"
-  label: "2D Column"
-  dependencies: ["https://code.highcharts.com/highcharts.js"]
-  file: "visualizations/2d_column.js"
-}
-
-visualization: {
-  id: "scatter"
-  label: "Scatter"
-  dependencies: ["https://code.highcharts.com/highcharts.js"]
-  file: "visualizations/scatter.js"
-}
-
-###################################################################
-# version summary overrides
-###################################################################
 
 constant: max_highest_last_level_serial_override {
   value:
@@ -913,4 +814,53 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id like '%extra_moves%' then 'Extra Moves'
       else ${TABLE}.iap_id
   end"
+}
+
+constant: ad_reward_id_strings {
+  value: "
+    case
+      when ${TABLE}.ad_reward_source_id = 'quick_boost_rocket' then 'Rocket'
+      when ${TABLE}.ad_reward_source_id = 'quick_lives' then 'Lives'
+      when ${TABLE}.ad_reward_source_id = 'quick_magnifiers' then 'Magnifiers'
+      else ${TABLE}.ad_reward_source_id
+    end"
+}
+
+###################################################################
+# Visualization JS...KEEP AT THE BOTTOM
+###################################################################
+
+visualization: {
+  id: "pivoted_boxplot"
+  label: "Pivoted Boxplot"
+  dependencies: ["https://code.highcharts.com/highcharts.js", "https://code.highcharts.com/highcharts-more.js"]
+  file: "visualizations/pivoted_boxplot.js"
+}
+
+visualization: {
+  id: "2d_boxplot"
+  label: "2D Boxplot"
+  dependencies: ["https://code.highcharts.com/highcharts.js", "https://code.highcharts.com/highcharts-more.js"]
+  file: "visualizations/2d_boxplot.js"
+}
+
+visualization: {
+  id: "2d_line"
+  label: "2D Line"
+  dependencies: ["https://code.highcharts.com/highcharts.js"]
+  file: "visualizations/2d_line.js"
+}
+
+visualization: {
+  id: "2d_column"
+  label: "2D Column"
+  dependencies: ["https://code.highcharts.com/highcharts.js"]
+  file: "visualizations/2d_column.js"
+}
+
+visualization: {
+  id: "scatter"
+  label: "Scatter"
+  dependencies: ["https://code.highcharts.com/highcharts.js"]
+  file: "visualizations/scatter.js"
 }

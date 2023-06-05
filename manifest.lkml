@@ -77,11 +77,12 @@ constant: device_manufacturer_mapping{
 
 constant: device_os_version_mapping {
   value: "CASE
+          when ${TABLE}.platform like '%iOS 16%' THEN 'iOS 16'
+          when ${TABLE}.platform like '%iOS 15%' THEN 'iOS 15'
           when ${TABLE}.platform like '%iOS 14%' THEN 'iOS 14'
           when ${TABLE}.platform like '%iOS 13%' THEN 'iOS 13'
           when ${TABLE}.platform like '%iOS 12%' THEN 'iOS 12'
           when ${TABLE}.platform like '%iOS 11%' THEN 'iOS 11'
-          when ${TABLE}.platform like '%iOS 10%' THEN 'iOS 10'
           when ${TABLE}.platform like '%iOS 10%' THEN 'iOS 10'
           when ${TABLE}.platform like '%Android OS 12%' THEN 'Android 12'
           when ${TABLE}.platform like '%Android OS 11%' THEN 'Android 11'
@@ -102,61 +103,6 @@ constant: device_platform_mapping {
             else 'Other'
           end"
 
-}
-
-constant: device_internal_tester_mapping {
-  value: "('596c5959-d64b-4b9a-92e2-02ac0da551db'
-            ,'052c6660-1668-40bc-938e-b35472d61d28'
-            ,'d766305b-e03b-433c-abe2-78fa6d4f827d'
-            ,'617c0432-a178-476c-b394-68abe694b54e'
-            ,'7322ecb2-2b37-4308-8489-16296bf0a76a'
-            ,'3c562719-a555-4989-a3ce-d1e6544eb8f8'
-            ,'6fafac46-56d8-4fe0-8ff1-bf12046f7a3d'
-            ,'82142449-d4d4-46c6-bed6-9ef6bfb002fd')"
-}
-
-constant: purchase_exclusion_list {
-  value: "('7721b79b-d8c6-4f6a-9ebb-d6afa43daed7'
-            ,'7acaf400-0343-4cb8-be6c-8707dd8d1efa'
-            ,'daf7c573-13dc-41b8-a173-915faf888c71'
-            ,'891b3c15-9451-45d0-a7b8-1459e4252f6c'
-            ,'9a804252-3902-43fb-8cab-9f1876420b5a'
-            ,'8824596a-5182-4287-bcd9-9154c1c70514'
-            ,'891b3c15-9451-45d0-a7b8-1459e4252f6c'
-            ,'ce4e1795-6a2b-4642-94f2-36acc148853e'
-            ,'1c54bae7-da32-4e68-b510-ef6e8c459ac8'
-            ,'c0e75463-850c-4a25-829e-6c6324178622'
-            ,'3f2eddee-3070-4966-8d51-495605ec2352'
-            ,'e4590cf5-244c-425d-bf7e-4ebf0416e9c5'
-            ,'c83b1dc7-24cd-40b8-931f-d73c69c949a9'
-            ,'39786fde-b372-4814-a488-bfb1bf89af8a'
-            ,'7f98585f-34ca-4322-beda-fa4ff51a8721'
-            ,'e699b639-924f-4854-8856-54f3019ecca1'
-            ,'397322b8-1459-4da7-a807-bc0d0404990d'
-            ,'a8092c91-4a71-45f8-8366-0b198adf1219'
-            ,'b045fdff-9f95-4c95-9421-5f676c11df13'
-            ,'f95ac130-e521-4538-8497-4c39abc78a14'
-            ,'e1c576c2-e424-40f2-bad9-33e1d0e0c172'
-            ,'12e6ee11-5190-418f-88bd-c61c5206025f'
-            ,'d85e4635-c0a7-450c-999f-c2220154e351'
-            ,'b3be97cd-f7f7-4c9e-aa47-1a0ad2ec4361'
-            ,'8282a558-f3ad-4b47-bee4-8b22e682d258'
-            ,'9c9ad2ed-5356-4926-91a3-831c92a3204e'
-            ,'8587a16b-6e14-445b-9bd6-901c86a49585'
-            ,'577347e2-ae91-4d81-9868-a48398a80986'
-            ,'022c5eec-1bc7-40d8-aa57-04407097d3cb'
-            ,'616c50be-c5f4-4d82-b5df-6e13e3443917'
-            ,'31df8aae-d7ff-49b4-8a37-025807e79f35'
-            ,'aff247e5-3268-424b-9fa7-fc7a31e25cfb'
-            ,'96656ebf-7125-48d5-8ea9-337724173c1a'
-            ,'054bf199-3fd3-4be0-a53b-62256d15d077'
-            ,'a0dce422-3e68-47a3-a475-fc2fe7ed295a'
-            ,'766fc669-8ce4-470f-abfe-0ef1f609a0aa'
-            ,'7ad84723-eca2-4343-988a-a3e5bbd3e499'
-            ,'21b7b19b-1ee9-4091-b144-70a32ca9a0bc'
-            ,'3a8ea274-debc-46c5-81b1-c8315740db25'
-            ,'e5bfaf46-af13-45ea-b5a3-d068777a42df'
-            ,'0c8df7f6-02fb-4ee8-a5df-a5c8f4f169d3')"
 }
 
 constant: cheaters {

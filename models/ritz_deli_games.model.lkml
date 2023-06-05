@@ -17,7 +17,6 @@ include: "/**/*.view"
 ######################################################################
 
 explore: click_stream {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   from: click_stream
   view_label: "Click Stream"
   join: player_summary_new {
@@ -31,7 +30,6 @@ explore: click_stream {
 }
 
 explore: click_sequence {
-  #sql_always_where: ${rdg_id} not in @{device_internal_tester_mapping};;
   view_label: "First in Sequence"
   description: "Identifies the common paths players take after triggering an event "
 

@@ -681,45 +681,6 @@ constant: ad_placements_clean {
           end"
 }
 
-visualization: {
-  id: "pivoted_boxplot"
-  label: "Pivoted Boxplot"
-  dependencies: ["https://code.highcharts.com/highcharts.js", "https://code.highcharts.com/highcharts-more.js"]
-  file: "visualizations/pivoted_boxplot.js"
-}
-
-visualization: {
-  id: "2d_boxplot"
-  label: "2D Boxplot"
-  dependencies: ["https://code.highcharts.com/highcharts.js", "https://code.highcharts.com/highcharts-more.js"]
-  file: "visualizations/2d_boxplot.js"
-}
-
-visualization: {
-  id: "2d_line"
-  label: "2D Line"
-  dependencies: ["https://code.highcharts.com/highcharts.js"]
-  file: "visualizations/2d_line.js"
-}
-
-visualization: {
-  id: "2d_column"
-  label: "2D Column"
-  dependencies: ["https://code.highcharts.com/highcharts.js"]
-  file: "visualizations/2d_column.js"
-}
-
-visualization: {
-  id: "scatter"
-  label: "Scatter"
-  dependencies: ["https://code.highcharts.com/highcharts.js"]
-  file: "visualizations/scatter.js"
-}
-
-###################################################################
-# version summary overrides
-###################################################################
-
 constant: max_highest_last_level_serial_override {
   value:
     "case
@@ -853,4 +814,53 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id like '%extra_moves%' then 'Extra Moves'
       else ${TABLE}.iap_id
   end"
+}
+
+constant: ad_reward_id_strings {
+  value: "
+    case
+      when ${TABLE}.ad_reward_source_id = 'quick_boost_rocket' then 'Rocket'
+      when ${TABLE}.ad_reward_source_id = 'quick_lives' then 'Lives'
+      when ${TABLE}.ad_reward_source_id = 'quick_magnifiers' then 'Magnifiers'
+      else ${TABLE}.ad_reward_source_id
+    end"
+}
+
+###################################################################
+# Visualization JS...KEEP AT THE BOTTOM
+###################################################################
+
+visualization: {
+  id: "pivoted_boxplot"
+  label: "Pivoted Boxplot"
+  dependencies: ["https://code.highcharts.com/highcharts.js", "https://code.highcharts.com/highcharts-more.js"]
+  file: "visualizations/pivoted_boxplot.js"
+}
+
+visualization: {
+  id: "2d_boxplot"
+  label: "2D Boxplot"
+  dependencies: ["https://code.highcharts.com/highcharts.js", "https://code.highcharts.com/highcharts-more.js"]
+  file: "visualizations/2d_boxplot.js"
+}
+
+visualization: {
+  id: "2d_line"
+  label: "2D Line"
+  dependencies: ["https://code.highcharts.com/highcharts.js"]
+  file: "visualizations/2d_line.js"
+}
+
+visualization: {
+  id: "2d_column"
+  label: "2D Column"
+  dependencies: ["https://code.highcharts.com/highcharts.js"]
+  file: "visualizations/2d_column.js"
+}
+
+visualization: {
+  id: "scatter"
+  label: "Scatter"
+  dependencies: ["https://code.highcharts.com/highcharts.js"]
+  file: "visualizations/scatter.js"
 }

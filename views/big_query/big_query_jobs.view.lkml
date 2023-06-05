@@ -31,6 +31,24 @@ view: big_query_jobs {
 
   }
 
+####################################################################
+## Primary Key
+####################################################################
+
+  dimension: primary_key {
+    type: string
+    sql:
+    ${TABLE}.rdg_date
+    || '_' || ${TABLE}.creation_time
+    || '_' || ${TABLE}.job_id
+    ;;
+    primary_key: yes
+    hidden: yes
+  }
+
+####################################################################
+## Dimensions
+####################################################################
 
   # # Define your dimensions and measures here, like this:
   dimension_group: creation_time {

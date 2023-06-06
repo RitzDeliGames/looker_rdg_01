@@ -478,14 +478,14 @@ dimension: primary_key {
   dimension: advertising_id {group_label:"Player IDs" type: string}
   dimension: user_id {group_label:"Player IDs" type: string}
   dimension: experiments {type: string}
-  dimension: version_at_install {type: string}
-  dimension: version_d2 {type: string}
-  dimension: version_d7 {type: string}
-  dimension: version_d14 {type: string}
-  dimension: version_d30 {type: string}
-  dimension: version_d60 {type: string}
-  dimension: version_d90 {type: string}
-  dimension: version_current {type: string}
+  dimension: version_at_install {group_label:"Versions" type: string}
+  dimension: version_d2 {group_label:"Versions" type: string}
+  dimension: version_d7 {group_label:"Versions" type: string}
+  dimension: version_d14 {group_label:"Versions" type: string}
+  dimension: version_d30 {group_label:"Versions" type: string}
+  dimension: version_d60 {group_label:"Versions" type: string}
+  dimension: version_d90 {group_label:"Versions" type: string}
+  dimension: version_current {group_label:"Versions" type: string}
   dimension: platform {type: string}
   dimension: country {type: string}
   dimension: region {type:string sql:@{country_region};;}

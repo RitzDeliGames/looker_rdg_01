@@ -560,14 +560,14 @@ dimension: primary_key {
   dimension: retention_d30 {group_label:"Retention" type: number}
   dimension: retention_d60 {group_label:"Retention" type: number}
   dimension: retention_d90 {group_label:"Retention" type: number}
-  dimension: cumulative_star_spend_d1 {type: number}
-  dimension: cumulative_star_spend_d2 {type: number}
-  dimension: cumulative_star_spend_d7 {type: number}
-  dimension: cumulative_star_spend_d14 {type: number}
-  dimension: cumulative_star_spend_d30 {type: number}
-  dimension: cumulative_star_spend_d60 {type: number}
-  dimension: cumulative_star_spend_d90 {type: number}
-  dimension: cumulative_star_spend_current {type: number}
+  dimension: cumulative_star_spend_d1 {group_label:"Cumulative Stars Spent" type: number}
+  dimension: cumulative_star_spend_d2 {group_label:"Cumulative Stars Spent" type: number}
+  dimension: cumulative_star_spend_d7 {group_label:"Cumulative Stars Spent" type: number}
+  dimension: cumulative_star_spend_d14 {group_label:"Cumulative Stars Spent" type: number}
+  dimension: cumulative_star_spend_d30 {group_label:"Cumulative Stars Spent" type: number}
+  dimension: cumulative_star_spend_d60 {group_label:"Cumulative Stars Spent" type: number}
+  dimension: cumulative_star_spend_d90 {group_label:"Cumulative Stars Spent" type: number}
+  dimension: cumulative_star_spend_current {group_label:"Cumulative Stars Spent" type: number}
   dimension: firebase_advertising_id {type:string}
   dimension: cumulative_ad_views_d1 {group_label:"Cumulative Ad Views" type: number}
   dimension: cumulative_ad_views_d2 {group_label:"Cumulative Ad Views" type: number}

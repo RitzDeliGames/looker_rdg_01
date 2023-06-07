@@ -280,7 +280,7 @@ view: player_reward_incremental {
   }
 
   ####################################################################
-  ## Other Dimensions
+  ## Dates
   ####################################################################
 
   dimension_group: reward_date {
@@ -289,8 +289,45 @@ view: player_reward_incremental {
     sql: ${TABLE}.timestamp_utc ;;
   }
 
+  dimension_group: created_at {
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.created_at ;;
+  }
 
+  ####################################################################
+  ## Other Dimensions
+  ####################################################################
 
+  dimension: rdg_id {type:string}
+  dimension: reward_event {type:string}
+  dimension: version {type:string}
+  dimension: session_id {type:string}
+  dimension: experiments {type:string}
+  dimension: win_streak {type:number}
+  dimension: last_level_serial {type:number}
+  dimension: cumulative_time_played_minutes {type:number}
+  dimension: count_reward_events {type:number}
+  dimension: reward_rocket {type:number}
+  dimension: reward_bomb {type:number}
+  dimension: reward_color_ball {type:number}
+  dimension: reward_clear_cell {type:number}
+  dimension: reward_clear_horizontal {type:number}
+  dimension: reward_clear_vertical {type:number}
+  dimension: reward_shuffle {type:number}
+  dimension: reward_currency_03 {type:number}
+  dimension: reward_currency_04 {type:number}
+  dimension: reward_infinite_lives {type:number}
+  dimension: balance_rocket {type:number}
+  dimension: balance_bomb {type:number}
+  dimension: balance_color_ball {type:number}
+  dimension: balance_clear_cell {type:number}
+  dimension: balance_clear_horizontal {type:number}
+  dimension: balance_clear_vertical {type:number}
+  dimension: balance_shuffle {type:number}
+  dimension: balance_currency_03 {type:number}
+  dimension: balance_currency_04 {type:number}
+  dimension: balance_infinite_lives {type:number}
 
 
   ####################################################################

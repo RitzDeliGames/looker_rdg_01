@@ -712,8 +712,8 @@ view: player_round_summary {
   # dates
   dimension_group: rdg_date {
     type: time
-    timeframes: [date, week, month, year]
-    sql: ${TABLE}.rdg_date ;;
+    timeframes: [time, hour, date, week, month, year]
+    sql: ${TABLE}.round_start_timestamp_utc ;;
   }
   dimension_group: created_date_timestamp {
     type: time

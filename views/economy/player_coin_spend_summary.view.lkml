@@ -69,10 +69,10 @@ dimension: primary_key {
 
   # dates
   dimension_group: rdg_date {
-    label: "Spend"
+    label: "Spend Time"
     type: time
-    timeframes: [date, week, month, year]
-    sql: ${TABLE}.rdg_date ;;
+    timeframes: [time, date, week, month, year]
+    sql: ${TABLE}.timestamp_utc ;;
   }
   dimension_group: created_date_timestamp {
     label: "Created"

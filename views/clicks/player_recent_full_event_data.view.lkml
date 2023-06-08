@@ -114,7 +114,7 @@ view: player_recent_full_event_data {
   dimension_group: timestamp_utc {
     label: "Event Time"
     type: time
-    timeframes: [time, date, week, month, year]
+    timeframes: [hour_of_day, time, date, week, month, year]
     sql: ${TABLE}.timestamp_utc ;;
   }
 

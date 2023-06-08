@@ -741,6 +741,13 @@ dimension: primary_key {
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      ,"$.restoreBehavior_20230601"
+      ,"$.hapticv2_20230524"
+      ,"$.playNext_20230503"
+      ,"$.askForHelp_20230531"
+      ,"$.moveTrim_20230601"
+      ,"$.finalMoveAnim"
+      ,"$.playNext_20230607"
       ,"$.popUpManager_20230502"
       ,"$.fueSkip_20230425"
       ,"$.autoRestore_20230502"

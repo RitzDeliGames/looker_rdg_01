@@ -258,6 +258,12 @@ view: player_summary_new {
           , max( case when day_number = 5 then 1 else 0 end ) as retention_d5
           , max( case when day_number = 6 then 1 else 0 end ) as retention_d6
           , max( case when day_number = 7 then 1 else 0 end ) as retention_d7
+          , max( case when day_number = 8 then 1 else 0 end ) as retention_d8
+          , max( case when day_number = 9 then 1 else 0 end ) as retention_d9
+          , max( case when day_number = 10 then 1 else 0 end ) as retention_d10
+          , max( case when day_number = 11 then 1 else 0 end ) as retention_d11
+          , max( case when day_number = 12 then 1 else 0 end ) as retention_d12
+          , max( case when day_number = 13 then 1 else 0 end ) as retention_d13
           , max( case when day_number = 14 then 1 else 0 end ) as retention_d14
           , max( case when day_number = 21 then 1 else 0 end ) as retention_d21
           , max( case when day_number = 30 then 1 else 0 end ) as retention_d30
@@ -555,6 +561,12 @@ dimension: primary_key {
   dimension: highest_last_level_serial_current {group_label:"Highest Level" label:"Highest Level" type: number}
   dimension: retention_d2 {group_label:"Retention" type: number}
   dimension: retention_d7 {group_label:"Retention" type: number}
+  dimension: retention_d8 {group_label:"Retention" type: number}
+  dimension: retention_d9 {group_label:"Retention" type: number}
+  dimension: retention_d10 {group_label:"Retention" type: number}
+  dimension: retention_d11 {group_label:"Retention" type: number}
+  dimension: retention_d12 {group_label:"Retention" type: number}
+  dimension: retention_d13 {group_label:"Retention" type: number}
   dimension: retention_d14 {group_label:"Retention" type: number}
   dimension: retention_d21 {group_label:"Retention" type: number}
   dimension: retention_d30 {group_label:"Retention" type: number}
@@ -1311,6 +1323,156 @@ measure: revenue_per_install_d7 {
     drill_fields: [numerator_retention_d7,available_player_count_d7]
   }
 
+  measure: average_retention_d8 {
+    group_label: "Average Retention"
+    label: "D8"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.retention_d8
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    drill_fields: [numerator_retention_d8,available_player_count_d8]
+  }
+
+  measure: average_retention_d9 {
+    group_label: "Average Retention"
+    label: "D9"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 9
+          then ${TABLE}.retention_d9
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 9
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    #drill_fields: [numerator_retention_d9,available_player_count_d9]
+  }
+
+  measure: average_retention_d10 {
+    group_label: "Average Retention"
+    label: "D10"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 10
+          then ${TABLE}.retention_d10
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 10
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    #drill_fields: [numerator_retention_d10,available_player_count_d10]
+  }
+
+  measure: average_retention_d11 {
+    group_label: "Average Retention"
+    label: "D11"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 11
+          then ${TABLE}.retention_d11
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 11
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    #drill_fields: [numerator_retention_d11,available_player_count_d11]
+  }
+
+  measure: average_retention_d12 {
+    group_label: "Average Retention"
+    label: "D12"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 12
+          then ${TABLE}.retention_d12
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 12
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    #drill_fields: [numerator_retention_d12,available_player_count_d12]
+  }
+
+  measure: average_retention_d13 {
+    group_label: "Average Retention"
+    label: "D13"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 13
+          then ${TABLE}.retention_d13
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 13
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    #drill_fields: [numerator_retention_d13,available_player_count_d13]
+  }
+
   measure: average_retention_d14 {
     group_label: "Average Retention"
     label: "D14"
@@ -1557,7 +1719,21 @@ measure: count_distinct_players {
     value_format_name: decimal_0
 
   }
+  measure: available_player_count_d8 {
+    group_label: "Average Retention"
+    label: "Retention Denominator D8"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
 
+  }
   measure: available_player_count_d14 {
     group_label: "Average Retention"
     label: "Retention Denominator D14"
@@ -1937,6 +2113,22 @@ measure: count_distinct_players {
         case
           when ${TABLE}.max_available_day_number >= 7
           then ${TABLE}.retention_d7
+          else 0
+          end )
+    ;;
+    value_format_name: decimal_0
+
+  }
+
+  measure: numerator_retention_d8 {
+    group_label: "Average Retention"
+    label: "Retention Numerator D7"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.retention_d8
           else 0
           end )
     ;;

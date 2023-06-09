@@ -512,6 +512,12 @@ view: player_hourly {
   dimension: country {type:string}
   dimension: version {type: number}
 
+  dimension: spender_flag {
+    type: number
+    sql: case when ${TABLE}.mtx_ltv_from_data > 0 then 1 else 0 end
+    ;;
+  }
+
   measure: max_highest_last_level_serial {
     type: number
     label: "Highest Level"

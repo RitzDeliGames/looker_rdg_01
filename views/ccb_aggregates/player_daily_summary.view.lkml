@@ -143,6 +143,16 @@ ads_by_date as (
         , max( a.feature_participation_flour_frenzy ) as feature_participation_flour_frenzy
         , max( a.feature_participation_lucky_dice ) as feature_participation_lucky_dice
         , max( a.feature_participation_treasure_trove ) as feature_participation_treasure_trove
+        , max( feature_participation_ask_for_help_request ) as feature_participation_ask_for_help_request
+        , max( feature_participation_ask_for_help_completed ) as feature_participation_ask_for_help_completed
+        , max( feature_participation_ask_for_help_high_five ) as feature_participation_ask_for_help_high_five
+        , max( feature_participation_ask_for_help_high_five_return ) as feature_participation_ask_for_help_high_five_return
+
+        -- ask for help counts
+        , max( feature_participation_ask_for_help_request ) as count_ask_for_help_request
+        , max( feature_participation_ask_for_help_completed ) as count_ask_for_help_completed
+        , max( feature_participation_ask_for_help_high_five ) as count_ask_for_help_high_five
+        , max( feature_participation_ask_for_help_high_five_return ) as count_ask_for_help_high_five_return
 
         -- errors
         , max( a.errors_low_memory_warning ) as errors_low_memory_warning
@@ -243,6 +253,16 @@ ads_by_date as (
         , max( a.feature_participation_flour_frenzy ) as feature_participation_flour_frenzy
         , max( a.feature_participation_lucky_dice ) as feature_participation_lucky_dice
         , max( a.feature_participation_treasure_trove ) as feature_participation_treasure_trove
+        , max( feature_participation_ask_for_help_request ) as feature_participation_ask_for_help_request
+        , max( feature_participation_ask_for_help_completed ) as feature_participation_ask_for_help_completed
+        , max( feature_participation_ask_for_help_high_five ) as feature_participation_ask_for_help_high_five
+        , max( feature_participation_ask_for_help_high_five_return ) as feature_participation_ask_for_help_high_five_return
+
+        -- ask for help counts
+        , max( feature_participation_ask_for_help_request ) as count_ask_for_help_request
+        , max( feature_participation_ask_for_help_completed ) as count_ask_for_help_completed
+        , max( feature_participation_ask_for_help_high_five ) as count_ask_for_help_high_five
+        , max( feature_participation_ask_for_help_high_five_return ) as count_ask_for_help_high_five_return
 
         -- errors
         , max( a.errors_low_memory_warning ) as errors_low_memory_warning
@@ -382,6 +402,16 @@ ads_by_date as (
         , a.feature_participation_flour_frenzy
         , a.feature_participation_lucky_dice
         , a.feature_participation_treasure_trove
+        , a.feature_participation_ask_for_help_request
+        , a.feature_participation_ask_for_help_completed
+        , a.feature_participation_ask_for_help_high_five
+        , a.feature_participation_ask_for_help_high_five_return
+
+        -- ask for help counts
+        , a.count_ask_for_help_request
+        , a.count_ask_for_help_completed
+        , a.count_ask_for_help_high_five
+        , a.count_ask_for_help_high_five_return
 
         -- system info fixes
         , ifnull( a.hardware, b.hardware ) as hardware
@@ -745,6 +775,7 @@ where
 
 
 
+
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -4 hour)) ;;
     publish_as_db_view: yes
@@ -836,6 +867,22 @@ dimension: primary_key {
     label: "Treasure Trove"
     type:number}
 
+  dimension: feature_participation_ask_for_help_request {
+    group_label: "Daily Feature Participation"
+    label: "Treasure Trove"
+    type:number}
+  dimension: feature_participation_ask_for_help_completed {
+    group_label: "Daily Feature Participation"
+    label: "Treasure Trove"
+    type:number}
+  dimension: feature_participation_ask_for_help_high_five {
+    group_label: "Daily Feature Participation"
+    label: "Treasure Trove"
+    type:number}
+  dimension: feature_participation_ask_for_help_high_five_return {
+    group_label: "Daily Feature Participation"
+    label: "Treasure Trove"
+    type:number}
 
 
   dimension: lowest_last_level_serial_bin {
@@ -1148,6 +1195,43 @@ dimension: primary_key {
     ;;
     value_format_name: percent_0
   }
+
+  measure: percent_players_engaged_with_ask_for_help_request {
+    group_label: "Daily Feature Participation"
+    label: "Ask for Help Request"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_ask_for_help_request > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_engaged_with_ask_for_help_completed {
+    group_label: "Daily Feature Participation"
+    label: "Ask for Help Completed"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_ask_for_help_completed > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
 
 
   measure: percent_players_playing_rounds {

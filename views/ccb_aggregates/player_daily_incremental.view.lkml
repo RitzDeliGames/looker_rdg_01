@@ -4,11 +4,11 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-05-22'
+      -- update '2023-06-09'
 
       -- create or replace table tal_scratch.player_daily_incremental as
 
-      WITH
+      with
 
       ------------------------------------------------------------------------
       -- player_daily_incremental
@@ -17,9 +17,9 @@ view: player_daily_incremental {
       -- Select all columns w/ the current date range
       ------------------------------------------------------------------------
 
-      base_data AS (
+      base_data as (
 
-        SELECT
+        select
           timestamp as timestamp_utc
           , created_at
           , platform
@@ -52,9 +52,9 @@ view: player_daily_incremental {
           , end_of_content_zones
           , current_zone
           , current_zone_progress
-        FROM
+        from
           `eraser-blast.game_data.events` a
-        WHERE
+        where
 
           ------------------------------------------------------------------------
           -- Date selection
@@ -697,7 +697,45 @@ view: player_daily_incremental {
               else 0
               end as int64) as load_time_count_from_game_scene
 
-        FROM
+        -------------------------------------------------
+        -- Ask for Help Participation
+        -------------------------------------------------
+
+        , safe_cast(case
+              when
+                event_name = 'afh'
+                and safe_cast(json_extract_scalar(extra_json, "$.afh_action") as string) = 'request'
+              then 1
+              else 0
+              end as int64) as feature_participation_ask_for_help_request
+
+        , safe_cast(case
+              when
+                event_name = 'afh'
+                and safe_cast(json_extract_scalar(extra_json, "$.afh_action") as string) = 'completed'
+              then 1
+              else 0
+              end as int64) as feature_participation_ask_for_help_completed
+
+        , safe_cast(case
+              when
+                event_name = 'afh'
+                and safe_cast(json_extract_scalar(extra_json, "$.afh_action") as string) = 'high_five'
+              then 1
+              else 0
+              end as int64) as feature_participation_ask_for_help_high_five
+
+        , safe_cast(case
+              when
+                event_name = 'afh'
+                and safe_cast(json_extract_scalar(extra_json, "$.afh_action") as string) = 'high_five_return'
+              then 1
+              else 0
+              end as int64) as feature_participation_ask_for_help_high_five_return
+
+
+
+        from
             base_data
     )
 
@@ -772,6 +810,16 @@ view: player_daily_incremental {
         , max( feature_participation_flour_frenzy ) as feature_participation_flour_frenzy
         , max( feature_participation_lucky_dice ) as feature_participation_lucky_dice
         , max( feature_participation_treasure_trove ) as feature_participation_treasure_trove
+        , max( feature_participation_ask_for_help_request ) as feature_participation_ask_for_help_request
+        , max( feature_participation_ask_for_help_completed ) as feature_participation_ask_for_help_completed
+        , max( feature_participation_ask_for_help_high_five ) as feature_participation_ask_for_help_high_five
+        , max( feature_participation_ask_for_help_high_five_return ) as feature_participation_ask_for_help_high_five_return
+
+        -- ask for help counts
+        , sum( feature_participation_ask_for_help_request ) as count_ask_for_help_request
+        , sum( feature_participation_ask_for_help_completed ) as count_ask_for_help_completed
+        , sum( feature_participation_ask_for_help_high_five ) as count_ask_for_help_high_five
+        , sum( feature_participation_ask_for_help_high_five_return ) as count_ask_for_help_high_five_return
 
         -- errors
         , sum(errors_low_memory_warning) as errors_low_memory_warning
@@ -804,7 +852,6 @@ view: player_daily_incremental {
         left join frame_rate_histogram_collapse b
             on a.rdg_id = b.rdg_id
             and a.rdg_date = b.rdg_date
-
 
 
       ;;

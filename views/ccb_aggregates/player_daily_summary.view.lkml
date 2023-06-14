@@ -551,6 +551,13 @@ select
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
       ) cumulative_mtx_purchase_dollars
 
+  -- cumulative_count_mtx_purchases
+  , SUM( ifnull( count_mtx_purchases, 0 ) ) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_count_mtx_purchases
+
   -- cumulative_ad_view_dollars
   , SUM(IFNULL(ad_view_dollars,0)) OVER (
       PARTITION BY rdg_id
@@ -777,6 +784,7 @@ where
 
 
 
+
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -4 hour)) ;;
     publish_as_db_view: yes
@@ -836,6 +844,7 @@ dimension: primary_key {
   # numbers
   dimension: mtx_purchase_dollars {type:number}
   dimension: count_mtx_purchases {type:number}
+  dimension: cumulative_count_mtx_purchases {type:number}
   dimension: ad_view_dollars {type:number}
   dimension: mtx_ltv_from_data {type:number}
   dimension: ad_views {type:number}

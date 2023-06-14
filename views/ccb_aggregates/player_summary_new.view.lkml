@@ -483,6 +483,7 @@ dimension: primary_key {
   dimension: display_name {group_label:"Player IDs" type: string}
   dimension: advertising_id {group_label:"Player IDs" type: string}
   dimension: user_id {group_label:"Player IDs" type: string}
+  dimension: firebase_advertising_id {group_label:"Player IDs" type:string}
   dimension: experiments {type: string}
   dimension: version_at_install {group_label:"Versions" label: "Install Version" type: string}
   dimension: version_d2 {group_label:"Versions" type: string}
@@ -580,7 +581,6 @@ dimension: primary_key {
   dimension: cumulative_star_spend_d60 {group_label:"Cumulative Stars Spent" type: number}
   dimension: cumulative_star_spend_d90 {group_label:"Cumulative Stars Spent" type: number}
   dimension: cumulative_star_spend_current {group_label:"Cumulative Stars Spent" type: number}
-  dimension: firebase_advertising_id {type:string}
   dimension: cumulative_ad_views_d1 {group_label:"Cumulative Ad Views" type: number}
   dimension: cumulative_ad_views_d2 {group_label:"Cumulative Ad Views" type: number}
   dimension: cumulative_ad_views_d7 {group_label:"Cumulative Ad Views" type: number}

@@ -11,6 +11,7 @@ view: player_summary_new {
       -- last update: '2023-06-14'
 
 
+
 -- create or replace table `tal_scratch.player_summary_new` AS
 
 with
@@ -212,6 +213,7 @@ FROM
      , max( case when day_number <= 14 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d14
      , max( case when day_number <= 30 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d30
      , max( case when day_number <= 60 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d60
+     , max( case when day_number <= 90 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d90
      , max( cumulative_mtx_purchase_dollars ) as cumulative_mtx_purchase_dollars_current
      , max(mtx_ltv_from_data) as mtx_ltv_from_data
 
@@ -222,6 +224,7 @@ FROM
     , max( case when day_number <= 14 then cumulative_count_mtx_purchases else 0 end ) as cumulative_count_mtx_purchases_d14
     , max( case when day_number <= 30 then cumulative_count_mtx_purchases else 0 end ) as cumulative_count_mtx_purchases_d30
     , max( case when day_number <= 60 then cumulative_count_mtx_purchases else 0 end ) as cumulative_count_mtx_purchases_d60
+    , max( case when day_number <= 90 then cumulative_count_mtx_purchases else 0 end ) as cumulative_count_mtx_purchases_d90
     , max( cumulative_count_mtx_purchases ) as cumulative_count_mtx_purchases_current
 
      -- ad view dollars
@@ -231,6 +234,7 @@ FROM
      , max( case when day_number <= 14 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d14
      , max( case when day_number <= 30 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d30
      , max( case when day_number <= 60 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d60
+     , max( case when day_number <= 90 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d90
      , max( cumulative_ad_view_dollars ) as cumulative_ad_view_dollars_current
 
      -- cumulative ad views
@@ -240,6 +244,7 @@ FROM
      , max( case when day_number <= 14 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d14
      , max( case when day_number <= 30 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d30
      , max( case when day_number <= 60 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d60
+     , max( case when day_number <= 90 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d90
      , max(cumulative_ad_views) as cumulative_ad_views_current
 
      -- combined dollars
@@ -249,6 +254,7 @@ FROM
      , max( case when day_number <= 14 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d14
      , max( case when day_number <= 30 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d30
      , max( case when day_number <= 60 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d60
+     , max( case when day_number <= 90 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d90
      , max( cumulative_combined_dollars ) as cumulative_combined_dollars_current
 
      -- highest last level serial
@@ -258,6 +264,7 @@ FROM
      , max( case when day_number <= 14 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d14
      , max( case when day_number <= 30 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d30
      , max( case when day_number <= 60 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d60
+     , max( case when day_number <= 90 then highest_last_level_serial else 0 end ) as highest_last_level_serial_d90
      , max( highest_last_level_serial ) as highest_last_level_serial_current
 
     -- retention
@@ -270,6 +277,7 @@ FROM
     , max( case when day_number = 14 then 1 else 0 end ) as retention_d14
     , max( case when day_number = 30 then 1 else 0 end ) as retention_d30
     , max( case when day_number = 60 then 1 else 0 end ) as retention_d60
+    , max( case when day_number = 90 then 1 else 0 end ) as retention_d90
 
     -- cumulative star spend
     , max( case when day_number <= 1 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d1

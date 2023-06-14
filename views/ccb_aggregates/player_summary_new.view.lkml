@@ -275,7 +275,14 @@ FROM
     , max( case when day_number = 5 then 1 else 0 end ) as retention_d5
     , max( case when day_number = 6 then 1 else 0 end ) as retention_d6
     , max( case when day_number = 7 then 1 else 0 end ) as retention_d7
+    , max( case when day_number = 8 then 1 else 0 end ) as retention_d8
+    , max( case when day_number = 9 then 1 else 0 end ) as retention_d9
+    , max( case when day_number = 10 then 1 else 0 end ) as retention_d10
+    , max( case when day_number = 11 then 1 else 0 end ) as retention_d11
+    , max( case when day_number = 12 then 1 else 0 end ) as retention_d12
+    , max( case when day_number = 13 then 1 else 0 end ) as retention_d13
     , max( case when day_number = 14 then 1 else 0 end ) as retention_d14
+    , max( case when day_number = 21 then 1 else 0 end ) as retention_d21
     , max( case when day_number = 30 then 1 else 0 end ) as retention_d30
     , max( case when day_number = 60 then 1 else 0 end ) as retention_d60
     , max( case when day_number = 90 then 1 else 0 end ) as retention_d90
@@ -454,7 +461,6 @@ from
   add_on_mtx_percentile_and_singular_data a
   left join supported_devices_table b
     on a.device_model = b.device_model
-
 
 
 

@@ -255,6 +255,7 @@ FROM
      , max( case when day_number <= 30 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d30
      , max( case when day_number <= 60 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d60
      , max( case when day_number <= 90 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d90
+     , max( case when day_number <= 120 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d120
      , max( cumulative_combined_dollars ) as cumulative_combined_dollars_current
 
      -- highest last level serial
@@ -453,6 +454,7 @@ from
   add_on_mtx_percentile_and_singular_data a
   left join supported_devices_table b
     on a.device_model = b.device_model
+
 
 
 

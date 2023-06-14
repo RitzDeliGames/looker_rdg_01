@@ -8,9 +8,9 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-05-31'
+      -- last update: '2023-06-14'
 
-      -- create or replace table `tal_scratch.player_daily_summary` as
+-- create or replace table `tal_scratch.player_daily_summary` as
 
 with
 
@@ -204,6 +204,7 @@ ads_by_date as (
         , max(a.install_version) as install_version
         , max(a.ad_view_dollars) as ad_view_dollars
         , sum( ifnull(b.mtx_purchase_dollars,0) + ifnull(c.mtx_purchase_dollars,0)) as mtx_purchase_dollars
+        , sum( ifnull(b.count_mtx_purchases,0) + ifnull(c.count_mtx_purchases,0)) as count_mtx_purchases
         , max(a.mtx_ltv_from_data) as mtx_ltv_from_data
         , max(a.ad_views) as ad_views
         , max(a.count_sessions) as count_sessions
@@ -363,6 +364,7 @@ ads_by_date as (
         , a.install_version
         , a.ad_view_dollars
         , a.mtx_purchase_dollars
+        , a.count_mtx_purchases
         , a.mtx_ltv_from_data
         , a.ad_views
         , a.count_sessions
@@ -775,7 +777,6 @@ where
 
 
 
-
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -4 hour)) ;;
     publish_as_db_view: yes
@@ -834,6 +835,7 @@ dimension: primary_key {
 
   # numbers
   dimension: mtx_purchase_dollars {type:number}
+  dimension: count_mtx_purchases {type:number}
   dimension: ad_view_dollars {type:number}
   dimension: mtx_ltv_from_data {type:number}
   dimension: ad_views {type:number}

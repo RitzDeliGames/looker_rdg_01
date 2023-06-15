@@ -1289,7 +1289,7 @@ dimension: primary_key {
   }
 
   measure: percent_players_playing_campaign {
-    group_label: "Calculated Fields"
+    group_label: "Participation by Game Mode"
     label: "Campaign"
     type: number
     sql:
@@ -1306,7 +1306,7 @@ dimension: primary_key {
     value_format_name: percent_0
   }
   measure: percent_players_playing_movesmaster {
-    group_label: "Calculated Fields"
+    group_label: "Participation by Game Mode"
     label: "Moves Master"
     type: number
     sql:
@@ -1324,7 +1324,7 @@ dimension: primary_key {
   }
 
   measure: percent_players_playing_puzzle {
-    group_label: "Calculated Fields"
+    group_label: "Participation by Game Mode"
     label: "Puzzle"
     type: number
     sql:
@@ -1342,7 +1342,7 @@ dimension: primary_key {
   }
 
   measure: percent_players_playing_askforhelp {
-    group_label: "Calculated Fields"
+    group_label: "Participation by Game Mode"
     label: "Ask For Help"
     type: number
     sql:

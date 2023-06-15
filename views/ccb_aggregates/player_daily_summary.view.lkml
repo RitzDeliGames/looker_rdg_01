@@ -8,7 +8,7 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-06-14'
+      -- last update: '2023-06-15'
 
 -- create or replace table `tal_scratch.player_daily_summary` as
 
@@ -104,11 +104,13 @@ ads_by_date as (
         , max(a.round_end_events_campaign) as round_end_events_campaign
         , max(a.round_end_events_movesmaster) as round_end_events_movesmaster
         , max(a.round_end_events_puzzle) as round_end_events_puzzle
+        , max(a.round_end_events_askforhelp) as round_end_events_askforhelp
+
         , max(a.round_time_in_minutes) as round_time_in_minutes
         , max(a.round_time_in_minutes_campaign) as round_time_in_minutes_campaign
         , max(a.round_time_in_minutes_movesmaster) as round_time_in_minutes_movesmaster
         , max(a.round_time_in_minutes_puzzle) AS round_time_in_minutes_puzzle
-
+        , max(a.round_time_in_minutes_askforhelp) AS round_time_in_minutes_askforhelp
 
         , max(a.lowest_last_level_serial) as lowest_last_level_serial
         , max(a.highest_last_level_serial) as highest_last_level_serial
@@ -216,10 +218,13 @@ ads_by_date as (
         , max(a.round_end_events_campaign) as round_end_events_campaign
         , max(a.round_end_events_movesmaster) as round_end_events_movesmaster
         , max(a.round_end_events_puzzle) as round_end_events_puzzle
+        , max(a.round_end_events_askforhelp) as round_end_events_askforhelp
+
         , max(a.round_time_in_minutes) as round_time_in_minutes
         , max(a.round_time_in_minutes_campaign) as round_time_in_minutes_campaign
         , max(a.round_time_in_minutes_movesmaster) as round_time_in_minutes_movesmaster
         , max(a.round_time_in_minutes_puzzle) AS round_time_in_minutes_puzzle
+        , max(a.round_time_in_minutes_askforhelp) AS round_time_in_minutes_askforhelp
 
         , max(a.lowest_last_level_serial) as lowest_last_level_serial
         , max(a.highest_last_level_serial) as highest_last_level_serial
@@ -376,10 +381,13 @@ ads_by_date as (
         , a.round_end_events_campaign
         , a.round_end_events_movesmaster
         , a.round_end_events_puzzle
+        , a.round_end_events_askforhelp
+
         , a.round_time_in_minutes
         , a.round_time_in_minutes_campaign
         , a.round_time_in_minutes_movesmaster
         , a.round_time_in_minutes_puzzle
+        , a.round_time_in_minutes_askforhelp
 
         , a.lowest_last_level_serial
         , a.highest_last_level_serial
@@ -697,6 +705,13 @@ select
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
       ) cumulative_round_end_events_puzzle
 
+  -- round_end_events_askforhelp
+  , SUM(round_end_events_askforhelp) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_round_end_events_askforhelp
+
   -- round_time_in_minutes
   , SUM(round_time_in_minutes) OVER (
       PARTITION BY rdg_id
@@ -725,7 +740,12 @@ select
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
       ) cumulative_round_time_in_minutes_puzzle
 
-
+  -- round_time_in_minutes_askforhelp
+  , SUM(round_time_in_minutes_askforhelp) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_round_time_in_minutes_askforhelp
 
   -- Calculate quests_completed
   -- uses prior row highest_quests_completed
@@ -781,7 +801,6 @@ FROM
 where
     -- select date_add( current_date(), interval -1 day )
     rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
-
 
 
 
@@ -945,17 +964,24 @@ dimension: primary_key {
   dimension: round_end_events_campaign {type:number}
   dimension: round_end_events_movesmaster {type:number}
   dimension: round_end_events_puzzle {type:number}
+  dimension: round_end_events_askforhelp {type:number}
+
   dimension: round_time_in_minutes {type:number}
   dimension: round_time_in_minutes_campaign {type:number}
   dimension: round_time_in_minutes_movesmaster {type:number}
   dimension: round_time_in_minutes_puzzle {type:number}
+  dimension: round_time_in_minutes_askforhelp {type:number}
+
   dimension: cumulative_round_end_events_campaign {type:number}
   dimension: cumulative_round_end_events_movesmaster {type:number}
   dimension: cumulative_round_end_events_puzzle {type:number}
+  dimension: cumulative_round_end_events_askforhelp {type:number}
+
   dimension: cumulative_round_time_in_minutes {type:number}
   dimension: cumulative_round_time_in_minutes_campaign {type:number}
   dimension: cumulative_round_time_in_minutes_movesmaster {type:number}
   dimension: cumulative_round_time_in_minutes_puzzle {type:number}
+  dimension: cumulative_round_time_in_minutes_askforhelp {type:number}
 
   ## end of content and zones
   dimension: end_of_content_levels {type: yesno}
@@ -1305,6 +1331,24 @@ dimension: primary_key {
       safe_divide(
         count(distinct case
           when ${TABLE}.round_end_events_puzzle > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_playing_askforhelp {
+    group_label: "Calculated Fields"
+    label: "Ask For Help"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.round_end_events_askforhelp > 0
           then ${TABLE}.rdg_id
           else null
           end )

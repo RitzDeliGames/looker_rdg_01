@@ -4,9 +4,9 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-06-09'
+      -- update '2023-06-15'
 
-      -- create or replace table tal_scratch.player_daily_incremental as
+-- create or replace table tal_scratch.player_daily_incremental as
 
       with
 
@@ -65,7 +65,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-06-09' -- Last Full Update
+                when date(current_date()) <= '2023-06-15' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -354,6 +354,18 @@ view: player_daily_incremental {
               ELSE 0
               END AS INT64) AS round_end_events_puzzle
 
+        -- round end events - ask for help
+          , safe_cast(CASE
+              WHEN
+                event_name = 'round_end'
+                and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
+                    'helpRequest'
+                )
+              THEN 1 -- count events
+              ELSE 0
+              END AS INT64) AS round_end_events_askforhelp
+
+
         --------------------------------------------------------------
         -- round time events
         --------------------------------------------------------------
@@ -397,6 +409,18 @@ view: player_daily_incremental {
               THEN ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
               ELSE 0
               END AS INT64) AS round_time_in_minutes_puzzle
+
+        -- round end events - askforhelp
+          , safe_cast(CASE
+              WHEN
+                event_name = 'round_end'
+                and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
+                    'helpRequest'
+                )
+              THEN ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
+              ELSE 0
+              END AS INT64) AS round_time_in_minutes_askforhelp
+
 
           -- Lowest Last level serial recorded
           , MIN(IFNULL(safe_cast(last_level_serial AS INT64),0)) OVER (
@@ -772,10 +796,13 @@ view: player_daily_incremental {
         , SUM(round_end_events_campaign) AS round_end_events_campaign
         , SUM(round_end_events_movesmaster) AS round_end_events_movesmaster
         , SUM(round_end_events_puzzle) AS round_end_events_puzzle
+        , SUM(round_end_events_askforhelp) AS round_end_events_askforhelp
+
         , SUM(round_time_in_minutes) AS round_time_in_minutes
         , SUM(round_time_in_minutes_campaign) AS round_time_in_minutes_campaign
         , SUM(round_time_in_minutes_movesmaster) AS round_time_in_minutes_movesmaster
         , SUM(round_time_in_minutes_puzzle) AS round_time_in_minutes_puzzle
+        , SUM(round_time_in_minutes_askforhelp) AS round_time_in_minutes_askforhelp
 
         , MAX(lowest_last_level_serial) AS lowest_last_level_serial
         , MAX(highest_last_level_serial) AS highest_last_level_serial
@@ -852,6 +879,7 @@ view: player_daily_incremental {
         left join frame_rate_histogram_collapse b
             on a.rdg_id = b.rdg_id
             and a.rdg_date = b.rdg_date
+
 
 
       ;;

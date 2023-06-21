@@ -898,6 +898,7 @@ view: player_daily_incremental {
         , b.percent_frames_below_22
         , b.percent_frames_between_23_and_40
         , b.percent_frames_above_40
+        , c.average_asset_load_time
     from
         summarized_by_date a
         left join frame_rate_histogram_collapse b
@@ -906,6 +907,8 @@ view: player_daily_incremental {
         left join average_asset_load_times c
             on a.rdg_id = c.rdg_id
             and a.rdg_date = c.rdg_date
+
+
 
 
 

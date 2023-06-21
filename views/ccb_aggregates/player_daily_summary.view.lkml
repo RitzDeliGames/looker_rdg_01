@@ -8,7 +8,7 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-06-15'
+      -- last update: '2023-06-21'
 
 -- create or replace table `tal_scratch.player_daily_summary` as
 
@@ -165,6 +165,7 @@ ads_by_date as (
         , max( a.average_load_time_from_title_scene ) as average_load_time_from_title_scene
         , max( a.average_load_time_from_meta_scene ) as average_load_time_from_meta_scene
         , max( a.average_load_time_from_game_scene ) as average_load_time_from_game_scene
+        , max( a.average_asset_load_time ) as average_asset_load_time
 
         -- frame rates
         , max( a.percent_frames_below_22 ) as percent_frames_below_22
@@ -279,6 +280,7 @@ ads_by_date as (
         , max( a.average_load_time_from_title_scene ) as average_load_time_from_title_scene
         , max( a.average_load_time_from_meta_scene ) as average_load_time_from_meta_scene
         , max( a.average_load_time_from_game_scene ) as average_load_time_from_game_scene
+        , max( a.average_asset_load_time ) as average_asset_load_time
 
         -- frame rates
         , max( a.percent_frames_below_22 ) as percent_frames_below_22
@@ -458,6 +460,7 @@ ads_by_date as (
         , a.average_load_time_from_title_scene
         , a.average_load_time_from_meta_scene
         , a.average_load_time_from_game_scene
+        , a.average_asset_load_time
 
         -- frame rates
         , a.percent_frames_below_22
@@ -801,6 +804,7 @@ FROM
 where
     -- select date_add( current_date(), interval -1 day )
     rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
+
 
 
 
@@ -3697,6 +3701,47 @@ dimension: primary_key {
       percentile: 95
       sql: ${TABLE}.average_load_time_from_game_scene ;;
     }
+
+    measure: average_asset_load_time_10 {
+      group_label: "Load Times"
+      type: percentile
+      percentile: 10
+      sql: ${TABLE}.average_asset_load_time ;;
+    }
+
+
+    measure: average_asset_load_time_25 {
+      group_label: "Load Times"
+      type: percentile
+      percentile: 25
+      sql: ${TABLE}.average_asset_load_time ;;
+    }
+
+
+    measure: average_asset_load_time_50 {
+      group_label: "Load Times"
+      type: percentile
+      percentile: 50
+      sql: ${TABLE}.average_asset_load_time ;;
+    }
+
+
+    measure: average_asset_load_time_75 {
+      group_label: "Load Times"
+      type: percentile
+      percentile: 75
+      sql: ${TABLE}.average_asset_load_time ;;
+    }
+
+
+    measure: average_asset_load_time_95 {
+      group_label: "Load Times"
+      type: percentile
+      percentile: 95
+      sql: ${TABLE}.average_asset_load_time ;;
+    }
+
+
 
 
 

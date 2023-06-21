@@ -65,7 +65,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-06-15' -- Last Full Update
+                when date(current_date()) <= '2023-06-21' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -137,6 +137,30 @@ view: player_daily_incremental {
               frame_rate_histogram_breakout a
           group by
               1,2
+      )
+
+      -----------------------------------------------------------------------
+      -- average asset load times
+      ------------------------------------------------------------------------
+
+      , average_asset_load_times as (
+
+        select
+          rdg_id
+          , timestamp(date(timestamp_utc)) as rdg_date
+          , avg(safe_divide(safe_cast(json_extract_scalar(profiler_milestone_unnest, "$.dt") as numeric),1000)) as average_asset_load_time
+
+        from
+          base_data a
+          cross join unnest(json_query_array( extra_json, "$.data.milestones" ) ) as profiler_milestone_unnest
+        where
+          event_name = 'profiler'
+          and safe_cast(json_extract_scalar(extra_json, "$.type") as string) = "loading"
+          and safe_cast(json_extract_scalar(profiler_milestone_unnest, "$.step") as string) = 'title_complete'
+          and safe_divide(safe_cast(json_extract_scalar(profiler_milestone_unnest, "$.dt") as numeric),1000) is not null
+        group by
+          1,2
+
       )
 
       ------------------------------------------------------------------------
@@ -879,6 +903,9 @@ view: player_daily_incremental {
         left join frame_rate_histogram_collapse b
             on a.rdg_id = b.rdg_id
             and a.rdg_date = b.rdg_date
+        left join average_asset_load_times c
+            on a.rdg_id = c.rdg_id
+            and a.rdg_date = c.rdg_date
 
 
 

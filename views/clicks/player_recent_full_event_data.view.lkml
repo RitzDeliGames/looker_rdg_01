@@ -23,6 +23,7 @@ view: player_recent_full_event_data {
               , platform
               , version
               , session_id
+              , last_level_serial
               , event_name
               , extra_json
               , experiments
@@ -69,6 +70,7 @@ view: player_recent_full_event_data {
         , timestamp_utc
         , event_name
         , extra_json
+        , last_level_serial
 
         -- other fields
         , max( platform ) as platform
@@ -80,7 +82,7 @@ view: player_recent_full_event_data {
       from
          base_data
       group by
-        1,2,3,4
+        1,2,3,4,5
 
 
       ;;
@@ -126,6 +128,7 @@ view: player_recent_full_event_data {
   dimension: platform {type: string}
   dimension: version {type: string}
   dimension: session_id {type: string}
+  dimension: last_level_serial {type: number}
   dimension: event_name {type: string}
   dimension: extra_json {type: string}
   dimension: experiments {type: string}

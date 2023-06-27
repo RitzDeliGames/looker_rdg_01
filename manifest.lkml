@@ -747,20 +747,26 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_bomb' then '1x Bomb Boost'
     when ${TABLE}.iap_id = 'item_bomb_bulk' then '6x Bomb Boost'
     when ${TABLE}.iap_id = 'extra_moves_5' then '5x Extra Moves'
+
     when ${TABLE}.iap_id = 'item_051' then 'Giant Power Up Pack!'
+
     when ${TABLE}.iap_id = 'item_052' then 'Hammer Chum Chums & Coins Special!'
     when ${TABLE}.iap_id = 'item_054' then 'Vertical Chum Chums & Coins Special!'
     when ${TABLE}.iap_id = 'item_053' then 'Horizontal Chum Chums & Coins Special!'
+
     when ${TABLE}.iap_id = 'item_055' then 'Coins (S)'
     when ${TABLE}.iap_id = 'item_056' then 'Coins (M)'
     when ${TABLE}.iap_id = 'item_057' then 'Coins (L)'
+
     when ${TABLE}.iap_id = 'item_058' then 'Lives (S)'
     when ${TABLE}.iap_id = 'item_059' then 'Lives (M)'
     when ${TABLE}.iap_id = 'item_060' then 'Lives (L)'
+
     when ${TABLE}.iap_id = 'item_063' then 'Treasure Trove (XS)'
     when ${TABLE}.iap_id = 'item_066' then 'Treasure Trove (S)'
     when ${TABLE}.iap_id = 'item_069' then 'Treasure Trove (M)'
     when ${TABLE}.iap_id = 'item_072' then 'Treasure Trove (L)'
+
     when ${TABLE}.iap_id = 'item_076' then 'Magnifiers (S)'
     when ${TABLE}.iap_id = 'item_077' then 'Magnifiers (M)'
     when ${TABLE}.iap_id = 'item_078' then 'Magnifiers (L)'
@@ -819,6 +825,20 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id like '%color_ball%' then 'Pre-Game Boosts'
       when ${TABLE}.iap_id like '%zone%' then 'Zone Restoration'
       when ${TABLE}.iap_id like '%extra_moves%' then 'Extra Moves'
+
+      when ${TABLE}.iap_id = 'item_051' then 'Giant Power Up Pack!'
+
+      when ${TABLE}.iap_id = 'item_052' then 'Chum Chums & Coins'
+      when ${TABLE}.iap_id = 'item_054' then 'Chum Chums & Coins'
+      when ${TABLE}.iap_id = 'item_053' then 'Chum Chums & Coins'
+
+      when ${TABLE}.iap_id = 'item_055' then 'Coins'
+      when ${TABLE}.iap_id = 'item_056' then 'Coins'
+      when ${TABLE}.iap_id = 'item_057' then 'Coins'
+
+      when ${TABLE}.iap_id = 'item_058' then 'Lives'
+      when ${TABLE}.iap_id = 'item_059' then 'Lives'
+      when ${TABLE}.iap_id = 'item_060' then 'Lives'
 
       when ${TABLE}.iap_id = 'item_063' then 'Treasure Trove'
       when ${TABLE}.iap_id = 'item_066' then 'Treasure Trove'

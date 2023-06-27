@@ -820,6 +820,15 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id like '%zone%' then 'Zone Restoration'
       when ${TABLE}.iap_id like '%extra_moves%' then 'Extra Moves'
 
+      when ${TABLE}.iap_id = 'item_063' then 'Treasure Trove'
+      when ${TABLE}.iap_id = 'item_066' then 'Treasure Trove'
+      when ${TABLE}.iap_id = 'item_069' then 'Treasure Trove'
+      when ${TABLE}.iap_id = 'item_072' then 'Treasure Trove'
+
+      when ${TABLE}.iap_id = 'item_076' then 'Magnifiers'
+      when ${TABLE}.iap_id = 'item_077' then 'Magnifiers'
+      when ${TABLE}.iap_id = 'item_078' then 'Magnifiers'
+
       when ${TABLE}.iap_id = 'item_089' then 'Level Offer Bundle'
       when ${TABLE}.iap_id = 'item_090' then 'Level Offer Bundle'
       when ${TABLE}.iap_id = 'item_091' then 'Level Offer Bundle'

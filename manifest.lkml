@@ -765,10 +765,10 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_077' then 'Magnifiers (M)'
     when ${TABLE}.iap_id = 'item_078' then 'Magnifiers (L)'
 
-    when ${TABLE}.iap_id = 'item_089' then 'Level 100 Offer Bundle'
-    when ${TABLE}.iap_id = 'item_090' then 'Level 200 Offer Bundle'
-    when ${TABLE}.iap_id = 'item_091' then 'Level 300 Offer Bundle'
-    when ${TABLE}.iap_id = 'item_092' then 'Level 400 Offer Bundle'
+    when ${TABLE}.iap_id = 'item_089' then 'Level Bundle (100)'
+    when ${TABLE}.iap_id = 'item_090' then 'Level Bundle (200)'
+    when ${TABLE}.iap_id = 'item_091' then 'Level Bundle (300)'
+    when ${TABLE}.iap_id = 'item_092' then 'Level Bundle (400)'
 
     else ${TABLE}.iap_id
   end"
@@ -829,10 +829,10 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id = 'item_077' then 'Magnifiers'
       when ${TABLE}.iap_id = 'item_078' then 'Magnifiers'
 
-      when ${TABLE}.iap_id = 'item_089' then 'Level Offer Bundle'
-      when ${TABLE}.iap_id = 'item_090' then 'Level Offer Bundle'
-      when ${TABLE}.iap_id = 'item_091' then 'Level Offer Bundle'
-      when ${TABLE}.iap_id = 'item_092' then 'Level Offer Bundle'
+      when ${TABLE}.iap_id = 'item_089' then 'Level Bundle'
+      when ${TABLE}.iap_id = 'item_090' then 'Level Bundle'
+      when ${TABLE}.iap_id = 'item_091' then 'Level Bundle'
+      when ${TABLE}.iap_id = 'item_092' then 'Level Bundle'
 
       else ${TABLE}.iap_id
   end"

@@ -764,6 +764,12 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_076' then 'Magnifiers (S)'
     when ${TABLE}.iap_id = 'item_077' then 'Magnifiers (M)'
     when ${TABLE}.iap_id = 'item_078' then 'Magnifiers (L)'
+
+    when ${TABLE}.iap_id = 'item_089' then 'Level 100 Offer Bundle'
+    when ${TABLE}.iap_id = 'item_090' then 'Level 200 Offer Bundle'
+    when ${TABLE}.iap_id = 'item_091' then 'Level 300 Offer Bundle'
+    when ${TABLE}.iap_id = 'item_092' then 'Level 400 Offer Bundle'
+
     else ${TABLE}.iap_id
   end"
 }
@@ -813,6 +819,12 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id like '%color_ball%' then 'Pre-Game Boosts'
       when ${TABLE}.iap_id like '%zone%' then 'Zone Restoration'
       when ${TABLE}.iap_id like '%extra_moves%' then 'Extra Moves'
+
+      when ${TABLE}.iap_id = 'item_089' then 'Level Offer Bundle'
+      when ${TABLE}.iap_id = 'item_090' then 'Level Offer Bundle'
+      when ${TABLE}.iap_id = 'item_091' then 'Level Offer Bundle'
+      when ${TABLE}.iap_id = 'item_092' then 'Level Offer Bundle'
+
       else ${TABLE}.iap_id
   end"
 }

@@ -219,6 +219,7 @@ group by
   measure: iam_conversion_rate {
     label: "Conversion Rate"
     value_format_name: percent_1
+    type: number
     sql:
       safe_divide(
         sum(ifnull(safe_cast( @{iam_conversion} as int64 ),0) )

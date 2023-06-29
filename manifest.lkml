@@ -906,7 +906,7 @@ constant: iam_conversion {
   when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Notifications.Close' then 0
   when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.' then 1
   when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.IAM' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.IAM' then 1
   when ${TABLE}.button_tag = 'Sheet_InAppMessaging_TOTD.' then 0
   else 0
   end"

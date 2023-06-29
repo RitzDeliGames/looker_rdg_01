@@ -221,7 +221,7 @@ group by
     value_format_name: percent_1
     sql:
       safe_divide(
-        sum(@{iam_conversion})
+        sum(cast( @{iam_conversion} as int64 )
         ,
         sum(${TABLE}.count_iam_messages)
       )

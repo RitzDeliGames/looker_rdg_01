@@ -191,7 +191,7 @@ group by
   dimension: iam_conversion {
     group_label: "In App Message Detail"
     label: "In App Message Conversion"
-    type:  string
+    type:  number
     sql: @{iam_conversion} ;;
   }
 

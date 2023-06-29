@@ -542,6 +542,38 @@ explore: player_recent_full_event_data {
 
 ################################################################
 
+## Explore: Player IAM Incremental
+
+################################################################
+
+explore: player_iam_incremental {
+
+  label: "Player IAM Summary"
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_iam_incremental.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+
+  join: singular_campaign_summary {
+    view_label:  "Singular Campaign Info"
+    from:  singular_campaign_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on:
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ;;
+  }
+}
+
+
+################################################################
+
 ## Other Explores
 
 ################################################################

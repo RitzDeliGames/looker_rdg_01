@@ -767,6 +767,8 @@ dimension: primary_key {
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      ,"$.dynamicDropBiasv3_20230627"
+      ,"$.popupPri_20230628"
       ,"$.reactivationIAM_20230622"
       ,"$.playNext_20230612"
       ,"$.playNext_20230607"

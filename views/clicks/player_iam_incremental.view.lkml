@@ -218,7 +218,7 @@ group by
 
   measure: iam_conversion_rate {
     label: "Conversion Rate"
-    value_format_name: percent_1
+    value_format_name: percent_2
     type: number
     sql:
       safe_divide(

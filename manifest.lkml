@@ -869,6 +869,51 @@ constant: ad_reward_id_strings {
 }
 
 ###################################################################
+# In App Messenging
+###################################################################
+
+constant: iam_group {
+  value: "
+  case
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging.' then 'InAppMessage'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging.Close' then 'InAppMessage'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_CE.' then 'CE'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Generic.' then 'Generic'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer.' then 'MTXOffer'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer.Close' then 'MTXOffer'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_NameChange.' then 'NameChange'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Notifications.' then 'Notifications'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Notifications.Close' then 'Notifications'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.' then 'RateUs'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.Close' then 'RateUs'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.IAM' then 'RateUs'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_TOTD.' then 'TOTD'
+  else 'UnMapped'
+  end"
+}
+
+constant: iam_conversion {
+  value: "
+  case
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging.' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_CE.' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Generic.' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer.' then 1
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_NameChange.' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Notifications.' then 1
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Notifications.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.' then 1
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.IAM' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_TOTD.' then 0
+  else 0
+  end"
+}
+
+
+###################################################################
 # Visualization JS...KEEP AT THE BOTTOM
 ###################################################################
 

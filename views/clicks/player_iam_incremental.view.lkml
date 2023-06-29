@@ -151,9 +151,11 @@ group by
     hidden: yes
   }
 
+####################################################################
+## Generic Dimensions
+####################################################################
 
   dimension: rdg_id {type:string}
-  dimension: button_tag {type:string}
   dimension: version {type:string}
   dimension: session_id {type:string}
   dimension: experiments {type:string}
@@ -162,6 +164,11 @@ group by
   dimension: count_iam_messages {type:number}
   dimension: cumulative_time_played_minutes {type:number}
 
+
+####################################################################
+## Date Group
+####################################################################
+
   # # Define your dimensions and measures here, like this:
   dimension_group: rdg_date_analysis {
     label: "In App Message Datetime"
@@ -169,6 +176,35 @@ group by
     timeframes: [time, date, week, month, year]
     sql: ${TABLE}.timestamp_utc ;;
   }
+
+####################################################################
+## In App Message Details
+####################################################################
+
+  dimension: iam_group {
+    group_label: "In App Message Detail"
+    label: "In App Message Group"
+    type:  string
+    sql: @{iam_group} ;;
+  }
+
+  dimension: iam_conversion {
+    group_label: "In App Message Detail"
+    label: "In App Message Conversion"
+    type:  string
+    sql: @{iam_conversion} ;;
+  }
+
+  dimension: button_tag {
+    group_label: "In App Message Detail"
+    label: "Button Tag"
+    type:  string
+    sql: ${TABLE}.button_tag ;;
+  }
+
+####################################################################
+## Measures
+####################################################################
 
   measure: count_distinct_active_users {
     description: "Use this for counting lifetime orders across many users"
@@ -181,6 +217,8 @@ group by
     type: sum
     sql: ${TABLE}.count_iam_messages ;;
   }
+
+
 
 
 

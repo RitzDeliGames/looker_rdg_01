@@ -207,18 +207,26 @@ group by
 ####################################################################
 
   measure: count_distinct_active_users {
-    description: "Use this for counting lifetime orders across many users"
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
   }
 
   measure: sum_in_app_messages {
-    description: "Use this for counting lifetime orders across many users"
     type: sum
     sql: ${TABLE}.count_iam_messages ;;
   }
 
-
+  measure: iam_conversion_rate {
+    label: "Conversion Rate"
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        sum(@{iam_conversion})
+        ,
+        sum(${TABLE}.count_iam_messages)
+      )
+    ;;
+  }
 
 
 

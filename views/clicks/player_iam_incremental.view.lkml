@@ -4,7 +4,7 @@ view: player_iam_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-06-29'
+      -- update '2023-06-30'
 
 
 -- create or replace table tal_scratch.player_iam_incremental as
@@ -104,7 +104,7 @@ base_data as (
 
 -- select * from get_data_from_extra_json
 
--- select column_name from `eraser-blast`.tal_scratch.INFORMATION_SCHEMA.COLUMNS where table_name = 'player_mtx_purchase_incremental' order by ordinal_position
+-- select column_name, data_type from `eraser-blast`.tal_scratch.INFORMATION_SCHEMA.COLUMNS where table_name = 'player_iam_incremental' order by ordinal_position
 
 select
     rdg_id
@@ -124,6 +124,7 @@ from
     get_data_from_extra_json
 group by
     1,2,3,4
+
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

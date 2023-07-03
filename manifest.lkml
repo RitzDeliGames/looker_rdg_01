@@ -955,7 +955,7 @@ constant: coin_source_amount_override {
        when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_087' then 1000
        when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_093' then 10000
        when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_094' then 40000
-  else {TABLE}.coin_source_amount
+  else ${TABLE}.coin_source_amount
   end
   "
  }

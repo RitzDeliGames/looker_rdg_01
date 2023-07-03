@@ -583,3 +583,4 @@ explore: singular_campaign_summary {}
 explore: singular_creative_summary {}
 explore: big_query_jobs {}
 explore: player_daily_incremental {}
+explore: player_coin_source_incremental {}

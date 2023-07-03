@@ -571,6 +571,35 @@ explore: player_iam_incremental {
   }
 }
 
+################################################################
+
+## Explore: Player Coin Spend Summary
+
+################################################################
+
+explore: player_coin_source_summary {
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_coin_source_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+
+  join: singular_campaign_summary {
+    view_label:  "Singular Campaign Info"
+    from:  singular_campaign_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on:
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ;;
+  }
+}
+
 
 ################################################################
 
@@ -582,5 +611,3 @@ explore: firebase_player_summary {}
 explore: singular_campaign_summary {}
 explore: singular_creative_summary {}
 explore: big_query_jobs {}
-explore: player_daily_incremental {}
-explore: player_coin_source_incremental {}

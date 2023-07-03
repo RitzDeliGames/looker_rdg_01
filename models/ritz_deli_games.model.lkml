@@ -573,7 +573,7 @@ explore: player_iam_incremental {
 
 ################################################################
 
-## Explore: Player Coin Spend Summary
+## Explore: Player Coin Source Summary
 
 ################################################################
 

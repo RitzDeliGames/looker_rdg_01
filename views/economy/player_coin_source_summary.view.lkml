@@ -82,7 +82,7 @@ dimension: primary_key {
   dimension: level_serial {type:number}
   dimension: level_id {type:string}
   dimension: coin_source {type:string}
-  dimension: coin_source_amount_pre_override {type:number sql: {TABLE}.coin_source_amount;;}
+  dimension: coin_source_amount_pre_override {type:number sql: ${TABLE}.coin_source_amount;;}
   dimension: currency_03_balance {type:number}
   dimension: currency_04_balance {type:number}
   dimension: currency_07_balance {type:number}

@@ -133,9 +133,12 @@ dimension: primary_key {
     label: "Selected Coin Source: Parameter"
     type: string
     suggestions:  [
-      "Type"
-      ,"Group"
-      ,"Name"]
+      "Coin Source: Type"
+      ,"Coin Source: Group"
+      ,"Coin Source: Name"
+      ,"Coin Source: Starting Name"
+      ,"Coin Source: Starting Source"
+      ]
   }
 
   dimension: selected_coin_source_dimension {
@@ -144,9 +147,11 @@ dimension: primary_key {
     type:string
     sql:
       case
-        when {% parameter selected_coin_source_parameter %} = 'Type' then ${TABLE}.coin_source_type
-        when {% parameter selected_coin_source_parameter %} = 'Group' then @{coin_source_name_group}
-        when {% parameter selected_coin_source_parameter %} = 'Name' then @{coin_source_name}
+        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Type' then ${TABLE}.coin_source_type
+        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Group' then @{coin_source_name_group}
+        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Name' then @{coin_source_name}
+        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Starting Name' then ${TABLE}.coin_source_iap_item
+        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Starting Source' then ${TABLE}.coin_source
         else 'Error'
         end
     ;;

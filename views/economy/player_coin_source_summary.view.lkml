@@ -82,7 +82,7 @@ dimension: primary_key {
   dimension: level_serial {type:number}
   dimension: level_id {type:string}
   dimension: coin_source {type:string}
-  dimension: coin_source_amount {type:number}
+  dimension: coin_source_amount_pre_override {type:number sql: ${TABLE}.coin_source_amount;;}
   dimension: currency_03_balance {type:number}
   dimension: currency_04_balance {type:number}
   dimension: currency_07_balance {type:number}
@@ -97,6 +97,16 @@ dimension: primary_key {
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
   }
+
+  measure: coin_source_amount {
+    label: "Coin Source Amount"
+    value_format_name: decimal_0
+    type: number
+    sql:
+      sum(ifnull(safe_cast( @{coin_source_amount_override} as int64 ),0) )
+    ;;
+  }
+
 
 
 }

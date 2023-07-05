@@ -4,7 +4,8 @@ view: player_coin_source_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-07-03'
+      -- update '2023-07-05'
+
 
 
 -- create or replace table tal_scratch.player_coin_source_incremental as
@@ -44,7 +45,7 @@ base_data as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-07-03' -- Last Full Update
+                when date(current_date()) <= '2023-07-05' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -121,10 +122,10 @@ base_data as (
             when event_name = 'transaction' then json_extract_scalar(extra_json,"$.source_id")
             else 'Error' end as coin_source
 
-        -- coin source
+        -- iap id
         , case
             when event_name = 'reward' then json_extract_scalar(extra_json,"$.reward_event")
-            when event_name = 'transaction' then json_extract_scalar(extra_json,"$.iap_purchase_item")
+            when event_name = 'transaction' then json_extract_scalar(extra_json,"$.iap_id")
             else 'Error' end as coin_source_iap_item
 
         -- coin source amount
@@ -190,6 +191,7 @@ group by
     1,2,3,4,5
 
 
+
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
     publish_as_db_view: yes
@@ -226,6 +228,12 @@ group by
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.rdg_date ;;
+  }
+
+  ## I believe you need this as a separate field or you will get the
+  ## "build skipped due to error in required child" error when trying to rebuild
+  dimension: rdg_date {
+    type: date
   }
 
   ####################################################################

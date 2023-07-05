@@ -913,6 +913,53 @@ constant: iam_conversion {
   end"
 }
 
+###################################################################
+# Coin Source from in app purchase bundle
+###################################################################
+
+constant: coin_source_amount_override {
+  value: "
+    case
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_037' then 6000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_043' then 6000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_044' then 10000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_052' then 20000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_053' then 20000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_054' then 20000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_075' then 20000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_088' then 20000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_089' then 6000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_090' then 12000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_091' then 40000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_092' then 80000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_061' then 1000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_062' then 1000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_063' then 6000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_064' then 1000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_065' then 1000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_066' then 12000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_067' then 2000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_068' then 2000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_069' then 40000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_070' then 1000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_071' then 2000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_072' then 100000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_073' then 1000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_074' then 1000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_079' then 1000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_080' then 1000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_081' then 1000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_082' then 1000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_083' then 2000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_084' then 2000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_085' then 1000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_087' then 1000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_093' then 10000
+       when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_094' then 40000
+  else ${TABLE}.coin_source_amount
+  end
+  "
+ }
 
 ###################################################################
 # Visualization JS...KEEP AT THE BOTTOM

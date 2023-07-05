@@ -128,6 +128,31 @@ dimension: primary_key {
     sql:  @{coin_source_name_group} ;;
   }
 
+  parameter: selected_coin_source_parameter {
+    group_label: "Coin Sources"
+    label: "Selected Coin Source: Parameter"
+    type: string
+    suggestions:  [
+      "Type"
+      ,"Group"
+      ,"Name"]
+  }
+
+  dimension: selected_coin_source_dimension {
+    group_label: "Coin Sources"
+    label: "Selected Coin Source: Dimension"
+    type:string
+    sql:
+      case
+        when {% parameter selected_coin_source_parameter %} = 'Type' then ${TABLE}.coin_source_type
+        when {% parameter selected_coin_source_parameter %} = 'Group' then @{coin_source_name_group}
+        when {% parameter selected_coin_source_parameter %} = 'Name' then @{coin_source_name}
+        else 'Error'
+        end
+    ;;
+  }
+
+
 ################################################################
 ## Measures
 ################################################################

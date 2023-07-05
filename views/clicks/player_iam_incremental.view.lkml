@@ -4,7 +4,7 @@ view: player_iam_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-06-30'
+      -- update '2023-07-05'
 
 
 -- create or replace table tal_scratch.player_iam_incremental as
@@ -45,7 +45,7 @@ base_data as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-06-30' -- Last Full Update
+                when date(current_date()) <= '2023-07-05' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -176,6 +176,12 @@ group by
     type: time
     timeframes: [time, date, week, month, year]
     sql: ${TABLE}.timestamp_utc ;;
+  }
+
+  ## I believe you need this as a separate field or you will get the
+  ## "build skipped due to error in required child" error when trying to rebuild
+  dimension: rdg_date {
+    type: date
   }
 
 ####################################################################

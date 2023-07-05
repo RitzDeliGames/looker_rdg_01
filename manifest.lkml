@@ -913,7 +913,7 @@ constant: iam_conversion {
 }
 
 ###################################################################
-# Coin Source from in app purchase bundle
+# Coin Source Amounts and Naming
 ###################################################################
 
 constant: coin_source_amount_override {
@@ -959,6 +959,102 @@ constant: coin_source_amount_override {
   end
   "
  }
+
+constant: coin_source_name {
+  value: "
+  case
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'round_end' then 'Round End'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'zone_restore' then 'Zone Restore'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'initial_reward' then 'Initial Reward'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'lucky_dice' then 'Lucky Dice'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'incetivized_ads' then 'Pizza Time'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'daily_reward' then 'Daily Reward'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'global_leaderboard' then 'Legacy: Global Leaderboard'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_R2' then 'Legacy: Bingo'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_D1' then 'Legacy: Bingo'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'gacha_box_004' then 'Legacy: Gacha Box'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_D2' then 'Legacy: Bingo'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_R4' then 'Legacy: Bingo'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_C3' then 'Legacy: Bingo'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_R5' then 'Legacy: Bingo'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_C2' then 'Legacy: Bingo'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_C5' then 'Legacy: Bingo'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_R1' then 'Legacy: Bingo'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_R3' then 'Legacy: Bingo'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_C4' then 'Legacy: Bingo'
+
+
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_057' then 'Coins (L)'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_056' then 'Coins (M)'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_055' then 'Coins (S)'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_063' then 'Treasure Trove (XS)'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_072' then 'Treasure Trove (L)'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_066' then 'Treasure Trove (S)'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_069' then 'Treasure Trove (M)'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_092' then 'Level Bundle (400)'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_053' then 'Horizontal Chum Chums & Coins Special!'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_054' then 'Vertical Chum Chums & Coins Special!'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_091' then 'Level Bundle (300)'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_056' then 'Coins (M)'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_052' then 'Hammer Chum Chums & Coins Special!'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_055' then 'Coins (S)'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_075' then 'Shuffle Chum Chums & Coins Special!'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_066' then 'Treasure Trove (S)'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_063' then 'Treasure Trove (XS)'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_089' then 'Level Bundle (100)'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_090' then 'Level Bundle (200)'
+    else 'Unmapped'
+  end
+  "
+}
+
+constant: coin_source_name_group {
+  value: "
+  case
+    when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'round_end' then 'Campaign'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'zone_restore' then 'Campaign'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'initial_reward' then 'Campaign'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'lucky_dice' then 'Live Ops'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'incetivized_ads' then 'Live Ops'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'daily_reward' then 'Live Ops'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'global_leaderboard' then 'Legacy'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_R2' then 'Legacy'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_D1' then 'Legacy'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'gacha_box_004' then 'Legacy'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_D2' then 'Legacy'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_R4' then 'Legacy'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_C3' then 'Legacy'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_R5' then 'Legacy'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_C2' then 'Legacy'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_C5' then 'Legacy'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_R1' then 'Legacy'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_R3' then 'Legacy'
+     when {TABLE}.coin_source_type = 'reward' and {TABLE}.coin_source_iap_item = 'bingo_reward_C4' then 'Legacy'
+
+
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_057' then 'Coins'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_056' then 'Coins'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_055' then 'Coins'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_063' then 'Treasure Trove'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_072' then 'Treasure Trove'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_066' then 'Treasure Trove'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_069' then 'Treasure Trove'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_092' then 'Level Bundle'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_053' then 'Chum Chums & Coins'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_054' then 'Chum Chums & Coins'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_091' then 'Level Bundle'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_056' then 'Coins'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_052' then 'Chum Chums & Coins'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_055' then 'Coins'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_075' then 'Chum Chums & Coins'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_066' then 'Treasure Trove'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_063' then 'Treasure Trove'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_089' then 'Level Bundle'
+     when {TABLE}.coin_source_type = 'transaction' and {TABLE}.coin_source_iap_item = 'item_090' then 'Level Bundle'
+  else 'Unmapped'
+  end
+  "
+}
 
 ###################################################################
 # Visualization JS...KEEP AT THE BOTTOM

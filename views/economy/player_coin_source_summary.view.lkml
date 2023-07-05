@@ -70,8 +70,7 @@ dimension: primary_key {
   }
 
   dimension: rdg_id {type:string}
-  dimension: coin_source_type {type:string}
-  dimension: coin_source_iap_item {type:string}
+
   dimension: version {type:string}
   dimension: session_id {type:string}
   dimension: experiments {type:string}
@@ -81,11 +80,53 @@ dimension: primary_key {
   dimension: count_coin_source_events {type:number}
   dimension: level_serial {type:number}
   dimension: level_id {type:string}
-  dimension: coin_source {type:string}
-  dimension: coin_source_amount_pre_override {type:number sql: ${TABLE}.coin_source_amount;;}
+
+
   dimension: currency_03_balance {type:number}
   dimension: currency_04_balance {type:number}
   dimension: currency_07_balance {type:number}
+
+################################################################
+## Coin Source Naming
+################################################################
+
+  dimension: coin_source_type {
+    group_label: "Coin Sources"
+    label: "Coin Source: Type"
+    type:string
+    }
+  dimension: coin_source_iap_item {
+    group_label: "Coin Sources"
+    label: "Coin Source: Starting Name"
+    type:string
+  }
+
+  dimension: coin_source {
+    group_label: "Coin Sources"
+    label: "Coin Source: Starting Source"
+    type:string
+  }
+
+  dimension: coin_source_amount_pre_override {
+    group_label: "Coin Sources"
+    label: "Coin Source: Starting Amount"
+    type:number
+    sql: ${TABLE}.coin_source_amount;;
+  }
+
+  dimension: coin_source_name {
+    group_label: "Coin Sources"
+    label: "Coin Source: Name"
+    type:string
+    sql:  @{coin_source_name} ;;
+  }
+
+  dimension: coin_source_name_group {
+    group_label: "Coin Sources"
+    label: "Coin Source: Group"
+    type:string
+    sql:  @{coin_source_name_group} ;;
+  }
 
 ################################################################
 ## Measures

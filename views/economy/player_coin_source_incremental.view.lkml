@@ -4,7 +4,7 @@ view: player_coin_source_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-07-05'
+      -- update '2023-07-07'
 
 
 
@@ -45,7 +45,7 @@ base_data as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-07-05' -- Last Full Update
+                when date(current_date()) <= '2023-07-07' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -122,15 +122,20 @@ base_data as (
             when event_name = 'transaction' then json_extract_scalar(extra_json,"$.source_id")
             else 'Error' end as coin_source
 
-        -- iap id
+        -- iap id/reward event
         , case
+            when event_name = 'reward' and json_extract_scalar(extra_json,"$.reward_event") = 'round_end' then 'round_end_' || json_extract_scalar(extra_json,"$.game_mode")
             when event_name = 'reward' then json_extract_scalar(extra_json,"$.reward_event")
             when event_name = 'transaction' then json_extract_scalar(extra_json,"$.iap_id")
             else 'Error' end as coin_source_iap_item
 
         -- coin source amount
         , case
-            when event_name = 'reward' then ifnull(safe_cast(json_extract_scalar(extra_json,"$.reward_amount") as numeric),0)
+            when (
+                event_name = 'reward'
+                and json_extract_scalar(extra_json,"$.reward_type") = 'CURRENCY_03'
+                )
+                then ifnull(safe_cast(json_extract_scalar(extra_json,"$.reward_amount") as numeric),0)
             when (
                 event_name = 'transaction'
                 and json_extract_scalar(extra_json,"$.iap_purchase_item") = 'CURRENCY_03'
@@ -189,6 +194,7 @@ from
     get_data_from_extra_json
 group by
     1,2,3,4,5
+
 
 
 

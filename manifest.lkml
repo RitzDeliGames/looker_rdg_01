@@ -1019,6 +1019,11 @@ constant: coin_source_name {
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_063' then 'Treasure Trove (XS)'
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_089' then 'Level Bundle (100)'
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_090' then 'Level Bundle (200)'
+
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'Daily Rewards' then 'Daily Reward'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'bingo_reward_C1' then 'Legacy: Bingo'
+
+
     else 'Unmapped'
   end
   "
@@ -1079,6 +1084,9 @@ constant: coin_source_name_group {
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_063' then 'Treasure Trove'
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_089' then 'Level Bundle'
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_090' then 'Level Bundle'
+
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'Daily Rewards' then 'Live Ops'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'bingo_reward_C1' then 'Legacy'
 
   else 'Unmapped'
   end

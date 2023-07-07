@@ -157,18 +157,18 @@ dimension: primary_key {
     ]
   }
 
-  dimension: selected_coin_source_dimension {
+  dimension: selected_coin_spend_dimension {
     group_label: "Coin Sinks"
-    label: "Selected Coin Source: Dimension"
+    label: "Selected Coin Sink: Dimension"
     type:string
     sql:
       case
-        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Group' then @{coin_spend_name_group}
-        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Name' then @{coin_source_name}
+        when {% parameter selected_coin_spend_parameter %} = 'Coin Source: Group' then @{coin_spend_name_group}
+        when {% parameter selected_coin_spend_parameter %} = 'Coin Source: Name' then @{coin_source_name}
 
-        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Starting Source ID' then ${TABLE}.source_id
-        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Starting IAP ID' then ${TABLE}.iap_id
-        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Starting IAP Purchase Item' then ${TABLE}.iap_purchase_item
+        when {% parameter selected_coin_spend_parameter %} = 'Coin Source: Starting Source ID' then ${TABLE}.source_id
+        when {% parameter selected_coin_spend_parameter %} = 'Coin Source: Starting IAP ID' then ${TABLE}.iap_id
+        when {% parameter selected_coin_spend_parameter %} = 'Coin Source: Starting IAP Purchase Item' then ${TABLE}.iap_purchase_item
         else 'Error'
         end
     ;;

@@ -967,7 +967,8 @@ constant: coin_source_amount_override {
 constant: coin_source_name {
   value: "
   case
-      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end' then 'Round End'
+
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end' then 'Round End'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'zone_restore' then 'Zone Restore'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'initial_reward' then 'Initial Reward'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'lucky_dice' then 'Lucky Dice'
@@ -987,6 +988,17 @@ constant: coin_source_name {
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'bingo_reward_R3' then 'Legacy: Bingo'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'bingo_reward_C4' then 'Legacy: Bingo'
 
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_campaign' then 'Campaign'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_movesMaster' then 'Moves Master'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_CAMPAIGN' then 'Campaign'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_puzzle' then 'Puzzle'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_challenge' then 'Challenge'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_showcase' then 'Showcase'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_helpRequest' then 'Help Request'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_LEADERBOARD' then 'Leaderboard'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_none' then 'None'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_cheat' then 'Cheat'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_CHEAT' then 'Cheat'
 
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_057' then 'Coins (L)'
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_056' then 'Coins (M)'
@@ -1015,9 +1027,10 @@ constant: coin_source_name {
 constant: coin_source_name_group {
   value: "
   case
-    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end' then 'Campaign'
-     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'zone_restore' then 'Campaign'
-     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'initial_reward' then 'Campaign'
+
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end' then 'Round End'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'zone_restore' then 'Zone Restore'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'initial_reward' then 'Initial Reward'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'lucky_dice' then 'Live Ops'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'incetivized_ads' then 'Live Ops'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'daily_reward' then 'Live Ops'
@@ -1035,6 +1048,17 @@ constant: coin_source_name_group {
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'bingo_reward_R3' then 'Legacy'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'bingo_reward_C4' then 'Legacy'
 
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_campaign' then 'Round End'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_movesMaster' then 'Round End'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_CAMPAIGN' then 'Round End'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_puzzle' then 'Round End'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_challenge' then 'Round End'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_showcase' then 'Round End'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_helpRequest' then 'Round End'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_LEADERBOARD' then 'Round End'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_none' then 'Round End'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_cheat' then 'Round End'
+     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_CHEAT' then 'Round End'
 
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_057' then 'Coins'
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_056' then 'Coins'

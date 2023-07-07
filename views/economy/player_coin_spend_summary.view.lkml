@@ -164,7 +164,7 @@ dimension: primary_key {
     sql:
       case
         when {% parameter selected_coin_spend_parameter %} = 'Coin Sink: Group' then @{coin_spend_name_group}
-        when {% parameter selected_coin_spend_parameter %} = 'Coin Sink: Name' then @{coin_source_name}
+        when {% parameter selected_coin_spend_parameter %} = 'Coin Sink: Name' then @{coin_spend_name}
 
         when {% parameter selected_coin_spend_parameter %} = 'Coin Sink: Starting Source ID' then ${TABLE}.source_id
         when {% parameter selected_coin_spend_parameter %} = 'Coin Sink: Starting IAP ID' then ${TABLE}.iap_id

@@ -85,6 +85,7 @@ dimension: primary_key {
   dimension: rdg_id {type:string}
   dimension: store_session_id {type:string}
   dimension: source_id {type:string}
+  dimension: iap_id {type:string}
   dimension: version {type:string}
   dimension: session_id {type:string}
   dimension: experiments {type:string}

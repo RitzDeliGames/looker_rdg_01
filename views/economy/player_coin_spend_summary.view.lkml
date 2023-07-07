@@ -84,12 +84,10 @@ dimension: primary_key {
   # Strings
   dimension: rdg_id {type:string}
   dimension: store_session_id {type:string}
-  dimension: source_id {type:string}
-  dimension: iap_id {type:string}
   dimension: version {type:string}
   dimension: session_id {type:string}
   dimension: experiments {type:string}
-  dimension: iap_purchase_item {type:string}
+
   dimension: transaction_id {type:string}
   dimension: level_id {type:string}
 
@@ -109,6 +107,72 @@ dimension: primary_key {
   dimension: cumulative_count_coin_spend_events {type:number}
   dimension: cumulative_coin_spend {type:number}
 
+################################################################
+## Coin Spend Naming
+################################################################
+
+  dimension: iap_id {
+    group_label: "Coin Sinks"
+    label: "Coin Sink: Starting IAP ID"
+    type:string
+  }
+
+  dimension: source_id {
+    group_label: "Coin Sinks"
+    label: "Coin Sink: Starting Source ID"
+    type:string
+  }
+
+  dimension: iap_purchase_item {
+    group_label: "Coin Sinks"
+    label: "Coin Sink: Starting IAP Purchase Item"
+    type:string
+  }
+
+  dimension: coin_spend_name {
+    group_label: "Coin Sinks"
+    label: "Coin Sink: Name"
+    type:string
+    sql:  @{coin_spend_name} ;;
+  }
+
+  dimension: coin_spend_name_group {
+    group_label: "Coin Sinks"
+    label: "Coin Sink: Group"
+    type:string
+    sql:  @{coin_spend_name_group} ;;
+  }
+
+  parameter: selected_coin_spend_parameter {
+    group_label: "Coin Sinks"
+    label: "Selected Coin Sink: Parameter"
+    type: string
+    suggestions:  [
+      ,"Coin Source: Group"
+      ,"Coin Source: Name"
+
+      ,"Coin Source: Starting Source ID"
+      ,"Coin Source: Starting IAP ID"
+      ,"Coin Source: Starting IAP Purchase Item"
+    ]
+  }
+
+  dimension: selected_coin_source_dimension {
+    group_label: "Coin Sinks"
+    label: "Selected Coin Source: Dimension"
+    type:string
+    sql:
+      case
+        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Group' then @{coin_spend_name_group}
+        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Name' then @{coin_source_name}
+
+        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Starting Source ID' then ${TABLE}.source_id
+        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Starting IAP ID' then ${TABLE}.iap_id
+        when {% parameter selected_coin_source_parameter %} = 'Coin Source: Starting IAP Purchase Item' then ${TABLE}.iap_purchase_item
+        else 'Error'
+        end
+    ;;
+  }
 
 
 ################################################################

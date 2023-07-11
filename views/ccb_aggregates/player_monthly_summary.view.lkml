@@ -785,7 +785,7 @@ where
         sum(${TABLE}.count_days_played)
       )
     ;;
-    value_format_name: decimal_1
+    value_format_name: decimal_2
   }
 
   measure: average_minutes_per_session {

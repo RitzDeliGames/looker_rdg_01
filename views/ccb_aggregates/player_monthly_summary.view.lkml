@@ -785,7 +785,7 @@ where
         sum(${TABLE}.count_days_played)
       )
     ;;
-    value_format_name: decimal_0
+    value_format_name: decimal_1
   }
 
 

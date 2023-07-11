@@ -8,7 +8,7 @@ view: player_summary_new {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-06-14'
+      -- last update: '2023-07-11'
 
 
 
@@ -53,6 +53,9 @@ SELECT
     , cumulative_star_spend
     , cumulative_time_played_minutes
     , cumulative_count_mtx_purchases
+
+    , end_of_content_levels
+    , cumulative_round_time_in_minutes_campaign
 
     -- device_id
     , last_value(device_id) OVER (
@@ -252,7 +255,6 @@ FROM
      , max( case when day_number <= 2 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d2
      , max( case when day_number <= 7 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d7
      , max( case when day_number <= 14 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d14
-     , max( case when day_number <= 21 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d21
      , max( case when day_number <= 30 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d30
      , max( case when day_number <= 60 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d60
      , max( case when day_number <= 90 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d90
@@ -306,6 +308,15 @@ FROM
     , max( graphics_memory_size ) as graphics_memory_size
     , max( screen_width ) as screen_width
     , max( screen_height ) as screen_height
+
+    -- time to complete campaign
+    , min(
+        case
+          when end_of_content_levels = true
+          then cumulative_round_time_in_minutes_campaign
+          else null
+          end
+        ) as total_campaigin_round_time_in_minutes_to_first_end_of_content_levels
 
   FROM
     pre_aggregate_calculations_from_base_data
@@ -2293,6 +2304,19 @@ measure: count_distinct_players {
   }
 
 
+  measure: average_total_campaigin_round_time_in_minutes_to_first_end_of_content_levels {
+    group_label: "Time Played"
+    label: "Average Campaign Minutes to First End of Content"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.total_campaigin_round_time_in_minutes_to_first_end_of_content_levels)
+        ,
+        count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+    value_format_name: decimal_0
+  }
 
 
 

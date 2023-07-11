@@ -760,7 +760,12 @@ where
       safe_divide(
         sum(${TABLE}.count_days_played)
         ,
-        sum(${TABLE}.count_months_played)
+        max(
+          date_diff(
+            date_add(date(${TABLE}.rdg_month), interval +1 month)
+            , date(${TABLE}.rdg_month)
+            , day)
+            )
       )
     ;;
     value_format_name: decimal_0

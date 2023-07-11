@@ -815,6 +815,19 @@ where
     value_format_name: decimal_0
   }
 
+  measure: average_sessions_per_month {
+    group_label: "Calculated Fields"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.count_sessions)
+        ,
+        sum(${TABLE}.count_months_played)
+      )
+    ;;
+    value_format_name: decimal_0
+  }
+
 
   measure: percent_players_playing_rounds {
     group_label: "Calculated Fields"

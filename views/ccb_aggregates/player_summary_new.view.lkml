@@ -2345,8 +2345,8 @@ measure: count_distinct_players {
   ## and the Average Time played for those players
 
   measure: count_players_to_have_not_played_in_at_least_14_days {
-    group_label: "Time Played"
-    label: "Count Players to Have Not Played In At Least 14 Days "
+    group_label: "Churn"
+    label: "Count Players to Have Not Played In 14+ Days "
     type: number
     sql:
       count( distinct
@@ -2361,8 +2361,8 @@ measure: count_distinct_players {
   }
 
   measure: average_time_played_until_not_played_in_at_least_14_days {
-    group_label: "Time Played"
-    label: "Count Players to Have Not Played In At Least 14 Days "
+    group_label: "Churn"
+    label: "Average Minutes Played Until Churned for 14+ Days"
     type: number
     sql:
       safe_divide(

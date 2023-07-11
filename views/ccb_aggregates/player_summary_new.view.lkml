@@ -11,7 +11,6 @@ view: player_summary_new {
       -- last update: '2023-07-11'
 
 
-
 -- create or replace table `tal_scratch.player_summary_new` AS
 
 with
@@ -289,6 +288,7 @@ FROM
     , max( case when day_number = 30 then 1 else 0 end ) as retention_d30
     , max( case when day_number = 60 then 1 else 0 end ) as retention_d60
     , max( case when day_number = 90 then 1 else 0 end ) as retention_d90
+    , max( case when day_number = 120 then 1 else 0 end ) as retention_d120
 
     -- cumulative star spend
     , max( case when day_number <= 1 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d1
@@ -473,8 +473,6 @@ from
   add_on_mtx_percentile_and_singular_data a
   left join supported_devices_table b
     on a.device_model = b.device_model
-
-
 
 
 
@@ -1662,14 +1660,14 @@ measure: revenue_per_install_d7 {
 
   measure: average_retention_d90 {
     group_label: "Average Retention"
-    label: "D60"
+    label: "D90"
     type: number
     sql:
     safe_divide(
       sum(
         case
           when ${TABLE}.max_available_day_number >= 90
-          then ${TABLE}.retention_d60
+          then ${TABLE}.retention_d90
           else 0
           end )
       ,
@@ -1684,6 +1682,32 @@ measure: revenue_per_install_d7 {
     value_format_name: percent_1
     drill_fields: [numerator_retention_d90,available_player_count_d90]
   }
+
+  measure: average_retention_d120 {
+    group_label: "Average Retention"
+    label: "D120"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 120
+          then ${TABLE}.retention_d120
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 120
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    drill_fields: [numerator_retention_d120,available_player_count_d120]
+  }
+
 
 ################################################################
 ## Unique Player
@@ -1900,6 +1924,23 @@ measure: count_distinct_players {
     value_format_name: decimal_0
 
   }
+
+  measure: available_player_count_d120 {
+    group_label: "Average Retention"
+    label: "Retention Denominator D120"
+    type: number
+    sql:
+    count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 120
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+
+  }
+
 ################################################################
 ## Engagement Milestones
 ################################################################
@@ -2295,7 +2336,23 @@ measure: count_distinct_players {
       sum(
         case
           when ${TABLE}.max_available_day_number >= 90
-          then ${TABLE}.retention_d60
+          then ${TABLE}.retention_d90
+          else 0
+          end )
+    ;;
+    value_format_name: decimal_0
+
+  }
+
+  measure: numerator_retention_d120 {
+    group_label: "Average Retention"
+    label: "Retention Numerator D120"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 120
+          then ${TABLE}.retention_d120
           else 0
           end )
     ;;

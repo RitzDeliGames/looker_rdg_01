@@ -2324,6 +2324,21 @@ measure: count_distinct_players {
     value_format_name: decimal_0
   }
 
+  measure: count_players_to_ever_reach_end_of_content {
+    group_label: "Time Played"
+    label: "Count Players to Ever Reach End of Content"
+    type: number
+    sql:
+      count( distinct
+          case
+            when ${TABLE}.total_campaigin_round_time_in_minutes_to_first_end_of_content_levels is not null
+            then ${TABLE}.rdg_id
+            else null
+            end
+            )
+    ;;
+    value_format_name: decimal_0
+  }
 
 
 

@@ -2312,7 +2312,13 @@ measure: count_distinct_players {
       safe_divide(
         sum(${TABLE}.total_campaigin_round_time_in_minutes_to_first_end_of_content_levels)
         ,
-        count( distinct ${TABLE}.rdg_id )
+        count( distinct
+          case
+            when ${TABLE}.total_campaigin_round_time_in_minutes_to_first_end_of_content_levels is not null
+            then ${TABLE}.rdg_id
+            else null
+            end
+            )
       )
     ;;
     value_format_name: decimal_0

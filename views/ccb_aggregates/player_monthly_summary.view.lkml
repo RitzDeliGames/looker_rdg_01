@@ -809,7 +809,7 @@ where
       safe_divide(
         sum(${TABLE}.time_played_minutes)
         ,
-        sum(${TABLE}.count_months)
+        sum(${TABLE}.count_months_played)
       )
     ;;
     value_format_name: decimal_0

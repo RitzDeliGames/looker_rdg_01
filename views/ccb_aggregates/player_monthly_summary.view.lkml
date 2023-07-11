@@ -802,6 +802,19 @@ where
   }
 
 
+  measure: average_minutes_per_month {
+    group_label: "Calculated Fields"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.time_played_minutes)
+        ,
+        sum(${TABLE}.count_months)
+      )
+    ;;
+    value_format_name: decimal_0
+  }
+
 
   measure: percent_players_playing_rounds {
     group_label: "Calculated Fields"

@@ -2341,9 +2341,6 @@ measure: count_distinct_players {
   }
 
 
-  ## Will Also Want Month Last Played
-  ## and the Average Time played for those players
-
   measure: count_players_to_have_not_played_in_at_least_14_days {
     group_label: "Churn"
     label: "Count Players to Have Not Played In 14+ Days "
@@ -2351,7 +2348,7 @@ measure: count_distinct_players {
     sql:
       count( distinct
           case
-            when date_diff(date(${TABLE}.latest_update),${TABLE}.last_played_date, day ) >= 14
+            when date_diff(date(${TABLE}.latest_table_update),${TABLE}.last_played_date, day ) >= 14
             then ${TABLE}.rdg_id
             else null
             end
@@ -2368,7 +2365,7 @@ measure: count_distinct_players {
       safe_divide(
         sum(
           case
-            when date_diff(date(${TABLE}.latest_update),${TABLE}.last_played_date, day ) >= 14
+            when date_diff(date(${TABLE}.latest_table_update),${TABLE}.last_played_date, day ) >= 14
             then ${TABLE}.cumulative_time_played_minutes
             else null
             end
@@ -2376,7 +2373,7 @@ measure: count_distinct_players {
         ,
         count( distinct
           case
-            when date_diff(date(${TABLE}.latest_update),${TABLE}.last_played_date, day ) >= 14
+            when date_diff(date(${TABLE}.latest_table_update),${TABLE}.last_played_date, day ) >= 14
             then ${TABLE}.rdg_id
             else null
             end

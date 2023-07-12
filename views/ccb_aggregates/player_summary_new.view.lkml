@@ -11,6 +11,7 @@ view: player_summary_new {
       -- last update: '2023-07-12'
 
 
+
 -- create or replace table `tal_scratch.player_summary_new` AS
 
 with
@@ -254,6 +255,7 @@ FROM
      , max( case when day_number <= 2 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d2
      , max( case when day_number <= 7 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d7
      , max( case when day_number <= 14 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d14
+     , max( case when day_number <= 21 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d21
      , max( case when day_number <= 30 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d30
      , max( case when day_number <= 60 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d60
      , max( case when day_number <= 90 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d90
@@ -480,6 +482,7 @@ from
   add_on_mtx_percentile_and_singular_data a
   left join supported_devices_table b
     on a.device_model = b.device_model
+
 
 
 

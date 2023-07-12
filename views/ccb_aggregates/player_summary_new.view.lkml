@@ -8,7 +8,7 @@ view: player_summary_new {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-07-11'
+      -- last update: '2023-07-12'
 
 
 -- create or replace table `tal_scratch.player_summary_new` AS
@@ -317,6 +317,13 @@ FROM
           else null
           end
         ) as total_campaigin_round_time_in_minutes_to_first_end_of_content_levels
+    , min(
+        case
+          when end_of_content_levels = true
+          then rdg_date
+          else null
+          end
+        ) as date_of_first_end_of_content_levels
 
   FROM
     pre_aggregate_calculations_from_base_data
@@ -526,6 +533,13 @@ dimension: primary_key {
   # dates
   dimension_group: last_played_date {
     label: "Last Played"
+    type: time
+    timeframes: [date, week, month, year]
+  }
+
+  # date_of_first_end_of_content_levels
+  dimension_group: date_of_first_end_of_content_levels {
+    group_label: "First End of Content Levels"
     type: time
     timeframes: [date, week, month, year]
   }
@@ -2362,7 +2376,7 @@ measure: count_distinct_players {
 
 
   measure: average_total_campaigin_round_time_in_minutes_to_first_end_of_content_levels {
-    group_label: "Time Played"
+    group_label: "First End of Content Levels"
     label: "Average Campaign Minutes to First End of Content"
     type: number
     sql:
@@ -2382,7 +2396,7 @@ measure: count_distinct_players {
   }
 
   measure: count_players_to_ever_reach_end_of_content {
-    group_label: "Time Played"
+    group_label: "First End of Content Levels"
     label: "Count Players to Ever Reach End of Content"
     type: number
     sql:

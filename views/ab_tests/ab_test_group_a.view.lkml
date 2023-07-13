@@ -10,7 +10,7 @@ view: ab_test_group_a {
       select * from ${player_summary_new.SQL_TABLE_NAME}
 
       where
-        display_name = 'Amborz'
+        display_name = {% parameter selected_display_name %}
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;
@@ -39,5 +39,13 @@ view: ab_test_group_a {
   # strings
   dimension: rdg_id {group_label:"Player IDs" type: string}
   dimension: display_name {group_label:"Player IDs" type: string}
+
+  parameter: selected_display_name {
+    type: string
+    suggestions:  [
+      "Amborz"
+      ,"notAmborz"
+      ]
+  }
 
 }

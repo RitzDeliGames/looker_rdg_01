@@ -13,6 +13,7 @@ view: player_summary_new {
 
 
 
+
 -- create or replace table `tal_scratch.player_summary_new` AS
 
 with
@@ -335,6 +336,8 @@ FROM
     , count( distinct case when day_number <= 30 then rdg_date else null end ) as days_played_in_first_30_days
 
     -- minutes played in first x days
+    , max( case when day_number <= 1 then cumulative_time_played_minutes else 0 end ) as minutes_played_in_first_1_days
+    , max( case when day_number <= 2 then cumulative_time_played_minutes else 0 end ) as minutes_played_in_first_2_days
     , max( case when day_number <= 7 then cumulative_time_played_minutes else 0 end ) as minutes_played_in_first_7_days
     , max( case when day_number <= 14 then cumulative_time_played_minutes else 0 end ) as minutes_played_in_first_14_days
     , max( case when day_number <= 21 then cumulative_time_played_minutes else 0 end ) as minutes_played_in_first_21_days

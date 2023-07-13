@@ -10,8 +10,11 @@ view: ab_test_group_a {
       select * from ${player_summary_new.SQL_TABLE_NAME}
 
       where
-        display_name = {% parameter selected_display_name %}
+        1=1
 
+        {% if selected_display_name._is_filtered %}
+        and display_name = {% parameter selected_display_name %}
+        {% endif %}
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;
     publish_as_db_view: yes

@@ -16,5 +16,24 @@ view: ab_test_group_a {
 
   }
 
+####################################################################
+## Primary Key
+####################################################################
+
+  dimension: primary_key {
+    type: string
+    sql:
+    ${TABLE}.rdg_id
+    ;;
+    primary_key: yes
+    hidden: yes
+  }
+
+################################################################
+## Dimensions
+################################################################
+
+  # strings
+  dimension: rdg_id {group_label:"Player IDs" type: string}
 
 }

@@ -327,6 +327,19 @@ FROM
           end
         ) as date_of_first_end_of_content_levels
 
+    -- days played in first x days
+    , count( distinct case when day_number <= 7 then rdg_date else null end ) as days_played_in_first_7_days
+    , count( distinct case when day_number <= 14 then rdg_date else null end ) as days_played_in_first_14_days
+    , count( distinct case when day_number <= 21 then rdg_date else null end ) as days_played_in_first_21_days
+    , count( distinct case when day_number <= 30 then rdg_date else null end ) as days_played_in_first_30_days
+
+    -- minutes played in first x days
+    , max( case when day_number = 7 then cumulative_time_played_minutes else 0 end ) as minutes_played_in_first_7_days
+    , max( case when day_number = 14 then cumulative_time_played_minutes else 0 end ) as minutes_played_in_first_14_days
+    , max( case when day_number = 21 then cumulative_time_played_minutes else 0 end ) as minutes_played_in_first_21_days
+    , max( case when day_number = 30 then cumulative_time_played_minutes else 0 end ) as minutes_played_in_first_30_days
+
+
   FROM
     pre_aggregate_calculations_from_base_data
   GROUP BY

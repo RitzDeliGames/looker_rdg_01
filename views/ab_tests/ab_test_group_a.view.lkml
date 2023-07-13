@@ -9,6 +9,9 @@ view: ab_test_group_a {
 
       select * from ${player_summary_new.SQL_TABLE_NAME}
 
+      where
+        display_name = 'Amborz'
+
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;
     publish_as_db_view: yes
@@ -35,5 +38,6 @@ view: ab_test_group_a {
 
   # strings
   dimension: rdg_id {group_label:"Player IDs" type: string}
+  dimension: display_name {group_label:"Player IDs" type: string}
 
 }

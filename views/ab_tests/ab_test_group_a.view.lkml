@@ -16,8 +16,8 @@ view: ab_test_group_a {
         and display_name = {% parameter selected_display_name %}
         {% endif %}
       ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;
-    publish_as_db_view: yes
+    persist_for: "48 hours"
+    publish_as_db_view: no
     partition_keys: ["created_date"]
 
   }

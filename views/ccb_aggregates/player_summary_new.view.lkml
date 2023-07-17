@@ -810,6 +810,11 @@ dimension: primary_key {
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      ,"$.zoneDrops_20230712"
+      ,"$.hotdogContest_20230713"
+      ,"$.fue1213_20230713"
+      ,"$.magnifierRegen_20230711"
+      ,"$.mMTiers_20230712"
       ,"$.dynamicDropBiasv3_20230627"
       ,"$.popupPri_20230628"
       ,"$.reactivationIAM_20230622"

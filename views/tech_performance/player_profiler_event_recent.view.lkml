@@ -230,7 +230,7 @@ with
  measure: mean_step_time {
     group_label: "Performance Calculations"
     label: "Average Step Time In Seconds"
-    value_format_name: decimal_2
+    value_format_name: decimal_1
     sql: avg(${TABLE}.step_time_in_seconds) ;;
 
  }
@@ -238,6 +238,7 @@ with
   measure: step_time_10 {
     group_label: "Performance Calculations"
     type: percentile
+    value_format_name: decimal_1
     percentile: 10
     sql: ${TABLE}.step_time_in_seconds ;;
   }
@@ -245,6 +246,7 @@ with
   measure: step_time_25 {
     group_label: "Performance Calculations"
     type: percentile
+    value_format_name: decimal_1
     percentile: 25
     sql: ${TABLE}.step_time_in_seconds ;;
   }
@@ -252,6 +254,7 @@ with
   measure: step_time_50 {
     group_label: "Performance Calculations"
     type: percentile
+    value_format_name: decimal_1
     percentile: 50
     sql: ${TABLE}.step_time_in_seconds ;;
   }
@@ -259,6 +262,7 @@ with
   measure: step_time_75 {
     group_label: "Performance Calculations"
     type: percentile
+    value_format_name: decimal_1
     percentile: 75
     sql: ${TABLE}.step_time_in_seconds ;;
   }
@@ -266,6 +270,7 @@ with
   measure: step_time_95 {
     group_label: "Performance Calculations"
     type: percentile
+    value_format_name: decimal_1
     percentile: 95
     sql: ${TABLE}.step_time_in_seconds ;;
   }
@@ -278,7 +283,7 @@ with
   measure: mean_cumulative_event_time {
     group_label: "Performance Calculations"
     label: "Average Cumulative Event Time In Seconds"
-    value_format_name: decimal_2
+    value_format_name: decimal_1
     sql: avg(${TABLE}.cumulative_event_time_in_seconds) ;;
 
   }
@@ -286,6 +291,7 @@ with
   measure: cumulative_event_time_10 {
     group_label: "Performance Calculations"
     type: percentile
+    value_format_name: decimal_1
     percentile: 10
     sql: ${TABLE}.cumulative_event_time_in_seconds ;;
   }
@@ -293,6 +299,7 @@ with
   measure: cumulative_event_time_25 {
     group_label: "Performance Calculations"
     type: percentile
+    value_format_name: decimal_1
     percentile: 25
     sql: ${TABLE}.cumulative_event_time_in_seconds ;;
   }
@@ -300,6 +307,7 @@ with
   measure: cumulative_event_time_50 {
     group_label: "Performance Calculations"
     type: percentile
+    value_format_name: decimal_1
     percentile: 50
     sql: ${TABLE}.cumulative_event_time_in_seconds ;;
   }
@@ -307,6 +315,7 @@ with
   measure: cumulative_event_time_75 {
     group_label: "Performance Calculations"
     type: percentile
+    value_format_name: decimal_1
     percentile: 75
     sql: ${TABLE}.cumulative_event_time_in_seconds ;;
   }
@@ -314,6 +323,7 @@ with
   measure: cumulative_event_time_95 {
     group_label: "Performance Calculations"
     type: percentile
+    value_format_name: decimal_1
     percentile: 95
     sql: ${TABLE}.cumulative_event_time_in_seconds ;;
   }

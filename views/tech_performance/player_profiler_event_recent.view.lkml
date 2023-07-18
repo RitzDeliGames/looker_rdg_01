@@ -102,6 +102,15 @@ with
           , safe_divide(safe_cast(json_extract_scalar(profiler_milestone_unnest, "$.t") as numeric),1000) cumulative_event_time_in_seconds
           , safe_cast(json_extract_scalar(profiler_milestone_unnest, "$.frame") as numeric) as frame_number
 
+          -- additional fields
+          , platform
+          , country
+          , version
+          , last_level_serial
+          , last_level_id
+          , hardware
+          , devices
+
         from
           base_data a
           cross join unnest(json_query_array( extra_json, "$.data.milestones" ) ) as profiler_milestone_unnest
@@ -117,6 +126,8 @@ with
         , row_number() over ( partition by rdg_id, timestamp_utc, event_type order by frame_number ) as step_number
       from
         break_out_profiler_events
+
+
 
 
       ;;
@@ -176,6 +187,13 @@ with
   dimension: step_time_in_seconds {type:number}
   dimension: cumulative_event_time_in_seconds {type:number}
   dimension: frame_number {type:number}
+  dimension: platform {type:string}
+  dimension: country {type:string}
+  dimension: version {type:string}
+  dimension: last_level_serial {type:number}
+  dimension: last_level_id {type:string}
+  dimension: hardware {type:string}
+  dimension: devices {type:string}
   dimension: step_number {type:number}
 
 ####################################################################

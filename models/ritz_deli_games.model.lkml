@@ -629,6 +629,35 @@ explore: player_coin_source_summary {
   }
 }
 
+################################################################
+
+## Explore: Player Profiler Event Recent
+
+################################################################
+
+explore: player_profiler_event_recent {
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_profiler_event_recent.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+
+  join: singular_campaign_summary {
+    view_label:  "Singular Campaign Info"
+    from:  singular_campaign_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on:
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ;;
+  }
+}
+
 
 ################################################################
 

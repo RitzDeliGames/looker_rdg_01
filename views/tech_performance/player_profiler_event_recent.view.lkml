@@ -290,7 +290,7 @@ with
     sql: ${TABLE}.cumulative_event_time_in_seconds ;;
   }
 
-  measure: scumulative_event_time_25 {
+  measure: cumulative_event_time_25 {
     group_label: "Performance Calculations"
     type: percentile
     percentile: 25

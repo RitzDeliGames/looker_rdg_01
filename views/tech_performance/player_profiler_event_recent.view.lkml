@@ -123,7 +123,7 @@ with
 
       select
         *
-        , rank() over ( partition by rdg_id, timestamp_utc, event_type order by frame_number ) as step_number
+        -- , rank() over ( partition by rdg_id, timestamp_utc, event_type order by frame_number ) as step_number
       from
         break_out_profiler_events
 
@@ -143,7 +143,6 @@ with
     type: string
     sql:
     ${TABLE}.rdg_id
-    || '_' || ${TABLE}.rdg_date
     || '_' || ${TABLE}.timestamp_utc
     || '_' || ${TABLE}.event_name
     || '_' || ${TABLE}.event_type
@@ -157,13 +156,6 @@ with
 ####################################################################
 ## Date Groups
 ####################################################################
-
-  dimension_group: rdg_date {
-    label: "Date"
-    type: time
-    timeframes: [date, week, month, year]
-    sql: ${TABLE}.rdg_date ;;
-  }
 
   dimension_group: timestamp_utc {
     label: "Event Time"
@@ -192,7 +184,6 @@ with
   dimension: last_level_id {type:string}
   dimension: hardware {type:string}
   dimension: devices {type:string}
-  dimension: step_number {type:number}
 
 ####################################################################
 ## Count Players

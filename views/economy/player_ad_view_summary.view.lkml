@@ -185,6 +185,11 @@ view: player_ad_view_summary {
   dimension: country {type:string}
   dimension: current_level_id {type:string}
 
+  dimension: ad_source_id {
+    type: string
+    sql: ${TABLE}.source_id ;;
+  }
+
   dimension: ad_reward_source_id {
     label: "Ad Reward Source Id"
     sql: ${TABLE}.ad_reward_source_id ;;

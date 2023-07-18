@@ -179,7 +179,7 @@ with
   dimension: step_number {type:number}
 
 ####################################################################
-## Measures
+## Count Players
 ####################################################################
 
   measure: count_distinct_users {
@@ -192,13 +192,113 @@ with
               ;;
   }
 
+####################################################################
+## Count Instances
+####################################################################
+
+  measure: count_rows {
+    label: "Count Rows"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      sum(1) ;;
+  }
+
+
+####################################################################
+## Average Step Time
+####################################################################
+
  measure: mean_step_time {
     group_label: "Performance Calculations"
-    label: "Average Step Time"
+    label: "Average Step Time In Seconds"
     value_format_name: decimal_2
     sql: avg(${TABLE}.step_time_in_seconds) ;;
 
  }
+
+  measure: step_time_10 {
+    group_label: "Performance Calculations"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.step_time_in_seconds ;;
+  }
+
+  measure: step_time_25 {
+    group_label: "Performance Calculations"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.step_time_in_seconds ;;
+  }
+
+  measure: step_time_50 {
+    group_label: "Performance Calculations"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.step_time_in_seconds ;;
+  }
+
+  measure: step_time_75 {
+    group_label: "Performance Calculations"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.step_time_in_seconds ;;
+  }
+
+  measure: step_time_95 {
+    group_label: "Performance Calculations"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.step_time_in_seconds ;;
+  }
+
+####################################################################
+## Cumualtive Time
+####################################################################
+
+
+  measure: mean_cumulative_event_time {
+    group_label: "Performance Calculations"
+    label: "Average Cumulative Event Time In Seconds"
+    value_format_name: decimal_2
+    sql: avg(${TABLE}.cumulative_event_time_in_seconds) ;;
+
+  }
+
+  measure: cumulative_event_time_10 {
+    group_label: "Performance Calculations"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.cumulative_event_time_in_seconds ;;
+  }
+
+  measure: scumulative_event_time_25 {
+    group_label: "Performance Calculations"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.cumulative_event_time_in_seconds ;;
+  }
+
+  measure: cumulative_event_time_50 {
+    group_label: "Performance Calculations"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.cumulative_event_time_in_seconds ;;
+  }
+
+  measure: cumulative_event_time_75 {
+    group_label: "Performance Calculations"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.cumulative_event_time_in_seconds ;;
+  }
+
+  measure: cumulative_event_time_95 {
+    group_label: "Performance Calculations"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.cumulative_event_time_in_seconds ;;
+  }
 
 
 }

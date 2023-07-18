@@ -187,6 +187,7 @@ view: player_ad_view_summary {
 
   dimension: ad_source_id {
     type: string
+    label: "Starting: Ad Source ID"
     sql: ${TABLE}.source_id ;;
   }
 

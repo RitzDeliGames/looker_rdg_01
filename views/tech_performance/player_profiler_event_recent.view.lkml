@@ -6,7 +6,7 @@ view: player_profiler_event_recent {
       -- ccb_aggregate_update_tag
       -- update '2023-07-18'
 
-      -- create or replace table tal_scratch.player_profiler_event_recent as
+create or replace table tal_scratch.player_profiler_event_recent as
 
 with
 
@@ -123,11 +123,9 @@ with
 
       select
         *
-        , row_number() over ( partition by rdg_id, timestamp_utc, event_type order by frame_number ) as step_number
+        , rank() over ( partition by rdg_id, timestamp_utc, event_type order by frame_number ) as step_number
       from
         break_out_profiler_events
-
-
 
 
       ;;

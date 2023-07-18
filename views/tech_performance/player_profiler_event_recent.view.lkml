@@ -6,7 +6,7 @@ view: player_profiler_event_recent {
       -- ccb_aggregate_update_tag
       -- update '2023-07-18'
 
-create or replace table tal_scratch.player_profiler_event_recent as
+-- create or replace table tal_scratch.player_profiler_event_recent as
 
 with
 

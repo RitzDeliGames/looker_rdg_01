@@ -810,6 +810,8 @@ dimension: primary_key {
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      ,"$.propBehavior_20230717"
+      ,"$.zoneDrops_20230718"
       ,"$.zoneDrops_20230712"
       ,"$.hotdogContest_20230713"
       ,"$.fue1213_20230713"

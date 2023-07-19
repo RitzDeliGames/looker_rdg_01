@@ -681,6 +681,7 @@ constant: ad_placements_clean {
             when ${TABLE}.source_id like '%Pizza%' then 'Pizza'
             when ${TABLE}.source_id like '%Lucky_Dice%' then 'Lucky Dice'
             when ${TABLE}.source_id like '%RequestHelp%' then 'Ask For Help'
+            when ${TABLE}.source_id like '%Battle_Pass%' then 'Battle Pass'
             when ${TABLE}.source_id like '%Rewarded' then 'Generic Reward'
             else ${TABLE}.source_id
           end"

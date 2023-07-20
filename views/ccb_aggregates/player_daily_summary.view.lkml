@@ -879,6 +879,8 @@ dimension: primary_key {
   dimension: lowest_last_level_serial {type:number}
   dimension: highest_last_level_serial {type:number}
 
+
+
   # feature participation
   dimension: feature_participation_daily_reward {
     group_label: "Daily Feature Participation"
@@ -936,6 +938,14 @@ dimension: primary_key {
   dimension: ending_stars_balance {type:number}
   dimension: days_since_created {type:number}
   dimension: day_number {type:number}
+
+  dimension: 30_day_month_number {
+    type: number
+    label: "30 Day Month Number"
+    value_format_name: decimal_0
+    sql: safe_cast(ceiling(${TABLE}.day_number/30) as int64) ;;
+  }
+
   dimension: new_player_indicator {type:number}
   dimension: date_last_played {type:number}
   dimension: days_since_last_played {type:number}

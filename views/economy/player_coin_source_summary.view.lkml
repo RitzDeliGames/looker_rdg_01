@@ -85,6 +85,15 @@ dimension: primary_key {
   dimension: currency_03_balance {type:number}
   dimension: currency_04_balance {type:number}
   dimension: currency_07_balance {type:number}
+  dimension: day_number {type:number}
+  dimension: 30_day_month_number {
+    type: number
+    label: "30 Day Month Number"
+    value_format_name: decimal_0
+    sql: safe_cast(ceiling(${TABLE}.day_number/30) as int64) ;;
+  }
+
+
 
 ################################################################
 ## Coin Source Naming

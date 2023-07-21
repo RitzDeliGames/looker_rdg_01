@@ -106,6 +106,12 @@ dimension: primary_key {
   dimension: day_number {type:number}
   dimension: cumulative_count_coin_spend_events {type:number}
   dimension: cumulative_coin_spend {type:number}
+  dimension: 30_day_month_number {
+    type: number
+    label: "30 Day Month Number"
+    value_format_name: decimal_0
+    sql: safe_cast(ceiling(${TABLE}.day_number/30) as int64) ;;
+  }
 
 ################################################################
 ## Coin Spend Naming

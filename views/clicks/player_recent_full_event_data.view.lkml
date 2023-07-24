@@ -135,4 +135,26 @@ view: player_recent_full_event_data {
   dimension: currencies {type: string}
   dimension: tickets {type: string}
 
+####################################################################
+## Custom - Seleted Field from Extra Json
+####################################################################
+
+
+  parameter: selected_extra_json_field_input {
+    type: string
+    suggestions: [
+      "$.button_tag"
+      ]
+    }
+
+  dimension: selected_extra_json_field {
+    type: string
+    sql:
+    safe_cast(
+        json_extract_scalar(${TABLE}.extra_json,{% parameter selected_experiment %})
+        as string)
+    ;;
+  }
+
+
 }

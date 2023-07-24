@@ -151,7 +151,7 @@ view: player_recent_full_event_data {
     type: string
     sql:
     safe_cast(
-        json_extract_scalar(${TABLE}.extra_json,{% parameter selected_experiment %})
+        json_extract_scalar(${TABLE}.extra_json,{% parameter selected_extra_json_field_input %})
         as string)
     ;;
   }

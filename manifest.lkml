@@ -1028,7 +1028,15 @@ constant: coin_source_name {
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'Daily Rewards' then 'Daily Reward'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'bingo_reward_C1' then 'Legacy: Bingo'
 
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'treasure_trove' then 'Treasure Trove (Free)'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'puzzle' then 'Puzzle (End)'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'flour_frenzy' then 'Flour Frenzy (End)'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'hotdog_contest' then 'Hotdog Contest (End)'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'moves_master' then 'Moves Master (End)'
 
+
+
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source = 'round_end' then 'Round End'
     else 'Unmapped'
   end
   "
@@ -1093,6 +1101,15 @@ constant: coin_source_name_group {
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'Daily Rewards' then 'Live Ops'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'bingo_reward_C1' then 'Legacy'
 
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'treasure_trove' then 'Treasure Trove'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'puzzle' then 'Live Ops'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'flour_frenzy' then 'Live Ops'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'hotdog_contest' then 'Live Ops'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'moves_master' then 'Live Ops'
+
+
+
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source = 'round_end' then 'Round End'
   else 'Unmapped'
   end
   "

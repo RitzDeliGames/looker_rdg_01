@@ -65,7 +65,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-06-21' -- Last Full Update
+                when date(current_date()) <= '2023-07-24' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -656,6 +656,14 @@ view: player_daily_incremental {
               else 0
               end as int64) as feature_participation_treasure_trove
 
+          , safe_cast(case
+              when
+                event_name = 'ButtonClicked'
+                and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%HotdogContest%'
+              then 1
+              else 0
+              end as int64) as feature_participation_hot_dog_contest
+
         -------------------------------------------------
         -- Errors
         -------------------------------------------------
@@ -744,6 +752,17 @@ view: player_daily_incremental {
               then 1
               else 0
               end as int64) as load_time_count_from_game_scene
+
+
+        -- {"transition_from":"AppStart","transition_to":"FirstInteraction","load_time":13238,"
+        , safe_cast(case
+              when
+                event_name = 'transition'
+                and safe_cast(json_extract(extra_json,'$.transition_from') as string) like '%AppStart%'
+                and safe_cast(json_extract(extra_json,'$.transition_to') as string) like '%FirstInteraction%'
+              then json_extract_scalar(extra_json, "$.load_time")
+              else null
+              end as int64) as load_time_from_first_app_start_to_first_interaction
 
         -------------------------------------------------
         -- Ask for Help Participation
@@ -865,6 +884,7 @@ view: player_daily_incremental {
         , max( feature_participation_ask_for_help_completed ) as feature_participation_ask_for_help_completed
         , max( feature_participation_ask_for_help_high_five ) as feature_participation_ask_for_help_high_five
         , max( feature_participation_ask_for_help_high_five_return ) as feature_participation_ask_for_help_high_five_return
+        , max( feature_participation_hot_dog_contest ) as feature_participation_hot_dog_contest
 
         -- ask for help counts
         , sum( feature_participation_ask_for_help_request ) as count_ask_for_help_request
@@ -907,7 +927,6 @@ view: player_daily_incremental {
         left join average_asset_load_times c
             on a.rdg_id = c.rdg_id
             and a.rdg_date = c.rdg_date
-
 
 
 

@@ -156,5 +156,16 @@ view: player_recent_full_event_data {
     ;;
   }
 
+####################################################################
+## measures
+####################################################################
+
+measure: count_of_rows {
+  type: number
+  value_format_name: decimal_0
+  sql: sum(1) ;;
+
+}
+
 
 }

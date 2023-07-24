@@ -8,7 +8,7 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-06-21'
+      -- last update: '2023-07-24'
 
 -- create or replace table `tal_scratch.player_daily_summary` as
 
@@ -149,6 +149,7 @@ ads_by_date as (
         , max( feature_participation_ask_for_help_completed ) as feature_participation_ask_for_help_completed
         , max( feature_participation_ask_for_help_high_five ) as feature_participation_ask_for_help_high_five
         , max( feature_participation_ask_for_help_high_five_return ) as feature_participation_ask_for_help_high_five_return
+        , max( feature_participation_hot_dog_contest ) as feature_participation_hot_dog_contest
 
         -- ask for help counts
         , max( feature_participation_ask_for_help_request ) as count_ask_for_help_request
@@ -264,6 +265,7 @@ ads_by_date as (
         , max( feature_participation_ask_for_help_completed ) as feature_participation_ask_for_help_completed
         , max( feature_participation_ask_for_help_high_five ) as feature_participation_ask_for_help_high_five
         , max( feature_participation_ask_for_help_high_five_return ) as feature_participation_ask_for_help_high_five_return
+        , max( feature_participation_hot_dog_contest ) as feature_participation_hot_dog_contest
 
         -- ask for help counts
         , max( feature_participation_ask_for_help_request ) as count_ask_for_help_request
@@ -418,6 +420,7 @@ ads_by_date as (
         , a.feature_participation_ask_for_help_completed
         , a.feature_participation_ask_for_help_high_five
         , a.feature_participation_ask_for_help_high_five_return
+        , a.feature_participation_hot_dog_contest
 
         -- ask for help counts
         , a.count_ask_for_help_request
@@ -807,7 +810,6 @@ where
 
 
 
-
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -4 hour)) ;;
     publish_as_db_view: yes
@@ -919,6 +921,14 @@ dimension: primary_key {
     group_label: "Daily Feature Participation"
     label: "Treasure Trove"
     type:number}
+
+  # feature_participation_hot_dog_contest
+  dimension: feature_participation_hot_dog_contest {
+    group_label: "Daily Feature Participation"
+    label: "Hotdog Contest"
+    type:number}
+
+
 
 
   dimension: lowest_last_level_serial_bin {
@@ -1174,6 +1184,25 @@ dimension: primary_key {
     ;;
     value_format_name: percent_0
   }
+
+  measure: percent_players_engaged_with_hotdog_contest {
+    group_label: "Daily Feature Participation"
+    label: "Hotdog Contest"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_hot_dog_contest > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
 
   measure: percent_players_engaged_with_lucky_dice {
     group_label: "Daily Feature Participation"

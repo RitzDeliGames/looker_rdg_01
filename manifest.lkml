@@ -877,6 +877,7 @@ constant: ad_reward_id_strings {
       when ${TABLE}.ad_reward_source_id = 'quick_boost_rocket' then 'Rocket'
       when ${TABLE}.ad_reward_source_id = 'quick_lives' then 'Lives'
       when ${TABLE}.ad_reward_source_id = 'quick_magnifiers' then 'Magnifiers'
+      when ${TABLE}.ad_reward_source_id = 'treasure_trove' then 'Treasure Trove'
       else ${TABLE}.ad_reward_source_id
     end"
 }

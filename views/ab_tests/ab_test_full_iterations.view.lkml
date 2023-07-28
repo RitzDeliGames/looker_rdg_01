@@ -13,7 +13,29 @@ view: ab_test_full_iterations {
 -- first test group
 ---------------------------------------------------------------------------------------
 
-group_a as ( select rdg_id, metric from ${ab_test_group_a.SQL_TABLE_NAME} )
+group_a as (
+
+    select
+      rdg_id
+      , days_played_in_first_7_days as metric
+
+    from
+      ${player_summary_new.SQL_TABLE_NAME}
+
+    where
+      1=1
+
+        -- and json_extract_scalar(experiments,'$.dynamicDropBiasv3_20230627') = 'control'
+        {% if selected_experiment._is_filtered %}
+        and json_extract_scalar(experiments,{% parameter selected_experiment %}) = {% parameter selected_variant %}
+        {% endif %}
+
+        -- and max_available_day_number >= 7
+        {% if selected_lowest_max_available_day_number._is_filtered %}
+        and max_available_day_number >= {% parameter selected_lowest_max_available_day_number %}
+        {% endif %}
+
+)
 
 ---------------------------------------------------------------------------------------
 -- second test group
@@ -255,7 +277,51 @@ from
   dimension: percent_greater_than {type: number}
   dimension: significance_95 {type: string}
 
+  parameter: selected_experiment {
+    type: string
+    default_value: "$.dynamicDropBiasv3_20230627"
+    suggestions:  [
+      ,"$.propBehavior_20230717"
+      ,"$.zoneDrops_20230718"
+      ,"$.zoneDrops_20230712"
+      ,"$.hotdogContest_20230713"
+      ,"$.fue1213_20230713"
+      ,"$.magnifierRegen_20230711"
+      ,"$.mMTiers_20230712"
+      ,"$.dynamicDropBiasv3_20230627"
+      ,"$.popupPri_20230628"
+      ,"$.reactivationIAM_20230622"
+      ,"$.playNext_20230612"
+      ,"$.playNext_20230607"
+      ,"$.playNext_20230503"
+      ,"$.restoreBehavior_20230601"
+      ,"$.moveTrim_20230601"
+      ,"$.askForHelp_20230531"
+      ,"$.hapticv2_20230524"
+      ,"$.finalMoveAnim"
+      ,"$.popUpManager_20230502"
+      ,"$.fueSkip_20230425"
+      ,"$.autoRestore_20230502"
+      ,"$.playNext_20230503"
+    ]
+  }
 
+  parameter: selected_variant {
+    type: string
+    default_value: "control"
+    suggestions:  [
+      ,"control"
+      ,"variant_a"
+      ,"variant_b"
+      ,"variant_c"
+      ,"variant_d"
+
+    ]
+  }
+
+  parameter: selected_lowest_max_available_day_number {
+    type: number
+  }
 
 
 }

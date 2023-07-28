@@ -580,6 +580,7 @@ from
   dimension: my_abs_difference_rounded {
     label: "Rounded Difference"
     type: number
+    value_format_name: decimal_2
   }
 
   dimension: iteration_type {

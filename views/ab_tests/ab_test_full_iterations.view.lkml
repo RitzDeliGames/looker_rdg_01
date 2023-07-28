@@ -655,7 +655,6 @@ from
     type: string
     default_value: "days_played_in_first_7_days"
     suggestions:  [
-      "days_played_in_first_7_days"
 
       , "cumulative_ad_views_d1"
       , "cumulative_ad_views_d2"

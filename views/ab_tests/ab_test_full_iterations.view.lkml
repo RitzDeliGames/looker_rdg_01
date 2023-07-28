@@ -85,7 +85,7 @@ group_a as (
 
   select iteration_number
   from
-    unnest( generate_array(1,10001) ) as iteration_number
+    unnest( generate_array(1,{% parameter selected_iterations %}+1) ) as iteration_number
 
 )
 
@@ -342,6 +342,10 @@ from
 
 
   parameter: selected_lowest_max_available_day_number {
+    type: number
+  }
+
+  parameter: selected_iterations {
     type: number
   }
 

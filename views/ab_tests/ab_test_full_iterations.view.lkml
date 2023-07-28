@@ -578,7 +578,7 @@ from
     }
 
   dimension: my_abs_difference_rounded {
-    label: "Iteration Type"
+    label: "Rounded Difference"
     type: number
   }
 

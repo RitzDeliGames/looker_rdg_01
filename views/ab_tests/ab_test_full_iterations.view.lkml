@@ -539,25 +539,25 @@ from
   dimension: group_a {
     label: "Group A Metric Average"
     type: number
-    value_format_name: decimal_2
+    value_format_name: decimal_3
     }
 
   dimension: group_b {
     label: "Group B Metric Average"
     type: number
-    value_format_name: decimal_2
+    value_format_name: decimal_3
   }
 
   dimension: my_difference {
     label: "Difference in Average Metric"
     type: number
-    value_format_name: decimal_2
+    value_format_name: decimal_3
     }
 
   dimension: my_abs_difference {
     label: "Absolute Difference in Average Metric"
     type: number
-    value_format_name: decimal_2
+    value_format_name: decimal_3
   }
 
   dimension: my_iterations {

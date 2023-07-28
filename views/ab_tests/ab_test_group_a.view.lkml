@@ -33,7 +33,6 @@ where
       ;;
     persist_for: "48 hours"
     publish_as_db_view: no
-    partition_keys: ["created_date"]
 
   }
         # select * from ${player_summary_new.SQL_TABLE_NAME}

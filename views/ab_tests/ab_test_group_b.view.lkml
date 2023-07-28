@@ -33,7 +33,7 @@ view: ab_test_group_b {
       ;;
     persist_for: "48 hours"
     publish_as_db_view: no
-    partition_keys: ["created_date"]
+
 
   }
   # saving code for later

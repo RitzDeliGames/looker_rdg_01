@@ -521,15 +521,59 @@ from
 
 
   dimension: iteration_number {type: number}
-  dimension: group_a_players {type: number}
-  dimension: group_b_players {type: number}
-  dimension: group_a {type: number}
-  dimension: group_b {type: number}
-  dimension: my_difference {type: number}
-  dimension: my_abs_difference {type: number}
-  dimension: my_iterations {type: number}
-  dimension: percent_greater_than {type: number}
-  dimension: significance_95 {type: string}
+
+  dimension: group_a_players {
+    label: "Group A Players"
+    type: number
+    value_format_name: decimal_0
+    }
+
+  dimension: group_b_players {
+    label: "Group B Players"
+    type: number
+    value_format_name: decimal_0
+    }
+
+  dimension: group_a {
+    label: "Group A Metric Average"
+    type: number
+    value_format_name: decimal_2
+    }
+
+  dimension: group_b {
+    label: "Group B Metric Average"
+    type: number
+    value_format_name: decimal_2
+  }
+
+  dimension: my_difference {
+    label: "Difference in Average Metric"
+    type: number
+    value_format_name: decimal_2
+    }
+
+  dimension: my_abs_difference {
+    label: "Absolute Difference in Average Metric"
+    type: number
+    value_format_name: decimal_2
+  }
+
+  dimension: my_iterations {
+    label: "Total Iterations"
+    type: number
+    value_format_name: decimal_0
+  }
+
+  dimension: percent_greater_than {
+    label: "Percent of Iterations w/ Metric Differences Greater Than Original"
+    type: number
+    value_format_name: percent_0
+  }
+
+  dimension: significance_95 {
+    label: "Siginficance Indicator"
+    type: string
+    }
 
   parameter: selected_experiment {
     type: string

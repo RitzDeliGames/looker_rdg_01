@@ -422,13 +422,17 @@ from
 
 , summarize_results as (
 
-select
-  max(iteration_number)-1 as my_iterations
-  , avg(my_greater_than_indicator) as percent_greater_than
-  , case when avg(my_greater_than_indicator) >= 0.95 then '95% Significant!' else 'NOT 95% Significant!' end as significance_95
+  select
+    max(iteration_number)-1 as my_iterations
+    , avg(my_greater_than_indicator) as percent_greater_than
+    , case
+        when avg(my_greater_than_indicator) >= safe_divide({% parameter selected_significance %},100)
+        then safe_cast({% parameter selected_significance %} as string) || '% Significant!'
+        else 'NOT ' || safe_cast({% parameter selected_significance %} as string) || '% Significant!'
+        end as significance_95
 
-from
-  calculate_greater_than_instances
+  from
+    calculate_greater_than_instances
 
 )
 
@@ -436,13 +440,52 @@ from
 -- summarize percent_greater_than
 ---------------------------------------------------------------------------------------
 
+, summarize_percent_greater_than as (
+
+  select
+    *
+  from
+    iteration_1_only a
+    cross join summarize_results b
+
+)
+
+---------------------------------------------------------------------------------------
+-- final output
+---------------------------------------------------------------------------------------
+
 select
-  *
+  iteration_number
+  , group_a_players
+  , group_b_players
+  , group_a
+  , group_b
+  , my_difference
+  , my_abs_difference
+  , my_iterations
+  , percent_greater_than
+  , significance_95
+  , 0 as count_iterations
+  , round( my_abs_difference * safe_divide(1,{% parameter selected_rounding %}) , 0 ) * {% parameter selected_rounding %} as my_abs_difference_rounded
 from
-  iteration_1_only a
-  cross join summarize_results b
+  summarize_percent_greater_than
 
-
+union all
+select
+  iteration_number
+  , group_a_players
+  , group_b_players
+  , group_a
+  , group_b
+  , my_difference
+  , my_abs_difference
+  , 0 as my_iterations
+  , 0 as percent_greater_than
+  , '' as significance_95
+  , 1 as count_iterations
+  , round( my_abs_difference * safe_divide(1,{% parameter selected_rounding %}) , 0 ) * {% parameter selected_rounding %} as my_abs_difference_rounded
+from
+  calculate_greater_than_instances
 
 
 
@@ -535,6 +578,14 @@ from
   }
 
   parameter: selected_iterations {
+    type: number
+  }
+
+  parameter: selected_significance {
+    type: number
+  }
+
+  parameter: selected_rounding {
     type: number
   }
 

@@ -89,6 +89,17 @@ group_a as (
           when 'highest_last_level_serial_d90' = {% parameter selected_metric %} then highest_last_level_serial_d90
           when 'highest_last_level_serial_current' = {% parameter selected_metric %} then highest_last_level_serial_current
 
+          when 'days_played_in_first_7_days' = {% parameter selected_metric %} then days_played_in_first_7_days
+          when 'days_played_in_first_14_days' = {% parameter selected_metric %} then days_played_in_first_14_days
+          when 'days_played_in_first_21_days' = {% parameter selected_metric %} then days_played_in_first_21_days
+          when 'days_played_in_first_30_days' = {% parameter selected_metric %} then days_played_in_first_30_days
+
+          when 'minutes_played_in_first_1_days' = {% parameter selected_metric %} then minutes_played_in_first_1_days
+          when 'minutes_played_in_first_2_days' = {% parameter selected_metric %} then minutes_played_in_first_2_days
+          when 'minutes_played_in_first_7_days' = {% parameter selected_metric %} then minutes_played_in_first_7_days
+          when 'minutes_played_in_first_14_days' = {% parameter selected_metric %} then minutes_played_in_first_14_days
+          when 'minutes_played_in_first_21_days' = {% parameter selected_metric %} then minutes_played_in_first_21_days
+          when 'minutes_played_in_first_30_days' = {% parameter selected_metric %} then minutes_played_in_first_30_days
 
         else 1
         end as metric
@@ -191,6 +202,17 @@ group_a as (
           when 'highest_last_level_serial_d90' = {% parameter selected_metric %} then highest_last_level_serial_d90
           when 'highest_last_level_serial_current' = {% parameter selected_metric %} then highest_last_level_serial_current
 
+          when 'days_played_in_first_7_days' = {% parameter selected_metric %} then days_played_in_first_7_days
+          when 'days_played_in_first_14_days' = {% parameter selected_metric %} then days_played_in_first_14_days
+          when 'days_played_in_first_21_days' = {% parameter selected_metric %} then days_played_in_first_21_days
+          when 'days_played_in_first_30_days' = {% parameter selected_metric %} then days_played_in_first_30_days
+
+          when 'minutes_played_in_first_1_days' = {% parameter selected_metric %} then minutes_played_in_first_1_days
+          when 'minutes_played_in_first_2_days' = {% parameter selected_metric %} then minutes_played_in_first_2_days
+          when 'minutes_played_in_first_7_days' = {% parameter selected_metric %} then minutes_played_in_first_7_days
+          when 'minutes_played_in_first_14_days' = {% parameter selected_metric %} then minutes_played_in_first_14_days
+          when 'minutes_played_in_first_21_days' = {% parameter selected_metric %} then minutes_played_in_first_21_days
+          when 'minutes_played_in_first_30_days' = {% parameter selected_metric %} then minutes_played_in_first_30_days
 
         else 1
         end as metric
@@ -569,6 +591,18 @@ from
       , "highest_last_level_serial_d60"
       , "highest_last_level_serial_d90"
       , "highest_last_level_serial_current"
+
+      , "days_played_in_first_7_days"
+      , "days_played_in_first_14_days"
+      , "days_played_in_first_21_days"
+      , "days_played_in_first_30_days"
+
+      , "minutes_played_in_first_1_days"
+      , "minutes_played_in_first_2_days"
+      , "minutes_played_in_first_7_days"
+      , "minutes_played_in_first_14_days"
+      , "minutes_played_in_first_21_days"
+      , "minutes_played_in_first_30_days"
 
       ]
   }

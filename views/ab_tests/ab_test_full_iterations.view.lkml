@@ -565,13 +565,13 @@ from
   }
 
   dimension: percent_greater_than {
-    label: "Percent of Iterations w/ Metric Differences Greater Than Original"
+    label: "Estimated Significance Level"
     type: number
     value_format_name: percent_0
   }
 
   dimension: significance_95 {
-    label: "Siginficance Indicator"
+    label: "Siginficance Check"
     type: string
     }
 

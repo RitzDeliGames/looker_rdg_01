@@ -27,7 +27,7 @@ group_a as (
 
         -- and json_extract_scalar(experiments,'$.dynamicDropBiasv3_20230627') = 'control'
         {% if selected_experiment._is_filtered %}
-        and json_extract_scalar(experiments,{% parameter selected_experiment %}) = {% parameter selected_variant %}
+        and json_extract_scalar(experiments,{% parameter selected_experiment %}) = {% parameter selected_variant_a %}
         {% endif %}
 
         -- and max_available_day_number >= 7
@@ -41,7 +41,29 @@ group_a as (
 -- second test group
 ---------------------------------------------------------------------------------------
 
-, group_b as ( select rdg_id, metric from ${ab_test_group_b.SQL_TABLE_NAME} )
+, group_b as (
+
+    select
+      rdg_id
+      , days_played_in_first_7_days as metric
+
+    from
+      ${player_summary_new.SQL_TABLE_NAME}
+
+    where
+      1=1
+
+        -- and json_extract_scalar(experiments,'$.dynamicDropBiasv3_20230627') = 'control'
+        {% if selected_experiment._is_filtered %}
+        and json_extract_scalar(experiments,{% parameter selected_experiment %}) = {% parameter selected_variant_b %}
+        {% endif %}
+
+        -- and max_available_day_number >= 7
+        {% if selected_lowest_max_available_day_number._is_filtered %}
+        and max_available_day_number >= {% parameter selected_lowest_max_available_day_number %}
+        {% endif %}
+
+)
 
 ---------------------------------------------------------------------------------------
 -- create first data set
@@ -306,18 +328,18 @@ from
     ]
   }
 
-  parameter: selected_variant {
+  parameter: selected_variant_a {
     type: string
     default_value: "control"
-    suggestions:  [
-      ,"control"
-      ,"variant_a"
-      ,"variant_b"
-      ,"variant_c"
-      ,"variant_d"
-
-    ]
+    suggestions:  ["control","variant_a","variant_b","variant_c","variant_d"]
   }
+
+  parameter: selected_variant_b {
+    type: string
+    default_value: "variant_a"
+    suggestions:  ["control","variant_a","variant_b","variant_c","variant_d"]
+  }
+
 
   parameter: selected_lowest_max_available_day_number {
     type: number

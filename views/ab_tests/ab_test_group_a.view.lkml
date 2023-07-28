@@ -7,20 +7,40 @@ view: ab_test_group_a {
   derived_table: {
     sql:
 
-      select * from ${player_summary_new.SQL_TABLE_NAME}
+select
+  rdg_id
+  , days_played_in_first_7_days as metric
 
-      where
-        1=1
+from
+  eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new
 
-        {% if selected_display_name._is_filtered %}
-        and display_name = {% parameter selected_display_name %}
-        {% endif %}
+
+
+
+where
+  1=1
+
+  and json_extract_scalar(experiments,'$.dynamicDropBiasv3_20230627') = 'control'
+  and max_available_day_number >= 7
+
+
+
+
+
+
+
+
       ;;
     persist_for: "48 hours"
     publish_as_db_view: no
     partition_keys: ["created_date"]
 
   }
+        # saving code for later
+        # {% if selected_display_name._is_filtered %}
+        # and display_name = {% parameter selected_display_name %}
+        # {% endif %}
+
 
 ####################################################################
 ## Primary Key
@@ -40,15 +60,19 @@ view: ab_test_group_a {
 ################################################################
 
   # strings
-  dimension: rdg_id {group_label:"Player IDs" type: string}
-  dimension: display_name {group_label:"Player IDs" type: string}
+  # dimension: rdg_id {group_label:"Player IDs" type: string}
 
-  parameter: selected_display_name {
-    type: string
-    suggestions:  [
-      "Amborz"
-      ,"notAmborz"
-      ]
-  }
+  dimension: rdg_id {type: string}
+  dimension: metric {type: number}
+
+  # dimension: display_name {group_label:"Player IDs" type: string}
+
+  # parameter: selected_display_name {
+  #   type: string
+  #   suggestions:  [
+  #     "Amborz"
+  #     ,"notAmborz"
+  #     ]
+  # }
 
 }

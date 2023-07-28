@@ -7,28 +7,25 @@ view: ab_test_group_a {
   derived_table: {
     sql:
 
-select
-  rdg_id
-  , days_played_in_first_7_days as metric
+    select
+      rdg_id
+      , days_played_in_first_7_days as metric
 
-from
-  eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new
+    from
+      eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new
 
+    where
+      1=1
 
+        -- and json_extract_scalar(experiments,'$.dynamicDropBiasv3_20230627') = 'control'
+        {% if selected_experiment._is_filtered %}
+        and json_extract_scalar(experiments,{% parameter selected_experiment %}) = {% parameter selected_variant %}
+        {% endif %}
 
-
-where
-  1=1
-
-  and json_extract_scalar(experiments,'$.dynamicDropBiasv3_20230627') = 'control'
-  and max_available_day_number >= 7
-
-
-
-
-
-
-
+        -- and max_available_day_number >= 7
+        {% if selected_lowest_max_available_day_number._is_filtered %}
+        and max_available_day_number >= {% parameter selected_lowest_max_available_day_number %}
+        {% endif %}
 
       ;;
     persist_for: "48 hours"
@@ -67,12 +64,54 @@ where
 
   # dimension: display_name {group_label:"Player IDs" type: string}
 
-  # parameter: selected_display_name {
-  #   type: string
-  #   suggestions:  [
-  #     "Amborz"
-  #     ,"notAmborz"
-  #     ]
-  # }
+  parameter: selected_experiment {
+    type: string
+    default_value: "$.dynamicDropBiasv3_20230627"
+    suggestions:  [
+      ,"$.propBehavior_20230717"
+      ,"$.zoneDrops_20230718"
+      ,"$.zoneDrops_20230712"
+      ,"$.hotdogContest_20230713"
+      ,"$.fue1213_20230713"
+      ,"$.magnifierRegen_20230711"
+      ,"$.mMTiers_20230712"
+      ,"$.dynamicDropBiasv3_20230627"
+      ,"$.popupPri_20230628"
+      ,"$.reactivationIAM_20230622"
+      ,"$.playNext_20230612"
+      ,"$.playNext_20230607"
+      ,"$.playNext_20230503"
+      ,"$.restoreBehavior_20230601"
+      ,"$.moveTrim_20230601"
+      ,"$.askForHelp_20230531"
+      ,"$.hapticv2_20230524"
+      ,"$.finalMoveAnim"
+      ,"$.popUpManager_20230502"
+      ,"$.fueSkip_20230425"
+      ,"$.autoRestore_20230502"
+      ,"$.playNext_20230503"
+      ]
+  }
+
+  parameter: selected_variant {
+    type: string
+    default_value: "control"
+    suggestions:  [
+      ,"control"
+      ,"variant_a"
+      ,"variant_b"
+      ,"variant_c"
+      ,"variant_d"
+
+    ]
+  }
+
+  parameter: selected_lowest_max_available_day_number {
+    type: number
+    }
+
+
+
+
 
 }

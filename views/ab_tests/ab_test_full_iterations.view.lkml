@@ -42,6 +42,54 @@ group_a as (
           when 'retention_d30' = {% parameter selected_metric %} then retention_d30
           when 'retention_d60' = {% parameter selected_metric %} then retention_d60
           when 'retention_d90' = {% parameter selected_metric %} then retention_d90
+
+          when 'cumulative_mtx_purchase_dollars_d1' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d1
+          when 'cumulative_mtx_purchase_dollars_d2' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d2
+          when 'cumulative_mtx_purchase_dollars_d7' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d7
+          when 'cumulative_mtx_purchase_dollars_d14' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d14
+          when 'cumulative_mtx_purchase_dollars_d30' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d30
+          when 'cumulative_mtx_purchase_dollars_d60' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d60
+          when 'cumulative_mtx_purchase_dollars_d90' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d90
+          when 'cumulative_mtx_purchase_dollars_current' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_current
+
+
+          when 'cumulative_count_mtx_purchases_d1' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d1
+          when 'cumulative_count_mtx_purchases_d2' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d2
+          when 'cumulative_count_mtx_purchases_d7' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d7
+          when 'cumulative_count_mtx_purchases_d14' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d14
+          when 'cumulative_count_mtx_purchases_d30' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d30
+          when 'cumulative_count_mtx_purchases_d60' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d60
+          when 'cumulative_count_mtx_purchases_current' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_current
+
+
+          when 'cumulative_ad_view_dollars_d1' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d1
+          when 'cumulative_ad_view_dollars_d2' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d2
+          when 'cumulative_ad_view_dollars_d7' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d7
+          when 'cumulative_ad_view_dollars_d14' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d14
+          when 'cumulative_ad_view_dollars_d30' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d30
+          when 'cumulative_ad_view_dollars_d60' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d60
+          when 'cumulative_ad_view_dollars_d90' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d90
+          when 'cumulative_ad_view_dollars_current' = {% parameter selected_metric %} then cumulative_ad_view_dollars_current
+          when 'cumulative_combined_dollars_d1' = {% parameter selected_metric %} then cumulative_combined_dollars_d1
+          when 'cumulative_combined_dollars_d2' = {% parameter selected_metric %} then cumulative_combined_dollars_d2
+          when 'cumulative_combined_dollars_d7' = {% parameter selected_metric %} then cumulative_combined_dollars_d7
+          when 'cumulative_combined_dollars_d14' = {% parameter selected_metric %} then cumulative_combined_dollars_d14
+          when 'cumulative_combined_dollars_d21' = {% parameter selected_metric %} then cumulative_combined_dollars_d21
+          when 'cumulative_combined_dollars_d30' = {% parameter selected_metric %} then cumulative_combined_dollars_d30
+          when 'cumulative_combined_dollars_d60' = {% parameter selected_metric %} then cumulative_combined_dollars_d60
+          when 'cumulative_combined_dollars_d90' = {% parameter selected_metric %} then cumulative_combined_dollars_d90
+          when 'cumulative_combined_dollars_d120' = {% parameter selected_metric %} then cumulative_combined_dollars_d120
+          when 'cumulative_combined_dollars_current' = {% parameter selected_metric %} then cumulative_combined_dollars_current
+          when 'highest_last_level_serial_d1' = {% parameter selected_metric %} then highest_last_level_serial_d1
+          when 'highest_last_level_serial_d2' = {% parameter selected_metric %} then highest_last_level_serial_d2
+          when 'highest_last_level_serial_d7' = {% parameter selected_metric %} then highest_last_level_serial_d7
+          when 'highest_last_level_serial_d14' = {% parameter selected_metric %} then highest_last_level_serial_d14
+          when 'highest_last_level_serial_d30' = {% parameter selected_metric %} then highest_last_level_serial_d30
+          when 'highest_last_level_serial_d60' = {% parameter selected_metric %} then highest_last_level_serial_d60
+          when 'highest_last_level_serial_d90' = {% parameter selected_metric %} then highest_last_level_serial_d90
+          when 'highest_last_level_serial_current' = {% parameter selected_metric %} then highest_last_level_serial_current
+
+
         else 1
         end as metric
 
@@ -96,6 +144,54 @@ group_a as (
           when 'retention_d30' = {% parameter selected_metric %} then retention_d30
           when 'retention_d60' = {% parameter selected_metric %} then retention_d60
           when 'retention_d90' = {% parameter selected_metric %} then retention_d90
+
+          when 'cumulative_mtx_purchase_dollars_d1' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d1
+          when 'cumulative_mtx_purchase_dollars_d2' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d2
+          when 'cumulative_mtx_purchase_dollars_d7' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d7
+          when 'cumulative_mtx_purchase_dollars_d14' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d14
+          when 'cumulative_mtx_purchase_dollars_d30' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d30
+          when 'cumulative_mtx_purchase_dollars_d60' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d60
+          when 'cumulative_mtx_purchase_dollars_d90' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d90
+          when 'cumulative_mtx_purchase_dollars_current' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_current
+
+
+          when 'cumulative_count_mtx_purchases_d1' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d1
+          when 'cumulative_count_mtx_purchases_d2' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d2
+          when 'cumulative_count_mtx_purchases_d7' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d7
+          when 'cumulative_count_mtx_purchases_d14' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d14
+          when 'cumulative_count_mtx_purchases_d30' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d30
+          when 'cumulative_count_mtx_purchases_d60' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d60
+          when 'cumulative_count_mtx_purchases_current' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_current
+
+
+          when 'cumulative_ad_view_dollars_d1' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d1
+          when 'cumulative_ad_view_dollars_d2' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d2
+          when 'cumulative_ad_view_dollars_d7' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d7
+          when 'cumulative_ad_view_dollars_d14' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d14
+          when 'cumulative_ad_view_dollars_d30' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d30
+          when 'cumulative_ad_view_dollars_d60' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d60
+          when 'cumulative_ad_view_dollars_d90' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d90
+          when 'cumulative_ad_view_dollars_current' = {% parameter selected_metric %} then cumulative_ad_view_dollars_current
+          when 'cumulative_combined_dollars_d1' = {% parameter selected_metric %} then cumulative_combined_dollars_d1
+          when 'cumulative_combined_dollars_d2' = {% parameter selected_metric %} then cumulative_combined_dollars_d2
+          when 'cumulative_combined_dollars_d7' = {% parameter selected_metric %} then cumulative_combined_dollars_d7
+          when 'cumulative_combined_dollars_d14' = {% parameter selected_metric %} then cumulative_combined_dollars_d14
+          when 'cumulative_combined_dollars_d21' = {% parameter selected_metric %} then cumulative_combined_dollars_d21
+          when 'cumulative_combined_dollars_d30' = {% parameter selected_metric %} then cumulative_combined_dollars_d30
+          when 'cumulative_combined_dollars_d60' = {% parameter selected_metric %} then cumulative_combined_dollars_d60
+          when 'cumulative_combined_dollars_d90' = {% parameter selected_metric %} then cumulative_combined_dollars_d90
+          when 'cumulative_combined_dollars_d120' = {% parameter selected_metric %} then cumulative_combined_dollars_d120
+          when 'cumulative_combined_dollars_current' = {% parameter selected_metric %} then cumulative_combined_dollars_current
+          when 'highest_last_level_serial_d1' = {% parameter selected_metric %} then highest_last_level_serial_d1
+          when 'highest_last_level_serial_d2' = {% parameter selected_metric %} then highest_last_level_serial_d2
+          when 'highest_last_level_serial_d7' = {% parameter selected_metric %} then highest_last_level_serial_d7
+          when 'highest_last_level_serial_d14' = {% parameter selected_metric %} then highest_last_level_serial_d14
+          when 'highest_last_level_serial_d30' = {% parameter selected_metric %} then highest_last_level_serial_d30
+          when 'highest_last_level_serial_d60' = {% parameter selected_metric %} then highest_last_level_serial_d60
+          when 'highest_last_level_serial_d90' = {% parameter selected_metric %} then highest_last_level_serial_d90
+          when 'highest_last_level_serial_current' = {% parameter selected_metric %} then highest_last_level_serial_current
+
+
         else 1
         end as metric
 
@@ -407,31 +503,72 @@ from
     suggestions:  [
       "days_played_in_first_7_days"
 
-, "cumulative_ad_views_d1"
-, "cumulative_ad_views_d2"
-, "cumulative_ad_views_d7"
-, "cumulative_ad_views_d14"
-, "cumulative_ad_views_d30"
-, "cumulative_ad_views_d60"
-, "cumulative_ad_views_d90"
-, "cumulative_ad_views_current"
-, "retention_d2"
-, "retention_d7"
-, "retention_d8"
-, "retention_d9"
-, "retention_d10"
-, "retention_d11"
-, "retention_d12"
-, "retention_d13"
-, "retention_d14"
-, "retention_d21"
-, "retention_d30"
-, "retention_d60"
-, "retention_d90"
+      , "cumulative_ad_views_d1"
+      , "cumulative_ad_views_d2"
+      , "cumulative_ad_views_d7"
+      , "cumulative_ad_views_d14"
+      , "cumulative_ad_views_d30"
+      , "cumulative_ad_views_d60"
+      , "cumulative_ad_views_d90"
+      , "cumulative_ad_views_current"
 
+      , "retention_d2"
+      , "retention_d7"
+      , "retention_d8"
+      , "retention_d9"
+      , "retention_d10"
+      , "retention_d11"
+      , "retention_d12"
+      , "retention_d13"
+      , "retention_d14"
+      , "retention_d21"
+      , "retention_d30"
+      , "retention_d60"
+      , "retention_d90"
 
+      , "cumulative_mtx_purchase_dollars_d1"
+      , "cumulative_mtx_purchase_dollars_d2"
+      , "cumulative_mtx_purchase_dollars_d7"
+      , "cumulative_mtx_purchase_dollars_d14"
+      , "cumulative_mtx_purchase_dollars_d30"
+      , "cumulative_mtx_purchase_dollars_d60"
+      , "cumulative_mtx_purchase_dollars_d90"
+      , "cumulative_mtx_purchase_dollars_current"
 
+      , "cumulative_count_mtx_purchases_d1"
+      , "cumulative_count_mtx_purchases_d2"
+      , "cumulative_count_mtx_purchases_d7"
+      , "cumulative_count_mtx_purchases_d14"
+      , "cumulative_count_mtx_purchases_d30"
+      , "cumulative_count_mtx_purchases_d60"
+      , "cumulative_count_mtx_purchases_current"
 
+      , "cumulative_ad_view_dollars_d1"
+      , "cumulative_ad_view_dollars_d2"
+      , "cumulative_ad_view_dollars_d7"
+      , "cumulative_ad_view_dollars_d14"
+      , "cumulative_ad_view_dollars_d30"
+      , "cumulative_ad_view_dollars_d60"
+      , "cumulative_ad_view_dollars_d90"
+      , "cumulative_ad_view_dollars_current"
+      , "cumulative_combined_dollars_d1"
+      , "cumulative_combined_dollars_d2"
+      , "cumulative_combined_dollars_d7"
+      , "cumulative_combined_dollars_d14"
+      , "cumulative_combined_dollars_d21"
+      , "cumulative_combined_dollars_d30"
+      , "cumulative_combined_dollars_d60"
+      , "cumulative_combined_dollars_d90"
+      , "cumulative_combined_dollars_d120"
+      , "cumulative_combined_dollars_current"
+      , "highest_last_level_serial_d1"
+      , "highest_last_level_serial_d2"
+      , "highest_last_level_serial_d7"
+      , "highest_last_level_serial_d14"
+      , "highest_last_level_serial_d30"
+      , "highest_last_level_serial_d60"
+      , "highest_last_level_serial_d90"
+      , "highest_last_level_serial_current"
 
       ]
   }

@@ -45,7 +45,8 @@ group_a as (
 
     select
       rdg_id
-      , days_played_in_first_7_days as metric
+      -- , days_played_in_first_7_days as metric
+      , {% parameter selected_metric %} as metric
 
     from
       ${player_summary_new.SQL_TABLE_NAME}
@@ -348,6 +349,15 @@ from
   parameter: selected_iterations {
     type: number
   }
+
+  parameter: selected_metric {
+    type: string
+    default_value: "days_played_in_first_7_days"
+    suggestions:  [
+      "days_played_in_first_7_days"
+      ]
+  }
+
 
 
 }

@@ -465,8 +465,9 @@ select
   , my_iterations
   , percent_greater_than
   , significance_95
-  , 0 as count_iterations
+  , 1 as count_iterations
   , round( my_abs_difference * safe_divide(1,{% parameter selected_rounding %}) , 0 ) * {% parameter selected_rounding %} as my_abs_difference_rounded
+  , 'actual' as iteration_type
 from
   summarize_percent_greater_than
 
@@ -484,6 +485,7 @@ select
   , '' as significance_95
   , 1 as count_iterations
   , round( my_abs_difference * safe_divide(1,{% parameter selected_rounding %}) , 0 ) * {% parameter selected_rounding %} as my_abs_difference_rounded
+  , 'iterations' as iteration_type
 from
   calculate_greater_than_instances
 
@@ -574,6 +576,21 @@ from
     label: "Siginficance Check"
     type: string
     }
+
+  dimension: my_abs_difference_rounded {
+    label: "Iteration Type"
+    type: number
+  }
+
+  dimension: iteration_type {
+    label: "Iteration Type"
+    type: string
+  }
+
+  measure: count_iterations {
+    type:  sum
+  }
+
 
   parameter: selected_experiment {
     type: string

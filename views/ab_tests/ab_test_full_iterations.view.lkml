@@ -17,7 +17,33 @@ group_a as (
 
     select
       rdg_id
-      , days_played_in_first_7_days as metric
+      -- , days_played_in_first_7_days as metric
+      , case
+          when 'days_played_in_first_7_days' = {% parameter selected_metric %} then days_played_in_first_7_days
+
+          when 'cumulative_ad_views_d1' = {% parameter selected_metric %} then cumulative_ad_views_d1
+          when 'cumulative_ad_views_d2' = {% parameter selected_metric %} then cumulative_ad_views_d2
+          when 'cumulative_ad_views_d7' = {% parameter selected_metric %} then cumulative_ad_views_d7
+          when 'cumulative_ad_views_d14' = {% parameter selected_metric %} then cumulative_ad_views_d14
+          when 'cumulative_ad_views_d30' = {% parameter selected_metric %} then cumulative_ad_views_d30
+          when 'cumulative_ad_views_d60' = {% parameter selected_metric %} then cumulative_ad_views_d60
+          when 'cumulative_ad_views_d90' = {% parameter selected_metric %} then cumulative_ad_views_d90
+          when 'cumulative_ad_views_current' = {% parameter selected_metric %} then cumulative_ad_views_current
+          when 'retention_d2' = {% parameter selected_metric %} then retention_d2
+          when 'retention_d7' = {% parameter selected_metric %} then retention_d7
+          when 'retention_d8' = {% parameter selected_metric %} then retention_d8
+          when 'retention_d9' = {% parameter selected_metric %} then retention_d9
+          when 'retention_d10' = {% parameter selected_metric %} then retention_d10
+          when 'retention_d11' = {% parameter selected_metric %} then retention_d11
+          when 'retention_d12' = {% parameter selected_metric %} then retention_d12
+          when 'retention_d13' = {% parameter selected_metric %} then retention_d13
+          when 'retention_d14' = {% parameter selected_metric %} then retention_d14
+          when 'retention_d21' = {% parameter selected_metric %} then retention_d21
+          when 'retention_d30' = {% parameter selected_metric %} then retention_d30
+          when 'retention_d60' = {% parameter selected_metric %} then retention_d60
+          when 'retention_d90' = {% parameter selected_metric %} then retention_d90
+        else 1
+        end as metric
 
     from
       ${player_summary_new.SQL_TABLE_NAME}
@@ -49,6 +75,27 @@ group_a as (
       , case
           when 'days_played_in_first_7_days' = {% parameter selected_metric %} then days_played_in_first_7_days
 
+          when 'cumulative_ad_views_d1' = {% parameter selected_metric %} then cumulative_ad_views_d1
+          when 'cumulative_ad_views_d2' = {% parameter selected_metric %} then cumulative_ad_views_d2
+          when 'cumulative_ad_views_d7' = {% parameter selected_metric %} then cumulative_ad_views_d7
+          when 'cumulative_ad_views_d14' = {% parameter selected_metric %} then cumulative_ad_views_d14
+          when 'cumulative_ad_views_d30' = {% parameter selected_metric %} then cumulative_ad_views_d30
+          when 'cumulative_ad_views_d60' = {% parameter selected_metric %} then cumulative_ad_views_d60
+          when 'cumulative_ad_views_d90' = {% parameter selected_metric %} then cumulative_ad_views_d90
+          when 'cumulative_ad_views_current' = {% parameter selected_metric %} then cumulative_ad_views_current
+          when 'retention_d2' = {% parameter selected_metric %} then retention_d2
+          when 'retention_d7' = {% parameter selected_metric %} then retention_d7
+          when 'retention_d8' = {% parameter selected_metric %} then retention_d8
+          when 'retention_d9' = {% parameter selected_metric %} then retention_d9
+          when 'retention_d10' = {% parameter selected_metric %} then retention_d10
+          when 'retention_d11' = {% parameter selected_metric %} then retention_d11
+          when 'retention_d12' = {% parameter selected_metric %} then retention_d12
+          when 'retention_d13' = {% parameter selected_metric %} then retention_d13
+          when 'retention_d14' = {% parameter selected_metric %} then retention_d14
+          when 'retention_d21' = {% parameter selected_metric %} then retention_d21
+          when 'retention_d30' = {% parameter selected_metric %} then retention_d30
+          when 'retention_d60' = {% parameter selected_metric %} then retention_d60
+          when 'retention_d90' = {% parameter selected_metric %} then retention_d90
         else 1
         end as metric
 
@@ -359,6 +406,33 @@ from
     default_value: "days_played_in_first_7_days"
     suggestions:  [
       "days_played_in_first_7_days"
+
+, "cumulative_ad_views_d1"
+, "cumulative_ad_views_d2"
+, "cumulative_ad_views_d7"
+, "cumulative_ad_views_d14"
+, "cumulative_ad_views_d30"
+, "cumulative_ad_views_d60"
+, "cumulative_ad_views_d90"
+, "cumulative_ad_views_current"
+, "retention_d2"
+, "retention_d7"
+, "retention_d8"
+, "retention_d9"
+, "retention_d10"
+, "retention_d11"
+, "retention_d12"
+, "retention_d13"
+, "retention_d14"
+, "retention_d21"
+, "retention_d30"
+, "retention_d60"
+, "retention_d90"
+
+
+
+
+
       ]
   }
 

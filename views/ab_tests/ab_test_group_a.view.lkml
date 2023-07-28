@@ -36,6 +36,7 @@ where
     partition_keys: ["created_date"]
 
   }
+        # select * from ${player_summary_new.SQL_TABLE_NAME}
         # saving code for later
         # {% if selected_display_name._is_filtered %}
         # and display_name = {% parameter selected_display_name %}

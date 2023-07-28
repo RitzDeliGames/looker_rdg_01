@@ -101,6 +101,16 @@ group_a as (
           when 'minutes_played_in_first_21_days' = {% parameter selected_metric %} then minutes_played_in_first_21_days
           when 'minutes_played_in_first_30_days' = {% parameter selected_metric %} then minutes_played_in_first_30_days
 
+          when 'cumulative_coins_spend_d1' = {% parameter selected_metric %} then cumulative_coins_spend_d1
+          when 'cumulative_coins_spend_d2' = {% parameter selected_metric %} then cumulative_coins_spend_d2
+          when 'cumulative_coins_spend_d7' = {% parameter selected_metric %} then cumulative_coins_spend_d7
+          when 'cumulative_coins_spend_d14' = {% parameter selected_metric %} then cumulative_coins_spend_d14
+          when 'cumulative_coins_spend_d30' = {% parameter selected_metric %} then cumulative_coins_spend_d30
+          when 'cumulative_coins_spend_d60' = {% parameter selected_metric %} then cumulative_coins_spend_d60
+          when 'cumulative_coins_spend_d90' = {% parameter selected_metric %} then cumulative_coins_spend_d90
+          when 'cumulative_coins_spend_current' = {% parameter selected_metric %} then cumulative_coins_spend_current
+
+
         else 1
         end as metric
 
@@ -213,6 +223,15 @@ group_a as (
           when 'minutes_played_in_first_14_days' = {% parameter selected_metric %} then minutes_played_in_first_14_days
           when 'minutes_played_in_first_21_days' = {% parameter selected_metric %} then minutes_played_in_first_21_days
           when 'minutes_played_in_first_30_days' = {% parameter selected_metric %} then minutes_played_in_first_30_days
+
+          when 'cumulative_coins_spend_d1' = {% parameter selected_metric %} then cumulative_coins_spend_d1
+          when 'cumulative_coins_spend_d2' = {% parameter selected_metric %} then cumulative_coins_spend_d2
+          when 'cumulative_coins_spend_d7' = {% parameter selected_metric %} then cumulative_coins_spend_d7
+          when 'cumulative_coins_spend_d14' = {% parameter selected_metric %} then cumulative_coins_spend_d14
+          when 'cumulative_coins_spend_d30' = {% parameter selected_metric %} then cumulative_coins_spend_d30
+          when 'cumulative_coins_spend_d60' = {% parameter selected_metric %} then cumulative_coins_spend_d60
+          when 'cumulative_coins_spend_d90' = {% parameter selected_metric %} then cumulative_coins_spend_d90
+          when 'cumulative_coins_spend_current' = {% parameter selected_metric %} then cumulative_coins_spend_current
 
         else 1
         end as metric
@@ -603,6 +622,15 @@ from
       , "minutes_played_in_first_14_days"
       , "minutes_played_in_first_21_days"
       , "minutes_played_in_first_30_days"
+
+      , "cumulative_coins_spend_d1"
+      , "cumulative_coins_spend_d2"
+      , "cumulative_coins_spend_d7"
+      , "cumulative_coins_spend_d14"
+      , "cumulative_coins_spend_d30"
+      , "cumulative_coins_spend_d60"
+      , "cumulative_coins_spend_d90"
+      , "cumulative_coins_spend_current"
 
       ]
   }

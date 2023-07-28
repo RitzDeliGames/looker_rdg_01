@@ -46,7 +46,11 @@ group_a as (
     select
       rdg_id
       -- , days_played_in_first_7_days as metric
-      , {% parameter selected_metric %} as metric
+      , case
+          when 'days_played_in_first_7_days' = {% parameter selected_metric %} then days_played_in_first_7_days
+
+        else 1
+        end as metric
 
     from
       ${player_summary_new.SQL_TABLE_NAME}

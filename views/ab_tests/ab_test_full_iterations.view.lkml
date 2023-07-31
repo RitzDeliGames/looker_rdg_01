@@ -492,7 +492,6 @@ from
 
 
       ;;
-    persist_for: "48 hours"
     publish_as_db_view: no
 
 

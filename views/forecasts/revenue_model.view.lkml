@@ -24,7 +24,7 @@ view: revenue_model {
         date({% parameter selected_start_date %})
         , date_add(
             date({% parameter selected_start_date %})
-            , interval {% parameter selected_number_of_spend_days %} day)
+            , interval {% parameter selected_number_of_spend_days %}-1 day)
         )) as install_date
 
     )

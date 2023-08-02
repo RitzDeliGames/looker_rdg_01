@@ -20,7 +20,12 @@ view: revenue_model {
     select
       install_date
     from
-      unnest( generate_date_array('2023-07-01', date_add('2023-07-01', interval 365 day))) as install_date
+      unnest( generate_date_array(
+        {% parameter selected_start_date %}
+        , date_add(
+            {% parameter selected_start_date %}
+            , interval {% parameter selected_number_of_spend_days %} day)
+        )) as install_date
 
     )
 
@@ -33,8 +38,8 @@ view: revenue_model {
     select
       install_date
       , 'US' as region
-      , safe_cast(17 as float64) as cpi
-      , 117486.39 * 0.62 as ua_spend
+      , safe_cast({% parameter selected_us_paid_cpi %} as float64) as cpi
+      , safe_divide({% parameter selected_ua_spend %},{% parameter selected_number_of_spend_days %}) * {% parameter selected_us_percent_of_spend %} as ua_spend
     from
       my_ua_spend_dates
 
@@ -42,8 +47,8 @@ view: revenue_model {
     select
       install_date
       , 'WW' as region
-      , safe_cast(4.50 as float64) as cpi
-      , 117486.39 * (1-0.62) as ua_spend
+      , safe_cast({% parameter selected_ww_paid_cpi %} as float64) as cpi
+      , safe_divide({% parameter selected_ua_spend %},{% parameter selected_number_of_spend_days %}) * (1-{% parameter selected_us_percent_of_spend %}) as ua_spend
     from
       my_ua_spend_dates
 
@@ -68,6 +73,7 @@ view: revenue_model {
 
     --------------------------------------------------------------
     -- organic installs
+    -- assume we'll get some additional % of organic installs
     --------------------------------------------------------------
 
     , my_organic_installs as (
@@ -77,7 +83,7 @@ view: revenue_model {
         , region
         , 0 as cpi
         , 0 as ua_spend
-        , safe_cast( round( installs * 0.54 , 0) as int64) as installs
+        , safe_cast( round( installs * {% parameter selected_percent_additional_organic_installs %} , 0) as int64) as installs
       from
         my_ua_installs
 
@@ -123,13 +129,13 @@ view: revenue_model {
 
       select
         day_number
-        , safe_cast( 0.45 as float64 ) as retention_d2
-        , safe_cast( 0.22 as float64 ) as retention_d8
-        , safe_cast( 0.12 as float64 ) as retention_d31
-        , safe_cast( 0.075 as float64 ) as retention_d91
-        , safe_cast( 0.053 as float64 ) as retention_d181
-        , safe_cast( 0.032 as float64 ) as retention_d366
-        , safe_cast( 0.016 as float64 ) as retention_d731
+        , safe_cast( {% parameter selected_retention_d2 %} as float64 ) as retention_d2
+        , safe_cast( {% parameter selected_retention_d8 %} as float64 ) as retention_d8
+        , safe_cast( {% parameter selected_retention_d31 %} as float64 ) as retention_d31
+        , safe_cast( {% parameter selected_retention_d91 %} as float64 ) as retention_d91
+        , safe_cast( {% parameter selected_retention_d181 %} as float64 ) as retention_d181
+        , safe_cast( {% parameter selected_retention_d366 %} as float64 ) as retention_d366
+        , safe_cast( {% parameter selected_retention_d371 %} as float64 ) as retention_d731
 
       from
         unnest(
@@ -251,14 +257,14 @@ view: revenue_model {
           , date_add(a.install_date, interval b.day_number - 1 day ) as rdg_date
           , b.retention_curve
           , safe_cast( round( case
-              when region = 'US' then 0.65 * (1-0.35)
-              when region = 'WW' then 0.32 * (1-0.35)
+              when region = 'US' then {% parameter selected_us_gross_arpdau %} * (1-{% parameter selected_ads_percent_of_arpdau %})
+              when region = 'WW' then {% parameter selected_ww_gross_arpdau %} * (1-{% parameter selected_ads_percent_of_arpdau %})
               else 0
               end , 4 ) as float64 )
               as gross_mtx_arpdau
           , safe_cast( round( case
-              when region = 'US' then 0.65 * (0.35)
-              when region = 'WW' then 0.32 * (0.35)
+              when region = 'US' then {% parameter selected_us_gross_arpdau %} * ({% parameter selected_ads_percent_of_arpdau %})
+              when region = 'WW' then {% parameter selected_ww_gross_arpdau %} * ({% parameter selected_ads_percent_of_arpdau %})
               else 0
               end , 4 ) as float64 )
               as gross_ads_arpdau
@@ -500,208 +506,92 @@ view: revenue_model {
 ## Parameters
 ####################################################################
 
-
-  parameter: selected_experiment {
-    type: string
-    default_value: "$.dynamicDropBiasv3_20230627"
-    suggestions:  [
-      "$.propBehavior_20230717"
-      ,"$.zoneDrops_20230718"
-      ,"$.zoneDrops_20230712"
-      ,"$.hotdogContest_20230713"
-      ,"$.fue1213_20230713"
-      ,"$.magnifierRegen_20230711"
-      ,"$.mMTiers_20230712"
-      ,"$.dynamicDropBiasv3_20230627"
-      ,"$.popupPri_20230628"
-      ,"$.reactivationIAM_20230622"
-      ,"$.playNext_20230612"
-      ,"$.playNext_20230607"
-      ,"$.playNext_20230503"
-      ,"$.restoreBehavior_20230601"
-      ,"$.moveTrim_20230601"
-      ,"$.askForHelp_20230531"
-      ,"$.hapticv2_20230524"
-      ,"$.finalMoveAnim"
-      ,"$.popUpManager_20230502"
-      ,"$.fueSkip_20230425"
-      ,"$.autoRestore_20230502"
-      ,"$.playNext_20230503"
-      ,"$.dynamicDropBiasv2_20230423"
-      ,"$.puzzleEventv2_20230421"
-      ,"$.bigBombs_20230410"
-      ,"$.boardClear_20230410"
-      ,"$.iceCreamOrder_20230419"
-      ,"$.diceGame_20230419"
-      ,"$.fueUnlocks_20230419"
-      ,"$.haptic_20230326"
-      ,"$.dynamicDropBias_20230329"
-      ,"$.moldBehavior_20230329"
-      ,"$.strawSkills_20230331"
-      ,"$.mustardSingleClear_20230329"
-      ,"$.puzzleEvent_20230318"
-      ,"$.extraMoves_20230313"
-      ,"$.fastLifeTimer_20230313"
-      ,"$.frameRate_20230302"
-      ,"$.navBar_20230228"
-      ,"$.altFUE2_20221011"
-      ,"$.altFUE2v2_20221024"
-      ,"$.altFUE2v3_20221031"
-      ,"$.autoPurchase_20221017"
-      ,"$.blockSymbols_20221017"
-      ,"$.blockSymbolFrames_20221027"
-      ,"$.blockSymbolFrames2_20221109"
-      ,"$.boardColor_01122023"
-      ,"$.collection_01192023"
-      ,"$.difficultyStars_09202022"
-      ,"$.dynamicRewards_20221018"
-      ,"$.extraMovesCurrency_20221017"
-      ,"$.flourFrenzy_20221215"
-      ,"$.fueDismiss_20221010"
-      ,"$.fue00_v3_01182023"
-      ,"$.gridGravity_20221003"
-      ,"$.gridGravity2_20221012"
-      ,"$.livesTimer_01092023"
-      ,"$.MMads_01052023"
-      ,"$.mMStreaks_09302022"
-      ,"$.mMStreaksv2_20221031"
-      ,"$.newLevelPass_20220926"
-      ,"$.pizzaTime_01192023"
-      ,"$.seedTest_20221028"
-      ,"$.storeUnlock_20221102"
-      ,"$.treasureTrove_20221114"
-      ,"$.u2aFUE20221115"
-      ,"$.u2ap2_FUE20221209"
-      ,"$.vfxReduce_20221017"
-      ,"$.vfxReduce_2_20221024"
-      ,"$.zoneOrder2_09302022"
-      ,"$.zoneStarCosts_09222022"]
+  parameter: selected_start_date {
+    group_label: "Inputs"
+    type: date
+    default_value: "2023-07-01"
   }
 
-  parameter: selected_variant_a {
-    type: string
-    default_value: "control"
-    suggestions:  ["control","variant_a","variant_b","variant_c","variant_d"]
-  }
-
-  parameter: selected_variant_b {
-    type: string
-    default_value: "variant_a"
-    suggestions:  ["control","variant_a","variant_b","variant_c","variant_d"]
-  }
-
-
-  parameter: selected_lowest_max_available_day_number {
+  parameter: selected_number_of_spend_days {
+    group_label: "Inputs"
     type: number
   }
 
-  parameter: selected_iterations {
+  parameter: selected_ua_spend {
+    group_label: "Inputs"
     type: number
   }
 
-  parameter: selected_significance {
+  parameter: selected_us_percent_of_spend {
+    group_label: "Inputs"
     type: number
   }
 
-  parameter: selected_rounding {
+  parameter: selected_us_paid_cpi {
+    group_label: "Inputs"
     type: number
   }
 
-  parameter: selected_metric {
-    type: string
-    default_value: "days_played_in_first_7_days"
-    suggestions:  [
-
-      , "cumulative_ad_views_d1"
-      , "cumulative_ad_views_d2"
-      , "cumulative_ad_views_d7"
-      , "cumulative_ad_views_d14"
-      , "cumulative_ad_views_d30"
-      , "cumulative_ad_views_d60"
-      , "cumulative_ad_views_d90"
-      , "cumulative_ad_views_current"
-
-      , "retention_d2"
-      , "retention_d7"
-      , "retention_d8"
-      , "retention_d9"
-      , "retention_d10"
-      , "retention_d11"
-      , "retention_d12"
-      , "retention_d13"
-      , "retention_d14"
-      , "retention_d21"
-      , "retention_d30"
-      , "retention_d60"
-      , "retention_d90"
-
-      , "cumulative_mtx_purchase_dollars_d1"
-      , "cumulative_mtx_purchase_dollars_d2"
-      , "cumulative_mtx_purchase_dollars_d7"
-      , "cumulative_mtx_purchase_dollars_d14"
-      , "cumulative_mtx_purchase_dollars_d30"
-      , "cumulative_mtx_purchase_dollars_d60"
-      , "cumulative_mtx_purchase_dollars_d90"
-      , "cumulative_mtx_purchase_dollars_current"
-
-      , "cumulative_count_mtx_purchases_d1"
-      , "cumulative_count_mtx_purchases_d2"
-      , "cumulative_count_mtx_purchases_d7"
-      , "cumulative_count_mtx_purchases_d14"
-      , "cumulative_count_mtx_purchases_d30"
-      , "cumulative_count_mtx_purchases_d60"
-      , "cumulative_count_mtx_purchases_current"
-
-      , "cumulative_ad_view_dollars_d1"
-      , "cumulative_ad_view_dollars_d2"
-      , "cumulative_ad_view_dollars_d7"
-      , "cumulative_ad_view_dollars_d14"
-      , "cumulative_ad_view_dollars_d30"
-      , "cumulative_ad_view_dollars_d60"
-      , "cumulative_ad_view_dollars_d90"
-      , "cumulative_ad_view_dollars_current"
-      , "cumulative_combined_dollars_d1"
-      , "cumulative_combined_dollars_d2"
-      , "cumulative_combined_dollars_d7"
-      , "cumulative_combined_dollars_d14"
-      , "cumulative_combined_dollars_d21"
-      , "cumulative_combined_dollars_d30"
-      , "cumulative_combined_dollars_d60"
-      , "cumulative_combined_dollars_d90"
-      , "cumulative_combined_dollars_d120"
-      , "cumulative_combined_dollars_current"
-      , "highest_last_level_serial_d1"
-      , "highest_last_level_serial_d2"
-      , "highest_last_level_serial_d7"
-      , "highest_last_level_serial_d14"
-      , "highest_last_level_serial_d30"
-      , "highest_last_level_serial_d60"
-      , "highest_last_level_serial_d90"
-      , "highest_last_level_serial_current"
-
-      , "days_played_in_first_7_days"
-      , "days_played_in_first_14_days"
-      , "days_played_in_first_21_days"
-      , "days_played_in_first_30_days"
-
-      , "minutes_played_in_first_1_days"
-      , "minutes_played_in_first_2_days"
-      , "minutes_played_in_first_7_days"
-      , "minutes_played_in_first_14_days"
-      , "minutes_played_in_first_21_days"
-      , "minutes_played_in_first_30_days"
-
-      , "cumulative_coins_spend_d1"
-      , "cumulative_coins_spend_d2"
-      , "cumulative_coins_spend_d7"
-      , "cumulative_coins_spend_d14"
-      , "cumulative_coins_spend_d30"
-      , "cumulative_coins_spend_d60"
-      , "cumulative_coins_spend_d90"
-      , "cumulative_coins_spend_current"
-
-    ]
+  parameter: selected_ww_paid_cpi {
+    group_label: "Inputs"
+    type: number
   }
+
+  parameter: selected_percent_additional_organic_installs {
+    group_label: "Inputs"
+    type: number
+  }
+
+  parameter: selected_retention_d2 {
+    group_label: "Inputs"
+    type: number
+  }
+
+  parameter: selected_retention_d8 {
+    group_label: "Inputs"
+    type: number
+  }
+
+  parameter: selected_retention_d31 {
+    group_label: "Inputs"
+    type: number
+  }
+
+  parameter: selected_retention_d91 {
+    group_label: "Inputs"
+    type: number
+  }
+
+  parameter: selected_retention_d181 {
+    group_label: "Inputs"
+    type: number
+  }
+
+  parameter: selected_retention_d366 {
+    group_label: "Inputs"
+    type: number
+  }
+
+  parameter: selected_retention_d371 {
+    group_label: "Inputs"
+    type: number
+  }
+
+  parameter: selected_us_gross_arpdau {
+    group_label: "Inputs"
+    type: number
+  }
+
+  parameter: selected_ww_gross_arpdau {
+    group_label: "Inputs"
+    type: number
+  }
+
+  parameter: selected_ads_percent_of_arpdau {
+    group_label: "Inputs"
+    type: number
+  }
+
 
 
 

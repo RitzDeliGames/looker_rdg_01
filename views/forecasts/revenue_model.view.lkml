@@ -21,9 +21,9 @@ view: revenue_model {
       install_date
     from
       unnest( generate_date_array(
-        {% parameter selected_start_date %}
+        date({% parameter selected_start_date %})
         , date_add(
-            {% parameter selected_start_date %}
+            date({% parameter selected_start_date %})
             , interval {% parameter selected_number_of_spend_days %} day)
         )) as install_date
 

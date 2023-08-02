@@ -433,6 +433,70 @@ view: revenue_model {
     sql: ${TABLE}.net_combined_revenue ;;
   }
 
+  measure: net_mtx_arpdau {
+    label: "Net Mtx ARPDAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum(${TABLE}.net_mtx_revenue) , sum(${TABLE}.daily_active_users) ) ;;
+  }
+
+  measure: gross_mtx_arpdau {
+    label: "Gross Mtx ARPDAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum(${TABLE}.gross_mtx_revenue) , sum(${TABLE}.daily_active_users) ) ;;
+  }
+
+  measure: net_ads_arpdau {
+    label: "Net Ads ARPDAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum(${TABLE}.net_ads_revenue) , sum(${TABLE}.daily_active_users) ) ;;
+  }
+
+  measure: gross_ads_arpdau {
+    label: "Gross Ads ARPDAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum(${TABLE}.gross_ads_revenue) , sum(${TABLE}.daily_active_users) ) ;;
+  }
+
+  measure: net_combined_arpdau {
+    label: "Net Combined ARPDAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum(${TABLE}.net_combined_revenue) , sum(${TABLE}.daily_active_users) ) ;;
+  }
+
+  measure: gross_combined_arpdau {
+    label: "Gross Combined ARPDAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum(${TABLE}.gross_combined_revenue) , sum(${TABLE}.daily_active_users) ) ;;
+  }
+
+  measure: retention {
+    label: "Retention"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum(${TABLE}.daily_active_users) , sum(${TABLE}.retention_denominator) ) ;;
+  }
+
+  measure: cpi {
+    label: "CPI"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum(${TABLE}.ua_spend ) , sum(${TABLE}.installs) ) ;;
+  }
+
+
+
+
+####################################################################
+## Parameters
+####################################################################
+
+
   parameter: selected_experiment {
     type: string
     default_value: "$.dynamicDropBiasv3_20230627"

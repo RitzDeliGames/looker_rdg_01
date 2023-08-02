@@ -392,9 +392,9 @@ view: revenue_model {
 
   measure: average_daily_active_users {
     label: "Average Daily Active Users"
-    type: average
+    type: number
     value_format_name: decimal_0
-    sql: ${TABLE}.daily_active_users ;;
+    sql: safe_divide( sum(${TABLE}.daily_active_users) , count(distinct ${TABLE}.rdg_date ) ) ;;
   }
 
   measure: total_gross_mtx_revenue {

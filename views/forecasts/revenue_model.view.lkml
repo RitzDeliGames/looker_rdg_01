@@ -484,7 +484,7 @@ view: revenue_model {
   measure: retention {
     label: "Retention"
     type: number
-    value_format_name: decimal_2
+    value_format_name: percent_1
     sql: safe_divide( sum(${TABLE}.daily_active_users) , sum(${TABLE}.retention_denominator) ) ;;
   }
 

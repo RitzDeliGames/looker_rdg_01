@@ -340,76 +340,98 @@ view: revenue_model {
 ################################################################
 
 
-  dimension: iteration_number {type: number}
+  dimension_group: install_date {
+    group_label: "Dates"
+    label: "Install Date"
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.install_date ;;
+  }
 
-  dimension: group_a_players {
-    label: "Group A Players"
+  dimension: region { type: string }
+  dimension: paid_vs_organic { type: string }
+
+  dimension: day_number {
+    label: "Day Number"
     type: number
     value_format_name: decimal_0
   }
 
-  dimension: group_b_players {
-    label: "Group B Players"
-    type: number
+  dimension_group: rdg_date {
+    group_label: "Dates"
+    label: "Activity Date"
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.rdg_date ;;
+  }
+
+####################################################################
+## Measures
+####################################################################
+
+  measure: total_installs {
+    label: "Total Installs"
+    type: sum
     value_format_name: decimal_0
+    sql: ${TABLE}.installs ;;
   }
 
-  dimension: group_a {
-    label: "Group A Metric Average"
-    type: number
-    value_format_name: decimal_3
+  measure: total_ua_spend {
+    label: "Total UA Spend"
+    type: sum
+    value_format_name: decimal_2
+    sql: ${TABLE}.ua_spend ;;
+
   }
 
-  dimension: group_b {
-    label: "Group B Metric Average"
-    type: number
-    value_format_name: decimal_3
-  }
-
-  dimension: my_difference {
-    label: "Difference in Average Metric"
-    type: number
-    value_format_name: decimal_3
-  }
-
-  dimension: my_abs_difference {
-    label: "Absolute Difference in Average Metric"
-    type: number
-    value_format_name: decimal_3
-  }
-
-  dimension: my_iterations {
-    label: "Total Iterations"
-    type: number
+  measure: average_daily_active_users {
+    label: "Average Daily Active Users"
+    type: average
     value_format_name: decimal_0
+    sql: ${TABLE}.daily_active_users ;;
   }
 
-  dimension: percent_greater_than {
-    label: "Estimated Significance Level"
-    type: number
-    value_format_name: percent_0
+  measure: total_gross_mtx_revenue {
+    label: "Total Gross MTX Revenue"
+    type: sum
+    value_format_name: decimal_2
+    sql: ${TABLE}.gross_mtx_revenue ;;
   }
 
-  dimension: significance_95 {
-    label: "Siginficance Check"
-    type: string
+  measure: total_gross_ads_revenue {
+    label: "Total Gross Ads Revenue"
+    type: sum
+    value_format_name: decimal_2
+    sql: ${TABLE}.gross_ads_revenue ;;
   }
 
-  dimension: my_abs_difference_rounded {
-    label: "Rounded Difference"
-    type: number
-    value_format_name: decimal_3
+  measure: total_gross_combined_revenue {
+    label: "Total Gross Combined Revenue"
+    type: sum
+    value_format_name: decimal_2
+    sql: ${TABLE}.gross_combined_revenue ;;
   }
 
-  dimension: iteration_type {
-    label: "Iteration Type"
-    type: string
+  measure: total_net_mtx_revenue {
+    label: "Total Net MTX Revenue"
+    type: sum
+    value_format_name: decimal_2
+    sql: ${TABLE}.net_mtx_revenue ;;
   }
 
-  measure: count_iterations {
-    type:  sum
+  measure: total_net_ads_revenue {
+    label: "Total Net Ads Revenue"
+    type: sum
+    value_format_name: decimal_2
+    sql: ${TABLE}.net_ads_revenue ;;
   }
 
+  measure: total_net_combined_revenue {
+    label: "Total Net Combined Revenue"
+    type: sum
+    value_format_name: decimal_2
+    sql: ${TABLE}.net_combined_revenue ;;
+  }
 
   parameter: selected_experiment {
     type: string

@@ -489,8 +489,12 @@ view: revenue_model {
     sql: safe_divide( sum(${TABLE}.ua_spend ) , sum(${TABLE}.installs) ) ;;
   }
 
-
-
+  measure: net_combined_roas {
+    label: "Net Combiend ROAS"
+    type: number
+    value_format_name: percent_1
+    sql: safe_divide( sum(${TABLE}.net_combined_revenue ) , sum(${TABLE}.ua_spend) ) ;;
+  }
 
 ####################################################################
 ## Parameters

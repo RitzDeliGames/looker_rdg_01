@@ -260,7 +260,7 @@ view: revenue_model {
               --when day_number <= 90 then round( retention_d31 - ( ( retention_d31 - retention_d91 ) * safe_divide( day_number - 31 , 60 ) ), 4 )
               when day_number <= 91 then round( retention_d91 , 4 )
 
-              when day_number <= 92 then round( retention_d91 - ( (retention_d91 - retention_d181) * 27 ) , 4 )
+              when day_number <= 92 then round( retention_d91 - ( (retention_d91 - retention_d181) * 0.27 ) , 4 )
               when day_number <= 93 then round( retention_d91 - ( (retention_d91 - retention_d181) * 0.2736 ) , 4 )
               when day_number <= 94 then round( retention_d91 - ( (retention_d91 - retention_d181) * 0.2771 ) , 4 )
               when day_number <= 95 then round( retention_d91 - ( (retention_d91 - retention_d181) * 0.28 ) , 4 )

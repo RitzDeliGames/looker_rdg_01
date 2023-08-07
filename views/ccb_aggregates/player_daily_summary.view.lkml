@@ -117,6 +117,7 @@ ads_by_date as (
         , max(a.highest_quests_completed) as highest_quests_completed
         , max(a.gems_spend) as gems_spend
         , max(a.coins_spend) as coins_spend
+        , max(a.coins_sourced_from_rewards) as coins_sourced_from_rewards
         , max(a.stars_spend) as stars_spend
         , max(a.ending_gems_balance) as ending_gems_balance
         , max(a.ending_coins_balance) as ending_coins_balance
@@ -233,6 +234,7 @@ ads_by_date as (
         , max(a.highest_quests_completed) as highest_quests_completed
         , max(a.gems_spend) as gems_spend
         , max(a.coins_spend) as coins_spend
+        , max(a.coins_sourced_from_rewards) as coins_sourced_from_rewards
         , max(a.stars_spend) as stars_spend
         , max(a.ending_gems_balance) as ending_gems_balance
         , max(a.ending_coins_balance) as ending_coins_balance
@@ -398,6 +400,8 @@ ads_by_date as (
         , a.highest_quests_completed
         , a.gems_spend
         , a.coins_spend
+        , a.coins_sourced_from_rewards
+
         , a.stars_spend
         , a.ending_gems_balance
         , a.ending_coins_balance
@@ -793,6 +797,15 @@ select
       ORDER BY rdg_date ASC
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
       ) cumulative_coins_spend
+
+        -- , a.coins_sourced_from_rewards
+
+  -- cumulative_coins_sourced_from_rewards
+  , SUM(coins_sourced_from_rewards) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_coins_sourced_from_rewards
 
   -- cumulative_star_spend
   , SUM(stars_spend) OVER (

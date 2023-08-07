@@ -55,6 +55,7 @@ SELECT
     , cumulative_star_spend
     , cumulative_time_played_minutes
     , cumulative_count_mtx_purchases
+    , cumulative_coins_spend
 
     , end_of_content_levels
     , cumulative_round_time_in_minutes_campaign
@@ -302,6 +303,16 @@ FROM
     , max( case when day_number <= 30 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d30
     , max( case when day_number <= 60 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d60
     , max( cumulative_star_spend ) as cumulative_star_spend_current
+
+    -- cumulative coins spend
+    , max( case when day_number <= 1 then cumulative_coins_spend else 0 end ) as cumulative_coins_spend_d1
+    , max( case when day_number <= 2 then cumulative_coins_spend else 0 end ) as cumulative_coins_spend_d2
+    , max( case when day_number <= 7 then cumulative_coins_spend else 0 end ) as cumulative_coins_spend_d7
+    , max( case when day_number <= 14 then cumulative_coins_spend else 0 end ) as cumulative_coins_spend_d14
+    , max( case when day_number <= 30 then cumulative_coins_spend else 0 end ) as cumulative_coins_spend_d30
+    , max( case when day_number <= 60 then cumulative_coins_spend else 0 end ) as cumulative_coins_spend_d60
+    , max( case when day_number <= 90 then cumulative_coins_spend else 0 end ) as cumulative_coins_spend_d90
+    , max( cumulative_coins_spend ) as cumulative_coins_spend_current
 
     -- system_info
     , max( hardware ) as hardware

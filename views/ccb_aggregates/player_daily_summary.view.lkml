@@ -835,6 +835,12 @@ dimension: primary_key {
 ## Dimensions
 ################################################################
 
+  # rdg_date for join
+  dimension: join_rdg_date {
+    type: date
+    sql: date(${TABLE}.rdg_date) ;;
+  }
+
   # dates
   dimension_group: rdg_date {
     group_label: "Activity Dates"
@@ -3779,6 +3785,41 @@ dimension: primary_key {
       percentile: 95
       sql: ${TABLE}.average_asset_load_time ;;
     }
+
+  measure: coin_spend_per_round_10 {
+    group_label: "Coin Spend Per Round"
+    type: percentile
+    percentile: 10
+    sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
+  }
+
+  measure: coin_spend_per_round_25 {
+    group_label: "Coin Spend Per Round"
+    type: percentile
+    percentile: 25
+    sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
+  }
+
+  measure: coin_spend_per_round_50 {
+    group_label: "Coin Spend Per Round"
+    type: percentile
+    percentile: 50
+    sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
+  }
+
+  measure: coin_spend_per_round_75 {
+    group_label: "Coin Spend Per Round"
+    type: percentile
+    percentile: 75
+    sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
+  }
+
+  measure: coin_spend_per_round_95 {
+    group_label: "Coin Spend Per Round"
+    type: percentile
+    percentile: 95
+    sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
+  }
 
 
 

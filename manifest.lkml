@@ -625,6 +625,13 @@ constant: singular_campaign_id_override {
         and date(${TABLE}.created_date) between '2023-07-11' and '2023-07-12'
         then '6342654069322'
 
+      when
+        ${TABLE}.singular_partner_name = 'Unattributed'
+        and ${TABLE}.singular_campaign_id = ''
+        and ${TABLE}.country in ('US','CA')
+        and date(${TABLE}.created_date) between '2023-07-21' and '2023-07-25'
+        then '6353426252722'
+
       else ${TABLE}.singular_campaign_id
     end
   "

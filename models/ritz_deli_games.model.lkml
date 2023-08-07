@@ -716,7 +716,8 @@ explore: player_daily_summary_test {
     relationship: many_to_many
     sql_on:
     ${player_daily_summary.rdg_id} = ${player_mtx_purchase_summary.rdg_id}
-    and date(${player_daily_summary.rdg_date) = date(${player_mtx_purchase_summary.rdg_date)
+    and ${player_daily_summary.join_rdg_date} = ${player_mtx_purchase_summary.join_rdg_date}
+
 
     ;;
     }

@@ -835,6 +835,12 @@ dimension: primary_key {
 ## Dimensions
 ################################################################
 
+  # rdg_date for join
+  dimension: join_rdg_date {
+    type: date
+    sql: date(${TABLE}.rdg_date) ;;
+  }
+
   # dates
   dimension_group: rdg_date {
     group_label: "Activity Dates"

@@ -1002,6 +1002,7 @@ dimension: primary_key {
   dimension: levels_progressed {type:number}
   dimension: cumulative_gems_spend {type:number}
   dimension: cumulative_coins_spend {type:number}
+  dimension: cumulative_coins_sourced_from_rewards {type:number}
   dimension: cumulative_star_spend {type:number}
 
   dimension: round_end_events_campaign {type:number}
@@ -3839,9 +3840,81 @@ dimension: primary_key {
     sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
   }
 
+  measure: sum_coins_sourced_from_rewards {
+    group_label: "Coins Sourced From Rewards"
+    type:sum
+    sql: ${TABLE}.coins_sourced_from_rewards ;;
+  }
+  measure: cumulative_coins_sourced_from_rewards_10 {
+    group_label: "Coins Sourced From Rewards"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.coins_sourced_from_rewards ;;
+  }
+  measure: coins_sourced_from_rewards_25 {
+    group_label: "Coins Sourced From Rewards"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.coins_sourced_from_rewards ;;
+  }
+  measure: coins_sourced_from_rewards_50 {
+    group_label: "Coins Sourced From Rewards"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.coins_sourced_from_rewards ;;
+  }
+  measure: coins_sourced_from_rewards_75 {
+    group_label: "Coins Sourced From Rewards"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.coins_sourced_from_rewards ;;
+  }
+  measure: coins_sourced_from_rewards_95 {
+    group_label: "Coins Sourced From Rewards"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.coins_sourced_from_rewards ;;
+  }
 
+  measure: coins_sourced_per_round_10 {
+    group_label: "Coin Source Per Round"
+    type: percentile
+    percentile: 10
+    value_format_name: decimal_0
+    sql: safe_divide( ${TABLE}.coins_sourced_from_rewards , ${TABLE}.round_end_events )  ;;
+  }
 
+  measure: coins_sourced_per_round_25 {
+    group_label: "Coin Source Per Round"
+    type: percentile
+    percentile: 25
+    value_format_name: decimal_0
+    sql: safe_divide( ${TABLE}.coins_sourced_from_rewards , ${TABLE}.round_end_events )  ;;
+  }
 
+  measure: coins_sourced_per_round_50 {
+    group_label: "Coin Source Per Round"
+    type: percentile
+    percentile: 50
+    value_format_name: decimal_0
+    sql: safe_divide( ${TABLE}.coins_sourced_from_rewards , ${TABLE}.round_end_events )  ;;
+  }
+
+  measure: coins_sourced_per_round_75 {
+    group_label: "Coin Source Per Round"
+    type: percentile
+    percentile: 75
+    value_format_name: decimal_0
+    sql: safe_divide( ${TABLE}.coins_sourced_from_rewards , ${TABLE}.round_end_events )  ;;
+  }
+
+  measure: coins_sourced_per_round_95 {
+    group_label: "Coin Source Per Round"
+    type: percentile
+    percentile: 95
+    value_format_name: decimal_0
+    sql: safe_divide( ${TABLE}.coins_sourced_from_rewards , ${TABLE}.round_end_events )  ;;
+  }
 
 
 

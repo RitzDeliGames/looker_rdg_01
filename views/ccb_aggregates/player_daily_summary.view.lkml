@@ -3790,6 +3790,7 @@ dimension: primary_key {
     group_label: "Coin Spend Per Round"
     type: percentile
     percentile: 10
+    value_format_name: decimal_0
     sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
   }
 
@@ -3797,6 +3798,7 @@ dimension: primary_key {
     group_label: "Coin Spend Per Round"
     type: percentile
     percentile: 25
+    value_format_name: decimal_0
     sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
   }
 
@@ -3804,6 +3806,7 @@ dimension: primary_key {
     group_label: "Coin Spend Per Round"
     type: percentile
     percentile: 50
+    value_format_name: decimal_0
     sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
   }
 
@@ -3811,6 +3814,7 @@ dimension: primary_key {
     group_label: "Coin Spend Per Round"
     type: percentile
     percentile: 75
+    value_format_name: decimal_0
     sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
   }
 
@@ -3818,6 +3822,7 @@ dimension: primary_key {
     group_label: "Coin Spend Per Round"
     type: percentile
     percentile: 95
+    value_format_name: decimal_0
     sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
   }
 

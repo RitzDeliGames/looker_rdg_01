@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-06-15'
+      -- update '2023-08-07'
 
 -- create or replace table tal_scratch.player_daily_incremental as
 
@@ -65,7 +65,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-07-24' -- Last Full Update
+                when date(current_date()) <= '2023-08-07' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -488,6 +488,14 @@ view: player_daily_incremental {
               ELSE 0
               END AS INT64) AS coins_spend
 
+          -- coins from rewards
+          , safe_cast( case
+            when event_name = 'reward'
+            and json_extract_scalar(extra_json,"$.reward_type") = 'CURRENCY_03'
+            then ifnull(safe_cast(json_extract_scalar(extra_json,"$.reward_amount") as numeric),0)
+            else 0
+            end as int64 ) as coins_sourced_from_rewards
+
           -- star spend
           , safe_cast(CASE
               WHEN event_name = 'transaction'
@@ -852,6 +860,7 @@ view: player_daily_incremental {
         , MAX(highest_quests_completed) AS highest_quests_completed
         , SUM(gems_spend) AS gems_spend
         , SUM(coins_spend) AS coins_spend
+        , sum(coins_sourced_from_rewards) as coins_sourced_from_rewards
         , SUM(stars_spend) AS stars_spend
         , MAX(ending_gems_balance) AS ending_gems_balance
         , MAX(ending_coins_balance) AS ending_coins_balance
@@ -927,7 +936,6 @@ view: player_daily_incremental {
         left join average_asset_load_times c
             on a.rdg_id = c.rdg_id
             and a.rdg_date = c.rdg_date
-
 
 
 

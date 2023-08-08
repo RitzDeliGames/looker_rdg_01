@@ -468,6 +468,7 @@ from
     , percent_greater_than
     , significance_95
     , 0 as count_iterations
+    , 'actual' as iteration_type
   from
     summarize_percent_greater_than
 
@@ -484,7 +485,7 @@ from
     , 0 as percent_greater_than
     , '' as significance_95
     , 1 as count_iterations
---    , round( my_abs_difference * safe_divide(1,0.001) , 0 ) * 0.001 as my_abs_difference_rounded
+    , 'iterations' as iteration_type
   from
     calculate_greater_than_instances
 
@@ -508,6 +509,7 @@ from
     , percent_greater_than
     , significance_95
     , count_iterations
+    , iteration_type
     , safe_cast(
         round(
           round( safe_divide( max(my_abs_difference) over (order by my_abs_difference), 50 ) , 4 )
@@ -531,19 +533,9 @@ from
 
 select * from output_with_rounding
 
-
-
       ;;
     publish_as_db_view: no
-
-
   }
-  # select * from ${player_summary_new.SQL_TABLE_NAME}
-  # saving code for later
-  # {% if selected_display_name._is_filtered %}
-  # and display_name = {% parameter selected_display_name %}
-  # {% endif %}
-
 
 ####################################################################
 ## Primary Key

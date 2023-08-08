@@ -451,43 +451,85 @@ from
 )
 
 ---------------------------------------------------------------------------------------
--- final output
+-- output before rounding
 ---------------------------------------------------------------------------------------
 
-select
-  iteration_number
-  , group_a_players
-  , group_b_players
-  , group_a
-  , group_b
-  , my_difference
-  , my_abs_difference
-  , my_iterations
-  , percent_greater_than
-  , significance_95
-  , 1 as count_iterations
-  , round( my_abs_difference * safe_divide(1,{% parameter selected_rounding %}) , 0 ) * {% parameter selected_rounding %} as my_abs_difference_rounded
-  , 'actual' as iteration_type
-from
-  summarize_percent_greater_than
+, output_before_rounding as (
 
-union all
-select
-  iteration_number
-  , group_a_players
-  , group_b_players
-  , group_a
-  , group_b
-  , my_difference
-  , my_abs_difference
-  , 0 as my_iterations
-  , 0 as percent_greater_than
-  , '' as significance_95
-  , 1 as count_iterations
-  , round( my_abs_difference * safe_divide(1,{% parameter selected_rounding %}) , 0 ) * {% parameter selected_rounding %} as my_abs_difference_rounded
-  , 'iterations' as iteration_type
-from
-  calculate_greater_than_instances
+  select
+    iteration_number
+    , group_a_players
+    , group_b_players
+    , group_a
+    , group_b
+    , my_difference
+    , my_abs_difference
+    , my_iterations
+    , percent_greater_than
+    , significance_95
+    , 0 as count_iterations
+  from
+    summarize_percent_greater_than
+
+  union all
+  select
+    iteration_number
+    , group_a_players
+    , group_b_players
+    , group_a
+    , group_b
+    , my_difference
+    , my_abs_difference
+    , 0 as my_iterations
+    , 0 as percent_greater_than
+    , '' as significance_95
+    , 1 as count_iterations
+--    , round( my_abs_difference * safe_divide(1,0.001) , 0 ) * 0.001 as my_abs_difference_rounded
+  from
+    calculate_greater_than_instances
+
+)
+
+---------------------------------------------------------------------------------------
+-- output with rounding
+---------------------------------------------------------------------------------------
+
+, output_with_rounding as (
+
+  select
+      iteration_number
+    , group_a_players
+    , group_b_players
+    , group_a
+    , group_b
+    , my_difference
+    , my_abs_difference
+    , my_iterations
+    , percent_greater_than
+    , significance_95
+    , count_iterations
+    , safe_cast(
+        round(
+          round( safe_divide( max(my_abs_difference) over (order by my_abs_difference), 50 ) , 4 )
+          *
+          safe_cast(round(
+            safe_divide(
+              my_abs_difference
+              , safe_divide( max(my_abs_difference) over (order by my_abs_difference), 50 )
+            )
+          , 0 ) as int64)
+        ,4)
+       as float64) as my_abs_difference_rounded
+  from
+    output_before_rounding
+
+)
+
+---------------------------------------------------------------------------------------
+-- output
+---------------------------------------------------------------------------------------
+
+select * from output_with_rounding
 
 
 

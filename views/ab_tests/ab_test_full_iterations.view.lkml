@@ -512,12 +512,12 @@ from
     , iteration_type
     , safe_cast(
         round(
-          round( safe_divide( max(my_abs_difference) over (order by my_abs_difference), 50 ) , 4 )
+          round( safe_divide( max(my_abs_difference) over (), 50 ) , 4 )
           *
           safe_cast(round(
             safe_divide(
               my_abs_difference
-              , safe_divide( max(my_abs_difference) over (order by my_abs_difference), 50 )
+              , safe_divide( max(my_abs_difference) over (), 50 )
             )
           , 0 ) as int64)
         ,4)

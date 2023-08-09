@@ -36,7 +36,8 @@ view: player_mtx_purchase_summary {
             ) cumulative_count_mtx_purchases
 
       from
-        `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_incremental`
+        -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_incremental`
+         ${player_mtx_purchase_incremental.SQL_TABLE_NAME}
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
@@ -94,6 +95,29 @@ dimension: primary_key {
   dimension: experiments {type:string}
   dimension: win_streak {type:number}
   dimension: store_session_id {type:string}
+
+  # Round Info
+  dimension: round_game_mode {
+    group_label: "Round Info"
+    type: string}
+  dimension: round_purchase_type {
+    group_label: "Round Info"
+    type: string}
+  dimension: round_count {
+    group_label: "Round Info"
+    type: number}
+  dimension_group: round_start_timestamp_utc {
+    group_label: "Round Info"
+    type: time
+    timeframes: [time, hour, date, week, month, year]
+    sql: ${TABLE}.round_start_timestamp_utc ;;
+  }
+  dimension_group: round_end_timestamp_utc {
+    group_label: "Round Info"
+    type: time
+    timeframes: [time, hour, date, week, month, year]
+    sql: ${TABLE}.round_end_timestamp_utc ;;
+  }
 
 
   dimension: source_id {

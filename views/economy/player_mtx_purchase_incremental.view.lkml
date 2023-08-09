@@ -84,6 +84,7 @@ base_data_full as (
         base_data_full
     where
         event_name = 'round_start'
+        and round_count is not null
     group by
         1,2
     )
@@ -103,6 +104,7 @@ base_data_full as (
         base_data_full
     where
         event_name = 'round_end'
+        and round_count is not null
     group by
         1,2
     )

@@ -776,6 +776,7 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_052' then 'Hammer Chum Chums & Coins Special!'
     when ${TABLE}.iap_id = 'item_054' then 'Vertical Chum Chums & Coins Special!'
     when ${TABLE}.iap_id = 'item_053' then 'Horizontal Chum Chums & Coins Special!'
+    when ${TABLE}.iap_id = 'item_075' then 'Shuffle Chum Chums & Coins Special!'
 
     when ${TABLE}.iap_id = 'item_055' then 'Coins (S)'
     when ${TABLE}.iap_id = 'item_056' then 'Coins (M)'
@@ -854,6 +855,8 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id = 'item_052' then 'Chum Chums & Coins'
       when ${TABLE}.iap_id = 'item_054' then 'Chum Chums & Coins'
       when ${TABLE}.iap_id = 'item_053' then 'Chum Chums & Coins'
+      when ${TABLE}.iap_id = 'item_075' then 'Chum Chums & Coins'
+
 
       when ${TABLE}.iap_id = 'item_055' then 'Coins'
       when ${TABLE}.iap_id = 'item_056' then 'Coins'

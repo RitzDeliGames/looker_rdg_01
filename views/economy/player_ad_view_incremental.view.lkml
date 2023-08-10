@@ -4,11 +4,12 @@ view: player_ad_view_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-05-19'
+      -- update '2023-08-10'
 
       -- create or replace table tal_scratch.player_ad_view_incremental as
 
       with
+
 
       ------------------------------------------------------------------------
       -- Select all columns w/ the current date range
@@ -29,6 +30,11 @@ view: player_ad_view_incremental {
               , win_streak
               , currencies
               , last_level_serial
+              , case
+                  when event_name = 'round_end'
+                  then safe_cast(json_extract_scalar(extra_json,"$.round_count") as int64)-1
+                  else safe_cast(json_extract_scalar(extra_json,"$.round_count") as int64)
+                  end as round_count
           from
               `eraser-blast.game_data.events`
           where
@@ -42,7 +48,7 @@ view: player_ad_view_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-05-19' -- Last Full Update
+                      when date(current_date()) <= '2023-08-10' -- Last Full Update
                       then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -54,7 +60,46 @@ view: player_ad_view_incremental {
               -- This removes any bots or internal QA accounts
               ------------------------------------------------------------------------
               and user_type = 'external'
-              and event_name in ('ad','transaction')
+              and event_name in ('ad','transaction', 'round_start', 'round_end' )
+          )
+
+      ------------------------------------------------------------------------
+      -- round_start data
+      ------------------------------------------------------------------------
+
+      , my_round_start_data as (
+
+          select
+              rdg_id
+              , round_count
+              , max(timestamp_utc) as round_start_timestamp_utc
+          from
+              full_base_data
+          where
+              event_name = 'round_start'
+              and round_count is not null
+          group by
+              1,2
+          )
+
+      ------------------------------------------------------------------------
+      -- round_end data
+      ------------------------------------------------------------------------
+
+      , my_round_end_data as (
+
+          select
+              rdg_id
+              , round_count
+              , max(timestamp_utc) as round_end_timestamp_utc
+              , max(safe_cast(json_extract_scalar( extra_json , "$.game_mode") as string)) as game_mode
+          from
+              full_base_data
+          where
+              event_name = 'round_end'
+              and round_count is not null
+          group by
+              1,2
           )
 
       ------------------------------------------------------------------------
@@ -79,6 +124,8 @@ view: player_ad_view_incremental {
 
           from
               full_base_data
+          where
+              event_name in ('ad','transaction')
 
       )
 
@@ -112,35 +159,50 @@ view: player_ad_view_incremental {
       , get_data_from_extra_json as (
 
           select
-              rdg_id
-              , timestamp(date(timestamp_utc)) as rdg_date
-              , timestamp_utc
-              , created_at
-              , version
-              , session_id
-              , experiments
-              , win_streak
-              , ad_reward_source_id
+              a.rdg_id
+              , timestamp(date(a.timestamp_utc)) as rdg_date
+              , a.timestamp_utc
+              , a.created_at
+              , a.version
+              , a.session_id
+              , a.experiments
+              , a.win_streak
+              , a.ad_reward_source_id
               , 1 as count_ad_views
 
               -- Ad Informaion
-              , json_extract_scalar(extra_json,"$.source_id") as source_id
-              , json_extract_scalar(extra_json,"$.ad_source_name") ad_source_name
-              , json_extract_scalar(extra_json,"$.ad_network") ad_network
-              , json_extract_scalar(extra_json,"$.country") country
-              , json_extract_scalar(extra_json,"$.current_level_id") current_level_id
-              , safe_cast(json_extract_scalar(extra_json,"$.current_level_serial") as numeric) current_level_serial
+              , json_extract_scalar(a.extra_json,"$.source_id") as source_id
+              , json_extract_scalar(a.extra_json,"$.ad_source_name") ad_source_name
+              , json_extract_scalar(a.extra_json,"$.ad_network") ad_network
+              , json_extract_scalar(a.extra_json,"$.country") country
+              , json_extract_scalar(a.extra_json,"$.current_level_id") current_level_id
+              , safe_cast(json_extract_scalar(a.extra_json,"$.current_level_serial") as numeric) current_level_serial
 
               -- Various ways to calculate revenue
-              , safe_cast(json_extract_scalar(extra_json,"$.publisher_revenue_per_impression") as numeric) publisher_revenue_per_impression
-              , safe_cast(json_extract_scalar(extra_json,"$.publisher_revenue_per_impression_in_micros") as numeric) / 100 publisher_revenue_per_impression_in_micros
-              , safe_cast(json_extract_scalar(extra_json,"$.revenue") as numeric) revenue
-              , safe_cast(json_extract_scalar(extra_json,"$.ad_value") as numeric) ad_value
-              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
-              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
-              , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
+              , safe_cast(json_extract_scalar(a.extra_json,"$.publisher_revenue_per_impression") as numeric) publisher_revenue_per_impression
+              , safe_cast(json_extract_scalar(a.extra_json,"$.publisher_revenue_per_impression_in_micros") as numeric) / 100 publisher_revenue_per_impression_in_micros
+              , safe_cast(json_extract_scalar(a.extra_json,"$.revenue") as numeric) revenue
+              , safe_cast(json_extract_scalar(a.extra_json,"$.ad_value") as numeric) ad_value
+
+              -- currency balances
+              , safe_cast(json_extract_scalar(a.currencies,"$.CURRENCY_03") as numeric) currency_03_balance
+              , safe_cast(json_extract_scalar(a.currencies,"$.CURRENCY_04") as numeric) currency_04_balance
+              , safe_cast(json_extract_scalar(a.currencies,"$.CURRENCY_07") as numeric) currency_07_balance
+
+              -- round information
+              , a.round_count
+              , b.round_start_timestamp_utc
+              , c.round_end_timestamp_utc
+              , c.game_mode
+
           from
-              base_data
+              base_data a
+              left join my_round_start_data b
+                  on a.rdg_id = b.rdg_id
+                  and a.round_count = b.round_count
+              left join my_round_end_data c
+                  on a.rdg_id = c.rdg_id
+                  and a.round_count = c.round_count
       )
 
       ------------------------------------------------------------------------
@@ -179,6 +241,13 @@ view: player_ad_view_incremental {
           , max(currency_03_balance) as coins_balance
           , max(currency_04_balance) as lives_balance
           , max(currency_07_balance) as stars_balance
+
+          -- round information
+          , max(round_count) as round_count
+          , max(round_start_timestamp_utc) as round_start_timestamp_utc
+          , max(round_end_timestamp_utc) as round_end_timestamp_utc
+          , max(game_mode) as game_mode
+
 
       from
           get_data_from_extra_json

@@ -4,7 +4,7 @@ view: player_round_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update on '2023-05-19'
+      -- update on '2023-08-10'
 
       -- create or replace table tal_scratch.player_round_incremental as
 
@@ -29,6 +29,11 @@ view: player_round_incremental {
               , win_streak
               , currencies
               , last_level_serial
+              , case
+                  when event_name = 'round_end'
+                  then safe_cast(json_extract_scalar(extra_json,"$.round_count") as int64)-1
+                  else safe_cast(json_extract_scalar(extra_json,"$.round_count") as int64)
+                  end as round_count
           from
               `eraser-blast.game_data.events`
           where
@@ -42,7 +47,7 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-05-19' -- Last Full Update
+                      when date(current_date()) <= '2023-08-10' -- Last Full Update
                       then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -91,6 +96,7 @@ view: player_round_incremental {
               , experiments
               , win_streak
               , 1 as count_rounds
+              , round_count
               , safe_cast(json_extract_scalar( extra_json , "$.lives") as numeric) as lives
               , ifnull( cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 ) as round_length_minutes
               , safe_cast(json_extract_scalar( extra_json , "$.quest_complete") as boolean) as quest_complete
@@ -106,6 +112,7 @@ view: player_round_incremental {
               , safe_cast(json_extract_scalar( extra_json , "$.moves") as numeric) as moves
               , safe_cast(json_extract_scalar( extra_json , "$.level_serial") as numeric) as level_serial
               , safe_cast(json_extract_scalar( extra_json , "$.level_id") as string) as level_id
+              , safe_cast(json_extract_scalar( extra_json , "$.level_difficuly") as string) as level_difficuly
               , safe_cast(last_level_serial as int64) last_level_serial
               , safe_cast(json_extract_scalar(extra_json,'$.team_slot_0') as string) primary_team_slot
               , safe_cast(json_extract_scalar(extra_json,'$.team_slot_skill_0') as string) primary_team_slot_skill
@@ -123,6 +130,7 @@ view: player_round_incremental {
               , safe_cast(json_extract_scalar( extra_json , "$.objective_5") as numeric) as objective_5
 
               , safe_cast(json_extract_scalar( extra_json , "$.config_timestamp") as numeric) as config_timestamp
+
 
 
           from
@@ -164,6 +172,7 @@ view: player_round_incremental {
           , max(objective_progress) as objective_progress
           , max(moves) as moves
           , max(level_id) as level_id
+          , max(level_difficuly) as level_difficuly
           , max(last_level_serial) as last_level_serial
           , max(primary_team_slot) as primary_team_slot
           , max(primary_team_slot_skill) as primary_team_slot_skill
@@ -179,6 +188,7 @@ view: player_round_incremental {
           , max(objective_4) as objective_4
           , max(objective_5) as objective_5
           , max(config_timestamp) as config_timestamp
+          , max(round_count) as round_count
 
 
       from
@@ -189,7 +199,6 @@ view: player_round_incremental {
           , game_mode
           , level_serial
           , round_end_timestamp_utc
-
 
 
       ;;

@@ -62,7 +62,8 @@ base_data as (
           ) , 0 ) as win_streak_at_round_start
 
   from
-    `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_incremental`
+    -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_incremental`
+    ${player_round_incremental.SQL_TABLE_NAME}
 )
 
 -----------------------------------------------------------------------------
@@ -118,6 +119,8 @@ base_data as (
     , max(a.objective_4) as objective_4
     , max(a.objective_5) as objective_5
     , max(timestamp(timestamp_millis(safe_cast(a.config_timestamp as int64)))) as config_timestamp
+    , max(a.round_count) as round_count
+    , max(a.level_difficuly) as level_difficuly
 
     --------------------------------------------------------------------------
     -- mtx purchase dollars
@@ -161,7 +164,9 @@ base_data as (
 
   from
     base_data a
-    left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary` b
+    -- left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary` b
+    left join ${player_mtx_purchase_summary.SQL_TABLE_NAME} b
+
       on b.rdg_id = a.rdg_id
       and b.timestamp_utc > a.previous_round_end_timestamp_utc
       and b.timestamp_utc <= a.round_end_timestamp_utc
@@ -231,6 +236,8 @@ base_data as (
     , max(a.objective_4) as objective_4
     , max(a.objective_5) as objective_5
     , max(a.config_timestamp) as config_timestamp
+    , max(a.round_count) as round_count
+    , max(a.level_difficuly) as level_difficuly
 
     --------------------------------------------------------------------------
     -- ad_view_dollars
@@ -274,7 +281,8 @@ base_data as (
 
   from
     join_on_mtx_spend a
-    left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary` c
+    -- left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary` c
+    left join ${player_ad_view_summary.SQL_TABLE_NAME} c
       on c.rdg_id = a.rdg_id
       and c.timestamp_utc > a.previous_round_end_timestamp_utc
       and c.timestamp_utc <= a.round_end_timestamp_utc
@@ -338,6 +346,8 @@ base_data as (
     , max(a.objective_4) as objective_4
     , max(a.objective_5) as objective_5
     , max(a.config_timestamp) as config_timestamp
+    , max(a.round_count) as round_count
+    , max(a.level_difficuly) as level_difficuly
 
     , max(a.before_round_start_mtx_purchase_dollars) as before_round_start_mtx_purchase_dollars
     , max(a.in_round_mtx_purchase_dollars) as in_round_mtx_purchase_dollars
@@ -395,7 +405,8 @@ base_data as (
 
   from
     join_on_ad_spend a
-    left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_coin_spend_summary` d
+    -- left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_coin_spend_summary` d
+    left join ${player_coin_spend_summary.SQL_TABLE_NAME} d
       on d.rdg_id = a.rdg_id
       and d.timestamp_utc > a.previous_round_end_timestamp_utc
       and d.timestamp_utc <= a.round_end_timestamp_utc
@@ -760,6 +771,12 @@ from
     group_label: "Level Fields"
     type:number
     }
+  dimension: level_difficulty {
+    group_label: "Level Fields"
+    type:string
+  }
+  dimension: round_count {type:number}
+
   dimension: primary_team_slot {type:string}
   dimension: primary_team_slot_skill {type:string}
   dimension: primary_team_slot_level {type:number}

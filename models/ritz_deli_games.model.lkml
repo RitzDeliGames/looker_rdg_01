@@ -672,4 +672,3 @@ explore: big_query_jobs {}
 explore: player_daily_incremental {}
 explore: ab_test_full_iterations {}
 explore: revenue_model{}
-explore: player_ad_view_incremental {}

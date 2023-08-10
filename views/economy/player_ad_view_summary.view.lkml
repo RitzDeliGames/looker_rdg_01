@@ -8,7 +8,7 @@ view: player_ad_view_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-04-20'
+      -- last update: '2023-08-10'
 
       -- create or replace table tal_scratch.player_ad_view_summary as
 
@@ -88,8 +88,16 @@ view: player_ad_view_summary {
           , a.coins_balance
           , a.lives_balance
           , a.stars_balance
+
+          -- round information
+          , a.round_count
+          , a.round_start_timestamp_utc
+          , a.round_end_timestamp_utc
+          , a.game_mode
+
         from
-          `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental` a
+          -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental` a
+          ${player_ad_view_incremental.SQL_TABLE_NAME} a
           left join iron_source_facebook_data b
             on a.ad_network = 'facebook'
             and safe_cast(a.version as int64) >= 13122
@@ -184,6 +192,29 @@ view: player_ad_view_summary {
   dimension: ad_network {type:string}
   dimension: country {type:string}
   dimension: current_level_id {type:string}
+
+  # Round Info
+  dimension: round_game_mode {
+    group_label: "Round Info"
+    type: string}
+  dimension: round_purchase_type {
+    group_label: "Round Info"
+    type: string}
+  dimension: round_count {
+    group_label: "Round Info"
+    type: number}
+  dimension_group: round_start_timestamp_utc {
+    group_label: "Round Info"
+    type: time
+    timeframes: [time, hour, date, week, month, year]
+    sql: ${TABLE}.round_start_timestamp_utc ;;
+  }
+  dimension_group: round_end_timestamp_utc {
+    group_label: "Round Info"
+    type: time
+    timeframes: [time, hour, date, week, month, year]
+    sql: ${TABLE}.round_end_timestamp_utc ;;
+  }
 
   dimension: ad_source_id {
     type: string

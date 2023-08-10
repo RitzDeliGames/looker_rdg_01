@@ -806,6 +806,9 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_091' then 'Level Bundle (300)'
     when ${TABLE}.iap_id = 'item_092' then 'Level Bundle (400)'
 
+    when ${TABLE}.iap_id = 'battle_pass' then 'Premium Battle Pass'
+
+
     else ${TABLE}.iap_id
   end"
 }
@@ -890,6 +893,8 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id = 'item_090' then 'Level Bundle'
       when ${TABLE}.iap_id = 'item_091' then 'Level Bundle'
       when ${TABLE}.iap_id = 'item_092' then 'Level Bundle'
+
+      when ${TABLE}.iap_id = 'battle_pass' then 'Premium Battle Pass'
 
       else ${TABLE}.iap_id
   end"

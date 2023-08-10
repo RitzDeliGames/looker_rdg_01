@@ -757,12 +757,18 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'clear_cell' then 'Clear Cell Skill'
     when ${TABLE}.iap_id = 'clear_vertical' then '1x Clear Vertical Skill'
     when ${TABLE}.iap_id = 'clear_horizontal' then '1x Clear Horizontal Skill'
+
     when ${TABLE}.iap_id = 'item_clear_cell' then '1x Clear Cell Skill'
     when ${TABLE}.iap_id = 'item_clear_cell_bulk' then '5x Clear Cell Skill'
     when ${TABLE}.iap_id = 'item_clear_horizontal' then '1x Clear Horizontal Skill'
     when ${TABLE}.iap_id = 'item_clear_horizontal_bulk' then '5x Clear Horizontal Skill'
     when ${TABLE}.iap_id = 'item_clear_vertical' then '1x Clear Vertical Skill'
     when ${TABLE}.iap_id = 'item_clear_vertical_bulk' then '5x Clear Vertical Skill'
+    when ${TABLE}.iap_id = 'item_shuffle' then '1x Shuffle Skill'
+    when ${TABLE}.iap_id = 'item_shuffle_bulk' then '5x Shuffle Skill'
+
+
+
     when ${TABLE}.iap_id = 'item_rocket' then '1x Rocket Boost'
     when ${TABLE}.iap_id = 'item_rocket_bulk' then '8x Rocket Boost'
     when ${TABLE}.iap_id = 'item_color_ball' then '1x Color Ball Boost'
@@ -841,9 +847,14 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id = 'box_000' then 'Free Machine'
       when ${TABLE}.iap_id = 'box_004' then 'Free Machine'
       when ${TABLE}.iap_id = 'box_005' then 'Free Machine'
+
       when ${TABLE}.iap_id like '%clear_cell%' then 'Chum Chum Skills'
       when ${TABLE}.iap_id like '%clear_horizontal%' then 'Chum Chum Skills'
       when ${TABLE}.iap_id like '%clear_vertical%' then 'Chum Chum Skills'
+      when ${TABLE}.iap_id = 'item_shuffle' then 'Chum Chum Skills'
+      when ${TABLE}.iap_id = 'item_shuffle_bulk' then 'Chum Chum Skills'
+
+
       when ${TABLE}.iap_id like '%bomb%' then 'Pre-Game Boosts'
       when ${TABLE}.iap_id like '%rocket%' then 'Pre-Game Boosts'
       when ${TABLE}.iap_id like '%color_ball%' then 'Pre-Game Boosts'

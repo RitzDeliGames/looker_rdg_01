@@ -89,11 +89,12 @@ view: player_ad_view_summary {
           , a.lives_balance
           , a.stars_balance
 
-          -- round information
+          -- round_information
           , a.round_count
+          , a.round_game_mode
           , a.round_start_timestamp_utc
           , a.round_end_timestamp_utc
-          , a.game_mode
+          , a.round_purchase_type
 
         from
           -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental` a

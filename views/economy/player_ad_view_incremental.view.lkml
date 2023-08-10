@@ -242,11 +242,17 @@ view: player_ad_view_incremental {
           , max(currency_04_balance) as lives_balance
           , max(currency_07_balance) as stars_balance
 
-          -- round information
+          -- round_information
           , max(round_count) as round_count
+          , max(game_mode) as round_game_mode
           , max(round_start_timestamp_utc) as round_start_timestamp_utc
           , max(round_end_timestamp_utc) as round_end_timestamp_utc
-          , max(game_mode) as game_mode
+          , max(case
+              when timestamp_utc between round_start_timestamp_utc and round_end_timestamp_utc
+              then 'in_round'
+              else 'out_of_round'
+              end
+              ) as round_purchase_type
 
 
       from

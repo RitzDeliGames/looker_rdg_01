@@ -5,7 +5,7 @@ view: player_mtx_purchase_incremental {
 
 
       -- ccb_aggregate_update_tag
-      -- update '2023-05-19'
+      -- update '2023-08-11'
 
 
 -- create or replace table tal_scratch.player_mtx_purchase_incremental as
@@ -50,7 +50,7 @@ base_data_full as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-08-09' -- Last Full Update
+                when date(current_date()) <= '2023-08-11' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end

@@ -627,6 +627,7 @@ select * from output_with_rounding
 
   dimension: count_iterations_dimension {
     type:  number
+    sql: ${TABLE}.count_iterations ;;
   }
 
 

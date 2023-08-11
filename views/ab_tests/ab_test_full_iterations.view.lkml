@@ -625,6 +625,10 @@ select * from output_with_rounding
     type:  sum
   }
 
+  dimension: count_iterations_dimension {
+    type:  number
+  }
+
 
   parameter: selected_experiment {
     type: string

@@ -1146,6 +1146,20 @@ from
     percentile: 95
     sql:
       case
+          when ${TABLE}.count_wins = 1
+          then ${TABLE}.cumulative_round_by_level_game_mode
+          else null
+        end
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: median_attempt_number_at_churn {
+    group_label: "Attempt Number At Churn"
+    type: percentile
+    percentile: 50
+    sql:
+      case
           when ${TABLE}.churn_indicator = 1
           then ${TABLE}.cumulative_round_by_level_game_mode
           else null

@@ -8,7 +8,7 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-07-24'
+      -- last update: '2023-08-14'
 
 -- create or replace table `tal_scratch.player_daily_summary` as
 
@@ -149,6 +149,8 @@ ads_by_date as (
         , max( a.feature_participation_flour_frenzy ) as feature_participation_flour_frenzy
         , max( a.feature_participation_lucky_dice ) as feature_participation_lucky_dice
         , max( a.feature_participation_treasure_trove ) as feature_participation_treasure_trove
+        , max( a.feature_participation_battle_pass ) as feature_participation_battle_pass
+
         , max( feature_participation_ask_for_help_request ) as feature_participation_ask_for_help_request
         , max( feature_participation_ask_for_help_completed ) as feature_participation_ask_for_help_completed
         , max( feature_participation_ask_for_help_high_five ) as feature_participation_ask_for_help_high_five
@@ -266,6 +268,7 @@ ads_by_date as (
         , max( a.feature_participation_flour_frenzy ) as feature_participation_flour_frenzy
         , max( a.feature_participation_lucky_dice ) as feature_participation_lucky_dice
         , max( a.feature_participation_treasure_trove ) as feature_participation_treasure_trove
+        , max( a.feature_participation_battle_pass ) as feature_participation_battle_pass
         , max( feature_participation_ask_for_help_request ) as feature_participation_ask_for_help_request
         , max( feature_participation_ask_for_help_completed ) as feature_participation_ask_for_help_completed
         , max( feature_participation_ask_for_help_high_five ) as feature_participation_ask_for_help_high_five
@@ -423,6 +426,7 @@ ads_by_date as (
         , a.feature_participation_flour_frenzy
         , a.feature_participation_lucky_dice
         , a.feature_participation_treasure_trove
+        , a.feature_participation_battle_pass
         , a.feature_participation_ask_for_help_request
         , a.feature_participation_ask_for_help_completed
         , a.feature_participation_ask_for_help_high_five
@@ -926,6 +930,10 @@ dimension: primary_key {
     group_label: "Daily Feature Participation"
     label: "Treasure Trove"
     type:number}
+  dimension: feature_participation_battle_pass {
+    group_label: "Daily Feature Participation"
+    label: "Battle Pass"
+    type:number}
 
   dimension: feature_participation_ask_for_help_request {
     group_label: "Daily Feature Participation"
@@ -1189,6 +1197,24 @@ dimension: primary_key {
 ################################################################
 ## Other Calculations
 ################################################################
+
+  measure: percent_players_engaged_with_battle_pass {
+    group_label: "Daily Feature Participation"
+    label: "Battle Pass"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_battle_pass > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
 
   measure: percent_players_engaged_with_treasure_trove {
     group_label: "Daily Feature Participation"

@@ -1084,8 +1084,36 @@ from
     value_format_name: decimal_0
   }
 
+
+  measure: attempt_number_at_win_10 {
+    group_label: "Attempt Number At Win"
+    type: percentile
+    percentile: 10
+    sql:
+      case
+          when ${TABLE}.count_wins = 1
+          then ${TABLE}.cumulative_round_by_level_game_mode
+          else null
+        end
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: attempt_number_at_win_25 {
+    group_label: "Attempt Number At Win"
+    type: percentile
+    percentile: 25
+    sql:
+      case
+          when ${TABLE}.count_wins = 1
+          then ${TABLE}.cumulative_round_by_level_game_mode
+          else null
+        end
+    ;;
+    value_format_name: decimal_0
+  }
   measure: median_attempt_number_at_win {
-    group_label: "Calculated Fields"
+    group_label: "Attempt Number At Win"
     type: percentile
     percentile: 50
     sql:
@@ -1098,10 +1126,24 @@ from
     value_format_name: decimal_0
   }
 
-  measure: median_attempt_number_at_churn {
-    group_label: "Calculated Fields"
+  measure: attempt_number_at_win_75 {
+    group_label: "Attempt Number At Win"
     type: percentile
-    percentile: 50
+    percentile: 75
+    sql:
+      case
+          when ${TABLE}.count_wins = 1
+          then ${TABLE}.cumulative_round_by_level_game_mode
+          else null
+        end
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: attempt_number_at_win_95 {
+    group_label: "Attempt Number At Win"
+    type: percentile
+    percentile: 95
     sql:
       case
           when ${TABLE}.churn_indicator = 1

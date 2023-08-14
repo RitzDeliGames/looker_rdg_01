@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-08-07'
+      -- update '2023-08-14'
 
 -- create or replace table tal_scratch.player_daily_incremental as
 
@@ -65,7 +65,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-08-07' -- Last Full Update
+                when date(current_date()) <= '2023-08-14' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -85,7 +85,7 @@ view: player_daily_incremental {
         ------------------------------------------------------------------------
 
         -- and rdg_id = '3989ffa2-2b93-4f33-a940-86c4746036ba'
-        -- and date(timestamp) = '2023-05-19'
+        -- and date(timestamp) = '2023-08-14'
 
       )
 
@@ -672,6 +672,15 @@ view: player_daily_incremental {
               else 0
               end as int64) as feature_participation_hot_dog_contest
 
+          , safe_cast(case
+              when
+                event_name = 'reward'
+                and safe_cast(json_extract_scalar(extra_json, "$.reward_event") as string) like '%battle_pass%'
+              then 1
+              else 0
+              end as int64) as feature_participation_battle_pass
+
+
         -------------------------------------------------
         -- Errors
         -------------------------------------------------
@@ -889,6 +898,7 @@ view: player_daily_incremental {
         , max( feature_participation_flour_frenzy ) as feature_participation_flour_frenzy
         , max( feature_participation_lucky_dice ) as feature_participation_lucky_dice
         , max( feature_participation_treasure_trove ) as feature_participation_treasure_trove
+        , max( feature_participation_battle_pass ) as feature_participation_battle_pass
         , max( feature_participation_ask_for_help_request ) as feature_participation_ask_for_help_request
         , max( feature_participation_ask_for_help_completed ) as feature_participation_ask_for_help_completed
         , max( feature_participation_ask_for_help_high_five ) as feature_participation_ask_for_help_high_five

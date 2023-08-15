@@ -5,7 +5,7 @@ view: player_mtx_purchase_incremental {
 
 
       -- ccb_aggregate_update_tag
-      -- update '2023-08-11'
+      -- update '2023-08-15'
 
 
 -- create or replace table tal_scratch.player_mtx_purchase_incremental as
@@ -50,7 +50,7 @@ base_data_full as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-08-11' -- Last Full Update
+                when date(current_date()) <= '2023-08-15' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -100,6 +100,8 @@ base_data_full as (
         , round_count
         , max(timestamp_utc) as round_end_timestamp_utc
         , max(safe_cast(json_extract_scalar( extra_json , "$.game_mode") as string)) as game_mode
+        , max(safe_cast(json_extract_scalar( extra_json , "$.level_serial") as numeric)) as level_serial
+        , max(safe_cast(json_extract_scalar( extra_json , "$.level_id") as string)) as level_id
     from
         base_data_full
     where
@@ -171,6 +173,8 @@ base_data_full as (
         , b.round_start_timestamp_utc
         , c.round_end_timestamp_utc
         , c.game_mode
+        , c.level_id
+        , c.level_serial
 
     from
         base_data a
@@ -225,11 +229,14 @@ select
         else 'out_of_round'
         end
         ) as round_purchase_type
+    , max(level_serial) as level_serial
+    , max(level_id) as level_id
 
 from
     get_data_from_extra_json
 group by
     1,2,3,4
+
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

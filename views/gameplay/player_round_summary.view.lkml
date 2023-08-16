@@ -774,6 +774,7 @@ from
   dimension: level_difficulty {
     group_label: "Level Fields"
     type:string
+    sql: ${TABLE}.level_difficuly ;;
   }
   dimension: round_count {type:number}
 

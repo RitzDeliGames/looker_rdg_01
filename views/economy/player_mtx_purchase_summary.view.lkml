@@ -36,8 +36,8 @@ view: player_mtx_purchase_summary {
             ) cumulative_count_mtx_purchases
 
       from
-        -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_incremental`
-         ${player_mtx_purchase_incremental.SQL_TABLE_NAME}
+        `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_incremental`
+        -- ${player_mtx_purchase_incremental.SQL_TABLE_NAME}
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;

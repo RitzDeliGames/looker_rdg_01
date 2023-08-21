@@ -121,10 +121,10 @@ singular_creative_data as (
 
 , my_metadata_by_asset_name as (
 
-  select distinct
+  select
     asset_name
-    , full_ad_name
-    , image_video_slideshow as full_name_with_id
+    , max(full_ad_name) as full_ad_name
+    , max(image_video_slideshow) as full_name_with_id
     , '' as simple_ad_name
   from
     my_singular_meta_data
@@ -133,6 +133,8 @@ singular_creative_data as (
     and image_video_slideshow is not null
     and full_ad_name is not null
     -- and simple_ad_name is not null
+  group by
+    1
 )
 
 ----------------------------------------------------------------------
@@ -141,9 +143,9 @@ singular_creative_data as (
 
 , my_metadata_by_asset_name_actual_asset_name as (
 
-  select distinct
+  select
     full_ad_name
-    , image_video_slideshow as full_name_with_id
+    , max(image_video_slideshow) as full_name_with_id
     , '' as simple_ad_name
   from
     my_singular_meta_data
@@ -152,6 +154,8 @@ singular_creative_data as (
     and image_video_slideshow is not null
     and full_ad_name is not null
     -- and simple_ad_name is not null
+  group by
+    1
 )
 
 ----------------------------------------------------------------------
@@ -185,17 +189,15 @@ singular_creative_data as (
 
 )
 
-
-
 ----------------------------------------------------------------------
 -- meta data by creative id (ad id)
 ----------------------------------------------------------------------
 
 , my_metadata_by_creative_id as (
 
-  select distinct
+  select
     ad_id as adn_creative_id
-    , full_ad_name
+    , max(full_ad_name) as full_ad_name
     , '' as simple_ad_name
   from
     my_singular_meta_data
@@ -203,6 +205,8 @@ singular_creative_data as (
     ad_id is not null
     and full_ad_name is not null
     -- and simple_ad_name is not null
+  group by
+    1
 )
 
 ----------------------------------------------------------------------
@@ -247,13 +251,11 @@ singular_creative_data as (
 
 )
 
-
 ----------------------------------------------------------------------
 -- select data
 ----------------------------------------------------------------------
 
 select * from join_metadata_by_creative_id
-
 
       ;;
     ## the hardcoded meta data table is scheduled for 1AM UTC

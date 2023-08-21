@@ -327,7 +327,10 @@ select * from join_metadata_by_creative_id
   dimension: singular_total_clicks {type:number}
   dimension: singular_total_installs {type:number}
   dimension: full_ad_name {type:string}
-  dimension: simple_ad_name {type:string}
+  dimension: simple_ad_name {
+    type:string
+    sql: @{singular_creative_simplified_ad_name} ;;
+    }
   dimension: singular_install_date {type: date}
   dimension: adn_creative_id {type: string}
 

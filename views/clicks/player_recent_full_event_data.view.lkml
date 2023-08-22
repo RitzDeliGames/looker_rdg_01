@@ -148,6 +148,14 @@ view: player_recent_full_event_data {
       ]
     }
 
+  parameter: selected_extra_json_field_input_2 {
+    type: string
+    suggestions: [
+      "$.button_tag"
+      , "$.game_mode"
+    ]
+  }
+
   dimension: selected_extra_json_field {
     type: string
     sql:

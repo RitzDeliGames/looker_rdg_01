@@ -8,11 +8,7 @@ view: player_summary_new {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-07-12'
-
-
-
-
+      -- last update: '2023-08-22'
 
 -- create or replace table `tal_scratch.player_summary_new` AS
 
@@ -341,6 +337,13 @@ FROM
           else null
           end
         ) as date_of_first_end_of_content_levels
+    , min(
+        case
+          when end_of_content_levels = true
+          then day_number
+          else null
+          end
+        ) as day_number_of_first_end_of_content_levels
 
     -- days played in first x days
     , count( distinct case when day_number <= 7 then rdg_date else null end ) as days_played_in_first_7_days
@@ -517,6 +520,10 @@ from
 
 
 
+
+
+
+
             ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;
     publish_as_db_view: yes
@@ -672,7 +679,22 @@ dimension: primary_key {
   dimension: cumulative_ad_views_d90 {group_label:"Cumulative Ad Views" type: number}
   dimension: cumulative_ad_views_current {group_label:"Cumulative Ad Views" type: number}
 
+ ## end of content
+  dimension: day_number_of_first_end_of_content_levels {type:number}
+  dimension: day_group_for_end_of_content_levels {
+    type: string
+    sql:
+      case
+        when ${TABLE}.day_number_of_first_end_of_content_levels is null then 'Never Reached End of Content'
+        when ${TABLE}.day_number_of_first_end_of_content_levels <= 7 then 'End of Content By D7'
+        when ${TABLE}.day_number_of_first_end_of_content_levels <= 30 then 'End of Content By D30'
+        when ${TABLE}.day_number_of_first_end_of_content_levels <= 60 then 'End of Content By D60'
+        when ${TABLE}.day_number_of_first_end_of_content_levels > 60 then 'End of Content After D60'
+        else 'Other'
+        end
+    ;;
 
+  }
 
   ## system_info
   dimension: hardware {

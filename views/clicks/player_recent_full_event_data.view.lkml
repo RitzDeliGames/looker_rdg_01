@@ -145,6 +145,7 @@ view: player_recent_full_event_data {
     suggestions: [
       "$.button_tag"
       , "$.game_mode"
+      , "$.logs","$.error", "$.stack","$.config_timestamp","$.frame_count", "$.round_count"
       ]
     }
 
@@ -162,6 +163,7 @@ view: player_recent_full_event_data {
     suggestions: [
       "$.button_tag"
       , "$.game_mode"
+      , "$.logs","$.error", "$.stack","$.config_timestamp","$.frame_count", "$.round_count"
     ]
   }
 

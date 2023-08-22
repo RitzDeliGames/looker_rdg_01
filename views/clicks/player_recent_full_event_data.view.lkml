@@ -148,14 +148,6 @@ view: player_recent_full_event_data {
       ]
     }
 
-  parameter: selected_extra_json_field_input_2 {
-    type: string
-    suggestions: [
-      "$.button_tag"
-      , "$.game_mode"
-    ]
-  }
-
   dimension: selected_extra_json_field {
     type: string
     sql:
@@ -164,6 +156,25 @@ view: player_recent_full_event_data {
         as string)
     ;;
   }
+
+  parameter: selected_extra_json_field_input_2 {
+    type: string
+    suggestions: [
+      "$.button_tag"
+      , "$.game_mode"
+    ]
+  }
+
+  dimension: selected_extra_json_field_2 {
+    type: string
+    sql:
+    safe_cast(
+        json_extract_scalar(${TABLE}.extra_json,{% parameter selected_extra_json_field_input_2 %})
+        as string)
+    ;;
+  }
+
+
 
 ####################################################################
 ## measures

@@ -850,6 +850,7 @@ dimension: primary_key {
       ,"$.minigameGo_20230814"
       ,"$.puzzleLives_20230814"
       ,"$.propBehavior_20230814"
+      ,"$.flourFrenzyRepeat_20230807"
 
       ,"$.dynamicDropBiasv4_20230802"
       ,"$.zonePayout_20230728"

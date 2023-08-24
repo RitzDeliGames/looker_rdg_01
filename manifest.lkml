@@ -714,6 +714,39 @@ constant: singular_campaign_id_override {
   "
 }
 
+constant: singular_campaign_blended_window_override {
+  value: "
+  case
+  when
+    ${TABLE}.country = 'US'
+    and date(${TABLE}.created_date) between '2023-01-30' and '2023-02-14'
+  then '20230131 - AAA - USA - Purchase'
+
+  when
+    ${TABLE}.country in ('US','CA')
+    and date(${TABLE}.created_date) between '2023-05-24' and '2023-06-05'
+  then '20230523 - AAA - USA - Purchase'
+
+  when
+    ${TABLE}.country in ('US','CA')
+    and date(${TABLE}.created_date) between '2023-07-10' and '2023-07-15'
+  then '20230710 - AAA - USA - 30 Min'
+
+  when
+    ${TABLE}.country in ('US','CA')
+    and date(${TABLE}.created_date) between '2023-07-21' and '2023-07-28'
+  then '20230721 - AAA+ - USA - 30 Min'
+
+  when
+    ${TABLE}.country in ('US','CA')
+    and date(${TABLE}.created_date) between '2023-08-09' and '2023-08-21'
+  then '20230808 - AAA+ - USA - Purchase'
+
+  else 'Unmapped'
+  end
+  "
+}
+
 constant: singular_created_date_override {
   value: "
   case

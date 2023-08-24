@@ -718,8 +718,8 @@ constant: singular_campaign_blended_window_override {
   value: "
   case
   when
-    ${TABLE}.country = 'US'
-    and date(${TABLE}.created_date) between '2023-01-30' and '2023-02-14'
+    ${TABLE}.country in ('US','CA')
+    and date(${TABLE}.created_date) between '2023-01-30' and '2023-02-18'
   then '20230131 - AAA - USA - Purchase'
 
   when

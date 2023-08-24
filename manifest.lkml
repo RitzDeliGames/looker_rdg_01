@@ -734,7 +734,7 @@ constant: singular_campaign_blended_window_override {
 
   when
     ${TABLE}.country in ('US','CA')
-    and date(${TABLE}.created_date) between '2023-07-21' and '2023-07-28'
+    and date(${TABLE}.created_date) between '2023-07-20' and '2023-08-02'
   then '20230721 - AAA+ - USA - 30 Min'
 
   when

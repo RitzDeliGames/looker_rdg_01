@@ -836,6 +836,12 @@ dimension: primary_key {
     sql: @{singular_created_date_override};;
   }
 
+  dimension: singular_campaign_blended_window_override {
+    group_label: "Singular Campaign Mapping"
+    type: string
+    sql: @{singular_campaign_blended_window_override} ;;
+  }
+
 ######################################################################
 ## Expirements
 ######################################################################

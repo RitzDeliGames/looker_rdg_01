@@ -86,10 +86,10 @@ view: player_recent_full_event_data {
 
 
       ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
-    publish_as_db_view: yes
-    partition_keys: ["timestamp_utc"]
-    cluster_keys: ["rdg_id"]
+    # sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
+    publish_as_db_view: no
+    # partition_keys: ["timestamp_utc"]
+    # cluster_keys: ["rdg_id"]
 
   }
 

@@ -179,6 +179,9 @@ ads_by_date as (
         , max( a.percent_frames_between_23_and_40 ) as percent_frames_between_23_and_40
         , max( a.percent_frames_above_40 ) as percent_frames_above_40
 
+        -- possible crashes
+        , max( a.count_possible_crashes_from_fast_title_screen_awake ) as count_possible_crashes_from_fast_title_screen_awake
+
     from
         player_daily_incremental_w_prior_date a
         left join ads_by_date b
@@ -296,6 +299,9 @@ ads_by_date as (
         , max( a.percent_frames_below_22 ) as percent_frames_below_22
         , max( a.percent_frames_between_23_and_40 ) as percent_frames_between_23_and_40
         , max( a.percent_frames_above_40 ) as percent_frames_above_40
+
+        -- possible crashes
+        , max( a.count_possible_crashes_from_fast_title_screen_awake ) as count_possible_crashes_from_fast_title_screen_awake
 
     from
         join_on_ads_data a
@@ -480,6 +486,9 @@ ads_by_date as (
         , a.percent_frames_below_22
         , a.percent_frames_between_23_and_40
         , a.percent_frames_above_40
+
+        -- possible crashes
+        , a.count_possible_crashes_from_fast_title_screen_awake
 
     from
         join_on_mtx_data a
@@ -827,6 +836,7 @@ FROM
 where
     -- select date_add( current_date(), interval -1 day )
     rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
+
 
 
 
@@ -1606,6 +1616,46 @@ dimension: primary_key {
           + sum( ${TABLE}.percent_frames_above_40 )
           )
       );;
+  }
+
+
+################################################################
+## Possible Crashes
+################################################################
+
+dimension: count_possible_crashes_from_fast_title_screen_awake {
+  group_label: "Possible Crashes"
+  type: number}
+
+dimension: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
+  group_label: "Possible Crashes"
+  type: number
+  sql:
+    safe_divide(
+      count(distinct
+        case
+          when ${TABLE}.count_possible_crashes_from_fast_title_screen_awake > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count(distinct ${TABLE}.rdg_id )
+      )
+  ;;
+  value_format_name: percent_1
+}
+
+  dimension: average_possible_crashes_from_fast_title_screen_awake_per_player {
+    group_label: "Possible Crashes"
+    type: number
+    sql:
+    safe_divide(
+      sum( ${TABLE}.count_possible_crashes_from_fast_title_screen_awake )
+      ,
+      sum( count_${TABLE}.days_played )
+      )
+  ;;
+    value_format_name: decimal_1
   }
 
 ################################################################

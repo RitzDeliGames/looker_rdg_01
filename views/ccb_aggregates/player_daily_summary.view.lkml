@@ -1652,7 +1652,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     safe_divide(
       sum( ${TABLE}.count_possible_crashes_from_fast_title_screen_awake )
       ,
-      sum( count_${TABLE}.days_played )
+      sum( ${TABLE}.count_days_played )
       )
   ;;
     value_format_name: decimal_1

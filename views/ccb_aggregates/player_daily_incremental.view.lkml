@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-08-14'
+      -- update '2023-08-28'
 
 -- create or replace table tal_scratch.player_daily_incremental as
 
@@ -52,6 +52,19 @@ view: player_daily_incremental {
           , end_of_content_zones
           , current_zone
           , current_zone_progress
+
+          --------------------------------------------------------------
+          -- fields for possible crash tracking
+          --------------------------------------------------------------
+
+          , lag(session_id,1) over (partition by rdg_id order by timestamp) as last_sesison_id_1
+          , lag(session_id,2) over (partition by rdg_id order by timestamp) as last_sesison_id_2
+          , lag(session_id,3) over (partition by rdg_id order by timestamp) as last_sesison_id_3
+          , lag(timestamp,1) over (partition by rdg_id order by timestamp) as last_timestamp_1
+          , lag(timestamp,2) over (partition by rdg_id order by timestamp) as last_timestamp_2
+          , lag(timestamp,3) over (partition by rdg_id order by timestamp) as last_timestamp_3
+
+
         from
           `eraser-blast.game_data.events` a
         where
@@ -65,7 +78,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-08-14' -- Last Full Update
+                when date(current_date()) <= '2023-08-28' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -817,7 +830,19 @@ view: player_daily_incremental {
               else 0
               end as int64) as feature_participation_ask_for_help_high_five_return
 
+        --------------------------------------------------------------
+        -- check for possible crashes from screen title awake
+        --------------------------------------------------------------
 
+        , case
+            when event_name = 'TitleScreenAwake'
+            and ( session_id <> last_sesison_id_1 and timestamp_diff(timestamp_utc, last_timestamp_1, minute) <= 1
+                  or session_id <> last_sesison_id_2 and timestamp_diff(timestamp_utc, last_timestamp_2, minute) <= 1
+                  or session_id <> last_sesison_id_3 and timestamp_diff(timestamp_utc, last_timestamp_3, minute) <= 1
+              )
+            then 1
+            else 0
+            end as count_possible_crashes_from_fast_title_screen_awake
 
         from
             base_data
@@ -920,6 +945,9 @@ view: player_daily_incremental {
         , safe_cast( round( safe_divide( sum( load_time_from_title_scene ) , sum( load_time_count_from_title_scene ) ) , 0 ) as int64 )  as average_load_time_from_title_scene
         , safe_cast( round( safe_divide( sum( load_time_from_meta_scene ) , sum( load_time_count_from_meta_scene ) ) , 0 ) as int64 )  as average_load_time_from_meta_scene
         , safe_cast( round( safe_divide( sum( load_time_from_game_scene ) , sum( load_time_count_from_game_scene ) ) , 0 ) as int64 )  as average_load_time_from_game_scene
+
+        -- possible crashes from fast screen title awakes
+        , sum( count_possible_crashes_from_fast_title_screen_awake ) as count_possible_crashes_from_fast_title_screen_awake
 
       from
         pre_aggregate_calculations_from_base_data

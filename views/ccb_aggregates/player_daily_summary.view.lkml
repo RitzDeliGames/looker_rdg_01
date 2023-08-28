@@ -1627,7 +1627,7 @@ dimension: count_possible_crashes_from_fast_title_screen_awake {
   group_label: "Possible Crashes"
   type: number}
 
-dimension: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
+measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
   group_label: "Possible Crashes"
   type: number
   sql:
@@ -1645,7 +1645,7 @@ dimension: percent_of_players_with_possible_crashes_from_fast_title_screen_awake
   value_format_name: percent_1
 }
 
-  dimension: average_possible_crashes_from_fast_title_screen_awake_per_player {
+  measure: average_possible_crashes_from_fast_title_screen_awake_per_player {
     group_label: "Possible Crashes"
     type: number
     sql:

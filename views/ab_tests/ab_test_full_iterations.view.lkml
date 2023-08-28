@@ -635,7 +635,20 @@ select * from output_with_rounding
     type: string
     default_value: "$.dynamicDropBiasv3_20230627"
     suggestions:  [
-      "$.propBehavior_20230717"
+
+      ,"$.colorballBehavior_20230817"
+      ,"$.askForHelp_20230816"
+      ,"$.minigameGo_20230814"
+      ,"$.puzzleLives_20230814"
+      ,"$.propBehavior_20230814"
+      ,"$.flourFrenzyRepeat_20230807"
+
+      ,"$.dynamicDropBiasv4_20230802"
+      ,"$.zonePayout_20230728"
+      ,"$.propBehavior_20230726"
+
+      ,"$.propBehavior_20230717"
+
       ,"$.zoneDrops_20230718"
       ,"$.zoneDrops_20230712"
       ,"$.hotdogContest_20230713"

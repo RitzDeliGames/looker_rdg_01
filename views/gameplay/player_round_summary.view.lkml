@@ -987,10 +987,70 @@ from
     value_format_name: percent_1
   }
 
+
+
+
+
+  measure: moves_remaing_on_win_10 {
+    group_label: "Moves Remaining On Win"
+    type: percentile
+    percentile: 10
+    sql:
+      case
+          when ${TABLE}.count_wins = 1
+          then ${TABLE}.moves_remaining
+          else null
+        end
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: moves_remaing_on_win_25 {
+    group_label: "Moves Remaining On Win"
+    type: percentile
+    percentile: 25
+    sql:
+      case
+          when ${TABLE}.count_wins = 1
+          then ${TABLE}.moves_remaining
+          else null
+        end
+    ;;
+    value_format_name: decimal_0
+  }
+
   measure: median_moves_remaing_on_win {
-    group_label: "Calculated Fields"
+    group_label: "Moves Remaining On Win"
     type: percentile
     percentile: 50
+    sql:
+      case
+          when ${TABLE}.count_wins = 1
+          then ${TABLE}.moves_remaining
+          else null
+        end
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: moves_remaing_on_win_75 {
+    group_label: "Moves Remaining On Win"
+    type: percentile
+    percentile: 75
+    sql:
+      case
+          when ${TABLE}.count_wins = 1
+          then ${TABLE}.moves_remaining
+          else null
+        end
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: moves_remaing_on_win_95 {
+    group_label: "Moves Remaining On Win"
+    type: percentile
+    percentile: 95
     sql:
       case
           when ${TABLE}.count_wins = 1

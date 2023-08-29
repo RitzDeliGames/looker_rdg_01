@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-08-28'
+      -- update '2023-08-29'
 
 -- create or replace table tal_scratch.player_daily_incremental as
 
@@ -52,6 +52,7 @@ view: player_daily_incremental {
           , end_of_content_zones
           , current_zone
           , current_zone_progress
+          , tickets
 
           --------------------------------------------------------------
           -- fields for possible crash tracking
@@ -78,7 +79,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-08-28' -- Last Full Update
+                when date(current_date()) <= '2023-08-29' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -844,6 +845,64 @@ view: player_daily_incremental {
             else 0
             end as count_possible_crashes_from_fast_title_screen_awake
 
+        -------------------------------------------------
+        -- ending boost balances
+        -------------------------------------------------
+
+        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.ROCKET") as numeric),0)) over (
+        partition by rdg_id, date(timestamp_utc)
+        order by timestamp_utc asc
+        rows between unbounded preceding and unbounded following
+        ) as ending_balance_rocket
+
+        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.BOMB") as numeric),0)) over (
+        partition by rdg_id, date(timestamp_utc)
+        order by timestamp_utc asc
+        rows between unbounded preceding and unbounded following
+        ) as ending_balance_bomb
+
+        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.COLOR_BALL") as numeric),0)) over (
+        partition by rdg_id, date(timestamp_utc)
+        order by timestamp_utc asc
+        rows between unbounded preceding and unbounded following
+        ) as ending_balance_color_ball
+
+        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.clear_cell") as numeric),0)) over (
+        partition by rdg_id, date(timestamp_utc)
+        order by timestamp_utc asc
+        rows between unbounded preceding and unbounded following
+        ) as ending_balance_clear_cell
+
+        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.clear_horizontal") as numeric),0)) over (
+        partition by rdg_id, date(timestamp_utc)
+        order by timestamp_utc asc
+        rows between unbounded preceding and unbounded following
+        ) as ending_balance_clear_horizontal
+
+        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.clear_vertical") as numeric),0)) over (
+        partition by rdg_id, date(timestamp_utc)
+        order by timestamp_utc asc
+        rows between unbounded preceding and unbounded following
+        ) as ending_balance_clear_vertical
+
+        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.shuffle") as numeric),0)) over (
+        partition by rdg_id, date(timestamp_utc)
+        order by timestamp_utc asc
+        rows between unbounded preceding and unbounded following
+        ) as ending_balance_shuffle
+
+        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.chopsticks") as numeric),0)) over (
+        partition by rdg_id, date(timestamp_utc)
+        order by timestamp_utc asc
+        rows between unbounded preceding and unbounded following
+        ) as ending_balance_chopsticks
+
+        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.skillet") as numeric),0)) over (
+        partition by rdg_id, date(timestamp_utc)
+        order by timestamp_utc asc
+        rows between unbounded preceding and unbounded following
+        ) as ending_balance_skillet
+
         from
             base_data
     )
@@ -949,6 +1008,17 @@ view: player_daily_incremental {
         -- possible crashes from fast screen title awakes
         , sum( count_possible_crashes_from_fast_title_screen_awake ) as count_possible_crashes_from_fast_title_screen_awake
 
+        -- ending boost balances
+        , max( ending_balance_rocket ) as ending_balance_rocket
+        , max( ending_balance_bomb ) as ending_balance_bomb
+        , max( ending_balance_color_ball ) as ending_balance_color_ball
+        , max( ending_balance_clear_cell ) as ending_balance_clear_cell
+        , max( ending_balance_clear_horizontal ) as ending_balance_clear_horizontal
+        , max( ending_balance_clear_vertical ) as ending_balance_clear_vertical
+        , max( ending_balance_shuffle ) as ending_balance_shuffle
+        , max( ending_balance_chopsticks ) as ending_balance_chopsticks
+        , max( ending_balance_skillet ) as ending_balance_skillet
+
       from
         pre_aggregate_calculations_from_base_data
       group by
@@ -974,8 +1044,6 @@ view: player_daily_incremental {
         left join average_asset_load_times c
             on a.rdg_id = c.rdg_id
             and a.rdg_date = c.rdg_date
-
-
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

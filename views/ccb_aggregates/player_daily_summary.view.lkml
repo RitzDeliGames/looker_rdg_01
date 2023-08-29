@@ -182,6 +182,18 @@ ads_by_date as (
         -- possible crashes
         , max( a.count_possible_crashes_from_fast_title_screen_awake ) as count_possible_crashes_from_fast_title_screen_awake
 
+        -- ending boost balances
+        , max( a.ending_balance_rocket ) as ending_balance_rocket
+        , max( a.ending_balance_bomb ) as ending_balance_bomb
+        , max( a.ending_balance_color_ball ) as ending_balance_color_ball
+        , max( a.ending_balance_clear_cell ) as ending_balance_clear_cell
+        , max( a.ending_balance_clear_horizontal ) as ending_balance_clear_horizontal
+        , max( a.ending_balance_clear_vertical ) as ending_balance_clear_vertical
+        , max( a.ending_balance_shuffle ) as ending_balance_shuffle
+        , max( a.ending_balance_chopsticks ) as ending_balance_chopsticks
+        , max( a.ending_balance_skillet ) as ending_balance_skillet
+
+
     from
         player_daily_incremental_w_prior_date a
         left join ads_by_date b
@@ -302,6 +314,17 @@ ads_by_date as (
 
         -- possible crashes
         , max( a.count_possible_crashes_from_fast_title_screen_awake ) as count_possible_crashes_from_fast_title_screen_awake
+
+        -- ending boost balances
+        , max( a.ending_balance_rocket ) as ending_balance_rocket
+        , max( a.ending_balance_bomb ) as ending_balance_bomb
+        , max( a.ending_balance_color_ball ) as ending_balance_color_ball
+        , max( a.ending_balance_clear_cell ) as ending_balance_clear_cell
+        , max( a.ending_balance_clear_horizontal ) as ending_balance_clear_horizontal
+        , max( a.ending_balance_clear_vertical ) as ending_balance_clear_vertical
+        , max( a.ending_balance_shuffle ) as ending_balance_shuffle
+        , max( a.ending_balance_chopsticks ) as ending_balance_chopsticks
+        , max( a.ending_balance_skillet ) as ending_balance_skillet
 
     from
         join_on_ads_data a
@@ -489,6 +512,17 @@ ads_by_date as (
 
         -- possible crashes
         , a.count_possible_crashes_from_fast_title_screen_awake
+
+        -- ending boost balances
+        , a.ending_balance_rocket
+        , a.ending_balance_bomb
+        , a.ending_balance_color_ball
+        , a.ending_balance_clear_cell
+        , a.ending_balance_clear_horizontal
+        , a.ending_balance_clear_vertical
+        , a.ending_balance_shuffle
+        , a.ending_balance_chopsticks
+        , a.ending_balance_skillet
 
     from
         join_on_mtx_data a

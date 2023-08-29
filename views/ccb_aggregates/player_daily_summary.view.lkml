@@ -4029,6 +4029,321 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     sql: safe_divide( ${TABLE}.coins_sourced_from_rewards , ${TABLE}.round_end_events )  ;;
   }
 
+  measure: sum_ending_balance_rocket {
+    group_label: "Ending Balance Rocket"
+    type:sum
+    sql: ${TABLE}.ending_balance_rocket ;;
+  }
+  measure: ending_balance_rocket_10 {
+    group_label: "Ending Balance Rocket"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.ending_balance_rocket ;;
+  }
+  measure: ending_balance_rocket_25 {
+    group_label: "Ending Balance Rocket"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.ending_balance_rocket ;;
+  }
+  measure: ending_balance_rocket_50 {
+    group_label: "Ending Balance Rocket"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.ending_balance_rocket ;;
+  }
+  measure: ending_balance_rocket_75 {
+    group_label: "Ending Balance Rocket"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.ending_balance_rocket ;;
+  }
+  measure: ending_balance_rocket_95 {
+    group_label: "Ending Balance Rocket"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.ending_balance_rocket ;;
+  }
+  measure: sum_ending_balance_bomb {
+    group_label: "Ending Balance Bomb"
+    type:sum
+    sql: ${TABLE}.ending_balance_bomb ;;
+  }
+  measure: ending_balance_bomb_10 {
+    group_label: "Ending Balance Bomb"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.ending_balance_bomb ;;
+  }
+  measure: ending_balance_bomb_25 {
+    group_label: "Ending Balance Bomb"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.ending_balance_bomb ;;
+  }
+  measure: ending_balance_bomb_50 {
+    group_label: "Ending Balance Bomb"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.ending_balance_bomb ;;
+  }
+  measure: ending_balance_bomb_75 {
+    group_label: "Ending Balance Bomb"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.ending_balance_bomb ;;
+  }
+  measure: ending_balance_bomb_95 {
+    group_label: "Ending Balance Bomb"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.ending_balance_bomb ;;
+  }
+  measure: sum_ending_balance_color_ball {
+    group_label: "Ending Balance Color Ball"
+    type:sum
+    sql: ${TABLE}.ending_balance_color_ball ;;
+  }
+  measure: ending_balance_color_ball_10 {
+    group_label: "Ending Balance Color Ball"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.ending_balance_color_ball ;;
+  }
+  measure: ending_balance_color_ball_25 {
+    group_label: "Ending Balance Color Ball"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.ending_balance_color_ball ;;
+  }
+  measure: ending_balance_color_ball_50 {
+    group_label: "Ending Balance Color Ball"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.ending_balance_color_ball ;;
+  }
+  measure: ending_balance_color_ball_75 {
+    group_label: "Ending Balance Color Ball"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.ending_balance_color_ball ;;
+  }
+  measure: ending_balance_color_ball_95 {
+    group_label: "Ending Balance Color Ball"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.ending_balance_color_ball ;;
+  }
+  measure: sum_ending_balance_clear_cell {
+    group_label: "Ending Balance Clear Cell"
+    type:sum
+    sql: ${TABLE}.ending_balance_clear_cell ;;
+  }
+  measure: ending_balance_clear_cell_10 {
+    group_label: "Ending Balance Clear Cell"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.ending_balance_clear_cell ;;
+  }
+  measure: ending_balance_clear_cell_25 {
+    group_label: "Ending Balance Clear Cell"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.ending_balance_clear_cell ;;
+  }
+  measure: ending_balance_clear_cell_50 {
+    group_label: "Ending Balance Clear Cell"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.ending_balance_clear_cell ;;
+  }
+  measure: ending_balance_clear_cell_75 {
+    group_label: "Ending Balance Clear Cell"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.ending_balance_clear_cell ;;
+  }
+  measure: ending_balance_clear_cell_95 {
+    group_label: "Ending Balance Clear Cell"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.ending_balance_clear_cell ;;
+  }
+  measure: sum_ending_balance_clear_horizontal {
+    group_label: "Ending Balance Clear Horizontal"
+    type:sum
+    sql: ${TABLE}.ending_balance_clear_horizontal ;;
+  }
+  measure: ending_balance_clear_horizontal_10 {
+    group_label: "Ending Balance Clear Horizontal"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.ending_balance_clear_horizontal ;;
+  }
+  measure: ending_balance_clear_horizontal_25 {
+    group_label: "Ending Balance Clear Horizontal"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.ending_balance_clear_horizontal ;;
+  }
+  measure: ending_balance_clear_horizontal_50 {
+    group_label: "Ending Balance Clear Horizontal"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.ending_balance_clear_horizontal ;;
+  }
+  measure: ending_balance_clear_horizontal_75 {
+    group_label: "Ending Balance Clear Horizontal"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.ending_balance_clear_horizontal ;;
+  }
+  measure: ending_balance_clear_horizontal_95 {
+    group_label: "Ending Balance Clear Horizontal"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.ending_balance_clear_horizontal ;;
+  }
+  measure: sum_ending_balance_clear_vertical {
+    group_label: "Ending Balance Clear Vertical"
+    type:sum
+    sql: ${TABLE}.ending_balance_clear_vertical ;;
+  }
+  measure: ending_balance_clear_vertical_10 {
+    group_label: "Ending Balance Clear Vertical"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.ending_balance_clear_vertical ;;
+  }
+  measure: ending_balance_clear_vertical_25 {
+    group_label: "Ending Balance Clear Vertical"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.ending_balance_clear_vertical ;;
+  }
+  measure: ending_balance_clear_vertical_50 {
+    group_label: "Ending Balance Clear Vertical"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.ending_balance_clear_vertical ;;
+  }
+  measure: ending_balance_clear_vertical_75 {
+    group_label: "Ending Balance Clear Vertical"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.ending_balance_clear_vertical ;;
+  }
+  measure: ending_balance_clear_vertical_95 {
+    group_label: "Ending Balance Clear Vertical"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.ending_balance_clear_vertical ;;
+  }
+  measure: sum_ending_balance_shuffle {
+    group_label: "Ending Balance Shuffle"
+    type:sum
+    sql: ${TABLE}.ending_balance_shuffle ;;
+  }
+  measure: ending_balance_shuffle_10 {
+    group_label: "Ending Balance Shuffle"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.ending_balance_shuffle ;;
+  }
+  measure: ending_balance_shuffle_25 {
+    group_label: "Ending Balance Shuffle"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.ending_balance_shuffle ;;
+  }
+  measure: ending_balance_shuffle_50 {
+    group_label: "Ending Balance Shuffle"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.ending_balance_shuffle ;;
+  }
+  measure: ending_balance_shuffle_75 {
+    group_label: "Ending Balance Shuffle"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.ending_balance_shuffle ;;
+  }
+  measure: ending_balance_shuffle_95 {
+    group_label: "Ending Balance Shuffle"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.ending_balance_shuffle ;;
+  }
+  measure: sum_ending_balance_chopsticks {
+    group_label: "Ending Balance Chopsticks"
+    type:sum
+    sql: ${TABLE}.ending_balance_chopsticks ;;
+  }
+  measure: ending_balance_chopsticks_10 {
+    group_label: "Ending Balance Chopsticks"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.ending_balance_chopsticks ;;
+  }
+  measure: ending_balance_chopsticks_25 {
+    group_label: "Ending Balance Chopsticks"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.ending_balance_chopsticks ;;
+  }
+  measure: ending_balance_chopsticks_50 {
+    group_label: "Ending Balance Chopsticks"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.ending_balance_chopsticks ;;
+  }
+  measure: ending_balance_chopsticks_75 {
+    group_label: "Ending Balance Chopsticks"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.ending_balance_chopsticks ;;
+  }
+  measure: ending_balance_chopsticks_95 {
+    group_label: "Ending Balance Chopsticks"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.ending_balance_chopsticks ;;
+  }
+  measure: sum_ending_balance_skillet {
+    group_label: "Ending Balance Skillet"
+    type:sum
+    sql: ${TABLE}.ending_balance_skillet ;;
+  }
+  measure: ending_balance_skillet_10 {
+    group_label: "Ending Balance Skillet"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.ending_balance_skillet ;;
+  }
+  measure: ending_balance_skillet_25 {
+    group_label: "Ending Balance Skillet"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.ending_balance_skillet ;;
+  }
+  measure: ending_balance_skillet_50 {
+    group_label: "Ending Balance Skillet"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.ending_balance_skillet ;;
+  }
+  measure: ending_balance_skillet_75 {
+    group_label: "Ending Balance Skillet"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.ending_balance_skillet ;;
+  }
+  measure: ending_balance_skillet_95 {
+    group_label: "Ending Balance Skillet"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.ending_balance_skillet ;;
+  }
 
 
 }

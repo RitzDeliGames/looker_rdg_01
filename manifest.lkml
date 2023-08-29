@@ -732,6 +732,11 @@ constant: singular_campaign_blended_window_override {
 
   when
     ${TABLE}.country in ('US','CA')
+    and date(${TABLE}.created_date) between '2023-07-05' and '2023-07-07'
+  then '20230705 - AAA - USA - Install'
+
+  when
+    ${TABLE}.country in ('US','CA')
     and date(${TABLE}.created_date) between '2023-07-10' and '2023-07-15'
   then '20230710 - AAA - USA - 30 Min'
 
@@ -744,6 +749,11 @@ constant: singular_campaign_blended_window_override {
     ${TABLE}.country in ('US','CA')
     and date(${TABLE}.created_date) between '2023-08-09' and '2023-08-21'
   then '20230808 - AAA+ - USA - Purchase'
+
+  when
+    ${TABLE}.country in ('US','CA')
+    and date(${TABLE}.created_date) between '2023-08-25' and '2023-08-28'
+  then '20230825 - AAA+ - USA - 60 Min'
 
   else 'Unmapped'
   end

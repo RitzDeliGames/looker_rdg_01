@@ -4,7 +4,7 @@ view: player_coin_source_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-08-30'
+      -- update '2023-08-30' v2
 
 
 

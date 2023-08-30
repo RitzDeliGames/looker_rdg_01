@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-08-30'
+      -- update '2023-08-30' v2
 
 -- create or replace table tal_scratch.player_daily_incremental as
 

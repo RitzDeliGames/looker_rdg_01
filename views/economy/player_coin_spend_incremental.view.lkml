@@ -5,7 +5,7 @@ view: player_coin_spend_incremental {
 
 
       -- ccb_aggregate_update_tag
-      -- update '2023-08-30'
+      -- update '2023-08-30' v2
 
 
 -- create or replace table tal_scratch.player_coin_spend_incremental as

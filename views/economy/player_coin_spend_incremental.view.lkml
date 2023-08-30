@@ -5,7 +5,7 @@ view: player_coin_spend_incremental {
 
 
       -- ccb_aggregate_update_tag
-      -- update '2023-07-07'
+      -- update '2023-08-30'
 
 
 -- create or replace table tal_scratch.player_coin_spend_incremental as
@@ -45,7 +45,7 @@ base_data as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-07-07' -- Last Full Update
+                when date(current_date()) <= '2023-08-30' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end

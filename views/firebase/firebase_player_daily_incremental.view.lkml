@@ -4,7 +4,7 @@ view: firebase_player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update '2023-05-03'
+      -- last update '2023-08-30'
 
 
       -- create or replace table `tal_scratch.firebase_player_daily_incremental` as
@@ -55,7 +55,7 @@ view: firebase_player_daily_incremental {
           ) >=
           case
             -- select date(current_date())
-            when date(current_date()) <= '2023-05-03' -- Last Full Update
+            when date(current_date()) <= '2023-08-30' -- Last Full Update
             then '2022-06-01'
             else date_add(current_date(), interval -15 DAY)
             end

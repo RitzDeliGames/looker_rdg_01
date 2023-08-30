@@ -8,7 +8,7 @@ view: player_coin_spend_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-03'
+      -- last update: '2023-08-30'
 
       -- create or replace table tal_scratch.player_coin_spend_summary as
 

@@ -260,7 +260,8 @@ select * from join_metadata_by_creative_id
       ;;
     ## the hardcoded meta data table is scheduled for 1AM UTC
     ## So this will run at 2AM UTC
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
+    ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (2) + 2 )*( -10 ) minute)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
   }

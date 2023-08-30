@@ -26,7 +26,8 @@ from
   `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_coin_source_incremental`
 
       ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
+    ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (2) + 2 )*( -10 ) minute)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
 

@@ -180,7 +180,8 @@ view: firebase_player_summary {
         de_dupe_advertising_id_step_2 A
 
       ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
+    ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (2) + 2 )*( -10 ) minute)) ;;
     publish_as_db_view: yes
     partition_keys: ["firebase_created_date"]
 

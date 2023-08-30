@@ -156,7 +156,8 @@ select * from my_summarized_data
 
 
       ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -4 hour)) ;;
+    ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -4 hour)) ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (4) + 2 )*( -10 ) minute)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
 

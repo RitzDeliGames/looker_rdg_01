@@ -95,7 +95,8 @@ view: firebase_player_daily_incremental {
 
 
       ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
+    ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (1) + 2 )*( -10 ) minute)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
     increment_key: "rdg_date"

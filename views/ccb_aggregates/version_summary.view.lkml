@@ -16,7 +16,8 @@ view: version_summary {
         , max(cumulative_star_spend) as max_cumulative_star_spend
         , count(distinct rdg_id) as count_distinct_players
       from
-        `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
+        -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
+        ${player_daily_summary.SQL_TABLE_NAME}
       group by
         1
       ;;

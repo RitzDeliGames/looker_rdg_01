@@ -25,8 +25,8 @@ ads_by_date as (
         , sum( count_ad_views ) as ad_views
         , sum( ad_view_dollars ) as ad_view_dollars
     from
-        eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
-        -- ${player_ad_view_summary.SQL_TABLE_NAME}
+        -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
+        ${player_ad_view_summary.SQL_TABLE_NAME}
     group by
         1,2
 )
@@ -42,8 +42,8 @@ ads_by_date as (
         , sum( count_mtx_purchases ) as count_mtx_purchases
         , sum( mtx_purchase_dollars ) as mtx_purchase_dollars
     from
-        eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary
-        -- ${player_mtx_purchase_summary.SQL_TABLE_NAME}
+        -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary
+        ${player_mtx_purchase_summary.SQL_TABLE_NAME}
     group by
         1,2
 )
@@ -71,8 +71,8 @@ ads_by_date as (
             ) as created_date_fix
 
     from
-        `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
-        -- ${player_daily_incremental.SQL_TABLE_NAME}
+        -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
+        ${player_daily_incremental.SQL_TABLE_NAME}
 
 )
 

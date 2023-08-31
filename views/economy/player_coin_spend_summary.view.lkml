@@ -36,7 +36,8 @@ view: player_coin_spend_summary {
             ) cumulative_coin_spend
 
       from
-        `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_coin_spend_incremental`
+        -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_coin_spend_incremental`
+        ${player_coin_spend_incremental.SQL_TABLE_NAME}
 
 
       ;;

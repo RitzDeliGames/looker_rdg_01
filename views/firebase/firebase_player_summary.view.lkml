@@ -24,7 +24,8 @@ view: firebase_player_summary {
           max(date(rdg_date)) as latest_update
 
         from
-          `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_daily_incremental`
+          -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_daily_incremental`
+          ${firebase_player_daily_incremental.SQL_TABLE_NAME}
 
       )
 
@@ -64,7 +65,8 @@ view: firebase_player_summary {
 
 
       FROM
-        `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_daily_incremental`
+          -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_daily_incremental`
+          ${firebase_player_daily_incremental.SQL_TABLE_NAME}
         , latest_update_table
 
       )

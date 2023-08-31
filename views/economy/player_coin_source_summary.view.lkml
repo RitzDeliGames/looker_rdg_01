@@ -23,7 +23,8 @@ select
   , 1 + date_diff(date(rdg_date), date(created_at), day) as day_number -- Player Day Number
 
 from
-  `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_coin_source_incremental`
+  -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_coin_source_incremental`
+  ${player_coin_source_incremental.SQL_TABLE_NAME}
 
       ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;

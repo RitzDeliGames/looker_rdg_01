@@ -23,8 +23,8 @@ latest_update_table AS (
     MAX(DATE(rdg_date)) AS latest_update
 
   FROM
-    `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
-    -- ${player_daily_summary.SQL_TABLE_NAME}
+    -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
+    ${player_daily_summary.SQL_TABLE_NAME}
 
 )
 
@@ -174,8 +174,8 @@ SELECT
 
 
 FROM
-  `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
-  -- ${player_daily_summary.SQL_TABLE_NAME}
+  -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
+  ${player_daily_summary.SQL_TABLE_NAME}
   , latest_update_table
 
 )
@@ -399,7 +399,8 @@ FROM
       , max(firebase_created_date) as firebase_created_date
 
   FROM
-    `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_summary`
+    -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_summary`
+    ${firebase_player_summary.SQL_TABLE_NAME}
   GROUP BY
     1
 

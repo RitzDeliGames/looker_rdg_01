@@ -393,7 +393,8 @@ view: player_weekly_summary {
 
 
         from
-          `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
+          -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary`
+          ${player_daily_summary.SQL_TABLE_NAME}
 
       )
 

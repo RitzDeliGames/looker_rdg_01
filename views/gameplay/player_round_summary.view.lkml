@@ -62,8 +62,8 @@ base_data as (
           ) , 0 ) as win_streak_at_round_start
 
   from
-    `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_incremental`
-    -- ${player_round_incremental.SQL_TABLE_NAME}
+    -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_incremental`
+    ${player_round_incremental.SQL_TABLE_NAME}
 )
 
 -----------------------------------------------------------------------------
@@ -164,8 +164,8 @@ base_data as (
 
   from
     base_data a
-    left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary` b
-    -- left join ${player_mtx_purchase_summary.SQL_TABLE_NAME} b
+    -- left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary` b
+    left join ${player_mtx_purchase_summary.SQL_TABLE_NAME} b
 
       on b.rdg_id = a.rdg_id
       and b.timestamp_utc > a.previous_round_end_timestamp_utc
@@ -281,8 +281,8 @@ base_data as (
 
   from
     join_on_mtx_spend a
-    left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary` c
-    -- left join ${player_ad_view_summary.SQL_TABLE_NAME} c
+    -- left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary` c
+    left join ${player_ad_view_summary.SQL_TABLE_NAME} c
       on c.rdg_id = a.rdg_id
       and c.timestamp_utc > a.previous_round_end_timestamp_utc
       and c.timestamp_utc <= a.round_end_timestamp_utc
@@ -405,8 +405,8 @@ base_data as (
 
   from
     join_on_ad_spend a
-    left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_coin_spend_summary` d
-    -- left join ${player_coin_spend_summary.SQL_TABLE_NAME} d
+    -- left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_coin_spend_summary` d
+    left join ${player_coin_spend_summary.SQL_TABLE_NAME} d
       on d.rdg_id = a.rdg_id
       and d.timestamp_utc > a.previous_round_end_timestamp_utc
       and d.timestamp_utc <= a.round_end_timestamp_utc

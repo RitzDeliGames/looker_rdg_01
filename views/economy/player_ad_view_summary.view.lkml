@@ -97,8 +97,8 @@ view: player_ad_view_summary {
           , a.round_purchase_type
 
         from
-          `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental` a
-          -- ${player_ad_view_incremental.SQL_TABLE_NAME} a
+          -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental` a
+          ${player_ad_view_incremental.SQL_TABLE_NAME} a
           left join iron_source_facebook_data b
             on a.ad_network = 'facebook'
             and safe_cast(a.version as int64) >= 13122

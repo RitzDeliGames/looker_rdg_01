@@ -49,7 +49,8 @@ my_mtx_data as (
     , days_since_created
     , day_number
   from
-    eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary
+    -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary
+    ${player_mtx_purchase_summary.SQL_TABLE_NAME}
 
 )
 
@@ -89,7 +90,8 @@ my_mtx_data as (
     , days_since_created
     , day_number
   from
-    eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
+    -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
+    ${player_ad_view_summary.SQL_TABLE_NAME}
 )
 
 -----------------------------------------------------------------------------

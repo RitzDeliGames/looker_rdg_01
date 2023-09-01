@@ -1195,6 +1195,7 @@ constant: coin_source_name {
     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'flour_frenzy' then 'Flour Frenzy (End)'
     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'hotdog_contest' then 'Hotdog Contest (End)'
     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'moves_master' then 'Moves Master (End)'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'battle_pass' then 'Battle Pass'
 
 
 
@@ -1268,6 +1269,7 @@ constant: coin_source_name_group {
     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'flour_frenzy' then 'Live Ops'
     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'hotdog_contest' then 'Live Ops'
     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'moves_master' then 'Live Ops'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'battle_pass' then 'Live Ops'
 
 
 

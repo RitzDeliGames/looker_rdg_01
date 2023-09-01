@@ -191,6 +191,12 @@ view: player_ad_view_summary {
   dimension: win_streak {type:number}
   dimension: count_ad_views {type:number}
   dimension: source_id {sql: @{ad_placements_clean} ;;}
+  dimension: ad_placement {
+    type: string
+    sql:
+      @{ad_placements}
+    ;;
+    }
   dimension: ad_network {type:string}
   dimension: country {type:string}
   dimension: current_level_id {type:string}

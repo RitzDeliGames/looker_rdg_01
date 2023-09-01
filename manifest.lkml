@@ -830,6 +830,17 @@ constant: ad_placements_clean {
           end"
 }
 
+constant: ad_reward_id_strings {
+  value: "
+  case
+  when ${TABLE}.ad_reward_source_id = 'quick_boost_rocket' then 'Rocket'
+  when ${TABLE}.ad_reward_source_id = 'quick_lives' then 'Lives'
+  when ${TABLE}.ad_reward_source_id = 'quick_magnifiers' then 'Magnifiers'
+  when ${TABLE}.ad_reward_source_id = 'treasure_trove' then 'Treasure Trove'
+  else ${TABLE}.ad_reward_source_id
+  end"
+}
+
 constant: max_highest_last_level_serial_override {
   value:
     "case
@@ -844,6 +855,57 @@ constant: max_cumulative_star_spend_override {
     when ${TABLE}.version = '99999999999' THEN 0
     else ${TABLE}.max_cumulative_star_spend
     end"
+}
+
+###################################################################
+# Ads Mapping
+###################################################################
+
+constant: ad_placements_clean {
+  value: "case
+  when ${TABLE}.source_id like '%DailyReward' then 'Daily Reward'
+  when ${TABLE}.source_id like '%Moves_Master%' then 'Moves Master'
+  when ${TABLE}.source_id like '%Pizza%' then 'Pizza'
+  when ${TABLE}.source_id like '%Lucky_Dice%' then 'Lucky Dice'
+  when ${TABLE}.source_id like '%RequestHelp%' then 'Ask For Help'
+  when ${TABLE}.source_id like '%Battle_Pass%' then 'Battle Pass'
+  when ${TABLE}.source_id like '%Puzzles%' then 'Puzzles'
+
+  when ${TABLE}.source_id like '%DefaultRewardedVideo' then 'Generic Reward'
+  when ${TABLE}.source_id like '%Rewarded' then 'Generic Reward'
+
+  else ${TABLE}.source_id
+  end"
+}
+
+constant: ad_reward_id_strings {
+  value: "
+  case
+  when ${TABLE}.ad_reward_source_id = 'quick_boost_rocket' then 'Rocket'
+  when ${TABLE}.ad_reward_source_id = 'quick_lives' then 'Lives'
+  when ${TABLE}.ad_reward_source_id = 'quick_magnifiers' then 'Magnifiers'
+  when ${TABLE}.ad_reward_source_id = 'treasure_trove' then 'Treasure Trove'
+  else ${TABLE}.ad_reward_source_id
+  end"
+}
+
+constant: ad_placements {
+  value: "case
+  when ${TABLE}.source_id like '%DailyReward' then 'Daily Reward'
+  when ${TABLE}.source_id like '%Moves_Master%' then 'Moves Master'
+  when ${TABLE}.source_id like '%Pizza%' then 'Pizza'
+  when ${TABLE}.source_id like '%Lucky_Dice%' then 'Lucky Dice'
+  when ${TABLE}.source_id like '%RequestHelp%' then 'Ask For Help'
+  when ${TABLE}.source_id like '%Battle_Pass%' then 'Battle Pass'
+  when ${TABLE}.source_id like '%Puzzles%' then 'Puzzles'
+
+  when ${TABLE}.ad_reward_source_id = 'quick_boost_rocket' then 'Rocket'
+  when ${TABLE}.ad_reward_source_id = 'quick_lives' then 'Lives'
+  when ${TABLE}.ad_reward_source_id = 'quick_magnifiers' then 'Magnifiers'
+  when ${TABLE}.ad_reward_source_id = 'treasure_trove' then 'Treasure Trove'
+
+  else 'Unmapped'
+  end"
 }
 
 ###################################################################
@@ -1025,16 +1087,7 @@ constant: iap_id_strings_grouped_new {
   end"
 }
 
-constant: ad_reward_id_strings {
-  value: "
-    case
-      when ${TABLE}.ad_reward_source_id = 'quick_boost_rocket' then 'Rocket'
-      when ${TABLE}.ad_reward_source_id = 'quick_lives' then 'Lives'
-      when ${TABLE}.ad_reward_source_id = 'quick_magnifiers' then 'Magnifiers'
-      when ${TABLE}.ad_reward_source_id = 'treasure_trove' then 'Treasure Trove'
-      else ${TABLE}.ad_reward_source_id
-    end"
-}
+
 
 ###################################################################
 # In App Messenging

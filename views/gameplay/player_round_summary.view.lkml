@@ -903,7 +903,7 @@ from
         count(distinct ${TABLE}.rdg_id)
       )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
 
   }
 
@@ -1340,7 +1340,7 @@ from
         count(distinct ${TABLE}.rdg_id)
       )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
 
   }
   measure: churn_rate_on_win {
@@ -1360,7 +1360,7 @@ from
         count( distinct ${TABLE}.rdg_id )
       )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
 
   measure: churn_rate_on_loss {
@@ -1380,7 +1380,7 @@ from
         count( distinct ${TABLE}.rdg_id )
       )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
 
   measure: excess_churn_rate {
@@ -1409,7 +1409,7 @@ from
         count( distinct ${TABLE}.rdg_id )
       )
     ;;
-    value_format_name: percent_0
+    value_format_name: percent_1
   }
 
 

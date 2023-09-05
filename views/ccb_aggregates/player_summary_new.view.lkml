@@ -56,6 +56,7 @@ SELECT
 
     , end_of_content_levels
     , cumulative_round_time_in_minutes_campaign
+    , cumulative_round_end_events_puzzle
 
     -- device_id
     , last_value(device_id) OVER (
@@ -358,6 +359,14 @@ FROM
     , max( case when day_number <= 14 then cumulative_time_played_minutes else 0 end ) as minutes_played_in_first_14_days
     , max( case when day_number <= 21 then cumulative_time_played_minutes else 0 end ) as minutes_played_in_first_21_days
     , max( case when day_number <= 30 then cumulative_time_played_minutes else 0 end ) as minutes_played_in_first_30_days
+
+    -- rounds played in puzzle first x days
+    , max( case when day_number <= 1 then cumulative_round_end_events_puzzle else 0 end ) as puzzle_rounds_played_in_first_1_days
+    , max( case when day_number <= 2 then cumulative_round_end_events_puzzle else 0 end ) as puzzle_rounds_played_in_first_2_days
+    , max( case when day_number <= 7 then cumulative_round_end_events_puzzle else 0 end ) as puzzle_rounds_played_in_first_7_days
+    , max( case when day_number <= 14 then cumulative_round_end_events_puzzle else 0 end ) as puzzle_rounds_played_in_first_14_days
+    , max( case when day_number <= 21 then cumulative_round_end_events_puzzle else 0 end ) as puzzle_rounds_played_in_first_21_days
+    , max( case when day_number <= 30 then cumulative_round_end_events_puzzle else 0 end ) as puzzle_rounds_played_in_first_30_days
 
 
   FROM

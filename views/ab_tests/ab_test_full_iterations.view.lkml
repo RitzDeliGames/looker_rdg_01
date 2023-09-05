@@ -110,6 +110,14 @@ group_a as (
           when 'cumulative_coins_spend_d90' = {% parameter selected_metric %} then cumulative_coins_spend_d90
           when 'cumulative_coins_spend_current' = {% parameter selected_metric %} then cumulative_coins_spend_current
 
+          when 'puzzle_rounds_played_in_first_1_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_1_days
+          when 'puzzle_rounds_played_in_first_2_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_2_days
+          when 'puzzle_rounds_played_in_first_7_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_7_days
+          when 'puzzle_rounds_played_in_first_14_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_14_days
+          when 'puzzle_rounds_played_in_first_21_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_21_days
+          when 'puzzle_rounds_played_in_first_30_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_30_days
+
+
 
         else 1
         end as metric
@@ -232,6 +240,13 @@ group_a as (
           when 'cumulative_coins_spend_d60' = {% parameter selected_metric %} then cumulative_coins_spend_d60
           when 'cumulative_coins_spend_d90' = {% parameter selected_metric %} then cumulative_coins_spend_d90
           when 'cumulative_coins_spend_current' = {% parameter selected_metric %} then cumulative_coins_spend_current
+
+          when 'puzzle_rounds_played_in_first_1_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_1_days
+          when 'puzzle_rounds_played_in_first_2_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_2_days
+          when 'puzzle_rounds_played_in_first_7_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_7_days
+          when 'puzzle_rounds_played_in_first_14_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_14_days
+          when 'puzzle_rounds_played_in_first_21_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_21_days
+          when 'puzzle_rounds_played_in_first_30_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_30_days
 
         else 1
         end as metric
@@ -842,6 +857,13 @@ select * from output_with_rounding
       , "cumulative_coins_spend_d60"
       , "cumulative_coins_spend_d90"
       , "cumulative_coins_spend_current"
+
+      , "puzzle_rounds_played_in_first_1_days"
+      , "puzzle_rounds_played_in_first_2_days"
+      , "puzzle_rounds_played_in_first_14_days"
+      , "puzzle_rounds_played_in_first_21_days"
+      , "puzzle_rounds_played_in_first_30_days"
+
 
       ]
   }

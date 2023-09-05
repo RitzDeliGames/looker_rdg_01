@@ -651,6 +651,11 @@ select * from output_with_rounding
     default_value: "$.dynamicDropBiasv3_20230627"
     suggestions:  [
 
+      ,"$.steakSwap_20230823"
+      ,"$.gravityTest_20230821"
+      ,"$.colorballBehavior_20230828"
+
+
       ,"$.colorballBehavior_20230817"
       ,"$.askForHelp_20230816"
       ,"$.minigameGo_20230814"

@@ -860,6 +860,7 @@ select * from output_with_rounding
 
       , "puzzle_rounds_played_in_first_1_days"
       , "puzzle_rounds_played_in_first_2_days"
+      , "puzzle_rounds_played_in_first_7_days"
       , "puzzle_rounds_played_in_first_14_days"
       , "puzzle_rounds_played_in_first_21_days"
       , "puzzle_rounds_played_in_first_30_days"

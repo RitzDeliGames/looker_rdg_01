@@ -178,7 +178,191 @@ view: player_recent_full_event_data {
     ;;
   }
 
+####################################################################
+## Ending Currency Balances
+####################################################################
 
+  dimension: ending_balance_currency_04 {
+    group_label: "Ending Currency Balances"
+    type: number
+    sql:
+    safe_cast(json_extract_scalar(
+        last_value(${TABLE}.currencies) over (
+          partition by ${TABLE}.rdg_id
+          order by ${TABLE}.timestamp_utc asc
+          rows between unbounded preceding and unbounded following )
+      , "$.CURRENCY_04") as numeric)
+  ;;
+  }
+
+dimension: ending_balance_currency_03 {
+  group_label: "Ending Currency Balances"
+  type: number
+  sql:
+    safe_cast(json_extract_scalar(
+        last_value(${TABLE}.currencies) over (
+          partition by ${TABLE}.rdg_id
+          order by ${TABLE}.timestamp_utc asc
+          rows between unbounded preceding and unbounded following )
+      , "$.CURRENCY_03") as numeric)
+  ;;
+}
+
+  dimension: ending_balance_currency_01 {
+    group_label: "Ending Currency Balances"
+    type: number
+    sql:
+    safe_cast(json_extract_scalar(
+        last_value(${TABLE}.currencies) over (
+          partition by ${TABLE}.rdg_id
+          order by ${TABLE}.timestamp_utc asc
+          rows between unbounded preceding and unbounded following )
+      , "$.CURRENCY_01") as numeric)
+  ;;
+  }
+
+  dimension: ending_balance_magnifier {
+    group_label: "Ending Currency Balances"
+    type: number
+    sql:
+    safe_cast(json_extract_scalar(
+        last_value(${TABLE}.currencies) over (
+          partition by ${TABLE}.rdg_id
+          order by ${TABLE}.timestamp_utc asc
+          rows between unbounded preceding and unbounded following )
+      , "$.MAGNIFIER") as numeric)
+  ;;
+  }
+
+  dimension: ending_balance_currency_07 {
+    group_label: "Ending Currency Balances"
+    type: number
+    sql:
+    safe_cast(json_extract_scalar(
+        last_value(${TABLE}.currencies) over (
+          partition by ${TABLE}.rdg_id
+          order by ${TABLE}.timestamp_utc asc
+          rows between unbounded preceding and unbounded following )
+      , "$.CURRENCY_07") as numeric)
+  ;;
+  }
+
+  dimension: ending_balance_dice {
+    group_label: "Ending Currency Balances"
+    type: number
+    sql:
+    safe_cast(json_extract_scalar(
+        last_value(${TABLE}.currencies) over (
+          partition by ${TABLE}.rdg_id
+          order by ${TABLE}.timestamp_utc asc
+          rows between unbounded preceding and unbounded following )
+      , "$.DICE") as numeric)
+  ;;
+  }
+
+  dimension: ending_balance_rocket {
+    group_label: "Ending Currency Balances"
+    type: number
+    sql:
+    safe_cast(json_extract_scalar(
+        last_value(${TABLE}.tickets) over (
+          partition by ${TABLE}.rdg_id
+          order by ${TABLE}.timestamp_utc asc
+          rows between unbounded preceding and unbounded following )
+      , "$.ROCKET") as numeric)
+  ;;
+  }
+
+  dimension: ending_balance_bomb {
+    group_label: "Ending Currency Balances"
+    type: number
+    sql:
+    safe_cast(json_extract_scalar(
+        last_value(${TABLE}.tickets) over (
+          partition by ${TABLE}.rdg_id
+          order by ${TABLE}.timestamp_utc asc
+          rows between unbounded preceding and unbounded following )
+      , "$.BOMB") as numeric)
+  ;;
+  }
+
+  dimension: ending_balance_color_ball {
+    group_label: "Ending Currency Balances"
+    type: number
+    sql:
+    safe_cast(json_extract_scalar(
+        last_value(${TABLE}.tickets) over (
+          partition by ${TABLE}.rdg_id
+          order by ${TABLE}.timestamp_utc asc
+          rows between unbounded preceding and unbounded following )
+      , "$.COLOR_BALL") as numeric)
+  ;;
+  }
+
+  dimension: ending_balance_clear_cell {
+    group_label: "Ending Currency Balances"
+    type: number
+    sql:
+    safe_cast(json_extract_scalar(
+        last_value(${TABLE}.tickets) over (
+          partition by ${TABLE}.rdg_id
+          order by ${TABLE}.timestamp_utc asc
+          rows between unbounded preceding and unbounded following )
+      , "$.clear_cell") as numeric)
+  ;;
+  }
+
+  dimension: ending_balance_clear_horizontal {
+    group_label: "Ending Currency Balances"
+    type: number
+    sql:
+    safe_cast(json_extract_scalar(
+        last_value(${TABLE}.tickets) over (
+          partition by ${TABLE}.rdg_id
+          order by ${TABLE}.timestamp_utc asc
+          rows between unbounded preceding and unbounded following )
+      , "$.clear_horizontal") as numeric)
+  ;;
+  }
+
+  dimension: ending_balance_clear_vertical {
+    group_label: "Ending Currency Balances"
+    type: number
+    sql:
+    safe_cast(json_extract_scalar(
+        last_value(${TABLE}.tickets) over (
+          partition by ${TABLE}.rdg_id
+          order by ${TABLE}.timestamp_utc asc
+          rows between unbounded preceding and unbounded following )
+      , "$.clear_vertical") as numeric)
+  ;;
+  }
+
+  dimension: ending_balance_chopsticks {
+    group_label: "Ending Currency Balances"
+    type: number
+    sql:
+    safe_cast(json_extract_scalar(
+        last_value(${TABLE}.tickets) over (
+          partition by ${TABLE}.rdg_id
+          order by ${TABLE}.timestamp_utc asc
+          rows between unbounded preceding and unbounded following )
+      , "$.chopsticks") as numeric)
+  ;;
+  }
+
+  dimension: ending_balance_skillet {
+    group_label: "Ending Currency Balances"
+    type: number
+    sql:
+    safe_cast(json_extract_scalar(
+        last_value(${TABLE}.tickets) over (
+          partition by ${TABLE}.rdg_id
+          order by ${TABLE}.timestamp_utc asc
+          rows between unbounded preceding and unbounded following )
+      , "$.skillet") as numeric)
+  ;;
+  }
 
 ####################################################################
 ## measures

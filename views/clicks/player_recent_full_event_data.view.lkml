@@ -130,7 +130,7 @@ select
           partition by rdg_id
           order by timestamp_utc asc
           rows between unbounded preceding and unbounded following )
-      , "$.CURRENCY_07") as numeric)
+      , "$.CURRENCY_07") as numeric) as ending_balance_currency_07
   ,
     safe_cast(json_extract_scalar(
         last_value(currencies) over (

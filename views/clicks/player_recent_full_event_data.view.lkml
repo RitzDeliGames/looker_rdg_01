@@ -297,84 +297,98 @@ select
 
   dimension: ending_balance_currency_04 {
     group_label: "Ending Currency Balances"
+    label: "Lives"
     type: number
 
   }
 
   dimension: ending_balance_currency_03 {
     group_label: "Ending Currency Balances"
+    label: "Coins"
     type: number
 
   }
 
   dimension: ending_balance_currency_01 {
     group_label: "Ending Currency Balances"
+    label: "Currency 01"
     type: number
 
   }
 
   dimension: ending_balance_magnifier {
     group_label: "Ending Currency Balances"
+    label: "Magnifiers"
     type: number
 
   }
 
   dimension: ending_balance_currency_07 {
     group_label: "Ending Currency Balances"
+    label: "Lives"
     type: number
 
   }
 
   dimension: ending_balance_dice {
     group_label: "Ending Currency Balances"
+    label: "Dice"
     type: number
 
   }
 
   dimension: ending_balance_rocket {
     group_label: "Ending Currency Balances"
+    label: "Rockets"
     type: number
 
   }
 
   dimension: ending_balance_bomb {
     group_label: "Ending Currency Balances"
+    label: "Bombs"
     type: number
 
   }
 
   dimension: ending_balance_color_ball {
     group_label: "Ending Currency Balances"
+    label: "Color Balls"
     type: number
 
   }
 
   dimension: ending_balance_clear_cell {
     group_label: "Ending Currency Balances"
+    label: "Clear Cell"
     type: number
 
   }
 
   dimension: ending_balance_clear_horizontal {
     group_label: "Ending Currency Balances"
+    label: "Clear Horizontal"
     type: number
 
   }
 
   dimension: ending_balance_clear_vertical {
     group_label: "Ending Currency Balances"
+    label: "Clear Vertical"
     type: number
 
   }
 
   dimension: ending_balance_chopsticks {
     group_label: "Ending Currency Balances"
+    label: "Chopsticks"
     type: number
 
   }
 
   dimension: ending_balance_skillet {
     group_label: "Ending Currency Balances"
+    label: "Skillet"
     type: number
 
   }

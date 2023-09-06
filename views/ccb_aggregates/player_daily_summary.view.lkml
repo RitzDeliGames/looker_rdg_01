@@ -1026,9 +1026,18 @@ dimension: primary_key {
 
   dimension: 30_day_month_number {
     type: number
+    group_label: "Grouped Day Numbers"
     label: "30 Day Month Number"
     value_format_name: decimal_0
     sql: safe_cast(ceiling(${TABLE}.day_number/30) as int64) ;;
+  }
+
+  dimension: 7_day_week_number {
+    type: number
+    group_label: "Grouped Day Numbers"
+    label: "7 Day Week Number"
+    value_format_name: decimal_0
+    sql: safe_cast(ceiling(${TABLE}.day_number/7) as int64) ;;
   }
 
   dimension: new_player_indicator {type:number}

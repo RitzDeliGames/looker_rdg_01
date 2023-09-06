@@ -325,7 +325,7 @@ select
 
   dimension: ending_balance_currency_07 {
     group_label: "Ending Currency Balances"
-    label: "Lives"
+    label: "Stars"
     type: number
 
   }

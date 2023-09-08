@@ -709,7 +709,7 @@ dimension: primary_key {
     ;;
 
   }
-  dimension: end_of_content_by_day_7 {
+  measure: end_of_content_by_day_7 {
     group_label: "End of Content Groups"
     label: "End of Content by D7"
     type: number
@@ -728,7 +728,7 @@ dimension: primary_key {
     ;;
   }
 
-  dimension: end_of_content_by_day_14 {
+  measure: end_of_content_by_day_14 {
     group_label: "End of Content Groups"
     label: "End of Content by D14"
     type: number
@@ -747,7 +747,7 @@ dimension: primary_key {
     ;;
   }
 
-  dimension: end_of_content_by_day_30 {
+  measure: end_of_content_by_day_30 {
     group_label: "End of Content Groups"
     label: "End of Content by D30"
     type: number
@@ -766,7 +766,7 @@ dimension: primary_key {
     ;;
   }
 
-  dimension: end_of_content_by_day_60 {
+  measure: end_of_content_by_day_60 {
     group_label: "End of Content Groups"
     label: "End of Content by D60"
     type: number
@@ -785,7 +785,7 @@ dimension: primary_key {
     ;;
   }
 
-  dimension: end_of_content_by_day_61_plus {
+  measure: end_of_content_by_day_61_plus {
     group_label: "End of Content Groups"
     label: "End of Content by D61+"
     type: number

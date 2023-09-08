@@ -690,8 +690,11 @@ dimension: primary_key {
   dimension: cumulative_ad_views_d90 {group_label:"Cumulative Ad Views" type: number}
   dimension: cumulative_ad_views_current {group_label:"Cumulative Ad Views" type: number}
 
+ ################################################################################################
  ## end of content
-  dimension: day_number_of_first_end_of_content_levels {type:number}
+ ################################################################################################
+
+ dimension: day_number_of_first_end_of_content_levels {type:number}
   dimension: day_group_for_end_of_content_levels {
     type: string
     sql:
@@ -705,6 +708,100 @@ dimension: primary_key {
         end
     ;;
 
+  }
+  dimension: end_of_content_by_day_7 {
+    group_label: "End of Content Groups"
+    label: "End of Content by D7"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        count( distinct
+          case
+            when ${TABLE}.day_number_of_first_end_of_content_levels <= 7 then ${TABLE}.rdg_id
+          else null
+          end
+          )
+        ,
+        ${TABLE}.rdg_id
+        )
+    ;;
+  }
+
+  dimension: end_of_content_by_day_14 {
+    group_label: "End of Content Groups"
+    label: "End of Content by D14"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        count( distinct
+          case
+            when ${TABLE}.day_number_of_first_end_of_content_levels <= 14 then ${TABLE}.rdg_id
+          else null
+          end
+          )
+        ,
+        ${TABLE}.rdg_id
+        )
+    ;;
+  }
+
+  dimension: end_of_content_by_day_30 {
+    group_label: "End of Content Groups"
+    label: "End of Content by D30"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        count( distinct
+          case
+            when ${TABLE}.day_number_of_first_end_of_content_levels <= 30 then ${TABLE}.rdg_id
+          else null
+          end
+          )
+        ,
+        ${TABLE}.rdg_id
+        )
+    ;;
+  }
+
+  dimension: end_of_content_by_day_60 {
+    group_label: "End of Content Groups"
+    label: "End of Content by D60"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        count( distinct
+          case
+            when ${TABLE}.day_number_of_first_end_of_content_levels <= 60 then ${TABLE}.rdg_id
+          else null
+          end
+          )
+        ,
+        ${TABLE}.rdg_id
+        )
+    ;;
+  }
+
+  dimension: end_of_content_by_day_61_plus {
+    group_label: "End of Content Groups"
+    label: "End of Content by D61+"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        count( distinct
+          case
+            when ${TABLE}.day_number_of_first_end_of_content_levels > 60 then ${TABLE}.rdg_id
+          else null
+          end
+          )
+        ,
+        ${TABLE}.rdg_id
+        )
+    ;;
   }
 
   ## system_info

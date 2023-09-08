@@ -755,6 +755,11 @@ constant: singular_campaign_blended_window_override {
     and date(${TABLE}.created_date) between '2023-08-25' and '2023-08-28'
   then '20230825 - AAA+ - USA - 60 Min'
 
+  when
+    ${TABLE}.country in ('US','CA')
+    and date(${TABLE}.created_date) between '2023-08-28' and '2023-09-04'
+  then '20230825 - AAA+ - USA - 30 Min'
+
   else 'Unmapped'
   end
   "

@@ -697,10 +697,10 @@ dimension: primary_key {
     sql:
       case
         when ${TABLE}.day_number_of_first_end_of_content_levels is null then 'Not Reached End of Content'
-        when ${TABLE}.day_number_of_first_end_of_content_levels <= 7 then 'End of Content By D7'
+        when ${TABLE}.day_number_of_first_end_of_content_levels <= 7 then 'End of Content By D07'
         when ${TABLE}.day_number_of_first_end_of_content_levels <= 30 then 'End of Content By D30'
         when ${TABLE}.day_number_of_first_end_of_content_levels <= 60 then 'End of Content By D60'
-        when ${TABLE}.day_number_of_first_end_of_content_levels > 60 then 'End of Content After D60'
+        when ${TABLE}.day_number_of_first_end_of_content_levels > 60 then 'End of Content By D61+'
         else 'Other'
         end
     ;;

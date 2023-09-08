@@ -723,7 +723,7 @@ dimension: primary_key {
           end
           )
         ,
-        ${TABLE}.rdg_id
+        count( distinct ${TABLE}.rdg_id )
         )
     ;;
   }
@@ -742,7 +742,7 @@ dimension: primary_key {
           end
           )
         ,
-        ${TABLE}.rdg_id
+        count( distinct ${TABLE}.rdg_id )
         )
     ;;
   }
@@ -761,7 +761,7 @@ dimension: primary_key {
           end
           )
         ,
-        ${TABLE}.rdg_id
+        count( distinct ${TABLE}.rdg_id )
         )
     ;;
   }
@@ -780,7 +780,7 @@ dimension: primary_key {
           end
           )
         ,
-        ${TABLE}.rdg_id
+        count( distinct ${TABLE}.rdg_id )
         )
     ;;
   }
@@ -799,7 +799,7 @@ dimension: primary_key {
           end
           )
         ,
-        ${TABLE}.rdg_id
+        count( distinct ${TABLE}.rdg_id )
         )
     ;;
   }

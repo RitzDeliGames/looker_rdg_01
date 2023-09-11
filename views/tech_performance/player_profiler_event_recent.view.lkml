@@ -82,6 +82,15 @@ with
 
         and event_name = 'profiler'
 
+        ------------------------------------------------------------------------
+        -- check my data
+        -- this is adhoc if I want to check a query with my own data
+        ------------------------------------------------------------------------
+
+        -- and rdg_id = '3989ffa2-2b93-4f33-a940-86c4746036ba' -- amborz
+        and rdg_id = '8ee87da9-7cf2-4e6b-930e-801cc291bb34' -- candyshark
+        and date(timestamp) = '2023-09-10'
+
       )
 
       -----------------------------------------------------------------------
@@ -123,6 +132,7 @@ with
 
       select
         *
+        , safe_cast(json_extract_scalar(extra_json, "$.used_memory_bytes") as numeric) as used_memory_bytes
         -- , rank() over ( partition by rdg_id, timestamp_utc, event_type order by frame_number ) as step_number
       from
         break_out_profiler_events
@@ -263,6 +273,53 @@ with
     percentile: 95
     sql: ${TABLE}.step_time_in_seconds ;;
   }
+
+# used_memory_bytes
+
+####################################################################
+## Used Memory Bytes
+####################################################################
+
+  measure: used_memory_bytes_10 {
+    group_label: "Used Memory Bytes"
+    type: percentile
+    value_format_name: decimal_0
+    percentile: 10
+    sql: ${TABLE}.used_memory_bytes ;;
+  }
+
+  measure: used_memory_bytes_25 {
+    group_label: "Used Memory Bytes"
+    type: percentile
+    value_format_name: decimal_0
+    percentile: 25
+    sql: ${TABLE}.used_memory_bytes ;;
+  }
+
+  measure: used_memory_bytes_50 {
+    group_label: "Used Memory Bytes"
+    type: percentile
+    value_format_name: decimal_0
+    percentile: 50
+    sql: ${TABLE}.used_memory_bytes ;;
+  }
+
+  measure: used_memory_bytes_75 {
+    group_label: "Used Memory Bytes"
+    type: percentile
+    value_format_name: decimal_0
+    percentile: 75
+    sql: ${TABLE}.used_memory_bytes ;;
+  }
+
+  measure: used_memory_bytes_95 {
+    group_label: "Used Memory Bytes"
+    type: percentile
+    value_format_name: decimal_0
+    percentile: 95
+    sql: ${TABLE}.used_memory_bytes ;;
+  }
+
 
 ####################################################################
 ## Cumualtive Time

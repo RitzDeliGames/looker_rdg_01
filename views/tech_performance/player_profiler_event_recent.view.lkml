@@ -88,8 +88,8 @@ with
         ------------------------------------------------------------------------
 
         -- and rdg_id = '3989ffa2-2b93-4f33-a940-86c4746036ba' -- amborz
-        and rdg_id = '8ee87da9-7cf2-4e6b-930e-801cc291bb34' -- candyshark
-        and date(timestamp) = '2023-09-10'
+        -- and rdg_id = '8ee87da9-7cf2-4e6b-930e-801cc291bb34' -- candyshark
+        -- and date(timestamp) = '2023-09-10'
 
       )
 

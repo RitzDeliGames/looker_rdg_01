@@ -194,6 +194,7 @@ with
   dimension: last_level_id {type:string}
   dimension: hardware {type:string}
   dimension: devices {type:string}
+  dimension: used_memory_bytes {type: number}
 
 ####################################################################
 ## Count Players

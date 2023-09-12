@@ -959,6 +959,7 @@ dimension: primary_key {
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      ,"$.extraMoves_20230908"
       ,"$.spreadsheetMove_20230829"
 
       ,"$.steakSwap_20230823"

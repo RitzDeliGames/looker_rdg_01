@@ -827,6 +827,8 @@ constant: ad_placements_clean {
             when ${TABLE}.source_id like '%RequestHelp%' then 'Ask For Help'
             when ${TABLE}.source_id like '%Battle_Pass%' then 'Battle Pass'
             when ${TABLE}.source_id like '%Puzzles%' then 'Puzzles'
+            when ${TABLE}.source_id like '%Go_Fish%' then 'Go Fish'
+
 
             when ${TABLE}.source_id like '%DefaultRewardedVideo' then 'Generic Reward'
             when ${TABLE}.source_id like '%Rewarded' then 'Generic Reward'
@@ -875,6 +877,7 @@ constant: ad_placements_clean {
   when ${TABLE}.source_id like '%RequestHelp%' then 'Ask For Help'
   when ${TABLE}.source_id like '%Battle_Pass%' then 'Battle Pass'
   when ${TABLE}.source_id like '%Puzzles%' then 'Puzzles'
+  when ${TABLE}.source_id like '%Go_Fish%' then 'Go Fish'
 
   when ${TABLE}.source_id like '%DefaultRewardedVideo' then 'Generic Reward'
   when ${TABLE}.source_id like '%Rewarded' then 'Generic Reward'
@@ -903,6 +906,7 @@ constant: ad_placements {
   when ${TABLE}.source_id like '%RequestHelp%' then 'Ask For Help'
   when ${TABLE}.source_id like '%Battle_Pass%' then 'Battle Pass'
   when ${TABLE}.source_id like '%Puzzles%' then 'Puzzles'
+  when ${TABLE}.source_id like '%Go_Fish%' then 'Go Fish'
 
   when ${TABLE}.ad_reward_source_id = 'quick_boost_rocket' then 'Rocket'
   when ${TABLE}.ad_reward_source_id = 'quick_lives' then 'Lives'

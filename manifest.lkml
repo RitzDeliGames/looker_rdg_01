@@ -1723,6 +1723,102 @@ constant: singular_creative_simplified_ad_name {
 }
 
 ###################################################################
+# Battle Pass Number
+###################################################################
+
+# Created using this file
+# Ask Tal Kreuch for access
+# https://docs.google.com/spreadsheets/d/1IkAchnFFhkoxvtLkTmTVN023P6P0pUcNPOcToNBZVHU/edit?usp=sharing
+
+constant: battle_pass_number {
+  value: "
+  case
+
+    when date(${TABLE}.rdg_date) >= '2023-08-03' and date(${TABLE}.rdg_date) < '2023-09-01' then 'bp_2023_08'
+    when date(${TABLE}.rdg_date) >= '2023-09-03' and date(${TABLE}.rdg_date) < '2023-10-01' then 'bp_2023_09'
+    when date(${TABLE}.rdg_date) >= '2023-10-02' and date(${TABLE}.rdg_date) < '2023-11-01' then 'bp_2023_10'
+    when date(${TABLE}.rdg_date) >= '2023-11-02' and date(${TABLE}.rdg_date) < '2023-12-01' then 'bp_2023_11'
+    when date(${TABLE}.rdg_date) >= '2023-12-02' and date(${TABLE}.rdg_date) < '2024-01-01' then 'bp_2023_12'
+    when date(${TABLE}.rdg_date) >= '2024-01-02' and date(${TABLE}.rdg_date) < '2024-02-01' then 'bp_2024_01'
+    when date(${TABLE}.rdg_date) >= '2024-02-02' and date(${TABLE}.rdg_date) < '2024-03-01' then 'bp_2024_02'
+    when date(${TABLE}.rdg_date) >= '2024-03-02' and date(${TABLE}.rdg_date) < '2024-04-01' then 'bp_2024_03'
+    when date(${TABLE}.rdg_date) >= '2024-04-02' and date(${TABLE}.rdg_date) < '2024-05-01' then 'bp_2024_04'
+    when date(${TABLE}.rdg_date) >= '2024-05-02' and date(${TABLE}.rdg_date) < '2024-06-01' then 'bp_2024_05'
+    when date(${TABLE}.rdg_date) >= '2024-06-02' and date(${TABLE}.rdg_date) < '2024-07-01' then 'bp_2024_06'
+    when date(${TABLE}.rdg_date) >= '2024-07-02' and date(${TABLE}.rdg_date) < '2024-08-01' then 'bp_2024_07'
+    when date(${TABLE}.rdg_date) >= '2024-08-02' and date(${TABLE}.rdg_date) < '2024-09-01' then 'bp_2024_08'
+    when date(${TABLE}.rdg_date) >= '2024-09-02' and date(${TABLE}.rdg_date) < '2024-10-01' then 'bp_2024_09'
+    when date(${TABLE}.rdg_date) >= '2024-10-02' and date(${TABLE}.rdg_date) < '2024-11-01' then 'bp_2024_10'
+    when date(${TABLE}.rdg_date) >= '2024-11-02' and date(${TABLE}.rdg_date) < '2024-12-01' then 'bp_2024_11'
+    when date(${TABLE}.rdg_date) >= '2024-12-02' and date(${TABLE}.rdg_date) < '2025-01-01' then 'bp_2024_12'
+    when date(${TABLE}.rdg_date) >= '2025-01-02' and date(${TABLE}.rdg_date) < '2025-02-01' then 'bp_2025_01'
+    when date(${TABLE}.rdg_date) >= '2025-02-02' and date(${TABLE}.rdg_date) < '2025-03-01' then 'bp_2025_02'
+    when date(${TABLE}.rdg_date) >= '2025-03-02' and date(${TABLE}.rdg_date) < '2025-04-01' then 'bp_2025_03'
+    when date(${TABLE}.rdg_date) >= '2025-04-02' and date(${TABLE}.rdg_date) < '2025-05-01' then 'bp_2025_04'
+    when date(${TABLE}.rdg_date) >= '2025-05-02' and date(${TABLE}.rdg_date) < '2025-06-01' then 'bp_2025_05'
+    when date(${TABLE}.rdg_date) >= '2025-06-02' and date(${TABLE}.rdg_date) < '2025-07-01' then 'bp_2025_06'
+    when date(${TABLE}.rdg_date) >= '2025-07-02' and date(${TABLE}.rdg_date) < '2025-08-01' then 'bp_2025_07'
+    when date(${TABLE}.rdg_date) >= '2025-08-02' and date(${TABLE}.rdg_date) < '2025-09-01' then 'bp_2025_08'
+    when date(${TABLE}.rdg_date) >= '2025-09-02' and date(${TABLE}.rdg_date) < '2025-10-01' then 'bp_2025_09'
+    when date(${TABLE}.rdg_date) >= '2025-10-02' and date(${TABLE}.rdg_date) < '2025-11-01' then 'bp_2025_10'
+    when date(${TABLE}.rdg_date) >= '2025-11-02' and date(${TABLE}.rdg_date) < '2025-12-01' then 'bp_2025_11'
+    when date(${TABLE}.rdg_date) >= '2025-12-02' and date(${TABLE}.rdg_date) < '2026-01-01' then 'bp_2025_12'
+    when date(${TABLE}.rdg_date) >= '2026-01-02' and date(${TABLE}.rdg_date) < '2026-02-01' then 'bp_2026_01'
+    when date(${TABLE}.rdg_date) >= '2026-02-02' and date(${TABLE}.rdg_date) < '2026-03-01' then 'bp_2026_02'
+    when date(${TABLE}.rdg_date) >= '2026-03-02' and date(${TABLE}.rdg_date) < '2026-04-01' then 'bp_2026_03'
+    when date(${TABLE}.rdg_date) >= '2026-04-02' and date(${TABLE}.rdg_date) < '2026-05-01' then 'bp_2026_04'
+    when date(${TABLE}.rdg_date) >= '2026-05-02' and date(${TABLE}.rdg_date) < '2026-06-01' then 'bp_2026_05'
+    when date(${TABLE}.rdg_date) >= '2026-06-02' and date(${TABLE}.rdg_date) < '2026-07-01' then 'bp_2026_06'
+    when date(${TABLE}.rdg_date) >= '2026-07-02' and date(${TABLE}.rdg_date) < '2026-08-01' then 'bp_2026_07'
+    when date(${TABLE}.rdg_date) >= '2026-08-02' and date(${TABLE}.rdg_date) < '2026-09-01' then 'bp_2026_08'
+    when date(${TABLE}.rdg_date) >= '2026-09-02' and date(${TABLE}.rdg_date) < '2026-10-01' then 'bp_2026_09'
+    when date(${TABLE}.rdg_date) >= '2026-10-02' and date(${TABLE}.rdg_date) < '2026-11-01' then 'bp_2026_10'
+    when date(${TABLE}.rdg_date) >= '2026-11-02' and date(${TABLE}.rdg_date) < '2026-12-01' then 'bp_2026_11'
+    when date(${TABLE}.rdg_date) >= '2026-12-02' and date(${TABLE}.rdg_date) < '2027-01-01' then 'bp_2026_12'
+    when date(${TABLE}.rdg_date) >= '2027-01-02' and date(${TABLE}.rdg_date) < '2027-02-01' then 'bp_2027_01'
+    when date(${TABLE}.rdg_date) >= '2027-02-02' and date(${TABLE}.rdg_date) < '2027-03-01' then 'bp_2027_02'
+    when date(${TABLE}.rdg_date) >= '2027-03-02' and date(${TABLE}.rdg_date) < '2027-04-01' then 'bp_2027_03'
+    when date(${TABLE}.rdg_date) >= '2027-04-02' and date(${TABLE}.rdg_date) < '2027-05-01' then 'bp_2027_04'
+    when date(${TABLE}.rdg_date) >= '2027-05-02' and date(${TABLE}.rdg_date) < '2027-06-01' then 'bp_2027_05'
+    when date(${TABLE}.rdg_date) >= '2027-06-02' and date(${TABLE}.rdg_date) < '2027-07-01' then 'bp_2027_06'
+    when date(${TABLE}.rdg_date) >= '2027-07-02' and date(${TABLE}.rdg_date) < '2027-08-01' then 'bp_2027_07'
+    when date(${TABLE}.rdg_date) >= '2027-08-02' and date(${TABLE}.rdg_date) < '2027-09-01' then 'bp_2027_08'
+    when date(${TABLE}.rdg_date) >= '2027-09-02' and date(${TABLE}.rdg_date) < '2027-10-01' then 'bp_2027_09'
+    when date(${TABLE}.rdg_date) >= '2027-10-02' and date(${TABLE}.rdg_date) < '2027-11-01' then 'bp_2027_10'
+    when date(${TABLE}.rdg_date) >= '2027-11-02' and date(${TABLE}.rdg_date) < '2027-12-01' then 'bp_2027_11'
+    when date(${TABLE}.rdg_date) >= '2027-12-02' and date(${TABLE}.rdg_date) < '2028-01-01' then 'bp_2027_12'
+    when date(${TABLE}.rdg_date) >= '2028-01-02' and date(${TABLE}.rdg_date) < '2028-02-01' then 'bp_2028_01'
+    when date(${TABLE}.rdg_date) >= '2028-02-02' and date(${TABLE}.rdg_date) < '2028-03-01' then 'bp_2028_02'
+    when date(${TABLE}.rdg_date) >= '2028-03-02' and date(${TABLE}.rdg_date) < '2028-04-01' then 'bp_2028_03'
+    when date(${TABLE}.rdg_date) >= '2028-04-02' and date(${TABLE}.rdg_date) < '2028-05-01' then 'bp_2028_04'
+    when date(${TABLE}.rdg_date) >= '2028-05-02' and date(${TABLE}.rdg_date) < '2028-06-01' then 'bp_2028_05'
+    when date(${TABLE}.rdg_date) >= '2028-06-02' and date(${TABLE}.rdg_date) < '2028-07-01' then 'bp_2028_06'
+    when date(${TABLE}.rdg_date) >= '2028-07-02' and date(${TABLE}.rdg_date) < '2028-08-01' then 'bp_2028_07'
+    when date(${TABLE}.rdg_date) >= '2028-08-02' and date(${TABLE}.rdg_date) < '2028-09-01' then 'bp_2028_08'
+    when date(${TABLE}.rdg_date) >= '2028-09-02' and date(${TABLE}.rdg_date) < '2028-10-01' then 'bp_2028_09'
+    when date(${TABLE}.rdg_date) >= '2028-10-02' and date(${TABLE}.rdg_date) < '2028-11-01' then 'bp_2028_10'
+    when date(${TABLE}.rdg_date) >= '2028-11-02' and date(${TABLE}.rdg_date) < '2028-12-01' then 'bp_2028_11'
+    when date(${TABLE}.rdg_date) >= '2028-12-02' and date(${TABLE}.rdg_date) < '2029-01-01' then 'bp_2028_12'
+    when date(${TABLE}.rdg_date) >= '2029-01-02' and date(${TABLE}.rdg_date) < '2029-02-01' then 'bp_2029_01'
+    when date(${TABLE}.rdg_date) >= '2029-02-02' and date(${TABLE}.rdg_date) < '2029-03-01' then 'bp_2029_02'
+    when date(${TABLE}.rdg_date) >= '2029-03-02' and date(${TABLE}.rdg_date) < '2029-04-01' then 'bp_2029_03'
+    when date(${TABLE}.rdg_date) >= '2029-04-02' and date(${TABLE}.rdg_date) < '2029-05-01' then 'bp_2029_04'
+    when date(${TABLE}.rdg_date) >= '2029-05-02' and date(${TABLE}.rdg_date) < '2029-06-01' then 'bp_2029_05'
+    when date(${TABLE}.rdg_date) >= '2029-06-02' and date(${TABLE}.rdg_date) < '2029-07-01' then 'bp_2029_06'
+    when date(${TABLE}.rdg_date) >= '2029-07-02' and date(${TABLE}.rdg_date) < '2029-08-01' then 'bp_2029_07'
+    when date(${TABLE}.rdg_date) >= '2029-08-02' and date(${TABLE}.rdg_date) < '2029-09-01' then 'bp_2029_08'
+    when date(${TABLE}.rdg_date) >= '2029-09-02' and date(${TABLE}.rdg_date) < '2029-10-01' then 'bp_2029_09'
+    when date(${TABLE}.rdg_date) >= '2029-10-02' and date(${TABLE}.rdg_date) < '2029-11-01' then 'bp_2029_10'
+    when date(${TABLE}.rdg_date) >= '2029-11-02' and date(${TABLE}.rdg_date) < '2029-12-01' then 'bp_2029_11'
+    when date(${TABLE}.rdg_date) >= '2029-12-02' and date(${TABLE}.rdg_date) < '2030-01-01' then 'bp_2029_12'
+
+  else 'Unmapped'
+  end
+  "
+}
+
+
+###################################################################
 # Visualization JS...KEEP AT THE BOTTOM
 ###################################################################
 

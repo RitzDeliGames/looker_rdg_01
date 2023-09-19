@@ -79,6 +79,8 @@ view: player_battle_pass_summary {
   dimension: cumulative_time_played_minutes {type:number}
   dimension: count_reward_events {type:number}
 
+  # Battle Pass Number
+
 ################################################################
 ## Player Counts
 ################################################################

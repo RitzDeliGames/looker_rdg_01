@@ -80,6 +80,10 @@ view: player_battle_pass_summary {
   dimension: count_reward_events {type:number}
 
   # Battle Pass Number
+  dimension: battle_pass_number {
+    type: string
+    sql: @{battle_pass_number} ;;
+    }
 
 ################################################################
 ## Player Counts

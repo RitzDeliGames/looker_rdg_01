@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-08-30' v2
+      -- update '2023-09-20'
 
 -- create or replace table tal_scratch.player_daily_incremental as
 
@@ -79,7 +79,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-08-30' -- Last Full Update
+                when date(current_date()) <= '2023-09-20' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -784,6 +784,22 @@ view: player_daily_incremental {
               else 0
               end as int64) as load_time_count_from_game_scene
 
+        , safe_cast(case
+              when
+                event_name = 'transition'
+                and safe_cast(json_extract(extra_json,'$.transition_from') as string) like '%AppStart%'
+              then json_extract_scalar(extra_json, "$.load_time")
+              else null
+              end as int64) as load_time_from_app_start
+
+        , safe_cast(case
+              when
+                event_name = 'transition'
+                and safe_cast(json_extract_scalar(extra_json, "$.load_time") as int64) is not null
+                and safe_cast(json_extract(extra_json,'$.transition_from') as string) like '%AppStart%'
+              then 1
+              else 0
+              end as int64) as load_time_count_from_app_start
 
         -- {"transition_from":"AppStart","transition_to":"FirstInteraction","load_time":13238,"
         , safe_cast(case
@@ -1004,6 +1020,7 @@ view: player_daily_incremental {
         , safe_cast( round( safe_divide( sum( load_time_from_title_scene ) , sum( load_time_count_from_title_scene ) ) , 0 ) as int64 )  as average_load_time_from_title_scene
         , safe_cast( round( safe_divide( sum( load_time_from_meta_scene ) , sum( load_time_count_from_meta_scene ) ) , 0 ) as int64 )  as average_load_time_from_meta_scene
         , safe_cast( round( safe_divide( sum( load_time_from_game_scene ) , sum( load_time_count_from_game_scene ) ) , 0 ) as int64 )  as average_load_time_from_game_scene
+        , safe_cast( round( safe_divide( sum( load_time_from_app_start ) , sum( load_time_count_from_app_start ) ) , 0 ) as int64 )  as average_load_time_from_app_start
 
         -- possible crashes from fast screen title awakes
         , sum( count_possible_crashes_from_fast_title_screen_awake ) as count_possible_crashes_from_fast_title_screen_awake

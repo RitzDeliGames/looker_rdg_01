@@ -172,6 +172,7 @@ ads_by_date as (
         , max( a.average_load_time_from_title_scene ) as average_load_time_from_title_scene
         , max( a.average_load_time_from_meta_scene ) as average_load_time_from_meta_scene
         , max( a.average_load_time_from_game_scene ) as average_load_time_from_game_scene
+        , max( a.average_load_time_from_app_start ) as average_load_time_from_app_start
         , max( a.average_asset_load_time ) as average_asset_load_time
 
         -- frame rates
@@ -305,6 +306,7 @@ ads_by_date as (
         , max( a.average_load_time_from_title_scene ) as average_load_time_from_title_scene
         , max( a.average_load_time_from_meta_scene ) as average_load_time_from_meta_scene
         , max( a.average_load_time_from_game_scene ) as average_load_time_from_game_scene
+        , max( a.average_load_time_from_app_start ) as average_load_time_from_app_start
         , max( a.average_asset_load_time ) as average_asset_load_time
 
         -- frame rates
@@ -503,6 +505,7 @@ ads_by_date as (
         , a.average_load_time_from_title_scene
         , a.average_load_time_from_meta_scene
         , a.average_load_time_from_game_scene
+        , a.average_load_time_from_app_start
         , a.average_asset_load_time
 
         -- frame rates
@@ -3883,6 +3886,41 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
       percentile: 95
       sql: ${TABLE}.average_load_time_from_game_scene ;;
     }
+
+  measure: average_load_time_from_app_start_10 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.average_load_time_from_app_start ;;
+  }
+
+  measure: average_load_time_from_app_start_25 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.average_load_time_from_app_start ;;
+  }
+
+  measure: average_load_time_from_app_start_50 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.average_load_time_from_app_start ;;
+  }
+
+  measure: average_load_time_from_app_start_75 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.average_load_time_from_app_start ;;
+  }
+
+  measure: average_load_time_from_app_start_95 {
+    group_label: "Load Times"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.average_load_time_from_app_start ;;
+  }
 
     measure: average_asset_load_time_10 {
       group_label: "Load Times"

@@ -288,9 +288,13 @@ FROM
     , max( case when day_number = 12 then 1 else 0 end ) as retention_d12
     , max( case when day_number = 13 then 1 else 0 end ) as retention_d13
     , max( case when day_number = 14 then 1 else 0 end ) as retention_d14
+    , max( case when day_number = 15 then 1 else 0 end ) as retention_d15
     , max( case when day_number = 21 then 1 else 0 end ) as retention_d21
     , max( case when day_number = 30 then 1 else 0 end ) as retention_d30
+    , max( case when day_number = 31 then 1 else 0 end ) as retention_d31
+    , max( case when day_number = 46 then 1 else 0 end ) as retention_d46
     , max( case when day_number = 60 then 1 else 0 end ) as retention_d60
+    , max( case when day_number = 61 then 1 else 0 end ) as retention_d61
     , max( case when day_number = 90 then 1 else 0 end ) as retention_d90
     , max( case when day_number = 120 then 1 else 0 end ) as retention_d120
 
@@ -1914,6 +1918,135 @@ measure: revenue_per_install_d7 {
     ;;
     value_format_name: percent_1
     drill_fields: [numerator_retention_d120,available_player_count_d120]
+  }
+
+################################################################
+## Big Fish Retention
+################################################################
+
+  measure: big_fish_retention_d7 {
+    group_label: "Big Fish Retention"
+    label: "Big Fish D7"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.retention_d8
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    # drill_fields: [numerator_retention_d120,available_player_count_d120]
+  }
+
+  measure: big_fish_retention_d14 {
+    group_label: "Big Fish Retention"
+    label: "Big Fish D14"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          then ${TABLE}.retention_d15
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    # drill_fields: [numerator_retention_d120,available_player_count_d120]
+  }
+
+  measure: big_fish_retention_d30 {
+    group_label: "Big Fish Retention"
+    label: "Big Fish D30"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          then ${TABLE}.retention_d31
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    # drill_fields: [numerator_retention_d120,available_player_count_d120]
+  }
+
+  measure: big_fish_retention_d45 {
+    group_label: "Big Fish Retention"
+    label: "Big Fish D45"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 46
+          then ${TABLE}.retention_d46
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 46
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    # drill_fields: [numerator_retention_d120,available_player_count_d120]
+  }
+
+  measure: big_fish_retention_d60 {
+    group_label: "Big Fish Retention"
+    label: "Big Fish D60"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 61
+          then ${TABLE}.retention_d61
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 61
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    # drill_fields: [numerator_retention_d120,available_player_count_d120]
   }
 
 

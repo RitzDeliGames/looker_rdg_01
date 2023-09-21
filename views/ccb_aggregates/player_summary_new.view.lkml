@@ -256,10 +256,15 @@ FROM
      , max( case when day_number <= 1 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d1
      , max( case when day_number <= 2 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d2
      , max( case when day_number <= 7 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d7
+     , max( case when day_number <= 8 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d8
      , max( case when day_number <= 14 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d14
+     , max( case when day_number <= 15 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d15
      , max( case when day_number <= 21 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d21
      , max( case when day_number <= 30 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d30
+     , max( case when day_number <= 31 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d31
+     , max( case when day_number <= 46 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d46
      , max( case when day_number <= 60 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d60
+     , max( case when day_number <= 61 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d61
      , max( case when day_number <= 90 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d90
      , max( case when day_number <= 120 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d120
      , max( cumulative_combined_dollars ) as cumulative_combined_dollars_current
@@ -649,10 +654,15 @@ dimension: primary_key {
   dimension: cumulative_combined_dollars_d1 {group_label:"LTV - Cumulative" label:"D1 Cumulative LTV" value_format:"$0.00" type: number}
   dimension: cumulative_combined_dollars_d2 {group_label:"LTV - Cumulative" label:"D2 Cumulative LTV" value_format:"$0.00" type: number}
   dimension: cumulative_combined_dollars_d7 {group_label:"LTV - Cumulative" label:"D7 Cumulative LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d8 {group_label:"LTV - Cumulative" label:"D8 Cumulative LTV" value_format:"$0.00" type: number}
   dimension: cumulative_combined_dollars_d14 {group_label:"LTV - Cumulative" label:"D14 Cumulative LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d15 {group_label:"LTV - Cumulative" label:"D15 Cumulative LTV" value_format:"$0.00" type: number}
   dimension: cumulative_combined_dollars_d21 {group_label:"LTV - Cumulative" label:"D21 Cumulative LTV" value_format:"$0.00" type: number}
   dimension: cumulative_combined_dollars_d30 {group_label:"LTV - Cumulative" label:"D30 Cumulative LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d31 {group_label:"LTV - Cumulative" label:"D31 Cumulative LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d46 {group_label:"LTV - Cumulative" label:"D46 Cumulative LTV" value_format:"$0.00" type: number}
   dimension: cumulative_combined_dollars_d60 {group_label:"LTV - Cumulative" label:"D60 Cumulative LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d61 {group_label:"LTV - Cumulative" label:"D61 Cumulative LTV" value_format:"$0.00" type: number}
   dimension: cumulative_combined_dollars_d90 {group_label:"LTV - Cumulative" label:"D90 Cumulative LTV" value_format:"$0.00" type: number}
   dimension: cumulative_combined_dollars_d120 {group_label:"LTV - Cumulative" label:"D120 Cumulative LTV" value_format:"$0.00" type: number}
   dimension: cumulative_combined_dollars_current {group_label:"LTV - Cumulative" label:"LTV - Cumulative" value_format:"$0.00" type: number}
@@ -2049,6 +2059,49 @@ measure: revenue_per_install_d7 {
     # drill_fields: [numerator_retention_d120,available_player_count_d120]
   }
 
+################################################################
+## Big Fish Combined Dollars
+################################################################
+
+measure: big_fish_net_combined_dollars_d7 {
+  group_label: "Big Fish Net Combined Dollars"
+  label: "Big Fish D7"
+  type: sum
+  value_format_name: usd
+  sql: ${TABLE}.cumulative_combined_dollars_d8;;
+}
+
+measure: big_fish_net_combined_dollars_d14 {
+  group_label: "Big Fish Net Combined Dollars"
+  label: "Big Fish D14"
+  type: sum
+  value_format_name: usd
+  sql: ${TABLE}.cumulative_combined_dollars_d15;;
+}
+
+measure: big_fish_net_combined_dollars_d30 {
+  group_label: "Big Fish Net Combined Dollars"
+  label: "Big Fish D30"
+  type: sum
+  value_format_name: usd
+  sql: ${TABLE}.cumulative_combined_dollars_d31;;
+}
+
+measure: big_fish_net_combined_dollars_d45 {
+  group_label: "Big Fish Net Combined Dollars"
+  label: "Big Fish D45"
+  type: sum
+  value_format_name: usd
+  sql: ${TABLE}.cumulative_combined_dollars_d46;;
+}
+
+measure: big_fish_net_combined_dollars_d60 {
+  group_label: "Big Fish Net Combined Dollars"
+  label: "Big Fish D60"
+  type: sum
+  value_format_name: usd
+  sql: ${TABLE}.cumulative_combined_dollars_d61;;
+}
 
 ################################################################
 ## Unique Player

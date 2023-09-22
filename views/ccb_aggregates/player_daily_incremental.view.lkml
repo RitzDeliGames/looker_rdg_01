@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-09-20'
+      -- update '2023-09-22'
 
 -- create or replace table tal_scratch.player_daily_incremental as
 
@@ -403,6 +403,17 @@ view: player_daily_incremental {
               ELSE 0
               END AS INT64) AS round_end_events_askforhelp
 
+        -- round end events - go Fish
+          , safe_cast(CASE
+              WHEN
+                event_name = 'round_end'
+                and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
+                    'goFish'
+                )
+              THEN 1 -- count events
+              ELSE 0
+              END AS INT64) AS round_end_events_gofish
+
 
         --------------------------------------------------------------
         -- round time events
@@ -459,6 +470,17 @@ view: player_daily_incremental {
               ELSE 0
               END AS INT64) AS round_time_in_minutes_askforhelp
 
+        -- round end events - gofish
+          , safe_cast(CASE
+              WHEN
+                event_name = 'round_end'
+                and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
+                    'goFish'
+                )
+              THEN ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
+              ELSE 0
+              END AS INT64) AS round_time_in_minutes_gofish
+
 
           -- Lowest Last level serial recorded
           , MIN(IFNULL(safe_cast(last_level_serial AS INT64),0)) OVER (
@@ -481,6 +503,16 @@ view: player_daily_incremental {
               ORDER BY timestamp_utc ASC
               ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
               ) AS highest_quests_completed
+
+         -- gofish_rank
+          , case
+              when event_name = 'GoFish'
+              or (
+                safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) = 'goFish'
+                and event_name = 'round_end' )
+              then
+                safe_cast( substr( safe_cast(json_extract_scalar(extra_json, "$.player_rank") as string) , 6,10) as int64 )
+              else null end as gofish_rank
 
           -------------------------------------------------
           -- currency spend info
@@ -957,16 +989,20 @@ view: player_daily_incremental {
         , SUM(round_end_events_movesmaster) AS round_end_events_movesmaster
         , SUM(round_end_events_puzzle) AS round_end_events_puzzle
         , SUM(round_end_events_askforhelp) AS round_end_events_askforhelp
+        , SUM(round_end_events_gofish) AS round_end_events_gofish
 
         , SUM(round_time_in_minutes) AS round_time_in_minutes
         , SUM(round_time_in_minutes_campaign) AS round_time_in_minutes_campaign
         , SUM(round_time_in_minutes_movesmaster) AS round_time_in_minutes_movesmaster
         , SUM(round_time_in_minutes_puzzle) AS round_time_in_minutes_puzzle
         , SUM(round_time_in_minutes_askforhelp) AS round_time_in_minutes_askforhelp
+        , SUM(round_time_in_minutes_gofish) AS round_time_in_minutes_gofish
 
         , MAX(lowest_last_level_serial) AS lowest_last_level_serial
         , MAX(highest_last_level_serial) AS highest_last_level_serial
         , MAX(highest_quests_completed) AS highest_quests_completed
+        , MAX(gofish_rank) AS max_gofish_rank
+
         , SUM(gems_spend) AS gems_spend
         , SUM(coins_spend) AS coins_spend
         , sum(coins_sourced_from_rewards) as coins_sourced_from_rewards

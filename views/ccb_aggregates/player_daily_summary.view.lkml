@@ -108,16 +108,20 @@ ads_by_date as (
         , max(a.round_end_events_movesmaster) as round_end_events_movesmaster
         , max(a.round_end_events_puzzle) as round_end_events_puzzle
         , max(a.round_end_events_askforhelp) as round_end_events_askforhelp
+        , max(a.round_end_events_gofish) as round_end_events_gofish
 
         , max(a.round_time_in_minutes) as round_time_in_minutes
         , max(a.round_time_in_minutes_campaign) as round_time_in_minutes_campaign
         , max(a.round_time_in_minutes_movesmaster) as round_time_in_minutes_movesmaster
         , max(a.round_time_in_minutes_puzzle) AS round_time_in_minutes_puzzle
         , max(a.round_time_in_minutes_askforhelp) AS round_time_in_minutes_askforhelp
+        , max(a.round_time_in_minutes_gofish) AS round_time_in_minutes_gofish
 
         , max(a.lowest_last_level_serial) as lowest_last_level_serial
         , max(a.highest_last_level_serial) as highest_last_level_serial
         , max(a.highest_quests_completed) as highest_quests_completed
+        , max(a.max_gofish_rank) as max_gofish_rank
+
         , max(a.gems_spend) as gems_spend
         , max(a.coins_spend) as coins_spend
         , max(a.coins_sourced_from_rewards) as coins_sourced_from_rewards
@@ -243,16 +247,20 @@ ads_by_date as (
         , max(a.round_end_events_movesmaster) as round_end_events_movesmaster
         , max(a.round_end_events_puzzle) as round_end_events_puzzle
         , max(a.round_end_events_askforhelp) as round_end_events_askforhelp
+        , max(a.round_end_events_gofish) as round_end_events_gofish
 
         , max(a.round_time_in_minutes) as round_time_in_minutes
         , max(a.round_time_in_minutes_campaign) as round_time_in_minutes_campaign
         , max(a.round_time_in_minutes_movesmaster) as round_time_in_minutes_movesmaster
         , max(a.round_time_in_minutes_puzzle) AS round_time_in_minutes_puzzle
         , max(a.round_time_in_minutes_askforhelp) AS round_time_in_minutes_askforhelp
+        , max(a.round_time_in_minutes_gofish) AS round_time_in_minutes_gofish
 
         , max(a.lowest_last_level_serial) as lowest_last_level_serial
         , max(a.highest_last_level_serial) as highest_last_level_serial
         , max(a.highest_quests_completed) as highest_quests_completed
+        , max(a.max_gofish_rank) as max_gofish_rank
+
         , max(a.gems_spend) as gems_spend
         , max(a.coins_spend) as coins_spend
         , max(a.coins_sourced_from_rewards) as coins_sourced_from_rewards
@@ -425,16 +433,20 @@ ads_by_date as (
         , a.round_end_events_movesmaster
         , a.round_end_events_puzzle
         , a.round_end_events_askforhelp
+        , a.round_end_events_gofish
 
         , a.round_time_in_minutes
         , a.round_time_in_minutes_campaign
         , a.round_time_in_minutes_movesmaster
         , a.round_time_in_minutes_puzzle
         , a.round_time_in_minutes_askforhelp
+        , a.round_time_in_minutes_gofish
 
         , a.lowest_last_level_serial
         , a.highest_last_level_serial
         , a.highest_quests_completed
+        , a.max_gofish_rank as this_date_max_go_fish_rank
+
         , a.gems_spend
         , a.coins_spend
         , a.coins_sourced_from_rewards
@@ -775,6 +787,13 @@ select
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
       ) cumulative_round_end_events_askforhelp
 
+  -- round_end_events_gofish
+  , SUM(round_end_events_gofish) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_round_end_events_gofish
+
   -- round_time_in_minutes
   , SUM(round_time_in_minutes) OVER (
       PARTITION BY rdg_id
@@ -810,6 +829,13 @@ select
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
       ) cumulative_round_time_in_minutes_askforhelp
 
+  -- round_time_in_minutes_gofish
+  , SUM(round_time_in_minutes_gofish) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_round_time_in_minutes_gofish
+
   -- Calculate quests_completed
   -- uses prior row highest_quests_completed
   , IFNULL(highest_quests_completed,0) -
@@ -836,6 +862,13 @@ select
         PARTITION BY rdg_id
         ORDER BY rdg_date ASC
         ),0) AS levels_progressed
+
+  -- this_date_max_go_fish_rank
+  , MAX(this_date_max_go_fish_rank) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) max_gofish_rank
 
   -- cumulative_gems_spend
   , SUM(gems_spend) OVER (
@@ -1508,6 +1541,24 @@ dimension: primary_key {
     value_format_name: percent_0
   }
 
+  measure: percent_players_playing_gofish {
+    group_label: "Participation by Game Mode"
+    label: "Go Fish"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.round_end_events_gofish > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
   measure: churn_rate {
     group_label: "Calculated Fields"
     type: number
@@ -1703,6 +1754,96 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
       )
   ;;
     value_format_name: decimal_1
+  }
+
+################################################################
+## Go Fish Max Rank
+################################################################
+
+  dimension: max_gofish_rank {
+    group_label: "Go Fish Rank"
+    type: number
+  }
+
+  dimension: this_date_max_go_fish_rank {
+    group_label: "Go Fish Rank"
+    type: number
+  }
+
+  measure: gofish_rank_10 {
+    group_label: "Go Fish Rank"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.max_gofish_rank ;;
+  }
+  measure: gofish_rank_25 {
+    group_label: "Go Fish Rank"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.max_gofish_rank ;;
+  }
+  measure: gofish_rank_50 {
+    group_label: "Go Fish Rank"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.max_gofish_rank ;;
+  }
+  measure: gofish_rank_75 {
+    group_label: "Go Fish Rank"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.max_gofish_rank ;;
+  }
+  measure: gofish_rank_95 {
+    group_label: "Go Fish Rank"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.max_gofish_rank ;;
+  }
+
+################################################################
+## Go Fish Rounds Played
+################################################################
+
+  dimension: round_end_events_gofish {
+    group_label: "Go Fish Rounds"
+    type: number
+  }
+
+  dimension: cumulative_round_end_events_gofish {
+    group_label: "Go Fish Rounds"
+    type: number
+  }
+
+  measure: gofish_rounds_10 {
+    group_label: "Go Fish Rounds"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.round_end_events_gofish ;;
+  }
+  measure: gofish_rounds_25 {
+    group_label: "Go Fish Rounds"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.round_end_events_gofish ;;
+  }
+  measure: gofish_rounds_50 {
+    group_label: "Go Fish Rounds"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.round_end_events_gofish ;;
+  }
+  measure: gofish_rounds_75 {
+    group_label: "Go Fish Rounds"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.round_end_events_gofish ;;
+  }
+  measure: gofish_rounds_95 {
+    group_label: "Go Fish Rounds"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.round_end_events_gofish ;;
   }
 
 ################################################################

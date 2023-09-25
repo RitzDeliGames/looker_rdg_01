@@ -1936,6 +1936,31 @@ measure: revenue_per_install_d7 {
 ## Big Fish Retention
 ################################################################
 
+  measure: big_fish_retention_d1 {
+    group_label: "Big Fish Retention"
+    label: "Big Fish D1"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.retention_d2
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    # drill_fields: [numerator_retention_d120,available_player_count_d120]
+  }
+
   measure: big_fish_retention_d7 {
     group_label: "Big Fish Retention"
     label: "Big Fish D7"

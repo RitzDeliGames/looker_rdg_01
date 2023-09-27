@@ -688,6 +688,34 @@ explore: player_battle_pass_summary {
 
 ################################################################
 
+## Explore: Player Error Summary
+
+################################################################
+
+explore: player_error_summary {
+  label: "Player Error Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_error_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+  join: singular_campaign_summary {
+    view_label:  "Singular Campaign Info"
+    from:  singular_campaign_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on:
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ;;
+  }
+}
+
+################################################################
+
 ## Other Explores
 
 ################################################################
@@ -708,4 +736,4 @@ explore: revenue_model{}
 # explore: player_round_incremental {}
 # explore: player_mtx_purchase_incremental {}
 # explore: player_battle_pass_incremental {}
-explore: player_error_incremental {}
+# explore: player_error_incremental {}

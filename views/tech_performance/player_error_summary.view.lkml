@@ -48,9 +48,17 @@ view: player_error_summary {
   # dates
   dimension_group: rdg_date {
     type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.rdg_date ;;
+  }
+
+  # dates
+  dimension_group: timestamp_utc {
+    type: time
     timeframes: [time, date, week, month, year]
     sql: ${TABLE}.timestamp_utc ;;
   }
+
 
   dimension_group: created_date_timestamp {
     type: time

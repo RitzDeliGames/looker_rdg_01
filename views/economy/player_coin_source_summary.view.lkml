@@ -58,10 +58,10 @@ dimension: primary_key {
 
   # dates
   dimension_group: rdg_date {
-    label: "Source Time"
+    label: "Source Date"
     type: time
-    timeframes: [time, date, week, month, year]
-    sql: ${TABLE}.timestamp_utc ;;
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.rdg_date ;;
   }
 
   dimension_group: created_date_timestamp {

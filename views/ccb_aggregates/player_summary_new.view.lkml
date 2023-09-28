@@ -114,6 +114,13 @@ SELECT
       ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
       ) experiments
 
+    -- latest experiments
+    , LAST_VALUE(experiments) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+      ) latest_experiments
+
     -- install_version
     , FIRST_VALUE(install_version) OVER (
       PARTITION BY rdg_id
@@ -200,6 +207,7 @@ FROM
       , max(timestamp(created_date)) as created_date
       , max(date_diff(latest_update,created_date,DAY) + 1) as max_available_day_number
       , max(experiments) AS experiments
+      , max(latest_experiments) as latest_experiments
       , max(cumulative_time_played_minutes) as cumulative_time_played_minutes
 
       -- versions
@@ -1071,6 +1079,15 @@ dimension: primary_key {
     sql:
     safe_cast(
         json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
+        as string)
+    ;;
+  }
+
+  dimension: latest_experiment_variant {
+    type: string
+    sql:
+    safe_cast(
+        json_extract_scalar(${TABLE}.latest_experiments,{% parameter selected_experiment %})
         as string)
     ;;
   }

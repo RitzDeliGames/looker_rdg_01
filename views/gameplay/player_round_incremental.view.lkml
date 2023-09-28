@@ -4,7 +4,7 @@ view: player_round_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update on '2023-08-30' v2
+      -- update on '2023-09-28'
 
       -- create or replace table tal_scratch.player_round_incremental as
 
@@ -47,7 +47,7 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-08-30' -- Last Full Update
+                      when date(current_date()) <= '2023-09-28' -- Last Full Update
                       then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -131,7 +131,11 @@ view: player_round_incremental {
 
               , safe_cast(json_extract_scalar( extra_json , "$.config_timestamp") as numeric) as config_timestamp
 
-
+              -- go fish specific fields
+              , safe_cast(json_extract_scalar(extra_json, "$.opponent_display_name") as string) as gofish_opponent_display_name
+              , safe_cast(json_extract_scalar(extra_json , "$.opponent_moves_remaining") as numeric) as gofish_opponent_moves_remaining
+              , safe_cast(json_extract_scalar(extra_json, "$.round_number") as numeric) as gofish_round_number
+              , safe_cast(json_extract_scalar(extra_json, "$.player_rank") as numeric) as gofish_player_rank
 
           from
               get_round_start_timestamp
@@ -190,8 +194,13 @@ view: player_round_incremental {
           , max(config_timestamp) as config_timestamp
           , max(round_count) as round_count
 
+          -- go fish specific fields
+          , max(gofish_opponent_display_name) as gofish_opponent_display_name
+          , max(gofish_opponent_moves_remaining) as gofish_opponent_moves_remaining
+          , max(gofish_round_number) as gofish_round_number
+          , max(gofish_player_rank) as gofish_player_rank
 
-      from
+     from
           get_round_ends_events_only
       group by
           rdg_id

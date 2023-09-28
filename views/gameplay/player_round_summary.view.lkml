@@ -79,6 +79,7 @@ base_data as (
     , a.level_serial_fix as level_serial
     , a.round_start_timestamp_utc
     , a.round_end_timestamp_utc
+    , a.event_name
     , max(a.created_at) as created_at
     , max(a.version) as version
     , max(a.session_id) as session_id
@@ -180,7 +181,7 @@ base_data as (
       and b.timestamp_utc <= a.round_end_timestamp_utc
 
   group by
-    1,2,3,4,5,6
+    1,2,3,4,5,6,7
 
 )
 
@@ -197,6 +198,7 @@ base_data as (
     , a.level_serial
     , a.round_start_timestamp_utc
     , a.round_end_timestamp_utc
+    , a.event_name
     , max(a.created_at) as created_at
     , max(a.version) as version
     , max(a.session_id) as session_id
@@ -304,7 +306,7 @@ base_data as (
 
 
   group by
-    1,2,3,4,5,6
+    1,2,3,4,5,6,7
 
 )
 
@@ -321,6 +323,7 @@ base_data as (
     , a.level_serial
     , a.round_start_timestamp_utc
     , a.round_end_timestamp_utc
+    , a.event_name
     , max(a.created_at) as created_at
     , max(a.version) as version
     , max(a.session_id) as session_id
@@ -434,7 +437,7 @@ base_data as (
 
 
   group by
-    1,2,3,4,5,6
+    1,2,3,4,5,6,7
 
 )
 
@@ -771,6 +774,7 @@ from
     type:number
     }
   dimension: version {type:string}
+  dimension: event_name {type:string}
   dimension: session_id {type:string}
   dimension: experiments {type:string}
   dimension: win_streak_at_round_start {type:number}

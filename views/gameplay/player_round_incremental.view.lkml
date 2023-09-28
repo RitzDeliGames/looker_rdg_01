@@ -59,7 +59,18 @@ view: player_round_incremental {
               -- This removes any bots or internal QA accounts
               ------------------------------------------------------------------------
               and user_type = 'external'
-              and event_name in ('round_start', 'round_end')
+              and event_name in ('round_start', 'round_end', 'round_quit')
+
+            ------------------------------------------------------------------------
+            -- check my data
+            -- this is adhoc if I want to check a query with my own data
+            ------------------------------------------------------------------------
+
+            -- and rdg_id = '3989ffa2-2b93-4f33-a940-86c4746036ba'
+            -- and date(timestamp) = '2023-09-28'
+
+
+
           )
 
       -- SELECT * FROM base_data
@@ -97,6 +108,7 @@ view: player_round_incremental {
               , win_streak
               , 1 as count_rounds
               , round_count
+              , event_name
               , safe_cast(json_extract_scalar( extra_json , "$.lives") as numeric) as lives
               , ifnull( cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 ) as round_length_minutes
               , safe_cast(json_extract_scalar( extra_json , "$.quest_complete") as boolean) as quest_complete
@@ -140,7 +152,7 @@ view: player_round_incremental {
           from
               get_round_start_timestamp
           where
-              event_name = 'round_end'
+              event_name in ( 'round_end', 'round_quit' )
               and round_start_event_name = 'round_start'
 
       )
@@ -156,8 +168,9 @@ view: player_round_incremental {
           , rdg_date
           , game_mode
           , level_serial
-          , max(round_start_timestamp_utc) as round_start_timestamp_utc
+          , event_name
           , round_end_timestamp_utc
+          , max(round_start_timestamp_utc) as round_start_timestamp_utc
           , max(created_at) as created_at
           , max(version) as version
           , max(session_id) as session_id
@@ -203,11 +216,7 @@ view: player_round_incremental {
      from
           get_round_ends_events_only
       group by
-          rdg_id
-          , rdg_date
-          , game_mode
-          , level_serial
-          , round_end_timestamp_utc
+          1,2,3,4,5,6
 
 
       ;;

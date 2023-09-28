@@ -122,6 +122,14 @@ base_data as (
     , max(a.round_count) as round_count
     , max(a.level_difficuly) as level_difficuly
 
+    -- go fish specific fields
+    , max(a.gofish_opponent_display_name) as gofish_opponent_display_name
+    , max(a.gofish_opponent_moves_remaining) as gofish_opponent_moves_remaining
+    , max(a.gofish_round_number) as gofish_round_number
+    , max(a.gofish_player_rank) as gofish_player_rank
+
+
+
     --------------------------------------------------------------------------
     -- mtx purchase dollars
     --------------------------------------------------------------------------
@@ -239,6 +247,13 @@ base_data as (
     , max(a.round_count) as round_count
     , max(a.level_difficuly) as level_difficuly
 
+    -- go fish specific fields
+    , max(a.gofish_opponent_display_name) as gofish_opponent_display_name
+    , max(a.gofish_opponent_moves_remaining) as gofish_opponent_moves_remaining
+    , max(a.gofish_round_number) as gofish_round_number
+    , max(a.gofish_player_rank) as gofish_player_rank
+
+
     --------------------------------------------------------------------------
     -- ad_view_dollars
     --------------------------------------------------------------------------
@@ -348,6 +363,12 @@ base_data as (
     , max(a.config_timestamp) as config_timestamp
     , max(a.round_count) as round_count
     , max(a.level_difficuly) as level_difficuly
+
+    -- go fish specific fields
+    , max(a.gofish_opponent_display_name) as gofish_opponent_display_name
+    , max(a.gofish_opponent_moves_remaining) as gofish_opponent_moves_remaining
+    , max(a.gofish_round_number) as gofish_round_number
+    , max(a.gofish_player_rank) as gofish_player_rank
 
     , max(a.before_round_start_mtx_purchase_dollars) as before_round_start_mtx_purchase_dollars
     , max(a.in_round_mtx_purchase_dollars) as in_round_mtx_purchase_dollars
@@ -846,6 +867,12 @@ from
     style: integer
     sql: ${TABLE}.cumulative_round_by_level_game_mode_at_churn;;
     }
+
+  ## go fish specific fields
+  dimension: gofish_opponent_display_name {type:string}
+  dimension: gofish_opponent_moves_remaining {type:number}
+  dimension: gofish_round_number {type:number}
+  dimension: gofish_player_rank {type:number}
 
 ################################################################
 ## Player Counts

@@ -57,6 +57,7 @@ SELECT
     , end_of_content_levels
     , cumulative_round_time_in_minutes_campaign
     , cumulative_round_end_events_puzzle
+    , cumulative_round_end_events_gofish
 
     -- device_id
     , last_value(device_id) OVER (
@@ -385,6 +386,8 @@ FROM
     , max( case when day_number <= 21 then cumulative_round_end_events_puzzle else 0 end ) as puzzle_rounds_played_in_first_21_days
     , max( case when day_number <= 30 then cumulative_round_end_events_puzzle else 0 end ) as puzzle_rounds_played_in_first_30_days
 
+    -- cumulative go fish rounds
+    , max( cumulative_round_end_events_gofish ) as gofish_rounds_played_total
 
   FROM
     pre_aggregate_calculations_from_base_data
@@ -597,6 +600,10 @@ dimension: primary_key {
   dimension: country {type: string}
   dimension: region {type:string sql:@{country_region};;}
   dimension: cumulative_time_played_minutes {label:"Minutes Played" value_format:"#,##0" type: number}
+  dimension: gofish_rounds_played_total {
+    label: "GoFish Rounds Played"
+    type: number
+    }
 
   # dates
   dimension_group: last_played_date {

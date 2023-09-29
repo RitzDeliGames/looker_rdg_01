@@ -129,6 +129,14 @@ base_data as (
     , max(a.gofish_round_number) as gofish_round_number
     , max(a.gofish_player_rank) as gofish_player_rank
 
+    -- chum chum boosts used
+    , max(a.powerup_hammer) as powerup_hammer
+    , max(a.powerup_rolling_pin) as powerup_rolling_pin
+    , max(a.powerup_piping_bag) as powerup_piping_bag
+    , max(a.powerup_shuffle) as powerup_shuffle
+    , max(a.powerup_chopsticks) as powerup_chopsticks
+    , max(a.powerup_skillet) as powerup_skillet
+    , max(a.total_chum_powerups_used) as total_chum_powerups_used
 
 
     --------------------------------------------------------------------------
@@ -255,6 +263,15 @@ base_data as (
     , max(a.gofish_round_number) as gofish_round_number
     , max(a.gofish_player_rank) as gofish_player_rank
 
+    -- chum chum boosts used
+    , max(a.powerup_hammer) as powerup_hammer
+    , max(a.powerup_rolling_pin) as powerup_rolling_pin
+    , max(a.powerup_piping_bag) as powerup_piping_bag
+    , max(a.powerup_shuffle) as powerup_shuffle
+    , max(a.powerup_chopsticks) as powerup_chopsticks
+    , max(a.powerup_skillet) as powerup_skillet
+    , max(a.total_chum_powerups_used) as total_chum_powerups_used
+
 
     --------------------------------------------------------------------------
     -- ad_view_dollars
@@ -372,6 +389,15 @@ base_data as (
     , max(a.gofish_opponent_moves_remaining) as gofish_opponent_moves_remaining
     , max(a.gofish_round_number) as gofish_round_number
     , max(a.gofish_player_rank) as gofish_player_rank
+
+    -- chum chum boosts used
+    , max(a.powerup_hammer) as powerup_hammer
+    , max(a.powerup_rolling_pin) as powerup_rolling_pin
+    , max(a.powerup_piping_bag) as powerup_piping_bag
+    , max(a.powerup_shuffle) as powerup_shuffle
+    , max(a.powerup_chopsticks) as powerup_chopsticks
+    , max(a.powerup_skillet) as powerup_skillet
+    , max(a.total_chum_powerups_used) as total_chum_powerups_used
 
     , max(a.before_round_start_mtx_purchase_dollars) as before_round_start_mtx_purchase_dollars
     , max(a.in_round_mtx_purchase_dollars) as in_round_mtx_purchase_dollars
@@ -877,6 +903,18 @@ from
   dimension: gofish_opponent_moves_remaining {type:number}
   dimension: gofish_round_number {type:number}
   dimension: gofish_player_rank {type:number}
+
+  ## chum chum boosts used
+  dimension: powerup_hammer { group_label: "Chum Chum Skills Used" type:number}
+  dimension: powerup_rolling_pin { group_label: "Chum Chum Skills Used" type:number}
+  dimension: powerup_piping_bag { group_label: "Chum Chum Skills Used" type:number}
+  dimension: powerup_shuffle { group_label: "Chum Chum Skills Used" type:number}
+  dimension: powerup_chopsticks { group_label: "Chum Chum Skills Used" type:number}
+  dimension: powerup_skillet { group_label: "Chum Chum Skills Used" type:number}
+  dimension: total_chum_powerups_used { group_label: "Chum Chum Skills Used" type:number}
+
+
+
 
 ################################################################
 ## Player Counts

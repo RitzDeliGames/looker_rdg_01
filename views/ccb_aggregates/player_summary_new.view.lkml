@@ -614,6 +614,7 @@ dimension: primary_key {
     type: tier
     style: integer
     tiers: [0,3,6,9,12,15]
+    sql: ${TABLE}.gofish_rounds_played_total  ;;
   }
 
   # dates

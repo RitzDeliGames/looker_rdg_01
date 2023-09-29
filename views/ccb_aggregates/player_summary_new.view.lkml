@@ -600,10 +600,21 @@ dimension: primary_key {
   dimension: country {type: string}
   dimension: region {type:string sql:@{country_region};;}
   dimension: cumulative_time_played_minutes {label:"Minutes Played" value_format:"#,##0" type: number}
+
+
   dimension: gofish_rounds_played_total {
+    group_label: "Go Fish Rounds"
     label: "GoFish Rounds Played"
     type: number
     }
+
+  dimension: gofish_rounds_played_tiers {
+    group_label: "Go Fish Rounds"
+    label: "GoFish Rounds Played (Bins)"
+    type: tier
+    style: integer
+    tiers: [0,3,6,9,12,15]
+  }
 
   # dates
   dimension_group: last_played_date {

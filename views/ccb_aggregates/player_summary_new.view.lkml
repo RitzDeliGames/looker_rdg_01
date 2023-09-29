@@ -613,7 +613,7 @@ dimension: primary_key {
     label: "GoFish Rounds Played (Bins)"
     type: tier
     style: integer
-    tiers: [0,3,6,9,12,15]
+    tiers: [0,1,4,7,10,13,16]
     sql: ${TABLE}.gofish_rounds_played_total  ;;
   }
 

@@ -37,7 +37,7 @@ view: player_recent_full_event_data {
               -- Date selection
               ------------------------------------------------------------------------
 
-              date(timestamp) >= date_add(current_date(), interval -9 day)
+              date(timestamp) >= date_add(current_date(), interval -20 day)
               and date(timestamp) <= date_add(current_date(), interval +1 DAY)
 
               ------------------------------------------------------------------------

@@ -1482,9 +1482,54 @@ from
     value_format_name: percent_1
   }
 
+########################################33
+## Chum Skills used percentiles
+########################################33
 
+  measure: total_chum_powerups_used_10 {
+    group_label: "Chum Chum Skills Used"
+    label: "10th Percentile"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.total_chum_powerups_used;;
+    value_format_name: decimal_0
+  }
 
+  measure: total_chum_powerups_used_25 {
+    group_label: "Chum Chum Skills Used"
+    label: "25th Percentile"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.total_chum_powerups_used;;
+    value_format_name: decimal_0
+  }
 
+  measure: total_chum_powerups_used_50 {
+    group_label: "Chum Chum Skills Used"
+    label: "Median"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.total_chum_powerups_used;;
+    value_format_name: decimal_0
+  }
+
+  measure: total_chum_powerups_used_75 {
+    group_label: "Chum Chum Skills Used"
+    label: "75th Percentile"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.total_chum_powerups_used;;
+    value_format_name: decimal_0
+  }
+
+  measure: total_chum_powerups_used_95 {
+    group_label: "Chum Chum Skills Used"
+    label: "95th Percentile"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.total_chum_powerups_used;;
+    value_format_name: decimal_0
+  }
 
 
 

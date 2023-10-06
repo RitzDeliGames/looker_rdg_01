@@ -777,6 +777,13 @@ from
     sql: ${TABLE}.rdg_date ;;
   }
 
+  # dates
+  dimension_group: round_start_timestamp_utc {
+    type: time
+    timeframes: [time, hour, date, week, month, year]
+    sql: ${TABLE}.round_start_timestamp_utc ;;
+  }
+
   dimension_group: created_date_timestamp {
     type: time
     timeframes: [date, week, month, year]

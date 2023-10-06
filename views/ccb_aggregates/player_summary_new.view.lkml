@@ -1000,6 +1000,12 @@ dimension: primary_key {
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      ,"$.mustardPretzel_09262023"
+      ,"$.chumPrompt_09262023"
+      ,"$.dynamicRewardsRatio_20230922"
+      ,"$.reducedMoves_20230919"
+      ,"$.autoRestore_20230912"
+
       ,"$.goFish_20230915"
 
       ,"$.extraMoves_20230908"

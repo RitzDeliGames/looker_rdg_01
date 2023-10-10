@@ -171,19 +171,19 @@ dimension: singular_install_date {type: date}
 
   dimension: singular_source {
     group_label: "Singular Campaign Info"
-    type:number}
+    type:string}
   dimension: singular_platform {
     group_label: "Singular Campaign Info"
-    type:number}
+    type:string}
   dimension: device_platform_mapping {
     group_label: "Singular Campaign Info"
-    type:number}
+    type:string}
   dimension: singular_country_name {
     group_label: "Singular Campaign Info"
-    type:number}
+    type:string}
   dimension: country {
     group_label: "Singular Campaign Info"
-    type:number}
+    type:string}
   dimension: region {
     group_label: "Singular Campaign Info"
     type:string

@@ -44,7 +44,7 @@ view: singular_campaign_summary {
               else 'Other'
               end as device_platform_mapping
           , b.singular_country_name as singular_country_name
-          , b.singular_country as singular_country
+          , b.singular_country as country
 
           , max( a.adn_campaign_name ) campaign_name
           , sum( cast(a.adn_impressions as int64)) as singular_total_impressions
@@ -107,7 +107,7 @@ view: singular_campaign_summary {
     || '_' || ${TABLE}.singular_platform
     || '_' || ${TABLE}.device_platform_mapping
     || '_' || ${TABLE}.singular_country_name
-    || '_' || ${TABLE}.singular_country
+    || '_' || ${TABLE}.country
 
     ;;
     primary_key: yes
@@ -181,9 +181,14 @@ dimension: singular_install_date {type: date}
   dimension: singular_country_name {
     group_label: "Singular Campaign Info"
     type:number}
-  dimension: singular_country {
+  dimension: country {
     group_label: "Singular Campaign Info"
     type:number}
+  dimension: region {
+    group_label: "Singular Campaign Info"
+    type:string
+    sql:@{country_region};;}
+
 
 
 

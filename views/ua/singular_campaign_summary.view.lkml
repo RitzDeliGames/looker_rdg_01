@@ -36,11 +36,17 @@ view: singular_campaign_summary {
         select
           a.adn_campaign_id as singular_campaign_id
           , timestamp(a.date) as singular_install_date
+          , a.source as singular_source
+          , a.platform as singular_platform
+          , case
+              when a.platform = 'iOS' then 'Apple'
+              when a.platform = 'Android' then 'Google'
+              else 'Other'
+              end as device_platform_mapping
+          , b.singular_country_name as singular_country_name
+          , b.singular_country as singular_country
+
           , max( a.adn_campaign_name ) campaign_name
-          -- , max( a.source ) as singular_source
-          -- , max( a.platform ) as singular_platform
-          -- , max( b.singular_country_name ) as singular_country_name
-          -- , max( b.singular_country ) as singular_country
           , sum( cast(a.adn_impressions as int64)) as singular_total_impressions
           , sum( cast(a.adn_cost as float64)) as singular_total_cost
           , sum( cast(a.adn_original_cost as float64)) as singular_total_original_cost
@@ -50,12 +56,15 @@ view: singular_campaign_summary {
           left join singular_country_code_helper b
             on a.country_field = b.Alpha_3_code
         group by
-          1,2
+          1,2,3,4,5,6,7
       )
 
       -----------------------------------------------------------------------
       -- add last install date for each campaign
       -----------------------------------------------------------------------
+
+      -- select distinct singular_platform from singular_campaign_summary
+
       select
         *
         , min( singular_install_date ) over ( partition by singular_campaign_id ) as campaign_start_date
@@ -77,15 +86,45 @@ view: singular_campaign_summary {
 ## Primary Key
 ####################################################################
 
+          # a.adn_campaign_id as singular_campaign_id
+          # , timestamp(a.date) as singular_install_date
+          # , a.source as singular_source
+          # , a.platform as singular_platform
+          # , case
+          #     when a.platform = 'iOS' then 'Apple'
+          #     when a.platform = 'Android' then 'Google'
+          #     else 'Other'
+          #     end as device_platform_mapping
+          # , b.singular_country_name as singular_country_name
+          # , b.singular_country as singular_country
+
   dimension: primary_key {
     type: string
     sql:
     ${TABLE}.singular_campaign_id
     || '_' || ${TABLE}.singular_install_date
+    || '_' || ${TABLE}.singular_source
+    || '_' || ${TABLE}.singular_platform
+    || '_' || ${TABLE}.device_platform_mapping
+    || '_' || ${TABLE}.singular_country_name
+    || '_' || ${TABLE}.singular_country
+
     ;;
     primary_key: yes
     hidden: yes
   }
+
+
+# Old Primary Key
+  # dimension: primary_key {
+  #   type: string
+  #   sql:
+  #   ${TABLE}.singular_campaign_id
+  #   || '_' || ${TABLE}.singular_install_date
+  #   ;;
+  #   primary_key: yes
+  #   hidden: yes
+  # }
 
 ####################################################################
 ## Date Groups
@@ -129,6 +168,24 @@ dimension: singular_install_date {type: date}
   dimension: singular_total_installs {
     group_label: "Singular Campaign Info"
     type:number}
+
+  dimension: singular_source {
+    group_label: "Singular Campaign Info"
+    type:number}
+  dimension: singular_platform {
+    group_label: "Singular Campaign Info"
+    type:number}
+  dimension: device_platform_mapping {
+    group_label: "Singular Campaign Info"
+    type:number}
+  dimension: singular_country_name {
+    group_label: "Singular Campaign Info"
+    type:number}
+  dimension: singular_country {
+    group_label: "Singular Campaign Info"
+    type:number}
+
+
 
 ####################################################################
 ## Campaign Name Clean

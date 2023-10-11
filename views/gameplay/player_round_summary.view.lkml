@@ -138,6 +138,9 @@ base_data as (
     , max(a.powerup_skillet) as powerup_skillet
     , max(a.total_chum_powerups_used) as total_chum_powerups_used
 
+    -- techincal stats
+    , max(a.used_memory_bytes) as used_memory_bytes
+
 
     --------------------------------------------------------------------------
     -- mtx purchase dollars
@@ -272,6 +275,8 @@ base_data as (
     , max(a.powerup_skillet) as powerup_skillet
     , max(a.total_chum_powerups_used) as total_chum_powerups_used
 
+    -- techincal stats
+    , max(a.used_memory_bytes) as used_memory_bytes
 
     --------------------------------------------------------------------------
     -- ad_view_dollars
@@ -398,6 +403,10 @@ base_data as (
     , max(a.powerup_chopsticks) as powerup_chopsticks
     , max(a.powerup_skillet) as powerup_skillet
     , max(a.total_chum_powerups_used) as total_chum_powerups_used
+
+
+    -- techincal stats
+    , max(a.used_memory_bytes) as used_memory_bytes
 
     , max(a.before_round_start_mtx_purchase_dollars) as before_round_start_mtx_purchase_dollars
     , max(a.in_round_mtx_purchase_dollars) as in_round_mtx_purchase_dollars
@@ -1538,7 +1547,56 @@ from
     value_format_name: decimal_0
   }
 
+########################################33
+## Used Memory Bytes
+########################################33
 
+  dimension: used_memory_bytes {type:number}
+
+  measure: used_memory_bytes_10 {
+    group_label: "Used Memory Bytes"
+    label: "10th Percentile"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.used_memory_bytes;;
+    value_format_name: decimal_0
+  }
+
+  measure: used_memory_bytes_25 {
+    group_label: "Used Memory Bytes"
+    label: "25th Percentile"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.used_memory_bytes;;
+    value_format_name: decimal_0
+  }
+
+  measure: used_memory_bytes_50 {
+    group_label: "Used Memory Bytes"
+    label: "Median"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.used_memory_bytes;;
+    value_format_name: decimal_0
+  }
+
+  measure: used_memory_bytes_75 {
+    group_label: "Used Memory Bytes"
+    label: "75th Percentile"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.used_memory_bytes;;
+    value_format_name: decimal_0
+  }
+
+  measure: used_memory_bytes_95 {
+    group_label: "Used Memory Bytes"
+    label: "95th Percentile"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.used_memory_bytes;;
+    value_format_name: decimal_0
+  }
 
 
 

@@ -47,7 +47,7 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-09-29' -- Last Full Update
+                      when date(current_date()) <= '2023-10-11' -- Last Full Update
                       then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -157,6 +157,9 @@ view: player_round_incremental {
               , ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_chopsticks") as numeric),0) as powerup_chopsticks
               , ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_skillet") as numeric),0) as powerup_skillet
 
+              -- technical stats tracking
+              , safe_cast(json_extract_scalar(extra_json, "$.used_memory_bytes") as numeric) as used_memory_bytes
+
           from
               get_round_start_timestamp
           where
@@ -236,6 +239,10 @@ view: player_round_incremental {
             + powerup_chopsticks
             + powerup_skillet
             ) as total_chum_powerups_used
+
+        -- technical stats tracking
+        , max(used_memory_bytes) as used_memory_bytes
+
 
      from
           get_round_ends_events_only

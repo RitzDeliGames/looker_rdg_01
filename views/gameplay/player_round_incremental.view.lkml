@@ -4,9 +4,9 @@ view: player_round_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update on '2023-09-28'
+      -- update on '2023-10-17'
 
-      -- create or replace table tal_scratch.player_round_incremental as
+     -- create or replace table tal_scratch.player_round_incremental as
 
       with
 
@@ -47,7 +47,7 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-10-11' -- Last Full Update
+                      when date(current_date()) <= '2023-10-17' -- Last Full Update
                       then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -150,12 +150,36 @@ view: player_round_incremental {
               , safe_cast(json_extract_scalar(extra_json, "$.player_rank") as numeric) as gofish_player_rank
 
               -- chum chum boosts used
-              , ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_hammer") as numeric),0) as powerup_hammer
-              , ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_rolling_pin") as numeric),0) as powerup_rolling_pin
-              , ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_piping_bag") as numeric),0) as powerup_piping_bag
-              , ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_shuffle") as numeric),0) as powerup_shuffle
-              , ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_chopsticks") as numeric),0) as powerup_chopsticks
-              , ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_skillet") as numeric),0) as powerup_skillet
+              , case
+                    when safe_cast(version as numeric) < 13294
+                    then ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_hammer") as numeric),0)
+                    else ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_hammer") as numeric),0)
+                    end as powerup_hammer
+              , case
+                    when safe_cast(version as numeric) < 13294
+                    then ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_rolling_pin") as numeric),0)
+                    else ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_rolling_pin") as numeric),0)
+                    end as powerup_rolling_pin
+              , case
+                    when safe_cast(version as numeric) < 13294
+                    then ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_piping_bag") as numeric),0)
+                    else ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_piping_bag") as numeric),0)
+                    end as powerup_piping_bag
+              , case
+                    when safe_cast(version as numeric) < 13294
+                    then ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_shuffle") as numeric),0)
+                    else ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_shuffle") as numeric),0)
+                    end as powerup_shuffle
+              , case
+                    when safe_cast(version as numeric) < 13294
+                    then ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_chopsticks") as numeric),0)
+                    else ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_chopsticks") as numeric),0)
+                    end as powerup_chopsticks
+              , case
+                    when safe_cast(version as numeric) < 13294
+                    then ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_skillet") as numeric),0)
+                    else ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_skillet") as numeric),0)
+                    end as powerup_skillet
 
               -- technical stats tracking
               , safe_cast(json_extract_scalar(extra_json, "$.used_memory_bytes") as numeric) as used_memory_bytes

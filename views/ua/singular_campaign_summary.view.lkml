@@ -4,80 +4,43 @@ view: singular_campaign_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-05-16'
-
-      -- create or replace table tal_scratch.singular_campaign_summary as
+      -- update '2023-10-17'
 
       with
-
-      -----------------------------------------------------------------------
-      -- singular_country_code_helper
-      -----------------------------------------------------------------------
-
-      singular_country_code_helper as (
-
-        select
-          Alpha_3_code
-          , max(country) as singular_country_name
-          , max(Alpha_2_code) as singular_country
-        from
-          `eraser-blast.singular.country_codes`
-        group by
-          1
-
-      )
 
       -----------------------------------------------------------------------
       -- singular_campaign_summary
       -----------------------------------------------------------------------
 
-      , singular_campaign_summary as (
+      singular_campaign_summary as (
 
-        select
-          a.adn_campaign_id as singular_campaign_id
-          , timestamp(a.date) as singular_install_date
-          , a.source as singular_source
-          , a.platform as singular_platform
-          , case
-              when a.platform = 'iOS' then 'Apple'
-              when a.platform = 'Android' then 'Google'
-              else 'Other'
-              end as device_platform_mapping
-          , b.singular_country_name as singular_country_name
-          , b.singular_country as country
-
-          , max( a.adn_campaign_name ) campaign_name
-          , sum( cast(a.adn_impressions as int64)) as singular_total_impressions
-          , sum( cast(a.adn_cost as float64)) as singular_total_cost
-          , sum( cast(a.adn_original_cost as float64)) as singular_total_original_cost
-          , sum( cast(a.adn_installs AS int64)) as singular_total_installs
-        from
-          `eraser-blast.singular.marketing_data` a
-          left join singular_country_code_helper b
-            on a.country_field = b.Alpha_3_code
-        group by
-          1,2,3,4,5,6,7
+      select
+      singular_campaign_id
+      , singular_install_date
+      , max( campaign_name ) campaign_name
+      , sum( ifnull(singular_total_impressions,0) ) as singular_total_impressions
+      , sum( ifnull(singular_total_cost,0) ) as singular_total_cost
+      , sum( ifnull(singular_total_original_cost,0) ) as singular_total_original_cost
+      , sum( ifnull(singular_total_installs,0) ) as singular_total_installs
+      from
+      ${singular_campaign_detail.SQL_TABLE_NAME}
+      -- eraser-blast.looker_scratch.6Y_ritz_deli_games_singular_campaign_summary
+      group by
+      1,2
       )
 
       -----------------------------------------------------------------------
       -- add last install date for each campaign
       -----------------------------------------------------------------------
-
-      -- select distinct singular_platform from singular_campaign_summary
-
       select
-        *
-        , min( singular_install_date ) over ( partition by singular_campaign_id ) as campaign_start_date
+      *
+      , min( singular_install_date ) over ( partition by singular_campaign_id ) as campaign_start_date
       from
-        singular_campaign_summary
-
-
-
-
+      singular_campaign_summary
 
       ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (1) + 2 )*( -10 ) minute)) ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (2) + 2 )*( -10 ) minute)) ;;
     publish_as_db_view: yes
 
   }
@@ -86,51 +49,21 @@ view: singular_campaign_summary {
 ## Primary Key
 ####################################################################
 
-          # a.adn_campaign_id as singular_campaign_id
-          # , timestamp(a.date) as singular_install_date
-          # , a.source as singular_source
-          # , a.platform as singular_platform
-          # , case
-          #     when a.platform = 'iOS' then 'Apple'
-          #     when a.platform = 'Android' then 'Google'
-          #     else 'Other'
-          #     end as device_platform_mapping
-          # , b.singular_country_name as singular_country_name
-          # , b.singular_country as singular_country
-
   dimension: primary_key {
     type: string
     sql:
     ${TABLE}.singular_campaign_id
     || '_' || ${TABLE}.singular_install_date
-    || '_' || ${TABLE}.singular_source
-    || '_' || ${TABLE}.singular_platform
-    || '_' || ${TABLE}.device_platform_mapping
-    || '_' || ${TABLE}.singular_country_name
-    || '_' || ${TABLE}.country
-
-    ;;
+      ;;
     primary_key: yes
     hidden: yes
   }
-
-
-# Old Primary Key
-  # dimension: primary_key {
-  #   type: string
-  #   sql:
-  #   ${TABLE}.singular_campaign_id
-  #   || '_' || ${TABLE}.singular_install_date
-  #   ;;
-  #   primary_key: yes
-  #   hidden: yes
-  # }
 
 ####################################################################
 ## Date Groups
 ####################################################################
 
-dimension: singular_install_date {type: date}
+  dimension: singular_install_date {type: date}
 
   dimension_group: singular_install_date {
     label: "Install Date Group"
@@ -168,28 +101,6 @@ dimension: singular_install_date {type: date}
   dimension: singular_total_installs {
     group_label: "Singular Campaign Info"
     type:number}
-
-  dimension: singular_source {
-    group_label: "Singular Campaign Info"
-    type:string}
-  dimension: singular_platform {
-    group_label: "Singular Campaign Info"
-    type:string}
-  dimension: device_platform_mapping {
-    group_label: "Singular Campaign Info"
-    type:string}
-  dimension: singular_country_name {
-    group_label: "Singular Campaign Info"
-    type:string}
-  dimension: country {
-    group_label: "Singular Campaign Info"
-    type:string}
-  dimension: region {
-    group_label: "Singular Campaign Info"
-    type:string
-    sql:@{country_region};;}
-
-
 
 
 ####################################################################

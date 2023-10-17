@@ -182,14 +182,14 @@ explore: player_daily_summary {
       ${player_daily_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 
@@ -212,14 +212,14 @@ explore: player_daily_summary {
 explore: player_summary_new {
   label: "Player Summary"
 
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 
@@ -287,14 +287,14 @@ explore: player_round_summary {
       ;;
   }
 
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 
@@ -327,14 +327,14 @@ explore: player_ad_view_summary {
       ${player_ad_view_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 }
@@ -355,14 +355,14 @@ explore: player_mtx_purchase_summary {
       ${player_mtx_purchase_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 }
@@ -383,14 +383,14 @@ explore: player_coin_spend_summary {
       ${player_coin_spend_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 }
@@ -411,14 +411,14 @@ explore: player_hourly {
       ${player_hourly.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 }
@@ -440,14 +440,14 @@ explore: player_weekly_summary {
       ${player_weekly_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 }
@@ -469,14 +469,14 @@ explore: player_monthly_summary {
       ${player_monthly_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 }
@@ -498,14 +498,14 @@ explore: player_recent_frame_rate {
       ${player_recent_frame_rate.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 }
@@ -527,14 +527,14 @@ explore: player_recent_button_clicks {
       ${player_recent_button_clicks.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 }
@@ -557,14 +557,14 @@ explore: player_recent_full_event_data {
       ;;
   }
 
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 }
@@ -588,14 +588,14 @@ explore: player_iam_incremental {
       ;;
   }
 
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 }
@@ -617,14 +617,14 @@ explore: player_coin_source_summary {
       ;;
   }
 
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 }
@@ -646,14 +646,14 @@ explore: player_profiler_event_recent {
       ;;
   }
 
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 }
@@ -674,14 +674,14 @@ explore: player_battle_pass_summary {
       ${player_battle_pass_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 }
@@ -702,14 +702,14 @@ explore: player_error_summary {
       ${player_error_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
-  join: singular_campaign_summary {
+  join: singular_campaign_summary_by_campaign_id {
     view_label:  "Singular Campaign Info"
-    from:  singular_campaign_summary
+    from:  singular_campaign_summary_by_campaign_id
     type:  left_outer
     relationship:  many_to_one
     sql_on:
-      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
-      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary_by_campaign_id.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary_by_campaign_id.singular_install_date})
       ;;
   }
 }

@@ -1606,7 +1606,85 @@ from
     value_format_name: decimal_0
   }
 
+# ########################################33
+# ## Used Memory Bytes
+# ########################################33
 
+#   dimension: count_losses_or_moves_added {
+#     type:number
+#     sql:
+#       case
+#         when ${TABLE}.count_losses = 1 or ${TABLE}.count_rounds_with_moves_added = 1
+#         then 1
+#         else 0
+#         end
+#       ;;
+#     }
+
+#   measure: count_losses_or_moves_added_10 {
+#     group_label: "Count Rounds To Reach Loss Screen"
+#     label: "10th Percentile"
+#     type: percentile
+#     percentile: 10
+#     sql: case
+#         when ${TABLE}.count_losses = 1 or ${TABLE}.count_rounds_with_moves_added = 1
+#         then 1
+#         else 0
+#         end;;
+#     value_format_name: decimal_0
+#   }
+
+#   measure: count_losses_or_moves_added_25 {
+#     group_label: "Count Rounds To Reach Loss Screen"
+#     label: "25th Percentile"
+#     type: percentile
+#     percentile: 25
+#     sql: case
+#         when ${TABLE}.count_losses = 1 or ${TABLE}.count_rounds_with_moves_added = 1
+#         then 1
+#         else 0
+#         end;;
+#     value_format_name: decimal_0
+#   }
+
+#   measure: count_losses_or_moves_added_50 {
+#     group_label: "Count Rounds To Reach Loss Screen"
+#     label: "Median"
+#     type: percentile
+#     percentile: 50
+#     sql: case
+#         when ${TABLE}.count_losses = 1 or ${TABLE}.count_rounds_with_moves_added = 1
+#         then 1
+#         else 0
+#         end;;
+#     value_format_name: decimal_0
+#   }
+
+#   measure: count_losses_or_moves_added_75 {
+#     group_label: "Count Rounds To Reach Loss Screen"
+#     label: "75th Percentile"
+#     type: percentile
+#     percentile: 75
+#     sql: case
+#         when ${TABLE}.count_losses = 1 or ${TABLE}.count_rounds_with_moves_added = 1
+#         then 1
+#         else 0
+#         end;;
+#     value_format_name: decimal_0
+#   }
+
+#   measure: count_losses_or_moves_added_95 {
+#     group_label: "Count Rounds To Reach Loss Screen"
+#     label: "95th Percentile"
+#     type: percentile
+#     percentile: 95
+#     sql: case
+#         when ${TABLE}.count_losses = 1 or ${TABLE}.count_rounds_with_moves_added = 1
+#         then 1
+#         else 0
+#         end;;
+#     value_format_name: decimal_0
+#   }
 
 
 }

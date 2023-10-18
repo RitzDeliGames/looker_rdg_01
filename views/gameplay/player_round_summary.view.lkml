@@ -1606,20 +1606,20 @@ from
     value_format_name: decimal_0
   }
 
-# ########################################33
-# ## Used Memory Bytes
-# ########################################33
+########################################33
+## Rounds to Reach Loss Screen
+########################################33
 
-#   dimension: count_losses_or_moves_added {
-#     type:number
-#     sql:
-#       case
-#         when ${TABLE}.count_losses = 1 or ${TABLE}.count_rounds_with_moves_added = 1
-#         then 1
-#         else 0
-#         end
-#       ;;
-#     }
+  dimension: count_rounds_to_reach_loss_screen {
+    type:number
+    sql:
+      case
+        when ${TABLE}.count_losses = 1 or ${TABLE}.count_rounds_with_moves_added = 1
+        then 1
+        else 0
+        end
+      ;;
+    }
 
 #   measure: count_losses_or_moves_added_10 {
 #     group_label: "Count Rounds To Reach Loss Screen"

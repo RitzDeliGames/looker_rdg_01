@@ -516,6 +516,8 @@ constant: campaign_name_clean_update {
               then '20230413 - AAA - LATAM/ES - 15 Min'
 
             when ${TABLE}.campaign_name = 'Android_AAA+_30_Minutes_LATAM/ES_20231019' then '20231019 - AAA+ - LATAM/ES - 30 Min'
+            when ${TABLE}.campaign_name = 'iOS_AAA+_Install_LATAM/ES_20231019' then '20231019 - AAA+ - LATAM/ES - 30 Min'
+
             when ${TABLE}.campaign_name = 'Android_AAA+_30_Minutes_US_20230828' then '20230828 - AAA+ - USA - 30 Min'
             when ${TABLE}.campaign_name = 'Android_AAA+_60_Minutes_US_20230825' then '20230825 - AAA+ - USA - 60 Min'
             when ${TABLE}.campaign_name = 'Android_AAA_MAI_US_20230705' then '20230705 - AAA - USA - Install'

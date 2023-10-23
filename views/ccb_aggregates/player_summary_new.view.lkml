@@ -1552,7 +1552,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: usd
+    value_format_name: percent_1
 
   }
 
@@ -1577,7 +1577,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: usd
+    value_format_name: percent_1
 
   }
 
@@ -1602,7 +1602,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: usd
+    value_format_name: percent_1
 
   }
 
@@ -1627,7 +1627,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: usd
+    value_format_name: percent_1
 
   }
 
@@ -1652,7 +1652,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: usd
+    value_format_name: percent_1
 
   }
 
@@ -1677,7 +1677,7 @@ measure: revenue_per_install_d7 {
           end )
     )
     ;;
-    value_format_name: usd
+    value_format_name: percent_1
 
   }
 

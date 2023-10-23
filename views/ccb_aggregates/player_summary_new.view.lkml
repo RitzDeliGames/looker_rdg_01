@@ -304,6 +304,7 @@ FROM
     , max( case when day_number = 14 then 1 else 0 end ) as retention_d14
     , max( case when day_number = 15 then 1 else 0 end ) as retention_d15
     , max( case when day_number = 21 then 1 else 0 end ) as retention_d21
+    , max( case when day_number = 28 then 1 else 0 end ) as retention_d28
     , max( case when day_number = 30 then 1 else 0 end ) as retention_d30
     , max( case when day_number = 31 then 1 else 0 end ) as retention_d31
     , max( case when day_number = 46 then 1 else 0 end ) as retention_d46
@@ -311,6 +312,11 @@ FROM
     , max( case when day_number = 61 then 1 else 0 end ) as retention_d61
     , max( case when day_number = 90 then 1 else 0 end ) as retention_d90
     , max( case when day_number = 120 then 1 else 0 end ) as retention_d120
+    , max( case when day_number = 180 then 1 else 0 end ) as retention_d180
+    , max( case when day_number = 360 then 1 else 0 end ) as retention_d360
+    , max( case when day_number = 365 then 1 else 0 end ) as retention_d365
+
+
 
     -- cumulative star spend
     , max( case when day_number <= 1 then cumulative_star_spend else 0 end ) as cumulative_star_spend_d1
@@ -1874,6 +1880,31 @@ measure: revenue_per_install_d7 {
     drill_fields: [numerator_retention_d21,available_player_count_d21]
   }
 
+  measure: average_retention_d28 {
+    group_label: "Average Retention"
+    label: "D28"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 28
+          then ${TABLE}.retention_d28
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 28
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    # drill_fields: [numerator_retention_d21,available_player_count_d21]
+  }
+
   measure: average_retention_d30 {
     group_label: "Average Retention"
     label: "D30"
@@ -1972,6 +2003,81 @@ measure: revenue_per_install_d7 {
     ;;
     value_format_name: percent_1
     drill_fields: [numerator_retention_d120,available_player_count_d120]
+  }
+
+  measure: average_retention_d180 {
+    group_label: "Average Retention"
+    label: "D180"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 180
+          then ${TABLE}.retention_d180
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 180
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    # drill_fields: [numerator_retention_d120,available_player_count_d120]
+  }
+
+  measure: average_retention_d360 {
+    group_label: "Average Retention"
+    label: "D360"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 360
+          then ${TABLE}.retention_d360
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 360
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    # drill_fields: [numerator_retention_d120,available_player_count_d120]
+  }
+
+  measure: average_retention_d365 {
+    group_label: "Average Retention"
+    label: "D365"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 365
+          then ${TABLE}.retention_d365
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 365
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    # drill_fields: [numerator_retention_d120,available_player_count_d120]
   }
 
 ################################################################

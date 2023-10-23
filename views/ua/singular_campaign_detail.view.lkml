@@ -51,6 +51,8 @@ view: singular_campaign_detail {
       , sum( cast(a.adn_cost as float64)) as singular_total_cost
       , sum( cast(a.adn_original_cost as float64)) as singular_total_original_cost
       , sum( cast(a.adn_installs AS int64)) as singular_total_installs
+      , sum( cast(a.adn_clicks AS int64)) as singular_total_clicks
+
       from
       `eraser-blast.singular.marketing_data` a
       left join singular_country_code_helper b
@@ -166,6 +168,9 @@ view: singular_campaign_detail {
     group_label: "Singular Campaign Info"
     type:number}
   dimension: singular_total_installs {
+    group_label: "Singular Campaign Info"
+    type:number}
+  dimension: singular_total_clicks {
     group_label: "Singular Campaign Info"
     type:number}
 

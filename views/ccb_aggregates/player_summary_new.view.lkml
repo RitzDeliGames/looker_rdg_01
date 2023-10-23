@@ -1526,6 +1526,164 @@ measure: revenue_per_install_d7 {
     value_format_name: usd
 
   }
+
+################################################################
+## Cumulative Conversion
+################################################################
+
+  measure: cumulative_mtx_conversion_d1 {
+    group_label: "Cumulative Conversion"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 1
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d1 > 0
+          then 1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 1
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: cumulative_mtx_conversion_d7 {
+    group_label: "Cumulative Conversion"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d7 > 0
+          then 1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: cumulative_mtx_conversion_d14 {
+    group_label: "Cumulative Conversion"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 14
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d14 > 0
+          then 1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 14
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: cumulative_mtx_conversion_d30 {
+    group_label: "Cumulative Conversion"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 30
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d30 > 0
+          then 1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 30
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: cumulative_mtx_conversion_d60 {
+    group_label: "Cumulative Conversion"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 60
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d60 > 0
+          then 1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 60
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: cumulative_mtx_conversion_d90 {
+    group_label: "Cumulative Conversion"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 90
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d90 > 0
+          then 1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 90
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+
+
+
 ################################################################
 ## Retention
 ################################################################

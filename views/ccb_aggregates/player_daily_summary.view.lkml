@@ -1687,14 +1687,15 @@ dimension: primary_key {
     sql: round(${TABLE}.percent_frames_above_40*100) ;;
   }
   measure: percent_dau_with_5_percent_of_frames_or_more_above_40 {
+    label: "Percent of DAU with 25% of frames above 40ms"
     group_label: "Frame Rate Distribution"
     type: number
-    value_format_name: decimal_0
+    value_format_name: percent_1
     sql:
       safe_divide(
         sum(
           case
-            when round(${TABLE}.percent_frames_above_40*100) >= 5
+            when round(${TABLE}.percent_frames_above_40*100) >= 25
             then 1
             else 0
           end

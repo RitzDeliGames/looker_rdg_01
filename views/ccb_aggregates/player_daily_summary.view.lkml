@@ -1683,7 +1683,27 @@ dimension: primary_key {
   dimension: percent_frames_above_40 {
     group_label: "Frame Rate Distribution"
     type: number
-    value_format_name: percent_1
+    value_format_name: decimal_0
+    sql: round(${TABLE}.percent_frames_above_40*100) ;;
+  }
+  measure: percent_dau_with_5_percent_of_frames_or_more_above_40 {
+    group_label: "Frame Rate Distribution"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      safe_divide(
+        sum(
+          case
+            when round(${TABLE}.percent_frames_above_40*100) >= 5
+            then 1
+            else 0
+          end
+          )
+        ,
+        sum( 1 )
+        )
+
+        ;;
   }
   measure: percent_of_events_with_frames_below_22 {
     label: "Percent Frames Below 22"

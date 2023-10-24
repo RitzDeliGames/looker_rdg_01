@@ -1670,6 +1670,21 @@ dimension: primary_key {
 ## Frame Rates
 ################################################################
 
+  dimension: percent_frames_below_22 {
+    group_label: "Frame Rate Distribution"
+    type: number
+    value_format_name: percent_1
+  }
+  dimension: percent_frames_between_23_and_40 {
+    group_label: "Frame Rate Distribution"
+    type: number
+    value_format_name: percent_1
+  }
+  dimension: percent_frames_above_40 {
+    group_label: "Frame Rate Distribution"
+    type: number
+    value_format_name: percent_1
+  }
   measure: percent_of_events_with_frames_below_22 {
     label: "Percent Frames Below 22"
     group_label: "Frame Rate Distribution"

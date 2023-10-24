@@ -1006,6 +1006,8 @@ dimension: primary_key {
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      ,"$.coinPayout_20230824"
+
       ,"$.mustardPretzel_09262023"
       ,"$.chumPrompt_09262023"
       ,"$.dynamicRewardsRatio_20230922"

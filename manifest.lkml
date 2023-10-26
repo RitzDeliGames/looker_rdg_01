@@ -667,6 +667,13 @@ constant: singular_campaign_id_override {
   value: "
     case
       when
+        ${TABLE}.singular_partner_name is null
+        and ${TABLE}.country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
+        and ${TABLE}.platform like '%iOS%'
+        and date(${TABLE}.created_date) between '2023-10-19' and '2023-10-24'
+        then '6442174773322'
+
+      when
         ${TABLE}.singular_partner_name = 'Unattributed'
         and ${TABLE}.singular_campaign_id = ''
         and ${TABLE}.country = 'US'

@@ -942,7 +942,7 @@ from
   dimension: level_bucket {
     label: "Level Bucket"
     type:tier
-    tiers: [0,100,200,300,400,500,600,700,800,900]
+    tiers: [0,100,200,300,400,500,600,700,710,720,730,740,800,900]
     style: integer
     sql: ${TABLE}.level_serial;;
   }
@@ -1002,6 +1002,28 @@ from
         )
         ,
         count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_1
+
+  }
+
+  measure: 7_day_churn_rate_per_round {
+    group_label: "Calculated Fields"
+    type: number
+    sql:
+      safe_divide(
+        sum(
+          case
+            when date_diff(date(${TABLE}.next_round_start_timestamp_utc),date(${TABLE}.rdg_date),DAY) >= 7
+            then 1
+            when ${TABLE}.next_round_start_timestamp_utc is null
+            then 1
+            else 0
+            end
+        )
+        ,
+        sum(${TABLE}.count_rounds)
       )
     ;;
     value_format_name: percent_1

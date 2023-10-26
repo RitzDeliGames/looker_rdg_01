@@ -1031,6 +1031,29 @@ from
 
   }
 
+  measure: coin_spend_per_7_day_churn_round {
+    group_label: "Calculated Fields"
+    label: "Coin Spend Per 7 Day Churn Round"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.in_round_coin_spend)
+        ,
+        sum(
+          case
+            when date_diff(date(${TABLE}.next_round_start_timestamp_utc),date(${TABLE}.rdg_date),DAY) >= 7
+            then 1
+            when ${TABLE}.next_round_start_timestamp_utc is null
+            then 1
+            else 0
+            end
+        )
+      )
+    ;;
+    value_format_name: decimal_0
+
+  }
+
 
   measure: mean_attempts_per_success {
     group_label: "Calculated Fields"

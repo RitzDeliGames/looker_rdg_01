@@ -938,7 +938,14 @@ from
   dimension: powerup_skillet { group_label: "Chum Chum Skills Used" type:number}
   dimension: total_chum_powerups_used { group_label: "Chum Chum Skills Used" type:number}
 
-
+  # Level Buckets
+  dimension: level_bucket {
+    label: "Level Bucket"
+    type:tier
+    tiers: [1,100,200,300,400,500,600,700,800,900]
+    style: integer
+    sql: ${TABLE}.level_serial;;
+  }
 
 
 ################################################################

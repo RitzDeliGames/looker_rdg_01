@@ -1467,6 +1467,19 @@ from
 
   }
 
+  measure: level_efficiency_estimate_coin_spend_per_round {
+    group_label: "Level Efficiency Estimates"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.in_round_coin_spend) - sum(${TABLE}.cumulative_coin_spend_at_churn)
+        ,
+        sum(${TABLE}.count_rounds)
+      )
+    ;;
+    value_format_name: decimal_0
+  }
+
   measure: churn_rate {
     group_label: "Excess Churn Estimate"
     type: number

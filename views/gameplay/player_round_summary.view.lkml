@@ -942,7 +942,7 @@ from
   dimension: level_bucket {
     label: "Level Bucket"
     type:tier
-    tiers: [1,100,200,300,400,500,600,700,800,900]
+    tiers: [0,100,200,300,400,500,600,700,800,900]
     style: integer
     sql: ${TABLE}.level_serial;;
   }
@@ -1407,6 +1407,19 @@ from
     ;;
     value_format_name: decimal_0
 
+  }
+
+  measure: coin_spend_per_round {
+    group_label: "Calculated Fields"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.in_round_coin_spend)
+        ,
+        sum(${TABLE}.count_rounds)
+      )
+    ;;
+    value_format_name: decimal_0
   }
 
   measure: level_efficiency_estimate_dollars {

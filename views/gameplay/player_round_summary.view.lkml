@@ -938,13 +938,52 @@ from
   dimension: powerup_skillet { group_label: "Chum Chum Skills Used" type:number}
   dimension: total_chum_powerups_used { group_label: "Chum Chum Skills Used" type:number}
 
-  # Level Buckets
+################################################################
+## Level Buckets
+################################################################
+
   dimension: level_bucket {
+    group_label: "Level Buckets"
     label: "Level Bucket"
     type:tier
     tiers: [0,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,1000,1050]
     style: integer
     sql: ${TABLE}.level_serial;;
+  }
+
+  parameter: dynamic_level_bucket_size {
+    group_label: "Level Buckets"
+    type: number
+  }
+
+  dimension: dynamic_level_bucket {
+    group_label: "Level Buckets"
+    label: "Dynamic Level Bucket"
+    type:string
+    sql:
+    safe_cast(
+      floor( safe_divide(${TABLE}.level_serial,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
+      as string
+      )
+    || ' to '
+    ||
+    safe_cast(
+      ceiling(safe_divide(${TABLE}.level_serial+1,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}-1
+      as string
+      )
+    ;;
+  }
+
+  dimension: dynamic_level_bucket_order {
+    group_label: "Level Buckets"
+    label: "Dynamic Level Bucket Order"
+    type:number
+    sql:
+    safe_cast(
+      floor( safe_divide(${TABLE}.level_serial,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
+      as int64
+      )
+    ;;
   }
 
 

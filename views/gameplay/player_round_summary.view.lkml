@@ -1010,6 +1010,7 @@ from
 
   measure: 7_day_churn_rate_per_round {
     group_label: "Calculated Fields"
+    label: "7 Day Churn Rate Per Round"
     type: number
     sql:
       safe_divide(

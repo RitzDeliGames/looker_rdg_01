@@ -607,6 +607,14 @@ dimension: primary_key {
   dimension: region {type:string sql:@{country_region};;}
   dimension: cumulative_time_played_minutes {label:"Minutes Played" value_format:"#,##0" type: number}
 
+  ## minutes played in first x days
+  dimension: minutes_played_in_first_1_days {type: number}
+  dimension: minutes_played_in_first_2_days {type: number}
+  dimension: minutes_played_in_first_7_days {type: number}
+  dimension: minutes_played_in_first_14_days {type: number}
+  dimension: minutes_played_in_first_21_days {type: number}
+  dimension: minutes_played_in_first_30_days {type: number}
+
 
   dimension: gofish_rounds_played_total {
     group_label: "Go Fish Rounds"

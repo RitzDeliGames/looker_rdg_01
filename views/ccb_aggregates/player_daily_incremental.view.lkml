@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-09-22'
+      -- update '2023-11-01'
 
 -- create or replace table tal_scratch.player_daily_incremental as
 
@@ -79,7 +79,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-09-22' -- Last Full Update
+                when date(current_date()) <= '2023-11-01' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -844,6 +844,12 @@ view: player_daily_incremental {
               end as int64) as load_time_from_first_app_start_to_first_interaction
 
         -------------------------------------------------
+        -- Low Render Perf Count
+        -------------------------------------------------
+
+        , safe_cast(json_extract_scalar( extra_json , "$.low_render_perf_count") as numeric) as low_render_perf_count
+
+        -------------------------------------------------
         -- Ask for Help Participation
         -------------------------------------------------
 
@@ -1057,6 +1063,7 @@ view: player_daily_incremental {
         , safe_cast( round( safe_divide( sum( load_time_from_meta_scene ) , sum( load_time_count_from_meta_scene ) ) , 0 ) as int64 )  as average_load_time_from_meta_scene
         , safe_cast( round( safe_divide( sum( load_time_from_game_scene ) , sum( load_time_count_from_game_scene ) ) , 0 ) as int64 )  as average_load_time_from_game_scene
         , safe_cast( round( safe_divide( sum( load_time_from_app_start ) , sum( load_time_count_from_app_start ) ) , 0 ) as int64 )  as average_load_time_from_app_start
+        , max( low_render_perf_count ) as low_render_perf_count
 
         -- possible crashes from fast screen title awakes
         , sum( count_possible_crashes_from_fast_title_screen_awake ) as count_possible_crashes_from_fast_title_screen_awake

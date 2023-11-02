@@ -8,7 +8,7 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-08-16'
+      -- last update: '2023-11-02'
 
 -- create or replace table `tal_scratch.player_daily_summary` as
 
@@ -25,8 +25,8 @@ ads_by_date as (
         , sum( count_ad_views ) as ad_views
         , sum( ad_view_dollars ) as ad_view_dollars
     from
-        -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
-        ${player_ad_view_summary.SQL_TABLE_NAME}
+        eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
+        -- ${player_ad_view_summary.SQL_TABLE_NAME}
     group by
         1,2
 )
@@ -42,8 +42,8 @@ ads_by_date as (
         , sum( count_mtx_purchases ) as count_mtx_purchases
         , sum( mtx_purchase_dollars ) as mtx_purchase_dollars
     from
-        -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary
-        ${player_mtx_purchase_summary.SQL_TABLE_NAME}
+        eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary
+        -- ${player_mtx_purchase_summary.SQL_TABLE_NAME}
     group by
         1,2
 )
@@ -71,8 +71,8 @@ ads_by_date as (
             ) as created_date_fix
 
     from
-        -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
-        ${player_daily_incremental.SQL_TABLE_NAME}
+        `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
+        -- ${player_daily_incremental.SQL_TABLE_NAME}
 
 )
 
@@ -178,6 +178,7 @@ ads_by_date as (
         , max( a.average_load_time_from_game_scene ) as average_load_time_from_game_scene
         , max( a.average_load_time_from_app_start ) as average_load_time_from_app_start
         , max( a.average_asset_load_time ) as average_asset_load_time
+        , max( ifnull(a.low_render_perf_count,0) ) as low_render_perf_count_cumulative
 
         -- frame rates
         , max( a.percent_frames_below_22 ) as percent_frames_below_22
@@ -316,6 +317,7 @@ ads_by_date as (
         , max( a.average_load_time_from_game_scene ) as average_load_time_from_game_scene
         , max( a.average_load_time_from_app_start ) as average_load_time_from_app_start
         , max( a.average_asset_load_time ) as average_asset_load_time
+        , max( a.low_render_perf_count_cumulative ) as low_render_perf_count_cumulative
 
         -- frame rates
         , max( a.percent_frames_below_22 ) as percent_frames_below_22
@@ -519,6 +521,7 @@ ads_by_date as (
         , a.average_load_time_from_game_scene
         , a.average_load_time_from_app_start
         , a.average_asset_load_time
+        , a.low_render_perf_count_cumulative
 
         -- frame rates
         , a.percent_frames_below_22
@@ -900,12 +903,24 @@ select
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
       ) cumulative_star_spend
 
+
+  -- low_render_perf_count
+  -- low_render_perf_count_cumulative
+
+  , low_render_perf_count_cumulative
+    - ifnull(lag(low_render_perf_count_cumulative, 1) over (
+        partition by rdg_id
+        order by rdg_date asc
+        ),0) low_render_perf_count
+
 FROM
   data_with_system_info_updates
 
 where
     -- select date_add( current_date(), interval -1 day )
     rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
+
+
 
 
 
@@ -1835,6 +1850,46 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     type: percentile
     percentile: 95
     sql: ${TABLE}.max_gofish_rank ;;
+  }
+
+################################################################
+## Low Render Perf Count
+################################################################
+
+  dimension: low_render_perf_count {
+    group_label: "Low Render Perf Count"
+    type: number
+  }
+
+  measure: low_render_perf_count_10 {
+    group_label: "Low Render Perf Count"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.low_render_perf_count ;;
+  }
+  measure: low_render_perf_count_25 {
+    group_label: "Low Render Perf Count"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.low_render_perf_count ;;
+  }
+  measure: low_render_perf_count_50 {
+    group_label: "Low Render Perf Count"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.low_render_perf_count ;;
+  }
+  measure: low_render_perf_count_75 {
+    group_label: "Low Render Perf Count"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.low_render_perf_count ;;
+  }
+  measure: low_render_perf_count_95 {
+    group_label: "Low Render Perf Count"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.low_render_perf_count ;;
   }
 
 ################################################################

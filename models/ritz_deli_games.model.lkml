@@ -738,3 +738,4 @@ explore: player_round_incremental {}
 # explore: player_mtx_purchase_incremental {}
 # explore: player_battle_pass_incremental {}
 # explore: player_error_incremental {}
+explore: player_fue_incremental {}

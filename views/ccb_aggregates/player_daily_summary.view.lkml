@@ -1178,6 +1178,13 @@ dimension: primary_key {
     group_label: "System Info"
     type: number
   }
+  dimension: system_memory_size_bin {
+    group_label: "System Info"
+    label: "System Memory Bins"
+    type: tier
+    tiers: [0,1000,2000,3000,4000,5000,6000,7000,8000]
+    sql: ${system_memory_size} ;;
+  }
   dimension: graphics_memory_size {
     group_label: "System Info"
     type: number

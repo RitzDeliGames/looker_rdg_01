@@ -668,6 +668,14 @@ constant: campaign_name_clean_update_backup {
 constant: singular_campaign_id_override {
   value: "
     case
+
+      when
+        ${TABLE}.singular_partner_name = 'Unattributed'
+        and ${TABLE}.singular_campaign_id = ''
+        and ${TABLE}.country = 'US'
+        and date(${TABLE}.created_date) between '2023-10-30' and '2023-11-04'
+        then '6448215765722'
+
       when
         ${TABLE}.singular_partner_name is null
         and ${TABLE}.country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')

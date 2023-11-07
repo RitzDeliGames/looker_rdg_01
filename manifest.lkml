@@ -1465,6 +1465,22 @@ constant: coin_spend_name {
 constant: coin_spend_name_group {
   value: "
   case
+
+    when ${TABLE}.source_id = 'extra_moves_7' and ${TABLE}.iap_id = 'extra_moves_7' then 'Extra Moves'
+    when ${TABLE}.source_id = 'character' and ${TABLE}.iap_id = 'item_skillet_unlock' then 'New Chum Chum'
+    when ${TABLE}.source_id = 'extra_moves_10' and ${TABLE}.iap_id = 'extra_moves_10' then 'Extra Moves'
+    when ${TABLE}.source_id = 'quick_skill_skillet' and ${TABLE}.iap_id = 'item_skillet_bulk' then 'Chum Chum Skill'
+    when ${TABLE}.source_id = 'quick_skill_chopsticks' and ${TABLE}.iap_id = 'item_chopsticks_bulk' then 'Chum Chum Skill'
+    when ${TABLE}.source_id = 'quick_skill_chopsticks' and ${TABLE}.iap_id = 'item_chopsticks' then 'Chum Chum Skill'
+    when ${TABLE}.source_id = 'request_help' and ${TABLE}.iap_id = 'request_help' then 'Ask For Help'
+    when ${TABLE}.source_id = 'Panel_Store.Purchase.item_017' and ${TABLE}.iap_id = 'item_022' then 'Legacy'
+    when ${TABLE}.source_id = 'quick_skill_skillet' and ${TABLE}.iap_id = 'item_skillet' then 'Chum Chum Skill'
+    when ${TABLE}.source_id = 'Panel_Store.Purchase.item_002' and ${TABLE}.iap_id = 'item_003' then 'Legacy'
+    when ${TABLE}.source_id = 'Panel_Store.Purchase.item_002' and ${TABLE}.iap_id = 'item_002' then 'Legacy'
+    when ${TABLE}.source_id = 'Panel_Store.Purchase.item_003' and ${TABLE}.iap_id = 'item_003' then 'Legacy'
+    when ${TABLE}.source_id = '' and ${TABLE}.iap_id = 'item_clear_cell' then 'Chum Chum Skill'
+    when ${TABLE}.source_id = '' and ${TABLE}.iap_id = 'item_clear_horizontal' then 'Chum Chum Skill'
+
    when ${TABLE}.source_id = 'extra_moves_5' and ${TABLE}.iap_id = 'extra_moves_5' then 'Extra Moves'
    when ${TABLE}.source_id = 'quick_lives' and ${TABLE}.iap_id = 'item_059' then 'Lives'
    when ${TABLE}.source_id = 'quick_lives' and ${TABLE}.iap_id = 'item_058' then 'Lives'

@@ -1384,8 +1384,8 @@ constant: coin_spend_name {
     when ${TABLE}.source_id = 'Panel_Store.Purchase.item_002' and ${TABLE}.iap_id = 'item_003' then 'Legacy'
     when ${TABLE}.source_id = 'Panel_Store.Purchase.item_002' and ${TABLE}.iap_id = 'item_002' then 'Legacy'
     when ${TABLE}.source_id = 'Panel_Store.Purchase.item_003' and ${TABLE}.iap_id = 'item_003' then 'Legacy'
-    when ${TABLE}.source_id = '' and ${TABLE}.iap_id = 'item_clear_cell' then 'Clear Cell'
-    when ${TABLE}.source_id = '' and ${TABLE}.iap_id = 'item_clear_horizontal' then 'Clear Horizontal'
+    when ${TABLE}.source_id is null and ${TABLE}.iap_id = 'item_clear_cell' then 'Clear Cell'
+    when ${TABLE}.source_id is null and ${TABLE}.iap_id = 'item_clear_horizontal' then 'Clear Horizontal'
 
    when ${TABLE}.source_id = 'extra_moves_5' and ${TABLE}.iap_id = 'extra_moves_5' then 'Extra Moves'
    when ${TABLE}.source_id = 'quick_lives' and ${TABLE}.iap_id = 'item_059' then 'Lives'
@@ -1478,8 +1478,8 @@ constant: coin_spend_name_group {
     when ${TABLE}.source_id = 'Panel_Store.Purchase.item_002' and ${TABLE}.iap_id = 'item_003' then 'Legacy'
     when ${TABLE}.source_id = 'Panel_Store.Purchase.item_002' and ${TABLE}.iap_id = 'item_002' then 'Legacy'
     when ${TABLE}.source_id = 'Panel_Store.Purchase.item_003' and ${TABLE}.iap_id = 'item_003' then 'Legacy'
-    when ${TABLE}.source_id = '' and ${TABLE}.iap_id = 'item_clear_cell' then 'Chum Chum Skill'
-    when ${TABLE}.source_id = '' and ${TABLE}.iap_id = 'item_clear_horizontal' then 'Chum Chum Skill'
+    when ${TABLE}.source_id is null and ${TABLE}.iap_id = 'item_clear_cell' then 'Chum Chum Skill'
+    when ${TABLE}.source_id is null and ${TABLE}.iap_id = 'item_clear_horizontal' then 'Chum Chum Skill'
 
    when ${TABLE}.source_id = 'extra_moves_5' and ${TABLE}.iap_id = 'extra_moves_5' then 'Extra Moves'
    when ${TABLE}.source_id = 'quick_lives' and ${TABLE}.iap_id = 'item_059' then 'Lives'

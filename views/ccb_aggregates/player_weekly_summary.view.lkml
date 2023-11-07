@@ -1137,4 +1137,49 @@ view: player_weekly_summary {
     sql: ${TABLE}.highest_last_level_serial ;;
   }
 
+################################################################
+## Coin Spend Per Round
+################################################################
+
+  measure: coin_spend_per_round_10 {
+    group_label: "Coin Spend Per Round"
+    type: percentile
+    percentile: 10
+    value_format_name: decimal_0
+    sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
+  }
+
+  measure: coin_spend_per_round_25 {
+    group_label: "Coin Spend Per Round"
+    type: percentile
+    percentile: 25
+    value_format_name: decimal_0
+    sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
+  }
+
+  measure: coin_spend_per_round_50 {
+    group_label: "Coin Spend Per Round"
+    type: percentile
+    percentile: 50
+    value_format_name: decimal_0
+    sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
+  }
+
+  measure: coin_spend_per_round_75 {
+    group_label: "Coin Spend Per Round"
+    type: percentile
+    percentile: 75
+    value_format_name: decimal_0
+    sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
+  }
+
+  measure: coin_spend_per_round_95 {
+    group_label: "Coin Spend Per Round"
+    type: percentile
+    percentile: 95
+    value_format_name: decimal_0
+    sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
+  }
+
+
 }

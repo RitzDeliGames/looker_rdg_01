@@ -1181,5 +1181,123 @@ view: player_weekly_summary {
     sql: safe_divide( ${TABLE}.coins_spend , ${TABLE}.round_end_events )  ;;
   }
 
+################################################################
+## Round End Events
+################################################################
+
+  measure: sum_round_end_events {
+  group_label: "Round End Events"
+  type:sum
+  sql: ${TABLE}.round_end_events ;;
+  }
+
+  measure: round_end_events_10 {
+  group_label: "Round End Events"
+  type: percentile
+  percentile: 10
+  sql: ${TABLE}.round_end_events ;;
+  }
+  measure: round_end_events_25 {
+  group_label: "Round End Events"
+  type: percentile
+  percentile: 25
+  sql: ${TABLE}.round_end_events ;;
+  }
+  measure: round_end_events_50 {
+  group_label: "Round End Events"
+  type: percentile
+  percentile: 50
+  sql: ${TABLE}.round_end_events ;;
+  }
+  measure: round_end_events_75 {
+  group_label: "Round End Events"
+  type: percentile
+  percentile: 75
+  sql: ${TABLE}.round_end_events ;;
+  }
+  measure: round_end_events_95 {
+  group_label: "Round End Events"
+  type: percentile
+  percentile: 95
+  sql: ${TABLE}.round_end_events ;;
+  }
+
+  measure: sum_round_end_events_campaign {
+  group_label: "Round End Events Campaign"
+  type:sum
+  sql: ${TABLE}.round_end_events_campaign ;;
+  }
+  measure: round_end_events_campaign_10 {
+  group_label: "Round End Events Campaign"
+  type: percentile
+  percentile: 10
+  sql: ${TABLE}.round_end_events_campaign ;;
+  }
+  measure: round_end_events_campaign_25 {
+  group_label: "Round End Events Campaign"
+  type: percentile
+  percentile: 25
+  sql: ${TABLE}.round_end_events_campaign ;;
+  }
+  measure: round_end_events_campaign_50 {
+  group_label: "Round End Events Campaign"
+  type: percentile
+  percentile: 50
+  sql: ${TABLE}.round_end_events_campaign ;;
+  }
+  measure: round_end_events_campaign_75 {
+  group_label: "Round End Events Campaign"
+  type: percentile
+  percentile: 75
+  sql: ${TABLE}.round_end_events_campaign ;;
+  }
+  measure: round_end_events_campaign_95 {
+  group_label: "Round End Events Campaign"
+  type: percentile
+  percentile: 95
+  sql: ${TABLE}.round_end_events_campaign ;;
+  }
+
+################################################################
+## Ending Coins Balance
+################################################################
+
+measure: sum_ending_coins_balance {
+group_label: "Ending Coins Balance"
+type:sum
+sql: ${TABLE}.ending_coins_balance ;;
+}
+measure: ending_coins_balance_10 {
+group_label: "Ending Coins Balance"
+type: percentile
+percentile: 10
+sql: ${TABLE}.ending_coins_balance ;;
+}
+measure: ending_coins_balance_25 {
+group_label: "Ending Coins Balance"
+type: percentile
+percentile: 25
+sql: ${TABLE}.ending_coins_balance ;;
+}
+measure: ending_coins_balance_50 {
+group_label: "Ending Coins Balance"
+type: percentile
+percentile: 50
+sql: ${TABLE}.ending_coins_balance ;;
+}
+measure: ending_coins_balance_75 {
+group_label: "Ending Coins Balance"
+type: percentile
+percentile: 75
+sql: ${TABLE}.ending_coins_balance ;;
+}
+measure: ending_coins_balance_95 {
+group_label: "Ending Coins Balance"
+type: percentile
+percentile: 95
+sql: ${TABLE}.ending_coins_balance ;;
+}
+
+
 
 }

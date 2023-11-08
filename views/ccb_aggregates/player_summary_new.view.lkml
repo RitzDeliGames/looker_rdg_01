@@ -463,6 +463,9 @@ FROM
       order by event_timestamp ASC
       rows between unbounded preceding and unbounded following
       ) singular_partner_name
+
+    , creative_id
+
   from
     `eraser-blast.singular.user_level_attributions`
   where
@@ -486,6 +489,7 @@ FROM
     singular_device_id
     , max(singular_campaign_id) as singular_campaign_id
     , max(singular_partner_name) as singular_partner_name
+    , max(creative_id) as singular_creative_id
   from
     singular_player_summary_pre_aggregate
   group by
@@ -505,6 +509,7 @@ FROM
     , d.singular_device_id
     , d.singular_campaign_id
     , d.singular_partner_name
+    , d.singular_creative_id
 
   from
     summarize_data A
@@ -551,14 +556,6 @@ from
   add_on_mtx_percentile_and_singular_data a
   left join supported_devices_table b
     on a.device_model = b.device_model
-
-
-
-
-
-
-
-
 
             ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;

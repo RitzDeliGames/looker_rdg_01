@@ -603,6 +603,7 @@ dimension: primary_key {
   dimension: country {type: string}
   dimension: region {type:string sql:@{country_region};;}
   dimension: cumulative_time_played_minutes {label:"Minutes Played" value_format:"#,##0" type: number}
+  dimension: singular_creative_id {type: number}
 
   ## minutes played in first x days
   dimension: minutes_played_in_first_1_days {type: number}

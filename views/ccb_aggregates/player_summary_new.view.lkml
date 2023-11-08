@@ -603,7 +603,7 @@ dimension: primary_key {
   dimension: country {type: string}
   dimension: region {type:string sql:@{country_region};;}
   dimension: cumulative_time_played_minutes {label:"Minutes Played" value_format:"#,##0" type: number}
-  dimension: singular_creative_id {type: number}
+
 
   ## minutes played in first x days
   dimension: minutes_played_in_first_1_days {type: number}
@@ -1001,6 +1001,21 @@ dimension: primary_key {
     group_label: "Singular Campaign Mapping"
     type: string
     sql: @{singular_campaign_blended_window_override} ;;
+  }
+
+######################################################################
+## Singular Creative Mapping
+######################################################################
+
+  dimension: singular_full_ad_name {
+    group_label: "Singular Creative Mapping"
+    type: string
+    sql: @{singular_full_ad_name} ;;
+  }
+
+  dimension: singular_creative_id {
+    group_label: "Singular Creative Mapping"
+    type: string
   }
 
 ######################################################################

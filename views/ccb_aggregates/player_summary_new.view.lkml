@@ -1018,6 +1018,19 @@ dimension: primary_key {
     type: string
   }
 
+  dimension: singular_grouped_ad_name {
+    group_label: "Singular Creative Mapping"
+    type: string
+    sql: @{singular_grouped_ad_name} ;;
+  }
+
+  dimension: singular_simple_ad_name {
+    group_label: "Singular Creative Mapping"
+    type: string
+    sql: @{singular_simple_ad_name} ;;
+  }
+
+
 ######################################################################
 ## Expirements
 ######################################################################

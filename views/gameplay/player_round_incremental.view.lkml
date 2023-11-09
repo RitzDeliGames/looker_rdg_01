@@ -4,7 +4,7 @@ view: player_round_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update on '2023-10-17'
+      -- update on '2023-11-09'
 
      -- create or replace table tal_scratch.player_round_incremental as
 
@@ -47,7 +47,7 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-10-17' -- Last Full Update
+                      when date(current_date()) <= '2023-11-09' -- Last Full Update
                       then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -74,6 +74,64 @@ view: player_round_incremental {
           )
 
       -- SELECT * FROM base_data
+
+      -----------------------------------------------------------------------
+      -- frame rate histogram breakout
+      ------------------------------------------------------------------------
+
+      , frame_rate_histogram_breakout as (
+          select
+              a.rdg_id
+              , timestamp(date( a.timestamp_utc )) as rdg_date
+              , safe_cast(json_extract_scalar( a.extra_json , "$.game_mode") as string) as game_mode
+              , safe_cast(json_extract_scalar( a.extra_json , "$.level_serial") as numeric) as level_serial
+              , a.event_name
+              , a.timestamp_utc as round_end_timestamp_utc
+              , offset as ms_per_frame
+              , sum(safe_cast(frame_time_histogram as int64)) as frame_count
+          from
+              base_data a
+              cross join unnest(split(json_extract_scalar(extra_json,'$.frame_time_histogram_values'))) as frame_time_histogram with offset
+          group by
+              1,2,3,4,5,6,7
+      )
+
+      -----------------------------------------------------------------------
+      -- frame rate histogram collapse
+      ------------------------------------------------------------------------
+
+      , frame_rate_histogram_collapse as (
+          select
+              rdg_id
+              , rdg_date
+              , game_mode
+              , level_serial
+              , event_name
+              , round_end_timestamp_utc
+
+              -- frame rate percentages
+              , safe_divide(
+                  sum( case when ms_per_frame <= 22 then frame_count else 0 end )
+                  , sum( frame_count )
+                  ) as percent_frames_below_22
+
+              , safe_divide(
+                  sum( case when ms_per_frame > 22 and ms_per_frame <= 40 then frame_count else 0 end )
+                  , sum( frame_count )
+                  ) as percent_frames_between_23_and_40
+
+              , safe_divide(
+                  sum( case when ms_per_frame > 40 then frame_count else 0 end )
+                  , sum( frame_count )
+                  ) as percent_frames_above_40
+          from
+              frame_rate_histogram_breakout a
+          where
+             event_name = 'round_end'
+          group by
+              1,2,3,4,5,6
+      )
+
 
       ------------------------------------------------------------------------
       -- get round_start timestamp
@@ -193,10 +251,10 @@ view: player_round_incremental {
       )
 
       ------------------------------------------------------------------------
-      -- output for view
+      -- summarize for for view
       ------------------------------------------------------------------------
 
-      -- select * from `eraser-blast`.tal_scratch.INFORMATION_SCHEMA.COLUMNS where table_name = 'player_round_incremental'
+      , summarize_for_view as (
 
       select
           rdg_id
@@ -272,6 +330,31 @@ view: player_round_incremental {
           get_round_ends_events_only
       group by
           1,2,3,4,5,6
+
+      )
+
+
+    ------------------------------------------------------------------------
+    -- Add on histogram
+    ------------------------------------------------------------------------
+
+    select
+        a.*
+        , b.percent_frames_below_22
+        , b.percent_frames_between_23_and_40
+        , b.percent_frames_above_40
+    from
+        summarize_for_view a
+        left join frame_rate_histogram_collapse b
+          on a.rdg_id = b.rdg_id
+          and a.rdg_date = b.rdg_date
+          and a.game_mode = b.game_mode
+          and a.level_serial = b.level_serial
+          and a.event_name = b.event_name
+          and a.round_end_timestamp_utc = b.round_end_timestamp_utc
+
+
+
 
 
       ;;

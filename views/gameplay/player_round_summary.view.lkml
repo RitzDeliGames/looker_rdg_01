@@ -141,6 +141,10 @@ base_data as (
     -- techincal stats
     , max(a.used_memory_bytes) as used_memory_bytes
 
+    -- frame rates
+    , max( a.percent_frames_below_22 ) as percent_frames_below_22
+    , max( a.percent_frames_between_23_and_40 ) as percent_frames_between_23_and_40
+    , max( a.percent_frames_above_40 ) as percent_frames_above_40
 
     --------------------------------------------------------------------------
     -- mtx purchase dollars
@@ -278,6 +282,11 @@ base_data as (
     -- techincal stats
     , max(a.used_memory_bytes) as used_memory_bytes
 
+    -- frame rates
+    , max( a.percent_frames_below_22 ) as percent_frames_below_22
+    , max( a.percent_frames_between_23_and_40 ) as percent_frames_between_23_and_40
+    , max( a.percent_frames_above_40 ) as percent_frames_above_40
+
     --------------------------------------------------------------------------
     -- ad_view_dollars
     --------------------------------------------------------------------------
@@ -407,6 +416,11 @@ base_data as (
 
     -- techincal stats
     , max(a.used_memory_bytes) as used_memory_bytes
+
+    -- frame rates
+    , max( a.percent_frames_below_22 ) as percent_frames_below_22
+    , max( a.percent_frames_between_23_and_40 ) as percent_frames_between_23_and_40
+    , max( a.percent_frames_above_40 ) as percent_frames_above_40
 
     , max(a.before_round_start_mtx_purchase_dollars) as before_round_start_mtx_purchase_dollars
     , max(a.in_round_mtx_purchase_dollars) as in_round_mtx_purchase_dollars
@@ -1738,6 +1752,74 @@ from
         end
       ;;
     }
+
+################################################################
+## Frame Rates
+################################################################
+
+  dimension: percent_frames_below_22 {
+    group_label: "Frame Rate Distribution"
+    type: number
+    value_format_name: percent_1
+  }
+  dimension: percent_frames_between_23_and_40 {
+    group_label: "Frame Rate Distribution"
+    type: number
+    value_format_name: percent_1
+  }
+  dimension: percent_frames_above_40 {
+    group_label: "Frame Rate Distribution"
+    type: number
+    value_format_name: percent_1
+  }
+
+  measure: percent_of_events_with_frames_below_22 {
+    label: "Percent Frames Below 22"
+    group_label: "Frame Rate Distribution"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        sum( ${TABLE}.percent_frames_below_22 )
+        ,
+        ( sum( ${TABLE}.percent_frames_below_22 )
+          + sum( ${TABLE}.percent_frames_between_23_and_40 )
+          + sum( ${TABLE}.percent_frames_above_40 )
+          )
+      );;
+  }
+  measure: percent_of_events_with_frames_between_23_and_40 {
+    label: "Percent Frames Between 23 and 40"
+    group_label: "Frame Rate Distribution"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        sum( ${TABLE}.percent_frames_between_23_and_40 )
+        ,
+        ( sum( ${TABLE}.percent_frames_below_22 )
+          + sum( ${TABLE}.percent_frames_between_23_and_40 )
+          + sum( ${TABLE}.percent_frames_above_40 )
+          )
+      );;
+  }
+  measure: percent_of_events_with_frames_above_40 {
+    label: "Percent Frames Above 40"
+    group_label: "Frame Rate Distribution"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        sum( ${TABLE}.percent_frames_above_40 )
+        ,
+        ( sum( ${TABLE}.percent_frames_below_22 )
+          + sum( ${TABLE}.percent_frames_between_23_and_40 )
+          + sum( ${TABLE}.percent_frames_above_40 )
+          )
+      );;
+  }
+
+
 
 #   measure: count_losses_or_moves_added_10 {
 #     group_label: "Count Rounds To Reach Loss Screen"

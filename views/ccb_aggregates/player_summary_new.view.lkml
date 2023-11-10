@@ -756,7 +756,7 @@ dimension: primary_key {
         when ${TABLE}.day_number_of_first_end_of_content_levels <= 7 then 'End of Content By D07'
         when ${TABLE}.day_number_of_first_end_of_content_levels <= 30 then 'End of Content By D30'
         when ${TABLE}.day_number_of_first_end_of_content_levels <= 60 then 'End of Content By D60'
-        when ${TABLE}.day_number_of_first_end_of_content_levels > 60 then 'End of Content By D61+'
+        when ${TABLE}.day_number_of_first_end_of_content_levels is not null then 'End of Content By D61+'
         else 'Other'
         end
     ;;
@@ -847,7 +847,7 @@ dimension: primary_key {
       safe_divide(
         count( distinct
           case
-            when ${TABLE}.day_number_of_first_end_of_content_levels > 60 then ${TABLE}.rdg_id
+            when ${TABLE}.day_number_of_first_end_of_content_levels is not null then ${TABLE}.rdg_id
           else null
           end
           )

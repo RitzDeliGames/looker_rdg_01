@@ -878,6 +878,13 @@ from
   dimension: stars_balance {type:number}
   dimension: days_since_created {type:number}
   dimension: day_number {type:number}
+  dimension: 7_day_week_number {
+    type: number
+    group_label: "Grouped Day Numbers"
+    label: "7 Day Week Number"
+    value_format_name: decimal_0
+    sql: safe_cast(ceiling(${TABLE}.day_number/7) as int64) ;;
+  }
   dimension: before_round_start_mtx_purchase_dollars {type:number}
   dimension: in_round_mtx_purchase_dollars {type:number}
   dimension: total_mtx_purchase_dollars {type:number}

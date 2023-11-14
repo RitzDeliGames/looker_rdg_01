@@ -1298,6 +1298,109 @@ percentile: 95
 sql: ${TABLE}.ending_coins_balance ;;
 }
 
+################################################################
+## MTX Spend Distribution
+################################################################
 
+  measure: mtx_purchase_dollars_10 {
+    group_label: "MTX Purchase Dollars"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
+  measure: mtx_purchase_dollars_25 {
+    group_label: "MTX Purchase Dollars"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
+  measure: mtx_purchase_dollars_50 {
+    group_label: "MTX Purchase Dollars"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
+  measure: mtx_purchase_dollars_75 {
+    group_label: "MTX Purchase Dollars"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
+  measure: mtx_purchase_dollars_95 {
+    group_label: "MTX Purchase Dollars"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
+
+################################################################
+## Ad Dollars Distribution
+################################################################
+
+  measure: ad_view_dollars_10 {
+    group_label: "Ad View Dollars"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.ad_view_dollars ;;
+  }
+  measure: ad_view_dollars_25 {
+    group_label: "Ad View Dollars"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.ad_view_dollars ;;
+  }
+  measure: ad_view_dollars_50 {
+    group_label: "Ad View Dollars"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.ad_view_dollars ;;
+  }
+  measure: ad_view_dollars_75 {
+    group_label: "Ad View Dollars"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.ad_view_dollars ;;
+  }
+  measure: ad_view_dollars_95 {
+    group_label: "Ad View Dollars"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.ad_view_dollars ;;
+  }
+
+################################################################
+## Ad View Distribution
+################################################################
+
+  measure: ad_views_10 {
+    group_label: "Ad Views"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.ad_views ;;
+  }
+  measure: ad_views_25 {
+    group_label: "Ad Views"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.ad_views ;;
+  }
+  measure: ad_views_50 {
+    group_label: "Ad Views"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.ad_views ;;
+  }
+  measure: ad_views_75 {
+    group_label: "Ad Views"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.ad_views ;;
+  }
+  measure: ad_views_95 {
+    group_label: "Ad Views"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.ad_views ;;
+  }
 
 }

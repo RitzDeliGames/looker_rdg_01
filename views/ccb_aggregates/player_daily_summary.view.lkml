@@ -8,7 +8,7 @@ view: player_daily_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-11-02'
+      -- last update: '2023-11-16'
 
 -- create or replace table `tal_scratch.player_daily_summary` as
 
@@ -24,9 +24,36 @@ ads_by_date as (
         , rdg_date
         , sum( count_ad_views ) as ad_views
         , sum( ad_view_dollars ) as ad_view_dollars
+
+        , sum( case when source_id like '%DailyReward' then count_ad_views else 0 end ) as ad_views_daily_rewards
+        , sum( case when source_id like '%Moves_Master%' then count_ad_views else 0 end ) as ad_views_moves_master
+        , sum( case when source_id like '%Pizza%' then count_ad_views else 0 end ) as ad_views_pizza
+        , sum( case when source_id like '%Lucky_Dice%' then count_ad_views else 0 end ) as ad_views_lucky_dice
+        , sum( case when source_id like '%RequestHelp%' then count_ad_views else 0 end ) as ad_views_ask_for_help
+        , sum( case when source_id like '%Battle_Pass%' then count_ad_views else 0 end ) as ad_views_battle_pass
+        , sum( case when source_id like '%Puzzles%' then count_ad_views else 0 end ) as ad_views_puzzles
+        , sum( case when source_id like '%Go_Fish%' then count_ad_views else 0 end ) as ad_views_go_fish
+        , sum( case when ad_reward_source_id = 'quick_boost_rocket' then count_ad_views else 0 end ) as ad_views_rocket
+        , sum( case when ad_reward_source_id = 'quick_lives' then count_ad_views else 0 end ) as ad_views_lives
+        , sum( case when ad_reward_source_id = 'quick_magnifiers' then count_ad_views else 0 end ) as ad_views_magnifiers
+        , sum( case when ad_reward_source_id = 'treasure_trove' then count_ad_views else 0 end ) as ad_views_treasure_trove
+
+        , sum( case when source_id like '%DailyReward' then ad_view_dollars else 0 end ) as ad_dollars_daily_rewards
+        , sum( case when source_id like '%Moves_Master%' then ad_view_dollars else 0 end ) as ad_dollars_moves_master
+        , sum( case when source_id like '%Pizza%' then ad_view_dollars else 0 end ) as ad_dollars_pizza
+        , sum( case when source_id like '%Lucky_Dice%' then ad_view_dollars else 0 end ) as ad_dollars_lucky_dice
+        , sum( case when source_id like '%RequestHelp%' then ad_view_dollars else 0 end ) as ad_dollars_ask_for_help
+        , sum( case when source_id like '%Battle_Pass%' then ad_view_dollars else 0 end ) as ad_dollars_battle_pass
+        , sum( case when source_id like '%Puzzles%' then ad_view_dollars else 0 end ) as ad_dollars_puzzles
+        , sum( case when source_id like '%Go_Fish%' then ad_view_dollars else 0 end ) as ad_dollars_go_fish
+        , sum( case when ad_reward_source_id = 'quick_boost_rocket' then ad_view_dollars else 0 end ) as ad_dollars_rocket
+        , sum( case when ad_reward_source_id = 'quick_lives' then ad_view_dollars else 0 end ) as ad_dollars_lives
+        , sum( case when ad_reward_source_id = 'quick_magnifiers' then ad_view_dollars else 0 end ) as ad_dollars_magnifiers
+        , sum( case when ad_reward_source_id = 'treasure_trove' then ad_view_dollars else 0 end ) as ad_dollars_treasure_trove
+
     from
-        eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
-        -- ${player_ad_view_summary.SQL_TABLE_NAME}
+        -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
+        ${player_ad_view_summary.SQL_TABLE_NAME}
     group by
         1,2
 )
@@ -42,8 +69,8 @@ ads_by_date as (
         , sum( count_mtx_purchases ) as count_mtx_purchases
         , sum( mtx_purchase_dollars ) as mtx_purchase_dollars
     from
-        eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary
-        -- ${player_mtx_purchase_summary.SQL_TABLE_NAME}
+        -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary
+        ${player_mtx_purchase_summary.SQL_TABLE_NAME}
     group by
         1,2
 )
@@ -71,8 +98,8 @@ ads_by_date as (
             ) as created_date_fix
 
     from
-        `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
-        -- ${player_daily_incremental.SQL_TABLE_NAME}
+        -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
+        ${player_daily_incremental.SQL_TABLE_NAME}
 
 )
 
@@ -98,6 +125,33 @@ ads_by_date as (
         , sum( ifnull(b.ad_view_dollars,0) + ifnull(c.ad_view_dollars,0)) as ad_view_dollars
         , max(a.mtx_ltv_from_data) as mtx_ltv_from_data
         , sum( ifnull(b.ad_views,0) + ifnull(c.ad_views,0)) as ad_views
+
+        , sum( ifnull(b.ad_views_daily_rewards,0) + ifnull(c.ad_views_daily_rewards,0)) as ad_views_daily_rewards
+        , sum( ifnull(b.ad_views_moves_master,0) + ifnull(c.ad_views_moves_master,0)) as ad_views_moves_master
+        , sum( ifnull(b.ad_views_pizza,0) + ifnull(c.ad_views_pizza,0)) as ad_views_pizza
+        , sum( ifnull(b.ad_views_lucky_dice,0) + ifnull(c.ad_views_lucky_dice,0)) as ad_views_lucky_dice
+        , sum( ifnull(b.ad_views_ask_for_help,0) + ifnull(c.ad_views_ask_for_help,0)) as ad_views_ask_for_help
+        , sum( ifnull(b.ad_views_battle_pass,0) + ifnull(c.ad_views_battle_pass,0)) as ad_views_battle_pass
+        , sum( ifnull(b.ad_views_puzzles,0) + ifnull(c.ad_views_puzzles,0)) as ad_views_puzzles
+        , sum( ifnull(b.ad_views_go_fish,0) + ifnull(c.ad_views_go_fish,0)) as ad_views_go_fish
+        , sum( ifnull(b.ad_views_rocket,0) + ifnull(c.ad_views_rocket,0)) as ad_views_rocket
+        , sum( ifnull(b.ad_views_lives,0) + ifnull(c.ad_views_lives,0)) as ad_views_lives
+        , sum( ifnull(b.ad_views_magnifiers,0) + ifnull(c.ad_views_magnifiers,0)) as ad_views_magnifiers
+        , sum( ifnull(b.ad_views_treasure_trove,0) + ifnull(c.ad_views_treasure_trove,0)) as ad_views_treasure_trove
+
+        , sum( ifnull(b.ad_dollars_daily_rewards,0) + ifnull(c.ad_dollars_daily_rewards,0)) as ad_dollars_daily_rewards
+        , sum( ifnull(b.ad_dollars_moves_master,0) + ifnull(c.ad_dollars_moves_master,0)) as ad_dollars_moves_master
+        , sum( ifnull(b.ad_dollars_pizza,0) + ifnull(c.ad_dollars_pizza,0)) as ad_dollars_pizza
+        , sum( ifnull(b.ad_dollars_lucky_dice,0) + ifnull(c.ad_dollars_lucky_dice,0)) as ad_dollars_lucky_dice
+        , sum( ifnull(b.ad_dollars_ask_for_help,0) + ifnull(c.ad_dollars_ask_for_help,0)) as ad_dollars_ask_for_help
+        , sum( ifnull(b.ad_dollars_battle_pass,0) + ifnull(c.ad_dollars_battle_pass,0)) as ad_dollars_battle_pass
+        , sum( ifnull(b.ad_dollars_puzzles,0) + ifnull(c.ad_dollars_puzzles,0)) as ad_dollars_puzzles
+        , sum( ifnull(b.ad_dollars_go_fish,0) + ifnull(c.ad_dollars_go_fish,0)) as ad_dollars_go_fish
+        , sum( ifnull(b.ad_dollars_rocket,0) + ifnull(c.ad_dollars_rocket,0)) as ad_dollars_rocket
+        , sum( ifnull(b.ad_dollars_lives,0) + ifnull(c.ad_dollars_lives,0)) as ad_dollars_lives
+        , sum( ifnull(b.ad_dollars_magnifiers,0) + ifnull(c.ad_dollars_magnifiers,0)) as ad_dollars_magnifiers
+        , sum( ifnull(b.ad_dollars_treasure_trove,0) + ifnull(c.ad_dollars_treasure_trove,0)) as ad_dollars_treasure_trove
+
         , max(a.count_sessions) as count_sessions
         , max(a.cumulative_session_count) as cumulative_session_count
         , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
@@ -238,6 +292,33 @@ ads_by_date as (
         , sum( ifnull(b.count_mtx_purchases,0) + ifnull(c.count_mtx_purchases,0)) as count_mtx_purchases
         , max(a.mtx_ltv_from_data) as mtx_ltv_from_data
         , max(a.ad_views) as ad_views
+
+        , max(a.ad_views_daily_rewards) as ad_views_daily_rewards
+        , max(a.ad_views_moves_master) as ad_views_moves_master
+        , max(a.ad_views_pizza) as ad_views_pizza
+        , max(a.ad_views_lucky_dice) as ad_views_lucky_dice
+        , max(a.ad_views_ask_for_help) as ad_views_ask_for_help
+        , max(a.ad_views_battle_pass) as ad_views_battle_pass
+        , max(a.ad_views_puzzles) as ad_views_puzzles
+        , max(a.ad_views_go_fish) as ad_views_go_fish
+        , max(a.ad_views_rocket) as ad_views_rocket
+        , max(a.ad_views_lives) as ad_views_lives
+        , max(a.ad_views_magnifiers) as ad_views_magnifiers
+        , max(a.ad_views_treasure_trove) as ad_views_treasure_trove
+
+        , max(a.ad_dollars_daily_rewards) as ad_dollars_daily_rewards
+        , max(a.ad_dollars_moves_master) as ad_dollars_moves_master
+        , max(a.ad_dollars_pizza) as ad_dollars_pizza
+        , max(a.ad_dollars_lucky_dice) as ad_dollars_lucky_dice
+        , max(a.ad_dollars_ask_for_help) as ad_dollars_ask_for_help
+        , max(a.ad_dollars_battle_pass) as ad_dollars_battle_pass
+        , max(a.ad_dollars_puzzles) as ad_dollars_puzzles
+        , max(a.ad_dollars_go_fish) as ad_dollars_go_fish
+        , max(a.ad_dollars_rocket) as ad_dollars_rocket
+        , max(a.ad_dollars_lives) as ad_dollars_lives
+        , max(a.ad_dollars_magnifiers) as ad_dollars_magnifiers
+        , max(a.ad_dollars_treasure_trove) as ad_dollars_treasure_trove
+
         , max(a.count_sessions) as count_sessions
         , max(a.cumulative_session_count) as cumulative_session_count
         , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
@@ -425,6 +506,33 @@ ads_by_date as (
         , a.count_mtx_purchases
         , a.mtx_ltv_from_data
         , a.ad_views
+
+        , a.ad_views_daily_rewards
+        , a.ad_views_moves_master
+        , a.ad_views_pizza
+        , a.ad_views_lucky_dice
+        , a.ad_views_ask_for_help
+        , a.ad_views_battle_pass
+        , a.ad_views_puzzles
+        , a.ad_views_go_fish
+        , a.ad_views_rocket
+        , a.ad_views_lives
+        , a.ad_views_magnifiers
+        , a.ad_views_treasure_trove
+
+        , a.ad_dollars_daily_rewards
+        , a.ad_dollars_moves_master
+        , a.ad_dollars_pizza
+        , a.ad_dollars_lucky_dice
+        , a.ad_dollars_ask_for_help
+        , a.ad_dollars_battle_pass
+        , a.ad_dollars_puzzles
+        , a.ad_dollars_go_fish
+        , a.ad_dollars_rocket
+        , a.ad_dollars_lives
+        , a.ad_dollars_magnifiers
+        , a.ad_dollars_treasure_trove
+
         , a.count_sessions
         , a.cumulative_session_count
         , a.cumulative_engagement_ticks
@@ -919,8 +1027,6 @@ FROM
 where
     -- select date_add( current_date(), interval -1 day )
     rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
-
-
 
 
 

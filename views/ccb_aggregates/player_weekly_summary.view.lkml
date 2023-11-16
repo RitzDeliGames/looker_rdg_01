@@ -90,6 +90,33 @@ view: player_weekly_summary {
           , mtx_purchase_dollars
           , ad_views
           , case when ad_views > 0 then 1 else 0 end as daily_ad_view_indicator
+
+          , ad_views_daily_rewards
+          , ad_views_moves_master
+          , ad_views_pizza
+          , ad_views_lucky_dice
+          , ad_views_ask_for_help
+          , ad_views_battle_pass
+          , ad_views_puzzles
+          , ad_views_go_fish
+          , ad_views_rocket
+          , ad_views_lives
+          , ad_views_magnifiers
+          , ad_views_treasure_trove
+
+          , ad_dollars_daily_rewards
+          , ad_dollars_moves_master
+          , ad_dollars_pizza
+          , ad_dollars_lucky_dice
+          , ad_dollars_ask_for_help
+          , ad_dollars_battle_pass
+          , ad_dollars_puzzles
+          , ad_dollars_go_fish
+          , ad_dollars_rocket
+          , ad_dollars_lives
+          , ad_dollars_magnifiers
+          , ad_dollars_treasure_trove
+
           , count_sessions
 
           , last_value(cumulative_session_count) over (
@@ -430,6 +457,32 @@ view: player_weekly_summary {
           , sum(a.ad_views) as ad_views
           , sum(daily_ad_view_indicator) as sum_daily_ad_view_indicator
           , max(daily_ad_view_indicator) as weekly_ad_view_indicator
+
+          , sum( a.ad_views_daily_rewards) as ad_views_daily_rewards
+          , sum( a.ad_views_moves_master) as ad_views_moves_master
+          , sum( a.ad_views_pizza) as ad_views_pizza
+          , sum( a.ad_views_lucky_dice) as ad_views_lucky_dice
+          , sum( a.ad_views_ask_for_help) as ad_views_ask_for_help
+          , sum( a.ad_views_battle_pass) as ad_views_battle_pass
+          , sum( a.ad_views_puzzles) as ad_views_puzzles
+          , sum( a.ad_views_go_fish) as ad_views_go_fish
+          , sum( a.ad_views_rocket) as ad_views_rocket
+          , sum( a.ad_views_lives) as ad_views_lives
+          , sum( a.ad_views_magnifiers) as ad_views_magnifiers
+          , sum( a.ad_views_treasure_trove) as ad_views_treasure_trove
+
+          , sum( a.ad_dollars_daily_rewards) as ad_dollars_daily_rewards
+          , sum( a.ad_dollars_moves_master) as ad_dollars_moves_master
+          , sum( a.ad_dollars_pizza) as ad_dollars_pizza
+          , sum( a.ad_dollars_lucky_dice) as ad_dollars_lucky_dice
+          , sum( a.ad_dollars_ask_for_help) as ad_dollars_ask_for_help
+          , sum( a.ad_dollars_battle_pass) as ad_dollars_battle_pass
+          , sum( a.ad_dollars_puzzles) as ad_dollars_puzzles
+          , sum( a.ad_dollars_go_fish) as ad_dollars_go_fish
+          , sum( a.ad_dollars_rocket) as ad_dollars_rocket
+          , sum( a.ad_dollars_lives) as ad_dollars_lives
+          , sum( a.ad_dollars_magnifiers) as ad_dollars_magnifiers
+          , sum( a.ad_dollars_treasure_trove) as ad_dollars_treasure_trove
 
           , sum(a.count_sessions) as count_sessions
           , max(a.cumulative_session_count) as cumulative_session_count
@@ -1402,5 +1455,208 @@ sql: ${TABLE}.ending_coins_balance ;;
     percentile: 95
     sql: ${TABLE}.ad_views ;;
   }
+
+
+
+################################################################
+## Ad Views By Placement
+################################################################
+
+  measure: ad_views_daily_rewards {
+    group_label: "Ad View By Placement"
+    label: "Daily Rewards"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_views_moves_master {
+    group_label: "Ad View By Placement"
+    label: "Moves Master"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_views_pizza {
+    group_label: "Ad View By Placement"
+    label: "Pizza"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_views_lucky_dice {
+    group_label: "Ad View By Placement"
+    label: "Lucky Dice"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_views_ask_for_help {
+    group_label: "Ad View By Placement"
+    label: "Ask For Help"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_views_battle_pass {
+    group_label: "Ad View By Placement"
+    label: "Battle Pass"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_views_puzzles {
+    group_label: "Ad View By Placement"
+    label: "Puzzles"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_views_go_fish {
+    group_label: "Ad View By Placement"
+    label: "Go Fish"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_views_rocket {
+    group_label: "Ad View By Placement"
+    label: "Rocket"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_views_lives {
+    group_label: "Ad View By Placement"
+    label: "Lives"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_views_magnifiers {
+    group_label: "Ad View By Placement"
+    label: "Magnifiers"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_views_treasure_trove {
+    group_label: "Ad View By Placement"
+    label: "Treasure Trove"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+################################################################
+## Ad Dollars By Placement
+################################################################
+
+
+
+          # , ad_dollars_daily_rewards
+          # , ad_dollars_moves_master
+          # , ad_dollars_pizza
+          # , ad_dollars_lucky_dice
+          # , ad_dollars_ask_for_help
+          # , ad_dollars_battle_pass
+          # , ad_dollars_puzzles
+          # , ad_dollars_go_fish
+          # , ad_dollars_rocket
+          # , ad_dollars_lives
+          # , ad_dollars_magnifiers
+          # , ad_dollars_treasure_trove
+
+  measure: ad_dollars_daily_rewards {
+    group_label: "Ad Dollars By Placement"
+    label: "Daily Rewards"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_dollars_moves_master {
+    group_label: "Ad Dollars By Placement"
+    label: "Moves Master"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_dollars_pizza {
+    group_label: "Ad Dollars By Placement"
+    label: "Pizza"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_dollars_lucky_dice {
+    group_label: "Ad Dollars By Placement"
+    label: "Lucky Dice"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_dollars_ask_for_help {
+    group_label: "Ad Dollars By Placement"
+    label: "Ask For Help"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_dollars_battle_pass {
+    group_label: "Ad Dollars By Placement"
+    label: "Battle Pass"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_dollars_puzzles {
+    group_label: "Ad Dollars By Placement"
+    label: "Puzzles"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_dollars_go_fish {
+    group_label: "Ad Dollars By Placement"
+    label: "Go Fish"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_dollars_rocket {
+    group_label: "Ad Dollars By Placement"
+    label: "Rocket"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_dollars_lives {
+    group_label: "Ad Dollars By Placement"
+    label: "Lives"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_dollars_magnifiers {
+    group_label: "Ad Dollars By Placement"
+    label: "Magnifiers"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+  measure: ad_dollars_treasure_trove {
+    group_label: "Ad Dollars By Placement"
+    label: "Treasure Trove"
+    type: sum
+    value_format_name: decimal_0
+  }
+
+
+
+
+
+
+
+
+
+
 
 }

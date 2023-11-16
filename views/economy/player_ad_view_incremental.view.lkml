@@ -4,7 +4,7 @@ view: player_ad_view_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-08-30' v2
+      -- update '2023-11-16'
 
       -- create or replace table tal_scratch.player_ad_view_incremental as
 
@@ -48,7 +48,7 @@ full_base_data as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-08-30' -- Last Full Update
+                when date(current_date()) <= '2023-11-16' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 -- else date_add(current_date(), interval -30 day)
@@ -114,15 +114,15 @@ full_base_data as (
         *
         , lead(json_extract_scalar(extra_json,"$.source_id")) over (
             partition by rdg_id
-            order by timestamp_utc asc ) as ad_reward_source_id_all
+            order by timestamp_utc asc, event_name asc ) as ad_reward_source_id_all
 
         , lead(event_name) over (
             partition by rdg_id
-            order by timestamp_utc asc ) as ad_reward_event_name
+            order by timestamp_utc asc, event_name asc ) as ad_reward_event_name
 
         , lead(json_extract_scalar(extra_json,"$.transaction_purchase_currency")) over (
             partition by rdg_id
-            order by timestamp_utc asc ) as ad_reward_transaction_purchase_currency
+            order by timestamp_utc asc, event_name asc ) as ad_reward_transaction_purchase_currency
 
     from
         full_base_data

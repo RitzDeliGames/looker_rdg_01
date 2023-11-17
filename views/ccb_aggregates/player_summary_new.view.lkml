@@ -1040,6 +1040,8 @@ dimension: primary_key {
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      ,"$.coinPayout_20231108"
+
       ,"$.askForHelp_20231023"
 
       ,"$.coinPayout_20230824"

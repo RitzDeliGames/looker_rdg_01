@@ -18,27 +18,6 @@ with
 -- ads by date
 -----------------------------------------------------------------------
 
-        -- ad placement mapping
-        , case
-          when source_id like '%DailyReward' then 'Daily Reward'
-          when source_id like '%Moves_Master%' then 'Moves Master'
-          when source_id like '%Pizza%' then 'Pizza'
-          when source_id like '%Lucky_Dice%' then 'Lucky Dice'
-          when source_id like '%RequestHelp%' then 'Ask For Help'
-          when source_id like '%Battle_Pass%' then 'Battle Pass'
-          when source_id like '%Puzzles%' then 'Puzzles'
-          when source_id like '%Go_Fish%' then 'Go Fish'
-
-          when ad_reward_source_id = 'quick_boost_rocket' then 'Rocket'
-          when ad_reward_source_id = 'quick_lives' then 'Lives'
-          when ad_reward_source_id = 'quick_magnifiers' then 'Magnifiers'
-          when ad_reward_source_id = 'treasure_trove' then 'Treasure Trove'
-
-          else 'Unmapped'
-          end as ad_placement_mapping
-
-
-
 ads_by_date as (
     select
         rdg_id

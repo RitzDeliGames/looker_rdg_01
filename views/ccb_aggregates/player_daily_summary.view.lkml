@@ -18,6 +18,27 @@ with
 -- ads by date
 -----------------------------------------------------------------------
 
+        -- ad placement mapping
+        , case
+          when source_id like '%DailyReward' then 'Daily Reward'
+          when source_id like '%Moves_Master%' then 'Moves Master'
+          when source_id like '%Pizza%' then 'Pizza'
+          when source_id like '%Lucky_Dice%' then 'Lucky Dice'
+          when source_id like '%RequestHelp%' then 'Ask For Help'
+          when source_id like '%Battle_Pass%' then 'Battle Pass'
+          when source_id like '%Puzzles%' then 'Puzzles'
+          when source_id like '%Go_Fish%' then 'Go Fish'
+
+          when ad_reward_source_id = 'quick_boost_rocket' then 'Rocket'
+          when ad_reward_source_id = 'quick_lives' then 'Lives'
+          when ad_reward_source_id = 'quick_magnifiers' then 'Magnifiers'
+          when ad_reward_source_id = 'treasure_trove' then 'Treasure Trove'
+
+          else 'Unmapped'
+          end as ad_placement_mapping
+
+
+
 ads_by_date as (
     select
         rdg_id
@@ -25,31 +46,31 @@ ads_by_date as (
         , sum( count_ad_views ) as ad_views
         , sum( ad_view_dollars ) as ad_view_dollars
 
-        , sum( case when source_id like '%DailyReward' then count_ad_views else 0 end ) as ad_views_daily_rewards
-        , sum( case when source_id like '%Moves_Master%' then count_ad_views else 0 end ) as ad_views_moves_master
-        , sum( case when source_id like '%Pizza%' then count_ad_views else 0 end ) as ad_views_pizza
-        , sum( case when source_id like '%Lucky_Dice%' then count_ad_views else 0 end ) as ad_views_lucky_dice
-        , sum( case when source_id like '%RequestHelp%' then count_ad_views else 0 end ) as ad_views_ask_for_help
-        , sum( case when source_id like '%Battle_Pass%' then count_ad_views else 0 end ) as ad_views_battle_pass
-        , sum( case when source_id like '%Puzzles%' then count_ad_views else 0 end ) as ad_views_puzzles
-        , sum( case when source_id like '%Go_Fish%' then count_ad_views else 0 end ) as ad_views_go_fish
-        , sum( case when ad_reward_source_id = 'quick_boost_rocket' then count_ad_views else 0 end ) as ad_views_rocket
-        , sum( case when ad_reward_source_id = 'quick_lives' then count_ad_views else 0 end ) as ad_views_lives
-        , sum( case when ad_reward_source_id = 'quick_magnifiers' then count_ad_views else 0 end ) as ad_views_magnifiers
-        , sum( case when ad_reward_source_id = 'treasure_trove' then count_ad_views else 0 end ) as ad_views_treasure_trove
+        , sum( case when ad_placement_mapping = 'Daily Reward' then count_ad_views else 0 end ) as ad_views_daily_rewards
+        , sum( case when ad_placement_mapping = 'Moves Master' then count_ad_views else 0 end ) as ad_views_moves_master
+        , sum( case when ad_placement_mapping = 'Pizza' then count_ad_views else 0 end ) as ad_views_pizza
+        , sum( case when ad_placement_mapping = 'Lucky Dice' then count_ad_views else 0 end ) as ad_views_lucky_dice
+        , sum( case when ad_placement_mapping = 'Ask For Help' then count_ad_views else 0 end ) as ad_views_ask_for_help
+        , sum( case when ad_placement_mapping = 'Battle Pass' then count_ad_views else 0 end ) as ad_views_battle_pass
+        , sum( case when ad_placement_mapping = 'Puzzles' then count_ad_views else 0 end ) as ad_views_puzzles
+        , sum( case when ad_placement_mapping = 'Go Fish' then count_ad_views else 0 end ) as ad_views_go_fish
+        , sum( case when ad_placement_mapping = 'Rocket' then count_ad_views else 0 end ) as ad_views_rocket
+        , sum( case when ad_placement_mapping = 'Lives' then count_ad_views else 0 end ) as ad_views_lives
+        , sum( case when ad_placement_mapping = 'Magnifiers' then count_ad_views else 0 end ) as ad_views_magnifiers
+        , sum( case when ad_placement_mapping = 'Treasure Trove' then count_ad_views else 0 end ) as ad_views_treasure_trove
 
-        , sum( case when source_id like '%DailyReward' then ad_view_dollars else 0 end ) as ad_dollars_daily_rewards
-        , sum( case when source_id like '%Moves_Master%' then ad_view_dollars else 0 end ) as ad_dollars_moves_master
-        , sum( case when source_id like '%Pizza%' then ad_view_dollars else 0 end ) as ad_dollars_pizza
-        , sum( case when source_id like '%Lucky_Dice%' then ad_view_dollars else 0 end ) as ad_dollars_lucky_dice
-        , sum( case when source_id like '%RequestHelp%' then ad_view_dollars else 0 end ) as ad_dollars_ask_for_help
-        , sum( case when source_id like '%Battle_Pass%' then ad_view_dollars else 0 end ) as ad_dollars_battle_pass
-        , sum( case when source_id like '%Puzzles%' then ad_view_dollars else 0 end ) as ad_dollars_puzzles
-        , sum( case when source_id like '%Go_Fish%' then ad_view_dollars else 0 end ) as ad_dollars_go_fish
-        , sum( case when ad_reward_source_id = 'quick_boost_rocket' then ad_view_dollars else 0 end ) as ad_dollars_rocket
-        , sum( case when ad_reward_source_id = 'quick_lives' then ad_view_dollars else 0 end ) as ad_dollars_lives
-        , sum( case when ad_reward_source_id = 'quick_magnifiers' then ad_view_dollars else 0 end ) as ad_dollars_magnifiers
-        , sum( case when ad_reward_source_id = 'treasure_trove' then ad_view_dollars else 0 end ) as ad_dollars_treasure_trove
+        , sum( case when ad_placement_mapping = 'Daily Reward' then ad_view_dollars else 0 end ) as ad_dollars_daily_rewards
+        , sum( case when ad_placement_mapping = 'Moves Master' then ad_view_dollars else 0 end ) as ad_dollars_moves_master
+        , sum( case when ad_placement_mapping = 'Pizza' then ad_view_dollars else 0 end ) as ad_dollars_pizza
+        , sum( case when ad_placement_mapping = 'Lucky Dice' then ad_view_dollars else 0 end ) as ad_dollars_lucky_dice
+        , sum( case when ad_placement_mapping = 'Ask For Help' then ad_view_dollars else 0 end ) as ad_dollars_ask_for_help
+        , sum( case when ad_placement_mapping = 'Battle Pass' then ad_view_dollars else 0 end ) as ad_dollars_battle_pass
+        , sum( case when ad_placement_mapping = 'Puzzles' then ad_view_dollars else 0 end ) as ad_dollars_puzzles
+        , sum( case when ad_placement_mapping = 'Go Fish' then ad_view_dollars else 0 end ) as ad_dollars_go_fish
+        , sum( case when ad_placement_mapping = 'Rocket' then ad_view_dollars else 0 end ) as ad_dollars_rocket
+        , sum( case when ad_placement_mapping = 'Lives' then ad_view_dollars else 0 end ) as ad_dollars_lives
+        , sum( case when ad_placement_mapping = 'Magnifiers' then ad_view_dollars else 0 end ) as ad_dollars_magnifiers
+        , sum( case when ad_placement_mapping = 'Treasure Trove' then ad_view_dollars else 0 end ) as ad_dollars_treasure_trove
 
     from
         -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary

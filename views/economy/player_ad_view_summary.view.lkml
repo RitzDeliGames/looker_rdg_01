@@ -137,7 +137,7 @@ view: player_ad_view_summary {
             ) cumulative_count_ad_views
 
         -- ad placement mapping
-        case
+        , case
           when source_id like '%DailyReward' then 'Daily Reward'
           when source_id like '%Moves_Master%' then 'Moves Master'
           when source_id like '%Pizza%' then 'Pizza'

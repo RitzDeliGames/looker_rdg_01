@@ -1464,73 +1464,73 @@ sql: ${TABLE}.ending_coins_balance ;;
 
   dimension: ad_views_daily_rewards {
     group_label: "Ad View By Placement"
-    label: "Daily Rewards"
+    label: "Daily Rewards Ad Views"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_moves_master {
     group_label: "Ad View By Placement"
-    label: "Moves Master"
+    label: "Moves Master Ad Views"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_pizza {
     group_label: "Ad View By Placement"
-    label: "Pizza"
+    label: "Pizza Ad Views"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_lucky_dice {
     group_label: "Ad View By Placement"
-    label: "Lucky Dice"
+    label: "Lucky Dice Ad Views"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_ask_for_help {
     group_label: "Ad View By Placement"
-    label: "Ask For Help"
+    label: "Ask For Help Ad Views"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_battle_pass {
     group_label: "Ad View By Placement"
-    label: "Battle Pass"
+    label: "Battle Pass Ad Views"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_puzzles {
     group_label: "Ad View By Placement"
-    label: "Puzzles"
+    label: "Puzzles Ad Views"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_go_fish {
     group_label: "Ad View By Placement"
-    label: "Go Fish"
+    label: "Go Fish Ad Views"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_rocket {
     group_label: "Ad View By Placement"
-    label: "Rocket"
+    label: "Rocket Ad Views"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_lives {
     group_label: "Ad View By Placement"
-    label: "Lives"
+    label: "Lives Ad Views"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_magnifiers {
     group_label: "Ad View By Placement"
-    label: "Magnifiers"
+    label: "Magnifiers Ad Views"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_treasure_trove {
     group_label: "Ad View By Placement"
-    label: "Treasure Trove"
+    label: "Treasure Trove Ad Views"
     value_format_name: decimal_0
   }
 
@@ -1540,73 +1540,73 @@ sql: ${TABLE}.ending_coins_balance ;;
 
   dimension: ad_dollars_daily_rewards {
     group_label: "Ad Dollars By Placement"
-    label: "Daily Rewards"
+    label: "Daily Rewards Ad Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_moves_master {
     group_label: "Ad Dollars By Placement"
-    label: "Moves Master"
+    label: "Moves Master Ad Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_pizza {
     group_label: "Ad Dollars By Placement"
-    label: "Pizza"
+    label: "Pizza Ad Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_lucky_dice {
     group_label: "Ad Dollars By Placement"
-    label: "Lucky Dice"
+    label: "Lucky Dice Ad Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_ask_for_help {
     group_label: "Ad Dollars By Placement"
-    label: "Ask For Help"
+    label: "Ask For Help Ad Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_battle_pass {
     group_label: "Ad Dollars By Placement"
-    label: "Battle Pass"
+    label: "Battle Pass Ad Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_puzzles {
     group_label: "Ad Dollars By Placement"
-    label: "Puzzles"
+    label: "Puzzles Ad Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_go_fish {
     group_label: "Ad Dollars By Placement"
-    label: "Go Fish"
+    label: "Go Fish Ad Dollars"
     value_format_name: decimal_0
   }
 
   dimension: ad_dollars_rocket {
     group_label: "Ad Dollars By Placement"
-    label: "Rocket"
+    label: "Rocket Ad Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_lives {
     group_label: "Ad Dollars By Placement"
-    label: "Lives"
+    label: "Lives Ad Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_magnifiers {
     group_label: "Ad Dollars By Placement"
-    label: "Magnifiers"
+    label: "Magnifiers Ad Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_treasure_trove {
     group_label: "Ad Dollars By Placement"
-    label: "Treasure Trove"
+    label: "Treasure Trove Ad Dollars"
     value_format_name: decimal_4
   }
 

@@ -1772,7 +1772,7 @@ dimension: primary_key {
         sum(${TABLE}.ad_view_dollars)
         ,
          sum( case
-          when ${TABLE}.count_ad_views > 0
+          when ${TABLE}.ad_views > 0
           then 1
           else 0
           end )
@@ -1800,7 +1800,7 @@ dimension: primary_key {
     sql:
       safe_divide(
         sum( case
-          when ${TABLE}.count_ad_views > 0
+          when ${TABLE}.ad_views > 0
           then 1
           else 0
           end )

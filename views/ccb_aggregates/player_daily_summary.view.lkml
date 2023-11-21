@@ -1764,6 +1764,23 @@ dimension: primary_key {
     value_format_name: usd
   }
 
+  measure: average_daily_ad_revenue_per_ad_viewer {
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.ad_view_dollars)
+        ,
+         sum( case
+          when ${TABLE}.count_ad_views > 0
+          then 1
+          else 0
+          end )
+      )
+    ;;
+    value_format_name: usd
+  }
+
   measure: average_ad_revenue_per_player{
     group_label: "Revenue Metrics"
     type: number

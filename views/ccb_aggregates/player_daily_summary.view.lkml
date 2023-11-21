@@ -1751,6 +1751,19 @@ dimension: primary_key {
     value_format_name: percent_1
   }
 
+  measure: average_daily_mtx_revenue_per_spender {
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars)
+        ,
+        sum(${TABLE}.daily_mtx_spend_indicator)
+      )
+    ;;
+    value_format_name: usd
+  }
+
   measure: average_ad_revenue_per_player{
     group_label: "Revenue Metrics"
     type: number

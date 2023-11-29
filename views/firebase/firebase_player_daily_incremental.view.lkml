@@ -132,6 +132,7 @@ view: firebase_player_daily_incremental {
 
   measure: in_app_purchase_amount_in_usd {
     type: sum
+    value_format_name: usd
     sql: ${TABLE}.in_app_purchase_amount_in_usd ;;
   }
 

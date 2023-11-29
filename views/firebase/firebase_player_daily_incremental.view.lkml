@@ -30,6 +30,7 @@ view: firebase_player_daily_incremental {
         , platform
         , event_name
         , case when event_name = 'in_app_purchase' then ifnull(event_value_in_usd,0) else 0 end as in_app_purchase_amount_in_usd
+        , geo.country as firebase_country
         -- , event_params
         -- , key as event_params_key
         -- , value.string_value as event_params_string_value
@@ -88,6 +89,7 @@ view: firebase_player_daily_incremental {
         , max( platform ) as firebase_platform
         , max( created_date ) as firebase_created_date
         , sum( in_app_purchase_amount_in_usd ) as in_app_purchase_amount_in_usd
+        , max( firebase_country ) as firebase_country
       from
         base_data
       group by
@@ -116,8 +118,13 @@ view: firebase_player_daily_incremental {
   }
 
   measure: count_distinct_active_users {
-    description: "Use this for counting lifetime orders across many users"
     type: count_distinct
     sql: ${TABLE}.firebase_user_id ;;
   }
+
+  measure: in_app_purchase_amount_in_usd {
+    type: sum
+    sql: ${TABLE}.in_app_purchase_amount_in_usd ;;
+  }
+
 }

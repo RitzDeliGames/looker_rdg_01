@@ -142,7 +142,7 @@ view: firebase_player_daily_incremental {
     type: number
     value_format_name: decimal_0
     sql:
-      1 + DATE_DIFF(DATE(${TABLE}.rdg_date), ${TABLE}.firebase_created_date, DAY) ;;
+      1 + DATE_DIFF(DATE(${TABLE}.rdg_date), DATE(${TABLE}.firebase_created_date), DAY) ;;
   }
 
   measure: count_distinct_active_users {

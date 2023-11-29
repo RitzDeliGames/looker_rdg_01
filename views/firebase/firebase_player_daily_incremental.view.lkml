@@ -117,6 +117,14 @@ view: firebase_player_daily_incremental {
     type: date
   }
 
+  dimension: firebase_platform {
+    type:  string
+  }
+
+  dimension: firebase_country {
+    type: string
+  }
+
   measure: count_distinct_active_users {
     type: count_distinct
     sql: ${TABLE}.firebase_user_id ;;

@@ -119,6 +119,13 @@ view: firebase_player_daily_incremental {
     sql: ${TABLE}.rdg_date ;;
   }
 
+  dimension_group: created_date {
+    label: "Installed On"
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.firebase_created_date ;;
+  }
+
   dimension: rdg_date {
     type: date
   }
@@ -129,6 +136,13 @@ view: firebase_player_daily_incremental {
 
   dimension: firebase_country {
     type: string
+  }
+
+  dimension: day_number {
+    type: number
+    value_format_name: decimal_0
+    sql:
+      1 + DATE_DIFF(DATE(${TABLE}.rdg_date), ${TABLE}.firebase_created_date, DAY) AS day_number ;;
   }
 
   measure: count_distinct_active_users {

@@ -4,7 +4,7 @@ view: firebase_player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update '2023-08-30'
+      -- last update '2023-11-29'
 
 
       -- create or replace table `tal_scratch.firebase_player_daily_incremental` as
@@ -29,6 +29,7 @@ view: firebase_player_daily_incremental {
         , timestamp(date(timestamp_micros(user_first_touch_timestamp))) created_date
         , platform
         , event_name
+        , case when event_name = 'in_app_purchase' then ifnull(event_value_in_usd,0) else 0 end as in_app_purchase_amount_in_usd
         -- , event_params
         -- , key as event_params_key
         -- , value.string_value as event_params_string_value
@@ -55,12 +56,12 @@ view: firebase_player_daily_incremental {
           ) >=
           case
             -- select date(current_date())
-            when date(current_date()) <= '2023-08-30' -- Last Full Update
+            when date(current_date()) <= '2023-11-29' -- Last Full Update
             then '2022-06-01'
             else date_add(current_date(), interval -15 DAY)
             end
 
-         and date(
+          and date(
           safe_cast(substr(_table_suffix,1,4) as int64)
           , safe_cast(substr(_table_suffix,5,2) as int64)
           , safe_cast(substr(_table_suffix,7,2) as int64)
@@ -86,13 +87,11 @@ view: firebase_player_daily_incremental {
         , max( advertising_id ) as firebase_advertising_id
         , max( platform ) as firebase_platform
         , max( created_date ) as firebase_created_date
+        , sum( in_app_purchase_amount_in_usd ) as in_app_purchase_amount_in_usd
       from
         base_data
       group by
         1,2
-
-
-
 
       ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

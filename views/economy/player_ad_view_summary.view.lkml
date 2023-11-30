@@ -78,11 +78,12 @@ view: player_ad_view_summary {
           , b.count_ad_views_facebook
           , b.sum_ad_view_dollars_iron_source
           , safe_divide(
-              case
-                when a.sum_revenue_facebook < b.sum_ad_view_dollars_iron_source
-                then 0
-                else a.sum_revenue_facebook - b.sum_ad_view_dollars_iron_source
-                end
+                -- case
+                -- when a.sum_revenue_facebook < b.sum_ad_view_dollars_iron_source
+                -- then 0
+                -- else a.sum_revenue_facebook - b.sum_ad_view_dollars_iron_source
+                -- end
+                a.sum_revenue_facebook
                 ,
                 b.count_ad_views_facebook
                 ) estimated_ad_view_dollars_per_view

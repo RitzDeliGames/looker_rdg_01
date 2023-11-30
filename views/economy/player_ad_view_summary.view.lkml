@@ -15,39 +15,18 @@ view: player_ad_view_summary {
       with
 
       ------------------------------------------------------------------
-      -- get rows from iron source
-      -- we use iron source to estimate facebook ad view dollars after the mediation update
-      -- here we are taking the average price by day and country
+      -- facebook part 1
+      -- get revenue per country per day for facebook from iron source
       ------------------------------------------------------------------
 
       iron_source_facebook_data as (
 
-        -- select
-        --   timestamp(date(a.event_timestamp)) as rdg_date
-        --   , c.country
-        --   , sum(1) as count_rows
-        --   , sum(a.revenue) as sum_revenue
-        --   , safe_divide(sum(a.revenue), sum(1)) as estimated_ad_view_dollars_per_view
-
-        -- from
-        --   eraser-blast.ironsource.ironsource_daily_impressions_export a
-        --   left join eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_summary b
-        --     on a.user_id = b.firebase_advertising_id
-        --   left join eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new c
-        --     on b.firebase_user_id = c.user_id
-
-        -- where
-        --   timestamp(date(a.event_timestamp)) >= '2023-02-23'
-        --   and ad_network = 'facebook'
-        -- group by
-        --   1,2
-
         select
           timestamp(date(a.event_timestamp)) as rdg_date
           , country
-          , sum(1) as count_rows
-          , sum(a.revenue) as sum_revenue
-          , safe_divide(sum(a.revenue), sum(1)) as estimated_ad_view_dollars_per_view
+          -- , sum(1) as count_rows
+          , sum(a.revenue) as sum_revenue_facebook
+          -- , safe_divide(sum(a.revenue), sum(1)) as estimated_ad_view_dollars_per_view
 
         from
           eraser-blast.ironsource.ironsource_daily_impressions_export a
@@ -58,7 +37,60 @@ view: player_ad_view_summary {
         group by
           1,2
 
+      )
 
+      ------------------------------------------------------------------
+      -- facebook fix part 2
+      -- from our data
+      ---- for facebook - get count of ads per day
+      ---- for iron source - get total revenue (to subtract out of total)
+      ------------------------------------------------------------------
+
+      , ad_view_incremental_facebook_data as (
+
+        select
+          rdg_date
+          , country
+          , sum( case when ad_network = 'facebook' then count_ad_views else 0 end ) as count_ad_views_facebook
+          , sum( case when ad_network = 'ironsource' then ad_view_dollars else 0 end ) as sum_ad_view_dollars_iron_source
+        from
+          `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental` a
+          -- ${player_ad_view_incremental.SQL_TABLE_NAME} a
+        where
+          rdg_date >= '2023-02-23'
+          and ad_network in ( 'facebook' , 'ironsource' )
+        group by
+          1,2
+
+      )
+
+      ------------------------------------------------------------------
+      -- facebook fix part 3
+      -- combine and calculate override for facebook
+      ------------------------------------------------------------------
+
+      , combined_facebook_fix as (
+
+        select
+          a.rdg_date
+          , a.country
+          , a.sum_revenue_facebook
+          , b.count_ad_views_facebook
+          , b.sum_ad_view_dollars_iron_source
+          , safe_divide(
+              case
+                when a.sum_revenue_facebook < b.sum_ad_view_dollars_iron_source
+                then 0
+                else a.sum_revenue_facebook - b.sum_ad_view_dollars_iron_source
+                end
+                ,
+                b.count_ad_views_facebook
+                ) estimated_ad_view_dollars_per_view
+        from
+          iron_source_facebook_data a
+          inner join ad_view_incremental_facebook_data b
+            on a.rdg_date = b.rdg_date
+            and a.country = b.country
       )
 
       ------------------------------------------------------------------
@@ -99,7 +131,7 @@ view: player_ad_view_summary {
         from
           -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental` a
           ${player_ad_view_incremental.SQL_TABLE_NAME} a
-          left join iron_source_facebook_data b
+          left join combined_facebook_fix b
             on a.ad_network = 'facebook'
             and safe_cast(a.version as int64) >= 13122
             and a.rdg_date >= '2023-02-23'
@@ -112,6 +144,8 @@ view: player_ad_view_summary {
       ------------------------------------------------------------------
       -- add cumulative calculations
       ------------------------------------------------------------------
+
+      , add_cumulative_caluclations as (
 
       select
 
@@ -158,6 +192,13 @@ view: player_ad_view_summary {
       from
         ad_view_incremental_table
 
+      )
+
+      ------------------------------------------------------------------
+      -- select results
+      ------------------------------------------------------------------
+
+      select * from add_cumulative_caluclations
 
 
 

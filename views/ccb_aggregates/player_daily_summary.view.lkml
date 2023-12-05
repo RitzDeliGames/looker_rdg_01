@@ -1395,6 +1395,91 @@ dimension: primary_key {
   }
 
 ################################################################
+## Engagement Milestones
+################################################################
+
+  measure: engagement_milestone_cumulative_time_05_plus_minutes {
+    group_label: "Engagement Milestone - Cumulative Time Played Minutes"
+    label: "5+ Min"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct
+          case
+            when ${TABLE}.cumulative_time_played_minutes >= 5
+            then ${TABLE}.rdg_id
+            else null
+            end
+          )
+        ,
+        count(distinct ${TABLE}.${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_cumulative_time_15_plus_minutes {
+    group_label: "Engagement Milestone - Cumulative Time Played Minutes"
+    label: "15+ Min"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct
+          case
+            when ${TABLE}.cumulative_time_played_minutes >= 15
+            then ${TABLE}.rdg_id
+            else null
+            end
+          )
+        ,
+        count(distinct ${TABLE}.${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_cumulative_time_30_plus_minutes {
+    group_label: "Engagement Milestone - Cumulative Time Played Minutes"
+    label: "30+ Min"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct
+          case
+            when ${TABLE}.cumulative_time_played_minutes >= 30
+            then ${TABLE}.rdg_id
+            else null
+            end
+          )
+        ,
+        count(distinct ${TABLE}.${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_cumulative_time_60_plus_minutes {
+    group_label: "Engagement Milestone - Cumulative Time Played Minutes"
+    label: "60+ Min"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct
+          case
+            when ${TABLE}.cumulative_time_played_minutes >= 60
+            then ${TABLE}.rdg_id
+            else null
+            end
+          )
+        ,
+        count(distinct ${TABLE}.${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+
+################################################################
 ## Average Daily Numbers
 ################################################################
 

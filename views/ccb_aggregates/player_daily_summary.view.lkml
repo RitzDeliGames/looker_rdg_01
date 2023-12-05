@@ -1412,7 +1412,7 @@ dimension: primary_key {
             end
           )
         ,
-        count(distinct ${TABLE}.${TABLE}.rdg_id)
+        count(distinct ${TABLE}.rdg_id)
       )
     ;;
     value_format_name: percent_0
@@ -1432,7 +1432,7 @@ dimension: primary_key {
             end
           )
         ,
-        count(distinct ${TABLE}.${TABLE}.rdg_id)
+        count(distinct ${TABLE}.rdg_id)
       )
     ;;
     value_format_name: percent_0
@@ -1452,7 +1452,7 @@ dimension: primary_key {
             end
           )
         ,
-        count(distinct ${TABLE}.${TABLE}.rdg_id)
+        count(distinct ${TABLE}.rdg_id)
       )
     ;;
     value_format_name: percent_0
@@ -1472,7 +1472,7 @@ dimension: primary_key {
             end
           )
         ,
-        count(distinct ${TABLE}.${TABLE}.rdg_id)
+        count(distinct ${TABLE}.rdg_id)
       )
     ;;
     value_format_name: percent_0

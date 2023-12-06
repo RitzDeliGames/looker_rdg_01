@@ -2252,7 +2252,6 @@ constant: singular_simple_ad_name {
      when ${TABLE}.full_ad_name like '%Spin Girl%' then 'Spin Girl'
      when ${TABLE}.full_ad_name like '%SpinWithKoala%' then 'Spin With Koala'
      when ${TABLE}.full_ad_name like '%SpinWithSloth%' then 'Spin With Sloth'
-     when ${TABLE}.full_ad_name like '%Testimonial%' then 'Testimonial'
      when ${TABLE}.full_ad_name like '%Tilting Table%' then 'Tilting Table'
      when ${TABLE}.full_ad_name like '%TiltingTable%' then 'Tilting Table'
      when ${TABLE}.full_ad_name like '%WeirdTeddyBear%' then 'WeirdTeddyBear'
@@ -2265,6 +2264,10 @@ constant: singular_simple_ad_name {
      when ${TABLE}.full_ad_name like '%WeirdTreats%' then 'WeirdTreats'
      when ${TABLE}.full_ad_name like '%WeirdTeddy%' then 'WeirdTeddyBear'
      when ${TABLE}.full_ad_name like '%TTC%' then 'Tilting Table'
+
+     when ${TABLE}.full_ad_name like '%TestimonialAI%' then 'Testimonial (Unmapped AI)'
+     when ${TABLE}.full_ad_name like '%Testimonial%' then 'Testimonial'
+
 
      when ${TABLE}.singular_creative_id = '6301194227322' then 'App Store Trailer'
      when ${TABLE}.singular_creative_id = '6350278560322' then 'Tilting Table'
@@ -2620,7 +2623,6 @@ constant: singular_grouped_ad_name {
  when ${TABLE}.full_ad_name like '%Spin Girl%' then 'AI'
  when ${TABLE}.full_ad_name like '%SpinWithKoala%' then 'AI'
  when ${TABLE}.full_ad_name like '%SpinWithSloth%' then 'AI'
- when ${TABLE}.full_ad_name like '%Testimonial%' then 'Testimonial'
  when ${TABLE}.full_ad_name like '%Tilting Table%' then 'Tilting Table'
  when ${TABLE}.full_ad_name like '%TiltingTable%' then 'Tilting Table'
  when ${TABLE}.full_ad_name like '%WeirdTeddyBear%' then 'AI'
@@ -2633,6 +2635,9 @@ constant: singular_grouped_ad_name {
  when ${TABLE}.full_ad_name like '%WeirdTreats%' then 'AI'
  when ${TABLE}.full_ad_name like '%WeirdTeddy%' then 'AI'
  when ${TABLE}.full_ad_name like '%TTC%' then 'Tilting Table'
+
+ when ${TABLE}.full_ad_name like '%TestimonialAI%' then 'Testimonial (Unmapped AI)'
+ when ${TABLE}.full_ad_name like '%Testimonial%' then 'Testimonial'
 
  when ${TABLE}.singular_creative_id = '6301194227322' then 'App Store Trailer'
  when ${TABLE}.singular_creative_id = '6350278560322' then 'Tilting Table'

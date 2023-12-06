@@ -333,7 +333,7 @@ select * from join_metadata_by_creative_id
   dimension: full_ad_name {type:string}
   dimension: simple_ad_name {
     type:string
-    sql: @{singular_creative_simplified_ad_name} ;;
+    sql: @{singular_simple_ad_name} ;;
     }
   dimension: singular_install_date {type: date}
   dimension: adn_creative_id {type: string}

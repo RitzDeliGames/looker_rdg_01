@@ -223,6 +223,7 @@ singular_creative_data as (
       , a.platform
       , a.adn_campaign_id as singular_campaign_id
       , a.adn_creative_id
+      , a.adn_creative_id as singular_creative_id
       , a.data_connector_source_name
       , a.source
       , a.os
@@ -336,6 +337,18 @@ select * from join_metadata_by_creative_id
     }
   dimension: singular_install_date {type: date}
   dimension: adn_creative_id {type: string}
+
+  dimension: singular_grouped_ad_name {
+    group_label: "Singular Creative Mapping"
+    type: string
+    sql: @{singular_grouped_ad_name} ;;
+  }
+
+  dimension: singular_simple_ad_name {
+    group_label: "Singular Creative Mapping"
+    type: string
+    sql: @{singular_simple_ad_name} ;;
+  }
 
 ####################################################################
 ## Campaign Name Clean

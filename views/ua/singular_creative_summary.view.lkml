@@ -441,9 +441,6 @@ measure: sum_of_singular_total_cost {
         ,
         sum( ${TABLE}.singular_total_installs )
       )
-      *
-      1000
-
      ;;
     value_format_name: usd
   }

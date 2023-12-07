@@ -276,6 +276,11 @@ FROM
      , max( case when day_number <= 61 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d61
      , max( case when day_number <= 90 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d90
      , max( case when day_number <= 120 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d120
+    , max( case when day_number <= 180 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d180
+    , max( case when day_number <= 270 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d270
+    , max( case when day_number <= 360 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d360
+
+
      , max( cumulative_combined_dollars ) as cumulative_combined_dollars_current
 
      -- highest last level serial
@@ -704,6 +709,13 @@ dimension: primary_key {
   dimension: cumulative_combined_dollars_d61 {group_label:"LTV - Cumulative" label:"D61 Cumulative LTV" value_format:"$0.00" type: number}
   dimension: cumulative_combined_dollars_d90 {group_label:"LTV - Cumulative" label:"D90 Cumulative LTV" value_format:"$0.00" type: number}
   dimension: cumulative_combined_dollars_d120 {group_label:"LTV - Cumulative" label:"D120 Cumulative LTV" value_format:"$0.00" type: number}
+
+  dimension: cumulative_combined_dollars_d180 {group_label:"LTV - Cumulative" label:"D180 Cumulative LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d270 {group_label:"LTV - Cumulative" label:"D270 Cumulative LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d360 {group_label:"LTV - Cumulative" label:"D360 Cumulative LTV" value_format:"$0.00" type: number}
+
+
+
   dimension: cumulative_combined_dollars_current {group_label:"LTV - Cumulative" label:"LTV - Cumulative" value_format:"$0.00" type: number}
   dimension: highest_last_level_serial_d1 {group_label:"Highest Level" type: number}
   dimension: highest_last_level_serial_d2 {group_label:"Highest Level" type: number}

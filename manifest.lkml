@@ -2267,6 +2267,9 @@ constant: singular_simple_ad_name {
 
      when ${TABLE}.full_ad_name like '%GirlWithCats%' then 'Girl With Cats'
      when ${TABLE}.full_ad_name like '%AsianBaby%' then 'Asian Baby'
+     when ${TABLE}.full_ad_name like '%PunkAsianGrandma%' then 'Punk Asian Grandma'
+     when ${TABLE}.full_ad_name like '%LoungingWithCats%' then 'Lounging With Cats'
+     when ${TABLE}.full_ad_name like '%LoungingWithSheep%' then 'Lounging With Sheep'
      when ${TABLE}.full_ad_name like '%TestimonialAI%' then 'Testimonial (Unmapped AI)'
      when ${TABLE}.full_ad_name like '%Testimonial%' then 'Testimonial'
 
@@ -2640,6 +2643,9 @@ constant: singular_grouped_ad_name {
 
  when ${TABLE}.full_ad_name like '%GirlWithCats%' then 'AI'
  when ${TABLE}.full_ad_name like '%AsianBaby%' then 'AI'
+ when ${TABLE}.full_ad_name like '%PunkAsianGrandma%' then 'AI'
+ when ${TABLE}.full_ad_name like '%LoungingWithCats%' then 'AI'
+ when ${TABLE}.full_ad_name like '%LoungingWithSheep%' then 'AI'
  when ${TABLE}.full_ad_name like '%TestimonialAI%' then 'AI'
  when ${TABLE}.full_ad_name like '%Testimonial%' then 'Testimonial'
 

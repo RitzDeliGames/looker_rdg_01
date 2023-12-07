@@ -361,4 +361,93 @@ select * from join_metadata_by_creative_id
     sql: @{campaign_name_clean_update} ;;
   }
 
+####################################################################
+## Measures
+####################################################################
+
+measure: sum_of_singular_total_cost {
+  group_label: "Summary Metrics"
+  label: "Cost"
+  type: number
+  sql: sum( ${TABLE}.singular_total_cost ) ;;
+  value_format_name: usd_0
+}
+
+  measure: sum_of_singular_total_impressions {
+    group_label: "Summary Metrics"
+    label: "Impressions"
+    type: number
+    sql: sum( ${TABLE}.singular_total_impressions ) ;;
+    value_format_name: decimal_0
+  }
+
+  measure: sum_of_singular_total_clicks {
+    group_label: "Summary Metrics"
+    label: "Clicks"
+    type: number
+    sql: sum( ${TABLE}.singular_total_clicks ) ;;
+    value_format_name: decimal_0
+  }
+
+  measure: sum_of_singular_total_installs {
+    group_label: "Summary Metrics"
+    label: "Installs"
+    type: number
+    sql: sum( ${TABLE}.singular_total_installs ) ;;
+    value_format_name: decimal_0
+  }
+
+  measure: cost_per_thousand_impressions {
+    group_label: "Summary Metrics"
+    label: "CPM"
+    type: number
+    sql:
+      safe_divide(
+        sum( ${TABLE}.singular_total_cost )
+        ,
+        sum( ${TABLE}.singular_total_impressions )
+      )
+      *
+      1000
+
+     ;;
+    value_format_name: usd
+  }
+
+  measure: installs_per_thousand_impressions {
+    group_label: "Summary Metrics"
+    label: "IPM"
+    type: number
+    sql:
+      safe_divide(
+        sum( ${TABLE}.singular_total_installs )
+        ,
+        sum( ${TABLE}.singular_total_impressions )
+      )
+      *
+      1000
+
+     ;;
+    value_format_name: decimal_1
+  }
+
+  measure: cost_per_install {
+    group_label: "Summary Metrics"
+    label: "CPI"
+    type: number
+    sql:
+      safe_divide(
+        sum( ${TABLE}.singular_total_cost )
+        ,
+        sum( ${TABLE}.singular_total_installs )
+      )
+      *
+      1000
+
+     ;;
+    value_format_name: usd
+  }
+
+
+
 }

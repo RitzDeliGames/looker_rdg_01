@@ -2265,6 +2265,8 @@ constant: singular_simple_ad_name {
      when ${TABLE}.full_ad_name like '%WeirdTeddy%' then 'WeirdTeddyBear'
      when ${TABLE}.full_ad_name like '%TTC%' then 'Tilting Table'
 
+     when ${TABLE}.full_ad_name like '%GirlWithCats%' then 'Girl With Cats'
+     when ${TABLE}.full_ad_name like '%AsianBaby%' then 'Asian Baby'
      when ${TABLE}.full_ad_name like '%TestimonialAI%' then 'Testimonial (Unmapped AI)'
      when ${TABLE}.full_ad_name like '%Testimonial%' then 'Testimonial'
 
@@ -2636,7 +2638,9 @@ constant: singular_grouped_ad_name {
  when ${TABLE}.full_ad_name like '%WeirdTeddy%' then 'AI'
  when ${TABLE}.full_ad_name like '%TTC%' then 'Tilting Table'
 
- when ${TABLE}.full_ad_name like '%TestimonialAI%' then 'Testimonial (Unmapped AI)'
+ when ${TABLE}.full_ad_name like '%GirlWithCats%' then 'AI'
+ when ${TABLE}.full_ad_name like '%AsianBaby%' then 'AI'
+ when ${TABLE}.full_ad_name like '%TestimonialAI%' then 'AI'
  when ${TABLE}.full_ad_name like '%Testimonial%' then 'Testimonial'
 
  when ${TABLE}.singular_creative_id = '6301194227322' then 'App Store Trailer'

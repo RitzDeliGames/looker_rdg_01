@@ -845,7 +845,10 @@ from
   dimension: win_streak_at_round_start {type:number}
   dimension: win_streak_at_round_end {type:number}
   dimension: count_rounds {type:number}
-  dimension: round_length_minutes {type:number}
+  dimension: round_length_minutes {
+    type:number
+    value_format_name: decimal_1
+    }
   dimension: count_wins {type:number}
   dimension: count_losses {type:number}
   dimension: moves_remaining {type:number}

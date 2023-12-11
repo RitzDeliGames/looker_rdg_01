@@ -848,6 +848,7 @@ from
   dimension: round_length_minutes {
     type:number
     value_format_name: decimal_1
+    sql: round(${TABLE}.round_length_minutes,1) ;;
     }
   dimension: count_wins {type:number}
   dimension: count_losses {type:number}

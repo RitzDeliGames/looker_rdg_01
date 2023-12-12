@@ -470,6 +470,7 @@ FROM
       ) singular_partner_name
 
     , creative_id
+    , creative_name
 
   from
     `eraser-blast.singular.user_level_attributions`

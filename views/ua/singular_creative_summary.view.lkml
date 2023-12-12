@@ -220,6 +220,7 @@ singular_creative_data as (
       , a.rdg_date as singular_install_date
       , a.asset_name
       , a.country_field
+      , a.country_field as alfa_3_country_code
       , a.platform
       , a.adn_campaign_id as singular_campaign_id
       , a.adn_creative_id
@@ -319,6 +320,10 @@ select * from join_metadata_by_creative_id
 
   dimension: asset_name {type:string}
   dimension: country_field {type:string}
+  dimension: country {
+    type:string
+    sql:@{map_3_digit_country_code_to_3_digit_country_code} ;;
+    }
   dimension: data_connector_source_name {type:string}
   dimension: source {type:string}
   dimension: os {type:string}

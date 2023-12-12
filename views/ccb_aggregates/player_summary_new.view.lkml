@@ -949,6 +949,13 @@ dimension: primary_key {
     sql: @{device_platform_mapping} ;;
   }
 
+  dimension: device_platform_mapping_os {
+    group_label: "System Info"
+    type: string
+    sql: @{device_platform_mapping_os} ;;
+  }
+
+
     dimension: supported_devices_retail_name {
       group_label: "System Info"
       type: string

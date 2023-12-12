@@ -495,6 +495,7 @@ FROM
     , max(singular_campaign_id) as singular_campaign_id
     , max(singular_partner_name) as singular_partner_name
     , max(creative_id) as singular_creative_id
+    , max(creative_name) as full_ad_name
   from
     singular_player_summary_pre_aggregate
   group by
@@ -515,6 +516,7 @@ FROM
     , d.singular_campaign_id
     , d.singular_partner_name
     , d.singular_creative_id
+    , d.full_ad_name
 
   from
     summarize_data A

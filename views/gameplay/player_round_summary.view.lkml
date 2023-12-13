@@ -146,6 +146,9 @@ base_data as (
     , max( a.percent_frames_between_23_and_40 ) as percent_frames_between_23_and_40
     , max( a.percent_frames_above_40 ) as percent_frames_above_40
 
+    -- moves master tier
+    , max( a.moves_master_tier ) as moves_master_tier
+
     --------------------------------------------------------------------------
     -- mtx purchase dollars
     --------------------------------------------------------------------------
@@ -286,6 +289,9 @@ base_data as (
     , max( a.percent_frames_below_22 ) as percent_frames_below_22
     , max( a.percent_frames_between_23_and_40 ) as percent_frames_between_23_and_40
     , max( a.percent_frames_above_40 ) as percent_frames_above_40
+
+    -- moves master tier
+    , max( a.moves_master_tier ) as moves_master_tier
 
     --------------------------------------------------------------------------
     -- ad_view_dollars
@@ -435,6 +441,9 @@ base_data as (
     , max(a.before_round_start_count_ad_views) as before_round_start_count_ad_views
     , max(a.in_round_count_ad_views) as in_round_count_ad_views
     , max(a.total_count_ad_views) as total_count_ad_views
+
+    -- moves master tier
+    , max( a.moves_master_tier ) as moves_master_tier
 
     --------------------------------------------------------------------------
     -- coin_spend
@@ -962,6 +971,14 @@ from
   dimension: powerup_chopsticks { group_label: "Chum Chum Skills Used" type:number}
   dimension: powerup_skillet { group_label: "Chum Chum Skills Used" type:number}
   dimension: total_chum_powerups_used { group_label: "Chum Chum Skills Used" type:number}
+
+  ## Moves Master Tier
+  dimension: moves_master_tier {
+    label: "Moves Master Tier"
+    type: number
+    value_format_name: decimal_0
+    sql: ${TABLE}.moves_master_tier ;;
+  }
 
 ################################################################
 ## Level Buckets

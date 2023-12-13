@@ -47,7 +47,7 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2023-11-09' -- Last Full Update
+                      when date(current_date()) <= '2023-12-13' -- Last Full Update
                       then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -242,6 +242,9 @@ view: player_round_incremental {
               -- technical stats tracking
               , safe_cast(json_extract_scalar(extra_json, "$.used_memory_bytes") as numeric) as used_memory_bytes
 
+              -- moves_master_tier
+              , safe_cast(json_extract_scalar(extra_json, "$.moves_master_tier") as numeric) as moves_master_tier
+
           from
               get_round_start_timestamp
           where
@@ -325,6 +328,8 @@ view: player_round_incremental {
         -- technical stats tracking
         , max(used_memory_bytes) as used_memory_bytes
 
+        -- moves_master_tier
+        , max(moves_master_tier) as moves_master_tier
 
      from
           get_round_ends_events_only

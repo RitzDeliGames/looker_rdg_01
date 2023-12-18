@@ -277,6 +277,16 @@ group_a as (
         and max_available_day_number >= {% parameter selected_lowest_max_available_day_number %}
         {% endif %}
 
+        --filter for device platform
+        {% if selected_device_platform_os._is_filtered %}
+        and
+          case
+            when platform like '%iOS%' then 'iOS'
+            when platform like '%Android%' then 'Android'
+            else 'Other'
+            end = {% parameter selected_device_platform_os %}
+        {% endif %}
+
 )
 
 ---------------------------------------------------------------------------------------

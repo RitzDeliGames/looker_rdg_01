@@ -148,6 +148,11 @@ group_a as (
             end = {% parameter selected_device_platform_os %}
         {% endif %}
 
+        -- minimum system memory
+        {% if selected_minimum_system_memory_size._is_filtered %}
+        and system_memory_size >= {% parameter selected_minimum_system_memory_size %}
+        {% endif %}
+
 )
 
 ---------------------------------------------------------------------------------------
@@ -285,6 +290,11 @@ group_a as (
             when platform like '%Android%' then 'Android'
             else 'Other'
             end = {% parameter selected_device_platform_os %}
+        {% endif %}
+
+        -- minimum system memory
+        {% if selected_minimum_system_memory_size._is_filtered %}
+        and system_memory_size >= {% parameter selected_minimum_system_memory_size %}
         {% endif %}
 
 )
@@ -803,6 +813,10 @@ select * from output_with_rounding
 
 
   parameter: selected_lowest_max_available_day_number {
+    type: number
+  }
+
+  parameter: selected_minimum_system_memory_size {
     type: number
   }
 

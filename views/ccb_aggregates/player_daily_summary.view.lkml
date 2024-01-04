@@ -1386,6 +1386,25 @@ dimension: primary_key {
   }
 
 ################################################################
+## Pop-up
+################################################################
+
+  dimension: daily_popup_category {
+    group_label: "Daily Pop-up"
+    label: "Daily Pop-up Category"
+    type: string
+    sql: ${TABLE}.daily_popup_category ;;
+  }
+
+  dimension: daily_popup_action {
+    group_label: "Daily Pop-up"
+    label: "Daily Pop-up Action"
+    type: string
+    sql: ${TABLE}.daily_popup_action ;;
+  }
+
+
+################################################################
 ## Unique Player Counts
 ################################################################
 

@@ -253,6 +253,19 @@ ads_by_date as (
         , max( a.ending_balance_chopsticks ) as ending_balance_chopsticks
         , max( a.ending_balance_skillet ) as ending_balance_skillet
 
+        -- Chum Skills Used
+        , max( a.powerup_hammer ) as powerup_hammer
+        , max( a.powerup_rolling_pin ) as powerup_rolling_pin
+        , max( a.powerup_piping_bag ) as powerup_piping_bag
+        , max( a.powerup_shuffle ) as powerup_shuffle
+        , max( a.powerup_chopsticks ) as powerup_chopsticks
+        , max( a.powerup_skillet ) as powerup_skillet
+        , max( a.total_chum_powerups_used ) as total_chum_powerups_used
+
+        -- Daily Pop-up
+        , max( a.daily_popup_category ) as daily_popup_category
+        , max( a.daily_popup_action ) as daily_popup_action
+
 
     from
         player_daily_incremental_w_prior_date a
@@ -418,6 +431,19 @@ ads_by_date as (
         , max( a.ending_balance_shuffle ) as ending_balance_shuffle
         , max( a.ending_balance_chopsticks ) as ending_balance_chopsticks
         , max( a.ending_balance_skillet ) as ending_balance_skillet
+
+        -- Chum Skills Used
+        , max( a.powerup_hammer ) as powerup_hammer
+        , max( a.powerup_rolling_pin ) as powerup_rolling_pin
+        , max( a.powerup_piping_bag ) as powerup_piping_bag
+        , max( a.powerup_shuffle ) as powerup_shuffle
+        , max( a.powerup_chopsticks ) as powerup_chopsticks
+        , max( a.powerup_skillet ) as powerup_skillet
+        , max( a.total_chum_powerups_used ) as total_chum_powerups_used
+
+        -- Daily Pop-up
+        , max( a.daily_popup_category ) as daily_popup_category
+        , max( a.daily_popup_action ) as daily_popup_action
 
     from
         join_on_ads_data a
@@ -649,6 +675,19 @@ ads_by_date as (
         , a.ending_balance_shuffle
         , a.ending_balance_chopsticks
         , a.ending_balance_skillet
+
+        -- Chum Skills Used
+        , a.powerup_hammer
+        , a.powerup_rolling_pin
+        , a.powerup_piping_bag
+        , a.powerup_shuffle
+        , a.powerup_chopsticks
+        , a.powerup_skillet
+        , a.total_chum_powerups_used
+
+        -- Daily Pop-up
+        , a.daily_popup_category
+        , a.daily_popup_action
 
     from
         join_on_mtx_data a

@@ -117,6 +117,24 @@ group_a as (
           when 'puzzle_rounds_played_in_first_21_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_21_days
           when 'puzzle_rounds_played_in_first_30_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_30_days
 
+          -- cumulative_total_chum_powerups_used
+          when 'cumulative_total_chum_powerups_used_d1' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d1
+          when 'cumulative_total_chum_powerups_used_d2' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d2
+          when 'cumulative_total_chum_powerups_used_d7' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d7
+          when 'cumulative_total_chum_powerups_used_d8' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d8
+          when 'cumulative_total_chum_powerups_used_d14' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d14
+          when 'cumulative_total_chum_powerups_used_d15' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d15
+          when 'cumulative_total_chum_powerups_used_d21' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d21
+          when 'cumulative_total_chum_powerups_used_d30' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d30
+          when 'cumulative_total_chum_powerups_used_d31' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d31
+          when 'cumulative_total_chum_powerups_used_d46' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d46
+          when 'cumulative_total_chum_powerups_used_d60' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d60
+          when 'cumulative_total_chum_powerups_used_d61' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d61
+          when 'cumulative_total_chum_powerups_used_d90' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d90
+          when 'cumulative_total_chum_powerups_used_d120' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d120
+          when 'cumulative_total_chum_powerups_used_d180' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d180
+          when 'cumulative_total_chum_powerups_used_d270' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d270
+          when 'cumulative_total_chum_powerups_used_d360' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d360
 
 
         else 1
@@ -262,6 +280,26 @@ group_a as (
           when 'puzzle_rounds_played_in_first_14_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_14_days
           when 'puzzle_rounds_played_in_first_21_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_21_days
           when 'puzzle_rounds_played_in_first_30_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_30_days
+
+          -- cumulative_total_chum_powerups_used
+          when 'cumulative_total_chum_powerups_used_d1' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d1
+          when 'cumulative_total_chum_powerups_used_d2' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d2
+          when 'cumulative_total_chum_powerups_used_d7' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d7
+          when 'cumulative_total_chum_powerups_used_d8' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d8
+          when 'cumulative_total_chum_powerups_used_d14' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d14
+          when 'cumulative_total_chum_powerups_used_d15' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d15
+          when 'cumulative_total_chum_powerups_used_d21' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d21
+          when 'cumulative_total_chum_powerups_used_d30' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d30
+          when 'cumulative_total_chum_powerups_used_d31' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d31
+          when 'cumulative_total_chum_powerups_used_d46' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d46
+          when 'cumulative_total_chum_powerups_used_d60' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d60
+          when 'cumulative_total_chum_powerups_used_d61' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d61
+          when 'cumulative_total_chum_powerups_used_d90' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d90
+          when 'cumulative_total_chum_powerups_used_d120' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d120
+          when 'cumulative_total_chum_powerups_used_d180' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d180
+          when 'cumulative_total_chum_powerups_used_d270' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d270
+          when 'cumulative_total_chum_powerups_used_d360' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d360
+
 
         else 1
         end as metric
@@ -937,6 +975,24 @@ select * from output_with_rounding
       , "puzzle_rounds_played_in_first_14_days"
       , "puzzle_rounds_played_in_first_21_days"
       , "puzzle_rounds_played_in_first_30_days"
+
+      , "cumulative_total_chum_powerups_used_d1"
+      , "cumulative_total_chum_powerups_used_d2"
+      , "cumulative_total_chum_powerups_used_d7"
+      , "cumulative_total_chum_powerups_used_d8"
+      , "cumulative_total_chum_powerups_used_d14"
+      , "cumulative_total_chum_powerups_used_d15"
+      , "cumulative_total_chum_powerups_used_d21"
+      , "cumulative_total_chum_powerups_used_d30"
+      , "cumulative_total_chum_powerups_used_d31"
+      , "cumulative_total_chum_powerups_used_d46"
+      , "cumulative_total_chum_powerups_used_d60"
+      , "cumulative_total_chum_powerups_used_d61"
+      , "cumulative_total_chum_powerups_used_d90"
+      , "cumulative_total_chum_powerups_used_d120"
+      , "cumulative_total_chum_powerups_used_d180"
+      , "cumulative_total_chum_powerups_used_d270"
+      , "cumulative_total_chum_powerups_used_d360"
 
 
       ]

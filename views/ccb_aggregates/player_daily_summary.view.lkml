@@ -1060,6 +1060,14 @@ select
         order by rdg_date asc
         ),0) low_render_perf_count
 
+  -- cumulative Chum Skills Used
+  , SUM(total_chum_powerups_used) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_total_chum_powerups_used
+
+
 FROM
   data_with_system_info_updates
 

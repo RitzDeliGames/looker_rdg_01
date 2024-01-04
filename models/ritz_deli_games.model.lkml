@@ -761,7 +761,7 @@ explore: singular_campaign_summary {}
 explore: singular_campaign_detail {}
 explore: singular_creative_summary {}
 explore: big_query_jobs {}
-# explore: player_daily_incremental {}
+explore: player_daily_incremental {}
 explore: ab_test_full_iterations {}
 explore: revenue_model{}
 # explore: ab_test_t_test{}
@@ -770,7 +770,7 @@ explore: revenue_model{}
 # explore: firebase_player_daily_incremental {}
 # explore: player_coin_source_incremental {}
 # explore: player_coin_spend_incremental {}
-explore: player_round_incremental {}
+# explore: player_round_incremental {}
 # explore: player_mtx_purchase_incremental {}
 # explore: player_battle_pass_incremental {}
 # explore: player_error_incremental {}

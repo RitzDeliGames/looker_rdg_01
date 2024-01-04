@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-11-01'
+      -- update '2024-01-04'
 
 -- create or replace table tal_scratch.player_daily_incremental as
 
@@ -79,7 +79,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-11-01' -- Last Full Update
+                when date(current_date()) <= '2024-01-04' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -957,6 +957,77 @@ view: player_daily_incremental {
         rows between unbounded preceding and unbounded following
         ) as ending_balance_skillet
 
+        -------------------------------------------------
+        -- Chum Skills
+        -------------------------------------------------
+
+        , case
+            when event_name = 'round_end'
+            then case
+              when safe_cast(version as numeric) < 13294
+              then ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_hammer") as numeric),0)
+              else ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_clear_cell") as numeric),0)
+              end
+            else 0
+            end as powerup_hammer
+        , case
+            when event_name = 'round_end'
+            then case
+              when safe_cast(version as numeric) < 13294
+              then ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_rolling_pin") as numeric),0)
+              else ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_clear_vertical") as numeric),0)
+              end
+            else 0
+            end as powerup_rolling_pin
+        , case
+            when event_name = 'round_end'
+            then case
+              when safe_cast(version as numeric) < 13294
+              then ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_piping_bag") as numeric),0)
+              else ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_clear_horizontal") as numeric),0)
+              end
+            else 0
+            end as powerup_piping_bag
+        , case
+            when event_name = 'round_end'
+            then case
+              when safe_cast(version as numeric) < 13294
+              then ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_shuffle") as numeric),0)
+              else ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_shuffle") as numeric),0)
+              end
+            else 0
+            end as powerup_shuffle
+        , case
+            when event_name = 'round_end'
+            then case
+              when safe_cast(version as numeric) < 13294
+              then ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_chopsticks") as numeric),0)
+              else ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_chopsticks") as numeric),0)
+              end
+            else 0
+            end as powerup_chopsticks
+        , case
+            when event_name = 'round_end'
+            then case
+              when safe_cast(version as numeric) < 13294
+              then ifnull(safe_cast(json_extract_scalar(extra_json, "$.powerup_skillet") as numeric),0)
+              else ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_skillet") as numeric),0)
+              end
+            else 0
+            end as powerup_skillet
+
+        -------------------------------------------------
+        -- Daily Popup (step_1)
+        -------------------------------------------------
+
+        , case
+            when
+              event_name = 'ButtonClicked' -- on button click
+              and safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Sheet_PM_%' -- daily popups are prefaced with Sheet_PM
+            then safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string)
+            else null
+            end as daily_popup_button_tag
+
         from
             base_data
     )
@@ -1078,6 +1149,44 @@ view: player_daily_incremental {
         , max( ending_balance_shuffle ) as ending_balance_shuffle
         , max( ending_balance_chopsticks ) as ending_balance_chopsticks
         , max( ending_balance_skillet ) as ending_balance_skillet
+
+        -------------------------------------------------
+        -- Chum Skills Used
+        -------------------------------------------------
+
+        , sum(powerup_hammer) as powerup_hammer
+        , sum(powerup_rolling_pin) as powerup_rolling_pin
+        , sum(powerup_piping_bag) as powerup_piping_bag
+        , sum(powerup_shuffle) as powerup_shuffle
+        , sum(powerup_chopsticks) as powerup_chopsticks
+        , sum(powerup_skillet) as powerup_skillet
+        , sum(
+            powerup_hammer
+            + powerup_rolling_pin
+            + powerup_piping_bag
+            + powerup_shuffle
+            + powerup_chopsticks
+            + powerup_skillet
+            ) as total_chum_powerups_used
+
+        -------------------------------------------------
+        -- Daily Popup (step 2)
+        -------------------------------------------------
+
+        , max(
+            substring(
+              daily_popup_button_tag
+              , length('Sheet_PM_') + 1
+              , strpos(daily_popup_button_tag,'.') -length('Sheet_PM_')-1
+              )
+          ) as daily_popup_category
+
+        , max(
+            substring(
+              daily_popup_button_tag
+              , strpos(daily_popup_button_tag,'.') + 1
+              )
+          ) as daily_popup_action
 
       from
         pre_aggregate_calculations_from_base_data

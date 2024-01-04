@@ -53,6 +53,7 @@ SELECT
     , cumulative_time_played_minutes
     , cumulative_count_mtx_purchases
     , cumulative_coins_spend
+    , cumulative_total_chum_powerups_used
 
     , end_of_content_levels
     , cumulative_round_time_in_minutes_campaign
@@ -341,6 +342,27 @@ FROM
     , max( case when day_number <= 60 then cumulative_coins_spend else 0 end ) as cumulative_coins_spend_d60
     , max( case when day_number <= 90 then cumulative_coins_spend else 0 end ) as cumulative_coins_spend_d90
     , max( cumulative_coins_spend ) as cumulative_coins_spend_current
+
+    -- cumulative_total_chum_powerups_used
+    , max( case when day_number <= 1 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d1
+    , max( case when day_number <= 2 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d2
+    , max( case when day_number <= 7 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d7
+    , max( case when day_number <= 8 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d8
+    , max( case when day_number <= 14 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d14
+    , max( case when day_number <= 15 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d15
+    , max( case when day_number <= 21 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d21
+    , max( case when day_number <= 30 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d30
+    , max( case when day_number <= 31 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d31
+    , max( case when day_number <= 46 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d46
+    , max( case when day_number <= 60 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d60
+    , max( case when day_number <= 61 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d61
+    , max( case when day_number <= 90 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d90
+    , max( case when day_number <= 120 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d120
+    , max( case when day_number <= 180 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d180
+    , max( case when day_number <= 270 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d270
+    , max( case when day_number <= 360 then cumulative_total_chum_powerups_used else 0 end ) as cumulative_total_chum_powerups_used_d360
+    , max( cumulative_total_chum_powerups_used ) as cumulative_total_chum_powerups_current
+
 
     -- system_info
     , max( hardware ) as hardware

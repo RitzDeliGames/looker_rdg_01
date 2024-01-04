@@ -518,6 +518,12 @@ view: player_hourly {
     ;;
   }
 
+  dimension: new_spender_flag {
+    type: number
+    sql: case when round(${TABLE}.mtx_ltv_from_data,2) = round(${TABLE}.mtx_purchase_dollars,2) then 1 else 0 end
+      ;;
+  }
+
   measure: max_highest_last_level_serial {
     type: number
     label: "Highest Level"
@@ -565,6 +571,22 @@ view: player_hourly {
     value_format: "#,###"
     sql: ${TABLE}.new_player_rdg_id ;;
   }
+
+  measure: count_distinct_new_spender_rdg_id {
+    group_label: "Unique Player Counts"
+    label: "New Spenders"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      count(distinct
+        case
+          when round(${TABLE}.mtx_ltv_from_data,2) = round(${TABLE}.mtx_purchase_dollars,2)
+          then ${TABLE}.rdg_id
+          else null
+          end
+          );;
+  }
+
 
   ## % to Reach Milestones
   measure: engagement_milestone_5_minutes {

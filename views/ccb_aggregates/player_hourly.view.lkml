@@ -520,7 +520,13 @@ view: player_hourly {
 
   dimension: new_spender_flag {
     type: number
-    sql: case when round(${TABLE}.mtx_ltv_from_data,2) = round(${TABLE}.mtx_purchase_dollars,2) then 1 else 0 end
+    sql: case
+          when
+            round(${TABLE}.mtx_ltv_from_data,2) > 0
+            and round(${TABLE}.mtx_ltv_from_data,2) = round(${TABLE}.mtx_purchase_dollars,2)
+          then 1
+          else 0
+          end
       ;;
   }
 
@@ -580,7 +586,9 @@ view: player_hourly {
     sql:
       count(distinct
         case
-          when round(${TABLE}.mtx_ltv_from_data,2) = round(${TABLE}.mtx_purchase_dollars,2)
+          when
+            round(${TABLE}.mtx_ltv_from_data,2) > 0
+            and round(${TABLE}.mtx_ltv_from_data,2) = round(${TABLE}.mtx_purchase_dollars,2)
           then ${TABLE}.rdg_id
           else null
           end

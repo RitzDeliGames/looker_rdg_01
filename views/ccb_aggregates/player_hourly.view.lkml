@@ -508,6 +508,7 @@ view: player_hourly {
 ####################################################################
 
   dimension: rdg_id {type: string}
+  dimension: display_name {type: string}
   dimension: region {type:string sql:@{country_region};;}
   dimension: country {type:string}
   dimension: version {type: number}
@@ -583,7 +584,7 @@ view: player_hourly {
     label: "New Spenders"
     type: number
     value_format_name: decimal_0
-    drill_fields: [rdg_id]
+    drill_fields: [rdg_id, display_name]
     sql:
       count(distinct
         case

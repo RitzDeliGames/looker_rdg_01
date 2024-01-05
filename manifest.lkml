@@ -606,6 +606,27 @@ constant: campaign_name_clean_update {
           end"
 }
 
+constant: campaign_with_organics_estimate {
+  value: "case
+    when
+      ${TABLE}.country = 'US'
+      and date(${TABLE}.created_date) between '2024-01-03' and '2024-01-24'
+      then '20240103 - AA+ - USA - Purchase - With Organics'
+    when
+      ${TABLE}.country = 'US'
+      and date(${TABLE}.created_date) between '2023-08-09' and '2023-08-22'
+      then '20230808 - AAA+ - USA - Purchase - With Organics'
+    when
+      ${TABLE}.country = 'US'
+      and date(${TABLE}.created_date) between '2023-05-24' and '2023-06-02'
+      then '20230523 - AAA - USA - Purchase - With Organics'
+    when
+      ${TABLE}.country = 'US'
+      and date(${TABLE}.created_date) between '2023-01-31' and '2023-02-15'
+      then '20230131 - AAA - USA - Purchase - With Organics'
+  end"
+}
+
 constant: campaign_name_clean_update_backup {
   value: "case
   when

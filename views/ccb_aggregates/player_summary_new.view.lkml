@@ -1047,6 +1047,13 @@ dimension: primary_key {
     sql: @{singular_campaign_blended_window_override} ;;
   }
 
+  dimension: campaign_with_organics_estimate {
+    group_label: "Singular Campaign Mapping"
+    label: "Campaign with Organics (Estimate)"
+    type: string
+    sql: @{campaign_with_organics_estimate} ;;
+  }
+
 ######################################################################
 ## Singular Creative Mapping
 ######################################################################

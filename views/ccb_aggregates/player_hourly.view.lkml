@@ -583,6 +583,7 @@ view: player_hourly {
     label: "New Spenders"
     type: number
     value_format_name: decimal_0
+    drill_fields: [rdg_id]
     sql:
       count(distinct
         case

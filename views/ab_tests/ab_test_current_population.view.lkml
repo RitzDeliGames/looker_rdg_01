@@ -10,346 +10,68 @@ view: ab_test_current_population {
     with
 
       ---------------------------------------------------------------------------------------
-      -- first test group
+      -- base data
       ---------------------------------------------------------------------------------------
 
-      group_a as (
+      base_data as (
 
       select
-      rdg_id
-      -- , days_played_in_first_7_days as metric
-      , case
-      when 'days_played_in_first_7_days' = {% parameter selected_metric %} then days_played_in_first_7_days
-
-      when 'cumulative_ad_views_d1' = {% parameter selected_metric %} then cumulative_ad_views_d1
-      when 'cumulative_ad_views_d2' = {% parameter selected_metric %} then cumulative_ad_views_d2
-      when 'cumulative_ad_views_d7' = {% parameter selected_metric %} then cumulative_ad_views_d7
-      when 'cumulative_ad_views_d14' = {% parameter selected_metric %} then cumulative_ad_views_d14
-      when 'cumulative_ad_views_d30' = {% parameter selected_metric %} then cumulative_ad_views_d30
-      when 'cumulative_ad_views_d60' = {% parameter selected_metric %} then cumulative_ad_views_d60
-      when 'cumulative_ad_views_d90' = {% parameter selected_metric %} then cumulative_ad_views_d90
-      when 'cumulative_ad_views_current' = {% parameter selected_metric %} then cumulative_ad_views_current
-      when 'retention_d2' = {% parameter selected_metric %} then retention_d2
-      when 'retention_d7' = {% parameter selected_metric %} then retention_d7
-      when 'retention_d8' = {% parameter selected_metric %} then retention_d8
-      when 'retention_d9' = {% parameter selected_metric %} then retention_d9
-      when 'retention_d10' = {% parameter selected_metric %} then retention_d10
-      when 'retention_d11' = {% parameter selected_metric %} then retention_d11
-      when 'retention_d12' = {% parameter selected_metric %} then retention_d12
-      when 'retention_d13' = {% parameter selected_metric %} then retention_d13
-      when 'retention_d14' = {% parameter selected_metric %} then retention_d14
-      when 'retention_d21' = {% parameter selected_metric %} then retention_d21
-      when 'retention_d30' = {% parameter selected_metric %} then retention_d30
-      when 'retention_d60' = {% parameter selected_metric %} then retention_d60
-      when 'retention_d90' = {% parameter selected_metric %} then retention_d90
-
-      when 'cumulative_mtx_purchase_dollars_d1' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d1
-      when 'cumulative_mtx_purchase_dollars_d2' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d2
-      when 'cumulative_mtx_purchase_dollars_d7' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d7
-      when 'cumulative_mtx_purchase_dollars_d14' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d14
-      when 'cumulative_mtx_purchase_dollars_d30' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d30
-      when 'cumulative_mtx_purchase_dollars_d60' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d60
-      when 'cumulative_mtx_purchase_dollars_d90' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d90
-      when 'cumulative_mtx_purchase_dollars_current' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_current
-
-
-      when 'cumulative_count_mtx_purchases_d1' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d1
-      when 'cumulative_count_mtx_purchases_d2' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d2
-      when 'cumulative_count_mtx_purchases_d7' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d7
-      when 'cumulative_count_mtx_purchases_d14' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d14
-      when 'cumulative_count_mtx_purchases_d30' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d30
-      when 'cumulative_count_mtx_purchases_d60' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d60
-      when 'cumulative_count_mtx_purchases_current' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_current
-
-
-      when 'cumulative_ad_view_dollars_d1' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d1
-      when 'cumulative_ad_view_dollars_d2' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d2
-      when 'cumulative_ad_view_dollars_d7' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d7
-      when 'cumulative_ad_view_dollars_d14' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d14
-      when 'cumulative_ad_view_dollars_d30' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d30
-      when 'cumulative_ad_view_dollars_d60' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d60
-      when 'cumulative_ad_view_dollars_d90' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d90
-      when 'cumulative_ad_view_dollars_current' = {% parameter selected_metric %} then cumulative_ad_view_dollars_current
-      when 'cumulative_combined_dollars_d1' = {% parameter selected_metric %} then cumulative_combined_dollars_d1
-      when 'cumulative_combined_dollars_d2' = {% parameter selected_metric %} then cumulative_combined_dollars_d2
-      when 'cumulative_combined_dollars_d7' = {% parameter selected_metric %} then cumulative_combined_dollars_d7
-      when 'cumulative_combined_dollars_d14' = {% parameter selected_metric %} then cumulative_combined_dollars_d14
-      when 'cumulative_combined_dollars_d21' = {% parameter selected_metric %} then cumulative_combined_dollars_d21
-      when 'cumulative_combined_dollars_d30' = {% parameter selected_metric %} then cumulative_combined_dollars_d30
-      when 'cumulative_combined_dollars_d60' = {% parameter selected_metric %} then cumulative_combined_dollars_d60
-      when 'cumulative_combined_dollars_d90' = {% parameter selected_metric %} then cumulative_combined_dollars_d90
-      when 'cumulative_combined_dollars_d120' = {% parameter selected_metric %} then cumulative_combined_dollars_d120
-      when 'cumulative_combined_dollars_current' = {% parameter selected_metric %} then cumulative_combined_dollars_current
-      when 'highest_last_level_serial_d1' = {% parameter selected_metric %} then highest_last_level_serial_d1
-      when 'highest_last_level_serial_d2' = {% parameter selected_metric %} then highest_last_level_serial_d2
-      when 'highest_last_level_serial_d7' = {% parameter selected_metric %} then highest_last_level_serial_d7
-      when 'highest_last_level_serial_d14' = {% parameter selected_metric %} then highest_last_level_serial_d14
-      when 'highest_last_level_serial_d30' = {% parameter selected_metric %} then highest_last_level_serial_d30
-      when 'highest_last_level_serial_d60' = {% parameter selected_metric %} then highest_last_level_serial_d60
-      when 'highest_last_level_serial_d90' = {% parameter selected_metric %} then highest_last_level_serial_d90
-      when 'highest_last_level_serial_current' = {% parameter selected_metric %} then highest_last_level_serial_current
-
-      when 'days_played_in_first_7_days' = {% parameter selected_metric %} then days_played_in_first_7_days
-      when 'days_played_in_first_14_days' = {% parameter selected_metric %} then days_played_in_first_14_days
-      when 'days_played_in_first_21_days' = {% parameter selected_metric %} then days_played_in_first_21_days
-      when 'days_played_in_first_30_days' = {% parameter selected_metric %} then days_played_in_first_30_days
-
-      when 'minutes_played_in_first_1_days' = {% parameter selected_metric %} then minutes_played_in_first_1_days
-      when 'minutes_played_in_first_2_days' = {% parameter selected_metric %} then minutes_played_in_first_2_days
-      when 'minutes_played_in_first_7_days' = {% parameter selected_metric %} then minutes_played_in_first_7_days
-      when 'minutes_played_in_first_14_days' = {% parameter selected_metric %} then minutes_played_in_first_14_days
-      when 'minutes_played_in_first_21_days' = {% parameter selected_metric %} then minutes_played_in_first_21_days
-      when 'minutes_played_in_first_30_days' = {% parameter selected_metric %} then minutes_played_in_first_30_days
-
-      when 'cumulative_coins_spend_d1' = {% parameter selected_metric %} then cumulative_coins_spend_d1
-      when 'cumulative_coins_spend_d2' = {% parameter selected_metric %} then cumulative_coins_spend_d2
-      when 'cumulative_coins_spend_d7' = {% parameter selected_metric %} then cumulative_coins_spend_d7
-      when 'cumulative_coins_spend_d14' = {% parameter selected_metric %} then cumulative_coins_spend_d14
-      when 'cumulative_coins_spend_d30' = {% parameter selected_metric %} then cumulative_coins_spend_d30
-      when 'cumulative_coins_spend_d60' = {% parameter selected_metric %} then cumulative_coins_spend_d60
-      when 'cumulative_coins_spend_d90' = {% parameter selected_metric %} then cumulative_coins_spend_d90
-      when 'cumulative_coins_spend_current' = {% parameter selected_metric %} then cumulative_coins_spend_current
-
-      when 'puzzle_rounds_played_in_first_1_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_1_days
-      when 'puzzle_rounds_played_in_first_2_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_2_days
-      when 'puzzle_rounds_played_in_first_7_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_7_days
-      when 'puzzle_rounds_played_in_first_14_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_14_days
-      when 'puzzle_rounds_played_in_first_21_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_21_days
-      when 'puzzle_rounds_played_in_first_30_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_30_days
-
-      -- cumulative_total_chum_powerups_used
-      when 'cumulative_total_chum_powerups_used_d1' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d1
-      when 'cumulative_total_chum_powerups_used_d2' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d2
-      when 'cumulative_total_chum_powerups_used_d7' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d7
-      when 'cumulative_total_chum_powerups_used_d8' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d8
-      when 'cumulative_total_chum_powerups_used_d14' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d14
-      when 'cumulative_total_chum_powerups_used_d15' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d15
-      when 'cumulative_total_chum_powerups_used_d21' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d21
-      when 'cumulative_total_chum_powerups_used_d30' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d30
-      when 'cumulative_total_chum_powerups_used_d31' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d31
-      when 'cumulative_total_chum_powerups_used_d46' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d46
-      when 'cumulative_total_chum_powerups_used_d60' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d60
-      when 'cumulative_total_chum_powerups_used_d61' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d61
-      when 'cumulative_total_chum_powerups_used_d90' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d90
-      when 'cumulative_total_chum_powerups_used_d120' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d120
-      when 'cumulative_total_chum_powerups_used_d180' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d180
-      when 'cumulative_total_chum_powerups_used_d270' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d270
-      when 'cumulative_total_chum_powerups_used_d360' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d360
-
-
-      else 1
-      end as metric
-
+        rdg_id
+        , safe_cast(
+              json_extract_scalar(experiments,"$.swapTeam_20231206")
+              as string) as variant
+        , count(distinct rdg_date) as count_days_played
+        , sum(count_rounds) as count_rounds
+        , sum( case when game_mode = 'campaign' then count_rounds else 0 end ) as campaign_rounds_played
+        , sum( case when game_mode = 'movesMaster' then count_rounds else 0 end ) as moves_master_rounds_played
+        , safe_divide(
+           sum( case when game_mode = 'campaign' then count_rounds else 0 end )
+            , sum( case when game_mode = 'campaign' then count_wins else 0 end )
+            ) as campaign_attempts_per_success
+        , sum(total_count_ad_views) as count_total_ad_views
+        , sum(total_chum_powerups_used) as total_chum_powerups_used
       from
-      ${player_summary_new.SQL_TABLE_NAME}
-
+        ${player_round_summary.SQL_TABLE_NAME}
       where
-      1=1
-
-      -- and json_extract_scalar(experiments,'$.dynamicDropBiasv3_20230627') = 'control'
-      {% if selected_experiment._is_filtered %}
-      and json_extract_scalar(experiments,{% parameter selected_experiment %}) = {% parameter selected_variant_a %}
-      {% endif %}
-
-      -- and max_available_day_number >= 7
-      {% if selected_lowest_max_available_day_number._is_filtered %}
-      and max_available_day_number >= {% parameter selected_lowest_max_available_day_number %}
-      {% endif %}
-
-      --filter for device platform
-      {% if selected_device_platform_os._is_filtered %}
-      and
-      case
-      when platform like '%iOS%' then 'iOS'
-      when platform like '%Android%' then 'Android'
-      else 'Other'
-      end = {% parameter selected_device_platform_os %}
-      {% endif %}
-
-      -- minimum system memory
-      {% if selected_minimum_system_memory_size._is_filtered %}
-      and system_memory_size >= {% parameter selected_minimum_system_memory_size %}
-      {% endif %}
+        date(rdg_date) between '2024-01-01' and '2024-01-01'
+        and level_serial between 50 and 60
+        and safe_cast(
+              json_extract_scalar(experiments,"$.swapTeam_20231206")
+              as string) in ( 'control' , 'variant_a' )
+      group by
+        1
 
       )
 
       ---------------------------------------------------------------------------------------
-      -- second test group
-      ---------------------------------------------------------------------------------------
-
-      , group_b as (
-
-      select
-      rdg_id
-      -- , days_played_in_first_7_days as metric
-      , case
-      when 'days_played_in_first_7_days' = {% parameter selected_metric %} then days_played_in_first_7_days
-
-      when 'cumulative_ad_views_d1' = {% parameter selected_metric %} then cumulative_ad_views_d1
-      when 'cumulative_ad_views_d2' = {% parameter selected_metric %} then cumulative_ad_views_d2
-      when 'cumulative_ad_views_d7' = {% parameter selected_metric %} then cumulative_ad_views_d7
-      when 'cumulative_ad_views_d14' = {% parameter selected_metric %} then cumulative_ad_views_d14
-      when 'cumulative_ad_views_d30' = {% parameter selected_metric %} then cumulative_ad_views_d30
-      when 'cumulative_ad_views_d60' = {% parameter selected_metric %} then cumulative_ad_views_d60
-      when 'cumulative_ad_views_d90' = {% parameter selected_metric %} then cumulative_ad_views_d90
-      when 'cumulative_ad_views_current' = {% parameter selected_metric %} then cumulative_ad_views_current
-      when 'retention_d2' = {% parameter selected_metric %} then retention_d2
-      when 'retention_d7' = {% parameter selected_metric %} then retention_d7
-      when 'retention_d8' = {% parameter selected_metric %} then retention_d8
-      when 'retention_d9' = {% parameter selected_metric %} then retention_d9
-      when 'retention_d10' = {% parameter selected_metric %} then retention_d10
-      when 'retention_d11' = {% parameter selected_metric %} then retention_d11
-      when 'retention_d12' = {% parameter selected_metric %} then retention_d12
-      when 'retention_d13' = {% parameter selected_metric %} then retention_d13
-      when 'retention_d14' = {% parameter selected_metric %} then retention_d14
-      when 'retention_d21' = {% parameter selected_metric %} then retention_d21
-      when 'retention_d30' = {% parameter selected_metric %} then retention_d30
-      when 'retention_d60' = {% parameter selected_metric %} then retention_d60
-      when 'retention_d90' = {% parameter selected_metric %} then retention_d90
-
-      when 'cumulative_mtx_purchase_dollars_d1' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d1
-      when 'cumulative_mtx_purchase_dollars_d2' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d2
-      when 'cumulative_mtx_purchase_dollars_d7' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d7
-      when 'cumulative_mtx_purchase_dollars_d14' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d14
-      when 'cumulative_mtx_purchase_dollars_d30' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d30
-      when 'cumulative_mtx_purchase_dollars_d60' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d60
-      when 'cumulative_mtx_purchase_dollars_d90' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_d90
-      when 'cumulative_mtx_purchase_dollars_current' = {% parameter selected_metric %} then cumulative_mtx_purchase_dollars_current
-
-
-      when 'cumulative_count_mtx_purchases_d1' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d1
-      when 'cumulative_count_mtx_purchases_d2' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d2
-      when 'cumulative_count_mtx_purchases_d7' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d7
-      when 'cumulative_count_mtx_purchases_d14' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d14
-      when 'cumulative_count_mtx_purchases_d30' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d30
-      when 'cumulative_count_mtx_purchases_d60' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d60
-      when 'cumulative_count_mtx_purchases_current' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_current
-
-
-      when 'cumulative_ad_view_dollars_d1' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d1
-      when 'cumulative_ad_view_dollars_d2' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d2
-      when 'cumulative_ad_view_dollars_d7' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d7
-      when 'cumulative_ad_view_dollars_d14' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d14
-      when 'cumulative_ad_view_dollars_d30' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d30
-      when 'cumulative_ad_view_dollars_d60' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d60
-      when 'cumulative_ad_view_dollars_d90' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d90
-      when 'cumulative_ad_view_dollars_current' = {% parameter selected_metric %} then cumulative_ad_view_dollars_current
-      when 'cumulative_combined_dollars_d1' = {% parameter selected_metric %} then cumulative_combined_dollars_d1
-      when 'cumulative_combined_dollars_d2' = {% parameter selected_metric %} then cumulative_combined_dollars_d2
-      when 'cumulative_combined_dollars_d7' = {% parameter selected_metric %} then cumulative_combined_dollars_d7
-      when 'cumulative_combined_dollars_d14' = {% parameter selected_metric %} then cumulative_combined_dollars_d14
-      when 'cumulative_combined_dollars_d21' = {% parameter selected_metric %} then cumulative_combined_dollars_d21
-      when 'cumulative_combined_dollars_d30' = {% parameter selected_metric %} then cumulative_combined_dollars_d30
-      when 'cumulative_combined_dollars_d60' = {% parameter selected_metric %} then cumulative_combined_dollars_d60
-      when 'cumulative_combined_dollars_d90' = {% parameter selected_metric %} then cumulative_combined_dollars_d90
-      when 'cumulative_combined_dollars_d120' = {% parameter selected_metric %} then cumulative_combined_dollars_d120
-      when 'cumulative_combined_dollars_current' = {% parameter selected_metric %} then cumulative_combined_dollars_current
-      when 'highest_last_level_serial_d1' = {% parameter selected_metric %} then highest_last_level_serial_d1
-      when 'highest_last_level_serial_d2' = {% parameter selected_metric %} then highest_last_level_serial_d2
-      when 'highest_last_level_serial_d7' = {% parameter selected_metric %} then highest_last_level_serial_d7
-      when 'highest_last_level_serial_d14' = {% parameter selected_metric %} then highest_last_level_serial_d14
-      when 'highest_last_level_serial_d30' = {% parameter selected_metric %} then highest_last_level_serial_d30
-      when 'highest_last_level_serial_d60' = {% parameter selected_metric %} then highest_last_level_serial_d60
-      when 'highest_last_level_serial_d90' = {% parameter selected_metric %} then highest_last_level_serial_d90
-      when 'highest_last_level_serial_current' = {% parameter selected_metric %} then highest_last_level_serial_current
-
-      when 'days_played_in_first_7_days' = {% parameter selected_metric %} then days_played_in_first_7_days
-      when 'days_played_in_first_14_days' = {% parameter selected_metric %} then days_played_in_first_14_days
-      when 'days_played_in_first_21_days' = {% parameter selected_metric %} then days_played_in_first_21_days
-      when 'days_played_in_first_30_days' = {% parameter selected_metric %} then days_played_in_first_30_days
-
-      when 'minutes_played_in_first_1_days' = {% parameter selected_metric %} then minutes_played_in_first_1_days
-      when 'minutes_played_in_first_2_days' = {% parameter selected_metric %} then minutes_played_in_first_2_days
-      when 'minutes_played_in_first_7_days' = {% parameter selected_metric %} then minutes_played_in_first_7_days
-      when 'minutes_played_in_first_14_days' = {% parameter selected_metric %} then minutes_played_in_first_14_days
-      when 'minutes_played_in_first_21_days' = {% parameter selected_metric %} then minutes_played_in_first_21_days
-      when 'minutes_played_in_first_30_days' = {% parameter selected_metric %} then minutes_played_in_first_30_days
-
-      when 'cumulative_coins_spend_d1' = {% parameter selected_metric %} then cumulative_coins_spend_d1
-      when 'cumulative_coins_spend_d2' = {% parameter selected_metric %} then cumulative_coins_spend_d2
-      when 'cumulative_coins_spend_d7' = {% parameter selected_metric %} then cumulative_coins_spend_d7
-      when 'cumulative_coins_spend_d14' = {% parameter selected_metric %} then cumulative_coins_spend_d14
-      when 'cumulative_coins_spend_d30' = {% parameter selected_metric %} then cumulative_coins_spend_d30
-      when 'cumulative_coins_spend_d60' = {% parameter selected_metric %} then cumulative_coins_spend_d60
-      when 'cumulative_coins_spend_d90' = {% parameter selected_metric %} then cumulative_coins_spend_d90
-      when 'cumulative_coins_spend_current' = {% parameter selected_metric %} then cumulative_coins_spend_current
-
-      when 'puzzle_rounds_played_in_first_1_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_1_days
-      when 'puzzle_rounds_played_in_first_2_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_2_days
-      when 'puzzle_rounds_played_in_first_7_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_7_days
-      when 'puzzle_rounds_played_in_first_14_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_14_days
-      when 'puzzle_rounds_played_in_first_21_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_21_days
-      when 'puzzle_rounds_played_in_first_30_days' = {% parameter selected_metric %} then puzzle_rounds_played_in_first_30_days
-
-      -- cumulative_total_chum_powerups_used
-      when 'cumulative_total_chum_powerups_used_d1' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d1
-      when 'cumulative_total_chum_powerups_used_d2' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d2
-      when 'cumulative_total_chum_powerups_used_d7' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d7
-      when 'cumulative_total_chum_powerups_used_d8' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d8
-      when 'cumulative_total_chum_powerups_used_d14' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d14
-      when 'cumulative_total_chum_powerups_used_d15' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d15
-      when 'cumulative_total_chum_powerups_used_d21' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d21
-      when 'cumulative_total_chum_powerups_used_d30' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d30
-      when 'cumulative_total_chum_powerups_used_d31' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d31
-      when 'cumulative_total_chum_powerups_used_d46' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d46
-      when 'cumulative_total_chum_powerups_used_d60' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d60
-      when 'cumulative_total_chum_powerups_used_d61' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d61
-      when 'cumulative_total_chum_powerups_used_d90' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d90
-      when 'cumulative_total_chum_powerups_used_d120' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d120
-      when 'cumulative_total_chum_powerups_used_d180' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d180
-      when 'cumulative_total_chum_powerups_used_d270' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d270
-      when 'cumulative_total_chum_powerups_used_d360' = {% parameter selected_metric %} then cumulative_total_chum_powerups_used_d360
-
-
-      else 1
-      end as metric
-
-      from
-      ${player_summary_new.SQL_TABLE_NAME}
-
-      where
-      1=1
-
-      -- and json_extract_scalar(experiments,'$.dynamicDropBiasv3_20230627') = 'control'
-      {% if selected_experiment._is_filtered %}
-      and json_extract_scalar(experiments,{% parameter selected_experiment %}) = {% parameter selected_variant_b %}
-      {% endif %}
-
-      -- and max_available_day_number >= 7
-      {% if selected_lowest_max_available_day_number._is_filtered %}
-      and max_available_day_number >= {% parameter selected_lowest_max_available_day_number %}
-      {% endif %}
-
-      --filter for device platform
-      {% if selected_device_platform_os._is_filtered %}
-      and
-      case
-      when platform like '%iOS%' then 'iOS'
-      when platform like '%Android%' then 'Android'
-      else 'Other'
-      end = {% parameter selected_device_platform_os %}
-      {% endif %}
-
-      -- minimum system memory
-      {% if selected_minimum_system_memory_size._is_filtered %}
-      and system_memory_size >= {% parameter selected_minimum_system_memory_size %}
-      {% endif %}
-
-      )
-
-      ---------------------------------------------------------------------------------------
-      -- create first data set
+      -- combined data set
       ---------------------------------------------------------------------------------------
 
       , combined_data_set as (
 
-      select rdg_id, metric, 'a' as my_group, from group_a
-      union all
-      select rdg_id, metric, 'b' as my_group, from group_b
+      select
+        rdg_id
+        , case
+            when variant = 'control' then 'a'
+            when variant = 'variant_a' then 'b'
+            else 'other'
+            end as my_group
+        , case
+            when 'count_days_played' = {% parameter selected_metric %} then count_days_played
+            when 'count_rounds' = {% parameter selected_metric %} then count_rounds
+            when 'moves_master_rounds_played' = {% parameter selected_metric %} then moves_master_rounds_played
+            when 'campaign_attempts_per_success' = {% parameter selected_metric %} then campaign_attempts_per_success
+            when 'count_total_ad_views' = {% parameter selected_metric %} then count_total_ad_views
+            when 'total_chum_powerups_used' = {% parameter selected_metric %} then total_chum_powerups_used
+            else 0
+            end as metric
+
+      from
+        base_data
 
       )
 
-      ---------------------------------------------------------------------------------------
+     ---------------------------------------------------------------------------------------
       -- create iteration table
       ---------------------------------------------------------------------------------------
 
@@ -878,121 +600,15 @@ view: ab_test_current_population {
 
   parameter: selected_metric {
     type: string
-    default_value: "days_played_in_first_7_days"
+    default_value: "count_days_played"
     suggestions:  [
 
-      , "cumulative_ad_views_d1"
-      , "cumulative_ad_views_d2"
-      , "cumulative_ad_views_d7"
-      , "cumulative_ad_views_d14"
-      , "cumulative_ad_views_d30"
-      , "cumulative_ad_views_d60"
-      , "cumulative_ad_views_d90"
-      , "cumulative_ad_views_current"
-
-      , "retention_d2"
-      , "retention_d7"
-      , "retention_d8"
-      , "retention_d9"
-      , "retention_d10"
-      , "retention_d11"
-      , "retention_d12"
-      , "retention_d13"
-      , "retention_d14"
-      , "retention_d21"
-      , "retention_d30"
-      , "retention_d60"
-      , "retention_d90"
-
-      , "cumulative_mtx_purchase_dollars_d1"
-      , "cumulative_mtx_purchase_dollars_d2"
-      , "cumulative_mtx_purchase_dollars_d7"
-      , "cumulative_mtx_purchase_dollars_d14"
-      , "cumulative_mtx_purchase_dollars_d30"
-      , "cumulative_mtx_purchase_dollars_d60"
-      , "cumulative_mtx_purchase_dollars_d90"
-      , "cumulative_mtx_purchase_dollars_current"
-
-      , "cumulative_count_mtx_purchases_d1"
-      , "cumulative_count_mtx_purchases_d2"
-      , "cumulative_count_mtx_purchases_d7"
-      , "cumulative_count_mtx_purchases_d14"
-      , "cumulative_count_mtx_purchases_d30"
-      , "cumulative_count_mtx_purchases_d60"
-      , "cumulative_count_mtx_purchases_current"
-
-      , "cumulative_ad_view_dollars_d1"
-      , "cumulative_ad_view_dollars_d2"
-      , "cumulative_ad_view_dollars_d7"
-      , "cumulative_ad_view_dollars_d14"
-      , "cumulative_ad_view_dollars_d30"
-      , "cumulative_ad_view_dollars_d60"
-      , "cumulative_ad_view_dollars_d90"
-      , "cumulative_ad_view_dollars_current"
-      , "cumulative_combined_dollars_d1"
-      , "cumulative_combined_dollars_d2"
-      , "cumulative_combined_dollars_d7"
-      , "cumulative_combined_dollars_d14"
-      , "cumulative_combined_dollars_d21"
-      , "cumulative_combined_dollars_d30"
-      , "cumulative_combined_dollars_d60"
-      , "cumulative_combined_dollars_d90"
-      , "cumulative_combined_dollars_d120"
-      , "cumulative_combined_dollars_current"
-      , "highest_last_level_serial_d1"
-      , "highest_last_level_serial_d2"
-      , "highest_last_level_serial_d7"
-      , "highest_last_level_serial_d14"
-      , "highest_last_level_serial_d30"
-      , "highest_last_level_serial_d60"
-      , "highest_last_level_serial_d90"
-      , "highest_last_level_serial_current"
-
-      , "days_played_in_first_7_days"
-      , "days_played_in_first_14_days"
-      , "days_played_in_first_21_days"
-      , "days_played_in_first_30_days"
-
-      , "minutes_played_in_first_1_days"
-      , "minutes_played_in_first_2_days"
-      , "minutes_played_in_first_7_days"
-      , "minutes_played_in_first_14_days"
-      , "minutes_played_in_first_21_days"
-      , "minutes_played_in_first_30_days"
-
-      , "cumulative_coins_spend_d1"
-      , "cumulative_coins_spend_d2"
-      , "cumulative_coins_spend_d7"
-      , "cumulative_coins_spend_d14"
-      , "cumulative_coins_spend_d30"
-      , "cumulative_coins_spend_d60"
-      , "cumulative_coins_spend_d90"
-      , "cumulative_coins_spend_current"
-
-      , "puzzle_rounds_played_in_first_1_days"
-      , "puzzle_rounds_played_in_first_2_days"
-      , "puzzle_rounds_played_in_first_7_days"
-      , "puzzle_rounds_played_in_first_14_days"
-      , "puzzle_rounds_played_in_first_21_days"
-      , "puzzle_rounds_played_in_first_30_days"
-
-      , "cumulative_total_chum_powerups_used_d1"
-      , "cumulative_total_chum_powerups_used_d2"
-      , "cumulative_total_chum_powerups_used_d7"
-      , "cumulative_total_chum_powerups_used_d8"
-      , "cumulative_total_chum_powerups_used_d14"
-      , "cumulative_total_chum_powerups_used_d15"
-      , "cumulative_total_chum_powerups_used_d21"
-      , "cumulative_total_chum_powerups_used_d30"
-      , "cumulative_total_chum_powerups_used_d31"
-      , "cumulative_total_chum_powerups_used_d46"
-      , "cumulative_total_chum_powerups_used_d60"
-      , "cumulative_total_chum_powerups_used_d61"
-      , "cumulative_total_chum_powerups_used_d90"
-      , "cumulative_total_chum_powerups_used_d120"
-      , "cumulative_total_chum_powerups_used_d180"
-      , "cumulative_total_chum_powerups_used_d270"
-      , "cumulative_total_chum_powerups_used_d360"
+"count_days_played"
+, "count_rounds"
+, "moves_master_rounds_played"
+, "campaign_attempts_per_success"
+, "count_total_ad_views"
+, "total_chum_powerups_used"
 
 
     ]

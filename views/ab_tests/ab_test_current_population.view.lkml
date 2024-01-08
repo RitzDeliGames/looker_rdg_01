@@ -33,12 +33,34 @@ view: ab_test_current_population {
       from
         ${player_round_summary.SQL_TABLE_NAME}
       where
+
+        -- Date Filters
         date(rdg_date) >= date({% parameter start_date %})
         and date(rdg_date) <= date({% parameter end_date %})
-        and level_serial between 50 and 60
-        and safe_cast(
-              json_extract_scalar(experiments,"$.swapTeam_20231206")
-              as string) in ( 'control' , 'variant_a' )
+
+        --Test Filter
+        and json_extract_scalar(experiments,{% parameter selected_experiment %}) in ( {% parameter selected_variant_a %} , {% parameter selected_variant_b %} )
+
+        -- Level Filter (start)
+        {% if start_level_serial._is_filtered %}
+        and level_serial >= {% parameter start_level_serial %}
+        {% endif %}
+
+        -- Level Filter (end)
+        {% if end_level_serial._is_filtered %}
+        and level_serial <= {% parameter end_level_serial %}
+        {% endif %}
+
+        -- Day Number (min)
+        {% if day_number_min._is_filtered %}
+        and day_number >= {% parameter day_number_min %}
+        {% endif %}
+
+        -- Day Number (max)
+        {% if day_number_max._is_filtered %}
+        and day_number <= {% parameter day_number_max %}
+        {% endif %}
+
       group by
         1
 
@@ -582,7 +604,19 @@ view: ab_test_current_population {
     default_value: "2024-01-01"
   }
 
-  parameter: selected_lowest_max_available_day_number {
+  parameter: start_level_serial {
+    type: number
+  }
+
+  parameter: end_level_serial {
+    type: number
+  }
+
+  parameter: day_number_min {
+    type: number
+  }
+
+  parameter: day_number_max {
     type: number
   }
 

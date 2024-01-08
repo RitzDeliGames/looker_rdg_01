@@ -33,7 +33,8 @@ view: ab_test_current_population {
       from
         ${player_round_summary.SQL_TABLE_NAME}
       where
-        date(rdg_date) between '2024-01-01' and '2024-01-01'
+        date(rdg_date) >= date({% parameter start_date %})
+        and date(rdg_date) <= date({% parameter end_date %})
         and level_serial between 50 and 60
         and safe_cast(
               json_extract_scalar(experiments,"$.swapTeam_20231206")
@@ -571,6 +572,15 @@ view: ab_test_current_population {
     suggestions:  ["control","variant_a","variant_b","variant_c","variant_d"]
   }
 
+  parameter: start_date {
+    type: date
+    default_value: "2024-01-01"
+  }
+
+  parameter: end_date {
+    type: date
+    default_value: "2024-01-01"
+  }
 
   parameter: selected_lowest_max_available_day_number {
     type: number

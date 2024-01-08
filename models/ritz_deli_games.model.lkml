@@ -763,6 +763,7 @@ explore: singular_creative_summary {}
 explore: big_query_jobs {}
 explore: player_daily_incremental {}
 explore: ab_test_full_iterations {}
+explore: ab_test_current_population {}
 explore: revenue_model{}
 # explore: ab_test_t_test{}
 

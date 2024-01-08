@@ -30,6 +30,16 @@ view: ab_test_current_population {
             ) as campaign_attempts_per_success
         , sum(total_count_ad_views) as count_total_ad_views
         , sum(total_chum_powerups_used) as total_chum_powerups_used
+        , max(churn_indicator) as percent_churned_players
+        , max(
+          case
+            when date_diff(date(next_round_start_timestamp_utc),date(rdg_date),DAY) >= 7
+            then 1
+            when next_round_start_timestamp_utc is null
+            then 1
+            else 0
+            end
+          ) as percent_7day_churned_players
       from
         ${player_round_summary.SQL_TABLE_NAME}
       where
@@ -86,6 +96,8 @@ view: ab_test_current_population {
             when 'campaign_attempts_per_success' = {% parameter selected_metric %} then campaign_attempts_per_success
             when 'count_total_ad_views' = {% parameter selected_metric %} then count_total_ad_views
             when 'total_chum_powerups_used' = {% parameter selected_metric %} then total_chum_powerups_used
+            when 'percent_churned_players' = {% parameter selected_metric %} then percent_churned_players
+            when 'percent_7day_churned_players' = {% parameter selected_metric %} then percent_7day_churned_players
             else 0
             end as metric
 
@@ -647,12 +659,14 @@ view: ab_test_current_population {
     default_value: "count_days_played"
     suggestions:  [
 
-"count_days_played"
-, "count_rounds"
-, "moves_master_rounds_played"
-, "campaign_attempts_per_success"
-, "count_total_ad_views"
-, "total_chum_powerups_used"
+      "count_days_played"
+      , "count_rounds"
+      , "moves_master_rounds_played"
+      , "campaign_attempts_per_success"
+      , "count_total_ad_views"
+      , "total_chum_powerups_used"
+      , "percent_churned_players"
+      , "percent_7day_churned_players"
 
 
     ]

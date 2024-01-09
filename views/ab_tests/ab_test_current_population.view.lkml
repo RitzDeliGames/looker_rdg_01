@@ -31,6 +31,7 @@ view: ab_test_current_population {
         , sum(total_count_ad_views) as count_total_ad_views
         , sum(total_chum_powerups_used) as total_chum_powerups_used
         , max(churn_indicator) as percent_churned_players
+        , sum(in_round_coin_spend) as in_round_coin_spend
       from
         ${player_round_summary.SQL_TABLE_NAME}
       where
@@ -88,6 +89,7 @@ view: ab_test_current_population {
             when 'count_total_ad_views' = {% parameter selected_metric %} then count_total_ad_views
             when 'total_chum_powerups_used' = {% parameter selected_metric %} then total_chum_powerups_used
             when 'percent_churned_players' = {% parameter selected_metric %} then percent_churned_players
+            when 'in_round_coin_spend' = {% parameter selected_metric %} then in_round_coin_spend
 
             else 0
             end as metric
@@ -657,6 +659,7 @@ view: ab_test_current_population {
       , "count_total_ad_views"
       , "total_chum_powerups_used"
       , "percent_churned_players"
+      , "in_round_coin_spend"
 
 
 

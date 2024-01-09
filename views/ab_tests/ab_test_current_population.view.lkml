@@ -77,8 +77,8 @@ view: ab_test_current_population {
       select
         rdg_id
         , case
-            when variant = 'control' then 'a'
-            when variant = 'variant_a' then 'b'
+            when variant = {% parameter selected_variant_a %} then 'a'
+            when variant = {% parameter selected_variant_b %} then 'b'
             else 'other'
             end as my_group
         , case

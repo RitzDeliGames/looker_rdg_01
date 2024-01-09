@@ -17,9 +17,7 @@ view: ab_test_current_population {
 
       select
         rdg_id
-        , max(safe_cast(
-              json_extract_scalar(experiments,"$.swapTeam_20231206")
-              as string)) as variant
+        , max(json_extract_scalar(experiments,{% parameter selected_experiment %})) as variant
         , count(distinct rdg_date) as count_days_played
         , sum(count_rounds) as count_rounds
         , sum( case when game_mode = 'campaign' then count_rounds else 0 end ) as campaign_rounds_played

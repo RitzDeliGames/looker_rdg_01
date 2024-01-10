@@ -1682,7 +1682,7 @@ measure: revenue_per_install_d7 {
     sql:
       sum(
         case
-          ${TABLE}.cumulative_mtx_purchase_dollars_current > 0
+          when ${TABLE}.cumulative_mtx_purchase_dollars_current > 0
           then 1
           else 0
           end )

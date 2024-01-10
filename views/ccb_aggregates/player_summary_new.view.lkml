@@ -1998,6 +1998,107 @@ measure: revenue_per_install_d7 {
   }
 
 ################################################################
+## Average Revenue Per Transaction
+################################################################
+
+  measure: average_revenue_per_transaction_d1 {
+    group_label: "Average Revenue Per Transaction"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 1
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d1
+          else 0
+          end )
+      ,
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 1
+          then ${TABLE}.cumulative_count_mtx_purchases_d1
+          else 0
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: average_revenue_per_transaction_d2 {
+    group_label: "Average Revenue Per Transaction"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d2
+          else 0
+          end )
+      ,
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.cumulative_count_mtx_purchases_d2
+          else 0
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: average_revenue_per_transaction_d7 {
+    group_label: "Average Revenue Per Transaction"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d7
+          else 0
+          end )
+      ,
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.cumulative_count_mtx_purchases_d7
+          else 0
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: average_revenue_per_transaction_d8 {
+    group_label: "Average Revenue Per Transaction"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d8
+          else 0
+          end )
+      ,
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.cumulative_count_mtx_purchases_d8
+          else 0
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+
+################################################################
 ## Retention
 ################################################################
 

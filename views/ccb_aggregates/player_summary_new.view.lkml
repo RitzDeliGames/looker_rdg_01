@@ -225,6 +225,7 @@ FROM
      , max( case when day_number <= 1 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d1
      , max( case when day_number <= 2 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d2
      , max( case when day_number <= 7 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d7
+     , max( case when day_number <= 8 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d8
      , max( case when day_number <= 14 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d14
      , max( case when day_number <= 30 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d30
      , max( case when day_number <= 60 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d60
@@ -236,6 +237,7 @@ FROM
     , max( case when day_number <= 1 then cumulative_count_mtx_purchases else 0 end ) as cumulative_count_mtx_purchases_d1
     , max( case when day_number <= 2 then cumulative_count_mtx_purchases else 0 end ) as cumulative_count_mtx_purchases_d2
     , max( case when day_number <= 7 then cumulative_count_mtx_purchases else 0 end ) as cumulative_count_mtx_purchases_d7
+    , max( case when day_number <= 8 then cumulative_count_mtx_purchases else 0 end ) as cumulative_count_mtx_purchases_d8
     , max( case when day_number <= 14 then cumulative_count_mtx_purchases else 0 end ) as cumulative_count_mtx_purchases_d14
     , max( case when day_number <= 30 then cumulative_count_mtx_purchases else 0 end ) as cumulative_count_mtx_purchases_d30
     , max( case when day_number <= 60 then cumulative_count_mtx_purchases else 0 end ) as cumulative_count_mtx_purchases_d60
@@ -696,6 +698,7 @@ dimension: primary_key {
   dimension: cumulative_mtx_purchase_dollars_d1 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_d2 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_d7 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d8 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_d14 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_d30 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_d60 {group_label:"LTV - IAPs" type: number}
@@ -706,6 +709,7 @@ dimension: primary_key {
   dimension: cumulative_count_mtx_purchases_d1 {group_label:"Cumulative MTX Purchases" type:number}
   dimension: cumulative_count_mtx_purchases_d2 {group_label:"Cumulative MTX Purchases" type:number}
   dimension: cumulative_count_mtx_purchases_d7 {group_label:"Cumulative MTX Purchases" type:number}
+  dimension: cumulative_count_mtx_purchases_d8 {group_label:"Cumulative MTX Purchases" type:number}
   dimension: cumulative_count_mtx_purchases_d14 {group_label:"Cumulative MTX Purchases" type:number}
   dimension: cumulative_count_mtx_purchases_d30 {group_label:"Cumulative MTX Purchases" type:number}
   dimension: cumulative_count_mtx_purchases_d60 {group_label:"Cumulative MTX Purchases" type:number}
@@ -1320,6 +1324,21 @@ dimension: primary_key {
 
   }
 
+  measure: available_combined_dollars_d8 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.cumulative_combined_dollars_d8
+          else 0
+          end )
+    ;;
+    value_format_name: usd
+
+  }
+
   measure: available_combined_dollars_d14 {
     group_label: "Revenue Per Install (RPI)"
     type: number
@@ -1476,6 +1495,30 @@ measure: revenue_per_install_d7 {
       count( distinct
         case
           when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: revenue_per_install_d8 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.cumulative_combined_dollars_d8
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 8
           then ${TABLE}.rdg_id
           else null
           end )
@@ -1658,6 +1701,32 @@ measure: revenue_per_install_d7 {
 
   }
 
+  measure: cumulative_mtx_conversion_d2 {
+    group_label: "Cumulative Conversion"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d2 > 0
+          then 1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+
+  }
+
+
   measure: cumulative_mtx_conversion_d7 {
     group_label: "Cumulative Conversion"
     type: number
@@ -1674,6 +1743,31 @@ measure: revenue_per_install_d7 {
       count( distinct
         case
           when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+
+  }
+
+  measure: cumulative_mtx_conversion_d8 {
+    group_label: "Cumulative Conversion"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d8 > 0
+          then 1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 8
           then ${TABLE}.rdg_id
           else null
           end )

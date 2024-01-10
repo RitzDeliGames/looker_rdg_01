@@ -1676,6 +1676,21 @@ measure: revenue_per_install_d7 {
 ## Cumulative Conversion
 ################################################################
 
+  measure: cumulative_mtx_payers_current {
+    group_label: "Cumulative Conversion"
+    type: number
+    sql:
+      sum(
+        case
+          ${TABLE}.cumulative_mtx_purchase_dollars_current > 0
+          then 1
+          else 0
+          end )
+    ;;
+    value_format_name: decimal_0
+
+  }
+
   measure: cumulative_mtx_conversion_d1 {
     group_label: "Cumulative Conversion"
     type: number

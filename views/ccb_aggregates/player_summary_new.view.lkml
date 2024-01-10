@@ -2097,6 +2097,109 @@ measure: revenue_per_install_d7 {
 
   }
 
+################################################################
+## Average Mtx Revenue Per Paying User
+################################################################
+
+  measure: average_mtx_revenue_per_paying_user_d1 {
+    group_label: "Average Mtx Revenue Per Paying User"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 1
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 1
+          and ${TABLE}.cumulative_count_mtx_purchases_d1 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: average_mtx_revenue_per_paying_user_d2 {
+    group_label: "Average Mtx Revenue Per Paying User"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d2
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          and ${TABLE}.cumulative_count_mtx_purchases_d2 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: average_mtx_revenue_per_paying_user_d7 {
+    group_label: "Average Mtx Revenue Per Paying User"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d7
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          and ${TABLE}.cumulative_count_mtx_purchases_d7 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: average_mtx_revenue_per_paying_user_d8 {
+    group_label: "Average Mtx Revenue Per Paying User"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d8
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          and ${TABLE}.cumulative_count_mtx_purchases_d8 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
 
 ################################################################
 ## Retention

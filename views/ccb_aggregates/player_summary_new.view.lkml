@@ -1893,7 +1893,109 @@ measure: revenue_per_install_d7 {
   }
 
 
+################################################################
+## Transactions Per Payer
+################################################################
 
+  measure: transactions_per_payer_d1 {
+    group_label: "Transactions Per Payer"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 1
+          then ${TABLE}.cumulative_count_mtx_purchases_d1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 1
+          and ${TABLE}.cumulative_count_mtx_purchases_d1 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: decimal_1
+
+  }
+
+  measure: transactions_per_payer_d2 {
+    group_label: "Transactions Per Payer"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.cumulative_count_mtx_purchases_d2
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          and ${TABLE}.cumulative_count_mtx_purchases_d2 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: decimal_1
+
+  }
+
+  measure: transactions_per_payer_d7 {
+    group_label: "Transactions Per Payer"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.cumulative_count_mtx_purchases_d7
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          and ${TABLE}.cumulative_count_mtx_purchases_d7 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: decimal_1
+
+  }
+
+  measure: transactions_per_payer_d8 {
+    group_label: "Transactions Per Payer"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.cumulative_count_mtx_purchases_d8
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          and ${TABLE}.cumulative_count_mtx_purchases_d8 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: decimal_1
+
+  }
 
 ################################################################
 ## Retention

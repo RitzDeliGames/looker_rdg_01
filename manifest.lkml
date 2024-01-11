@@ -3322,36 +3322,37 @@ constant: map_3_digit_country_code_to_3_digit_country_code {
 constant: adhoc_level_buckets_for_churn_analysis {
   value: "
   case
-    when ${TABLE}.level_serial between 1 and 27 then 'bucket_0001_0027'
-    when ${TABLE}.level_serial between 27 and 84 then 'bucket_0027_0084'
-    when ${TABLE}.level_serial between 84 and 128 then 'bucket_0084_0128'
-    when ${TABLE}.level_serial between 128 and 164 then 'bucket_0128_0164'
-    when ${TABLE}.level_serial between 164 and 200 then 'bucket_0164_0200'
-    when ${TABLE}.level_serial between 200 and 229 then 'bucket_0200_0229'
-    when ${TABLE}.level_serial between 229 and 249 then 'bucket_0229_0249'
-    when ${TABLE}.level_serial between 249 and 273 then 'bucket_0249_0273'
-    when ${TABLE}.level_serial between 273 and 293 then 'bucket_0273_0293'
-    when ${TABLE}.level_serial between 293 and 313 then 'bucket_0293_0313'
-    when ${TABLE}.level_serial between 313 and 324 then 'bucket_0313_0324'
-    when ${TABLE}.level_serial between 324 and 345 then 'bucket_0324_0345'
-    when ${TABLE}.level_serial between 345 and 373 then 'bucket_0345_0373'
-    when ${TABLE}.level_serial between 373 and 384 then 'bucket_0373_0384'
-    when ${TABLE}.level_serial between 384 and 414 then 'bucket_0384_0414'
-    when ${TABLE}.level_serial between 414 and 435 then 'bucket_0414_0435'
-    when ${TABLE}.level_serial between 435 and 457 then 'bucket_0435_0457'
-    when ${TABLE}.level_serial between 457 and 468 then 'bucket_0457_0468'
-    when ${TABLE}.level_serial between 468 and 497 then 'bucket_0468_0497'
-    when ${TABLE}.level_serial between 497 and 507 then 'bucket_0497_0507'
-    when ${TABLE}.level_serial between 507 and 516 then 'bucket_0507_0516'
-    when ${TABLE}.level_serial between 516 and 543 then 'bucket_0516_0543'
-    when ${TABLE}.level_serial between 543 and 571 then 'bucket_0543_0571'
-    when ${TABLE}.level_serial between 571 and 565 then 'bucket_0571_0565'
-    when ${TABLE}.level_serial between 565 and 594 then 'bucket_0565_0594'
-    when ${TABLE}.level_serial between 594 and 621 then 'bucket_0594_0621'
-    when ${TABLE}.level_serial between 621 and 623 then 'bucket_0621_0623'
-    when ${TABLE}.level_serial between 623 and 658 then 'bucket_0623_0658'
-    when ${TABLE}.level_serial between 658 and 662 then 'bucket_0658_0662'
-    when ${TABLE}.level_serial between 662 and 684 then 'bucket_0662_0684'
+
+when ${TABLE}.level_serial between 1 and 10 then 'bucket_0001_0010'
+when ${TABLE}.level_serial between 10 and 43 then 'bucket_0010_0043'
+when ${TABLE}.level_serial between 43 and 65 then 'bucket_0043_0065'
+when ${TABLE}.level_serial between 65 and 83 then 'bucket_0065_0083'
+when ${TABLE}.level_serial between 83 and 103 then 'bucket_0083_0103'
+when ${TABLE}.level_serial between 103 and 121 then 'bucket_0103_0121'
+when ${TABLE}.level_serial between 121 and 133 then 'bucket_0121_0133'
+when ${TABLE}.level_serial between 133 and 150 then 'bucket_0133_0150'
+when ${TABLE}.level_serial between 150 and 161 then 'bucket_0150_0161'
+when ${TABLE}.level_serial between 161 and 176 then 'bucket_0161_0176'
+when ${TABLE}.level_serial between 176 and 188 then 'bucket_0176_0188'
+when ${TABLE}.level_serial between 188 and 203 then 'bucket_0188_0203'
+when ${TABLE}.level_serial between 203 and 217 then 'bucket_0203_0217'
+when ${TABLE}.level_serial between 217 and 221 then 'bucket_0217_0221'
+when ${TABLE}.level_serial between 221 and 234 then 'bucket_0221_0234'
+when ${TABLE}.level_serial between 234 and 255 then 'bucket_0234_0255'
+when ${TABLE}.level_serial between 255 and 265 then 'bucket_0255_0265'
+when ${TABLE}.level_serial between 265 and 276 then 'bucket_0265_0276'
+when ${TABLE}.level_serial between 276 and 280 then 'bucket_0276_0280'
+when ${TABLE}.level_serial between 280 and 290 then 'bucket_0280_0290'
+when ${TABLE}.level_serial between 290 and 296 then 'bucket_0290_0296'
+when ${TABLE}.level_serial between 296 and 298 then 'bucket_0296_0298'
+when ${TABLE}.level_serial between 298 and 309 then 'bucket_0298_0309'
+when ${TABLE}.level_serial between 309 and 316 then 'bucket_0309_0316'
+when ${TABLE}.level_serial between 316 and 333 then 'bucket_0316_0333'
+when ${TABLE}.level_serial between 333 and 340 then 'bucket_0333_0340'
+when ${TABLE}.level_serial between 340 and 342 then 'bucket_0340_0342'
+when ${TABLE}.level_serial between 342 and 355 then 'bucket_0342_0355'
+when ${TABLE}.level_serial between 355 and 371 then 'bucket_0355_0371'
+when ${TABLE}.level_serial between 371 and 378 then 'bucket_0371_0378'
 
   else 'other'
 
@@ -3362,36 +3363,37 @@ constant: adhoc_level_buckets_for_churn_analysis {
 constant: adhoc_target_churn_by_level_buckets_for_churn_analysis {
   value: "
   case
-    when ${TABLE}.level_serial between 1 and 27 then 0.55
-    when ${TABLE}.level_serial between 27 and 84 then 0.229
-    when ${TABLE}.level_serial between 84 and 128 then 0.133
-    when ${TABLE}.level_serial between 128 and 164 then 0.116
-    when ${TABLE}.level_serial between 164 and 200 then 0.06
-    when ${TABLE}.level_serial between 200 and 229 then 0.076
-    when ${TABLE}.level_serial between 229 and 249 then 0.048
-    when ${TABLE}.level_serial between 249 and 273 then 0.077
-    when ${TABLE}.level_serial between 273 and 293 then 0.059
-    when ${TABLE}.level_serial between 293 and 313 then 0.047
-    when ${TABLE}.level_serial between 313 and 324 then 0.044
-    when ${TABLE}.level_serial between 324 and 345 then 0.029
-    when ${TABLE}.level_serial between 345 and 373 then 0.03
-    when ${TABLE}.level_serial between 373 and 384 then 0.024
-    when ${TABLE}.level_serial between 384 and 414 then 0.025
-    when ${TABLE}.level_serial between 414 and 435 then 0.026
-    when ${TABLE}.level_serial between 435 and 457 then 0.026
-    when ${TABLE}.level_serial between 457 and 468 then 0.02
-    when ${TABLE}.level_serial between 468 and 497 then 0.021
-    when ${TABLE}.level_serial between 497 and 507 then 0.021
-    when ${TABLE}.level_serial between 507 and 516 then 0.022
-    when ${TABLE}.level_serial between 516 and 543 then 0.015
-    when ${TABLE}.level_serial between 543 and 571 then 0.015
-    when ${TABLE}.level_serial between 571 and 565 then 0.023
-    when ${TABLE}.level_serial between 565 and 594 then 0.016
-    when ${TABLE}.level_serial between 594 and 621 then 0.016
-    when ${TABLE}.level_serial between 621 and 623 then 0.016
-    when ${TABLE}.level_serial between 623 and 658 then 0.008
-    when ${TABLE}.level_serial between 658 and 662 then 0
-    when ${TABLE}.level_serial between 662 and 684 then 0.016
+
+    when ${TABLE}.level_serial between 1 and 10 then 0.55
+when ${TABLE}.level_serial between 10 and 43 then 0.229
+when ${TABLE}.level_serial between 43 and 65 then 0.133
+when ${TABLE}.level_serial between 65 and 83 then 0.116
+when ${TABLE}.level_serial between 83 and 103 then 0.06
+when ${TABLE}.level_serial between 103 and 121 then 0.076
+when ${TABLE}.level_serial between 121 and 133 then 0.048
+when ${TABLE}.level_serial between 133 and 150 then 0.077
+when ${TABLE}.level_serial between 150 and 161 then 0.059
+when ${TABLE}.level_serial between 161 and 176 then 0.047
+when ${TABLE}.level_serial between 176 and 188 then 0.044
+when ${TABLE}.level_serial between 188 and 203 then 0.029
+when ${TABLE}.level_serial between 203 and 217 then 0.03
+when ${TABLE}.level_serial between 217 and 221 then 0.024
+when ${TABLE}.level_serial between 221 and 234 then 0.025
+when ${TABLE}.level_serial between 234 and 255 then 0.026
+when ${TABLE}.level_serial between 255 and 265 then 0.026
+when ${TABLE}.level_serial between 265 and 276 then 0.02
+when ${TABLE}.level_serial between 276 and 280 then 0.021
+when ${TABLE}.level_serial between 280 and 290 then 0.021
+when ${TABLE}.level_serial between 290 and 296 then 0.022
+when ${TABLE}.level_serial between 296 and 298 then 0.015
+when ${TABLE}.level_serial between 298 and 309 then 0.015
+when ${TABLE}.level_serial between 309 and 316 then 0.023
+when ${TABLE}.level_serial between 316 and 333 then 0.016
+when ${TABLE}.level_serial between 333 and 340 then 0.016
+when ${TABLE}.level_serial between 340 and 342 then 0.016
+when ${TABLE}.level_serial between 342 and 355 then 0.008
+when ${TABLE}.level_serial between 355 and 371 then 0
+when ${TABLE}.level_serial between 371 and 378 then 0.016
 
   else 0
 

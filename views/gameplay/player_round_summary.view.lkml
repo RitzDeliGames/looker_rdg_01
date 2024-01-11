@@ -1040,13 +1040,14 @@ from
     ;;
   }
 
-  dimension: adhoc_target_churn_by_level_buckets_for_churn_analysis {
+  measure: adhoc_target_churn_by_level_buckets_for_churn_analysis {
     group_label: "Ad Hoc Churn Analysis"
-    type:string
+    type:max
     sql:
      @{adhoc_target_churn_by_level_buckets_for_churn_analysis}
     ;;
-  }
+    value_format_name: percent_1
+    }
 
 
 ################################################################

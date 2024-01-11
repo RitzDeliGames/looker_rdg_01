@@ -1028,6 +1028,26 @@ from
     ;;
   }
 
+################################################################
+## Ad hoc - Level Bucket Churn Analysis
+################################################################
+
+  dimension: adhoc_level_buckets_for_churn_analysis {
+    group_label: "Ad Hoc Churn Analysis"
+    type:string
+    sql:
+     @{adhoc_level_buckets_for_churn_analysis}
+    ;;
+  }
+
+  dimension: adhoc_target_churn_by_level_buckets_for_churn_analysis {
+    group_label: "Ad Hoc Churn Analysis"
+    type:string
+    sql:
+     @{adhoc_target_churn_by_level_buckets_for_churn_analysis}
+    ;;
+  }
+
 
 ################################################################
 ## Player Counts

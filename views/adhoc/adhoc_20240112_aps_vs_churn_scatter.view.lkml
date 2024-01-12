@@ -27,8 +27,20 @@ view: adhoc_20240112_aps_vs_churn_scatter {
       -- Date Filters
       date(rdg_date) >= date({% parameter start_date %})
       and date(rdg_date) <= date({% parameter end_date %})
+
       and a.game_mode = 'campaign'
       and a.level_serial >= 1
+
+      -- Level Filter (start)
+      {% if start_level_serial._is_filtered %}
+      and a.level_serial >= {% parameter start_level_serial %}
+      {% endif %}
+
+      -- Level Filter (end)
+      {% if end_level_serial._is_filtered %}
+      and a.level_serial <= {% parameter end_level_serial %}
+      {% endif %}
+
     group by
       1
 
@@ -68,6 +80,13 @@ view: adhoc_20240112_aps_vs_churn_scatter {
     type: number
   }
 
+  parameter: start_level_serial {
+    type: number
+  }
+
+  parameter: end_level_serial {
+    type: number
+  }
 
 ################################################################
 ## Dimensions

@@ -13,6 +13,22 @@ view: adhoc_20240112_aps_vs_churn_scatter {
       , sum(a.count_wins) as count_wins
       , count(distinct a.rdg_id) as count_distinct_players
       , count(distinct a.churn_rdg_id) as count_distinct_churned_players
+      , count( distinct
+          case
+            when
+              a.count_wins = 0
+              and a.churn_indicator = 1
+            then a.churn_rdg_id
+            else null
+            end ) as count_distinct_churned_players_on_loss
+      , count( distinct
+          case
+            when
+              a.count_wins = 1
+              and a.churn_indicator = 1
+            then a.churn_rdg_id
+            else null
+            end ) as count_distinct_churned_players_on_win
       , safe_divide(
           sum( a.count_rounds )
           , sum( a.count_wins )
@@ -88,6 +104,15 @@ view: adhoc_20240112_aps_vs_churn_scatter {
     type: number
   }
 
+  parameter: churn_rate_type {
+    type: string
+    default_value: "churn_rate"
+    suggestions:  [
+      "churn_rate"
+      , "excess_churn_rate"
+    ]
+  }
+
 ################################################################
 ## Dimensions
 ################################################################
@@ -125,7 +150,13 @@ view: adhoc_20240112_aps_vs_churn_scatter {
     type: number
     sql:
         safe_divide(
-          sum(${TABLE}.count_distinct_churned_players)
+          case
+            when {% parameter churn_rate_type %} = 'churn_rate'
+            then sum(${TABLE}.count_distinct_churned_players)
+            when {% parameter churn_rate_type %} = 'excess_churn_rate'
+            then sum(${TABLE}.count_distinct_churned_players_on_loss) - sum(${TABLE}.count_distinct_churned_players_on_win)
+            else sum(0)
+            end
           , sum(${TABLE}.count_distinct_players)
           )
 

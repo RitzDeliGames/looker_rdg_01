@@ -111,6 +111,7 @@ view: adhoc_20240112_aps_vs_churn_scatter {
           )
 
     ;;
+    value_format_name: decimal_3
     }
 
   measure: count_distinct_players {

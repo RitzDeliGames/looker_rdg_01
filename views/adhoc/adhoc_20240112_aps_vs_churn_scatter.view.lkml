@@ -75,7 +75,10 @@ view: adhoc_20240112_aps_vs_churn_scatter {
 
   dimension: level_serial {type: number}
 
-  dimension: attempts_per_success {type: number}
+  dimension: attempts_per_success {
+    type: number
+    sql: round(${TABLE}.attempts_per_success,1) ;;
+    }
 
   dimension: dynamic_level_bucket {
     group_label: "Level Buckets"
@@ -101,12 +104,18 @@ view: adhoc_20240112_aps_vs_churn_scatter {
 
   measure: churn_rate {
     type: number
-    sql: max(${TABLE}.churn_rate) ;;
+    sql:
+        safe_divide(
+          count(distinct ${TABLE}.churn_rdg_id )
+          , count(distinct ${TABLE}.rdg_id )
+          )
+
+    ;;
     }
 
   measure: count_distinct_players {
     type: number
-    sql: max(${TABLE}.count_distinct_players) ;;
+    sql: sum(${TABLE}.count_distinct_players) ;;
   }
 
 

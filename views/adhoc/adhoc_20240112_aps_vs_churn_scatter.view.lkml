@@ -106,8 +106,8 @@ view: adhoc_20240112_aps_vs_churn_scatter {
     type: number
     sql:
         safe_divide(
-          count(distinct ${TABLE}.churn_rdg_id )
-          , count(distinct ${TABLE}.rdg_id )
+          sum(${TABLE}.count_distinct_churned_players)
+          , sum(${TABLE}.count_distinct_players)
           )
 
     ;;
@@ -117,9 +117,6 @@ view: adhoc_20240112_aps_vs_churn_scatter {
     type: number
     sql: sum(${TABLE}.count_distinct_players) ;;
   }
-
-
-
 
 
 

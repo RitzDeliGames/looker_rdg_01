@@ -3319,7 +3319,7 @@ constant: map_3_digit_country_code_to_3_digit_country_code {
 ##    - https://docs.google.com/spreadsheets/d/1mAFJMFrugs1DgPvwS1T_byTCAGHMXlVNliqLQSekn60/edit?usp=drive_link
 ###################################################################
 
-constant: adhoc_level_buckets_for_churn_analysis {
+constant: adhoc_level_buckets_for_churn_analysis_50th_pct {
   value: "
   case
 
@@ -3420,7 +3420,7 @@ when ${TABLE}.level_serial between 759 and 732 then 'bucket_0759_0732'
   "
 }
 
-constant: adhoc_target_churn_by_level_buckets_for_churn_analysis {
+constant: adhoc_target_churn_by_level_buckets_for_churn_analysis_50th_pct {
   value: "
   case
 
@@ -3514,6 +3514,208 @@ when ${TABLE}.level_serial between 721 and 764 then 0
 when ${TABLE}.level_serial between 764 and 764 then 0.013
 when ${TABLE}.level_serial between 764 and 759 then 0
 when ${TABLE}.level_serial between 759 and 732 then 0
+
+  else 0
+
+  end
+  "
+}
+
+constant: adhoc_level_buckets_for_churn_analysis_75th_pct {
+  value: "
+  case
+
+ when ${TABLE}.level_serial between 1 and 27 then 'bucket_0001_0027'
+when ${TABLE}.level_serial between 27 and 85 then 'bucket_0027_0085'
+when ${TABLE}.level_serial between 85 and 130 then 'bucket_0085_0130'
+when ${TABLE}.level_serial between 130 and 167 then 'bucket_0130_0167'
+when ${TABLE}.level_serial between 167 and 204 then 'bucket_0167_0204'
+when ${TABLE}.level_serial between 204 and 232 then 'bucket_0204_0232'
+when ${TABLE}.level_serial between 232 and 254 then 'bucket_0232_0254'
+when ${TABLE}.level_serial between 254 and 276 then 'bucket_0254_0276'
+when ${TABLE}.level_serial between 276 and 295 then 'bucket_0276_0295'
+when ${TABLE}.level_serial between 295 and 318 then 'bucket_0295_0318'
+when ${TABLE}.level_serial between 318 and 330 then 'bucket_0318_0330'
+when ${TABLE}.level_serial between 330 and 349 then 'bucket_0330_0349'
+when ${TABLE}.level_serial between 349 and 377 then 'bucket_0349_0377'
+when ${TABLE}.level_serial between 377 and 386 then 'bucket_0377_0386'
+when ${TABLE}.level_serial between 386 and 416 then 'bucket_0386_0416'
+when ${TABLE}.level_serial between 416 and 437 then 'bucket_0416_0437'
+when ${TABLE}.level_serial between 437 and 463 then 'bucket_0437_0463'
+when ${TABLE}.level_serial between 463 and 470 then 'bucket_0463_0470'
+when ${TABLE}.level_serial between 470 and 500 then 'bucket_0470_0500'
+when ${TABLE}.level_serial between 500 and 510 then 'bucket_0500_0510'
+when ${TABLE}.level_serial between 510 and 524 then 'bucket_0510_0524'
+when ${TABLE}.level_serial between 524 and 549 then 'bucket_0524_0549'
+when ${TABLE}.level_serial between 549 and 576 then 'bucket_0549_0576'
+when ${TABLE}.level_serial between 576 and 582 then 'bucket_0576_0582'
+when ${TABLE}.level_serial between 582 and 619 then 'bucket_0582_0619'
+when ${TABLE}.level_serial between 619 and 637 then 'bucket_0619_0637'
+when ${TABLE}.level_serial between 637 and 646 then 'bucket_0637_0646'
+when ${TABLE}.level_serial between 646 and 667 then 'bucket_0646_0667'
+when ${TABLE}.level_serial between 667 and 673 then 'bucket_0667_0673'
+when ${TABLE}.level_serial between 673 and 692 then 'bucket_0673_0692'
+when ${TABLE}.level_serial between 692 and 697 then 'bucket_0692_0697'
+when ${TABLE}.level_serial between 697 and 715 then 'bucket_0697_0715'
+when ${TABLE}.level_serial between 715 and 730 then 'bucket_0715_0730'
+when ${TABLE}.level_serial between 730 and 754 then 'bucket_0730_0754'
+when ${TABLE}.level_serial between 754 and 759 then 'bucket_0754_0759'
+when ${TABLE}.level_serial between 759 and 759 then 'bucket_0759_0759'
+when ${TABLE}.level_serial between 759 and 764 then 'bucket_0759_0764'
+when ${TABLE}.level_serial between 764 and 764 then 'bucket_0764_0764'
+when ${TABLE}.level_serial between 764 and 774 then 'bucket_0764_0774'
+when ${TABLE}.level_serial between 774 and 779 then 'bucket_0774_0779'
+when ${TABLE}.level_serial between 779 and 775 then 'bucket_0779_0775'
+when ${TABLE}.level_serial between 775 and 781 then 'bucket_0775_0781'
+when ${TABLE}.level_serial between 781 and 784 then 'bucket_0781_0784'
+when ${TABLE}.level_serial between 784 and 791 then 'bucket_0784_0791'
+when ${TABLE}.level_serial between 791 and 789 then 'bucket_0791_0789'
+when ${TABLE}.level_serial between 789 and 794 then 'bucket_0789_0794'
+when ${TABLE}.level_serial between 794 and 794 then 'bucket_0794_0794'
+when ${TABLE}.level_serial between 794 and 799 then 'bucket_0794_0799'
+when ${TABLE}.level_serial between 799 and 801 then 'bucket_0799_0801'
+when ${TABLE}.level_serial between 801 and 799 then 'bucket_0801_0799'
+when ${TABLE}.level_serial between 799 and 803 then 'bucket_0799_0803'
+when ${TABLE}.level_serial between 803 and 804 then 'bucket_0803_0804'
+when ${TABLE}.level_serial between 804 and 809 then 'bucket_0804_0809'
+when ${TABLE}.level_serial between 809 and 810 then 'bucket_0809_0810'
+when ${TABLE}.level_serial between 810 and 811 then 'bucket_0810_0811'
+when ${TABLE}.level_serial between 811 and 813 then 'bucket_0811_0813'
+when ${TABLE}.level_serial between 813 and 814 then 'bucket_0813_0814'
+when ${TABLE}.level_serial between 814 and 814 then 'bucket_0814_0814'
+when ${TABLE}.level_serial between 814 and 818 then 'bucket_0814_0818'
+when ${TABLE}.level_serial between 818 and 819 then 'bucket_0818_0819'
+when ${TABLE}.level_serial between 819 and 819 then 'bucket_0819_0819'
+when ${TABLE}.level_serial between 819 and 824 then 'bucket_0819_0824'
+when ${TABLE}.level_serial between 824 and 824 then 'bucket_0824_0824'
+when ${TABLE}.level_serial between 824 and 814 then 'bucket_0824_0814'
+when ${TABLE}.level_serial between 814 and 818 then 'bucket_0814_0818'
+when ${TABLE}.level_serial between 818 and 824 then 'bucket_0818_0824'
+when ${TABLE}.level_serial between 824 and 824 then 'bucket_0824_0824'
+when ${TABLE}.level_serial between 824 and 827 then 'bucket_0824_0827'
+when ${TABLE}.level_serial between 827 and 824 then 'bucket_0827_0824'
+when ${TABLE}.level_serial between 824 and 819 then 'bucket_0824_0819'
+when ${TABLE}.level_serial between 819 and 824 then 'bucket_0819_0824'
+when ${TABLE}.level_serial between 824 and 824 then 'bucket_0824_0824'
+when ${TABLE}.level_serial between 824 and 824 then 'bucket_0824_0824'
+when ${TABLE}.level_serial between 824 and 824 then 'bucket_0824_0824'
+when ${TABLE}.level_serial between 824 and 821 then 'bucket_0824_0821'
+when ${TABLE}.level_serial between 821 and 824 then 'bucket_0821_0824'
+when ${TABLE}.level_serial between 824 and 824 then 'bucket_0824_0824'
+when ${TABLE}.level_serial between 824 and 824 then 'bucket_0824_0824'
+when ${TABLE}.level_serial between 824 and 824 then 'bucket_0824_0824'
+when ${TABLE}.level_serial between 824 and 824 then 'bucket_0824_0824'
+when ${TABLE}.level_serial between 824 and 829 then 'bucket_0824_0829'
+when ${TABLE}.level_serial between 829 and 825 then 'bucket_0829_0825'
+when ${TABLE}.level_serial between 825 and 824 then 'bucket_0825_0824'
+when ${TABLE}.level_serial between 824 and 824 then 'bucket_0824_0824'
+when ${TABLE}.level_serial between 824 and 833 then 'bucket_0824_0833'
+when ${TABLE}.level_serial between 833 and 824 then 'bucket_0833_0824'
+when ${TABLE}.level_serial between 824 and 824 then 'bucket_0824_0824'
+when ${TABLE}.level_serial between 824 and 829 then 'bucket_0824_0829'
+when ${TABLE}.level_serial between 829 and 828 then 'bucket_0829_0828'
+when ${TABLE}.level_serial between 828 and 824 then 'bucket_0828_0824'
+
+  else 'other'
+
+  end
+  "
+}
+
+constant: adhoc_target_churn_by_level_buckets_for_churn_analysis_75th_pct {
+  value: "
+  case
+
+  when ${TABLE}.level_serial between 1 and 27 then 0.55
+when ${TABLE}.level_serial between 27 and 85 then 0.229
+when ${TABLE}.level_serial between 85 and 130 then 0.133
+when ${TABLE}.level_serial between 130 and 167 then 0.116
+when ${TABLE}.level_serial between 167 and 204 then 0.06
+when ${TABLE}.level_serial between 204 and 232 then 0.076
+when ${TABLE}.level_serial between 232 and 254 then 0.048
+when ${TABLE}.level_serial between 254 and 276 then 0.077
+when ${TABLE}.level_serial between 276 and 295 then 0.059
+when ${TABLE}.level_serial between 295 and 318 then 0.047
+when ${TABLE}.level_serial between 318 and 330 then 0.044
+when ${TABLE}.level_serial between 330 and 349 then 0.029
+when ${TABLE}.level_serial between 349 and 377 then 0.03
+when ${TABLE}.level_serial between 377 and 386 then 0.024
+when ${TABLE}.level_serial between 386 and 416 then 0.025
+when ${TABLE}.level_serial between 416 and 437 then 0.026
+when ${TABLE}.level_serial between 437 and 463 then 0.026
+when ${TABLE}.level_serial between 463 and 470 then 0.02
+when ${TABLE}.level_serial between 470 and 500 then 0.021
+when ${TABLE}.level_serial between 500 and 510 then 0.021
+when ${TABLE}.level_serial between 510 and 524 then 0.022
+when ${TABLE}.level_serial between 524 and 549 then 0.015
+when ${TABLE}.level_serial between 549 and 576 then 0.015
+when ${TABLE}.level_serial between 576 and 582 then 0.023
+when ${TABLE}.level_serial between 582 and 619 then 0.016
+when ${TABLE}.level_serial between 619 and 637 then 0.016
+when ${TABLE}.level_serial between 637 and 646 then 0.016
+when ${TABLE}.level_serial between 646 and 667 then 0.008
+when ${TABLE}.level_serial between 667 and 673 then 0
+when ${TABLE}.level_serial between 673 and 692 then 0.016
+when ${TABLE}.level_serial between 692 and 697 then 0.058
+when ${TABLE}.level_serial between 697 and 715 then 0.018
+when ${TABLE}.level_serial between 715 and 730 then 0.009
+when ${TABLE}.level_serial between 730 and 754 then 0.009
+when ${TABLE}.level_serial between 754 and 759 then 0.009
+when ${TABLE}.level_serial between 759 and 759 then 0.009
+when ${TABLE}.level_serial between 759 and 764 then 0
+when ${TABLE}.level_serial between 764 and 764 then 0.019
+when ${TABLE}.level_serial between 764 and 774 then 0.01
+when ${TABLE}.level_serial between 774 and 779 then 0.029
+when ${TABLE}.level_serial between 779 and 775 then 0
+when ${TABLE}.level_serial between 775 and 781 then 0.01
+when ${TABLE}.level_serial between 781 and 784 then 0.01
+when ${TABLE}.level_serial between 784 and 791 then 0.01
+when ${TABLE}.level_serial between 791 and 789 then 0.01
+when ${TABLE}.level_serial between 789 and 794 then 0
+when ${TABLE}.level_serial between 794 and 794 then 0.01
+when ${TABLE}.level_serial between 794 and 799 then 0
+when ${TABLE}.level_serial between 799 and 801 then 0.01
+when ${TABLE}.level_serial between 801 and 799 then 0.011
+when ${TABLE}.level_serial between 799 and 803 then 0.021
+when ${TABLE}.level_serial between 803 and 804 then 0
+when ${TABLE}.level_serial between 804 and 809 then 0.022
+when ${TABLE}.level_serial between 809 and 810 then 0
+when ${TABLE}.level_serial between 810 and 811 then 0.022
+when ${TABLE}.level_serial between 811 and 813 then 0.011
+when ${TABLE}.level_serial between 813 and 814 then 0
+when ${TABLE}.level_serial between 814 and 814 then 0.011
+when ${TABLE}.level_serial between 814 and 818 then 0.012
+when ${TABLE}.level_serial between 818 and 819 then 0
+when ${TABLE}.level_serial between 819 and 819 then 0.024
+when ${TABLE}.level_serial between 819 and 824 then 0
+when ${TABLE}.level_serial between 824 and 824 then 0
+when ${TABLE}.level_serial between 824 and 814 then 0.012
+when ${TABLE}.level_serial between 814 and 818 then 0.012
+when ${TABLE}.level_serial between 818 and 824 then 0
+when ${TABLE}.level_serial between 824 and 824 then 0
+when ${TABLE}.level_serial between 824 and 827 then 0.012
+when ${TABLE}.level_serial between 827 and 824 then 0.013
+when ${TABLE}.level_serial between 824 and 819 then 0
+when ${TABLE}.level_serial between 819 and 824 then 0
+when ${TABLE}.level_serial between 824 and 824 then 0
+when ${TABLE}.level_serial between 824 and 824 then 0.013
+when ${TABLE}.level_serial between 824 and 824 then 0
+when ${TABLE}.level_serial between 824 and 821 then 0
+when ${TABLE}.level_serial between 821 and 824 then 0
+when ${TABLE}.level_serial between 824 and 824 then 0.013
+when ${TABLE}.level_serial between 824 and 824 then 0
+when ${TABLE}.level_serial between 824 and 824 then 0
+when ${TABLE}.level_serial between 824 and 824 then 0
+when ${TABLE}.level_serial between 824 and 829 then 0
+when ${TABLE}.level_serial between 829 and 825 then 0
+when ${TABLE}.level_serial between 825 and 824 then 0.013
+when ${TABLE}.level_serial between 824 and 824 then 0
+when ${TABLE}.level_serial between 824 and 833 then 0
+when ${TABLE}.level_serial between 833 and 824 then 0
+when ${TABLE}.level_serial between 824 and 824 then 0
+when ${TABLE}.level_serial between 824 and 829 then 0.013
+when ${TABLE}.level_serial between 829 and 828 then 0
+when ${TABLE}.level_serial between 828 and 824 then 0
 
   else 0
 

@@ -1034,21 +1034,41 @@ from
 
   dimension: adhoc_level_buckets_for_churn_analysis {
     group_label: "Ad Hoc Churn Analysis"
+    label: "Adhoc Level Buckets - 50th Percentile"
     type:string
     sql:
-     @{adhoc_level_buckets_for_churn_analysis}
+     @{adhoc_level_buckets_for_churn_analysis_50th_pct}
     ;;
   }
 
   measure: adhoc_target_churn_by_level_buckets_for_churn_analysis {
     group_label: "Ad Hoc Churn Analysis"
+    label: "Adhoc Churn Targets - 50th Percentile"
     type:max
     sql:
-     @{adhoc_target_churn_by_level_buckets_for_churn_analysis}
+     @{adhoc_target_churn_by_level_buckets_for_churn_analysis_50th_pct}
     ;;
     value_format_name: percent_1
     }
 
+  dimension: adhoc_level_buckets_for_churn_analysis_75th_pct {
+    group_label: "Ad Hoc Churn Analysis"
+    label: "Adhoc Level Buckets - 75th Percentile"
+    type:string
+    sql:
+     @{adhoc_level_buckets_for_churn_analysis_75th_pct}
+    ;;
+  }
+
+  measure: adhoc_target_churn_by_level_buckets_for_churn_analysis_75th_pct {
+    group_label: "Ad Hoc Churn Analysis"
+    label: "Adhoc Churn Targets - 75th Percentile"
+    type:max
+    sql:
+     @{adhoc_target_churn_by_level_buckets_for_churn_analysis_75th_pct}
+    ;;
+    value_format_name: percent_1
+  }
 
 ################################################################
 ## Player Counts

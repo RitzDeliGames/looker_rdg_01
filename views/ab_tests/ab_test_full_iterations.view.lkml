@@ -719,6 +719,13 @@ select * from output_with_rounding
     default_value: "$.dynamicDropBiasv3_20230627"
     suggestions:  [
 
+      ,"$.lv650800Moves_20240105"
+      ,"$.lv100200Movesp2_20240103"
+      ,"$.fueLevelsV3p2_20240102"
+      ,"$.showLockedCharacters_20231215"
+      ,"$.scrollableTT_20231213"
+      ,"$.coinMultiplier_20231208"
+
       ,"$.lv100200Moves_20231207"
       ,"$.fueLevelsV3_20231207"
       ,"$.hapticv3_20231207"

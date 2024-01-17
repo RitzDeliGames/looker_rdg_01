@@ -1435,6 +1435,69 @@ dimension: primary_key {
     value_format_name: usd
 
   }
+
+################################################################
+## Installs At Day X
+################################################################
+
+  measure: installs_at_d2 {
+    group_label: "Installs At Day"
+    type: number
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: installs_at_d7 {
+    group_label: "Installs At Day"
+    type: number
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: installs_at_d14 {
+    group_label: "Installs At Day"
+    type: number
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 14
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: installs_at_d30 {
+    group_label: "Installs At Day"
+    type: number
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 30
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+
+
+
 ################################################################
 ## Revenue Per Install
 ################################################################

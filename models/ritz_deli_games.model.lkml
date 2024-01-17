@@ -750,6 +750,7 @@ explore: player_fue_summary {
 
 explore: adhoc_20231213_moves_master_moves_per_week {view_label: "Adhoc - Moves Master Moves Remaining Per Week"}
 explore: adhoc_20240112_aps_vs_churn_scatter {view_label: "Adhoc - APS vs. Churn Scatter"}
+explore: adhoc_20240117_target_churn_rate {view_label: "Adhoc - Target Churn Rate By Level Bucket"}
 
 ################################################################
 

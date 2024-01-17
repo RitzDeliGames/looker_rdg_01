@@ -216,8 +216,18 @@ view: adhoc_20240117_target_churn_rate {
         target_churn_by_level_bucket a
         inner join actual_churn_by_level_bucket b
           on a.level_bucket = b.level_bucket
-      order by
-        1
+      where
+        1=1
+
+        -- Level Bucket Min
+        {% if level_bucket_min._is_filtered %}
+        and a.level_bucket_order >= {% parameter level_bucket_min %}
+        {% endif %}
+
+        -- Level Bucket Max
+        {% if level_bucket_max._is_filtered %}
+        and a.level_bucket_order <= {% parameter level_bucket_max %}
+        {% endif %}
 
 
 
@@ -254,6 +264,14 @@ view: adhoc_20240117_target_churn_rate {
   }
 
   parameter: dynamic_level_bucket_size {
+    type: number
+  }
+
+  parameter: level_bucket_min {
+    type: number
+  }
+
+  parameter: level_bucket_max {
     type: number
   }
 

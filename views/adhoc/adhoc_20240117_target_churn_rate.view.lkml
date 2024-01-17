@@ -91,7 +91,7 @@ view: adhoc_20240117_target_churn_rate {
           and level_serial > 0
 
           -- Date Filters
-          date(rdg_date) >= date({% parameter start_date %})
+          and date(rdg_date) >= date({% parameter start_date %})
           and date(rdg_date) <= date({% parameter end_date %})
 
 
@@ -254,7 +254,6 @@ view: adhoc_20240117_target_churn_rate {
   }
 
   parameter: dynamic_level_bucket_size {
-    group_label: "Level Buckets"
     type: number
   }
 
@@ -277,13 +276,13 @@ view: adhoc_20240117_target_churn_rate {
 
   measure: target_churn_rate {
     type: number
-    value_format_name: percent_1
+    value_format_name: percent_2
     sql: max(${TABLE}.target_churn_rate);;
   }
 
   measure: actual_churn_rate {
     type: number
-    value_format_name: percent_1
+    value_format_name: percent_2
     sql: max(${TABLE}.actual_churn_rate);;
   }
 

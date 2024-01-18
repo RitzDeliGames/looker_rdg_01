@@ -62,37 +62,45 @@ view: adhoc_20240117_target_churn_rate {
       , base_data as (
 
         select
-          rdg_id
-          , day_number
-          , level_serial
+          a.rdg_id
+          , a.day_number
+          , a.level_serial
           , max(
               safe_cast(
-                floor( safe_divide(level_serial,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
+                floor( safe_divide(a.level_serial,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
                 as string
               )
               || ' to '
               ||
               safe_cast(
-                ceiling(safe_divide(level_serial+1,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}-1
+                ceiling(safe_divide(a.level_serial+1,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}-1
                 as string
               )
             ) as level_bucket
           , safe_cast(
-            floor( safe_divide(level_serial,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
+            floor( safe_divide(a.level_serial,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
             as int64
             ) as level_bucket_order
-          , sum(count_wins) as count_wins
-          , max(churn_rdg_id) as churn_rdg_id
+          , sum(a.count_wins) as count_wins
+          , max(a.churn_rdg_id) as churn_rdg_id
         from
           ${player_round_summary.SQL_TABLE_NAME} a
+          inner join ${player_summary_new.SQL_TABLE_NAME} b
+            on a.rdg_id = b.rdg_id
         where
-          game_mode = 'campaign'
-          and day_number between 1 and 31
-          and level_serial > 0
+          a.game_mode = 'campaign'
+          and a.day_number between 1 and 31
+          and a.level_serial > 0
 
           -- Date Filters
-          and date(rdg_date) >= date({% parameter start_date %})
-          and date(rdg_date) <= date({% parameter end_date %})
+          and date(a.rdg_date) >= date({% parameter start_date %})
+          and date(a.rdg_date) <= date({% parameter end_date %})
+
+          --filter for country
+          {% if selected_country._is_filtered %}
+          and
+            b.country = {% parameter selected_country %}
+          {% endif %}
 
 
         group by
@@ -250,6 +258,13 @@ view: adhoc_20240117_target_churn_rate {
 
   parameter: dynamic_level_bucket_size {
     type: number
+  }
+
+  parameter: selected_country {
+    type: string
+    suggestions:  [
+      "US"
+    ]
   }
 
 ################################################################

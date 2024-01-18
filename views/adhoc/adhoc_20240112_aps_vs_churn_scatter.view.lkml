@@ -169,6 +169,29 @@ view: adhoc_20240112_aps_vs_churn_scatter {
     sql: sum(${TABLE}.count_distinct_players) ;;
   }
 
+  measure: churn_rate_by_level {
+    type: number
+    sql:
+        safe_divide(
+          case
+            when {% parameter churn_rate_type %} = 'churn_rate'
+            then sum(${TABLE}.count_distinct_churned_players)
+            when {% parameter churn_rate_type %} = 'excess_churn_rate'
+            then sum(${TABLE}.count_distinct_churned_players_on_loss) - sum(${TABLE}.count_distinct_churned_players_on_win)
+            else sum(0)
+            end
+          , sum(${TABLE}.count_distinct_players)
+          )
+
+      ;;
+    html:
+    <ul>
+    <li> churn_rate: {{ rendered_value }} </li>
+    <li> level_serial: {{ level_serial }} </li>
+    <li> count_distinct_players: {{ count_distinct_players }} </li>
+    </ul> ;;
+    value_format_name: percent_3
+  }
 
 
 

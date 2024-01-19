@@ -227,9 +227,18 @@ view: player_summary_new {
       , max( case when day_number <= 7 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d7
       , max( case when day_number <= 8 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d8
       , max( case when day_number <= 14 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d14
+      , max( case when day_number <= 15 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d15
+      , max( case when day_number <= 21 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d21
       , max( case when day_number <= 30 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d30
+      , max( case when day_number <= 31 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d31
+      , max( case when day_number <= 46 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d46
       , max( case when day_number <= 60 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d60
+      , max( case when day_number <= 61 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d61
       , max( case when day_number <= 90 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d90
+      , max( case when day_number <= 120 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d120
+      , max( case when day_number <= 180 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d180
+      , max( case when day_number <= 270 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d270
+      , max( case when day_number <= 360 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d360
       , max( cumulative_mtx_purchase_dollars ) as cumulative_mtx_purchase_dollars_current
       , max(mtx_ltv_from_data) as mtx_ltv_from_data
 
@@ -250,9 +259,17 @@ view: player_summary_new {
       , max( case when day_number <= 7 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d7
       , max( case when day_number <= 8 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d8
       , max( case when day_number <= 14 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d14
+      , max( case when day_number <= 15 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d15
+      , max( case when day_number <= 21 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d21
       , max( case when day_number <= 30 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d30
+      , max( case when day_number <= 31 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d31
+      , max( case when day_number <= 46 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d46
       , max( case when day_number <= 60 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d60
       , max( case when day_number <= 90 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d90
+      , max( case when day_number <= 120 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d120
+      , max( case when day_number <= 180 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d180
+      , max( case when day_number <= 270 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d270
+      , max( case when day_number <= 360 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d360
       , max( cumulative_ad_view_dollars ) as cumulative_ad_view_dollars_current
 
       -- cumulative ad views
@@ -701,9 +718,18 @@ view: player_summary_new {
   dimension: cumulative_mtx_purchase_dollars_d7 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_d8 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_d14 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d15 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d21 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_d30 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d31 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d46 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_d60 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d61 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_d90 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d120 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d180 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d270 {group_label:"LTV - IAPs" type: number}
+  dimension: cumulative_mtx_purchase_dollars_d360 {group_label:"LTV - IAPs" type: number}
   dimension: cumulative_mtx_purchase_dollars_current {group_label:"LTV - IAPs" label:"LTV - IAP" value_format:"$0.00" type: number}
   dimension: cumulative_mtx_purchase_dollars_current_percentile {group_label:"LTV - IAPs" type: number}
 
@@ -722,30 +748,55 @@ view: player_summary_new {
   dimension: cumulative_ad_view_dollars_d7 {group_label:"LTV - Ads" type: number}
   dimension: cumulative_ad_view_dollars_d8 {group_label:"LTV - Ads" type: number}
   dimension: cumulative_ad_view_dollars_d14 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d15 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d21 {group_label:"LTV - Ads" type: number}
   dimension: cumulative_ad_view_dollars_d30 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d31 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d46 {group_label:"LTV - Ads" type: number}
   dimension: cumulative_ad_view_dollars_d60 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d61 {group_label:"LTV - Ads" type: number}
   dimension: cumulative_ad_view_dollars_d90 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d120 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d180 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d270 {group_label:"LTV - Ads" type: number}
+  dimension: cumulative_ad_view_dollars_d360 {group_label:"LTV - Ads" type: number}
   dimension: cumulative_ad_view_dollars_current {group_label:"LTV - Ads" label:"LTV - Ads" value_format:"$0.00" type: number}
 
-  dimension: cumulative_combined_dollars_d1 {group_label:"LTV - Cumulative" label:"D1 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d2 {group_label:"LTV - Cumulative" label:"D2 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d7 {group_label:"LTV - Cumulative" label:"D7 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d8 {group_label:"LTV - Cumulative" label:"D8 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d14 {group_label:"LTV - Cumulative" label:"D14 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d15 {group_label:"LTV - Cumulative" label:"D15 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d21 {group_label:"LTV - Cumulative" label:"D21 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d30 {group_label:"LTV - Cumulative" label:"D30 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d31 {group_label:"LTV - Cumulative" label:"D31 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d46 {group_label:"LTV - Cumulative" label:"D46 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d60 {group_label:"LTV - Cumulative" label:"D60 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d61 {group_label:"LTV - Cumulative" label:"D61 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d90 {group_label:"LTV - Cumulative" label:"D90 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d120 {group_label:"LTV - Cumulative" label:"D120 Cumulative LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d1 {group_label:"LTV - Cumulative Net" label:"D1 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d2 {group_label:"LTV - Cumulative Net" label:"D2 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d7 {group_label:"LTV - Cumulative Net" label:"D7 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d8 {group_label:"LTV - Cumulative Net" label:"D8 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d14 {group_label:"LTV - Cumulative Net" label:"D14 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d15 {group_label:"LTV - Cumulative Net" label:"D15 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d21 {group_label:"LTV - Cumulative Net" label:"D21 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d30 {group_label:"LTV - Cumulative Net" label:"D30 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d31 {group_label:"LTV - Cumulative Net" label:"D31 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d46 {group_label:"LTV - Cumulative Net" label:"D46 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d60 {group_label:"LTV - Cumulative Net" label:"D60 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d61 {group_label:"LTV - Cumulative Net" label:"D61 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d90 {group_label:"LTV - Cumulative Net" label:"D90 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d120 {group_label:"LTV - Cumulative Net" label:"D120 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d180 {group_label:"LTV - Cumulative Net" label:"D180 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d270 {group_label:"LTV - Cumulative Net" label:"D270 Cumulative Net LTV" value_format:"$0.00" type: number}
+  dimension: cumulative_combined_dollars_d360 {group_label:"LTV - Cumulative Net" label:"D360 Cumulative Net LTV" value_format:"$0.00" type: number}
 
-  dimension: cumulative_combined_dollars_d180 {group_label:"LTV - Cumulative" label:"D180 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d270 {group_label:"LTV - Cumulative" label:"D270 Cumulative LTV" value_format:"$0.00" type: number}
-  dimension: cumulative_combined_dollars_d360 {group_label:"LTV - Cumulative" label:"D360 Cumulative LTV" value_format:"$0.00" type: number}
-
+  dimension: cumulative_gross_combined_dollars_d1 {group_label:"LTV - Cumulative Gross" label:"D1 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d1}/0.70 + ${cumulative_ad_view_dollars_d1} ;;}
+  dimension: cumulative_gross_combined_dollars_d2 {group_label:"LTV - Cumulative Gross" label:"D2 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d2}/0.70 + ${cumulative_ad_view_dollars_d2} ;;}
+  dimension: cumulative_gross_combined_dollars_d7 {group_label:"LTV - Cumulative Gross" label:"D7 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d7}/0.70 + ${cumulative_ad_view_dollars_d7} ;;}
+  dimension: cumulative_gross_combined_dollars_d8 {group_label:"LTV - Cumulative Gross" label:"D8 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d8}/0.70 + ${cumulative_ad_view_dollars_d8} ;;}
+  dimension: cumulative_gross_combined_dollars_d14 {group_label:"LTV - Cumulative Gross" label:"D14 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d14}/0.70 + ${cumulative_ad_view_dollars_d14} ;;}
+  dimension: cumulative_gross_combined_dollars_d15 {group_label:"LTV - Cumulative Gross" label:"D15 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d15}/0.70 + ${cumulative_ad_view_dollars_d15} ;;}
+  dimension: cumulative_gross_combined_dollars_d21 {group_label:"LTV - Cumulative Gross" label:"D21 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d21}/0.70 + ${cumulative_ad_view_dollars_d21} ;;}
+  dimension: cumulative_gross_combined_dollars_d30 {group_label:"LTV - Cumulative Gross" label:"D30 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d30}/0.70 + ${cumulative_ad_view_dollars_d30} ;;}
+  dimension: cumulative_gross_combined_dollars_d31 {group_label:"LTV - Cumulative Gross" label:"D31 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d31}/0.70 + ${cumulative_ad_view_dollars_d31} ;;}
+  dimension: cumulative_gross_combined_dollars_d46 {group_label:"LTV - Cumulative Gross" label:"D46 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d46}/0.70 + ${cumulative_ad_view_dollars_d46} ;;}
+  dimension: cumulative_gross_combined_dollars_d60 {group_label:"LTV - Cumulative Gross" label:"D60 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d60}/0.70 + ${cumulative_ad_view_dollars_d60} ;;}
+  dimension: cumulative_gross_combined_dollars_d61 {group_label:"LTV - Cumulative Gross" label:"D61 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d61}/0.70 + ${cumulative_ad_view_dollars_d61} ;;}
+  dimension: cumulative_gross_combined_dollars_d90 {group_label:"LTV - Cumulative Gross" label:"D90 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d90}/0.70 + ${cumulative_ad_view_dollars_d90} ;;}
+  dimension: cumulative_gross_combined_dollars_d120 {group_label:"LTV - Cumulative Gross" label:"D120 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d120}/0.70 + ${cumulative_ad_view_dollars_d120} ;;}
+  dimension: cumulative_gross_combined_dollars_d180 {group_label:"LTV - Cumulative Gross" label:"D180 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d180}/0.70 + ${cumulative_ad_view_dollars_d180} ;;}
+  dimension: cumulative_gross_combined_dollars_d270 {group_label:"LTV - Cumulative Gross" label:"D270 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d270}/0.70 + ${cumulative_ad_view_dollars_d270} ;;}
+  dimension: cumulative_gross_combined_dollars_d360 {group_label:"LTV - Cumulative Gross" label:"D360 Cumulative Gross LTV" value_format:"$0.00" type: number sql: ${cumulative_mtx_purchase_dollars_d360}/0.70 + ${cumulative_ad_view_dollars_d360} ;;}
 
 
   dimension: cumulative_combined_dollars_current {group_label:"LTV - Cumulative" label:"LTV - Cumulative" value_format:"$0.00" type: number}

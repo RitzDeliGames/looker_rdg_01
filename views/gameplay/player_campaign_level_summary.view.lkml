@@ -82,6 +82,8 @@ view: player_campaign_level_summary {
 ## Dimensions
 ################################################################
 
+  dimension: rdg_id { type:string }
+
   dimension_group: rdg_date {
     type: time
     timeframes: [date, week, month, year]
@@ -93,7 +95,6 @@ view: player_campaign_level_summary {
     label: "Level"
     sql: ${TABLE}.level_serial ;;
   }
-
 
   dimension: dynamic_level_bucket {
     label: "Dynamic Level Bucket"

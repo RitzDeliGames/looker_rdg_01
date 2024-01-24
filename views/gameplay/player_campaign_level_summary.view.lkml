@@ -40,7 +40,7 @@ view: player_campaign_level_summary {
         , max(churn_rdg_id) as churn_rdg_id
       from
         --eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary
-        ${player_round_incremental.SQL_TABLE_NAME}
+        ${player_round_summary.SQL_TABLE_NAME}
       where
         1=1
         -- and rdg_date = '2024-01-01'

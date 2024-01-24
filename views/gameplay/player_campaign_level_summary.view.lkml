@@ -42,7 +42,7 @@ view: player_campaign_level_summary {
         --eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary
         ${player_round_summary.SQL_TABLE_NAME}
       where
-        1=1
+        level_serial >= 1
         -- and rdg_date = '2024-01-01'
         and game_mode = 'campaign'
 

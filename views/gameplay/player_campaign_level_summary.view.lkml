@@ -71,6 +71,14 @@ view: player_campaign_level_summary {
   }
 
 ################################################################
+## Parameters
+################################################################
+
+  parameter: dynamic_level_bucket_size {
+    type: number
+  }
+
+################################################################
 ## Dimensions
 ################################################################
 
@@ -80,15 +88,87 @@ view: player_campaign_level_summary {
     sql: ${TABLE}.first_played_rdg_date ;;
   }
 
+  dimension: level_serial {
+    type: number
+    label: "Level"
+    sql: ${TABLE}.level_serial ;;
+  }
+
+
+  dimension: dynamic_level_bucket {
+    label: "Dynamic Level Bucket"
+    type:string
+    sql:
+    safe_cast(
+      floor( safe_divide(${TABLE}.level_serial,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
+      as string
+      )
+    || ' to '
+    ||
+    safe_cast(
+      ceiling(safe_divide(${TABLE}.level_serial+1,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}-1
+      as string
+      )
+    ;;
+  }
+
+  dimension: dynamic_level_bucket_order {
+    label: "Dynamic Level Bucket Order"
+    type:number
+    sql:
+    safe_cast(
+      floor( safe_divide(${TABLE}.level_serial,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
+      as int64
+      )
+    ;;
+  }
+
+  dimension: min_version {
+    label: "Lowest Version"
+    type: number
+    sql: ${TABLE}.min_version ;;
+
+  }
+
 ################################################################
 ## Measures
 ################################################################
 
-  measure: count_distinct_active_users {
-    group_label: "Unique Player Counts"
-    label: "Count Distinct Users"
+  measure: count_distinct_users {
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
   }
+
+  measure: count_distinct_churned_users {
+    type: count_distinct
+    sql: ${TABLE}.churn_rdg_id ;;
+  }
+
+  measure: sum_count_rounds {type: sum sql: ${TABLE}.count_rounds;; value_format_name: decimal_0}
+  measure: sum_count_wins {type: sum sql: ${TABLE}.count_wins;; value_format_name: decimal_0}
+  measure: sum_count_losses {type: sum sql: ${TABLE}.count_losses;; value_format_name: decimal_0}
+  measure: sum_powerup_hammer {type: sum sql: ${TABLE}.powerup_hammer;; value_format_name: decimal_0}
+  measure: sum_powerup_rolling_pin {type: sum sql: ${TABLE}.powerup_rolling_pin;; value_format_name: decimal_0}
+  measure: sum_powerup_piping_bag {type: sum sql: ${TABLE}.powerup_piping_bag;; value_format_name: decimal_0}
+  measure: sum_powerup_shuffle {type: sum sql: ${TABLE}.powerup_shuffle;; value_format_name: decimal_0}
+  measure: sum_powerup_chopsticks {type: sum sql: ${TABLE}.powerup_chopsticks;; value_format_name: decimal_0}
+  measure: sum_powerup_skillet {type: sum sql: ${TABLE}.powerup_skillet;; value_format_name: decimal_0}
+  measure: sum_total_chum_powerups_used {type: sum sql: ${TABLE}.total_chum_powerups_used;; value_format_name: decimal_0}
+  measure: sum_in_round_count_mtx_purchases {type: sum sql: ${TABLE}.in_round_count_mtx_purchases;; value_format_name: decimal_0}
+  measure: sum_in_round_count_ad_views {type: sum sql: ${TABLE}.in_round_count_ad_views;; value_format_name: decimal_0}
+  measure: sum_in_round_coin_spend {type: sum sql: ${TABLE}.in_round_coin_spend;; value_format_name: decimal_0}
+  measure: sum_in_round_count_coin_spend_events {type: sum sql: ${TABLE}.in_round_count_coin_spend_events;; value_format_name: decimal_0}
+
+  measure: sum_in_round_mtx_purchase_dollars {type: sum sql: ${TABLE}.in_round_mtx_purchase_dollars;; value_format_name: usd}
+  measure: sum_in_round_ad_view_dollars {type: sum sql: ${TABLE}.in_round_ad_view_dollars;; value_format_name: usd}
+  measure: sum_in_round_combined_dollars {type: sum sql: ${TABLE}.in_round_combined_dollars;; value_format_name: usd}
+
+  measure: count_users {label: "Count Users" type: sum sql: 1;; value_format_name: decimal_0}
+  measure: count_churn_indicator {label: "Count Churned Users" type: sum sql: ${TABLE}.churn_indicator;; value_format_name: decimal_0}
+
+
+
+
+
 
 }

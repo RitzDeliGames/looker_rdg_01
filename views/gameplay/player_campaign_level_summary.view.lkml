@@ -13,6 +13,12 @@ view: player_campaign_level_summary {
       select
         rdg_id
         , level_serial
+
+        -- Player Age Information
+        , timestamp(date(min(created_at))) as created_date -- Created Date
+        , date_diff(date(min(rdg_date)), date(min(created_at)), day) as days_since_created -- Days Since Created
+        , 1 + date_diff(date(min(rdg_date)), date(min(created_at)), day) as day_number -- Player Day Number
+
         , min(level_id) as level_id
         , min(rdg_date) as first_played_rdg_date
         , max(rdg_date) as last_played_rdg_date
@@ -89,6 +95,15 @@ view: player_campaign_level_summary {
     timeframes: [date, week, month, year]
     sql: ${TABLE}.first_played_rdg_date ;;
   }
+
+  dimension_group: created_date {
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.created_date ;;
+  }
+
+  dimension: days_since_created {type:number}
+  dimension: day_number {type:number}
 
   dimension: level_serial {
     type: number

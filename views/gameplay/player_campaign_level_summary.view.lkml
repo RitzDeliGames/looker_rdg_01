@@ -167,9 +167,31 @@ view: player_campaign_level_summary {
   measure: count_users {label: "Count Users" type: sum sql: 1;; value_format_name: decimal_0}
   measure: count_churn_indicator {label: "Count Churned Users" type: sum sql: ${TABLE}.churn_indicator;; value_format_name: decimal_0}
 
+  measure: mean_attempts_per_success {
+    label: "APS"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.count_rounds)
+        ,
+        sum(${TABLE}.count_wins)
+      )
+    ;;
+    value_format_name: decimal_1
+  }
 
-
-
+  measure: churn_rate {
+    label: "Churn Rate"
+    type:  number
+    sql:
+      safe_divide(
+        sum(${TABLE}.churn_indicator)
+        ,
+        sum(1)
+      )
+    ;;
+    value_format_name: percent_2
+  }
 
 
 }

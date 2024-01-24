@@ -190,7 +190,7 @@ view: player_campaign_level_summary {
         sum(1)
       )
     ;;
-    value_format_name: percent_2
+    value_format_name: percent_1
   }
 
 

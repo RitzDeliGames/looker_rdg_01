@@ -467,6 +467,12 @@ view: ab_test_current_population {
     default_value: "$.dynamicDropBiasv3_20230627"
     suggestions:  [
 
+      , "$.blockColor_20240119"
+      , "$.propBehavior_20240118"
+      , "$.lv400500MovesTest_20240116"
+      , "$.lv200300MovesTest_20240116"
+      , "$.extraMovesOffering_20240111"
+
       ,"$.lv650800Moves_20240105"
       ,"$.lv100200Movesp2_20240103"
       ,"$.fueLevelsV3p2_20240102"

@@ -1173,6 +1173,12 @@ view: player_summary_new {
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      , "$.blockColor_20240119"
+      , "$.propBehavior_20240118"
+      , "$.lv400500MovesTest_20240116"
+      , "$.lv200300MovesTest_20240116"
+      , "$.extraMovesOffering_20240111"
+
       ,"$.lv650800Moves_20240105"
       ,"$.lv100200Movesp2_20240103"
       ,"$.fueLevelsV3p2_20240102"

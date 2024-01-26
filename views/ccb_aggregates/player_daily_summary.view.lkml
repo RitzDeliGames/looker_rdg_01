@@ -2528,11 +2528,6 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     percentile: 95
     sql: ${TABLE}.ad_views ;;
   }
-  measure: sum_count_sessions {
-    group_label: "Count Sessions"
-    type:sum
-    sql: ${TABLE}.count_sessions ;;
-  }
 
   measure: average_sessions_per_day {
     group_label: "Count Sessions"
@@ -2546,48 +2541,127 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     value_format_name: decimal_1
   }
 
-  measure: average_minutes_played_per_session {
+  measure: sum_count_sessions {
     group_label: "Count Sessions"
-    type: number
+    type:sum
+    sql: ${TABLE}.count_sessions ;;
+  }
+
+  measure: count_sessions_10 {
+    group_label: "Count Sessions"
+    label: "10th Percentile"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.count_sessions ;;
+    value_format_name: decimal_0
+  }
+  measure: count_sessions_25 {
+    group_label: "Count Sessions"
+    label: "25th Percentile"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.count_sessions ;;
+    value_format_name: decimal_0
+  }
+  measure: count_sessions_50 {
+    group_label: "Count Sessions"
+    label: "Median"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.count_sessions ;;
+    value_format_name: decimal_0
+  }
+  measure: count_sessions_75 {
+    group_label: "Count Sessions"
+    label: "75th Percentile"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.count_sessions ;;
+    value_format_name: decimal_0
+  }
+  measure: count_sessions_95 {
+    group_label: "Count Sessions"
+    label: "95th Percentile"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.count_sessions ;;
+    value_format_name: decimal_0
+  }
+
+  measure: minutes_per_session_10 {
+    group_label: "Average Minutes Per Session"
+    label: "10th Percentile"
+    type: percentile
+    percentile: 10
     sql:
       safe_divide(
-        sum(${TABLE}.time_played_minutes)
-        , sum(${TABLE}.count_sessions)
+        ${TABLE}.time_played_minutes
+        , ${TABLE}.count_sessions
       )
       ;;
     value_format_name: decimal_0
   }
 
-  measure: count_sessions_10 {
-    group_label: "Count Sessions"
-    type: percentile
-    percentile: 10
-    sql: ${TABLE}.count_sessions ;;
-  }
-  measure: count_sessions_25 {
-    group_label: "Count Sessions"
+  measure: minutes_per_session_25 {
+    group_label: "Average Minutes Per Session"
+    label: "25th Percentile"
     type: percentile
     percentile: 25
-    sql: ${TABLE}.count_sessions ;;
+    sql:
+      safe_divide(
+        ${TABLE}.time_played_minutes
+        , ${TABLE}.count_sessions
+      )
+      ;;
+    value_format_name: decimal_0
   }
-  measure: count_sessions_50 {
-    group_label: "Count Sessions"
+
+  measure: minutes_per_session_50 {
+    group_label: "Average Minutes Per Session"
+    label: "Median"
     type: percentile
     percentile: 50
-    sql: ${TABLE}.count_sessions ;;
+    sql:
+      safe_divide(
+        ${TABLE}.time_played_minutes
+        , ${TABLE}.count_sessions
+      )
+      ;;
+    value_format_name: decimal_0
   }
-  measure: count_sessions_75 {
-    group_label: "Count Sessions"
+
+  measure: minutes_per_session_75 {
+    group_label: "Average Minutes Per Session"
+    label: "75th Percentile"
     type: percentile
     percentile: 75
-    sql: ${TABLE}.count_sessions ;;
+    sql:
+      safe_divide(
+        ${TABLE}.time_played_minutes
+        , ${TABLE}.count_sessions
+      )
+      ;;
+    value_format_name: decimal_0
   }
-  measure: count_sessions_95 {
-    group_label: "Count Sessions"
+
+  measure: minutes_per_session_95 {
+    group_label: "Average Minutes Per Session"
+    label: "95th Percentile"
     type: percentile
     percentile: 95
-    sql: ${TABLE}.count_sessions ;;
+    sql:
+      safe_divide(
+        ${TABLE}.time_played_minutes
+        , ${TABLE}.count_sessions
+      )
+      ;;
+    value_format_name: decimal_0
   }
+
+
+
+
+
   measure: sum_cumulative_session_count {
     group_label: "Cumulative Session Count"
     type:sum

@@ -2533,6 +2533,31 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     type:sum
     sql: ${TABLE}.count_sessions ;;
   }
+
+  measure: average_sessions_per_day {
+    group_label: "Count Sessions"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.count_sessions)
+        , sum(${TABLE}.count_days_played)
+      )
+      ;;
+    value_format_name: decimal_1
+  }
+
+  measure: average_minutes_played_per_session {
+    group_label: "Count Sessions"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.time_played_minutes)
+        , sum(${TABLE}.count_sessions)
+      )
+      ;;
+    value_format_name: decimal_0
+  }
+
   measure: count_sessions_10 {
     group_label: "Count Sessions"
     type: percentile

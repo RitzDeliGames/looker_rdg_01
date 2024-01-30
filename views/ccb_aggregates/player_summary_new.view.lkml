@@ -1706,6 +1706,30 @@ view: player_summary_new {
 
   }
 
+  measure: revenue_per_install_d15 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          then ${TABLE}.cumulative_combined_dollars_d15
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
   measure: revenue_per_install_d21 {
     group_label: "Revenue Per Install (RPI)"
     type: number
@@ -1754,6 +1778,31 @@ view: player_summary_new {
 
   }
 
+  measure: revenue_per_install_d31 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          then ${TABLE}.cumulative_combined_dollars_d31
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+
   measure: revenue_per_install_d60 {
     group_label: "Revenue Per Install (RPI)"
     type: number
@@ -1769,6 +1818,30 @@ view: player_summary_new {
       count( distinct
         case
           when ${TABLE}.max_available_day_number >= 60
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: revenue_per_install_d61 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 61
+          then ${TABLE}.cumulative_combined_dollars_d61
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 61
           then ${TABLE}.rdg_id
           else null
           end )

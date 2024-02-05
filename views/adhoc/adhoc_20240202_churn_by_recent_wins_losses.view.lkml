@@ -76,8 +76,8 @@ view: adhoc_20240202_churn_by_recent_wins_losses {
 
       select
         case
-          when {% parameter start_date %} = 'recent_wins' then count_wins_20
-          when {% parameter start_date %} = 'recent_losses' then count_lossess_20
+          when {% parameter select_metric %} = 'recent_wins' then count_wins_20
+          when {% parameter select_metric %} = 'recent_losses' then count_losses_20
           else 0 end as metric
         , sum(1) as count_levels
         , sum(churn_indicator) as churn_indicator

@@ -19,10 +19,11 @@ view: adhoc_20240202_churn_by_recent_wins_losses {
         select
           a.rdg_id
           , a.level_serial
-          , sum(a.count_wins) as count_wins
-          , sum(a.count_rounds) as count_rounds
-          , sum(a.count_losses) as count_losses
-          , max(a.churn_indicator) as churn_indicator
+          , a.round_start_timestamp_utc
+          , a.count_wins
+          , a.count_rounds
+          , a.count_losses
+          , a.churn_indicator
         from
           eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
           left join eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new b
@@ -46,48 +47,56 @@ view: adhoc_20240202_churn_by_recent_wins_losses {
           and a.level_serial <= {% parameter end_level_serial %}
           {% endif %}
 
-
-
-
-        group by
-          1,2
-        order by
-          1,2
       )
 
       -------------------------------------------------------------------------------
-      -- Count Stats in Last 100 levels
+      -- Count Stats in Last 100 Rounds
       -------------------------------------------------------------------------------
 
       , base_data_with_totals as (
 
       select
         *
-        , sum( count_wins ) over ( partition by rdg_id order by level_serial ASC rows between {% parameter selected_rounds_to_look_back %} preceding and 0 following ) as count_wins_20
-        , sum( count_rounds ) over ( partition by rdg_id order by level_serial ASC rows between {% parameter selected_rounds_to_look_back %} preceding and 0 following ) as count_rounds_20
-        , sum( count_losses ) over ( partition by rdg_id order by level_serial ASC rows between {% parameter selected_rounds_to_look_back %} preceding and 0 following ) as count_losses_20
+        , sum( count_wins ) over ( partition by rdg_id order by round_start_timestamp_utc ASC rows between {% parameter selected_rounds_to_look_back %} preceding and 0 following ) as count_wins_20
+        , sum( count_rounds ) over ( partition by rdg_id order by round_start_timestamp_utc ASC rows between {% parameter selected_rounds_to_look_back %} preceding and 0 following ) as count_rounds_20
+        , sum( count_losses ) over ( partition by rdg_id order by round_start_timestamp_utc ASC rows between {% parameter selected_rounds_to_look_back %} preceding and 0 following ) as count_losses_20
       from
         base_data
       )
 
       -------------------------------------------------------------------------------
-      -- Summarize Churn
+      -- Summarize Churn by Player
       -------------------------------------------------------------------------------
 
+      , churn_by_player as (
+
       select
-        case
+        rdg_id
+        , max( case
           when {% parameter select_metric %} = 'recent_wins' then count_wins_20
           when {% parameter select_metric %} = 'recent_losses' then count_losses_20
-          else 0 end as metric
-        , sum(1) as count_levels
-        , sum(churn_indicator) as churn_indicator
+          else 0 end ) as metric
+        , max(1) as count_players
+        , max(churn_indicator) as count_churned_players
       from
         base_data_with_totals
       group by
         1
 
+      )
 
+      -------------------------------------------------------------------------------
+      -- Churn By Metric
+      -------------------------------------------------------------------------------
 
+      select
+        metric
+        , sum( count_players ) as count_players
+        , sum( count_churned_players ) as count_churned_players
+      from
+        churn_by_player
+      group by
+        1
 
 
       ;;
@@ -166,21 +175,24 @@ view: adhoc_20240202_churn_by_recent_wins_losses {
 
 
   measure: count_instances {
+    label: "Count Players"
     type: number
     value_format_name: decimal_0
-    sql: sum(${TABLE}.count_levels);;
+    sql: sum(${TABLE}.count_players);;
   }
 
   measure: count_churned {
+    label: "Count Churned Players"
     type: number
     value_format_name: decimal_0
-    sql: sum(churn_indicator);;
+    sql: sum(count_churned_players);;
   }
 
   measure: churn_rate {
+    label: "Churn Rate"
     type: number
     value_format_name: percent_2
-    sql: safe_divide(sum(churn_indicator), sum(${TABLE}.count_levels)) ;;
+    sql: safe_divide(sum(count_churned_players), sum(${TABLE}.count_players)) ;;
   }
 
 

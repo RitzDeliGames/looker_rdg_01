@@ -75,6 +75,7 @@ view: adhoc_20240202_churn_by_recent_wins_losses {
         , max( case
           when {% parameter select_metric %} = 'recent_wins' then count_wins_20
           when {% parameter select_metric %} = 'recent_losses' then count_losses_20
+          when {% parameter select_metric %} = 'recent_rounds' then count_rounds_20
           else 0 end ) as metric
         , max(1) as count_players
         , max(churn_indicator) as count_churned_players
@@ -154,6 +155,7 @@ view: adhoc_20240202_churn_by_recent_wins_losses {
     suggestions:  [
       "recent_wins"
       , "recent_losses"
+      , "recent_rounds"
 
     ]
   }

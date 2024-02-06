@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-01-04'
+      -- update '2024-02-06'
 
 -- create or replace table tal_scratch.player_daily_incremental as
 
@@ -79,7 +79,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-01-04' -- Last Full Update
+                when date(current_date()) <= '2024-02-06' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -99,7 +99,7 @@ view: player_daily_incremental {
         ------------------------------------------------------------------------
 
         -- and rdg_id = '3989ffa2-2b93-4f33-a940-86c4746036ba'
-        -- and date(timestamp) = '2023-08-14'
+        -- and date(timestamp) = '2024-02-06'
 
       )
 
@@ -414,6 +414,22 @@ view: player_daily_incremental {
               ELSE 0
               END AS INT64) AS round_end_events_gofish
 
+        -- go Fish - Full Matches Completed
+          , safe_cast( case
+              when
+                event_name = 'GoFish'
+              then 1
+              else 0
+              end as int64 ) as gofish_full_matches_completed
+
+        -- go Fish - Full Matches Won
+          , safe_cast( case
+              when
+                event_name = 'GoFish'
+                and ifnull(safe_cast(json_extract_scalar(extra_json,"$.total_rank_points_earned") as numeric),0) > 0
+              then 1
+              else 0
+              end as int64 ) as gofish_full_matches_won
 
         --------------------------------------------------------------
         -- round time events
@@ -1067,6 +1083,8 @@ view: player_daily_incremental {
         , SUM(round_end_events_puzzle) AS round_end_events_puzzle
         , SUM(round_end_events_askforhelp) AS round_end_events_askforhelp
         , SUM(round_end_events_gofish) AS round_end_events_gofish
+        , SUM(gofish_full_matches_completed) AS gofish_full_matches_completed
+        , SUM(gofish_full_matches_won) AS gofish_full_matches_won
 
         , SUM(round_time_in_minutes) AS round_time_in_minutes
         , SUM(round_time_in_minutes_campaign) AS round_time_in_minutes_campaign
@@ -1213,6 +1231,7 @@ view: player_daily_incremental {
         left join average_asset_load_times c
             on a.rdg_id = c.rdg_id
             and a.rdg_date = c.rdg_date
+
 
       ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

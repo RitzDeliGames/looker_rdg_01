@@ -163,6 +163,8 @@ ads_by_date as (
         , max(a.round_end_events_puzzle) as round_end_events_puzzle
         , max(a.round_end_events_askforhelp) as round_end_events_askforhelp
         , max(a.round_end_events_gofish) as round_end_events_gofish
+        , max(a.gofish_full_matches_completed) as gofish_full_matches_completed
+        , max(a.gofish_full_matches_won) as gofish_full_matches_won
 
         , max(a.round_time_in_minutes) as round_time_in_minutes
         , max(a.round_time_in_minutes_campaign) as round_time_in_minutes_campaign
@@ -343,6 +345,8 @@ ads_by_date as (
         , max(a.round_end_events_puzzle) as round_end_events_puzzle
         , max(a.round_end_events_askforhelp) as round_end_events_askforhelp
         , max(a.round_end_events_gofish) as round_end_events_gofish
+        , max(a.gofish_full_matches_completed) as gofish_full_matches_completed
+        , max(a.gofish_full_matches_won) as gofish_full_matches_won
 
         , max(a.round_time_in_minutes) as round_time_in_minutes
         , max(a.round_time_in_minutes_campaign) as round_time_in_minutes_campaign
@@ -570,6 +574,8 @@ ads_by_date as (
         , a.round_end_events_puzzle
         , a.round_end_events_askforhelp
         , a.round_end_events_gofish
+        , a.gofish_full_matches_completed
+        , a.gofish_full_matches_won
 
         , a.round_time_in_minutes
         , a.round_time_in_minutes_campaign
@@ -944,6 +950,27 @@ select
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
       ) cumulative_round_end_events_gofish
 
+  -- cumulative days played go fish
+  , sum( case when gofish_full_matches_completed > 0 then 1 else 0 end ) over (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_days_with_gofish_full_matches_completed
+
+  -- cumulative go fish matches
+  , sum( gofish_full_matches_completed ) over (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_gofish_full_matches_completed
+
+  -- cumulative go fish wins
+  , sum( gofish_full_matches_won ) over (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_gofish_full_matches_won
+
   -- round_time_in_minutes
   , SUM(round_time_in_minutes) OVER (
       PARTITION BY rdg_id
@@ -1186,19 +1213,19 @@ dimension: primary_key {
 
   dimension: feature_participation_ask_for_help_request {
     group_label: "Daily Feature Participation"
-    label: "Treasure Trove"
+    label: "Ask For Help - Request"
     type:number}
   dimension: feature_participation_ask_for_help_completed {
     group_label: "Daily Feature Participation"
-    label: "Treasure Trove"
+    label: "Ask For Help - Completed"
     type:number}
   dimension: feature_participation_ask_for_help_high_five {
     group_label: "Daily Feature Participation"
-    label: "Treasure Trove"
+    label: "Ask For Help - High Five"
     type:number}
   dimension: feature_participation_ask_for_help_high_five_return {
     group_label: "Daily Feature Participation"
-    label: "Treasure Trove"
+    label: "Ask For Help - High Five Return"
     type:number}
 
   # feature_participation_hot_dog_contest
@@ -1278,6 +1305,12 @@ dimension: primary_key {
   dimension: round_end_events_movesmaster {type:number}
   dimension: round_end_events_puzzle {type:number}
   dimension: round_end_events_askforhelp {type:number}
+
+  dimension: gofish_full_matches_completed {type: number}
+  dimension: gofish_full_matches_won {type: number}
+  dimension: cumulative_days_with_gofish_full_matches_completed {type: number}
+  dimension: cumulative_gofish_full_matches_completed {type: number}
+  dimension: cumulative_gofish_full_matches_won {type: number}
 
   dimension: round_time_in_minutes {type:number}
   dimension: round_time_in_minutes_campaign {type:number}
@@ -1838,6 +1871,19 @@ dimension: primary_key {
     value_format_name: percent_0
   }
 
+  measure: go_fish_daily_full_match_win_rate {
+    label: "Go Fish Daily Full Match Win Rate"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.gofish_full_matches_won)
+        , sum(${TABLE}.gofish_full_matches_completed)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+
   measure: churn_rate {
     group_label: "Calculated Fields"
     type: number
@@ -2239,72 +2285,84 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     group_label: "Ad View By Placement"
     label: "Daily Rewards Ad Views"
     value_format_name: decimal_0
+    type: number
   }
 
   dimension: ad_views_moves_master {
     group_label: "Ad View By Placement"
     label: "Moves Master Ad Views"
     value_format_name: decimal_0
+    type: number
   }
 
   dimension: ad_views_pizza {
     group_label: "Ad View By Placement"
     label: "Pizza Ad Views"
     value_format_name: decimal_0
+    type: number
   }
 
   dimension: ad_views_lucky_dice {
     group_label: "Ad View By Placement"
     label: "Lucky Dice Ad Views"
     value_format_name: decimal_0
+    type: number
   }
 
   dimension: ad_views_ask_for_help {
     group_label: "Ad View By Placement"
     label: "Ask For Help Ad Views"
     value_format_name: decimal_0
+    type: number
   }
 
   dimension: ad_views_battle_pass {
     group_label: "Ad View By Placement"
     label: "Battle Pass Ad Views"
     value_format_name: decimal_0
+    type: number
   }
 
   dimension: ad_views_puzzles {
     group_label: "Ad View By Placement"
     label: "Puzzles Ad Views"
     value_format_name: decimal_0
+    type: number
   }
 
   dimension: ad_views_go_fish {
     group_label: "Ad View By Placement"
     label: "Go Fish Ad Views"
     value_format_name: decimal_0
+    type: number
   }
 
   dimension: ad_views_rocket {
     group_label: "Ad View By Placement"
     label: "Rocket Ad Views"
     value_format_name: decimal_0
+    type: number
   }
 
   dimension: ad_views_lives {
     group_label: "Ad View By Placement"
     label: "Lives Ad Views"
     value_format_name: decimal_0
+    type: number
   }
 
   dimension: ad_views_magnifiers {
     group_label: "Ad View By Placement"
     label: "Magnifiers Ad Views"
     value_format_name: decimal_0
+    type: number
   }
 
   dimension: ad_views_treasure_trove {
     group_label: "Ad View By Placement"
     label: "Treasure Trove Ad Views"
     value_format_name: decimal_0
+    type: number
   }
 
 ################################################################

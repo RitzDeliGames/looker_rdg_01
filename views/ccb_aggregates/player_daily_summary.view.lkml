@@ -2163,30 +2163,35 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
 
   measure: gofish_rank_10 {
     group_label: "Go Fish Rank"
+    label: "10th Percentile"
     type: percentile
     percentile: 10
     sql: ${TABLE}.max_gofish_rank ;;
   }
   measure: gofish_rank_25 {
     group_label: "Go Fish Rank"
+    label: "25th Percentile"
     type: percentile
     percentile: 25
     sql: ${TABLE}.max_gofish_rank ;;
   }
   measure: gofish_rank_50 {
     group_label: "Go Fish Rank"
+    label: "Median"
     type: percentile
     percentile: 50
     sql: ${TABLE}.max_gofish_rank ;;
   }
   measure: gofish_rank_75 {
     group_label: "Go Fish Rank"
+    label: "75th Percentile"
     type: percentile
     percentile: 75
     sql: ${TABLE}.max_gofish_rank ;;
   }
   measure: gofish_rank_95 {
     group_label: "Go Fish Rank"
+    label: "95th Percentile"
     type: percentile
     percentile: 95
     sql: ${TABLE}.max_gofish_rank ;;

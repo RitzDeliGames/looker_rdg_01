@@ -33,9 +33,11 @@ view: ab_test_current_population {
       from
         ${player_round_summary.SQL_TABLE_NAME}
       where
+        -- campaign only
+        game_mode = 'campaign'
 
         -- Date Filters
-        date(rdg_date) >= date({% parameter start_date %})
+        and date(rdg_date) >= date({% parameter start_date %})
         and date(rdg_date) <= date({% parameter end_date %})
 
         --Test Filter
@@ -71,38 +73,38 @@ view: ab_test_current_population {
       -- base data from daily summary
       ---------------------------------------------------------------------------------------
 
-      , daily_base_data as (
+      -- , daily_base_data as (
 
-      select
-        rdg_id
-        , max(json_extract_scalar(experiments,{% parameter selected_experiment %})) as variant
-        , sum(ad_views) as ad_views
-        , sum(ad_view_dollars) as ad_view_dollars
-      from
-        ${player_daily_summary.SQL_TABLE_NAME}
-      where
+      -- select
+      --   rdg_id
+      --   , max(json_extract_scalar(experiments,{% parameter selected_experiment %})) as variant
+      --   , sum(ad_views) as ad_views
+      --   , sum(ad_view_dollars) as ad_view_dollars
+      -- from
+      --   ${player_daily_summary.SQL_TABLE_NAME}
+      -- where
 
-        -- Date Filters
-        date(rdg_date) >= date({% parameter start_date %})
-        and date(rdg_date) <= date({% parameter end_date %})
+      --   -- Date Filters
+      --   date(rdg_date) >= date({% parameter start_date %})
+      --   and date(rdg_date) <= date({% parameter end_date %})
 
-        --Test Filter
-        and json_extract_scalar(experiments,{% parameter selected_experiment %}) in ( {% parameter selected_variant_a %} , {% parameter selected_variant_b %} )
+      --   --Test Filter
+      --   and json_extract_scalar(experiments,{% parameter selected_experiment %}) in ( {% parameter selected_variant_a %} , {% parameter selected_variant_b %} )
 
-        -- Day Number (min)
-        {% if day_number_min._is_filtered %}
-        and day_number >= {% parameter day_number_min %}
-        {% endif %}
+      --   -- Day Number (min)
+      --   {% if day_number_min._is_filtered %}
+      --   and day_number >= {% parameter day_number_min %}
+      --   {% endif %}
 
-        -- Day Number (max)
-        {% if day_number_max._is_filtered %}
-        and day_number <= {% parameter day_number_max %}
-        {% endif %}
+      --   -- Day Number (max)
+      --   {% if day_number_max._is_filtered %}
+      --   and day_number <= {% parameter day_number_max %}
+      --   {% endif %}
 
-      group by
-        1
+      -- group by
+      --   1
 
-      )
+      -- )
 
 
       ---------------------------------------------------------------------------------------
@@ -119,11 +121,11 @@ view: ab_test_current_population {
             rdg_id
             , variant
           from round_base_data
-          union all
-          select
-            rdg_id
-            , variant
-          from daily_base_data
+          --union all
+          --select
+          --  rdg_id
+          --  , variant
+          --from daily_base_data
         )
         group by
           1
@@ -148,14 +150,14 @@ view: ab_test_current_population {
         , b.total_chum_powerups_used
         , b.percent_churned_players
         , b.in_round_coin_spend
-        , c.ad_views
-        , c.ad_view_dollars
+        --, c.ad_views
+        --, c.ad_view_dollars
       from
         all_player_ids_in_set a
         left join round_base_data b
           on a.rdg_id = b.rdg_id
-        left join daily_base_data c
-          on a.rdg_id = c.rdg_id
+        --left join daily_base_data c
+        --  on a.rdg_id = c.rdg_id
 
       )
 
@@ -181,8 +183,8 @@ view: ab_test_current_population {
             when 'total_chum_powerups_used' = {% parameter selected_metric %} then total_chum_powerups_used
             when 'percent_churned_players' = {% parameter selected_metric %} then percent_churned_players
             when 'in_round_coin_spend' = {% parameter selected_metric %} then in_round_coin_spend
-            when 'ad_views' = {% parameter selected_metric %} then ad_views
-            when 'ad_view_dollars' = {% parameter selected_metric %} then ad_view_dollars
+            -- when 'ad_views' = {% parameter selected_metric %} then ad_views
+            -- when 'ad_view_dollars' = {% parameter selected_metric %} then ad_view_dollars
             else 0
             end as metric
 

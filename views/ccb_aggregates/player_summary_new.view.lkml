@@ -51,6 +51,7 @@ view: player_summary_new {
       , highest_last_level_serial
       , cumulative_star_spend
       , cumulative_time_played_minutes
+      , cumulative_session_count
       , cumulative_count_mtx_purchases
       , cumulative_coins_spend
       , cumulative_total_chum_powerups_used
@@ -434,6 +435,13 @@ view: player_summary_new {
       , count( distinct case when day_number <= 14 then rdg_date else null end ) as days_played_in_first_14_days
       , count( distinct case when day_number <= 21 then rdg_date else null end ) as days_played_in_first_21_days
       , count( distinct case when day_number <= 30 then rdg_date else null end ) as days_played_in_first_30_days
+
+      -- sessions
+      , max( case when day_number <= 7 then cumulative_session_count else 0 end ) as sessions_played_in_first_7_days
+      , max( case when day_number <= 14 then cumulative_session_count else 0 end ) as sessions_played_in_first_14_days
+      , max( case when day_number <= 21 then cumulative_session_count else 0 end ) as sessions_played_in_first_21_days
+      , max( case when day_number <= 30 then cumulative_session_count else 0 end ) as sessions_played_in_first_30_days
+      , max( case when day_number <= 31 then cumulative_session_count else 0 end ) as sessions_played_in_first_31_days
 
       -- minutes played in first x days
       , max( case when day_number <= 1 then cumulative_time_played_minutes else 0 end ) as minutes_played_in_first_1_days
@@ -861,6 +869,49 @@ view: player_summary_new {
   dimension: cumulative_ad_views_d60 {group_label:"Cumulative Ad Views" type: number}
   dimension: cumulative_ad_views_d90 {group_label:"Cumulative Ad Views" type: number}
   dimension: cumulative_ad_views_current {group_label:"Cumulative Ad Views" type: number}
+
+  ################################################################################################
+  ## sessions per day
+  ################################################################################################
+
+  dimension: sessions_per_day_7 {
+    group_label: "Sessions Per Day"
+    label: "Average Sessions Per Day in First 7 Days"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      round(
+        safe_divide(
+          ${TABLE}.sessions_played_in_first_7_days
+          , ${TABLE}.days_played_in_first_7_days
+        )
+        , 0
+      )
+    ;;
+
+  }
+
+  ################################################################################################
+  ## minutes per day
+  ################################################################################################
+
+  dimension: minutes_per_day_7 {
+    group_label: "Minutes Per Day"
+    label: "Average Minutes Per Day in First 7 Days"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      round(
+        safe_divide(
+          ${TABLE}.minutes_played_in_first_7_days
+          , ${TABLE}.days_played_in_first_7_days
+        )
+        , 0
+      )
+    ;;
+
+    }
+
 
   ################################################################################################
   ## end of content

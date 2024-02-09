@@ -1241,7 +1241,7 @@ from
         sum(${TABLE}.count_wins)
       )
     ;;
-    value_format_name: decimal_1
+    value_format_name: decimal_2
 
   }
 

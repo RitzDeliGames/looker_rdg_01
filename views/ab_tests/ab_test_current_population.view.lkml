@@ -9,36 +9,28 @@ view: ab_test_current_population {
 
     with
 
-      ---------------------------------------------------------------------------------------
-      -- base data from round summary
-      ---------------------------------------------------------------------------------------
+            ---------------------------------------------------------------------------------------
+            -- base data from round summary
+            ---------------------------------------------------------------------------------------
 
-      round_base_data as (
+      base_data as (
 
       select
         rdg_id
         , max(json_extract_scalar(experiments,{% parameter selected_experiment %})) as variant
-        , count(distinct rdg_date) as count_days_played
+        , sum(1) as count_levels
         , sum(count_rounds) as count_rounds
-        , sum( case when game_mode = 'campaign' then count_rounds else 0 end ) as campaign_rounds_played
-        , sum( case when game_mode = 'movesMaster' then count_rounds else 0 end ) as moves_master_rounds_played
-        , safe_divide(
-           sum( case when game_mode = 'campaign' then count_rounds else 0 end )
-            , sum( case when game_mode = 'campaign' then count_wins else 0 end )
-            ) as campaign_attempts_per_success
-        , sum(total_count_ad_views) as count_total_ad_views
+        , sum(count_wins) as count_wins
         , sum(total_chum_powerups_used) as total_chum_powerups_used
         , max(churn_indicator) as percent_churned_players
         , sum(in_round_coin_spend) as in_round_coin_spend
       from
-        ${player_round_summary.SQL_TABLE_NAME}
+        ${player_campaign_level_summary.SQL_TABLE_NAME}
       where
-        -- campaign only
-        game_mode = 'campaign'
 
         -- Date Filters
-        and date(rdg_date) >= date({% parameter start_date %})
-        and date(rdg_date) <= date({% parameter end_date %})
+        date(first_played_rdg_date) >= date({% parameter start_date %})
+        and date(first_played_rdg_date) <= date({% parameter end_date %})
 
         --Test Filter
         and json_extract_scalar(experiments,{% parameter selected_experiment %}) in ( {% parameter selected_variant_a %} , {% parameter selected_variant_b %} )
@@ -64,137 +56,11 @@ view: ab_test_current_population {
         {% endif %}
 
       group by
-        1
-
-      )
-
-
-      ---------------------------------------------------------------------------------------
-      -- base data from daily summary
-      ---------------------------------------------------------------------------------------
-
-      -- , daily_base_data as (
-
-      -- select
-      --   rdg_id
-      --   , max(json_extract_scalar(experiments,{% parameter selected_experiment %})) as variant
-      --   , sum(ad_views) as ad_views
-      --   , sum(ad_view_dollars) as ad_view_dollars
-      -- from
-      --   ${player_daily_summary.SQL_TABLE_NAME}
-      -- where
-
-      --   -- Date Filters
-      --   date(rdg_date) >= date({% parameter start_date %})
-      --   and date(rdg_date) <= date({% parameter end_date %})
-
-      --   --Test Filter
-      --   and json_extract_scalar(experiments,{% parameter selected_experiment %}) in ( {% parameter selected_variant_a %} , {% parameter selected_variant_b %} )
-
-      --   -- Day Number (min)
-      --   {% if day_number_min._is_filtered %}
-      --   and day_number >= {% parameter day_number_min %}
-      --   {% endif %}
-
-      --   -- Day Number (max)
-      --   {% if day_number_max._is_filtered %}
-      --   and day_number <= {% parameter day_number_max %}
-      --   {% endif %}
-
-      -- group by
-      --   1
-
-      -- )
-
-
-      ---------------------------------------------------------------------------------------
-      -- all player ids in set
-      ---------------------------------------------------------------------------------------
-
-      , all_player_ids_in_set as (
-
-        select
-          rdg_id
-          , max(variant) as variant
-        from (
-          select
-            rdg_id
-            , variant
-          from round_base_data
-          --union all
-          --select
-          --  rdg_id
-          --  , variant
-          --from daily_base_data
-        )
-        group by
-          1
+      1
 
       )
 
       ---------------------------------------------------------------------------------------
-      -- base data
-      ---------------------------------------------------------------------------------------
-
-      , base_data as (
-
-      select
-        a.rdg_id
-        , a.variant
-        , b.count_days_played
-        , b.count_rounds
-        , b.campaign_rounds_played
-        , b.moves_master_rounds_played
-        , b.campaign_attempts_per_success
-        , b.count_total_ad_views
-        , b.total_chum_powerups_used
-        , b.percent_churned_players
-        , b.in_round_coin_spend
-        --, c.ad_views
-        --, c.ad_view_dollars
-      from
-        all_player_ids_in_set a
-        left join round_base_data b
-          on a.rdg_id = b.rdg_id
-        --left join daily_base_data c
-        --  on a.rdg_id = c.rdg_id
-
-      )
-
-      ---------------------------------------------------------------------------------------
-      -- combined data set
-      ---------------------------------------------------------------------------------------
-
-      , combined_data_set as (
-
-      select
-        rdg_id
-        , case
-            when variant = {% parameter selected_variant_a %} then 'a'
-            when variant = {% parameter selected_variant_b %} then 'b'
-            else 'other'
-            end as my_group
-        , case
-            when 'count_days_played' = {% parameter selected_metric %} then count_days_played
-            when 'count_rounds' = {% parameter selected_metric %} then count_rounds
-            when 'moves_master_rounds_played' = {% parameter selected_metric %} then moves_master_rounds_played
-            when 'campaign_attempts_per_success' = {% parameter selected_metric %} then campaign_attempts_per_success
-            when 'count_total_ad_views' = {% parameter selected_metric %} then count_total_ad_views
-            when 'total_chum_powerups_used' = {% parameter selected_metric %} then total_chum_powerups_used
-            when 'percent_churned_players' = {% parameter selected_metric %} then percent_churned_players
-            when 'in_round_coin_spend' = {% parameter selected_metric %} then in_round_coin_spend
-            -- when 'ad_views' = {% parameter selected_metric %} then ad_views
-            -- when 'ad_view_dollars' = {% parameter selected_metric %} then ad_view_dollars
-            else 0
-            end as metric
-
-      from
-        base_data
-
-
-      )
-
-     ---------------------------------------------------------------------------------------
       -- create iteration table
       ---------------------------------------------------------------------------------------
 
@@ -213,12 +79,16 @@ view: ab_test_current_population {
       , my_iterations as (
 
       select
-      a.metric
-      , a.my_group
+      a.*
+      , case
+          when a.variant = {% parameter selected_variant_a %} then 'a'
+          when a.variant = {% parameter selected_variant_b %} then 'b'
+          else 'other'
+          end as my_group
       , b.iteration_number
       , rand() as random_number
       from
-      combined_data_set a
+      base_data a
       cross join my_iteration_table b
 
       )
@@ -230,17 +100,13 @@ view: ab_test_current_population {
       , my_sample_with_replacement as (
 
       select
-      metric
-      , my_group
-      , iteration_number
-      , random_number
-      , case
-      when iteration_number = 1 then my_group
-      when
-      iteration_number > 1
-      and random_number < 0.50 then 'a'
-      else 'b'
-      end as my_sampled_group
+        *
+        , case
+            when iteration_number = 1 then my_group
+            when iteration_number > 1
+        and random_number < 0.50 then 'a'
+        else 'b'
+        end as my_sampled_group
 
       from
       my_iterations
@@ -257,7 +123,14 @@ view: ab_test_current_population {
       iteration_number
       , my_sampled_group
       , sum(1) as count_players
-      , avg( metric ) as average_metric
+      , case
+          when 'Average APS' = {% parameter selected_metric %} then safe_divide( sum( count_rounds ) , sum( count_wins ) )
+          when 'Average Chums Used Per Level' = {% parameter selected_metric %} then safe_divide( sum( total_chum_powerups_used ) , sum( count_levels ) )
+          when 'Average Churn Rate Per Level' = {% parameter selected_metric %} then safe_divide( sum( percent_churned_players ) , sum( count_levels ) )
+          when 'Average In Round Coin Spend Per Level' = {% parameter selected_metric %} then safe_divide( sum( in_round_coin_spend ) , sum( count_levels ) )
+          else null end
+
+        as average_metric
       from
       my_sample_with_replacement
       group by
@@ -500,25 +373,25 @@ view: ab_test_current_population {
   dimension: group_a {
     label: "Group A Metric Average"
     type: number
-    value_format_name: decimal_3
+    value_format_name: decimal_4
   }
 
   dimension: group_b {
     label: "Group B Metric Average"
     type: number
-    value_format_name: decimal_3
+    value_format_name: decimal_4
   }
 
   dimension: my_difference {
     label: "Difference in Average Metric"
     type: number
-    value_format_name: decimal_3
+    value_format_name: decimal_4
   }
 
   dimension: my_abs_difference {
     label: "Absolute Difference in Average Metric"
     type: number
-    value_format_name: decimal_3
+    value_format_name: decimal_4
   }
 
   dimension: my_iterations {
@@ -541,7 +414,7 @@ view: ab_test_current_population {
   dimension: my_abs_difference_rounded {
     label: "Rounded Difference"
     type: number
-    value_format_name: decimal_3
+    value_format_name: decimal_4
   }
 
   dimension: iteration_type {
@@ -761,19 +634,13 @@ view: ab_test_current_population {
 
   parameter: selected_metric {
     type: string
-    default_value: "count_days_played"
+    default_value: "Average APS"
     suggestions:  [
 
-      "count_days_played"
-      , "count_rounds"
-      , "moves_master_rounds_played"
-      , "campaign_attempts_per_success"
-      , "count_total_ad_views"
-      , "total_chum_powerups_used"
-      , "percent_churned_players"
-      , "in_round_coin_spend"
-      , "ad_views"
-      , "ad_view_dollars"
+      , "Average APS"
+      , "Average Chums Used Per Level"
+      , "Average Churn Rate Per Level"
+      , "Average In Round Coin Spend Per Level"
 
 
     ]

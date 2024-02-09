@@ -274,5 +274,30 @@ view: player_campaign_level_summary {
     value_format_name: percent_2
   }
 
+  measure: average_chums_used_per_level {
+    type:  number
+    sql:
+      safe_divide(
+        sum(${TABLE}.total_chum_powerups_used)
+        ,
+        sum(1)
+      )
+    ;;
+    value_format_name: decimal_3
+  }
+
+  measure: average_in_round_coin_spend_per_level {
+    type:  number
+    sql:
+      safe_divide(
+        sum(${TABLE}.in_round_coin_spend)
+        ,
+        sum(1)
+      )
+    ;;
+    value_format_name: decimal_0
+  }
+
+
 
 }

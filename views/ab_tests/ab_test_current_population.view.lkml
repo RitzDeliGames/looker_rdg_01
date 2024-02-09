@@ -22,7 +22,7 @@ view: ab_test_current_population {
         , sum(count_rounds) as count_rounds
         , sum(count_wins) as count_wins
         , sum(total_chum_powerups_used) as total_chum_powerups_used
-        , max(churn_indicator) as percent_churned_players
+        , max(churn_indicator) as churn_indicator
         , sum(in_round_coin_spend) as in_round_coin_spend
       from
         ${player_campaign_level_summary.SQL_TABLE_NAME}
@@ -126,7 +126,7 @@ view: ab_test_current_population {
       , case
           when 'Average APS' = {% parameter selected_metric %} then safe_divide( sum( count_rounds ) , sum( count_wins ) )
           when 'Average Chums Used Per Level' = {% parameter selected_metric %} then safe_divide( sum( total_chum_powerups_used ) , sum( count_levels ) )
-          when 'Average Churn Rate Per Level' = {% parameter selected_metric %} then safe_divide( sum( percent_churned_players ) , sum( count_levels ) )
+          when 'Average Churn Rate Per Level' = {% parameter selected_metric %} then safe_divide( sum( churn_indicator ) , sum( count_levels ) )
           when 'Average In Round Coin Spend Per Level' = {% parameter selected_metric %} then safe_divide( sum( in_round_coin_spend ) , sum( count_levels ) )
           else null end
 

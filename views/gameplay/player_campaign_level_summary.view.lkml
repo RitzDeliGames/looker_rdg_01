@@ -203,6 +203,15 @@ view: player_campaign_level_summary {
 
   }
 
+  dimension: experiment_variant {
+    type: string
+    sql:
+    safe_cast(
+        json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
+        as string)
+    ;;
+  }
+
 ################################################################
 ## Measures
 ################################################################

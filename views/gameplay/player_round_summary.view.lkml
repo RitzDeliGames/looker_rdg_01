@@ -1070,6 +1070,15 @@ from
     ;;
   }
 
+  dimension: experiment_variant {
+    type: string
+    sql:
+    safe_cast(
+        json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
+        as string)
+    ;;
+  }
+
 ################################################################
 ## Ad hoc - Level Bucket Churn Analysis
 ################################################################
@@ -1101,6 +1110,9 @@ from
      @{adhoc_level_buckets_for_churn_analysis_75th_pct}
     ;;
   }
+
+
+
 
   measure: adhoc_target_churn_by_level_buckets_for_churn_analysis_75th_pct {
     group_label: "Ad Hoc Churn Analysis"

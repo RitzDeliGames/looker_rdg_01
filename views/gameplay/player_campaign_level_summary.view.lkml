@@ -84,6 +84,10 @@ view: player_campaign_level_summary {
     type: number
   }
 
+  parameter: dynamic_in_round_coin_spend_size {
+    type: number
+  }
+
   parameter: selected_experiment {
     type: string
     suggestions:  [
@@ -162,6 +166,23 @@ view: player_campaign_level_summary {
     ||
     safe_cast(
       ceiling(safe_divide(${TABLE}.level_serial+1,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}-1
+      as string
+      )
+    ;;
+  }
+
+  dimension: dynamic_in_round_coin_spend_bucket {
+    label: "Dynamic Level Bucket"
+    type:string
+    sql:
+    safe_cast(
+      floor( safe_divide(${TABLE}.in_round_coin_spend,{% parameter dynamic_in_round_coin_spend_size %}))*{% parameter dynamic_in_round_coin_spend_size %}
+      as string
+      )
+    || ' to '
+    ||
+    safe_cast(
+      ceiling(safe_divide(${TABLE}.in_round_coin_spend+1,{% parameter dynamic_in_round_coin_spend_size %}))*{% parameter dynamic_in_round_coin_spend_size %}-1
       as string
       )
     ;;
@@ -296,6 +317,18 @@ view: player_campaign_level_summary {
       )
     ;;
     value_format_name: decimal_0
+  }
+
+  measure: average_in_round_mtx_dollars_per_level {
+    type:  number
+    sql:
+      safe_divide(
+        sum(${TABLE}.in_round_mtx_purchase_dollars)
+        ,
+        sum(1)
+      )
+    ;;
+    value_format_name: usd
   }
 
 

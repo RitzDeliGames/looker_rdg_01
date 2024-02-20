@@ -171,8 +171,19 @@ view: player_campaign_level_summary {
     ;;
   }
 
+  dimension: dynamic_level_bucket_order {
+    label: "Dynamic Level Bucket Order"
+    type:number
+    sql:
+    safe_cast(
+      floor( safe_divide(${TABLE}.level_serial,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
+      as int64
+      )
+    ;;
+  }
+
   dimension: dynamic_in_round_coin_spend_bucket {
-    label: "Dynamic Level Bucket"
+    label: "Dynamic In Round Coin Spend Bucket"
     type:string
     sql:
     safe_cast(
@@ -188,16 +199,18 @@ view: player_campaign_level_summary {
     ;;
   }
 
-  dimension: dynamic_level_bucket_order {
-    label: "Dynamic Level Bucket Order"
+  dimension: dynamic_in_round_coin_spend_bucket_order {
+    label: "Dynamic In Round Coin Spend Bucket Order"
     type:number
     sql:
     safe_cast(
-      floor( safe_divide(${TABLE}.level_serial,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
+      floor( safe_divide(${TABLE}.in_round_coin_spend,{% parameter dynamic_in_round_coin_spend_size %}))*{% parameter dynamic_in_round_coin_spend_size %}
       as int64
       )
     ;;
   }
+
+
 
   dimension: min_version {
     label: "Lowest Version"

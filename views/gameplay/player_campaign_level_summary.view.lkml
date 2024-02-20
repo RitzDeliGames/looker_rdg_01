@@ -210,6 +210,11 @@ view: player_campaign_level_summary {
     ;;
   }
 
+  dimension: in_round_coin_spend {
+    label: "In Round Coin Spend"
+    type: number
+    sql: ${TABLE}.in_round_coin_spend ;;
+  }
 
 
   dimension: min_version {

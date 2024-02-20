@@ -870,6 +870,16 @@ view: player_summary_new {
   dimension: cumulative_ad_views_d90 {group_label:"Cumulative Ad Views" type: number}
   dimension: cumulative_ad_views_current {group_label:"Cumulative Ad Views" type: number}
 
+  dimension: cumulative_coins_spend_d1 {group_label:"Cumulative Coin Spend" type: number}
+  dimension: cumulative_coins_spend_d2 {group_label:"Cumulative Coin Spend" type: number}
+  dimension: cumulative_coins_spend_d7 {group_label:"Cumulative Coin Spend" type: number}
+  dimension: cumulative_coins_spend_d14 {group_label:"Cumulative Coin Spend" type: number}
+  dimension: cumulative_coins_spend_d30 {group_label:"Cumulative Coin Spend" type: number}
+  dimension: cumulative_coins_spend_d60 {group_label:"Cumulative Coin Spend" type: number}
+  dimension: cumulative_coins_spend_d90 {group_label:"Cumulative Coin Spend" type: number}
+  dimension: cumulative_coins_spend_current {group_label:"Cumulative Coin Spend" type: number}
+
+
   ################################################################################################
   ## sessions per day
   ################################################################################################
@@ -3966,6 +3976,7 @@ view: player_summary_new {
       ;;
     value_format_name: decimal_0
   }
+
 
 
 

@@ -1234,6 +1234,10 @@ view: player_summary_new {
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      , "$.swapTeamp2_20240209"
+      , "$.goFishAds_20240208"
+      , "$.dailyPopups_20240207"
+
       , "$.ExtraMoves1k_20240130"
       , "$.loAdMax_20240131"
       , "$.extendedQPO_20240131"

@@ -437,6 +437,10 @@ view: ab_test_current_population {
     default_value: "$.dynamicDropBiasv3_20230627"
     suggestions:  [
 
+      , "$.swapTeamp2_20240209"
+      , "$.goFishAds_20240208"
+      , "$.dailyPopups_20240207"
+
       , "$.ExtraMoves1k_20240130"
       , "$.loAdMax_20240131"
       , "$.extendedQPO_20240131"

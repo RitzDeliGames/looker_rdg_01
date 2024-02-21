@@ -154,6 +154,17 @@ view: adhoc_2024_02_21_aps_vs_churn_spender_non_spender {
     ;;
   }
 
+  dimension: dynamic_level_bucket_order {
+    label: "Dynamic Level Bucket Order"
+    type:number
+    sql:
+    safe_cast(
+      floor( safe_divide(${TABLE}.level_serial,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
+      as int64
+      )
+    ;;
+  }
+
 ################################################################
 ## Measures
 ################################################################

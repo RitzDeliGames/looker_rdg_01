@@ -47,8 +47,11 @@ view: adhoc_2024_02_21_aps_vs_churn_spender_non_spender {
       inner join ${player_summary_new.SQL_TABLE_NAME} b
         on a.rdg_id = b.rdg_id
     where
+      -- Country Filter
+      b.country = 'US'
+
       -- Date Filters
-      date(rdg_date) >= date({% parameter start_date %})
+      and date(rdg_date) >= date({% parameter start_date %})
       and date(rdg_date) <= date({% parameter end_date %})
 
       and a.game_mode = 'campaign'

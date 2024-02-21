@@ -13,7 +13,7 @@ view: adhoc_2024_02_21_aps_vs_churn_spender_non_spender {
           when b.cumulative_mtx_purchase_dollars_current > 0
           then 'MTX Spender'
           else 'Non-MTX Spender'
-          end ) as spender_non_spender
+          end as spender_non_spender
       , sum(a.count_rounds) as count_rounds
       , sum(a.count_wins) as count_wins
       , count(distinct a.rdg_id) as count_distinct_players

@@ -780,12 +780,12 @@ explore: player_fue_summary {
 
 ################################################################
 
-explore: adhoc_20231213_moves_master_moves_per_week {view_label: "Adhoc - Moves Master Moves Remaining Per Week" group_label: "Chum Chum Adhoc"}
-explore: adhoc_20240112_aps_vs_churn_scatter {view_label: "Adhoc - APS vs. Churn Scatter" group_label: "Chum Chum Adhoc"}
-explore: adhoc_20240117_target_churn_rate {view_label: "Adhoc - Target Churn Rate By Level Bucket" group_label: "Chum Chum Adhoc"}
-explore: adhoc_20240202_churn_by_recent_wins_losses {view_label: "Adhoc - Churn By Recent Wins and Losses" group_label: "Chum Chum Adhoc"}
-explore: adhoc_2024_02_12_battle_pass_player_summary {view_label: "Adhoc - Battle Pass Player Summary" group_label: "Chum Chum Adhoc"}
-explore: adhoc_2024_02_21_aps_vs_churn_spender_non_spender {view_label: "Adhoc - APS vs. Churn Scatter - Spender vs. Non Spender" group_label: "Chum Chum Adhoc"}
+explore: adhoc_20231213_moves_master_moves_per_week {label: "Adhoc - Moves Master Moves Remaining Per Week" group_label: "Chum Chum Adhoc"}
+explore: adhoc_20240112_aps_vs_churn_scatter {label: "Adhoc - APS vs. Churn Scatter" group_label: "Chum Chum Adhoc"}
+explore: adhoc_20240117_target_churn_rate {label: "Adhoc - Target Churn Rate By Level Bucket" group_label: "Chum Chum Adhoc"}
+explore: adhoc_20240202_churn_by_recent_wins_losses {label: "Adhoc - Churn By Recent Wins and Losses" group_label: "Chum Chum Adhoc"}
+explore: adhoc_2024_02_12_battle_pass_player_summary {label: "Adhoc - Battle Pass Player Summary" group_label: "Chum Chum Adhoc"}
+explore: adhoc_2024_02_21_aps_vs_churn_spender_non_spender {label: "Adhoc - APS vs. Churn Scatter - Spender vs. Non Spender" group_label: "Chum Chum Adhoc"}
 
 
 

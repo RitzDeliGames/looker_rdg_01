@@ -776,6 +776,16 @@ explore: player_fue_summary {
 
 ################################################################
 
+## AB Test Explores
+
+################################################################
+
+explore: ab_test_full_iterations {label: "AB Tests: Full Iterations" group_label: "Chum Chum AB Tests"}
+explore: ab_test_current_population {label: "AB Tests: Current Population" group_label: "Chum Chum AB Tests"}
+explore: ab_test_aggregate_check {label: "AB Test: Aggregate Check" group_label: "Chum Chum AB Tests"}
+
+################################################################
+
 ## Adhoc Explores
 
 ################################################################
@@ -786,8 +796,6 @@ explore: adhoc_20240117_target_churn_rate {label: "Adhoc - Target Churn Rate By 
 explore: adhoc_20240202_churn_by_recent_wins_losses {label: "Adhoc - Churn By Recent Wins and Losses" group_label: "Chum Chum Adhoc"}
 explore: adhoc_2024_02_12_battle_pass_player_summary {label: "Adhoc - Battle Pass Player Summary" group_label: "Chum Chum Adhoc"}
 explore: adhoc_2024_02_21_aps_vs_churn_spender_non_spender {label: "Adhoc - APS vs. Churn Scatter - Spender vs. Non Spender" group_label: "Chum Chum Adhoc"}
-
-
 
 ################################################################
 
@@ -801,8 +809,6 @@ explore: singular_campaign_detail {}
 explore: singular_creative_summary {}
 explore: big_query_jobs {}
 explore: player_daily_incremental {}
-explore: ab_test_full_iterations {}
-explore: ab_test_current_population {}
 explore: revenue_model{}
 # explore: ab_test_t_test{}
 

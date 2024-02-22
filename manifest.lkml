@@ -1056,6 +1056,8 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_055' then 'Coins (S)'
     when ${TABLE}.iap_id = 'item_056' then 'Coins (M)'
     when ${TABLE}.iap_id = 'item_057' then 'Coins (L)'
+    when ${TABLE}.iap_id = 'item_097' then 'Coins (XL)'
+
 
     when ${TABLE}.iap_id = 'item_058' then 'Lives (S)'
     when ${TABLE}.iap_id = 'item_059' then 'Lives (M)'
@@ -1095,6 +1097,7 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id = 'item_020' then 'Coins'
       when ${TABLE}.iap_id = 'item_021' then 'Coins'
       when ${TABLE}.iap_id = 'item_057' then 'Coins'
+      when ${TABLE}.iap_id = 'item_097' then 'Coins'
       when ${TABLE}.iap_id = 'item_008' then 'Gems'
       when ${TABLE}.iap_id = 'item_026' then 'Gems'
       when ${TABLE}.iap_id = 'item_009' then 'Gems'
@@ -1144,6 +1147,7 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id = 'item_055' then 'Coins'
       when ${TABLE}.iap_id = 'item_056' then 'Coins'
       when ${TABLE}.iap_id = 'item_057' then 'Coins'
+      when ${TABLE}.iap_id = 'item_097' then 'Coins'
 
       when ${TABLE}.iap_id = 'item_058' then 'Lives'
       when ${TABLE}.iap_id = 'item_059' then 'Lives'
@@ -1302,9 +1306,11 @@ constant: coin_source_name {
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_cheat' then 'Cheat'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_CHEAT' then 'Cheat'
 
+     when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_097' then 'Coins (XL)'
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_057' then 'Coins (L)'
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_056' then 'Coins (M)'
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_055' then 'Coins (S)'
+
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_063' then 'Treasure Trove (XS)'
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_072' then 'Treasure Trove (L)'
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_066' then 'Treasure Trove (S)'
@@ -1376,6 +1382,7 @@ constant: coin_source_name_group {
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_cheat' then 'Round End'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end_CHEAT' then 'Round End'
 
+     when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_097' then 'Coins'
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_057' then 'Coins'
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_056' then 'Coins'
      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_055' then 'Coins'

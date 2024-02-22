@@ -41,6 +41,7 @@ view: ab_test_aggregate_check {
           union all select "coinMultiplier_20231208" as test_name, rdg_id, json_extract_scalar(experiments, "$.coinMultiplier_20231208") as variant from player_summary
           union all select "lv100200Moves_20231207" as test_name, rdg_id, json_extract_scalar(experiments, "$.lv100200Moves_20231207") as variant from player_summary
           union all select "fueLevelsV3_20231207" as test_name, rdg_id, json_extract_scalar(experiments, "$.fueLevelsV3_20231207") as variant from player_summary
+          union all select "blockColor_20240119" as test_name, rdg_id, json_extract_scalar(experiments, "$.blockColor_20240119") as variant from player_summary
       )
       where
         variant is not null
@@ -103,7 +104,8 @@ view: ab_test_aggregate_check {
 
   dimension: test_name {
     label: "AB Test"
-    type: number
+    type: string
+    sql: ${TABLE}.test_name ;;
     }
 
   dimension: control_count_players {
@@ -132,6 +134,20 @@ view: ab_test_aggregate_check {
 ################################################################
 ## Measures
 ################################################################
+
+measure: control_installs {
+  label: "Control Installs"
+  type: number
+  value_format_name: decimal_0
+  sql: sum(${TABLE}.control_count_players) ;;
+}
+
+  measure: variant_a_installs {
+    label: "Variant A Installs"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.variant_a_count_players) ;;
+  }
 
  measure: control_retention {
   label: "Control Retention"

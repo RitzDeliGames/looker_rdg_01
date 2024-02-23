@@ -821,3 +821,4 @@ explore: revenue_model{}
 # explore: player_battle_pass_incremental {}
 # explore: player_error_incremental {}
 # explore: player_fue_incremental {}
+# explore: big_query_cost_log_incremental {}

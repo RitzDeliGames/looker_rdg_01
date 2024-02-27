@@ -9,7 +9,7 @@ view: adhoc_2024_02_27_temp_alert_test {
 
     select
       case
-      when current_time() <= '16:08:03.170243'
+      when current_time() <= '16:20:03.170243'
       then 1
       else 2
       end as the_check

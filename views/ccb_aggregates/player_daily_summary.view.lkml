@@ -4987,6 +4987,14 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     percentile: 95
     sql: ${TABLE}.ending_balance_bomb ;;
   }
+
+  measure: ending_balance_bomb_99 {
+    group_label: "Ending Balance Bomb"
+    type: percentile
+    percentile: 99
+    sql: ${TABLE}.ending_balance_bomb ;;
+  }
+
   measure: sum_ending_balance_color_ball {
     group_label: "Ending Balance Color Ball"
     type:sum

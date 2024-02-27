@@ -7,15 +7,12 @@ view: adhoc_2024_02_27_temp_alert_test {
   derived_table: {
     sql:
 
-    select
-      case
-      when current_time() <= '17:05:03.170243'
-      then 2
-      else 3
-      end as the_check
+    select DATE_ADD(timestamp_trunc(current_timestamp, hour), INTERVAL -5 minute)
 
       ;;
-    publish_as_db_view: no
+    # publish_as_db_view: no
+    sql_trigger_value: select DATE_ADD(timestamp_trunc(current_timestamp, hour), INTERVAL -5 minute) ;;
+    publish_as_db_view: yes
   }
 
 

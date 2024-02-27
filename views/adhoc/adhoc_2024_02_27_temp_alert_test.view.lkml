@@ -7,7 +7,7 @@ view: adhoc_2024_02_27_temp_alert_test {
   derived_table: {
     sql:
 
-    select DATE_ADD(timestamp_trunc(current_timestamp, hour), INTERVAL -5 minute)
+    select DATE_ADD(timestamp_trunc(current_timestamp, hour), INTERVAL -5 minute) as the_check
 
       ;;
     # publish_as_db_view: no

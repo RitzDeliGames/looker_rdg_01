@@ -1156,7 +1156,10 @@ dimension: primary_key {
   # strings
   dimension: rdg_id {type:string}
   dimension: new_player_rdg_id {type:string}
-  dimension: lifetime_mtx_spender_rdg_id {type:string}
+  dimension: lifetime_mtx_spender_rdg_id {
+    label: "Lifetime IAP Spender Rdg Id"
+    type: string
+    }
   dimension: churn_rdg_id {type:string}
   dimension: device_id {type:string}
   dimension: advertising_id {type:string}
@@ -1169,12 +1172,36 @@ dimension: primary_key {
   dimension: install_version {type:string}
 
   # numbers
-  dimension: mtx_purchase_dollars {type:number}
-  dimension: count_mtx_purchases {type:number}
-  dimension: cumulative_count_mtx_purchases {type:number}
-  dimension: ad_view_dollars {type:number}
-  dimension: mtx_ltv_from_data {type:number}
-  dimension: ad_views {type:number}
+  dimension: mtx_purchase_dollars {
+    label: "IAP Dollars"
+    type: number
+    }
+
+  dimension: count_mtx_purchases {
+    label: "Count of IAP"
+    type: number
+    }
+
+  dimension: cumulative_count_mtx_purchases {
+    label: "Cumulative Count of IAP"
+    type: number
+    }
+
+  dimension: ad_view_dollars {
+    label: "IAA Dollars"
+    type: number
+    }
+
+  dimension: mtx_ltv_from_data {
+    label: "IAP LTV (From Data)"
+    type: number
+    }
+
+  dimension: ad_views {
+    label: "Count of IAA Views"
+    type: number
+    }
+
   dimension: count_sessions {type:number}
   dimension: cumulative_session_count {type:number}
   dimension: cumulative_engagement_ticks {type:number}
@@ -1277,16 +1304,50 @@ dimension: primary_key {
   dimension: next_date_played {type:number}
   dimension: churn_indicator {type:number}
   dimension: days_until_next_played {type:number}
-  dimension: cumulative_mtx_purchase_dollars {type:number}
-  dimension: cumulative_ad_view_dollars {type:number}
+
+  dimension: cumulative_mtx_purchase_dollars {
+    label: "Cumulative IAP Dollars"
+    type:number
+    }
+
+  dimension: cumulative_ad_view_dollars {
+    label: "Cumulative IAA Dollars"
+    type:number
+    }
+
   dimension: combined_dollars {type:number}
   dimension: cumulative_combined_dollars {type:number}
-  dimension: daily_mtx_spend_indicator {type:number}
-  dimension: daily_mtx_spender_rdg_id {type:number}
-  dimension: first_mtx_spend_indicator {type:number}
-  dimension: first_ad_view_indicator {type:number}
-  dimension: lifetime_mtx_spend_indicator {type:number}
-  dimension: cumulative_ad_views {type:number}
+
+  dimension: daily_mtx_spend_indicator {
+    label: "Daily IAP Spend Indicator"
+    type: number
+    }
+
+  dimension: daily_mtx_spender_rdg_id {
+    label: "Daily IAP Spender Rdg Id"
+    type:number
+    }
+
+  dimension: first_mtx_spend_indicator {
+    label: "First IAP Indicator"
+    type:number
+    }
+
+  dimension: first_ad_view_indicator {
+    label: "First IAA Indicator"
+    type:number
+    }
+
+  dimension: lifetime_mtx_spend_indicator {
+    label: "Lifetime IAP Spender Indicator"
+    type: number
+    }
+
+  dimension: cumulative_ad_views {
+    label: "Cumulative IAA Views"
+    type: number
+    }
+
   dimension: engagement_ticks {type:number}
   dimension: time_played_minutes {type:number}
   dimension: cumulative_time_played_minutes {type:number}
@@ -1467,11 +1528,13 @@ dimension: primary_key {
     sql: ${TABLE}.churn_rdg_id ;;
   }
   measure: count_distinct_daily_mtx_spender_rdg_id {
+    label: "Count Distinct Daily IAP Spender Rdg Id"
     group_label: "Unique Player Counts"
     type: count_distinct
     sql: ${TABLE}.daily_mtx_spender_rdg_id ;;
   }
   measure: count_distinct_lifetime_mtx_spender_rdg_id {
+    label: "Count Distinct Lifetime IAP Spender Rdg Id"
     group_label: "Unique Player Counts"
     type: count_distinct
     sql: ${TABLE}.lifetime_mtx_spender_rdg_id ;;
@@ -1923,6 +1986,7 @@ dimension: primary_key {
 ################################################################
 
   measure: average_mtx_purchase_revenue_per_player{
+    label: "Average IAP Per Player"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -1935,20 +1999,37 @@ dimension: primary_key {
     value_format_name: usd
   }
 
+  measure: average_mtx_arpdau {
+    label: "IAP ARPDAU"
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars)
+        ,
+        sum(${TABLE}.count_days_played)
+      )
+    ;;
+    value_format_name: usd
+  }
+
+
   measure: average_daily_mtx_conversion {
+    label: "Daily IAP Conversion"
     group_label: "Revenue Metrics"
     type: number
     sql:
       safe_divide(
         sum(${TABLE}.daily_mtx_spend_indicator)
         ,
-        count(distinct ${TABLE}.rdg_id)
+        sum(${TABLE}.count_days_played)
       )
     ;;
     value_format_name: percent_1
   }
 
   measure: average_daily_mtx_revenue_per_spender {
+    label: "IAP ARPS"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -1962,6 +2043,7 @@ dimension: primary_key {
   }
 
   measure: average_daily_ad_revenue_per_ad_viewer {
+    label: "IAA Revenue Per Ad Viewer"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -1979,6 +2061,7 @@ dimension: primary_key {
   }
 
   measure: average_ad_revenue_per_player{
+    label: "Average IAP Per Player"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -1991,7 +2074,22 @@ dimension: primary_key {
     value_format_name: usd
   }
 
+  measure: average_ad_arpdau {
+    label: "IAA ARPDAU"
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.ad_view_dollars)
+        ,
+        sum(${TABLE}.count_days_played)
+      )
+    ;;
+    value_format_name: usd
+  }
+
   measure: average_daily_ads_conversion {
+    label: "Daily IAA Conversion"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -2002,7 +2100,7 @@ dimension: primary_key {
           else 0
           end )
         ,
-        count(distinct ${TABLE}.rdg_id)
+        sum(${TABLE}.count_days_played)
       )
     ;;
     value_format_name: percent_1

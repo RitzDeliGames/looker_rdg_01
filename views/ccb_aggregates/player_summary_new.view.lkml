@@ -3250,6 +3250,51 @@ view: player_summary_new {
   }
 
 ################################################################
+## Big Fish Net Mtx Dollars
+################################################################
+
+  measure: big_fish_net_mtx_dollars_d7 {
+    group_label: "Big Fish Net Mtx Dollars"
+    label: "Big Fish D7 IAP"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d8;;
+  }
+
+  measure: big_fish_net_mtx_dollars_d14 {
+    group_label: "Big Fish Net Mtx Dollars"
+    label: "Big Fish D14 IAP"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d15;;
+  }
+
+  measure: big_fish_net_mtx_dollars_d30 {
+    group_label: "Big Fish Net Mtx Dollars"
+    label: "Big Fish D30 IAP"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d31;;
+  }
+
+  measure: big_fish_net_mtx_dollars_d45 {
+    group_label: "Big Fish Net Mtx Dollars"
+    label: "Big Fish D45 IAP"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d46;;
+  }
+
+  measure: big_fish_net_mtx_dollars_d60 {
+    group_label: "Big Fish Net Mtx Dollars"
+    label: "Big Fish D60 IAP"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d61;;
+  }
+
+
+################################################################
 ## Unique Player
 ################################################################
 

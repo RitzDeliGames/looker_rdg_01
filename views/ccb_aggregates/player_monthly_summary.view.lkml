@@ -629,16 +629,35 @@ where
   dimension: experiments {type:string}
   dimension: version {type:string}
   dimension: install_version {type:string}
-  dimension: mtx_purchase_dollars {type:number}
-  dimension: ad_view_dollars {type:number}
+  dimension: mtx_purchase_dollars {
+    label: "IAP Dollars"
+    type:number}
+  dimension: ad_view_dollars {
+    label: "IAA Dollars"
+    type:number}
   dimension: combined_dollars {type:number}
-  dimension: sum_daily_mtx_spend_indicator {type:number}
-  dimension: monthly_mtx_spend_indicator {type:number}
-  dimension: monthly_mtx_spender_rdg_id {type:string}
-  dimension: first_mtx_spend_indicator {type:number}
-  dimension: ad_views {type:number}
-  dimension: sum_daily_ad_view_indicator {type:number}
-  dimension: monthly_ad_view_indicator {type:number}
+  dimension: sum_daily_mtx_spend_indicator {
+    label: "Sum Daily IAP Spend Indicator"
+    type:number}
+  dimension: monthly_mtx_spend_indicator {
+    label: "Monthly IAP Spend Indicator"
+    type:number}
+  dimension: monthly_mtx_spender_rdg_id {
+    label: "Monthly IAP Spender Rdg Id"
+    type:string}
+  dimension: first_mtx_spend_indicator {
+    label: "First IAP Spend Indicator"
+    type:number}
+  dimension: ad_views {
+    label: "IAA Views"
+    type:number}
+  dimension: sum_daily_ad_view_indicator {
+    label: "Sum Daily IAA View Indicator"
+    type:number
+    }
+  dimension: monthly_ad_view_indicator {
+    label: "Monthly IAA View Indicator"
+    type:number}
   dimension: count_sessions {type:number}
   dimension: cumulative_session_count {type:number}
   dimension: cumulative_engagement_ticks {type:number}
@@ -654,10 +673,8 @@ where
   dimension: lowest_last_level_serial {type:number}
   dimension: highest_last_level_serial {type:number}
   dimension: highest_quests_completed {type:number}
-  dimension: gems_spend {type:number}
   dimension: coins_spend {type:number}
   dimension: stars_spend {type:number}
-  dimension: ending_gems_balance {type:number}
   dimension: ending_coins_balance {type:number}
   dimension: ending_lives_balance {type:number}
   dimension: ending_stars_balance {type:number}
@@ -677,12 +694,31 @@ where
   dimension: new_player_rdg_id {type:string}
   dimension: churn_indicator {type:number}
   dimension: churn_rdg_id {type:string}
-  dimension: cumulative_mtx_purchase_dollars {type:number}
-  dimension: cumulative_ad_view_dollars {type:number}
-  dimension: cumulative_combined_dollars {value_format:"$#.00" type:number}
-  dimension: lifetime_mtx_spend_indicator {type:number}
-  dimension: lifetime_mtx_spender_rdg_id {type:string}
-  dimension: cumulative_ad_views {type:number}
+  dimension: cumulative_mtx_purchase_dollars {
+    label: "Cumulative IAP Dollars"
+    value_format:"$#.00"
+    type:number}
+  dimension: cumulative_ad_view_dollars {
+    label: "Cumulative IAA Dollars"
+    value_format:"$#.00"
+    type:number
+    }
+  dimension: cumulative_combined_dollars {
+    label: "Cumulative Combined Dollars"
+    value_format:"$#.00"
+    type:number}
+  dimension: lifetime_mtx_spend_indicator {
+    label: "Lifetime IAP Spender Indicator"
+    type:number
+    }
+  dimension: lifetime_mtx_spender_rdg_id {
+    label: "Lifetime IAP Spender Rdg Id"
+    type:string
+    }
+  dimension: cumulative_ad_views {
+    label: "Cumulative IAA Views"
+    type:number
+    }
   dimension: engagement_ticks {type:number}
   dimension: time_played_minutes {type:number}
   dimension: cumulative_time_played_minutes {type:number}
@@ -700,7 +736,6 @@ where
   dimension: count_months_played {type:number}
   dimension: cumulative_count_days_played {type:number}
   dimension: levels_progressed {type:number}
-  dimension: cumulative_gems_spend {type:number}
   dimension: cumulative_coins_spend {type:number}
   dimension: cumulative_star_spend {type:number}
   dimension: months_since_last_played {type:number}
@@ -740,11 +775,13 @@ where
     sql: ${TABLE}.churn_rdg_id ;;
   }
   measure: count_distinct_daily_mtx_spender_rdg_id {
+    label: "Count Distinct Daily IAP Spender Rdg Id"
     group_label: "Unique Player Counts"
     type: count_distinct
     sql: ${TABLE}.daily_mtx_spender_rdg_id ;;
   }
   measure: count_distinct_lifetime_mtx_spender_rdg_id {
+    label: "Count Distinct Lifetime IAP Spender Rdg Id"
     group_label: "Unique Player Counts"
     type: count_distinct
     sql: ${TABLE}.lifetime_mtx_spender_rdg_id ;;
@@ -916,6 +953,7 @@ where
 ################################################################
 
   measure: average_mtx_purchase_revenue_per_player{
+    label: "Average IAP Dollars Per Player"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -929,6 +967,7 @@ where
   }
 
   measure: average_mtx_purchase_revenue_per_player_per_day{
+    label: "Average IAP ARPDAU"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -942,6 +981,7 @@ where
   }
 
   measure: average_daily_mtx_conversion {
+    label: "Average Daily IAP Conversion"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -955,6 +995,7 @@ where
   }
 
   measure: average_ad_revenue_per_player{
+    label: "Average IAA Dollars Per Player"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -968,6 +1009,7 @@ where
   }
 
   measure: average_ad_revenue_per_player_per_day{
+    label: "Average IAA ARPDAU"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -981,6 +1023,7 @@ where
   }
 
   measure: average_daily_ads_conversion {
+    label: "Average Daily IAA Conversion"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -1007,6 +1050,7 @@ where
   }
 
   measure: average_combined_revenue_per_player_per_day{
+    label: "Average Combined ARPDAU"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -1020,18 +1064,21 @@ where
   }
 
   measure: sum_mtx_purchase_dollars {
+    label: "Sum IAP Dollars"
     group_label: "Revenue Metrics"
     type:sum
     value_format: "$#,###"
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: sum_ad_view_dollars {
+    label: "Sum IAA Dollars"
     group_label: "Revenue Metrics"
     type:sum
     value_format: "$#,###"
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: sum_combined_dollars {
+    label: "Sum Combined Dollars"
     group_label: "Revenue Metrics"
     type:sum
     value_format: "$#,###"

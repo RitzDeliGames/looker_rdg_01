@@ -514,12 +514,14 @@ view: player_hourly {
   dimension: version {type: number}
 
   dimension: spender_flag {
+    label: "IAP Spender Indicator"
     type: number
     sql: case when ${TABLE}.mtx_ltv_from_data > 0 then 1 else 0 end
     ;;
   }
 
   dimension: new_spender_flag {
+    label: "New IAP Spender Indicator"
     type: number
     sql: case
           when
@@ -659,6 +661,7 @@ view: player_hourly {
   }
 
   measure: sum_mtx_purchase_dollars {
+    label: "Sum IAP Dollars"
     group_label: "Dollars"
     type: sum
     value_format_name: usd
@@ -666,6 +669,7 @@ view: player_hourly {
   }
 
   measure: sum_ad_view_dollars {
+    label: "Sum IAA Dollars"
     group_label: "Dollars"
     type: sum
     value_format_name: usd

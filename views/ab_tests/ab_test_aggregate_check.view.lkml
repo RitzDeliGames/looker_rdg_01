@@ -568,72 +568,70 @@ select * from summarize_percent_greater_than
     sql: ${TABLE}.test_name ;;
     }
 
-  dimension: control_count_players {
-    label: "Control Players"
+  dimension: iteration_number {
     type: number
-    sql: ${TABLE}.control_count_players;;
-    }
-
-  dimension: variant_a_count_players {
-    label: "Variant A Players"
-    type: number
-    sql: ${TABLE}.variant_a_count_players;;
-    }
-
-  dimension: control_retention_d2 {
-    label: "Control Retention Numerator"
-    type: number
-    sql: ${TABLE}.control_retention_d2;;
-    }
-
-  dimension: variant_a_retention_d2 {
-    label: "Variant A Retention Numerator"
-    type: number
-    sql: ${TABLE}.variant_a_retention_d2;; }
+  }
 
 ################################################################
 ## Measures
 ################################################################
 
-measure: control_installs {
-  label: "Control Installs"
-  type: number
-  value_format_name: decimal_0
-  sql: sum(${TABLE}.control_count_players) ;;
-}
-
-  measure: variant_a_installs {
-    label: "Variant A Installs"
+  measure: group_a_players {
+    label: "Group A Players"
     type: number
     value_format_name: decimal_0
-    sql: sum(${TABLE}.variant_a_count_players) ;;
+    sql: max(${TABLE}.group_a_players) ;;
   }
 
- measure: control_retention {
-  label: "Control Retention"
-  type: number
-  value_format_name: percent_1
-  sql:
-    safe_divide(
-      sum( ${TABLE}.control_retention_d2)
-      ,
-      sum( ${TABLE}.control_count_players)
-      )
-        ;;
- }
-
-  measure: variant_a_retention {
-    label: "Variant A Retention"
+  measure: group_b_players {
+    label: "Group B Players"
     type: number
-    value_format_name: percent_1
-    sql:
-    safe_divide(
-      sum( ${TABLE}.variant_a_retention_d2)
-      ,
-      sum( ${TABLE}.variant_a_count_players)
-      )
-        ;;
+    value_format_name: decimal_0
+    sql: max(${TABLE}.group_b_players) ;;
   }
+
+  measure: group_a_metric {
+    label: "Group A Metric"
+    type: number
+    value_format_name: decimal_2
+    sql: max(${TABLE}.group_a) ;;
+  }
+
+  measure: group_b_metric {
+    label: "Group B Metric"
+    type: number
+    value_format_name: decimal_2
+    sql: max(${TABLE}.group_b) ;;
+  }
+
+  measure: my_difference {
+    label: "Difference"
+    type: number
+    value_format_name: decimal_2
+    sql: max(${TABLE}.my_difference) ;;
+  }
+
+  measure: my_abs_difference {
+    label: "Absolute Difference"
+    type: number
+    value_format_name: decimal_2
+    sql: max(${TABLE}.my_abs_difference) ;;
+  }
+
+  measure: my_iterations {
+    label: "Total Iterations"
+    type: number
+    value_format_name: decimal_0
+    sql: max(${TABLE}.my_iterations) ;;
+  }
+
+  measure: percent_greater_than {
+    label: "Total Iterations"
+    type: number
+    value_format_name: percent_0
+    sql: max(${TABLE}.percent_greater_than) ;;
+  }
+
 
 
 

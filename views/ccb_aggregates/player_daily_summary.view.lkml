@@ -2385,85 +2385,85 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
 ################################################################
 
   dimension: ad_views_daily_rewards {
-    group_label: "Ad View By Placement"
-    label: "Daily Rewards Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Daily Rewards IAA Views"
     value_format_name: decimal_0
     type: number
   }
 
   dimension: ad_views_moves_master {
-    group_label: "Ad View By Placement"
-    label: "Moves Master Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Moves Master IAA Views"
     value_format_name: decimal_0
     type: number
   }
 
   dimension: ad_views_pizza {
-    group_label: "Ad View By Placement"
-    label: "Pizza Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Pizza IAA Views"
     value_format_name: decimal_0
     type: number
   }
 
   dimension: ad_views_lucky_dice {
-    group_label: "Ad View By Placement"
-    label: "Lucky Dice Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Lucky Dice IAA Views"
     value_format_name: decimal_0
     type: number
   }
 
   dimension: ad_views_ask_for_help {
-    group_label: "Ad View By Placement"
-    label: "Ask For Help Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Ask For Help IAA Views"
     value_format_name: decimal_0
     type: number
   }
 
   dimension: ad_views_battle_pass {
-    group_label: "Ad View By Placement"
-    label: "Battle Pass Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Battle Pass IAA Views"
     value_format_name: decimal_0
     type: number
   }
 
   dimension: ad_views_puzzles {
-    group_label: "Ad View By Placement"
-    label: "Puzzles Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Puzzles IAA Views"
     value_format_name: decimal_0
     type: number
   }
 
   dimension: ad_views_go_fish {
-    group_label: "Ad View By Placement"
-    label: "Go Fish Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Go Fish IAA Views"
     value_format_name: decimal_0
     type: number
   }
 
   dimension: ad_views_rocket {
-    group_label: "Ad View By Placement"
-    label: "Rocket Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Rocket IAA Views"
     value_format_name: decimal_0
     type: number
   }
 
   dimension: ad_views_lives {
-    group_label: "Ad View By Placement"
-    label: "Lives Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Lives IAA Views"
     value_format_name: decimal_0
     type: number
   }
 
   dimension: ad_views_magnifiers {
-    group_label: "Ad View By Placement"
-    label: "Magnifiers Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Magnifiers IAA Views"
     value_format_name: decimal_0
     type: number
   }
 
   dimension: ad_views_treasure_trove {
-    group_label: "Ad View By Placement"
-    label: "Treasure Trove Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Treasure Trove IAA Views"
     value_format_name: decimal_0
     type: number
   }
@@ -2473,218 +2473,243 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
 ################################################################
 
   dimension: ad_dollars_daily_rewards {
-    group_label: "Ad Dollars By Placement"
-    label: "Daily Rewards Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Daily Rewards IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_moves_master {
-    group_label: "Ad Dollars By Placement"
-    label: "Moves Master Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Moves Master IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_pizza {
-    group_label: "Ad Dollars By Placement"
-    label: "Pizza Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Pizza IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_lucky_dice {
-    group_label: "Ad Dollars By Placement"
-    label: "Lucky Dice Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Lucky Dice IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_ask_for_help {
-    group_label: "Ad Dollars By Placement"
-    label: "Ask For Help Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Ask For Help IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_battle_pass {
-    group_label: "Ad Dollars By Placement"
-    label: "Battle Pass Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Battle Pass IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_puzzles {
-    group_label: "Ad Dollars By Placement"
-    label: "Puzzles Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Puzzles IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_go_fish {
-    group_label: "Ad Dollars By Placement"
-    label: "Go Fish Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Go Fish IAA Dollars"
     value_format_name: decimal_0
   }
 
   dimension: ad_dollars_rocket {
-    group_label: "Ad Dollars By Placement"
-    label: "Rocket Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Rocket IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_lives {
-    group_label: "Ad Dollars By Placement"
-    label: "Lives Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Lives IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_magnifiers {
-    group_label: "Ad Dollars By Placement"
-    label: "Magnifiers Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Magnifiers IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_treasure_trove {
-    group_label: "Ad Dollars By Placement"
-    label: "Treasure Trove Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Treasure Trove IAA Dollars"
     value_format_name: decimal_4
   }
 
 ################################################################
 ## Other Sums / Percentiles
 ################################################################
+
   measure: sum_mtx_purchase_dollars {
-    group_label: "MTX Purchase Dollars"
+    label: "Sum IAP Dollars"
+    group_label: "IAP Dollars"
     type:sum
     value_format: "$#,###"
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: mtx_purchase_dollars_10 {
-    group_label: "MTX Purchase Dollars"
+    label: "10th Percentile"
+    group_label: "IAP Dollars"
     type: percentile
     percentile: 10
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: mtx_purchase_dollars_25 {
-    group_label: "MTX Purchase Dollars"
+    label: "25th Percentile"
+    group_label: "IAP Dollars"
     type: percentile
     percentile: 25
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: mtx_purchase_dollars_50 {
-    group_label: "MTX Purchase Dollars"
+    label: "Median"
+    group_label: "IAP Dollars"
     type: percentile
     percentile: 50
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: mtx_purchase_dollars_75 {
-    group_label: "MTX Purchase Dollars"
+    label: "75th Percentile"
+    group_label: "IAP Dollars"
     type: percentile
     percentile: 75
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: mtx_purchase_dollars_95 {
-    group_label: "MTX Purchase Dollars"
+    label: "95th Percentile"
+    group_label: "IAP Dollars"
     type: percentile
     percentile: 95
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: sum_ad_view_dollars {
-    group_label: "Ad View Dollars"
+    label: "Sum IAA Dollars"
+    group_label: "IAA Dollars"
     type:sum
     value_format: "$#,###"
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_10 {
-    group_label: "Ad View Dollars"
+    label: "10th Percentile"
+    group_label: "IAA Dollars"
     type: percentile
     percentile: 10
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_25 {
-    group_label: "Ad View Dollars"
+    label: "25th Percentile"
+    group_label: "IAA Dollars"
     type: percentile
     percentile: 25
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_50 {
-    group_label: "Ad View Dollars"
+    label: "Median"
+    group_label: "IAA Dollars"
     type: percentile
     percentile: 50
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_75 {
-    group_label: "Ad View Dollars"
+    label: "75th Percentile"
+    group_label: "IAA Dollars"
     type: percentile
     percentile: 75
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_95 {
-    group_label: "Ad View Dollars"
+    label: "95th Percentile"
+    group_label: "IAA Dollars"
     type: percentile
     percentile: 95
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: sum_mtx_ltv_from_data {
-    group_label: "MTX LTV From Data"
+    label: "Sum IAP LTV"
+    group_label: "IAP LTV (From Data)"
     type:sum
     sql: ${TABLE}.mtx_ltv_from_data ;;
   }
   measure: mtx_ltv_from_data_10 {
-    group_label: "MTX LTV From Data"
+    label: "10th Percentile"
+    group_label: "IAP LTV (From Data)"
     type: percentile
     percentile: 10
     sql: ${TABLE}.mtx_ltv_from_data ;;
   }
   measure: mtx_ltv_from_data_25 {
-    group_label: "MTX LTV From Data"
+    label: "25th Percentile"
+    group_label: "IAP LTV (From Data)"
     type: percentile
     percentile: 25
     sql: ${TABLE}.mtx_ltv_from_data ;;
   }
   measure: mtx_ltv_from_data_50 {
-    group_label: "MTX LTV From Data"
+    label: "Median"
+    group_label: "IAP LTV (From Data)"
     type: percentile
     percentile: 50
     sql: ${TABLE}.mtx_ltv_from_data ;;
   }
   measure: mtx_ltv_from_data_75 {
-    group_label: "MTX LTV From Data"
+    label: "75th Percentile"
+    group_label: "IAP LTV (From Data)"
     type: percentile
     percentile: 75
     sql: ${TABLE}.mtx_ltv_from_data ;;
   }
   measure: mtx_ltv_from_data_95 {
-    group_label: "MTX LTV From Data"
+    label: "95th Percentile"
+    group_label: "IAP LTV (From Data)"
     type: percentile
     percentile: 95
     sql: ${TABLE}.mtx_ltv_from_data ;;
   }
   measure: sum_ad_views {
-    group_label: "Ad Views"
+    label: "Sum IAA Views"
+    group_label: "IAA Views"
     type:sum
     sql: ${TABLE}.ad_views ;;
   }
   measure: ad_views_10 {
-    group_label: "Ad Views"
+    label: "10th Percentile"
+    group_label: "IAA Views"
     type: percentile
     percentile: 10
     sql: ${TABLE}.ad_views ;;
   }
   measure: ad_views_25 {
-    group_label: "Ad Views"
+    label: "25th Percentile"
+    group_label: "IAA Views"
     type: percentile
     percentile: 25
     sql: ${TABLE}.ad_views ;;
   }
   measure: ad_views_50 {
-    group_label: "Ad Views"
+    label: "Median"
+    group_label: "IAA Views"
     type: percentile
     percentile: 50
     sql: ${TABLE}.ad_views ;;
   }
   measure: ad_views_75 {
-    group_label: "Ad Views"
+    label: "75th Percentile"
+    group_label: "IAA Views"
     type: percentile
     percentile: 75
     sql: ${TABLE}.ad_views ;;
   }
   measure: ad_views_95 {
-    group_label: "Ad Views"
+    label: "95th Percentile"
+    group_label: "IAA Views"
     type: percentile
     percentile: 95
     sql: ${TABLE}.ad_views ;;
@@ -3068,41 +3093,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     percentile: 95
     sql: ${TABLE}.highest_quests_completed ;;
   }
-  measure: sum_gems_spend {
-    group_label: "Gems Spend"
-    type:sum
-    sql: ${TABLE}.gems_spend ;;
-  }
-  measure: gems_spend_10 {
-    group_label: "Gems Spend"
-    type: percentile
-    percentile: 10
-    sql: ${TABLE}.gems_spend ;;
-  }
-  measure: gems_spend_25 {
-    group_label: "Gems Spend"
-    type: percentile
-    percentile: 25
-    sql: ${TABLE}.gems_spend ;;
-  }
-  measure: gems_spend_50 {
-    group_label: "Gems Spend"
-    type: percentile
-    percentile: 50
-    sql: ${TABLE}.gems_spend ;;
-  }
-  measure: gems_spend_75 {
-    group_label: "Gems Spend"
-    type: percentile
-    percentile: 75
-    sql: ${TABLE}.gems_spend ;;
-  }
-  measure: gems_spend_95 {
-    group_label: "Gems Spend"
-    type: percentile
-    percentile: 95
-    sql: ${TABLE}.gems_spend ;;
-  }
+
   measure: sum_coins_spend {
     group_label: "Coins Spend"
     type:sum
@@ -3173,41 +3164,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     percentile: 95
     sql: ${TABLE}.stars_spend ;;
   }
-  measure: sum_ending_gems_balance {
-    group_label: "Ending Gems Balance"
-    type:sum
-    sql: ${TABLE}.ending_gems_balance ;;
-  }
-  measure: ending_gems_balance_10 {
-    group_label: "Ending Gems Balance"
-    type: percentile
-    percentile: 10
-    sql: ${TABLE}.ending_gems_balance ;;
-  }
-  measure: ending_gems_balance_25 {
-    group_label: "Ending Gems Balance"
-    type: percentile
-    percentile: 25
-    sql: ${TABLE}.ending_gems_balance ;;
-  }
-  measure: ending_gems_balance_50 {
-    group_label: "Ending Gems Balance"
-    type: percentile
-    percentile: 50
-    sql: ${TABLE}.ending_gems_balance ;;
-  }
-  measure: ending_gems_balance_75 {
-    group_label: "Ending Gems Balance"
-    type: percentile
-    percentile: 75
-    sql: ${TABLE}.ending_gems_balance ;;
-  }
-  measure: ending_gems_balance_95 {
-    group_label: "Ending Gems Balance"
-    type: percentile
-    percentile: 95
-    sql: ${TABLE}.ending_gems_balance ;;
-  }
+
   measure: sum_ending_coins_balance {
     group_label: "Ending Coins Balance"
     type:sum
@@ -3454,71 +3411,83 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     sql: ${TABLE}.churn_indicator ;;
   }
   measure: sum_cumulative_mtx_purchase_dollars {
-    group_label: "Cumulative MTX Purchase Dollars"
+    label: "Sum Cumulative IAP Dollars"
+    group_label: "Cumulative IAP Dollars"
     type:sum
     sql: ${TABLE}.cumulative_mtx_purchase_dollars ;;
   }
   measure: cumulative_mtx_purchase_dollars_10 {
-    group_label: "Cumulative MTX Purchase Dollars"
+    label: "10th Percentile"
+    group_label: "Cumulative IAP Dollars"
     type: percentile
     percentile: 10
     sql: ${TABLE}.cumulative_mtx_purchase_dollars ;;
   }
   measure: cumulative_mtx_purchase_dollars_25 {
-    group_label: "Cumulative MTX Purchase Dollars"
+    label: "25th Percentile"
+    group_label: "Cumulative IAP Dollars"
     type: percentile
     percentile: 25
     sql: ${TABLE}.cumulative_mtx_purchase_dollars ;;
   }
   measure: cumulative_mtx_purchase_dollars_50 {
-    group_label: "Cumulative MTX Purchase Dollars"
+    label: "Median"
+    group_label: "Cumulative IAP Dollars"
     type: percentile
     percentile: 50
     sql: ${TABLE}.cumulative_mtx_purchase_dollars ;;
   }
   measure: cumulative_mtx_purchase_dollars_75 {
-    group_label: "Cumulative MTX Purchase Dollars"
+    label: "75th Percentile"
+    group_label: "Cumulative IAP Dollars"
     type: percentile
     percentile: 75
     sql: ${TABLE}.cumulative_mtx_purchase_dollars ;;
   }
   measure: cumulative_mtx_purchase_dollars_95 {
-    group_label: "Cumulative MTX Purchase Dollars"
+    label: "95th Percentile"
+    group_label: "Cumulative IAP Dollars"
     type: percentile
     percentile: 95
     sql: ${TABLE}.cumulative_mtx_purchase_dollars ;;
   }
   measure: sum_cumulative_ad_view_dollars {
-    group_label: "Cumulative Ad View Dollars"
+    label: "Sum Cumulative IAA Dollars"
+    group_label: "Cumulative IAA Dollars"
     type:sum
     sql: ${TABLE}.cumulative_ad_view_dollars ;;
   }
   measure: cumulative_ad_view_dollars_10 {
-    group_label: "Cumulative Ad View Dollars"
+    label: "10th Percentile"
+    group_label: "Cumulative IAA Dollars"
     type: percentile
     percentile: 10
     sql: ${TABLE}.cumulative_ad_view_dollars ;;
   }
   measure: cumulative_ad_view_dollars_25 {
-    group_label: "Cumulative Ad View Dollars"
+    label: "25th Percentile"
+    group_label: "Cumulative IAA Dollars"
     type: percentile
     percentile: 25
     sql: ${TABLE}.cumulative_ad_view_dollars ;;
   }
   measure: cumulative_ad_view_dollars_50 {
-    group_label: "Cumulative Ad View Dollars"
+    label: "Median"
+    group_label: "Cumulative IAA Dollars"
     type: percentile
     percentile: 50
     sql: ${TABLE}.cumulative_ad_view_dollars ;;
   }
   measure: cumulative_ad_view_dollars_75 {
-    group_label: "Cumulative Ad View Dollars"
+    label: "75th Percentile"
+    group_label: "Cumulative IAA Dollars"
     type: percentile
     percentile: 75
     sql: ${TABLE}.cumulative_ad_view_dollars ;;
   }
   measure: cumulative_ad_view_dollars_95 {
-    group_label: "Cumulative Ad View Dollars"
+    label: "95th Percentile"
+    group_label: "Cumulative IAA Dollars"
     type: percentile
     percentile: 95
     sql: ${TABLE}.cumulative_ad_view_dollars ;;
@@ -3594,177 +3563,62 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     percentile: 95
     sql: ${TABLE}.cumulative_combined_dollars ;;
   }
+
   measure: sum_daily_mtx_spend_indicator {
-    group_label: "Daily MTX Spend Indicator"
-    type:sum
+    label: "Sum Daily IAP Spend Indicator"
+    type: sum
     sql: ${TABLE}.daily_mtx_spend_indicator ;;
   }
-  measure: daily_mtx_spend_indicator_10 {
-    group_label: "Daily MTX Spend Indicator"
-    type: percentile
-    percentile: 10
-    sql: ${TABLE}.daily_mtx_spend_indicator ;;
-  }
-  measure: daily_mtx_spend_indicator_25 {
-    group_label: "Daily MTX Spend Indicator"
-    type: percentile
-    percentile: 25
-    sql: ${TABLE}.daily_mtx_spend_indicator ;;
-  }
-  measure: daily_mtx_spend_indicator_50 {
-    group_label: "Daily MTX Spend Indicator"
-    type: percentile
-    percentile: 50
-    sql: ${TABLE}.daily_mtx_spend_indicator ;;
-  }
-  measure: daily_mtx_spend_indicator_75 {
-    group_label: "Daily MTX Spend Indicator"
-    type: percentile
-    percentile: 75
-    sql: ${TABLE}.daily_mtx_spend_indicator ;;
-  }
-  measure: daily_mtx_spend_indicator_95 {
-    group_label: "Daily MTX Spend Indicator"
-    type: percentile
-    percentile: 95
-    sql: ${TABLE}.daily_mtx_spend_indicator ;;
-  }
-  measure: sum_daily_mtx_spender_rdg_id {
-    group_label: "Daily MTX Spender Rdg Id"
-    type:sum
-    sql: ${TABLE}.daily_mtx_spender_rdg_id ;;
-  }
-  measure: daily_mtx_spender_rdg_id_10 {
-    group_label: "Daily MTX Spender Rdg Id"
-    type: percentile
-    percentile: 10
-    sql: ${TABLE}.daily_mtx_spender_rdg_id ;;
-  }
-  measure: daily_mtx_spender_rdg_id_25 {
-    group_label: "Daily MTX Spender Rdg Id"
-    type: percentile
-    percentile: 25
-    sql: ${TABLE}.daily_mtx_spender_rdg_id ;;
-  }
-  measure: daily_mtx_spender_rdg_id_50 {
-    group_label: "Daily MTX Spender Rdg Id"
-    type: percentile
-    percentile: 50
-    sql: ${TABLE}.daily_mtx_spender_rdg_id ;;
-  }
-  measure: daily_mtx_spender_rdg_id_75 {
-    group_label: "Daily MTX Spender Rdg Id"
-    type: percentile
-    percentile: 75
-    sql: ${TABLE}.daily_mtx_spender_rdg_id ;;
-  }
-  measure: daily_mtx_spender_rdg_id_95 {
-    group_label: "Daily MTX Spender Rdg Id"
-    type: percentile
-    percentile: 95
-    sql: ${TABLE}.daily_mtx_spender_rdg_id ;;
-  }
+
   measure: sum_first_mtx_spend_indicator {
-    group_label: "First MTX Spend Indicator"
+    label: "Sum First IAP Spend Indicator"
     type:sum
     sql: ${TABLE}.first_mtx_spend_indicator ;;
   }
-  measure: first_mtx_spend_indicator_10 {
-    group_label: "First MTX Spend Indicator"
-    type: percentile
-    percentile: 10
-    sql: ${TABLE}.first_mtx_spend_indicator ;;
-  }
-  measure: first_mtx_spend_indicator_25 {
-    group_label: "First MTX Spend Indicator"
-    type: percentile
-    percentile: 25
-    sql: ${TABLE}.first_mtx_spend_indicator ;;
-  }
-  measure: first_mtx_spend_indicator_50 {
-    group_label: "First MTX Spend Indicator"
-    type: percentile
-    percentile: 50
-    sql: ${TABLE}.first_mtx_spend_indicator ;;
-  }
-  measure: first_mtx_spend_indicator_75 {
-    group_label: "First MTX Spend Indicator"
-    type: percentile
-    percentile: 75
-    sql: ${TABLE}.first_mtx_spend_indicator ;;
-  }
-  measure: first_mtx_spend_indicator_95 {
-    group_label: "First MTX Spend Indicator"
-    type: percentile
-    percentile: 95
-    sql: ${TABLE}.first_mtx_spend_indicator ;;
-  }
+
   measure: sum_lifetime_mtx_spend_indicator {
-    group_label: "Lifetime MTX Spend Indicator"
+    label: "Sum Lifetime IAP Spend Indicator"
     type:sum
     sql: ${TABLE}.lifetime_mtx_spend_indicator ;;
   }
-  measure: lifetime_mtx_spend_indicator_10 {
-    group_label: "Lifetime MTX Spend Indicator"
-    type: percentile
-    percentile: 10
-    sql: ${TABLE}.lifetime_mtx_spend_indicator ;;
-  }
-  measure: lifetime_mtx_spend_indicator_25 {
-    group_label: "Lifetime MTX Spend Indicator"
-    type: percentile
-    percentile: 25
-    sql: ${TABLE}.lifetime_mtx_spend_indicator ;;
-  }
-  measure: lifetime_mtx_spend_indicator_50 {
-    group_label: "Lifetime MTX Spend Indicator"
-    type: percentile
-    percentile: 50
-    sql: ${TABLE}.lifetime_mtx_spend_indicator ;;
-  }
-  measure: lifetime_mtx_spend_indicator_75 {
-    group_label: "Lifetime MTX Spend Indicator"
-    type: percentile
-    percentile: 75
-    sql: ${TABLE}.lifetime_mtx_spend_indicator ;;
-  }
-  measure: lifetime_mtx_spend_indicator_95 {
-    group_label: "Lifetime MTX Spend Indicator"
-    type: percentile
-    percentile: 95
-    sql: ${TABLE}.lifetime_mtx_spend_indicator ;;
-  }
+
   measure: sum_cumulative_ad_views {
-    group_label: "Cumulative Ad Views"
+    label: "Sum Cumulative IAA Views"
+    group_label: "Cumulative IAA Views"
     type:sum
     sql: ${TABLE}.cumulative_ad_views ;;
   }
   measure: cumulative_ad_views_10 {
-    group_label: "Cumulative Ad Views"
+    label: "10th Percentile"
+    group_label: "Cumulative IAA Views"
     type: percentile
     percentile: 10
     sql: ${TABLE}.cumulative_ad_views ;;
   }
   measure: cumulative_ad_views_25 {
-    group_label: "Cumulative Ad Views"
+    label: "25th Percentile"
+    group_label: "Cumulative IAA Views"
     type: percentile
     percentile: 25
     sql: ${TABLE}.cumulative_ad_views ;;
   }
   measure: cumulative_ad_views_50 {
-    group_label: "Cumulative Ad Views"
+    label: "Median"
+    group_label: "Cumulative IAA Views"
     type: percentile
     percentile: 50
     sql: ${TABLE}.cumulative_ad_views ;;
   }
   measure: cumulative_ad_views_75 {
-    group_label: "Cumulative Ad Views"
+    label: "75th Percentile"
+    group_label: "Cumulative IAA Views"
     type: percentile
     percentile: 75
     sql: ${TABLE}.cumulative_ad_views ;;
   }
   measure: cumulative_ad_views_95 {
-    group_label: "Cumulative Ad Views"
+    label: "95th Percentile"
+    group_label: "Cumulative IAA Views"
     type: percentile
     percentile: 95
     sql: ${TABLE}.cumulative_ad_views ;;
@@ -3944,41 +3798,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     percentile: 95
     sql: ${TABLE}.cumulative_round_end_events ;;
   }
-  measure: sum_quests_completed {
-    group_label: "Quests Completed"
-    type:sum
-    sql: ${TABLE}.quests_completed ;;
-  }
-  measure: quests_completed_10 {
-    group_label: "Quests Completed"
-    type: percentile
-    percentile: 10
-    sql: ${TABLE}.quests_completed ;;
-  }
-  measure: quests_completed_25 {
-    group_label: "Quests Completed"
-    type: percentile
-    percentile: 25
-    sql: ${TABLE}.quests_completed ;;
-  }
-  measure: quests_completed_50 {
-    group_label: "Quests Completed"
-    type: percentile
-    percentile: 50
-    sql: ${TABLE}.quests_completed ;;
-  }
-  measure: quests_completed_75 {
-    group_label: "Quests Completed"
-    type: percentile
-    percentile: 75
-    sql: ${TABLE}.quests_completed ;;
-  }
-  measure: quests_completed_95 {
-    group_label: "Quests Completed"
-    type: percentile
-    percentile: 95
-    sql: ${TABLE}.quests_completed ;;
-  }
+
   measure: sum_count_days_played {
     group_label: "Count Days Played"
     type:sum
@@ -4084,41 +3904,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     percentile: 95
     sql: ${TABLE}.levels_progressed ;;
   }
-  measure: sum_cumulative_gems_spend {
-    group_label: "Cumulative Gems Spend"
-    type:sum
-    sql: ${TABLE}.cumulative_gems_spend ;;
-  }
-  measure: cumulative_gems_spend_10 {
-    group_label: "Cumulative Gems Spend"
-    type: percentile
-    percentile: 10
-    sql: ${TABLE}.cumulative_gems_spend ;;
-  }
-  measure: cumulative_gems_spend_25 {
-    group_label: "Cumulative Gems Spend"
-    type: percentile
-    percentile: 25
-    sql: ${TABLE}.cumulative_gems_spend ;;
-  }
-  measure: cumulative_gems_spend_50 {
-    group_label: "Cumulative Gems Spend"
-    type: percentile
-    percentile: 50
-    sql: ${TABLE}.cumulative_gems_spend ;;
-  }
-  measure: cumulative_gems_spend_75 {
-    group_label: "Cumulative Gems Spend"
-    type: percentile
-    percentile: 75
-    sql: ${TABLE}.cumulative_gems_spend ;;
-  }
-  measure: cumulative_gems_spend_95 {
-    group_label: "Cumulative Gems Spend"
-    type: percentile
-    percentile: 95
-    sql: ${TABLE}.cumulative_gems_spend ;;
-  }
+
   measure: sum_cumulative_coins_spend {
     group_label: "Cumulative Coins Spend"
     type:sum

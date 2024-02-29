@@ -21,6 +21,7 @@ view: ab_test_current_population_w_daily_summary {
         , sum(1) as count_days_played
         , sum(time_played_minutes) as time_played_minutes
         , sum(round_end_events_gofish) as go_fish_rounds
+        , sum(ad_views_go_fish) as ad_views_go_fish
       from
         ${player_daily_summary.SQL_TABLE_NAME}
       where
@@ -123,6 +124,7 @@ view: ab_test_current_population_w_daily_summary {
         , case
             when 'Average Minutes Played Per Day' = {% parameter selected_metric %} then safe_divide( sum( time_played_minutes ) , sum( count_days_played ) )
             when 'Average Go Fish Rounds Played Per Day' = {% parameter selected_metric %} then safe_divide( sum( go_fish_rounds ) , sum( count_days_played ) )
+            when 'Average Go Fish Ad Views Per Day' = {% parameter selected_metric %} then safe_divide( sum( ad_views_go_fish ) , sum( count_days_played ) )
             else null end
           as average_metric
       from
@@ -639,6 +641,7 @@ view: ab_test_current_population_w_daily_summary {
 
       , "Average Minutes Played Per Day"
       , "Average Go Fish Rounds Played Per Day"
+      , "Average Go Fish Ad Views Per Day"
 
     ]
   }

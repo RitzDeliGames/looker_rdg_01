@@ -626,13 +626,19 @@ select * from summarize_percent_greater_than
   }
 
   measure: percent_greater_than {
-    label: "Total Iterations"
+    label: "Percent Greater Than"
     type: number
     value_format_name: percent_0
     sql: max(${TABLE}.percent_greater_than) ;;
   }
 
+  measure: significance_95 {
+    label: "Significance"
+    type: string
+    sql: max(${TABLE}.significance_95) ;;
+  }
 
+# significance_95
 
 
 }

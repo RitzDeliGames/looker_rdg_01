@@ -790,6 +790,92 @@ constant: singular_campaign_id_override {
   "
 }
 
+constant: singular_campaign_id_override_without_table {
+  value: "
+  case
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country = 'US'
+  and date(created_date) between '2024-01-03' and '2024-01-24'
+  then '6500848734722'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country = 'US'
+  and date(created_date) between '2023-11-10' and '2023-11-14'
+  then '6451988225922'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country = 'US'
+  and date(created_date) between '2023-10-30' and '2023-11-04'
+  then '6448215765722'
+
+  when
+  singular_partner_name is null
+  and country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
+  and platform like '%iOS%'
+  and date(created_date) between '2023-10-19' and '2023-10-24'
+  then '6442174773322'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country = 'US'
+  and date(created_date) between '2023-01-30' and '2023-02-14'
+  then '6289277953122'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
+  and date(created_date) between '2023-04-11' and '2023-04-13'
+  then '6250035906122'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
+  and date(created_date) between '2023-04-14' and '2023-04-23'
+  then '6299378813122'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country in ('US','CA')
+  and date(created_date) between '2023-04-28' and '2023-05-04'
+  then '6301194225922'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country in ('US','CA')
+  and date(created_date) between '2023-05-24' and '2023-06-05'
+  then '6302530846522'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country in ('US','CA')
+  and date(created_date) between '2023-07-11' and '2023-07-12'
+  then '6342654069322'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country in ('US','CA')
+  and date(created_date) between '2023-07-21' and '2023-07-25'
+  then '6353426252722'
+
+  else singular_campaign_id
+  end
+  "
+}
+
 constant: singular_campaign_blended_window_override {
   value: "
   case

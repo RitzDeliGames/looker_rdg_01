@@ -819,6 +819,11 @@ from
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      , "$.hudOffers_20240228"
+      , "$.movesMasterTune_20240227"
+      , "$.dynamicEggs_20240223"
+      , "$.altLevelOrder_20240220"
+
       , "$.ExtraMoves1k_20240130"
       , "$.loAdMax_20240131"
       , "$.extendedQPO_20240131"
@@ -1942,72 +1947,26 @@ from
       );;
   }
 
-
-
-#   measure: count_losses_or_moves_added_10 {
-#     group_label: "Count Rounds To Reach Loss Screen"
-#     label: "10th Percentile"
-#     type: percentile
-#     percentile: 10
-#     sql: case
-#         when ${TABLE}.count_losses = 1 or ${TABLE}.count_rounds_with_moves_added = 1
-#         then 1
-#         else 0
-#         end;;
-#     value_format_name: decimal_0
-#   }
-
-#   measure: count_losses_or_moves_added_25 {
-#     group_label: "Count Rounds To Reach Loss Screen"
-#     label: "25th Percentile"
-#     type: percentile
-#     percentile: 25
-#     sql: case
-#         when ${TABLE}.count_losses = 1 or ${TABLE}.count_rounds_with_moves_added = 1
-#         then 1
-#         else 0
-#         end;;
-#     value_format_name: decimal_0
-#   }
-
-#   measure: count_losses_or_moves_added_50 {
-#     group_label: "Count Rounds To Reach Loss Screen"
-#     label: "Median"
-#     type: percentile
-#     percentile: 50
-#     sql: case
-#         when ${TABLE}.count_losses = 1 or ${TABLE}.count_rounds_with_moves_added = 1
-#         then 1
-#         else 0
-#         end;;
-#     value_format_name: decimal_0
-#   }
-
-#   measure: count_losses_or_moves_added_75 {
-#     group_label: "Count Rounds To Reach Loss Screen"
-#     label: "75th Percentile"
-#     type: percentile
-#     percentile: 75
-#     sql: case
-#         when ${TABLE}.count_losses = 1 or ${TABLE}.count_rounds_with_moves_added = 1
-#         then 1
-#         else 0
-#         end;;
-#     value_format_name: decimal_0
-#   }
-
-#   measure: count_losses_or_moves_added_95 {
-#     group_label: "Count Rounds To Reach Loss Screen"
-#     label: "95th Percentile"
-#     type: percentile
-#     percentile: 95
-#     sql: case
-#         when ${TABLE}.count_losses = 1 or ${TABLE}.count_rounds_with_moves_added = 1
-#         then 1
-#         else 0
-#         end;;
-#     value_format_name: decimal_0
-#   }
+ measure: estimate_moves_collected_in_moves_master {
+  label: "Estimate Moves Master Moves Collected"
+  type: number
+  value_format_name: decimal_0
+  sql:
+    sum(
+      case
+        when ${TABLE}.game_mode = 'movesMaster'
+        and ${TABLE}.count_wins = 1
+        then ${TABLE}.moves_remaining *
+          case
+            when ${TABLE}.in_round_count_ad_views > 0
+            then 2
+            else 1
+            end
+        else 0
+        end
+      )
+  ;;
+ }
 
 
 }

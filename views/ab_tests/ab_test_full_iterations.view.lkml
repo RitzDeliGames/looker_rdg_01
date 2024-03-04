@@ -719,6 +719,11 @@ select * from output_with_rounding
     default_value: "$.dynamicDropBiasv3_20230627"
     suggestions:  [
 
+      , "$.hudOffers_20240228"
+      , "$.movesMasterTune_20240227"
+      , "$.dynamicEggs_20240223"
+      , "$.altLevelOrder_20240220"
+
       , "$.swapTeamp2_20240209"
       , "$.goFishAds_20240208"
       , "$.dailyPopups_20240207"

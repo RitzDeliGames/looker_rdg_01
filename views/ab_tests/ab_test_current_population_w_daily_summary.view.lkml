@@ -19,7 +19,7 @@ view: ab_test_current_population_w_daily_summary {
         rdg_id
         , max(json_extract_scalar(experiments,{% parameter selected_experiment %})) as variant
         , sum(1) as count_days_played
-        , sum(time_played_minutes) as time_played_minutes
+        , sum(round_time_in_minutes) as time_played_minutes
         , sum(round_end_events_gofish) as go_fish_rounds
         , sum(ad_views_go_fish) as ad_views_go_fish
       from

@@ -6,7 +6,7 @@ view: player_daily_incremental {
       -- ccb_aggregate_update_tag
       -- update '2024-02-06'
 
--- create or replace table tal_scratch.player_daily_incremental as
+      -- create or replace table tal_scratch.player_daily_incremental_test as
 
       with
 
@@ -79,7 +79,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-02-06' -- Last Full Update
+                when date(current_date()) <= '2024-03-05' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -188,7 +188,7 @@ view: player_daily_incremental {
           -- Unique Fields
           -------------------------------------------------
 
-          TIMESTAMP(DATE(timestamp_utc)) AS rdg_date
+          timestamp(date(timestamp_utc)) AS rdg_date
           , rdg_id
 
           -------------------------------------------------
@@ -196,329 +196,218 @@ view: player_daily_incremental {
           -------------------------------------------------
 
           , event_name
-
-          -- device_id
-          , FIRST_VALUE(device_id) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) device_id
-
-          -- advertising_id
-          , FIRST_VALUE(advertising_id) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) advertising_id
-
-          -- user_id
-          , FIRST_VALUE(user_id) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) user_id
-
-          -- platform
-          , FIRST_VALUE(platform) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) platform
-
-          -- country
-          , FIRST_VALUE(country) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) country
-
-          -- created_utc
-          , FIRST_VALUE(created_at) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) created_utc
-
-          -- created_date
-          , FIRST_VALUE(DATE(created_at)) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) created_date
-
-          -- experiements
-          -- uses LAST value rather than first value
-          , LAST_VALUE(experiments) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) experiments
-
-          -- display_name
-          -- uses LAST value rather than first value
-          , LAST_VALUE(display_name) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) display_name
-
-          -- version
-          -- uses LAST value rather than first value
-          , LAST_VALUE(version) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) version
-
-          -- install_version
-          , LAST_VALUE(install_version) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) install_version
+          , device_id
+          , advertising_id
+          , user_id
+          , platform
+          , country
+          , created_at as created_utc
+          , date(created_at) as created_date
+          , case when experiments = '{}' then null else experiments end as experiments
+          , display_name
+          , version
+          , install_version
 
           -------------------------------------------------
           -- Dollar Events
           -------------------------------------------------
 
           -- mtx purchase dollars
-          , safe_cast(CASE
-              WHEN event_name = 'transaction'
-              AND JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_01' -- real dollars
-              AND (
-                JSON_EXTRACT_SCALAR(extra_json,"$.rvs_id") LIKE '%GPA%' -- check for valid transactions on Google Play
-                OR JSON_EXTRACT_SCALAR(extra_json,"$.rvs_id") LIKE '%AppleAppStore%' -- check for valid transactions on Apple
+          , safe_cast(case
+              when event_name = 'transaction'
+              and json_extract_scalar(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_01' -- real dollars
+              and (
+                json_extract_scalar(extra_json,"$.rvs_id") LIKE '%GPA%' -- check for valid transactions on Google Play
+                OR json_extract_scalar(extra_json,"$.rvs_id") LIKE '%AppleAppStore%' -- check for valid transactions on Apple
                 )
-              THEN IFNULL(safe_cast(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS NUMERIC) * 0.01 * 0.70 ,0) -- purchase amount + app store cut
-              ELSE 0
-              END AS NUMERIC) AS mtx_purchase_dollars
+              then ifnull(safe_cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") AS numeric) * 0.01 * 0.70 ,0) -- purchase amount + app store cut
+              else 0
+              end as numeric) AS mtx_purchase_dollars
 
           -- ad view dollars
-          , safe_cast(CASE
-              WHEN event_name = 'ad'
-              THEN
-                IFNULL(safe_cast(JSON_EXTRACT_SCALAR(extra_json,"$.publisher_revenue_per_impression") AS NUMERIC),0) -- revenue per impression
-                + IFNULL(safe_cast(JSON_EXTRACT_SCALAR(extra_json,"$.revenue") AS NUMERIC),0) -- revenue per impression
-              ELSE 0
-              END AS NUMERIC) AS ad_view_dollars
+          , safe_cast(case
+              when event_name = 'ad'
+              then
+                ifnull(safe_cast(json_extract_scalar(extra_json,"$.publisher_revenue_per_impression") AS numeric),0) -- revenue per impression
+                + ifnull(safe_cast(json_extract_scalar(extra_json,"$.revenue") AS numeric),0) -- revenue per impression
+              else 0
+              end as numeric) AS ad_view_dollars
 
-          -- ltv from data (for checking)
-          , LAST_VALUE(ltv) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) mtx_ltv_from_data_in_cents
+          , ltv as mtx_ltv_from_data_in_cents
 
           -------------------------------------------------
           -- additional ads information
           -------------------------------------------------
 
           -- ad views
-          , safe_cast(CASE
-              WHEN event_name = 'ad'
-              THEN 1 -- revenue per impression
-              ELSE 0
-              END AS INT64) AS ad_view_indicator
+          , safe_cast(case
+              when event_name = 'ad'
+              then 1
+              else 0
+              end as int64) as ad_view_indicator
 
           -------------------------------------------------
           -- session/play info
           -------------------------------------------------
 
-          -- session_id (for count distinct sessions played)
           , session_id
-
-          -- cumulative session count
-          , LAST_VALUE(session_count) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) cumulative_session_count
-
-          -- cumulative engagement ticks
-          , LAST_VALUE(engagement_ticks) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) cumulative_engagement_ticks
+          , session_count
+          , engagement_ticks
 
           -- round start events
-          , safe_cast(CASE
-              WHEN event_name = 'round_start'
-              THEN 1 -- count events
-              ELSE 0
-              END AS INT64) AS round_start_events
-
-        --------------------------------------------------------------
-        -- round end events
-        --------------------------------------------------------------
+          , safe_cast(case
+              when event_name = 'round_start'
+              then 1 -- count events
+              else 0
+              end as int64) as round_start_events
 
           -- round end events
-          , safe_cast(CASE
-              WHEN event_name = 'round_end'
-              THEN 1 -- count events
-              ELSE 0
-              END AS INT64) AS round_end_events
+          , safe_cast(case
+              when event_name = 'round_end'
+              then 1 -- count events
+              else 0
+              end as int64) as round_end_events
 
           -- round end events - campaign
-          , safe_cast(CASE
-              WHEN
+          , safe_cast(case
+              when
                 event_name = 'round_end'
                 and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
                     'CAMPAIGN', 'campaign'
                 )
-              THEN 1 -- count events
-              ELSE 0
-              END AS INT64) AS round_end_events_campaign
+              then 1 -- count events
+              else 0
+              end as int64) as round_end_events_campaign
 
         -- round end events - campaign
-          , safe_cast(CASE
-              WHEN
+          , safe_cast(case
+              when
                 event_name = 'round_end'
                 and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
                     'movesMaster'
                 )
-              THEN 1 -- count events
-              ELSE 0
-              END AS INT64) AS round_end_events_movesmaster
+              then 1 -- count events
+              else 0
+              end as int64) as round_end_events_movesmaster
 
         -- round end events - puzzle
-          , safe_cast(CASE
-              WHEN
+          , safe_cast(case
+              when
                 event_name = 'round_end'
                 and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
                     'puzzle'
                 )
-              THEN 1 -- count events
-              ELSE 0
-              END AS INT64) AS round_end_events_puzzle
+              then 1 -- count events
+              else 0
+              end as int64) as round_end_events_puzzle
 
         -- round end events - ask for help
-          , safe_cast(CASE
-              WHEN
+          , safe_cast(case
+              when
                 event_name = 'round_end'
                 and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
                     'helpRequest'
                 )
-              THEN 1 -- count events
-              ELSE 0
-              END AS INT64) AS round_end_events_askforhelp
+              then 1 -- count events
+              else 0
+              end as int64) as round_end_events_askforhelp
 
         -- round end events - go Fish
           , safe_cast(CASE
-              WHEN
+              when
                 event_name = 'round_end'
                 and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
                     'goFish'
                 )
-              THEN 1 -- count events
-              ELSE 0
-              END AS INT64) AS round_end_events_gofish
+              then 1 -- count events
+              else 0
+              end as int64) as round_end_events_gofish
 
         -- go Fish - Full Matches Completed
           , safe_cast( case
               when
                 event_name = 'GoFish'
-              then 1
+              then 1 -- count events
               else 0
-              end as int64 ) as gofish_full_matches_completed
+              end as int64) as gofish_full_matches_completed
 
         -- go Fish - Full Matches Won
           , safe_cast( case
               when
                 event_name = 'GoFish'
                 and ifnull(safe_cast(json_extract_scalar(extra_json,"$.total_rank_points_earned") as numeric),0) > 0
-              then 1
+              then 1 -- count events
               else 0
-              end as int64 ) as gofish_full_matches_won
+              end as int64) as gofish_full_matches_won
 
         --------------------------------------------------------------
         -- round time events
         --------------------------------------------------------------
 
           -- round end events
-          , safe_cast(CASE
-              WHEN event_name = 'round_end'
-              THEN ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
-              ELSE 0
-              END AS INT64) AS round_time_in_minutes
+          , safe_cast(case
+              when event_name = 'round_end'
+              then ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
+              else 0
+              end as int64) as round_time_in_minutes
 
           -- round end events - campaign
-          , safe_cast(CASE
-              WHEN
+          , safe_cast(case
+              when
                 event_name = 'round_end'
                 and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
                     'CAMPAIGN', 'campaign'
                 )
-              THEN ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
-              ELSE 0
-              END AS INT64) AS round_time_in_minutes_campaign
+              then ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
+              else 0
+              end as int64) as round_time_in_minutes_campaign
 
         -- round end events - campaign
-          , safe_cast(CASE
-              WHEN
+          , safe_cast(case
+              when
                 event_name = 'round_end'
                 and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
                     'movesMaster'
                 )
-              THEN ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
-              ELSE 0
-              END AS INT64) AS round_time_in_minutes_movesmaster
+              then ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
+              else 0
+              end as int64) as round_time_in_minutes_movesmaster
 
         -- round end events - puzzle
-          , safe_cast(CASE
-              WHEN
+          , safe_cast(case
+              when
                 event_name = 'round_end'
                 and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
                     'puzzle'
                 )
-              THEN ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
-              ELSE 0
-              END AS INT64) AS round_time_in_minutes_puzzle
+              then ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
+              else 0
+              end as int64) as round_time_in_minutes_puzzle
 
         -- round end events - askforhelp
-          , safe_cast(CASE
-              WHEN
+          , safe_cast(case
+              when
                 event_name = 'round_end'
                 and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
                     'helpRequest'
                 )
-              THEN ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
-              ELSE 0
-              END AS INT64) AS round_time_in_minutes_askforhelp
+              then ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
+              else 0
+              end as int64) as round_time_in_minutes_askforhelp
 
         -- round end events - gofish
-          , safe_cast(CASE
-              WHEN
+          , safe_cast(case
+              when
                 event_name = 'round_end'
                 and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
                     'goFish'
                 )
-              THEN ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
-              ELSE 0
-              END AS INT64) AS round_time_in_minutes_gofish
+              then ifnull( safe_cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 )
+              else 0
+              end as int64) as round_time_in_minutes_gofish
 
 
-          -- Lowest Last level serial recorded
-          , MIN(IFNULL(safe_cast(last_level_serial AS INT64),0)) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              )
-              AS lowest_last_level_serial
-
-          -- Highest Last level serial recorded
-          , MAX(IFNULL(safe_cast(last_level_serial AS INT64),0)) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) AS highest_last_level_serial
-
-          -- Highest quests completed recorded
-          , MAX(safe_cast(quests_completed AS INT64)) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) AS highest_quests_completed
+          , last_level_serial
 
          -- gofish_rank
           , case
@@ -534,21 +423,13 @@ view: player_daily_incremental {
           -- currency spend info
           -------------------------------------------------
 
-          -- gems_spend
-          , safe_cast(CASE
-              WHEN event_name = 'transaction'
-              AND JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_02' -- gems
-              THEN IFNULL(safe_cast(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS INT64),0) -- purchase amount
-              ELSE 0
-              END AS INT64) AS gems_spend
-
           -- coins spend
-          , safe_cast(CASE
-              WHEN event_name = 'transaction'
-              AND JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_03' -- coins currency
-              THEN IFNULL(safe_cast(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS INT64),0) -- purchase amount
-              ELSE 0
-              END AS INT64) AS coins_spend
+          , safe_cast(case
+              when event_name = 'transaction'
+              and json_extract_scalar(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_03' -- coins currency
+              then ifnull(safe_cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") as int64),0) -- purchase amount
+              else 0
+              end as int64 ) as coins_spend
 
           -- coins from rewards
           , safe_cast( case
@@ -559,44 +440,20 @@ view: player_daily_incremental {
             end as int64 ) as coins_sourced_from_rewards
 
           -- star spend
-          , safe_cast(CASE
-              WHEN event_name = 'transaction'
-              AND JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_07' -- star currency
-              THEN IFNULL(safe_cast(JSON_EXTRACT_SCALAR(extra_json,"$.transaction_purchase_amount") AS INT64),0) -- purchase amount
-              ELSE 0
-              END AS INT64) AS stars_spend
+          , safe_cast(case
+              when event_name = 'transaction'
+              and json_extract_scalar(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_07' -- star currency
+              then ifnull(safe_cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") as int64),0) -- purchase amount
+              else 0
+              end as int64) as stars_spend
 
           -------------------------------------------------
           -- ending currency balances
           -------------------------------------------------
 
-          -- ending_gems_balance
-          , LAST_VALUE(IFNULL(safe_cast(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_02") AS NUMERIC),0)) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) AS ending_gems_balance
-
-          -- ending_coins_balance
-          , LAST_VALUE(IFNULL(safe_cast(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_03") AS NUMERIC),0)) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) AS ending_coins_balance
-
-          -- ending_lives_balance
-          , LAST_VALUE(IFNULL(safe_cast(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_04") AS NUMERIC),0)) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) AS ending_lives_balance
-
-          -- ending_stars_balance
-          , LAST_VALUE(IFNULL(safe_cast(JSON_EXTRACT_SCALAR(currencies,"$.CURRENCY_07") AS NUMERIC),0)) OVER (
-              PARTITION BY rdg_id, DATE(timestamp_utc)
-              ORDER BY timestamp_utc ASC
-              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-              ) AS ending_stars_balance
+          , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_03") AS NUMERIC) as coins_balance
+          , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_04") AS NUMERIC) as lives_balance
+          , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_07") AS NUMERIC) as stars_balance
 
           -------------------------------------------------
           -- system info
@@ -658,89 +515,70 @@ view: player_daily_incremental {
         -- other progression info
         -------------------------------------------------
 
-        , last_value(end_of_content_levels) over (
-            partition by rdg_id, date(timestamp_utc)
-            order by timestamp_utc asc
-            rows between unbounded preceding and unbounded following
-            ) end_of_content_levels
-
-        , last_value(end_of_content_zones) over (
-            partition by rdg_id, date(timestamp_utc)
-            order by timestamp_utc asc
-            rows between unbounded preceding and unbounded following
-            ) end_of_content_zones
-
-        , last_value(current_zone) over (
-            partition by rdg_id, date(timestamp_utc)
-            order by timestamp_utc asc
-            rows between unbounded preceding and unbounded following
-            ) current_zone
-
-        , last_value(current_zone_progress) over (
-            partition by rdg_id, date(timestamp_utc)
-            order by timestamp_utc asc
-            rows between unbounded preceding and unbounded following
-            ) current_zone_progress
+        , end_of_content_levels
+        , end_of_content_zones
+        , current_zone
+        , current_zone_progress
 
         -------------------------------------------------
         -- Feature Participation
         -------------------------------------------------
 
-          , safe_cast(case
-              when
-                event_name = 'ButtonClicked'
-                and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%DailyReward%'
-              then 1
-              else 0
-              end as int64) as feature_participation_daily_reward
+        , safe_cast(case
+            when
+              event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%DailyReward%'
+            then 1
+            else 0
+            end as int64) as feature_participation_daily_reward
 
-          , safe_cast(case
-              when
-                event_name = 'ButtonClicked'
-                and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%PizzaTime%'
-              then 1
-              else 0
-              end as int64) as feature_participation_pizza_time
+        , safe_cast(case
+            when
+              event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%PizzaTime%'
+            then 1
+            else 0
+            end as int64) as feature_participation_pizza_time
 
-          , safe_cast(case
-              when
-                event_name = 'ButtonClicked'
-                and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%FlourFrenzy%'
-              then 1
-              else 0
-              end as int64) as feature_participation_flour_frenzy
+        , safe_cast(case
+            when
+              event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%FlourFrenzy%'
+            then 1
+            else 0
+            end as int64) as feature_participation_flour_frenzy
 
-          , safe_cast(case
-              when
-                event_name = 'ButtonClicked'
-                and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%LuckyDice%'
-              then 1
-              else 0
-              end as int64) as feature_participation_lucky_dice
+        , safe_cast(case
+            when
+              event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%LuckyDice%'
+            then 1
+            else 0
+            end as int64) as feature_participation_lucky_dice
 
-          , safe_cast(case
-              when
-                event_name = 'ButtonClicked'
-                and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%TreasureTrove%'
-              then 1
-              else 0
-              end as int64) as feature_participation_treasure_trove
+        , safe_cast(case
+            when
+              event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%TreasureTrove%'
+            then 1
+            else 0
+            end as int64) as feature_participation_treasure_trove
 
-          , safe_cast(case
-              when
-                event_name = 'ButtonClicked'
-                and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%HotdogContest%'
-              then 1
-              else 0
-              end as int64) as feature_participation_hot_dog_contest
+        , safe_cast(case
+            when
+              event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%HotdogContest%'
+            then 1
+            else 0
+            end as int64) as feature_participation_hot_dog_contest
 
-          , safe_cast(case
-              when
-                event_name = 'reward'
-                and safe_cast(json_extract_scalar(extra_json, "$.reward_event") as string) like '%battle_pass%'
-              then 1
-              else 0
-              end as int64) as feature_participation_battle_pass
+        , safe_cast(case
+            when
+              event_name = 'reward'
+              and safe_cast(json_extract_scalar(extra_json, "$.reward_event") as string) like '%battle_pass%'
+            then 1
+            else 0
+            end as int64) as feature_participation_battle_pass
 
 
         -------------------------------------------------
@@ -919,59 +757,15 @@ view: player_daily_incremental {
         -- ending boost balances
         -------------------------------------------------
 
-        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.ROCKET") as numeric),0)) over (
-        partition by rdg_id, date(timestamp_utc)
-        order by timestamp_utc asc
-        rows between unbounded preceding and unbounded following
-        ) as ending_balance_rocket
-
-        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.BOMB") as numeric),0)) over (
-        partition by rdg_id, date(timestamp_utc)
-        order by timestamp_utc asc
-        rows between unbounded preceding and unbounded following
-        ) as ending_balance_bomb
-
-        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.COLOR_BALL") as numeric),0)) over (
-        partition by rdg_id, date(timestamp_utc)
-        order by timestamp_utc asc
-        rows between unbounded preceding and unbounded following
-        ) as ending_balance_color_ball
-
-        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.clear_cell") as numeric),0)) over (
-        partition by rdg_id, date(timestamp_utc)
-        order by timestamp_utc asc
-        rows between unbounded preceding and unbounded following
-        ) as ending_balance_clear_cell
-
-        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.clear_horizontal") as numeric),0)) over (
-        partition by rdg_id, date(timestamp_utc)
-        order by timestamp_utc asc
-        rows between unbounded preceding and unbounded following
-        ) as ending_balance_clear_horizontal
-
-        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.clear_vertical") as numeric),0)) over (
-        partition by rdg_id, date(timestamp_utc)
-        order by timestamp_utc asc
-        rows between unbounded preceding and unbounded following
-        ) as ending_balance_clear_vertical
-
-        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.shuffle") as numeric),0)) over (
-        partition by rdg_id, date(timestamp_utc)
-        order by timestamp_utc asc
-        rows between unbounded preceding and unbounded following
-        ) as ending_balance_shuffle
-
-        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.chopsticks") as numeric),0)) over (
-        partition by rdg_id, date(timestamp_utc)
-        order by timestamp_utc asc
-        rows between unbounded preceding and unbounded following
-        ) as ending_balance_chopsticks
-
-        , last_value(ifnull(safe_cast(json_extract_scalar(tickets,"$.skillet") as numeric),0)) over (
-        partition by rdg_id, date(timestamp_utc)
-        order by timestamp_utc asc
-        rows between unbounded preceding and unbounded following
-        ) as ending_balance_skillet
+        , safe_cast(json_extract_scalar(tickets,"$.ROCKET") as numeric) as balance_rocket
+        , safe_cast(json_extract_scalar(tickets,"$.BOMB") as numeric) as balance_bomb
+        , safe_cast(json_extract_scalar(tickets,"$.COLOR_BALL") as numeric) as balance_color_ball
+        , safe_cast(json_extract_scalar(tickets,"$.clear_cell") as numeric) as balance_clear_cell
+        , safe_cast(json_extract_scalar(tickets,"$.clear_horizontal") as numeric) as balance_clear_horizontal
+        , safe_cast(json_extract_scalar(tickets,"$.clear_vertical") as numeric) as balance_clear_vertical
+        , safe_cast(json_extract_scalar(tickets,"$.shuffle") as numeric) as balance_shuffle
+        , safe_cast(json_extract_scalar(tickets,"$.chopsticks") as numeric) as balance_chopsticks
+        , safe_cast(json_extract_scalar(tickets,"$.skillet") as numeric) as balance_skillet
 
         -------------------------------------------------
         -- Chum Skills
@@ -1036,13 +830,32 @@ view: player_daily_incremental {
         -- Daily Popup (step_1)
         -------------------------------------------------
 
+        -- safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string)
+
         , case
             when
               event_name = 'ButtonClicked' -- on button click
               and safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Sheet_PM_%' -- daily popups are prefaced with Sheet_PM
-            then safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string)
+            then
+              substring(
+                safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string)
+                , length('Sheet_PM_') + 1
+                , strpos(safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string),'.') -length('Sheet_PM_')-1
+                )
             else null
-            end as daily_popup_button_tag
+            end as daily_popup_category
+
+        , case
+            when
+              event_name = 'ButtonClicked' -- on button click
+              and safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Sheet_PM_%' -- daily popups are prefaced with Sheet_PM
+            then
+              substring(
+              safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string)
+              , strpos(safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string),'.') + 1
+              )
+            else null
+            end as daily_popup_action
 
         from
             base_data
@@ -1057,55 +870,51 @@ view: player_daily_incremental {
       SELECT
         rdg_date
         , rdg_id
-        , MAX(device_id) AS device_id
-        , MAX(advertising_id) AS advertising_id
-        , MAX(user_id) AS user_id
+        , max(device_id) as device_id
+        , max(advertising_id) as advertising_id
+        , max(user_id) as user_id
         , max(display_name) as display_name
-        , MAX(platform) AS platform
-        , MAX(country) AS country
-        , MAX(created_utc) AS created_utc
-        , MAX(created_date) AS created_date
-        , MAX(experiments) AS experiments
-        , MAX(version) AS version
-        , MAX(install_version) AS install_version
-        , SUM(mtx_purchase_dollars) AS mtx_purchase_dollars
-        , SUM(ad_view_dollars) AS ad_view_dollars
-        , MAX(safe_cast( ( mtx_ltv_from_data_in_cents * 0.01 * 0.70 )  AS NUMERIC)) AS mtx_ltv_from_data -- Includes app store adjustment
-        , SUM(ad_view_indicator) AS ad_views
-        , COUNT(DISTINCT session_id) AS count_sessions
-        , MAX(cumulative_session_count) AS cumulative_session_count
-        , MAX(cumulative_engagement_ticks) AS cumulative_engagement_ticks
-        , SUM(round_start_events) AS round_start_events
+        , max(platform) as platform
+        , max(country) as country
+        , max(created_utc) as created_utc
+        , max(created_date) as created_date
+        , max(experiments) as experiments
+        , max(version) as version
+        , max(install_version) as install_version
+        , sum(mtx_purchase_dollars) as mtx_purchase_dollars
+        , sum(ad_view_dollars) as ad_view_dollars
+        , max(safe_cast( ( mtx_ltv_from_data_in_cents * 0.01 * 0.70 ) as numeric)) as mtx_ltv_from_data -- Includes app store adjustment
+        , sum(ad_view_indicator) as ad_views
+        , count(distinct session_id) as count_sessions
+        , max(engagement_ticks) as cumulative_engagement_ticks
+        , sum(round_start_events) as round_start_events
 
-        , SUM(round_end_events) AS round_end_events
-        , SUM(round_end_events_campaign) AS round_end_events_campaign
-        , SUM(round_end_events_movesmaster) AS round_end_events_movesmaster
-        , SUM(round_end_events_puzzle) AS round_end_events_puzzle
-        , SUM(round_end_events_askforhelp) AS round_end_events_askforhelp
-        , SUM(round_end_events_gofish) AS round_end_events_gofish
-        , SUM(gofish_full_matches_completed) AS gofish_full_matches_completed
-        , SUM(gofish_full_matches_won) AS gofish_full_matches_won
+        , sum(round_end_events) as round_end_events
+        , sum(round_end_events_campaign) as round_end_events_campaign
+        , sum(round_end_events_movesmaster) as round_end_events_movesmaster
+        , sum(round_end_events_puzzle) as round_end_events_puzzle
+        , sum(round_end_events_askforhelp) as round_end_events_askforhelp
+        , sum(round_end_events_gofish) as round_end_events_gofish
+        , sum(gofish_full_matches_completed) as gofish_full_matches_completed
+        , sum(gofish_full_matches_won) as gofish_full_matches_won
 
-        , SUM(round_time_in_minutes) AS round_time_in_minutes
-        , SUM(round_time_in_minutes_campaign) AS round_time_in_minutes_campaign
-        , SUM(round_time_in_minutes_movesmaster) AS round_time_in_minutes_movesmaster
-        , SUM(round_time_in_minutes_puzzle) AS round_time_in_minutes_puzzle
-        , SUM(round_time_in_minutes_askforhelp) AS round_time_in_minutes_askforhelp
-        , SUM(round_time_in_minutes_gofish) AS round_time_in_minutes_gofish
+        , sum(round_time_in_minutes) as round_time_in_minutes
+        , sum(round_time_in_minutes_campaign) as round_time_in_minutes_campaign
+        , sum(round_time_in_minutes_movesmaster) as round_time_in_minutes_movesmaster
+        , sum(round_time_in_minutes_puzzle) as round_time_in_minutes_puzzle
+        , sum(round_time_in_minutes_askforhelp) as round_time_in_minutes_askforhelp
+        , sum(round_time_in_minutes_gofish) as round_time_in_minutes_gofish
 
-        , MAX(lowest_last_level_serial) AS lowest_last_level_serial
-        , MAX(highest_last_level_serial) AS highest_last_level_serial
-        , MAX(highest_quests_completed) AS highest_quests_completed
-        , MAX(gofish_rank) AS max_gofish_rank
+        , min(last_level_serial) as lowest_last_level_serial
+        , max(last_level_serial) as highest_last_level_serial
+        , max(gofish_rank) as max_gofish_rank
 
-        , SUM(gems_spend) AS gems_spend
-        , SUM(coins_spend) AS coins_spend
+        , sum(coins_spend) as coins_spend
         , sum(coins_sourced_from_rewards) as coins_sourced_from_rewards
-        , SUM(stars_spend) AS stars_spend
-        , MAX(ending_gems_balance) AS ending_gems_balance
-        , MAX(ending_coins_balance) AS ending_coins_balance
-        , MAX(ending_lives_balance) AS ending_lives_balance
-        , MAX(ending_stars_balance) AS ending_stars_balance
+        , sum(stars_spend) as stars_spend
+        , round(avg(coins_balance),0) as ending_coins_balance
+        , round(avg(lives_balance),0) as ending_lives_balance
+        , round(avg(stars_balance),0) as ending_stars_balance
 
         -- system_info
         , max( hardware ) as hardware
@@ -1121,7 +930,6 @@ view: player_daily_incremental {
         , max( end_of_content_levels ) as end_of_content_levels
         , max( end_of_content_zones ) as end_of_content_zones
         , max( current_zone ) as current_zone
-        , max( current_zone_progress ) as current_zone_progress
 
         -- feature participation
         , max( feature_participation_daily_reward ) as feature_participation_daily_reward
@@ -1158,15 +966,15 @@ view: player_daily_incremental {
         , sum( count_possible_crashes_from_fast_title_screen_awake ) as count_possible_crashes_from_fast_title_screen_awake
 
         -- ending boost balances
-        , max( ending_balance_rocket ) as ending_balance_rocket
-        , max( ending_balance_bomb ) as ending_balance_bomb
-        , max( ending_balance_color_ball ) as ending_balance_color_ball
-        , max( ending_balance_clear_cell ) as ending_balance_clear_cell
-        , max( ending_balance_clear_horizontal ) as ending_balance_clear_horizontal
-        , max( ending_balance_clear_vertical ) as ending_balance_clear_vertical
-        , max( ending_balance_shuffle ) as ending_balance_shuffle
-        , max( ending_balance_chopsticks ) as ending_balance_chopsticks
-        , max( ending_balance_skillet ) as ending_balance_skillet
+        , round(avg(balance_rocket),0) as ending_balance_rocket
+        , round(avg(balance_bomb),0) as ending_balance_bomb
+        , round(avg(balance_color_ball),0) as ending_balance_color_ball
+        , round(avg(balance_clear_cell),0) as ending_balance_clear_cell
+        , round(avg(balance_clear_horizontal),0) as ending_balance_clear_horizontal
+        , round(avg(balance_clear_vertical),0) as ending_balance_clear_vertical
+        , round(avg(balance_shuffle),0) as ending_balance_shuffle
+        , round(avg(balance_chopsticks),0) as ending_balance_chopsticks
+        , round(avg(balance_skillet),0) as ending_balance_skillet
 
         -------------------------------------------------
         -- Chum Skills Used
@@ -1191,20 +999,17 @@ view: player_daily_incremental {
         -- Daily Popup (step 2)
         -------------------------------------------------
 
-        , max(
-            substring(
-              daily_popup_button_tag
-              , length('Sheet_PM_') + 1
-              , strpos(daily_popup_button_tag,'.') -length('Sheet_PM_')-1
-              )
-          ) as daily_popup_category
-
-        , max(
-            substring(
-              daily_popup_button_tag
-              , strpos(daily_popup_button_tag,'.') + 1
-              )
-          ) as daily_popup_action
+        , max( case when daily_popup_category = 'BattlePass' then daily_popup_action else null end ) as daily_popup_BattlePass
+        , max( case when daily_popup_category = 'DailyReward' then daily_popup_action else null end ) as daily_popup_DailyReward
+        , max( case when daily_popup_category = 'FlourFrenzy' then daily_popup_action else null end ) as daily_popup_FlourFrenzy
+        , max( case when daily_popup_category = 'GoFish' then daily_popup_action else null end ) as daily_popup_GoFish
+        , max( case when daily_popup_category = 'HotdogContest' then daily_popup_action else null end ) as daily_popup_HotdogContest
+        , max( case when daily_popup_category = 'LuckyDice' then daily_popup_action else null end ) as daily_popup_LuckyDice
+        , max( case when daily_popup_category = 'MovesMaster' then daily_popup_action else null end ) as daily_popup_MovesMaster
+        , max( case when daily_popup_category = 'PizzaTime' then daily_popup_action else null end ) as daily_popup_PizzaTime
+        , max( case when daily_popup_category = 'Puzzle' then daily_popup_action else null end ) as daily_popup_Puzzle
+        , max( case when daily_popup_category = 'TreasureTrove' then daily_popup_action else null end ) as daily_popup_TreasureTrove
+        , max( case when daily_popup_category = 'UpdateApp' then daily_popup_action else null end ) as daily_popup_UpdateApp
 
       from
         pre_aggregate_calculations_from_base_data

@@ -10,7 +10,7 @@ view: player_daily_summary {
       -- ccb_aggregate_update_tag
       -- last update: '2023-11-16'
 
--- create or replace table `tal_scratch.player_daily_summary` as
+-- create or replace table `tal_scratch.player_daily_summary_test` as
 
 with
 
@@ -54,6 +54,7 @@ ads_by_date as (
     from
         -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
         ${player_ad_view_summary.SQL_TABLE_NAME}
+
     group by
         1,2
 )
@@ -100,6 +101,7 @@ ads_by_date as (
     from
         -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_incremental`
         ${player_daily_incremental.SQL_TABLE_NAME}
+        -- tal_scratch.player_daily_incremental_test
 
 )
 
@@ -153,7 +155,6 @@ ads_by_date as (
         , sum( ifnull(b.ad_dollars_treasure_trove,0) + ifnull(c.ad_dollars_treasure_trove,0)) as ad_dollars_treasure_trove
 
         , max(a.count_sessions) as count_sessions
-        , max(a.cumulative_session_count) as cumulative_session_count
         , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
         , max(a.round_start_events) as round_start_events
 
@@ -175,14 +176,11 @@ ads_by_date as (
 
         , max(a.lowest_last_level_serial) as lowest_last_level_serial
         , max(a.highest_last_level_serial) as highest_last_level_serial
-        , max(a.highest_quests_completed) as highest_quests_completed
         , max(a.max_gofish_rank) as max_gofish_rank
 
-        , max(a.gems_spend) as gems_spend
         , max(a.coins_spend) as coins_spend
         , max(a.coins_sourced_from_rewards) as coins_sourced_from_rewards
         , max(a.stars_spend) as stars_spend
-        , max(a.ending_gems_balance) as ending_gems_balance
         , max(a.ending_coins_balance) as ending_coins_balance
         , max(a.ending_lives_balance) as ending_lives_balance
         , max(a.ending_stars_balance) as ending_stars_balance
@@ -201,7 +199,6 @@ ads_by_date as (
         , max( a.end_of_content_levels ) as end_of_content_levels
         , max( a.end_of_content_zones ) as end_of_content_zones
         , max( a.current_zone ) as current_zone
-        , max( a.current_zone_progress ) as current_zone_progress
 
         -- feature participation
         , max( a.feature_participation_daily_reward ) as feature_participation_daily_reward
@@ -265,8 +262,17 @@ ads_by_date as (
         , max( a.total_chum_powerups_used ) as total_chum_powerups_used
 
         -- Daily Pop-up
-        , max( a.daily_popup_category ) as daily_popup_category
-        , max( a.daily_popup_action ) as daily_popup_action
+        , max( a.daily_popup_BattlePass ) as daily_popup_BattlePass
+        , max( a.daily_popup_DailyReward ) as daily_popup_DailyReward
+        , max( a.daily_popup_FlourFrenzy ) as daily_popup_FlourFrenzy
+        , max( a.daily_popup_GoFish ) as daily_popup_GoFish
+        , max( a.daily_popup_HotdogContest ) as daily_popup_HotdogContest
+        , max( a.daily_popup_LuckyDice ) as daily_popup_LuckyDice
+        , max( a.daily_popup_MovesMaster ) as daily_popup_MovesMaster
+        , max( a.daily_popup_PizzaTime ) as daily_popup_PizzaTime
+        , max( a.daily_popup_Puzzle ) as daily_popup_Puzzle
+        , max( a.daily_popup_TreasureTrove ) as daily_popup_TreasureTrove
+        , max( a.daily_popup_UpdateApp ) as daily_popup_UpdateApp
 
 
     from
@@ -335,7 +341,6 @@ ads_by_date as (
         , max(a.ad_dollars_treasure_trove) as ad_dollars_treasure_trove
 
         , max(a.count_sessions) as count_sessions
-        , max(a.cumulative_session_count) as cumulative_session_count
         , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
         , max(a.round_start_events) as round_start_events
 
@@ -357,14 +362,11 @@ ads_by_date as (
 
         , max(a.lowest_last_level_serial) as lowest_last_level_serial
         , max(a.highest_last_level_serial) as highest_last_level_serial
-        , max(a.highest_quests_completed) as highest_quests_completed
         , max(a.max_gofish_rank) as max_gofish_rank
 
-        , max(a.gems_spend) as gems_spend
         , max(a.coins_spend) as coins_spend
         , max(a.coins_sourced_from_rewards) as coins_sourced_from_rewards
         , max(a.stars_spend) as stars_spend
-        , max(a.ending_gems_balance) as ending_gems_balance
         , max(a.ending_coins_balance) as ending_coins_balance
         , max(a.ending_lives_balance) as ending_lives_balance
         , max(a.ending_stars_balance) as ending_stars_balance
@@ -383,7 +385,6 @@ ads_by_date as (
         , max( a.end_of_content_levels ) as end_of_content_levels
         , max( a.end_of_content_zones ) as end_of_content_zones
         , max( a.current_zone ) as current_zone
-        , max( a.current_zone_progress ) as current_zone_progress
 
         -- feature participation
         , max( a.feature_participation_daily_reward ) as feature_participation_daily_reward
@@ -446,8 +447,17 @@ ads_by_date as (
         , max( a.total_chum_powerups_used ) as total_chum_powerups_used
 
         -- Daily Pop-up
-        , max( a.daily_popup_category ) as daily_popup_category
-        , max( a.daily_popup_action ) as daily_popup_action
+        , max( a.daily_popup_BattlePass ) as daily_popup_BattlePass
+        , max( a.daily_popup_DailyReward ) as daily_popup_DailyReward
+        , max( a.daily_popup_FlourFrenzy ) as daily_popup_FlourFrenzy
+        , max( a.daily_popup_GoFish ) as daily_popup_GoFish
+        , max( a.daily_popup_HotdogContest ) as daily_popup_HotdogContest
+        , max( a.daily_popup_LuckyDice ) as daily_popup_LuckyDice
+        , max( a.daily_popup_MovesMaster ) as daily_popup_MovesMaster
+        , max( a.daily_popup_PizzaTime ) as daily_popup_PizzaTime
+        , max( a.daily_popup_Puzzle ) as daily_popup_Puzzle
+        , max( a.daily_popup_TreasureTrove ) as daily_popup_TreasureTrove
+        , max( a.daily_popup_UpdateApp ) as daily_popup_UpdateApp
 
     from
         join_on_ads_data a
@@ -564,7 +574,6 @@ ads_by_date as (
         , a.ad_dollars_treasure_trove
 
         , a.count_sessions
-        , a.cumulative_session_count
         , a.cumulative_engagement_ticks
         , a.round_start_events
 
@@ -586,15 +595,12 @@ ads_by_date as (
 
         , a.lowest_last_level_serial
         , a.highest_last_level_serial
-        , a.highest_quests_completed
         , a.max_gofish_rank as this_date_max_go_fish_rank
 
-        , a.gems_spend
         , a.coins_spend
         , a.coins_sourced_from_rewards
 
         , a.stars_spend
-        , a.ending_gems_balance
         , a.ending_coins_balance
         , a.ending_lives_balance
         , a.ending_stars_balance
@@ -603,7 +609,6 @@ ads_by_date as (
         , a.end_of_content_levels
         , a.end_of_content_zones
         , a.current_zone
-        , a.current_zone_progress
 
         -- feature participation
         , a.feature_participation_daily_reward
@@ -692,8 +697,17 @@ ads_by_date as (
         , a.total_chum_powerups_used
 
         -- Daily Pop-up
-        , a.daily_popup_category
-        , a.daily_popup_action
+        , a.daily_popup_BattlePass
+        , a.daily_popup_DailyReward
+        , a.daily_popup_FlourFrenzy
+        , a.daily_popup_GoFish
+        , a.daily_popup_HotdogContest
+        , a.daily_popup_LuckyDice
+        , a.daily_popup_MovesMaster
+        , a.daily_popup_PizzaTime
+        , a.daily_popup_Puzzle
+        , a.daily_popup_TreasureTrove
+        , a.daily_popup_UpdateApp
 
     from
         join_on_mtx_data a
@@ -749,6 +763,13 @@ select
       PARTITION BY rdg_id
       ORDER BY rdg_date ASC
       ) next_date_played
+
+  -- cumulative_session_count
+  , SUM(count_sessions) OVER (
+      PARTITION BY rdg_id
+      ORDER BY rdg_date ASC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) cumulative_session_count
 
   -- churn_indicator
   , CASE
@@ -1013,14 +1034,6 @@ select
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
       ) cumulative_round_time_in_minutes_gofish
 
-  -- Calculate quests_completed
-  -- uses prior row highest_quests_completed
-  , IFNULL(highest_quests_completed,0) -
-      IFNULL(LAG(highest_quests_completed,1) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ),0) AS quests_completed
-
   -- count_days_played
   -- this is just always 1
   , 1 as count_days_played
@@ -1046,13 +1059,6 @@ select
       ORDER BY rdg_date ASC
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
       ) max_gofish_rank
-
-  -- cumulative_gems_spend
-  , SUM(gems_spend) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_gems_spend
 
   -- cumulative_coins_spend
   , SUM(coins_spend) OVER (
@@ -1101,6 +1107,7 @@ FROM
 where
     -- select date_add( current_date(), interval -1 day )
     rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
+
 
 
 

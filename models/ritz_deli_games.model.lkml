@@ -845,6 +845,7 @@ explore: singular_creative_summary {}
 explore: big_query_jobs {}
 explore: player_daily_incremental {}
 explore: revenue_model{}
+# explore: player_summary_staging {}
 # explore: ab_test_t_test{}
 
 # explore: player_ad_view_incremental {}

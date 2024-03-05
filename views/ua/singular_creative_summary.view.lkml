@@ -284,7 +284,6 @@ singular_creative_data as (
     ----------------------------------------------------------------------
 
     , @{map_3_digit_country_code_to_3_digit_country_code} as country
-    , @{singular_simple_ad_name} as simple_ad_name
     , @{singular_grouped_ad_name} as singular_grouped_ad_name
     , @{singular_simple_ad_name} as singular_simple_ad_name
     , @{campaign_name_clean_update} as singular_campaign_name_clean
@@ -366,7 +365,10 @@ singular_creative_data as (
   dimension: singular_total_clicks {type:number}
   dimension: singular_total_installs {type:number}
   dimension: full_ad_name {type:string}
-  dimension: simple_ad_name {type:string}
+  dimension: simple_ad_name {
+    type:string
+    sql: ${TABLE}.singular_simple_ad_name ;;
+    }
   dimension: singular_install_date {type: date}
   dimension: adn_creative_id {type: string}
 

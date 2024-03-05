@@ -226,6 +226,18 @@ view: player_summary_new {
         , supported_devices_marketing_name
         , supported_devices_device_name
 
+        ----------------------------------------------------------
+        -- Fields from the manifest
+        ----------------------------------------------------------
+
+        , @{country_region} as region
+        , @{device_platform_mapping} as device_platform_mapping
+        , @{device_platform_mapping_os} as device_platform_mapping_os
+        , @{singular_campaign_id_override} as singular_campaign_id_override
+        , @{singular_created_date_override} as singular_created_date_override
+        , @{singular_campaign_blended_window_override} as singular_campaign_blended_window_override
+        , @{campaign_with_organics_estimate} as campaign_with_organics_estimate
+
       from
         -- eraser-blast.looker_scratch.LR_6YUJU1709664574784_player_summary_staging
         ${player_summary_staging.SQL_TABLE_NAME}
@@ -273,7 +285,7 @@ view: player_summary_new {
   dimension: version_current {group_label:"Versions" label: "Current Version" type: string}
   dimension: platform {type: string}
   dimension: country {type: string}
-  dimension: region {type:string sql:@{country_region};;}
+  dimension: region {type:string}
   dimension: cumulative_time_played_minutes {label:"Minutes Played" value_format:"#,##0" type: number}
 
 
@@ -697,13 +709,11 @@ view: player_summary_new {
   dimension: device_platform_mapping {
     group_label: "System Info"
     type: string
-    sql: @{device_platform_mapping} ;;
   }
 
   dimension: device_platform_mapping_os {
     group_label: "System Info"
     type: string
-    sql: @{device_platform_mapping_os} ;;
   }
 
 
@@ -744,26 +754,22 @@ view: player_summary_new {
   dimension: singular_campaign_id_override {
     group_label: "Singular Campaign Mapping"
     type: string
-    sql: @{singular_campaign_id_override} ;;
   }
 
   dimension: singular_created_date_override {
     group_label: "Singular Campaign Mapping"
     type: date
-    sql: @{singular_created_date_override};;
   }
 
   dimension: singular_campaign_blended_window_override {
     group_label: "Singular Campaign Mapping"
     type: string
-    sql: @{singular_campaign_blended_window_override} ;;
   }
 
   dimension: campaign_with_organics_estimate {
     group_label: "Singular Campaign Mapping"
     label: "Campaign with Organics (Estimate)"
     type: string
-    sql: @{campaign_with_organics_estimate} ;;
   }
 
 ######################################################################

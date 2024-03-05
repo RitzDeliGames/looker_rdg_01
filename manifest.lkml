@@ -98,20 +98,18 @@ constant: device_os_version_mapping {
 
 constant: device_platform_mapping {
   value: "case
-            when ${TABLE}.platform like '%iOS%' then 'Apple'
-            when ${TABLE}.platform like '%Android%' then 'Google'
+            when platform like '%iOS%' then 'Apple'
+            when platform like '%Android%' then 'Google'
             else 'Other'
           end"
-
 }
 
 constant: device_platform_mapping_os {
   value: "case
-  when ${TABLE}.platform like '%iOS%' then 'iOS'
-  when ${TABLE}.platform like '%Android%' then 'Android'
-  else 'Other'
-  end"
-
+            when platform like '%iOS%' then 'iOS'
+            when platform like '%Android%' then 'Android'
+            else 'Other'
+          end"
 }
 
 constant: release_version_minor {
@@ -298,14 +296,14 @@ constant: install_release_version_minor {
 
 constant: country_region {
   value: "case
-            when ${TABLE}.country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE') then 'LATAM-ES'
-            when ${TABLE}.country = 'BR' then 'LATAM-BR'
-            when ${TABLE}.country in ('SE','DK','FI','IS','NO','SE') then 'Scandinavia'
-            when ${TABLE}.country in ('GB','AT','BE','BG','CH','CY','CZ','ES','EE','FR','DE','GR','HR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','TR') then 'UK-EU'
-            when ${TABLE}.country in ('US','CA') then 'USA & Canada'
-            when ${TABLE}.country in ('JP','HK','KR','TW') then 'East Asia xChina'
-            when ${TABLE}.country in ('ID','IN','MY','PH','SG','TH','VN') then 'SE Asia & India'
-            when ${TABLE}.country in ('AU', 'NZ') then 'AU-NZ'
+            when country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE') then 'LATAM-ES'
+            when country = 'BR' then 'LATAM-BR'
+            when country in ('SE','DK','FI','IS','NO','SE') then 'Scandinavia'
+            when country in ('GB','AT','BE','BG','CH','CY','CZ','ES','EE','FR','DE','GR','HR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','TR') then 'UK-EU'
+            when country in ('US','CA') then 'USA & Canada'
+            when country in ('JP','HK','KR','TW') then 'East Asia xChina'
+            when country in ('ID','IN','MY','PH','SG','TH','VN') then 'SE Asia & India'
+            when country in ('AU', 'NZ') then 'AU-NZ'
             else 'OTHER'
           end"
 }
@@ -609,20 +607,20 @@ constant: campaign_name_clean_update {
 constant: campaign_with_organics_estimate {
   value: "case
     when
-      ${TABLE}.country = 'US'
-      and date(${TABLE}.created_date) between '2024-01-03' and '2024-01-24'
+      country = 'US'
+      and date(created_date) between '2024-01-03' and '2024-01-24'
       then '20240103 - AA+ - USA - Purchase - With Organics'
     when
-      ${TABLE}.country = 'US'
-      and date(${TABLE}.created_date) between '2023-08-09' and '2023-08-22'
+      country = 'US'
+      and date(created_date) between '2023-08-09' and '2023-08-22'
       then '20230808 - AAA+ - USA - Purchase - With Organics'
     when
-      ${TABLE}.country = 'US'
-      and date(${TABLE}.created_date) between '2023-05-24' and '2023-06-02'
+      country = 'US'
+      and date(created_date) between '2023-05-24' and '2023-06-02'
       then '20230523 - AAA - USA - Purchase - With Organics'
     when
-      ${TABLE}.country = 'US'
-      and date(${TABLE}.created_date) between '2023-01-31' and '2023-02-15'
+      country = 'US'
+      and date(created_date) between '2023-01-31' and '2023-02-15'
       then '20230131 - AAA - USA - Purchase - With Organics'
   end"
 }
@@ -709,83 +707,83 @@ constant: singular_campaign_id_override {
     case
 
       when
-        ${TABLE}.singular_partner_name = 'Unattributed'
-        and ${TABLE}.singular_campaign_id = ''
-        and ${TABLE}.country = 'US'
-        and date(${TABLE}.created_date) between '2024-01-03' and '2024-01-24'
+        singular_partner_name = 'Unattributed'
+        and singular_campaign_id = ''
+        and country = 'US'
+        and date(created_date) between '2024-01-03' and '2024-01-24'
         then '6500848734722'
 
       when
-        ${TABLE}.singular_partner_name = 'Unattributed'
-        and ${TABLE}.singular_campaign_id = ''
-        and ${TABLE}.country = 'US'
-        and date(${TABLE}.created_date) between '2023-11-10' and '2023-11-14'
+        singular_partner_name = 'Unattributed'
+        and singular_campaign_id = ''
+        and country = 'US'
+        and date(created_date) between '2023-11-10' and '2023-11-14'
         then '6451988225922'
 
       when
-        ${TABLE}.singular_partner_name = 'Unattributed'
-        and ${TABLE}.singular_campaign_id = ''
-        and ${TABLE}.country = 'US'
-        and date(${TABLE}.created_date) between '2023-10-30' and '2023-11-04'
+        singular_partner_name = 'Unattributed'
+        and singular_campaign_id = ''
+        and country = 'US'
+        and date(created_date) between '2023-10-30' and '2023-11-04'
         then '6448215765722'
 
       when
-        ${TABLE}.singular_partner_name is null
-        and ${TABLE}.country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
-        and ${TABLE}.platform like '%iOS%'
-        and date(${TABLE}.created_date) between '2023-10-19' and '2023-10-24'
+        singular_partner_name is null
+        and country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
+        and platform like '%iOS%'
+        and date(created_date) between '2023-10-19' and '2023-10-24'
         then '6442174773322'
 
       when
-        ${TABLE}.singular_partner_name = 'Unattributed'
-        and ${TABLE}.singular_campaign_id = ''
-        and ${TABLE}.country = 'US'
-        and date(${TABLE}.created_date) between '2023-01-30' and '2023-02-14'
+        singular_partner_name = 'Unattributed'
+        and singular_campaign_id = ''
+        and country = 'US'
+        and date(created_date) between '2023-01-30' and '2023-02-14'
         then '6289277953122'
 
       when
-        ${TABLE}.singular_partner_name = 'Unattributed'
-        and ${TABLE}.singular_campaign_id = ''
-        and ${TABLE}.country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
-        and date(${TABLE}.created_date) between '2023-04-11' and '2023-04-13'
+        singular_partner_name = 'Unattributed'
+        and singular_campaign_id = ''
+        and country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
+        and date(created_date) between '2023-04-11' and '2023-04-13'
         then '6250035906122'
 
       when
-        ${TABLE}.singular_partner_name = 'Unattributed'
-        and ${TABLE}.singular_campaign_id = ''
-        and ${TABLE}.country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
-        and date(${TABLE}.created_date) between '2023-04-14' and '2023-04-23'
+        singular_partner_name = 'Unattributed'
+        and singular_campaign_id = ''
+        and country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
+        and date(created_date) between '2023-04-14' and '2023-04-23'
         then '6299378813122'
 
       when
-        ${TABLE}.singular_partner_name = 'Unattributed'
-        and ${TABLE}.singular_campaign_id = ''
-        and ${TABLE}.country in ('US','CA')
-        and date(${TABLE}.created_date) between '2023-04-28' and '2023-05-04'
+        singular_partner_name = 'Unattributed'
+        and singular_campaign_id = ''
+        and country in ('US','CA')
+        and date(created_date) between '2023-04-28' and '2023-05-04'
         then '6301194225922'
 
       when
-        ${TABLE}.singular_partner_name = 'Unattributed'
-        and ${TABLE}.singular_campaign_id = ''
-        and ${TABLE}.country in ('US','CA')
-        and date(${TABLE}.created_date) between '2023-05-24' and '2023-06-05'
+        singular_partner_name = 'Unattributed'
+        and singular_campaign_id = ''
+        and country in ('US','CA')
+        and date(created_date) between '2023-05-24' and '2023-06-05'
         then '6302530846522'
 
       when
-        ${TABLE}.singular_partner_name = 'Unattributed'
-        and ${TABLE}.singular_campaign_id = ''
-        and ${TABLE}.country in ('US','CA')
-        and date(${TABLE}.created_date) between '2023-07-11' and '2023-07-12'
+        singular_partner_name = 'Unattributed'
+        and singular_campaign_id = ''
+        and country in ('US','CA')
+        and date(created_date) between '2023-07-11' and '2023-07-12'
         then '6342654069322'
 
       when
-        ${TABLE}.singular_partner_name = 'Unattributed'
-        and ${TABLE}.singular_campaign_id = ''
-        and ${TABLE}.country in ('US','CA')
-        and date(${TABLE}.created_date) between '2023-07-21' and '2023-07-25'
+        singular_partner_name = 'Unattributed'
+        and singular_campaign_id = ''
+        and country in ('US','CA')
+        and date(created_date) between '2023-07-21' and '2023-07-25'
         then '6353426252722'
 
-      else ${TABLE}.singular_campaign_id
+      else singular_campaign_id
     end
   "
 }
@@ -880,43 +878,43 @@ constant: singular_campaign_blended_window_override {
   value: "
   case
   when
-    ${TABLE}.country in ('US','CA')
-    and date(${TABLE}.created_date) between '2023-01-30' and '2023-02-18'
+    country in ('US','CA')
+    and date(created_date) between '2023-01-30' and '2023-02-18'
   then '20230131 - AAA - USA - Purchase'
 
   when
-    ${TABLE}.country in ('US','CA')
-    and date(${TABLE}.created_date) between '2023-05-24' and '2023-06-05'
+    country in ('US','CA')
+    and date(created_date) between '2023-05-24' and '2023-06-05'
   then '20230523 - AAA - USA - Purchase'
 
   when
-    ${TABLE}.country in ('US','CA')
-    and date(${TABLE}.created_date) between '2023-07-05' and '2023-07-07'
+    country in ('US','CA')
+    and date(created_date) between '2023-07-05' and '2023-07-07'
   then '20230705 - AAA - USA - Install'
 
   when
-    ${TABLE}.country in ('US','CA')
-    and date(${TABLE}.created_date) between '2023-07-10' and '2023-07-15'
+    country in ('US','CA')
+    and date(created_date) between '2023-07-10' and '2023-07-15'
   then '20230710 - AAA - USA - 30 Min'
 
   when
-    ${TABLE}.country in ('US','CA')
-    and date(${TABLE}.created_date) between '2023-07-20' and '2023-08-02'
+    country in ('US','CA')
+    and date(created_date) between '2023-07-20' and '2023-08-02'
   then '20230721 - AAA+ - USA - 30 Min'
 
   when
-    ${TABLE}.country in ('US','CA')
-    and date(${TABLE}.created_date) between '2023-08-09' and '2023-08-21'
+    country in ('US','CA')
+    and date(created_date) between '2023-08-09' and '2023-08-21'
   then '20230808 - AAA+ - USA - Purchase'
 
   when
-    ${TABLE}.country in ('US','CA')
-    and date(${TABLE}.created_date) between '2023-08-25' and '2023-08-28'
+    country in ('US','CA')
+    and date(created_date) between '2023-08-25' and '2023-08-28'
   then '20230825 - AAA+ - USA - 60 Min'
 
   when
-    ${TABLE}.country in ('US','CA')
-    and date(${TABLE}.created_date) between '2023-08-28' and '2023-09-04'
+    country in ('US','CA')
+    and date(created_date) between '2023-08-28' and '2023-09-04'
   then '20230825 - AAA+ - USA - 30 Min'
 
   else 'Unmapped'
@@ -928,23 +926,23 @@ constant: singular_created_date_override {
   value: "
   case
   when
-    ${TABLE}.singular_campaign_id = '6250035906122'
-    and date(${TABLE}.created_date) > '2023-04-13'
+    singular_campaign_id = '6250035906122'
+    and date(created_date) > '2023-04-13'
     then timestamp(date('2023-04-13'))
 
   when
-    ${TABLE}.singular_campaign_id = '6299378813122'
-    and date(${TABLE}.created_date) > '2023-04-17'
+    singular_campaign_id = '6299378813122'
+    and date(created_date) > '2023-04-17'
     then timestamp(date('2023-04-17'))
 
   when
-    ${TABLE}.singular_partner_name = 'Unattributed'
-    and ${TABLE}.singular_campaign_id = ''
-    and ${TABLE}.country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
-    and date(${TABLE}.created_date) > '2023-04-17'
+    singular_partner_name = 'Unattributed'
+    and singular_campaign_id = ''
+    and country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
+    and date(created_date) > '2023-04-17'
     then timestamp(date('2023-04-17'))
 
-  else ${TABLE}.created_date
+  else created_date
   end
   "
 }

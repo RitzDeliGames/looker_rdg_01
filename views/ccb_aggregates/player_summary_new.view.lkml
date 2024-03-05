@@ -10,240 +10,247 @@ view: player_summary_new {
       -- ccb_aggregate_update_tag
       -- last update: '2023-08-22'
 
-      select
-        rdg_id
-        , last_played_date
-        , latest_table_update
-        , device_id
-        , advertising_id
-        , user_id
-        , display_name
-        , platform
-        , country
-        , created_date
-        , max_available_day_number
-        , experiments
-        , latest_experiments
-        , cumulative_time_played_minutes
-        , version_at_install
-        , version_d2
-        , version_d7
-        , version_d14
-        , version_d30
-        , version_d60
-        , version_current
-        , cumulative_mtx_purchase_dollars_d1
-        , cumulative_mtx_purchase_dollars_d2
-        , cumulative_mtx_purchase_dollars_d3
-        , cumulative_mtx_purchase_dollars_d4
-        , cumulative_mtx_purchase_dollars_d5
-        , cumulative_mtx_purchase_dollars_d6
-        , cumulative_mtx_purchase_dollars_d7
-        , cumulative_mtx_purchase_dollars_d8
-        , cumulative_mtx_purchase_dollars_d14
-        , cumulative_mtx_purchase_dollars_d15
-        , cumulative_mtx_purchase_dollars_d21
-        , cumulative_mtx_purchase_dollars_d30
-        , cumulative_mtx_purchase_dollars_d31
-        , cumulative_mtx_purchase_dollars_d46
-        , cumulative_mtx_purchase_dollars_d60
-        , cumulative_mtx_purchase_dollars_d61
-        , cumulative_mtx_purchase_dollars_d90
-        , cumulative_mtx_purchase_dollars_d120
-        , cumulative_mtx_purchase_dollars_d180
-        , cumulative_mtx_purchase_dollars_d270
-        , cumulative_mtx_purchase_dollars_d360
-        , cumulative_mtx_purchase_dollars_current
-        , mtx_ltv_from_data
-        , cumulative_count_mtx_purchases_d1
-        , cumulative_count_mtx_purchases_d2
-        , cumulative_count_mtx_purchases_d7
-        , cumulative_count_mtx_purchases_d8
-        , cumulative_count_mtx_purchases_d14
-        , cumulative_count_mtx_purchases_d30
-        , cumulative_count_mtx_purchases_d60
-        , cumulative_count_mtx_purchases_d90
-        , cumulative_count_mtx_purchases_current
-        , cumulative_ad_view_dollars_d1
-        , cumulative_ad_view_dollars_d2
-        , cumulative_ad_view_dollars_d3
-        , cumulative_ad_view_dollars_d4
-        , cumulative_ad_view_dollars_d5
-        , cumulative_ad_view_dollars_d6
-        , cumulative_ad_view_dollars_d7
-        , cumulative_ad_view_dollars_d8
-        , cumulative_ad_view_dollars_d14
-        , cumulative_ad_view_dollars_d15
-        , cumulative_ad_view_dollars_d21
-        , cumulative_ad_view_dollars_d30
-        , cumulative_ad_view_dollars_d31
-        , cumulative_ad_view_dollars_d46
-        , cumulative_ad_view_dollars_d60
-        , cumulative_ad_view_dollars_d90
-        , cumulative_ad_view_dollars_d120
-        , cumulative_ad_view_dollars_d180
-        , cumulative_ad_view_dollars_d270
-        , cumulative_ad_view_dollars_d360
-        , cumulative_ad_view_dollars_current
-        , cumulative_ad_views_d1
-        , cumulative_ad_views_d2
-        , cumulative_ad_views_d7
-        , cumulative_ad_views_d14
-        , cumulative_ad_views_d30
-        , cumulative_ad_views_d60
-        , cumulative_ad_views_d90
-        , cumulative_ad_views_current
-        , cumulative_combined_dollars_d1
-        , cumulative_combined_dollars_d2
-        , cumulative_combined_dollars_d3
-        , cumulative_combined_dollars_d4
-        , cumulative_combined_dollars_d5
-        , cumulative_combined_dollars_d6
-        , cumulative_combined_dollars_d7
-        , cumulative_combined_dollars_d8
-        , cumulative_combined_dollars_d14
-        , cumulative_combined_dollars_d15
-        , cumulative_combined_dollars_d21
-        , cumulative_combined_dollars_d30
-        , cumulative_combined_dollars_d31
-        , cumulative_combined_dollars_d46
-        , cumulative_combined_dollars_d60
-        , cumulative_combined_dollars_d61
-        , cumulative_combined_dollars_d90
-        , cumulative_combined_dollars_d120
-        , cumulative_combined_dollars_d180
-        , cumulative_combined_dollars_d270
-        , cumulative_combined_dollars_d360
-        , cumulative_combined_dollars_current
-        , highest_last_level_serial_d1
-        , highest_last_level_serial_d2
-        , highest_last_level_serial_d7
-        , highest_last_level_serial_d14
-        , highest_last_level_serial_d30
-        , highest_last_level_serial_d60
-        , highest_last_level_serial_d90
-        , highest_last_level_serial_current
-        , retention_d2
-        , retention_d3
-        , retention_d4
-        , retention_d5
-        , retention_d6
-        , retention_d7
-        , retention_d8
-        , retention_d9
-        , retention_d10
-        , retention_d11
-        , retention_d12
-        , retention_d13
-        , retention_d14
-        , retention_d15
-        , retention_d21
-        , retention_d28
-        , retention_d30
-        , retention_d31
-        , retention_d46
-        , retention_d60
-        , retention_d61
-        , retention_d90
-        , retention_d120
-        , retention_d180
-        , retention_d360
-        , retention_d365
-        , cumulative_star_spend_d1
-        , cumulative_star_spend_d2
-        , cumulative_star_spend_d7
-        , cumulative_star_spend_d14
-        , cumulative_star_spend_d30
-        , cumulative_star_spend_d60
-        , cumulative_star_spend_current
-        , cumulative_coins_spend_d1
-        , cumulative_coins_spend_d2
-        , cumulative_coins_spend_d7
-        , cumulative_coins_spend_d14
-        , cumulative_coins_spend_d30
-        , cumulative_coins_spend_d60
-        , cumulative_coins_spend_d90
-        , cumulative_coins_spend_current
-        , cumulative_total_chum_powerups_used_d1
-        , cumulative_total_chum_powerups_used_d2
-        , cumulative_total_chum_powerups_used_d7
-        , cumulative_total_chum_powerups_used_d8
-        , cumulative_total_chum_powerups_used_d14
-        , cumulative_total_chum_powerups_used_d15
-        , cumulative_total_chum_powerups_used_d21
-        , cumulative_total_chum_powerups_used_d30
-        , cumulative_total_chum_powerups_used_d31
-        , cumulative_total_chum_powerups_used_d46
-        , cumulative_total_chum_powerups_used_d60
-        , cumulative_total_chum_powerups_used_d61
-        , cumulative_total_chum_powerups_used_d90
-        , cumulative_total_chum_powerups_used_d120
-        , cumulative_total_chum_powerups_used_d180
-        , cumulative_total_chum_powerups_used_d270
-        , cumulative_total_chum_powerups_used_d360
-        , cumulative_total_chum_powerups_current
-        , hardware
-        , processor_type
-        , graphics_device_name
-        , device_model
-        , system_memory_size
-        , graphics_memory_size
-        , screen_width
-        , screen_height
-        , total_campaigin_round_time_in_minutes_to_first_end_of_content_levels
-        , date_of_first_end_of_content_levels
-        , day_number_of_first_end_of_content_levels
-        , days_played_in_first_7_days
-        , days_played_in_first_14_days
-        , days_played_in_first_21_days
-        , days_played_in_first_30_days
-        , sessions_played_in_first_7_days
-        , sessions_played_in_first_14_days
-        , sessions_played_in_first_21_days
-        , sessions_played_in_first_30_days
-        , sessions_played_in_first_31_days
-        , minutes_played_in_first_1_days
-        , minutes_played_in_first_2_days
-        , minutes_played_in_first_7_days
-        , minutes_played_in_first_14_days
-        , minutes_played_in_first_21_days
-        , minutes_played_in_first_30_days
-        , puzzle_rounds_played_in_first_1_days
-        , puzzle_rounds_played_in_first_2_days
-        , puzzle_rounds_played_in_first_7_days
-        , puzzle_rounds_played_in_first_14_days
-        , puzzle_rounds_played_in_first_21_days
-        , puzzle_rounds_played_in_first_30_days
-        , gofish_rounds_played_total
-        , cumulative_mtx_purchase_dollars_current_percentile
-        , firebase_advertising_id
-        , singular_device_id
-        , singular_campaign_id
-        , singular_partner_name
-        , singular_creative_id
-        , full_ad_name
-        , supported_devices_retail_name
-        , supported_devices_marketing_name
-        , supported_devices_device_name
+      with
 
-        ----------------------------------------------------------
-        -- Fields from the manifest
-        ----------------------------------------------------------
+      base_data as (
 
-        , @{country_region} as region
-        , @{device_platform_mapping} as device_platform_mapping
-        , @{device_platform_mapping_os} as device_platform_mapping_os
-        , @{singular_campaign_id_override} as singular_campaign_id_override
-        , @{singular_created_date_override} as singular_created_date_override
-        , @{singular_campaign_blended_window_override} as singular_campaign_blended_window_override
-        , @{campaign_with_organics_estimate} as campaign_with_organics_estimate
-        , @{singular_full_ad_name} as singular_full_ad_name
-        , @{singular_grouped_ad_name} as singular_grouped_ad_name
-        , @{singular_simple_ad_name} as singular_simple_ad_name
+        select
+          rdg_id
+          , last_played_date
+          , latest_table_update
+          , device_id
+          , advertising_id
+          , user_id
+          , display_name
+          , platform
+          , country
+          , created_date
+          , max_available_day_number
+          , experiments
+          , latest_experiments
+          , cumulative_time_played_minutes
+          , version_at_install
+          , version_d2
+          , version_d7
+          , version_d14
+          , version_d30
+          , version_d60
+          , version_current
+          , cumulative_mtx_purchase_dollars_d1
+          , cumulative_mtx_purchase_dollars_d2
+          , cumulative_mtx_purchase_dollars_d3
+          , cumulative_mtx_purchase_dollars_d4
+          , cumulative_mtx_purchase_dollars_d5
+          , cumulative_mtx_purchase_dollars_d6
+          , cumulative_mtx_purchase_dollars_d7
+          , cumulative_mtx_purchase_dollars_d8
+          , cumulative_mtx_purchase_dollars_d14
+          , cumulative_mtx_purchase_dollars_d15
+          , cumulative_mtx_purchase_dollars_d21
+          , cumulative_mtx_purchase_dollars_d30
+          , cumulative_mtx_purchase_dollars_d31
+          , cumulative_mtx_purchase_dollars_d46
+          , cumulative_mtx_purchase_dollars_d60
+          , cumulative_mtx_purchase_dollars_d61
+          , cumulative_mtx_purchase_dollars_d90
+          , cumulative_mtx_purchase_dollars_d120
+          , cumulative_mtx_purchase_dollars_d180
+          , cumulative_mtx_purchase_dollars_d270
+          , cumulative_mtx_purchase_dollars_d360
+          , cumulative_mtx_purchase_dollars_current
+          , mtx_ltv_from_data
+          , cumulative_count_mtx_purchases_d1
+          , cumulative_count_mtx_purchases_d2
+          , cumulative_count_mtx_purchases_d7
+          , cumulative_count_mtx_purchases_d8
+          , cumulative_count_mtx_purchases_d14
+          , cumulative_count_mtx_purchases_d30
+          , cumulative_count_mtx_purchases_d60
+          , cumulative_count_mtx_purchases_d90
+          , cumulative_count_mtx_purchases_current
+          , cumulative_ad_view_dollars_d1
+          , cumulative_ad_view_dollars_d2
+          , cumulative_ad_view_dollars_d3
+          , cumulative_ad_view_dollars_d4
+          , cumulative_ad_view_dollars_d5
+          , cumulative_ad_view_dollars_d6
+          , cumulative_ad_view_dollars_d7
+          , cumulative_ad_view_dollars_d8
+          , cumulative_ad_view_dollars_d14
+          , cumulative_ad_view_dollars_d15
+          , cumulative_ad_view_dollars_d21
+          , cumulative_ad_view_dollars_d30
+          , cumulative_ad_view_dollars_d31
+          , cumulative_ad_view_dollars_d46
+          , cumulative_ad_view_dollars_d60
+          , cumulative_ad_view_dollars_d90
+          , cumulative_ad_view_dollars_d120
+          , cumulative_ad_view_dollars_d180
+          , cumulative_ad_view_dollars_d270
+          , cumulative_ad_view_dollars_d360
+          , cumulative_ad_view_dollars_current
+          , cumulative_ad_views_d1
+          , cumulative_ad_views_d2
+          , cumulative_ad_views_d7
+          , cumulative_ad_views_d14
+          , cumulative_ad_views_d30
+          , cumulative_ad_views_d60
+          , cumulative_ad_views_d90
+          , cumulative_ad_views_current
+          , cumulative_combined_dollars_d1
+          , cumulative_combined_dollars_d2
+          , cumulative_combined_dollars_d3
+          , cumulative_combined_dollars_d4
+          , cumulative_combined_dollars_d5
+          , cumulative_combined_dollars_d6
+          , cumulative_combined_dollars_d7
+          , cumulative_combined_dollars_d8
+          , cumulative_combined_dollars_d14
+          , cumulative_combined_dollars_d15
+          , cumulative_combined_dollars_d21
+          , cumulative_combined_dollars_d30
+          , cumulative_combined_dollars_d31
+          , cumulative_combined_dollars_d46
+          , cumulative_combined_dollars_d60
+          , cumulative_combined_dollars_d61
+          , cumulative_combined_dollars_d90
+          , cumulative_combined_dollars_d120
+          , cumulative_combined_dollars_d180
+          , cumulative_combined_dollars_d270
+          , cumulative_combined_dollars_d360
+          , cumulative_combined_dollars_current
+          , highest_last_level_serial_d1
+          , highest_last_level_serial_d2
+          , highest_last_level_serial_d7
+          , highest_last_level_serial_d14
+          , highest_last_level_serial_d30
+          , highest_last_level_serial_d60
+          , highest_last_level_serial_d90
+          , highest_last_level_serial_current
+          , retention_d2
+          , retention_d3
+          , retention_d4
+          , retention_d5
+          , retention_d6
+          , retention_d7
+          , retention_d8
+          , retention_d9
+          , retention_d10
+          , retention_d11
+          , retention_d12
+          , retention_d13
+          , retention_d14
+          , retention_d15
+          , retention_d21
+          , retention_d28
+          , retention_d30
+          , retention_d31
+          , retention_d46
+          , retention_d60
+          , retention_d61
+          , retention_d90
+          , retention_d120
+          , retention_d180
+          , retention_d360
+          , retention_d365
+          , cumulative_star_spend_d1
+          , cumulative_star_spend_d2
+          , cumulative_star_spend_d7
+          , cumulative_star_spend_d14
+          , cumulative_star_spend_d30
+          , cumulative_star_spend_d60
+          , cumulative_star_spend_current
+          , cumulative_coins_spend_d1
+          , cumulative_coins_spend_d2
+          , cumulative_coins_spend_d7
+          , cumulative_coins_spend_d14
+          , cumulative_coins_spend_d30
+          , cumulative_coins_spend_d60
+          , cumulative_coins_spend_d90
+          , cumulative_coins_spend_current
+          , cumulative_total_chum_powerups_used_d1
+          , cumulative_total_chum_powerups_used_d2
+          , cumulative_total_chum_powerups_used_d7
+          , cumulative_total_chum_powerups_used_d8
+          , cumulative_total_chum_powerups_used_d14
+          , cumulative_total_chum_powerups_used_d15
+          , cumulative_total_chum_powerups_used_d21
+          , cumulative_total_chum_powerups_used_d30
+          , cumulative_total_chum_powerups_used_d31
+          , cumulative_total_chum_powerups_used_d46
+          , cumulative_total_chum_powerups_used_d60
+          , cumulative_total_chum_powerups_used_d61
+          , cumulative_total_chum_powerups_used_d90
+          , cumulative_total_chum_powerups_used_d120
+          , cumulative_total_chum_powerups_used_d180
+          , cumulative_total_chum_powerups_used_d270
+          , cumulative_total_chum_powerups_used_d360
+          , cumulative_total_chum_powerups_current
+          , hardware
+          , processor_type
+          , graphics_device_name
+          , device_model
+          , system_memory_size
+          , graphics_memory_size
+          , screen_width
+          , screen_height
+          , total_campaigin_round_time_in_minutes_to_first_end_of_content_levels
+          , date_of_first_end_of_content_levels
+          , day_number_of_first_end_of_content_levels
+          , days_played_in_first_7_days
+          , days_played_in_first_14_days
+          , days_played_in_first_21_days
+          , days_played_in_first_30_days
+          , sessions_played_in_first_7_days
+          , sessions_played_in_first_14_days
+          , sessions_played_in_first_21_days
+          , sessions_played_in_first_30_days
+          , sessions_played_in_first_31_days
+          , minutes_played_in_first_1_days
+          , minutes_played_in_first_2_days
+          , minutes_played_in_first_7_days
+          , minutes_played_in_first_14_days
+          , minutes_played_in_first_21_days
+          , minutes_played_in_first_30_days
+          , puzzle_rounds_played_in_first_1_days
+          , puzzle_rounds_played_in_first_2_days
+          , puzzle_rounds_played_in_first_7_days
+          , puzzle_rounds_played_in_first_14_days
+          , puzzle_rounds_played_in_first_21_days
+          , puzzle_rounds_played_in_first_30_days
+          , gofish_rounds_played_total
+          , cumulative_mtx_purchase_dollars_current_percentile
+          , firebase_advertising_id
+          , singular_device_id
+          , singular_campaign_id
+          , singular_partner_name
+          , singular_creative_id
+          , full_ad_name
+          , supported_devices_retail_name
+          , supported_devices_marketing_name
+          , supported_devices_device_name
 
-      from
-        -- eraser-blast.looker_scratch.LR_6YUJU1709664574784_player_summary_staging
-        ${player_summary_staging.SQL_TABLE_NAME}
+          ----------------------------------------------------------
+          -- Fields from the manifest
+          ----------------------------------------------------------
+
+          , @{country_region} as region
+          , @{device_platform_mapping} as device_platform_mapping
+          , @{device_platform_mapping_os} as device_platform_mapping_os
+          , @{singular_campaign_id_override} as singular_campaign_id_override
+          , @{singular_created_date_override} as singular_created_date_override
+          , @{singular_campaign_blended_window_override} as singular_campaign_blended_window_override
+          , @{campaign_with_organics_estimate} as campaign_with_organics_estimate
+          , @{singular_full_ad_name} as singular_full_ad_name
+          , @{singular_grouped_ad_name} as singular_grouped_ad_name
+          , @{singular_simple_ad_name} as singular_simple_ad_name
+
+        from
+          -- eraser-blast.looker_scratch.LR_6YUJU1709664574784_player_summary_staging
+          ${player_summary_staging.SQL_TABLE_NAME}
+        )
+
+        select * from base_data
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (6) + 2 )*( -10 ) minute)) ;;

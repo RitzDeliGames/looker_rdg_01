@@ -33,10 +33,23 @@ view: singular_campaign_summary {
       -- add last install date for each campaign
       -----------------------------------------------------------------------
       select
-      *
-      , min( singular_install_date ) over ( partition by singular_campaign_id ) as campaign_start_date
+        singular_campaign_id
+        , singular_install_date
+        , campaign_name
+        , singular_total_impressions
+        , singular_total_cost
+        , singular_total_original_cost
+        , singular_total_installs
+        , min( singular_install_date ) over ( partition by singular_campaign_id ) as campaign_start_date
+
+        -----------------------------------------------------------------------
+        -- constants from manifest
+        -----------------------------------------------------------------------
+
+        , @{campaign_name_clean_update} as singular_campaign_name_clean
+
       from
-      singular_campaign_summary
+        singular_campaign_summary
 
       ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
@@ -111,7 +124,6 @@ view: singular_campaign_summary {
     group_label: "Singular Campaign Info"
     label: "Campaign Name (Clean)"
     type: string
-    sql: @{campaign_name_clean_update} ;;
   }
 
 }

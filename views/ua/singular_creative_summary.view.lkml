@@ -253,11 +253,44 @@ singular_creative_data as (
 
 )
 
-----------------------------------------------------------------------
--- select data
-----------------------------------------------------------------------
+  ----------------------------------------------------------------------
+  -- select data
+  ----------------------------------------------------------------------
 
-select * from join_metadata_by_creative_id
+  select
+    rdg_date
+    , singular_install_date
+    , asset_name
+    , country_field
+    , alfa_3_country_code
+    , platform
+    , singular_campaign_id
+    , adn_creative_id
+    , singular_creative_id
+    , data_connector_source_name
+    , source
+    , os
+    , campaign_name
+    , creative_type
+    , full_ad_name
+    , simple_ad_name
+    , singular_total_cost
+    , singular_total_impressions
+    , singular_total_clicks
+    , singular_total_installs
+
+    ----------------------------------------------------------------------
+    -- constants from manifest
+    ----------------------------------------------------------------------
+
+    , @{map_3_digit_country_code_to_3_digit_country_code} as country
+    , @{singular_simple_ad_name} as simple_ad_name
+    , @{singular_grouped_ad_name} as singular_grouped_ad_name
+    , @{singular_simple_ad_name} as singular_simple_ad_name
+    , @{campaign_name_clean_update} as singular_campaign_name_clean
+
+  from
+    join_metadata_by_creative_id
 
       ;;
     ## the hardcoded meta data table is scheduled for 1AM UTC
@@ -320,10 +353,7 @@ select * from join_metadata_by_creative_id
 
   dimension: asset_name {type:string}
   dimension: country_field {type:string}
-  dimension: country {
-    type:string
-    sql:@{map_3_digit_country_code_to_3_digit_country_code} ;;
-    }
+  dimension: country {type:string}
   dimension: data_connector_source_name {type:string}
   dimension: source {type:string}
   dimension: os {type:string}
@@ -336,24 +366,19 @@ select * from join_metadata_by_creative_id
   dimension: singular_total_clicks {type:number}
   dimension: singular_total_installs {type:number}
   dimension: full_ad_name {type:string}
-  dimension: simple_ad_name {
-    type:string
-    sql: @{singular_simple_ad_name} ;;
-    }
+  dimension: simple_ad_name {type:string}
   dimension: singular_install_date {type: date}
   dimension: adn_creative_id {type: string}
 
   dimension: singular_grouped_ad_name {
     group_label: "Singular Creative Mapping"
     type: string
-    sql: @{singular_grouped_ad_name} ;;
-  }
+    }
 
   dimension: singular_simple_ad_name {
     group_label: "Singular Creative Mapping"
     type: string
-    sql: @{singular_simple_ad_name} ;;
-  }
+    }
 
 ####################################################################
 ## Campaign Name Clean
@@ -363,8 +388,7 @@ select * from join_metadata_by_creative_id
     group_label: "Singular Campaign Info"
     label: "Campaign Name (Clean)"
     type: string
-    sql: @{campaign_name_clean_update} ;;
-  }
+    }
 
 ####################################################################
 ## Measures

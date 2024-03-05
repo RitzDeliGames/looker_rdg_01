@@ -68,10 +68,30 @@ view: singular_campaign_detail {
       -- select distinct singular_platform from singular_campaign_summary
 
       select
-      *
-      , min( singular_install_date ) over ( partition by singular_campaign_id ) as campaign_start_date
+        singular_campaign_id
+        , singular_install_date
+        , singular_source
+        , singular_platform
+        , device_platform_mapping
+        , singular_country_name
+        , country
+        , campaign_name
+        , singular_total_impressions
+        , singular_total_cost
+        , singular_total_original_cost
+        , singular_total_installs
+        , singular_total_clicks
+        , min( singular_install_date ) over ( partition by singular_campaign_id ) as campaign_start_date
+
+        -----------------------------------------------------------------------
+        -- constants from the manifest
+        -----------------------------------------------------------------------
+
+        , @{country_region} as region
+        , @{campaign_name_clean_update} as singular_campaign_name_clean
+
       from
-      singular_campaign_summary
+        singular_campaign_summary
 
 
 
@@ -192,7 +212,7 @@ view: singular_campaign_detail {
   dimension: region {
     group_label: "Singular Campaign Info"
     type:string
-    sql:@{country_region};;}
+    }
 
 
 
@@ -205,7 +225,6 @@ view: singular_campaign_detail {
     group_label: "Singular Campaign Info"
     label: "Campaign Name (Clean)"
     type: string
-    sql: @{campaign_name_clean_update} ;;
   }
 
 }

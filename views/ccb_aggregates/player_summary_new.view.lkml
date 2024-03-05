@@ -237,6 +237,9 @@ view: player_summary_new {
         , @{singular_created_date_override} as singular_created_date_override
         , @{singular_campaign_blended_window_override} as singular_campaign_blended_window_override
         , @{campaign_with_organics_estimate} as campaign_with_organics_estimate
+        , @{singular_full_ad_name} as singular_full_ad_name
+        , @{singular_grouped_ad_name} as singular_grouped_ad_name
+        , @{singular_simple_ad_name} as singular_simple_ad_name
 
       from
         -- eraser-blast.looker_scratch.LR_6YUJU1709664574784_player_summary_staging
@@ -779,7 +782,6 @@ view: player_summary_new {
   dimension: singular_full_ad_name {
     group_label: "Singular Creative Mapping"
     type: string
-    sql: @{singular_full_ad_name} ;;
   }
 
   dimension: singular_creative_id {
@@ -790,13 +792,11 @@ view: player_summary_new {
   dimension: singular_grouped_ad_name {
     group_label: "Singular Creative Mapping"
     type: string
-    sql: @{singular_grouped_ad_name} ;;
   }
 
   dimension: singular_simple_ad_name {
     group_label: "Singular Creative Mapping"
     type: string
-    sql: @{singular_simple_ad_name} ;;
   }
 
 

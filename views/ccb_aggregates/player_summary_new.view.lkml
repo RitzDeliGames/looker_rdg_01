@@ -268,6 +268,24 @@ view: player_summary_new {
           )
 
         ------------------------------------------------------------------------------------
+        -- Singular Total Cost By Campaign & Install Date
+        ------------------------------------------------------------------------------------
+
+        , singular_total_cost_by_campaign_and_install_date_table as (
+
+          select
+            singular_campaign_id
+            , singular_install_date
+            , sum( singular_total_cost ) as singular_total_campaign_cost
+          from
+            ${singular_campaign_summary.SQL_TABLE_NAME}
+          where
+            singular_campaign_id is not null
+          group by
+            1,2
+          )
+
+        ------------------------------------------------------------------------------------
         -- Output
         ------------------------------------------------------------------------------------
 

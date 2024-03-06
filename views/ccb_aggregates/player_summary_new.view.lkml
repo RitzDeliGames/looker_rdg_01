@@ -250,6 +250,40 @@ view: player_summary_new {
           ${player_summary_staging.SQL_TABLE_NAME}
         )
 
+
+        ------------------------------------------------------------------------------------
+        -- Campaign Name Clean (step 1)
+        ------------------------------------------------------------------------------------
+
+        , campaign_name_clean_by_singular_campaign_id_table as (
+
+          select
+            singular_campaign_id
+            , max( singular_campaign_name_clean ) as singular_campaign_name_clean
+          from
+            ${singular_campaign_summary.SQL_TABLE_NAME}
+          where
+            singular_campaign_id is not null
+            and singular_campaign_name_clean is not null
+          group by
+            1
+          )
+
+        ------------------------------------------------------------------------------------
+        -- Campaign Name Clean (step 2)
+        ------------------------------------------------------------------------------------
+
+        , map_campaign_name_to_main_table as (
+
+          select
+            a.*
+            , b.singular_campaign_name_clean as mapped_singular_campaign_name_clean
+          from
+            base_data a
+            left join campaign_name_clean_by_singular_campaign_id_table b
+              on a.singular_campaign_id_override = b.singular_campaign_id
+          )
+
         ------------------------------------------------------------------------------------
         -- Singular Total Cost By Campaign
         ------------------------------------------------------------------------------------
@@ -257,33 +291,74 @@ view: player_summary_new {
         , singular_total_cost_by_campaign_table as (
 
           select
-            singular_campaign_id
+            singular_campaign_name_clean
             , sum( singular_total_cost ) as singular_total_campaign_cost
+            , safe_divide( sum( singular_total_cost ) , sum( singular_total_installs ) ) estimated_cpi
           from
             ${singular_campaign_summary.SQL_TABLE_NAME}
           where
-            singular_campaign_id is not null
+            singular_campaign_name_clean is not null
           group by
             1
           )
 
         ------------------------------------------------------------------------------------
-        -- Singular Total Cost By Campaign & Install Date
+        -- Singular Cost by Creative, Campaign
         ------------------------------------------------------------------------------------
 
-        , singular_total_cost_by_campaign_and_install_date_table as (
+        , singular_total_cost_by_campaign_and_creative_table as (
 
           select
-            singular_campaign_id
-            , singular_install_date
+            singular_campaign_name_clean
+            , singular_simple_ad_name
             , sum( singular_total_cost ) as singular_total_campaign_cost
+            , safe_divide( sum( singular_total_cost ) , sum( singular_total_installs ) ) estimated_cpi
           from
-            ${singular_campaign_summary.SQL_TABLE_NAME}
+            ${singular_creative_summary.SQL_TABLE_NAME}
           where
-            singular_campaign_id is not null
+            singular_campaign_name_clean is not null
+            and singular_simple_ad_name is not null
           group by
             1,2
           )
+
+        ------------------------------------------------------------------------------------
+        -- Best Guess CPI
+        ------------------------------------------------------------------------------------
+
+        , best_guess_cpi_table as (
+
+          select
+            a.*
+            , b.singular_total_campaign_cost
+            , coalesce(c.estimated_cpi,b.estimated_cpi) as best_guess_cost_per_install
+          from
+            map_campaign_name_to_main_table a
+
+            left join singular_total_cost_by_campaign_table b
+              on a.mapped_singular_campaign_name_clean = b.singular_campaign_name_clean
+
+            left join singular_total_cost_by_campaign_and_creative_table c
+              on a.mapped_singular_campaign_name_clean = c.singular_campaign_name_clean
+              and a.singular_simple_ad_name = c.singular_simple_ad_name
+        )
+
+        ------------------------------------------------------------------------------------
+        -- Adjustment by Total Cost
+        ------------------------------------------------------------------------------------
+
+        , cpi_adjustment_for_total_cost_table as (
+
+          select
+            mapped_singular_campaign_name_clean
+            , max( singular_total_campaign_cost ) as singular_total_campaign_cost
+            , sum( best_guess_cost_per_install ) as best_guess_total_cost
+            , safe_divide( max( singular_total_campaign_cost ) , sum( best_guess_cost_per_install ) ) as cpi_adjustment_for_total_cost
+          from
+            best_guess_cpi_table
+          group by
+            1
+        )
 
         ------------------------------------------------------------------------------------
         -- Output
@@ -291,11 +366,16 @@ view: player_summary_new {
 
         select
           a.*
-          , b.singular_total_campaign_cost
+          , b.best_guess_total_cost
+          , b.cpi_adjustment_for_total_cost
+          , safe_divide(b.singular_total_campaign_cost, b.best_guess_total_cost ) cpi_adjustment_new
+          , round( a.best_guess_cost_per_install * b.cpi_adjustment_for_total_cost , 2 ) as adjusted_cost_per_install
         from
-          base_data a
-          left join singular_total_cost_by_campaign_table b
-            on a.singular_campaign_id_override = b.singular_campaign_id
+          best_guess_cpi_table a
+          left join cpi_adjustment_for_total_cost_table b
+            on a.mapped_singular_campaign_name_clean = b.mapped_singular_campaign_name_clean
+
+
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (6) + 2 )*( -10 ) minute)) ;;
@@ -3679,10 +3759,163 @@ view: player_summary_new {
     value_format_name: decimal_0
   }
 
+################################################################
+## Player Level ROAS Estimate
+################################################################
 
+measure: player_level_roas_estimate_d1 {
+  label: "Estimate D1 ROAS"
+  group_label: "Player Level ROAS Estimate"
+  type: number
+  value_format_name: percent_1
+  sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d1)
+      ,
+      sum(${TABLE}.adjusted_cost_per_install)
+    )
+    ;;
+}
 
+measure: player_level_roas_estimate_d2 {
+    label: "Estimate D2 ROAS"
+    group_label: "Player Level ROAS Estimate"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d2)
+      ,
+      sum(${TABLE}.adjusted_cost_per_install)
+    )
+    ;;
+  }
 
+  measure: player_level_roas_estimate_d7 {
+    label: "Estimate D7 ROAS"
+    group_label: "Player Level ROAS Estimate"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d7)
+      ,
+      sum(${TABLE}.adjusted_cost_per_install)
+    )
+    ;;
+  }
 
+  measure: player_level_roas_estimate_d8 {
+    label: "Estimate D8 ROAS"
+    group_label: "Player Level ROAS Estimate"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d8)
+      ,
+      sum(${TABLE}.adjusted_cost_per_install)
+    )
+    ;;
+  }
+
+  measure: player_level_roas_estimate_d14 {
+    label: "Estimate D14 ROAS"
+    group_label: "Player Level ROAS Estimate"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d14)
+      ,
+      sum(${TABLE}.adjusted_cost_per_install)
+    )
+    ;;
+  }
+
+  measure: player_level_roas_estimate_d15 {
+    label: "Estimate D15 ROAS"
+    group_label: "Player Level ROAS Estimate"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d15)
+      ,
+      sum(${TABLE}.adjusted_cost_per_install)
+    )
+    ;;
+  }
+
+  measure: player_level_roas_estimate_d30 {
+    label: "Estimate D30 ROAS"
+    group_label: "Player Level ROAS Estimate"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d30)
+      ,
+      sum(${TABLE}.adjusted_cost_per_install)
+    )
+    ;;
+  }
+
+  measure: player_level_roas_estimate_d31 {
+    label: "Estimate D31 ROAS"
+    group_label: "Player Level ROAS Estimate"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d31)
+      ,
+      sum(${TABLE}.adjusted_cost_per_install)
+    )
+    ;;
+  }
+
+  measure: player_level_roas_estimate_d46 {
+    label: "Estimate D46 ROAS"
+    group_label: "Player Level ROAS Estimate"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d46)
+      ,
+      sum(${TABLE}.adjusted_cost_per_install)
+    )
+    ;;
+  }
+
+  measure: player_level_roas_estimate_d60 {
+    label: "Estimate D60 ROAS"
+    group_label: "Player Level ROAS Estimate"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d60)
+      ,
+      sum(${TABLE}.adjusted_cost_per_install)
+    )
+    ;;
+  }
+
+  measure: player_level_roas_estimate_d61 {
+    label: "Estimate D61 ROAS"
+    group_label: "Player Level ROAS Estimate"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d61)
+      ,
+      sum(${TABLE}.adjusted_cost_per_install)
+    )
+    ;;
+  }
 
 
 }

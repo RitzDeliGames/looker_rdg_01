@@ -250,7 +250,34 @@ view: player_summary_new {
           ${player_summary_staging.SQL_TABLE_NAME}
         )
 
-        select * from base_data
+        ------------------------------------------------------------------------------------
+        -- Singular Total Cost By Campaign
+        ------------------------------------------------------------------------------------
+
+        , singular_total_cost_by_campaign_table as (
+
+          select
+            singular_campaign_id
+            , sum( singular_total_cost ) as singular_total_campaign_cost
+          from
+            ${singular_campaign_summary.SQL_TABLE_NAME}
+          where
+            singular_campaign_id is not null
+          group by
+            1
+          )
+
+        ------------------------------------------------------------------------------------
+        -- Output
+        ------------------------------------------------------------------------------------
+
+        select
+          a.*
+          , b.singular_total_campaign_cost
+        from
+          base_data a
+          left join singular_total_cost_by_campaign_table b
+            on a.singular_campaign_id_override = b.singular_campaign_id
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (6) + 2 )*( -10 ) minute)) ;;

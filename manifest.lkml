@@ -1121,7 +1121,7 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_clear_vertical_bulk' then '5x Clear Vertical Skill'
     when ${TABLE}.iap_id = 'item_shuffle' then '1x Shuffle Skill'
     when ${TABLE}.iap_id = 'item_shuffle_bulk' then '5x Shuffle Skill'
-
+    when ${TABLE}.iap_id = 'item_chopsticks_bulk' then '5x Chopsticks Skill'
 
 
     when ${TABLE}.iap_id = 'item_rocket' then '1x Rocket Boost'
@@ -1138,6 +1138,7 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_054' then 'Vertical Chum Chums & Coins Special!'
     when ${TABLE}.iap_id = 'item_053' then 'Horizontal Chum Chums & Coins Special!'
     when ${TABLE}.iap_id = 'item_075' then 'Shuffle Chum Chums & Coins Special!'
+    when ${TABLE}.iap_id = 'item_095' then 'Skillet Chum Chums & Coins Special!'
 
     when ${TABLE}.iap_id = 'item_055' then 'Coins (S)'
     when ${TABLE}.iap_id = 'item_056' then 'Coins (M)'
@@ -1153,6 +1154,7 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_066' then 'Treasure Trove (S)'
     when ${TABLE}.iap_id = 'item_069' then 'Treasure Trove (M)'
     when ${TABLE}.iap_id = 'item_072' then 'Treasure Trove (L)'
+    when ${TABLE}.iap_id = 'item_099' then 'Treasure Trove (XL)'
 
     when ${TABLE}.iap_id = 'item_076' then 'Magnifiers (S)'
     when ${TABLE}.iap_id = 'item_077' then 'Magnifiers (M)'
@@ -1162,6 +1164,8 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_090' then 'Level Bundle (200)'
     when ${TABLE}.iap_id = 'item_091' then 'Level Bundle (300)'
     when ${TABLE}.iap_id = 'item_092' then 'Level Bundle (400)'
+    when ${TABLE}.iap_id = 'item_098' then 'Level Bundle (500)'
+
 
     when ${TABLE}.iap_id = 'battle_pass' then 'Premium Battle Pass'
 
@@ -1214,7 +1218,7 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id like '%clear_vertical%' then 'Chum Chum Skills'
       when ${TABLE}.iap_id = 'item_shuffle' then 'Chum Chum Skills'
       when ${TABLE}.iap_id = 'item_shuffle_bulk' then 'Chum Chum Skills'
-
+      when ${TABLE}.iap_id = 'item_chopsticks_bulk' then 'Chum Chum Skills'
 
       when ${TABLE}.iap_id like '%bomb%' then 'Pre-Game Boosts'
       when ${TABLE}.iap_id like '%rocket%' then 'Pre-Game Boosts'
@@ -1228,7 +1232,7 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id = 'item_054' then 'Chum Chums & Coins'
       when ${TABLE}.iap_id = 'item_053' then 'Chum Chums & Coins'
       when ${TABLE}.iap_id = 'item_075' then 'Chum Chums & Coins'
-
+      when ${TABLE}.iap_id = 'item_095' then 'Chum Chums & Coins'
 
       when ${TABLE}.iap_id = 'item_055' then 'Coins'
       when ${TABLE}.iap_id = 'item_056' then 'Coins'
@@ -1243,6 +1247,7 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id = 'item_066' then 'Treasure Trove'
       when ${TABLE}.iap_id = 'item_069' then 'Treasure Trove'
       when ${TABLE}.iap_id = 'item_072' then 'Treasure Trove'
+      when ${TABLE}.iap_id = 'item_099' then 'Treasure Trove'
 
       when ${TABLE}.iap_id = 'item_076' then 'Magnifiers'
       when ${TABLE}.iap_id = 'item_077' then 'Magnifiers'
@@ -1252,6 +1257,7 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id = 'item_090' then 'Level Bundle'
       when ${TABLE}.iap_id = 'item_091' then 'Level Bundle'
       when ${TABLE}.iap_id = 'item_092' then 'Level Bundle'
+      when ${TABLE}.iap_id = 'item_098' then 'Level Bundle'
 
       when ${TABLE}.iap_id = 'battle_pass' then 'Premium Battle Pass'
 

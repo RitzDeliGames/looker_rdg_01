@@ -1032,6 +1032,13 @@ from
     sql: ${TABLE}.moves_master_tier ;;
   }
 
+  ## Puzzle Piece Mapping
+  dimension: puzzle_piece_number_mapping_by_date {
+    label: "Puzzle Piece # Mapping by Date"
+    type: string
+    sql: @{puzzle_piece_number_mapping_by_date} ;;
+  }
+
 ################################################################
 ## Level Buckets
 ################################################################

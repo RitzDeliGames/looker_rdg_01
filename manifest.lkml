@@ -4238,6 +4238,105 @@ when ${TABLE}.level_serial between 828 and 824 then 0
 }
 
 ###################################################################
+# Puzzle Piece # Mapping by Date
+###################################################################
+
+## Spreadsheet here
+## https://docs.google.com/spreadsheets/d/1j44GjJdNNn6bNXDDp4y_3HgKxZ7QXOMH__UI9jibyAM/edit?usp=sharing
+
+constant: puzzle_piece_number_mapping_by_date {
+  value: "
+    case
+      when date(${TABLE}.rdg_date) between '2023-09-27' and '2023-10-03' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2023-10-04' and '2023-10-10' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2023-10-11' and '2023-10-17' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2023-10-18' and '2023-10-24' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2023-10-25' and '2023-10-31' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2023-11-01' and '2023-11-07' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2023-11-08' and '2023-11-14' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2023-11-15' and '2023-11-21' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2023-11-22' and '2023-11-28' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2023-11-29' and '2023-12-05' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2023-12-06' and '2023-12-12' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2023-12-13' and '2023-12-19' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2023-12-20' and '2023-12-26' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2023-12-27' and '2024-01-02' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-01-03' and '2024-01-09' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-01-10' and '2024-01-16' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-01-17' and '2024-01-23' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-01-24' and '2024-01-30' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-01-31' and '2024-02-06' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-02-07' and '2024-02-13' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-02-14' and '2024-02-20' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-02-21' and '2024-02-27' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-02-28' and '2024-03-05' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-03-06' and '2024-03-12' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-03-13' and '2024-03-19' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-03-20' and '2024-03-26' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-03-27' and '2024-04-02' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-04-03' and '2024-04-09' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-04-10' and '2024-04-16' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-04-17' and '2024-04-23' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-04-24' and '2024-04-30' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-05-01' and '2024-05-07' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-05-08' and '2024-05-14' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-05-15' and '2024-05-21' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-05-22' and '2024-05-28' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-05-29' and '2024-06-04' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-06-05' and '2024-06-11' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-06-12' and '2024-06-18' then '25 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-06-19' and '2024-06-25' then '36 Piece Puzzle'
+      when date(${TABLE}.rdg_date) between '2024-06-26' and '2024-07-02' then '25 Piece Puzzle'
+    end"
+}
+
+constant: puzzle_piece_number_mapping_start_date {
+  value: "
+  case
+    when date(${TABLE}.rdg_date) between '2023-09-27' and '2023-10-03' then '2023-09-27'
+    when date(${TABLE}.rdg_date) between '2023-10-04' and '2023-10-10' then '2023-10-04'
+    when date(${TABLE}.rdg_date) between '2023-10-11' and '2023-10-17' then '2023-10-11'
+    when date(${TABLE}.rdg_date) between '2023-10-18' and '2023-10-24' then '2023-10-18'
+    when date(${TABLE}.rdg_date) between '2023-10-25' and '2023-10-31' then '2023-10-25'
+    when date(${TABLE}.rdg_date) between '2023-11-01' and '2023-11-07' then '2023-11-01'
+    when date(${TABLE}.rdg_date) between '2023-11-08' and '2023-11-14' then '2023-11-08'
+    when date(${TABLE}.rdg_date) between '2023-11-15' and '2023-11-21' then '2023-11-15'
+    when date(${TABLE}.rdg_date) between '2023-11-22' and '2023-11-28' then '2023-11-22'
+    when date(${TABLE}.rdg_date) between '2023-11-29' and '2023-12-05' then '2023-11-29'
+    when date(${TABLE}.rdg_date) between '2023-12-06' and '2023-12-12' then '2023-12-06'
+    when date(${TABLE}.rdg_date) between '2023-12-13' and '2023-12-19' then '2023-12-13'
+    when date(${TABLE}.rdg_date) between '2023-12-20' and '2023-12-26' then '2023-12-20'
+    when date(${TABLE}.rdg_date) between '2023-12-27' and '2024-01-02' then '2023-12-27'
+    when date(${TABLE}.rdg_date) between '2024-01-03' and '2024-01-09' then '2024-01-03'
+    when date(${TABLE}.rdg_date) between '2024-01-10' and '2024-01-16' then '2024-01-10'
+    when date(${TABLE}.rdg_date) between '2024-01-17' and '2024-01-23' then '2024-01-17'
+    when date(${TABLE}.rdg_date) between '2024-01-24' and '2024-01-30' then '2024-01-24'
+    when date(${TABLE}.rdg_date) between '2024-01-31' and '2024-02-06' then '2024-01-31'
+    when date(${TABLE}.rdg_date) between '2024-02-07' and '2024-02-13' then '2024-02-07'
+    when date(${TABLE}.rdg_date) between '2024-02-14' and '2024-02-20' then '2024-02-14'
+    when date(${TABLE}.rdg_date) between '2024-02-21' and '2024-02-27' then '2024-02-21'
+    when date(${TABLE}.rdg_date) between '2024-02-28' and '2024-03-05' then '2024-02-28'
+    when date(${TABLE}.rdg_date) between '2024-03-06' and '2024-03-12' then '2024-03-06'
+    when date(${TABLE}.rdg_date) between '2024-03-13' and '2024-03-19' then '2024-03-13'
+    when date(${TABLE}.rdg_date) between '2024-03-20' and '2024-03-26' then '2024-03-20'
+    when date(${TABLE}.rdg_date) between '2024-03-27' and '2024-04-02' then '2024-03-27'
+    when date(${TABLE}.rdg_date) between '2024-04-03' and '2024-04-09' then '2024-04-03'
+    when date(${TABLE}.rdg_date) between '2024-04-10' and '2024-04-16' then '2024-04-10'
+    when date(${TABLE}.rdg_date) between '2024-04-17' and '2024-04-23' then '2024-04-17'
+    when date(${TABLE}.rdg_date) between '2024-04-24' and '2024-04-30' then '2024-04-24'
+    when date(${TABLE}.rdg_date) between '2024-05-01' and '2024-05-07' then '2024-05-01'
+    when date(${TABLE}.rdg_date) between '2024-05-08' and '2024-05-14' then '2024-05-08'
+    when date(${TABLE}.rdg_date) between '2024-05-15' and '2024-05-21' then '2024-05-15'
+    when date(${TABLE}.rdg_date) between '2024-05-22' and '2024-05-28' then '2024-05-22'
+    when date(${TABLE}.rdg_date) between '2024-05-29' and '2024-06-04' then '2024-05-29'
+    when date(${TABLE}.rdg_date) between '2024-06-05' and '2024-06-11' then '2024-06-05'
+    when date(${TABLE}.rdg_date) between '2024-06-12' and '2024-06-18' then '2024-06-12'
+    when date(${TABLE}.rdg_date) between '2024-06-19' and '2024-06-25' then '2024-06-19'
+    when date(${TABLE}.rdg_date) between '2024-06-26' and '2024-07-02' then '2024-06-26'
+  end"
+}
+
+###################################################################
 # Visualization JS...KEEP AT THE BOTTOM
 ###################################################################
 

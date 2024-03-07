@@ -1494,24 +1494,19 @@ dimension: primary_key {
     sql: case when ${TABLE}.errors_null_reference_exception > 0 then ${TABLE}.rdg_id else null end ;;
   }
 
-################################################################
-## Pop-up
-################################################################
 
-  dimension: daily_popup_category {
-    group_label: "Daily Pop-up"
-    label: "Daily Pop-up Category"
+  ## Puzzle Piece Mapping
+  dimension: puzzle_piece_number_mapping_by_date {
+    label: "Puzzle Piece # Mapping by Date"
     type: string
-    sql: ${TABLE}.daily_popup_category ;;
+    sql: @{puzzle_piece_number_mapping_by_date} ;;
   }
 
-  dimension: daily_popup_action {
-    group_label: "Daily Pop-up"
-    label: "Daily Pop-up Action"
-    type: string
-    sql: ${TABLE}.daily_popup_action ;;
+  dimension: puzzle_piece_number_mapping_start_date {
+    label: "Puzzle Piece # Mapping Start Date"
+    type: date
+    sql: @{puzzle_piece_number_mapping_start_date} ;;
   }
-
 
 ################################################################
 ## Unique Player Counts

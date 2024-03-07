@@ -522,6 +522,9 @@ constant: campaign_name_clean_update {
               and date(singular_install_date) between '2023-04-11' and '2023-04-13'
               then '20230413 - AAA - LATAM/ES - 15 Min'
 
+
+            when campaign_name = 'CHUM|Facebook|Android|US|AA+|20240307' then '20240307 - AA+ - USA - Purchase'
+
             when campaign_name = 'CHUM|Facebook|Android|LATAM-ES|AA+|Mar03' then '20240303 - AA+ - LATAM/ES - 30 Min'
 
             when campaign_name = 'CHUM|Facebook|Android|US|AA+|Jan24' then '20240103 - AA+ - USA - Purchase'

@@ -5132,5 +5132,133 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     sql: ${TABLE}.ending_balance_skillet ;;
   }
 
+######################################################################################
+## Daily Popup
+######################################################################################
+
+        # -- Daily Pop-up
+        # , a.daily_popup_BattlePass
+        # , a.daily_popup_DailyReward
+        # , a.daily_popup_FlourFrenzy
+        # , a.daily_popup_GoFish
+        # , a.daily_popup_HotdogContest
+        # , a.daily_popup_LuckyDice
+        # , a.daily_popup_MovesMaster
+        # , a.daily_popup_PizzaTime
+        # , a.daily_popup_Puzzle
+        # , a.daily_popup_TreasureTrove
+        # , a.daily_popup_UpdateApp
+
+dimension: count_of_daily_popups_shown {
+  label: "Count of Daily Popups Shown"
+  group_label: "Daily Popup"
+  type: number
+  sql:
+    case when ${TABLE}.daily_popup_BattlePass is not null then 1 else 0 end
+    + case when ${TABLE}.daily_popup_DailyReward is not null then 1 else 0 end
+    + case when ${TABLE}.daily_popup_FlourFrenzy is not null then 1 else 0 end
+    + case when ${TABLE}.daily_popup_GoFish is not null then 1 else 0 end
+    + case when ${TABLE}.daily_popup_HotdogContest is not null then 1 else 0 end
+    + case when ${TABLE}.daily_popup_LuckyDice is not null then 1 else 0 end
+    + case when ${TABLE}.daily_popup_MovesMaster is not null then 1 else 0 end
+    + case when ${TABLE}.daily_popup_PizzaTime is not null then 1 else 0 end
+    + case when ${TABLE}.daily_popup_Puzzle is not null then 1 else 0 end
+    + case when ${TABLE}.daily_popup_TreasureTrove is not null then 1 else 0 end
+    + case when ${TABLE}.daily_popup_UpdateApp is not null then 1 else 0 end
+  ;;
+}
+
+measure: count_daily_popup_BattlePass {
+  label: "Count Daily Popups: BattlePass"
+  group_label: "Daily Popup"
+  type: number
+  sql: sum( case when ${TABLE}.daily_popup_BattlePass is not null then 1 else 0 end )   ;;
+  value_format_name: decimal_0
+}
+
+  measure: count_daily_popup_DailyReward {
+    label: "Count Daily Popups: DailyReward"
+    group_label: "Daily Popup"
+    type: number
+    sql: sum( case when ${TABLE}.daily_popup_DailyReward is not null then 1 else 0 end )   ;;
+    value_format_name: decimal_0
+  }
+
+  measure: count_daily_popup_FlourFrenzy {
+    label: "Count Daily Popups: FlourFrenzy"
+    group_label: "Daily Popup"
+    type: number
+    sql: sum( case when ${TABLE}.daily_popup_FlourFrenzy is not null then 1 else 0 end )   ;;
+    value_format_name: decimal_0
+  }
+
+  measure: count_daily_popup_GoFish {
+    label: "Count Daily Popups: GoFish"
+    group_label: "Daily Popup"
+    type: number
+    sql: sum( case when ${TABLE}.daily_popup_GoFish is not null then 1 else 0 end )   ;;
+    value_format_name: decimal_0
+  }
+
+  measure: count_daily_popup_HotdogContest {
+    label: "Count Daily Popups: HotdogContest"
+    group_label: "Daily Popup"
+    type: number
+    sql: sum( case when ${TABLE}.daily_popup_HotdogContest is not null then 1 else 0 end )   ;;
+    value_format_name: decimal_0
+  }
+
+  measure: count_daily_popup_LuckyDice {
+    label: "Count Daily Popups: LuckyDice"
+    group_label: "Daily Popup"
+    type: number
+    sql: sum( case when ${TABLE}.daily_popup_LuckyDice is not null then 1 else 0 end )   ;;
+    value_format_name: decimal_0
+  }
+
+  measure: count_daily_popup_MovesMaster {
+    label: "Count Daily Popups: MovesMaster"
+    group_label: "Daily Popup"
+    type: number
+    sql: sum( case when ${TABLE}.daily_popup_MovesMaster is not null then 1 else 0 end )   ;;
+    value_format_name: decimal_0
+  }
+
+  measure: count_daily_popup_PizzaTime {
+    label: "Count Daily Popups: PizzaTime"
+    group_label: "Daily Popup"
+    type: number
+    sql: sum( case when ${TABLE}.daily_popup_PizzaTime is not null then 1 else 0 end )   ;;
+    value_format_name: decimal_0
+  }
+
+  measure: count_daily_popup_Puzzle {
+    label: "Count Daily Popups: Puzzle"
+    group_label: "Daily Popup"
+    type: number
+    sql: sum( case when ${TABLE}.daily_popup_Puzzle is not null then 1 else 0 end )   ;;
+    value_format_name: decimal_0
+  }
+
+  measure: count_daily_popup_TreasureTrove {
+    label: "Count Daily Popups: TreasureTrove"
+    group_label: "Daily Popup"
+    type: number
+    sql: sum( case when ${TABLE}.daily_popup_TreasureTrove is not null then 1 else 0 end )   ;;
+    value_format_name: decimal_0
+  }
+
+  measure: count_daily_popup_UpdateApp {
+    label: "Count Daily Popups: UpdateApp"
+    group_label: "Daily Popup"
+    type: number
+    sql: sum( case when ${TABLE}.daily_popup_UpdateApp is not null then 1 else 0 end )   ;;
+    value_format_name: decimal_0
+  }
+
+
+
+
+
 
 }

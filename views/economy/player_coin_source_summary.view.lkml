@@ -95,7 +95,12 @@ dimension: primary_key {
     sql: safe_cast(ceiling(${TABLE}.day_number/30) as int64) ;;
   }
 
-
+  ## Puzzle Piece Mapping
+  dimension: puzzle_piece_number_mapping_by_date {
+    label: "Puzzle Piece # Mapping by Date"
+    type: string
+    sql: @{puzzle_piece_number_mapping_by_date} ;;
+  }
 
 ################################################################
 ## Coin Source Naming

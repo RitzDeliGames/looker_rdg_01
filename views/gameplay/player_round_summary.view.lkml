@@ -950,18 +950,66 @@ from
     value_format_name: decimal_0
     sql: safe_cast(ceiling(${TABLE}.day_number/7) as int64) ;;
   }
-  dimension: before_round_start_mtx_purchase_dollars {type:number}
-  dimension: in_round_mtx_purchase_dollars {type:number}
-  dimension: total_mtx_purchase_dollars {type:number}
-  dimension: before_round_start_count_mtx_purchases {type:number}
-  dimension: in_round_count_mtx_purchases {type:number}
-  dimension: total_count_mtx_purchases {type:number}
-  dimension: before_round_start_ad_view_dollars {type:number}
-  dimension: in_round_ad_view_dollars {type:number}
-  dimension: total_ad_view_dollars {type:number}
-  dimension: before_round_start_count_ad_views {type:number}
-  dimension: in_round_count_ad_views {type:number}
-  dimension: total_count_ad_views {type:number}
+
+  dimension: before_round_start_mtx_purchase_dollars {
+    label: "Before Round Start IAP Dollars"
+    type:number
+    }
+  dimension: in_round_mtx_purchase_dollars {
+    label: "In Round IAP Dollars"
+    type:number
+    }
+
+  dimension: total_mtx_purchase_dollars {
+    label: "Total IAP Dollars"
+    type:number
+    }
+
+  dimension: before_round_start_count_mtx_purchases {
+    label: "Before Round Start Count of IAPs"
+    type:number
+    }
+
+  dimension: in_round_count_mtx_purchases {
+    label: "In Round Count of IAPs"
+    type:number
+    }
+
+  dimension: total_count_mtx_purchases {
+    label: "Total Count of IAPs"
+    type:number
+    }
+
+  dimension: before_round_start_ad_view_dollars {
+    label: "Before Round Start IAA Dollars"
+    type:number
+    }
+
+  dimension: in_round_ad_view_dollars {
+    label: "In Round IAA Dollars"
+    type:number
+    }
+
+  dimension: total_ad_view_dollars {
+    label: "Total IAA Dollars"
+    type:number
+    }
+
+  dimension: before_round_start_count_ad_views {
+    label: "Before Round Start Count of IAA Views"
+    type:number
+    }
+
+  dimension: in_round_count_ad_views {
+    label: "In Round Count of IAA Views"
+    type:number
+    }
+
+  dimension: total_count_ad_views {
+    label: "Total Count of IAA Views"
+    type:number
+    }
+
   dimension: before_round_start_coin_spend {type:number}
   dimension: in_round_coin_spend {type:number}
   dimension: total_coin_spend {type:number}
@@ -972,20 +1020,54 @@ from
   dimension: in_round_combined_dollars {type:number}
   dimension: total_combined_dollars {type:number}
   dimension: cumulative_round_by_level_game_mode {type:number}
-  dimension: round_end_cumulative_mtx_purchase_dollars {type:number}
-  dimension: round_end_cumulative_count_mtx_purchases {type:number}
-  dimension: round_end_cumulative_ad_view_dollars {type:number}
-  dimension: round_end_cumulative_count_ad_views {type:number}
+
+  dimension: round_end_cumulative_mtx_purchase_dollars {
+    label: "Round End LTV - IAP"
+    type:number
+    }
+
+  dimension: round_end_cumulative_count_mtx_purchases {
+    label: "Round End Cumulative Count of IAPs"
+    type:number
+    }
+
+  dimension: round_end_cumulative_ad_view_dollars {
+    label: "Round End LTV - IAA"
+    type:number
+    }
+
+  dimension: round_end_cumulative_count_ad_views {
+    label: "Round End Cumulative Count of IAA Views"
+    type:number
+    }
+
   dimension: round_end_cumulative_coin_spend {type:number}
   dimension: round_end_cumulative_count_coin_spend_events {type:number}
   dimension: round_end_cumulative_combined_dollars {type:number}
   dimension: churn_indicator {type:number}
   dimension: churn_rdg_id {type:string}
   dimension: cumulative_round_by_level_game_mode_at_churn {type:number}
-  dimension: cumulative_mtx_purchase_dollars_at_churn {type:number}
-  dimension: cumulative_count_mtx_purchases_at_churn {type:number}
-  dimension: cumulative_ad_view_dollars_at_churn {type:number}
-  dimension: cumulative_count_ad_views_at_churn {type:number}
+
+  dimension: cumulative_mtx_purchase_dollars_at_churn {
+    label: "LTV - IAP at Churn"
+    type:number
+    }
+
+  dimension: cumulative_count_mtx_purchases_at_churn {
+    label: "Cumulative Count of IAPs at Churn"
+    type:number
+    }
+
+  dimension: cumulative_ad_view_dollars_at_churn {
+    label: "LTV - IAA at Churn"
+    type:number
+    }
+
+  dimension: cumulative_count_ad_views_at_churn {
+    label: "Cumulative Count of IAA Views at Churn"
+    type:number
+    }
+
   dimension: cumulative_coin_spend_at_churn {type:number}
   dimension: cumulative_count_coin_spend_events_at_churn {type:number}
   dimension: cumulative_combined_dollars_at_churn {type:number}
@@ -1588,6 +1670,7 @@ from
   }
 
   measure: mtx_dollars_per_player {
+    label: "IAP Dollars Per Player"
     group_label: "Calculated Fields"
     type: number
     sql:
@@ -1602,6 +1685,7 @@ from
   }
 
   measure: ad_dollars_per_player {
+    label: "IAA Dollars Per Player"
     group_label: "Calculated Fields"
     type: number
     sql:

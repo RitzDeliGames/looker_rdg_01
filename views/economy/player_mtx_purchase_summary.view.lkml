@@ -164,7 +164,7 @@ dimension: primary_key {
   dimension: last_level_serial {type:number}
   dimension: count_mtx_purchases {type:number}
 
-  dimension: mtx_purchase_dollars {type:number}
+  dimension: mtx_purchase_dollars {type:number label: "IAP Dollars"}
   dimension: coins_balance {type:number}
   dimension: lives_balance {type:number}
   dimension: stars_balance {type:number}
@@ -172,10 +172,12 @@ dimension: primary_key {
   dimension: days_since_created {type:number}
   dimension: day_number {type:number}
   dimension: cumulative_mtx_purchase_dollars {
+    label: "LTV - IAP"
     type: number
     value_format_name: usd
   }
   dimension: cumulative_count_mtx_purchases {
+    label: "Cumulative Count IAP"
     type: number
     value_format_name: decimal_0
   }
@@ -200,7 +202,7 @@ dimension: primary_key {
 
   measure: mtx_dollars_per_spender {
     group_label: "Calculated Fields"
-    label: "MTX Dollars Per Spender"
+    label: "IAP Dollars Per Spender"
     type: number
     sql:
       safe_divide(
@@ -227,7 +229,7 @@ dimension: primary_key {
   }
   measure: mtx_dollars_per_unique_day {
     group_label: "Calculated Fields"
-    label: "MTX Dollars Per Day"
+    label: "IAP Dollars Per Day"
     type: number
     sql:
       safe_divide(
@@ -275,22 +277,19 @@ dimension: primary_key {
 ################################################################
 
   measure: sum_count_mtx_purchases {
-    group_label: "Count MTX Purchases"
-    label: "Total MTX Purchases"
+    group_label: "Sum Count IAPs"
     type:sum
     sql: ${TABLE}.count_mtx_purchases ;;
   }
   measure: sum_mtx_purchase_dollars {
-    group_label: "MTX Purchase Dollars"
-    label: "MTX Purchase Dollars"
+    label: "Sum IAP Dollars"
     type:sum
     value_format: "$#.00"
     sql: ${TABLE}.mtx_purchase_dollars ;;
     drill_fields: [timestamp_utc_time,rdg_id,iap_id,iap_id_strings,mtx_purchase_dollars]
   }
   measure: sum_cumulative_mtx_purchase_dollars {
-    group_label: "Cumulative MTX Purchase Dollars"
-    label: "Cumulative MTX Purchase Dollars"
+    label: "Sum LTV - IAP"
     type:sum
     value_format: "$#.00"
     sql: ${TABLE}.cumulative_mtx_purchase_dollars ;;

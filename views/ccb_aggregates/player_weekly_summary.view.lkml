@@ -688,16 +688,16 @@ view: player_weekly_summary {
   dimension: experiments {type:string}
   dimension: version {type:string}
   dimension: install_version {type:string}
-  dimension: mtx_purchase_dollars {type:number}
-  dimension: ad_view_dollars {type:number}
+  dimension: mtx_purchase_dollars {type:number label: "IAP Dollars"}
+  dimension: ad_view_dollars {type:number label: "IAA Dollars"}
   dimension: combined_dollars {type:number}
-  dimension: sum_daily_mtx_spend_indicator {type:number}
-  dimension: weekly_mtx_spend_indicator {type:number}
-  dimension: weekly_mtx_spender_rdg_id {type:string}
-  dimension: first_mtx_spend_indicator {type:number}
-  dimension: ad_views {type:number}
-  dimension: sum_daily_ad_view_indicator {type:number}
-  dimension: weekly_ad_view_indicator {type:number}
+  dimension: sum_daily_mtx_spend_indicator {type:number label: "Sum Daily IAP Spend Indicator"}
+  dimension: weekly_mtx_spend_indicator {type:number label: "Weekly IAP Spend Indicator"}
+  dimension: weekly_mtx_spender_rdg_id {type:string label: "Weekly IAP Spend Rdg Id"}
+  dimension: first_mtx_spend_indicator {type:number label: "First IAP Spend Indicator"}
+  dimension: ad_views {type:number label: "IAA Views"}
+  dimension: sum_daily_ad_view_indicator {type:number label: "Sum Daily IAA View Indicator"}
+  dimension: weekly_ad_view_indicator {type:number label: "Weekly IAA View Indicator"}
   dimension: count_sessions {type:number}
   dimension: cumulative_session_count {type:number}
   dimension: cumulative_engagement_ticks {type:number}
@@ -713,10 +713,8 @@ view: player_weekly_summary {
   dimension: lowest_last_level_serial {type:number}
   dimension: highest_last_level_serial {type:number}
   dimension: highest_quests_completed {type:number}
-  dimension: gems_spend {type:number}
   dimension: coins_spend {type:number}
   dimension: stars_spend {type:number}
-  dimension: ending_gems_balance {type:number}
   dimension: ending_coins_balance {type:number}
   dimension: ending_lives_balance {type:number}
   dimension: ending_stars_balance {type:number}
@@ -736,12 +734,12 @@ view: player_weekly_summary {
   dimension: new_player_rdg_id {type:string}
   dimension: churn_indicator {type:number}
   dimension: churn_rdg_id {type:string}
-  dimension: cumulative_mtx_purchase_dollars {type:number}
-  dimension: cumulative_ad_view_dollars {type:number}
-  dimension: cumulative_combined_dollars {value_format:"$#.00" type:number}
-  dimension: lifetime_mtx_spend_indicator {type:number}
-  dimension: lifetime_mtx_spender_rdg_id {type:string}
-  dimension: cumulative_ad_views {type:number}
+  dimension: cumulative_mtx_purchase_dollars {type:number label: "LTV - IAP"}
+  dimension: cumulative_ad_view_dollars {type:number label: "LTV - IAA"}
+  dimension: cumulative_combined_dollars {value_format:"$#.00" type:number label: "LTV - Combined"}
+  dimension: lifetime_mtx_spend_indicator {type:number label: "Lifetime IAP Spend Indicator"}
+  dimension: lifetime_mtx_spender_rdg_id {type:string label: "Lifetime IAP Spend Rdg Id"}
+  dimension: cumulative_ad_views {type:number label: "Cumulative IAA Views"}
   dimension: engagement_ticks {type:number}
   dimension: time_played_minutes {type:number}
   dimension: cumulative_time_played_minutes {type:number}
@@ -799,11 +797,13 @@ view: player_weekly_summary {
     sql: ${TABLE}.churn_rdg_id ;;
   }
   measure: count_distinct_daily_mtx_spender_rdg_id {
+    label: "Count Distinct IAP Spenders"
     group_label: "Unique Player Counts"
     type: count_distinct
     sql: ${TABLE}.daily_mtx_spender_rdg_id ;;
   }
   measure: count_distinct_lifetime_mtx_spender_rdg_id {
+    label: "Count Distinct Lifetime IAP Spenders"
     group_label: "Unique Player Counts"
     type: count_distinct
     sql: ${TABLE}.lifetime_mtx_spender_rdg_id ;;
@@ -916,6 +916,7 @@ view: player_weekly_summary {
 ################################################################
 
   measure: average_mtx_purchase_revenue_per_player{
+    label: "Average IAP Revenue Per Player"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -929,6 +930,7 @@ view: player_weekly_summary {
   }
 
   measure: average_mtx_purchase_revenue_per_player_per_day{
+    label: "Average IAP Revenue Per DAU"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -942,6 +944,7 @@ view: player_weekly_summary {
   }
 
   measure: average_daily_mtx_conversion {
+    label: "Average Daily IAP Conversion"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -955,6 +958,7 @@ view: player_weekly_summary {
   }
 
   measure: average_ad_revenue_per_player{
+    label: "Average IAA Revenue Per Player"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -968,6 +972,7 @@ view: player_weekly_summary {
   }
 
   measure: average_ad_revenue_per_player_per_day{
+    label: "Average IAA Revenue Per DAU"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -981,6 +986,7 @@ view: player_weekly_summary {
   }
 
   measure: average_daily_ads_conversion {
+    label: "Average Daily IAA Conversion"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -1020,12 +1026,14 @@ view: player_weekly_summary {
   }
 
   measure: sum_mtx_purchase_dollars {
+    label: "Sum IAP Dollars"
     group_label: "Revenue Metrics"
     type:sum
     value_format: "$#,###"
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: sum_ad_view_dollars {
+    label: "Sum IAA Dollars"
     group_label: "Revenue Metrics"
     type:sum
     value_format: "$#,###"
@@ -1356,31 +1364,36 @@ sql: ${TABLE}.ending_coins_balance ;;
 ################################################################
 
   measure: mtx_purchase_dollars_10 {
-    group_label: "MTX Purchase Dollars"
+    label: "10th Percentile"
+    group_label: "Weekly IAP Dollars Distribution"
     type: percentile
     percentile: 10
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: mtx_purchase_dollars_25 {
-    group_label: "MTX Purchase Dollars"
+    label: "25th Percentile"
+    group_label: "Weekly IAP Dollars Distribution"
     type: percentile
     percentile: 25
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: mtx_purchase_dollars_50 {
-    group_label: "MTX Purchase Dollars"
+    label: "50th Percentile"
+    group_label: "Weekly IAP Dollars Distribution"
     type: percentile
     percentile: 50
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: mtx_purchase_dollars_75 {
-    group_label: "MTX Purchase Dollars"
+    label: "75th Percentile"
+    group_label: "Weekly IAP Dollars Distribution"
     type: percentile
     percentile: 75
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
   measure: mtx_purchase_dollars_95 {
-    group_label: "MTX Purchase Dollars"
+    label: "95th Percentile"
+    group_label: "Weekly IAP Dollars Distribution"
     type: percentile
     percentile: 95
     sql: ${TABLE}.mtx_purchase_dollars ;;
@@ -1391,31 +1404,36 @@ sql: ${TABLE}.ending_coins_balance ;;
 ################################################################
 
   measure: ad_view_dollars_10 {
-    group_label: "Ad View Dollars"
+    label: "10th Percentile"
+    group_label: "Weekly IAA Dollars Distribution"
     type: percentile
     percentile: 10
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_25 {
-    group_label: "Ad View Dollars"
+    label: "25th Percentile"
+    group_label: "Weekly IAA Dollars Distribution"
     type: percentile
     percentile: 25
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_50 {
-    group_label: "Ad View Dollars"
+    label: "Median"
+    group_label: "Weekly IAA Dollars Distribution"
     type: percentile
     percentile: 50
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_75 {
-    group_label: "Ad View Dollars"
+    label: "75th Percentile"
+    group_label: "Weekly IAA Dollars Distribution"
     type: percentile
     percentile: 75
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_95 {
-    group_label: "Ad View Dollars"
+    label: "95th Percentile"
+    group_label: "Weekly IAA Dollars Distribution"
     type: percentile
     percentile: 95
     sql: ${TABLE}.ad_view_dollars ;;
@@ -1426,111 +1444,114 @@ sql: ${TABLE}.ending_coins_balance ;;
 ################################################################
 
   measure: ad_views_10 {
-    group_label: "Ad Views"
+    label: "10th Percentile"
+    group_label: "Weekly IAA Views Distribution"
     type: percentile
     percentile: 10
     sql: ${TABLE}.ad_views ;;
   }
   measure: ad_views_25 {
-    group_label: "Ad Views"
+    label: "25th Percentile"
+    group_label: "Weekly IAA Views Distribution"
     type: percentile
     percentile: 25
     sql: ${TABLE}.ad_views ;;
   }
   measure: ad_views_50 {
-    group_label: "Ad Views"
+    label: "Median"
+    group_label: "Weekly IAA Views Distribution"
     type: percentile
     percentile: 50
     sql: ${TABLE}.ad_views ;;
   }
   measure: ad_views_75 {
-    group_label: "Ad Views"
+    label: "75th Percentile"
+    group_label: "Weekly IAA Views Distribution"
     type: percentile
     percentile: 75
     sql: ${TABLE}.ad_views ;;
   }
   measure: ad_views_95 {
-    group_label: "Ad Views"
+    label: "95th Percentile"
+    group_label: "Weekly IAA Views Distribution"
     type: percentile
     percentile: 95
     sql: ${TABLE}.ad_views ;;
   }
-
-
 
 ################################################################
 ## Ad Views By Placement
 ################################################################
 
   dimension: ad_views_daily_rewards {
-    group_label: "Ad View By Placement"
-    label: "Daily Rewards Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Daily Rewards"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_moves_master {
-    group_label: "Ad View By Placement"
-    label: "Moves Master Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Moves Master"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_pizza {
-    group_label: "Ad View By Placement"
-    label: "Pizza Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Pizza Time"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_lucky_dice {
-    group_label: "Ad View By Placement"
-    label: "Lucky Dice Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Lucky Dice"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_ask_for_help {
-    group_label: "Ad View By Placement"
-    label: "Ask For Help Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Ask For Help"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_battle_pass {
-    group_label: "Ad View By Placement"
-    label: "Battle Pass Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Battle Pass"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_puzzles {
-    group_label: "Ad View By Placement"
-    label: "Puzzles Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Puzzles"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_go_fish {
-    group_label: "Ad View By Placement"
-    label: "Go Fish Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Go Fish"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_rocket {
-    group_label: "Ad View By Placement"
-    label: "Rocket Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Rocket"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_lives {
     group_label: "Ad View By Placement"
-    label: "Lives Ad Views"
+    label: "Lives"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_magnifiers {
-    group_label: "Ad View By Placement"
-    label: "Magnifiers Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Magnifiers"
     value_format_name: decimal_0
   }
 
   dimension: ad_views_treasure_trove {
-    group_label: "Ad View By Placement"
-    label: "Treasure Trove Ad Views"
+    group_label: "IAA Views By Placement"
+    label: "Treasure Trove"
     value_format_name: decimal_0
   }
 
@@ -1539,74 +1560,74 @@ sql: ${TABLE}.ending_coins_balance ;;
 ################################################################
 
   dimension: ad_dollars_daily_rewards {
-    group_label: "Ad Dollars By Placement"
-    label: "Daily Rewards Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Daily Rewards IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_moves_master {
-    group_label: "Ad Dollars By Placement"
-    label: "Moves Master Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Moves Master IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_pizza {
-    group_label: "Ad Dollars By Placement"
-    label: "Pizza Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Pizza IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_lucky_dice {
-    group_label: "Ad Dollars By Placement"
-    label: "Lucky Dice Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Lucky Dice IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_ask_for_help {
-    group_label: "Ad Dollars By Placement"
-    label: "Ask For Help Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Ask For Help IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_battle_pass {
-    group_label: "Ad Dollars By Placement"
-    label: "Battle Pass Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Battle Pass IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_puzzles {
-    group_label: "Ad Dollars By Placement"
-    label: "Puzzles Ad Dollars"
+   group_label: "IAA Dollars By Placement"
+    label: "Puzzles IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_go_fish {
-    group_label: "Ad Dollars By Placement"
-    label: "Go Fish Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Go Fish IAA Dollars"
     value_format_name: decimal_0
   }
 
   dimension: ad_dollars_rocket {
-    group_label: "Ad Dollars By Placement"
-    label: "Rocket Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Rocket IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_lives {
-    group_label: "Ad Dollars By Placement"
-    label: "Lives Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Lives IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_magnifiers {
-    group_label: "Ad Dollars By Placement"
-    label: "Magnifiers Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Magnifiers IAA Dollars"
     value_format_name: decimal_4
   }
 
   dimension: ad_dollars_treasure_trove {
-    group_label: "Ad Dollars By Placement"
-    label: "Treasure Trove Ad Dollars"
+    group_label: "IAA Dollars By Placement"
+    label: "Treasure Trove IAA Dollars"
     value_format_name: decimal_4
   }
 

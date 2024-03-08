@@ -303,14 +303,14 @@ view: player_ad_view_summary {
 
   # Numbers
   dimension: current_level_serial {type:number}
-  dimension: ad_view_dollars {type:number}
+  dimension: ad_view_dollars {type:number label: "IAA Dollars"}
   dimension: coins_balance {type:number}
   dimension: lives_balance {type:number}
   dimension: stars_balance {type:number}
   dimension: days_since_created {type:number}
   dimension: day_number {type:number}
-  dimension: cumulative_ad_view_dollars {type:number}
-  dimension: cumulative_count_ad_views {type:number}
+  dimension: cumulative_ad_view_dollars {type:number label: "LTV - IAA"}
+  dimension: cumulative_count_ad_views {type:number label: "Cumulative IAA Views"}
 
 ################################################################
 ## Player Counts
@@ -362,112 +362,91 @@ view: player_ad_view_summary {
     percentile: 95
     sql: ${TABLE}.win_streak ;;
   }
+
   measure: sum_count_ad_views {
-    group_label: "Count Ad Views"
+    label: "Sum IAA Views"
     type:sum
     sql: ${TABLE}.count_ad_views ;;
   }
-  measure: count_ad_views_10 {
-    group_label: "Count Ad Views"
-    type: percentile
-    percentile: 10
-    sql: ${TABLE}.count_ad_views ;;
-  }
-  measure: count_ad_views_25 {
-    group_label: "Count Ad Views"
-    type: percentile
-    percentile: 25
-    sql: ${TABLE}.count_ad_views ;;
-  }
-  measure: count_ad_views_50 {
-    group_label: "Count Ad Views"
-    type: percentile
-    percentile: 50
-    sql: ${TABLE}.count_ad_views ;;
-  }
-  measure: count_ad_views_75 {
-    group_label: "Count Ad Views"
-    type: percentile
-    percentile: 75
-    sql: ${TABLE}.count_ad_views ;;
-  }
-  measure: count_ad_views_95 {
-    group_label: "Count Ad Views"
-    type: percentile
-    percentile: 95
-    sql: ${TABLE}.count_ad_views ;;
-  }
+
   measure: sum_ad_view_dollars {
-    group_label: "Ad View Dollars"
+    label: "Sum IAA Dollars"
     type:sum
     sql: ${TABLE}.ad_view_dollars ;;
     value_format_name: usd
   }
   measure: ad_view_dollars_10 {
-    group_label: "Ad View Dollars"
+    label: "10th Percentile"
+    group_label: "IAA View Dollar Distribution"
     type: percentile
     percentile: 10
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_25 {
-    group_label: "Ad View Dollars"
+    label: "25th Percentile"
+    group_label: "IAA View Dollar Distribution"
     type: percentile
     percentile: 25
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_50 {
-    group_label: "Ad View Dollars"
+    label: "Median"
+    group_label: "IAA View Dollar Distribution"
     type: percentile
     percentile: 50
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_75 {
-    group_label: "Ad View Dollars"
+    label: "75th Percentile"
+    group_label: "IAA View Dollar Distribution"
     type: percentile
     percentile: 75
     sql: ${TABLE}.ad_view_dollars ;;
   }
   measure: ad_view_dollars_95 {
-    group_label: "Ad View Dollars"
+    label: "95th Percentile"
+    group_label: "IAA View Dollar Distribution"
     type: percentile
     percentile: 95
     sql: ${TABLE}.ad_view_dollars ;;
   }
-  measure: sum_coins_balance {
-    group_label: "Coins Balance"
-    type:sum
-    sql: ${TABLE}.coins_balance ;;
-  }
+
   measure: coins_balance_10 {
-    group_label: "Coins Balance"
+    label: "10th Percentile"
+    group_label: "Coin Balance Distribution"
     type: percentile
     percentile: 10
     sql: ${TABLE}.coins_balance ;;
   }
   measure: coins_balance_25 {
-    group_label: "Coins Balance"
+    label: "25th Percentile"
+    group_label: "Coin Balance Distribution"
     type: percentile
     percentile: 25
     sql: ${TABLE}.coins_balance ;;
   }
   measure: coins_balance_50 {
-    group_label: "Coins Balance"
+    label: "Median"
+    group_label: "Coin Balance Distribution"
     type: percentile
     percentile: 50
     sql: ${TABLE}.coins_balance ;;
   }
   measure: coins_balance_75 {
-    group_label: "Coins Balance"
+    label: "75th Percentile"
+    group_label: "Coin Balance Distribution"
     type: percentile
     percentile: 75
     sql: ${TABLE}.coins_balance ;;
   }
   measure: coins_balance_95 {
-    group_label: "Coins Balance"
+    label: "95th Percentile"
+    group_label: "Coin Balance Distribution"
     type: percentile
     percentile: 95
     sql: ${TABLE}.coins_balance ;;
   }
+
   measure: sum_lives_balance {
     group_label: "Lives Balance"
     type:sum
@@ -539,71 +518,85 @@ view: player_ad_view_summary {
     sql: ${TABLE}.stars_balance ;;
   }
   measure: sum_cumulative_ad_view_dollars {
+    label: "Sum LTV - IAA"
     group_label: "Cumulative Ad View Dollars"
     type:sum
     sql: ${TABLE}.cumulative_ad_view_dollars ;;
   }
+
   measure: cumulative_ad_view_dollars_10 {
-    group_label: "Cumulative Ad View Dollars"
+    label: "10th Percentile"
+    group_label: "LTV - IAA Distribution"
     type: percentile
     percentile: 10
     sql: ${TABLE}.cumulative_ad_view_dollars ;;
   }
   measure: cumulative_ad_view_dollars_25 {
-    group_label: "Cumulative Ad View Dollars"
+    label: "25th Percentile"
+    group_label: "LTV - IAA Distribution"
     type: percentile
     percentile: 25
     sql: ${TABLE}.cumulative_ad_view_dollars ;;
   }
   measure: cumulative_ad_view_dollars_50 {
-    group_label: "Cumulative Ad View Dollars"
+    label: "Median"
+    group_label: "LTV - IAA Distribution"
     type: percentile
     percentile: 50
     sql: ${TABLE}.cumulative_ad_view_dollars ;;
   }
   measure: cumulative_ad_view_dollars_75 {
-    group_label: "Cumulative Ad View Dollars"
+    label: "75th Percentile"
+    group_label: "LTV - IAA Distribution"
     type: percentile
     percentile: 75
     sql: ${TABLE}.cumulative_ad_view_dollars ;;
   }
   measure: cumulative_ad_view_dollars_95 {
-    group_label: "Cumulative Ad View Dollars"
+    label: "95th Percentile"
+    group_label: "LTV - IAA Distribution"
     type: percentile
     percentile: 95
     sql: ${TABLE}.cumulative_ad_view_dollars ;;
   }
+
   measure: sum_cumulative_count_ad_views {
-    group_label: "Cumulative Count Ad Views"
+    label: "Sum Cumulative Count IAA Views"
     type:sum
     sql: ${TABLE}.cumulative_count_ad_views ;;
   }
+
   measure: cumulative_count_ad_views_10 {
-    group_label: "Cumulative Count Ad Views"
+    label: "10th Percentile"
+    group_label: "Cumulative Count IAA Views Distribution"
     type: percentile
     percentile: 10
     sql: ${TABLE}.cumulative_count_ad_views ;;
   }
   measure: cumulative_count_ad_views_25 {
-    group_label: "Cumulative Count Ad Views"
+    label: "25th Percentile"
+    group_label: "Cumulative Count IAA Views Distribution"
     type: percentile
     percentile: 25
     sql: ${TABLE}.cumulative_count_ad_views ;;
   }
   measure: cumulative_count_ad_views_50 {
-    group_label: "Cumulative Count Ad Views"
+    label: "Median"
+    group_label: "Cumulative Count IAA Views Distribution"
     type: percentile
     percentile: 50
     sql: ${TABLE}.cumulative_count_ad_views ;;
   }
   measure: cumulative_count_ad_views_75 {
-    group_label: "Cumulative Count Ad Views"
+    label: "75th Percentile"
+    group_label: "Cumulative Count IAA Views Distribution"
     type: percentile
     percentile: 75
     sql: ${TABLE}.cumulative_count_ad_views ;;
   }
   measure: cumulative_count_ad_views_95 {
-    group_label: "Cumulative Count Ad Views"
+    label: "95th Percentile"
+    group_label: "Cumulative Count IAA Views Distribution"
     type: percentile
     percentile: 95
     sql: ${TABLE}.cumulative_count_ad_views ;;

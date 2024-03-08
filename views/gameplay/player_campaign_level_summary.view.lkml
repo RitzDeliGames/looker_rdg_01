@@ -279,13 +279,37 @@ view: player_campaign_level_summary {
   measure: sum_powerup_chopsticks {type: sum sql: ${TABLE}.powerup_chopsticks;; value_format_name: decimal_0}
   measure: sum_powerup_skillet {type: sum sql: ${TABLE}.powerup_skillet;; value_format_name: decimal_0}
   measure: sum_total_chum_powerups_used {type: sum sql: ${TABLE}.total_chum_powerups_used;; value_format_name: decimal_0}
-  measure: sum_in_round_count_mtx_purchases {type: sum sql: ${TABLE}.in_round_count_mtx_purchases;; value_format_name: decimal_0}
-  measure: sum_in_round_count_ad_views {type: sum sql: ${TABLE}.in_round_count_ad_views;; value_format_name: decimal_0}
+
+  measure: sum_in_round_count_mtx_purchases {
+    label: "Sum Count In Round IAPs"
+    type: sum
+    sql: ${TABLE}.in_round_count_mtx_purchases;;
+    value_format_name: decimal_0
+    }
+
+  measure: sum_in_round_count_ad_views {
+    label: "Sum Count In Round IAA Views"
+    type: sum
+    sql: ${TABLE}.in_round_count_ad_views;;
+    value_format_name: decimal_0
+    }
+
   measure: sum_in_round_coin_spend {type: sum sql: ${TABLE}.in_round_coin_spend;; value_format_name: decimal_0}
   measure: sum_in_round_count_coin_spend_events {type: sum sql: ${TABLE}.in_round_count_coin_spend_events;; value_format_name: decimal_0}
 
-  measure: sum_in_round_mtx_purchase_dollars {type: sum sql: ${TABLE}.in_round_mtx_purchase_dollars;; value_format_name: usd}
-  measure: sum_in_round_ad_view_dollars {type: sum sql: ${TABLE}.in_round_ad_view_dollars;; value_format_name: usd}
+  measure: sum_in_round_mtx_purchase_dollars {
+    label: "Sum In Round IAP Dollars"
+    type: sum
+    sql: ${TABLE}.in_round_mtx_purchase_dollars;;
+    value_format_name: usd
+    }
+
+  measure: sum_in_round_ad_view_dollars {
+    label: "Sum In Round IAA Dollars"
+    type: sum
+    sql: ${TABLE}.in_round_ad_view_dollars;;
+    value_format_name: usd
+    }
   measure: sum_in_round_combined_dollars {type: sum sql: ${TABLE}.in_round_combined_dollars;; value_format_name: usd}
 
   measure: count_users {label: "Count Users" type: sum sql: 1;; value_format_name: decimal_0}
@@ -342,6 +366,7 @@ view: player_campaign_level_summary {
   }
 
   measure: average_in_round_mtx_dollars_per_level {
+    label: "Average In Round IAP Dollars Per Level"
     type:  number
     sql:
       safe_divide(

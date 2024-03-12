@@ -154,6 +154,10 @@ view: ab_test_full_iterations_new {
         and {% parameter selected_metric %} <> 'None'
         and {% parameter selected_metric_campaign_level %} = 'None'
 
+        -- Date Filters
+        and date(created_date) >= date({% parameter start_date %})
+        and date(created_date) <= date({% parameter end_date %})
+
         --Test Filter
         and json_extract_scalar(experiments,{% parameter selected_experiment %}) in ( {% parameter selected_variant_a %} , {% parameter selected_variant_b %} )
 
@@ -256,6 +260,75 @@ view: ab_test_full_iterations_new {
 
       group by
         1
+
+      ---------------------------------------------------------------------------------------
+      -- Data From Campaign Summary
+      ---------------------------------------------------------------------------------------
+
+      union all
+      select
+        a.rdg_id
+        , max(json_extract_scalar(a.experiments,{% parameter selected_experiment %})) as variant
+        , case
+          when {% parameter selected_metric_campaign_level %} = "Average APS" then sum(a.count_rounds)
+          when {% parameter selected_metric_campaign_level %} = "Average Chums Used Per Level" then sum(a.total_chum_powerups_used)
+          when {% parameter selected_metric_campaign_level %} = "Average Churn Rate Per Level" then max(a.churn_indicator)
+          when {% parameter selected_metric_campaign_level %} = "Average In Round Coin Spend Per Level" then sum(a.in_round_coin_spend)
+          else sum(1) end as numerator
+        , case
+          when {% parameter selected_metric_campaign_level %} = "Average APS" then sum(a.count_wins)
+          when {% parameter selected_metric_campaign_level %} = "Average Chums Used Per Level" then sum(1)
+          when {% parameter selected_metric_campaign_level %} = "Average Churn Rate Per Level" then sum(1)
+          when {% parameter selected_metric_campaign_level %} = "Average In Round Coin Spend Per Level" then sum(1)
+          else sum(1) end as denominator
+      from
+        ${player_campaign_level_summary.SQL_TABLE_NAME} a
+        inner join ${player_summary_new.SQL_TABLE_NAME} b
+          on a.rdg_id = b.rdg_id
+      where
+        -- Check Parameters
+        {% parameter selected_metric_daily %} = 'None'
+        and {% parameter selected_metric %} = 'None'
+        and {% parameter selected_metric_campaign_level %} <> 'None'
+
+        -- Date Filters
+        and date(a.first_played_rdg_date) >= date({% parameter start_date %})
+        and date(a.first_played_rdg_date) <= date({% parameter end_date %})
+
+        --Test Filter
+        and json_extract_scalar(a.experiments,{% parameter selected_experiment %}) in ( {% parameter selected_variant_a %} , {% parameter selected_variant_b %} )
+
+        -- Level Filter (start)
+        {% if start_level_serial._is_filtered %}
+        and level_serial >= {% parameter start_level_serial %}
+        {% endif %}
+
+        -- Level Filter (end)
+        {% if end_level_serial._is_filtered %}
+        and level_serial <= {% parameter end_level_serial %}
+        {% endif %}
+
+        -- Day Number (min)
+        {% if day_number_min._is_filtered %}
+        and day_number >= {% parameter day_number_min %}
+        {% endif %}
+
+        -- Day Number (max)
+        {% if day_number_max._is_filtered %}
+        and day_number <= {% parameter day_number_max %}
+        {% endif %}
+
+        -- filter for device platform
+        {% if selected_device_platform_os._is_filtered %}
+        and b.device_platform_mapping_os = {% parameter selected_device_platform_os %}
+        {% endif %}
+
+        -- minimum system memory
+        {% if selected_minimum_system_memory_size._is_filtered %}
+        and b.system_memory_size >= {% parameter selected_minimum_system_memory_size %}
+        {% endif %}
+      group by
+      1
 
       )
 

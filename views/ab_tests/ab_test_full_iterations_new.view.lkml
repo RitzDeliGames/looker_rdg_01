@@ -322,12 +322,19 @@ view: ab_test_full_iterations_new {
           when {% parameter selected_metric_campaign_level %} = "Average Chums Used Per Level" then sum(a.total_chum_powerups_used)
           when {% parameter selected_metric_campaign_level %} = "Average Churn Rate Per Level" then max(a.churn_indicator)
           when {% parameter selected_metric_campaign_level %} = "Average In Round Coin Spend Per Level" then sum(a.in_round_coin_spend)
+          when {% parameter selected_metric_campaign_level %} = "Average Moves Remaining Per Level" then sum(a.moves_remaining_on_win)
+
+
           else sum(1) end as numerator
+
         , case
           when {% parameter selected_metric_campaign_level %} = "Average APS" then sum(a.count_wins)
           when {% parameter selected_metric_campaign_level %} = "Average Chums Used Per Level" then sum(1)
           when {% parameter selected_metric_campaign_level %} = "Average Churn Rate Per Level" then sum(1)
           when {% parameter selected_metric_campaign_level %} = "Average In Round Coin Spend Per Level" then sum(1)
+          when {% parameter selected_metric_campaign_level %} = "Average Moves Remaining Per Level" then sum(1)
+
+
           else sum(1) end as denominator
       from
         ${player_campaign_level_summary.SQL_TABLE_NAME} a
@@ -1132,6 +1139,7 @@ view: ab_test_full_iterations_new {
       , "Average Chums Used Per Level"
       , "Average Churn Rate Per Level"
       , "Average In Round Coin Spend Per Level"
+      , "Average Moves Remaining Per Level"
 
 
     ]

@@ -191,6 +191,11 @@ view: ab_test_full_iterations_new {
         and highest_last_level_serial_current <= {% parameter end_level_serial %}
         {% endif %}
 
+        -- country filter
+        {% if country._is_filtered %}
+        and country = {% parameter country %}
+        {% endif %}
+
       ---------------------------------------------------------------------------------------
       -- Data From Daily Summary
       ---------------------------------------------------------------------------------------
@@ -203,12 +208,50 @@ view: ab_test_full_iterations_new {
             when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Day" then sum(a.round_end_events_gofish)
             when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Day" then sum(a.ad_views_go_fish)
             when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Day" then sum(a.ad_views_moves_master)
+
+            when {% parameter selected_metric_daily %} = "IAP ARPDAU" then sum(a.mtx_purchase_dollars)
+            when {% parameter selected_metric_daily %} = "IAP Conversion per Day" then sum(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "IAP Revenue Per Player" then sum(a.mtx_purchase_dollars)
+            when {% parameter selected_metric_daily %} = "IAP Conversion Per Player" then sum(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "IAP Revenue Per Spender" then sum(a.mtx_purchase_dollars)
+
+            when {% parameter selected_metric_daily %} = "IAA ARPDAU" then sum(a.ad_view_dollars)
+            when {% parameter selected_metric_daily %} = "IAA Conversion per Day" then sum(case when a.ad_view_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "IAA Revenue Per Player" then sum(a.ad_view_dollars)
+            when {% parameter selected_metric_daily %} = "IAA Conversion Per Player" then sum(case when a.ad_view_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "IAA Revenue Per Ads Viewer" then sum(a.ad_view_dollars)
+
+            when {% parameter selected_metric_daily %} = "Combined ARPDAU" then sum(a.combined_dollars)
+            when {% parameter selected_metric_daily %} = "Combined Conversion per Day" then sum(case when a.combined_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "Combined Revenue Per Player" then sum(a.combined_dollars)
+            when {% parameter selected_metric_daily %} = "Combined Conversion Per Player" then sum(case when a.combined_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "Combined Revenue Per IAP Spender" then sum(a.combined_dollars)
+
             else sum(1) end as numerator
         , case
             when {% parameter selected_metric_daily %} = "Average Minutes Played Per Day" then sum(1)
             when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Day" then sum(1)
             when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Day" then sum(1)
             when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Day" then sum(1)
+
+            when {% parameter selected_metric_daily %} = "IAP ARPDAU" then sum(a.count_days_played)
+            when {% parameter selected_metric_daily %} = "IAP Conversion per Day" then sum(a.count_days_played)
+            when {% parameter selected_metric_daily %} = "IAP Revenue Per Player" then max(1)
+            when {% parameter selected_metric_daily %} = "IAP Conversion Per Player" then max(1)
+            when {% parameter selected_metric_daily %} = "IAP Revenue Per Spender" then max(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
+
+            when {% parameter selected_metric_daily %} = "IAA ARPDAU" then sum(a.count_days_played)
+            when {% parameter selected_metric_daily %} = "IAA Conversion per Day" then sum(a.count_days_played)
+            when {% parameter selected_metric_daily %} = "IAA Revenue Per Player" then max(1)
+            when {% parameter selected_metric_daily %} = "IAA Conversion Per Player" then max(1)
+            when {% parameter selected_metric_daily %} = "IAA Revenue Per Ads Viewer" then max(case when a.ad_view_dollars > 0 then 1 else 0 end)
+
+            when {% parameter selected_metric_daily %} = "Combined ARPDAU" then sum(a.count_days_played)
+            when {% parameter selected_metric_daily %} = "Combined Conversion per Day" then sum(a.count_days_played)
+            when {% parameter selected_metric_daily %} = "Combined Revenue Per Player" then max(1)
+            when {% parameter selected_metric_daily %} = "Combined Conversion Per Player" then max(1)
+            when {% parameter selected_metric_daily %} = "Combined Revenue Per IAP Spender" then max(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
+
             else sum(1) end as denominator
       from
         ${player_daily_summary.SQL_TABLE_NAME} a
@@ -256,6 +299,11 @@ view: ab_test_full_iterations_new {
         -- minimum system memory
         {% if selected_minimum_system_memory_size._is_filtered %}
         and b.system_memory_size >= {% parameter selected_minimum_system_memory_size %}
+        {% endif %}
+
+        -- country filter
+        {% if country._is_filtered %}
+        and b.country = {% parameter country %}
         {% endif %}
 
       group by
@@ -327,6 +375,12 @@ view: ab_test_full_iterations_new {
         {% if selected_minimum_system_memory_size._is_filtered %}
         and b.system_memory_size >= {% parameter selected_minimum_system_memory_size %}
         {% endif %}
+
+        -- country filter
+        {% if country._is_filtered %}
+        and b.country = {% parameter country %}
+        {% endif %}
+
       group by
       1
 
@@ -896,6 +950,12 @@ view: ab_test_full_iterations_new {
     suggestions:  ["Android","iOS"]
   }
 
+  parameter: country {
+    type: string
+    default_value: "US"
+    suggestions:  ["US"]
+  }
+
   parameter: selected_iterations {
     type: number
   }
@@ -915,6 +975,24 @@ view: ab_test_full_iterations_new {
       , "Average Go Fish Rounds Played Per Day"
       , "Average Go Fish Ad Views Per Day"
       , "Average Moves Master Ad Views Per Day"
+
+      , "IAP ARPDAU"
+      , "IAP Conversion per Day"
+      , "IAP Revenue Per Player"
+      , "IAP Conversion Per Player"
+      , "IAP Revenue Per Spender"
+
+      , "IAA ARPDAU"
+      , "IAA Conversion per Day"
+      , "IAA Revenue Per Player"
+      , "IAA Conversion Per Player"
+      , "IAA Revenue Per Ads Viewer"
+
+      , "Combined ARPDAU"
+      , "Combined Conversion per Day"
+      , "Combined Revenue Per Player"
+      , "Combined Conversion Per Player"
+      , "Combined Revenue Per IAP Spender"
 
     ]
   }

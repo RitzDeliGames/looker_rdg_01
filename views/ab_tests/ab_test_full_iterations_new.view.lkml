@@ -763,6 +763,8 @@ view: ab_test_full_iterations_new {
     default_value: "$.dynamicDropBiasv3_20230627"
     suggestions:  [
 
+      , "$.livesCosting_20240202"
+
       , "$.hudOffers_20240228"
       , "$.movesMasterTune_20240227"
       , "$.dynamicEggs_20240223"

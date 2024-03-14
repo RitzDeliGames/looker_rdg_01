@@ -94,6 +94,8 @@ view: player_campaign_level_summary {
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      , "$.livesCosting_20240202"
+
       , "$.swapTeamp2_20240209"
       , "$.goFishAds_20240208"
       , "$.dailyPopups_20240207"

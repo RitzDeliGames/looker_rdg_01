@@ -941,6 +941,8 @@ view: player_summary_new {
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      , "$.livesCosting_20240202"
+
       , "$.hudOffers_20240228"
       , "$.movesMasterTune_20240227"
       , "$.dynamicEggs_20240223"

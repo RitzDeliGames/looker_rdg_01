@@ -153,21 +153,8 @@ view: player_weekly_summary {
             rows between unbounded preceding and unbounded following
             ) highest_last_level_serial
 
-          , last_value(highest_quests_completed) over (
-            partition by rdg_id, helper_functions.get_rdg_week(rdg_date)
-            order by rdg_date asc
-            rows between unbounded preceding and unbounded following
-            ) highest_quests_completed
-
-          , gems_spend
           , coins_spend
           , stars_spend
-
-          , last_value(ending_gems_balance) over (
-            partition by rdg_id, helper_functions.get_rdg_week(rdg_date)
-            order by rdg_date asc
-            rows between unbounded preceding and unbounded following
-            ) ending_gems_balance
 
           , last_value(ending_coins_balance) over (
             partition by rdg_id, helper_functions.get_rdg_week(rdg_date)
@@ -252,12 +239,6 @@ view: player_weekly_summary {
             order by rdg_date asc
             rows between unbounded preceding and unbounded following
             ) current_zone
-
-          , last_value(current_zone_progress) over (
-            partition by rdg_id, helper_functions.get_rdg_week(rdg_date)
-            order by rdg_date asc
-            rows between unbounded preceding and unbounded following
-            ) current_zone_progress
 
           , first_value(created_date_timestamp) over (
             partition by rdg_id -- want first value ever
@@ -381,7 +362,6 @@ view: player_weekly_summary {
             rows between unbounded preceding and unbounded following
             ) cumulative_round_time_in_minutes_puzzle
 
-          , quests_completed
           , count_days_played
 
           , last_value(cumulative_count_days_played) over (
@@ -392,12 +372,6 @@ view: player_weekly_summary {
 
 
           , levels_progressed
-
-          , last_value(cumulative_gems_spend) over (
-            partition by rdg_id, helper_functions.get_rdg_week(rdg_date)
-            order by rdg_date asc
-            rows between unbounded preceding and unbounded following
-            ) cumulative_gems_spend
 
           , last_value(cumulative_coins_spend) over (
             partition by rdg_id, helper_functions.get_rdg_week(rdg_date)
@@ -498,11 +472,8 @@ view: player_weekly_summary {
           , sum(a.round_time_in_minutes_puzzle) as round_time_in_minutes_puzzle
           , min(a.lowest_last_level_serial) as lowest_last_level_serial
           , max(a.highest_last_level_serial) as highest_last_level_serial
-          , max(a.highest_quests_completed) as highest_quests_completed
-          , sum(a.gems_spend) as gems_spend
           , sum(a.coins_spend) as coins_spend
           , sum(a.stars_spend) as stars_spend
-          , max(a.ending_gems_balance) as ending_gems_balance
           , max(a.ending_coins_balance) as ending_coins_balance
           , max(a.ending_lives_balance) as ending_lives_balance
           , max(a.ending_stars_balance) as ending_stars_balance
@@ -517,7 +488,6 @@ view: player_weekly_summary {
           , max(a.end_of_content_levels) as end_of_content_levels
           , max(a.end_of_content_zones) as end_of_content_zones
           , max(a.current_zone) as current_zone
-          , max(a.current_zone_progress) as current_zone_progress
           , min(a.created_date_timestamp) as created_date_timestamp
           , min(a.created_week) as created_week
           , max(a.new_player_indicator) as new_player_indicator
@@ -544,12 +514,10 @@ view: player_weekly_summary {
           , max(a.cumulative_round_time_in_minutes_campaign) as cumulative_round_time_in_minutes_campaign
           , max(a.cumulative_round_time_in_minutes_movesmaster) as cumulative_round_time_in_minutes_movesmaster
           , max(a.cumulative_round_time_in_minutes_puzzle) as cumulative_round_time_in_minutes_puzzle
-          , sum(a.quests_completed) as quests_completed
           , sum(a.count_days_played) as count_days_played
           , max(a.count_weeks_played) as count_weeks_played
           , max(a.cumulative_count_days_played) as cumulative_count_days_played
           , sum(a.levels_progressed) as levels_progressed
-          , max(a.cumulative_gems_spend) as cumulative_gems_spend
           , max(a.cumulative_coins_spend) as cumulative_coins_spend
           , max(a.cumulative_star_spend) as cumulative_star_spend
 
@@ -712,7 +680,6 @@ view: player_weekly_summary {
   dimension: round_time_in_minutes_puzzle {type:number}
   dimension: lowest_last_level_serial {type:number}
   dimension: highest_last_level_serial {type:number}
-  dimension: highest_quests_completed {type:number}
   dimension: coins_spend {type:number}
   dimension: stars_spend {type:number}
   dimension: ending_coins_balance {type:number}
@@ -729,7 +696,6 @@ view: player_weekly_summary {
   dimension: end_of_content_levels {type:yesno}
   dimension: end_of_content_zones {type:yesno}
   dimension: current_zone {type:number}
-  dimension: current_zone_progress {type:number}
   dimension: new_player_indicator {type:number}
   dimension: new_player_rdg_id {type:string}
   dimension: churn_indicator {type:number}
@@ -752,12 +718,10 @@ view: player_weekly_summary {
   dimension: cumulative_round_time_in_minutes_campaign {type:number}
   dimension: cumulative_round_time_in_minutes_movesmaster {type:number}
   dimension: cumulative_round_time_in_minutes_puzzle {type:number}
-  dimension: quests_completed {type:number}
   dimension: count_days_played {type:number}
   dimension: count_weeks_played {type:number}
   dimension: cumulative_count_days_played {type:number}
   dimension: levels_progressed {type:number}
-  dimension: cumulative_gems_spend {type:number}
   dimension: cumulative_coins_spend {type:number}
   dimension: cumulative_star_spend {type:number}
   dimension: weeks_since_last_played {type:number}

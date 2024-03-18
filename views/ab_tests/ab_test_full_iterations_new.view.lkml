@@ -319,6 +319,19 @@ view: ab_test_full_iterations_new {
       group by
         1
 
+      having
+        max(1) = max(1)
+
+        -- Level Filter (start)
+        {% if mininum_start_level_serial._is_filtered %}
+        and minimum(a.highest_last_level_serial) >= {% parameter mininum_start_level_serial %}
+        {% endif %}
+
+        -- Level Filter (end)
+        {% if maximum_end_level_serial._is_filtered %}
+        and maximum(a.highest_last_level_serial) <= {% parameter maximum_end_level_serial %}
+        {% endif %}
+
       ---------------------------------------------------------------------------------------
       -- Data From Campaign Summary
       ---------------------------------------------------------------------------------------
@@ -951,6 +964,16 @@ view: ab_test_full_iterations_new {
 
   parameter: end_level_serial {
     label: "Highest Level Serial"
+    type: number
+  }
+
+  parameter: mininum_start_level_serial {
+    label: "Minimum Lowest Level Serial"
+    type: number
+  }
+
+  parameter: maximum_end_level_serial {
+    label: "Maximum Highest Level Serial"
     type: number
   }
 

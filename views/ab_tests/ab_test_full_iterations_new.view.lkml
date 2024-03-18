@@ -763,6 +763,9 @@ view: ab_test_full_iterations_new {
     default_value: "$.dynamicDropBiasv3_20230627"
     suggestions:  [
 
+      , "$.altLevelOrderp2_20240314"
+      , "$.reversedQPO_20240313"
+
       , "$.livesCosting_20240202"
 
       , "$.hudOffers_20240228"

@@ -173,6 +173,9 @@ view: player_puzzle_level_summary {
     suggestions:  [
       "$.No_AB_Test_Split"
 
+      , "$.altLevelOrderp2_20240314"
+      , "$.reversedQPO_20240313"
+
       , "$.livesCosting_20240202"
 
       , "$.hudOffers_20240228"

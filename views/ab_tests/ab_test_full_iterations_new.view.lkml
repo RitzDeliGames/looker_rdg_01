@@ -227,6 +227,11 @@ view: ab_test_full_iterations_new {
             when {% parameter selected_metric_daily %} = "Combined Conversion Per Player" then sum(case when a.combined_dollars > 0 then 1 else 0 end)
             when {% parameter selected_metric_daily %} = "Combined Revenue Per IAP Spender" then sum(a.combined_dollars)
 
+            when {% parameter selected_metric_daily %} = "Average Coin Spend Per Day" then sum(a.coins_spend)
+            when {% parameter selected_metric_daily %} = "Average Coin Spend Per Player" then sum(a.coins_spend)
+
+            when {% parameter selected_metric_daily %} = "Average Days Played Per Player" then sum(a.count_days_played)
+
             else sum(1) end as numerator
         , case
             when {% parameter selected_metric_daily %} = "Average Minutes Played Per Day" then sum(1)
@@ -251,6 +256,11 @@ view: ab_test_full_iterations_new {
             when {% parameter selected_metric_daily %} = "Combined Revenue Per Player" then max(1)
             when {% parameter selected_metric_daily %} = "Combined Conversion Per Player" then max(1)
             when {% parameter selected_metric_daily %} = "Combined Revenue Per IAP Spender" then max(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
+
+            when {% parameter selected_metric_daily %} = "Average Coin Spend Per Day" then sum(a.count_days_played)
+            when {% parameter selected_metric_daily %} = "Average Coin Spend Per Player" then max(1)
+
+            when {% parameter selected_metric_daily %} = "Average Days Played Per Player" then max(1)
 
             else sum(1) end as denominator
       from
@@ -639,7 +649,7 @@ view: ab_test_full_iterations_new {
       , iteration_type
       , safe_cast(
       round(
-      round( safe_divide( max(my_abs_difference) over (), 50 ) , 4 )
+      round( safe_divide( max(my_abs_difference) over (), 50 ) , 6 )
       *
       safe_cast(round(
       safe_divide(
@@ -647,7 +657,7 @@ view: ab_test_full_iterations_new {
       , safe_divide( max(my_abs_difference) over (), 50 )
       )
       , 0 ) as int64)
-      ,4)
+      ,6)
       as float64) as my_abs_difference_rounded
       from
       output_before_rounding
@@ -983,7 +993,6 @@ view: ab_test_full_iterations_new {
     suggestions:  [
 
       , "None"
-      , "Average Minutes Played Per Day"
       , "Average Go Fish Rounds Played Per Day"
       , "Average Go Fish Ad Views Per Day"
       , "Average Moves Master Ad Views Per Day"
@@ -1005,6 +1014,11 @@ view: ab_test_full_iterations_new {
       , "Combined Revenue Per Player"
       , "Combined Conversion Per Player"
       , "Combined Revenue Per IAP Spender"
+
+      , "Average Coin Spend Per Day"
+      , "Average Coin Spend Per Player"
+
+      , "Average Days Played Per Player"
 
     ]
   }

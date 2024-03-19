@@ -324,12 +324,12 @@ view: ab_test_full_iterations_new {
 
         -- Level Filter (start)
         {% if mininum_start_level_serial._is_filtered %}
-        and minimum(a.highest_last_level_serial) >= {% parameter mininum_start_level_serial %}
+        and min(a.highest_last_level_serial) >= {% parameter mininum_start_level_serial %}
         {% endif %}
 
         -- Level Filter (end)
         {% if maximum_end_level_serial._is_filtered %}
-        and maximum(a.highest_last_level_serial) <= {% parameter maximum_end_level_serial %}
+        and min(a.highest_last_level_serial) <= {% parameter maximum_end_level_serial %}
         {% endif %}
 
       ---------------------------------------------------------------------------------------

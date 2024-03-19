@@ -206,8 +206,14 @@ view: ab_test_full_iterations_new {
         , case
             when {% parameter selected_metric_daily %} = "Average Minutes Played Per Day" then sum(a.round_time_in_minutes)
             when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Day" then sum(a.round_end_events_gofish)
+
             when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Day" then sum(a.ad_views_go_fish)
             when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Day" then sum(a.ad_views_moves_master)
+            when {% parameter selected_metric_daily %} = "Average Ad Views Per Day" then sum(a.ad_views)
+
+            when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Player" then sum(a.ad_views_go_fish)
+            when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Player" then sum(a.ad_views_moves_master)
+            when {% parameter selected_metric_daily %} = "Average Ad Views Per Player" then sum(a.ad_views)
 
             when {% parameter selected_metric_daily %} = "IAP ARPDAU" then sum(a.mtx_purchase_dollars)
             when {% parameter selected_metric_daily %} = "IAP Conversion per Day" then sum(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
@@ -231,13 +237,20 @@ view: ab_test_full_iterations_new {
             when {% parameter selected_metric_daily %} = "Average Coin Spend Per Player" then sum(a.coins_spend)
 
             when {% parameter selected_metric_daily %} = "Average Days Played Per Player" then sum(a.count_days_played)
+            when {% parameter selected_metric_daily %} = "Average Round End Events Per Player" then sum(a.round_end_events)
 
             else sum(1) end as numerator
         , case
             when {% parameter selected_metric_daily %} = "Average Minutes Played Per Day" then sum(1)
             when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Day" then sum(1)
+
             when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Day" then sum(1)
             when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Day" then sum(1)
+            when {% parameter selected_metric_daily %} = "Average Ad Views Per Day" then sum(1)
+
+            when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Player" then max(1)
+            when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Player" then max(1)
+            when {% parameter selected_metric_daily %} = "Average Ad Views Per Player" then max(1)
 
             when {% parameter selected_metric_daily %} = "IAP ARPDAU" then sum(a.count_days_played)
             when {% parameter selected_metric_daily %} = "IAP Conversion per Day" then sum(a.count_days_played)
@@ -261,6 +274,7 @@ view: ab_test_full_iterations_new {
             when {% parameter selected_metric_daily %} = "Average Coin Spend Per Player" then max(1)
 
             when {% parameter selected_metric_daily %} = "Average Days Played Per Player" then max(1)
+            when {% parameter selected_metric_daily %} = "Average Round End Events Per Player" then max(1)
 
             else sum(1) end as denominator
       from
@@ -1017,8 +1031,14 @@ view: ab_test_full_iterations_new {
 
       , "None"
       , "Average Go Fish Rounds Played Per Day"
+
       , "Average Go Fish Ad Views Per Day"
       , "Average Moves Master Ad Views Per Day"
+      , "Average Ad Views Per Day"
+
+      , "Average Go Fish Ad Views Per Player"
+      , "Average Moves Master Ad Views Per Player"
+      , "Average Ad Views Per Player"
 
       , "IAP ARPDAU"
       , "IAP Conversion per Day"
@@ -1042,6 +1062,7 @@ view: ab_test_full_iterations_new {
       , "Average Coin Spend Per Player"
 
       , "Average Days Played Per Player"
+      , "Average Round End Events Per Player"
 
     ]
   }

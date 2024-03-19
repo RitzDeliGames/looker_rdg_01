@@ -238,6 +238,7 @@ view: ab_test_full_iterations_new {
 
             when {% parameter selected_metric_daily %} = "Average Days Played Per Player" then sum(a.count_days_played)
             when {% parameter selected_metric_daily %} = "Average Round End Events Per Player" then sum(a.round_end_events)
+            when {% parameter selected_metric_daily %} = "Average Churn Rate Per Player" then max(a.churn_indicator)
 
             else sum(1) end as numerator
         , case
@@ -275,6 +276,7 @@ view: ab_test_full_iterations_new {
 
             when {% parameter selected_metric_daily %} = "Average Days Played Per Player" then max(1)
             when {% parameter selected_metric_daily %} = "Average Round End Events Per Player" then max(1)
+            when {% parameter selected_metric_daily %} = "Average Churn Rate Per Player" then max(1)
 
             else sum(1) end as denominator
       from
@@ -1063,6 +1065,7 @@ view: ab_test_full_iterations_new {
 
       , "Average Days Played Per Player"
       , "Average Round End Events Per Player"
+      , "Average Churn Rate Per Player"
 
     ]
   }

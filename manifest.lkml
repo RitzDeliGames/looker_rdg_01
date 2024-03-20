@@ -2372,6 +2372,26 @@ constant: singular_full_ad_name {
        when singular_creative_id = '6500850962922' then 'CCB_TestimonialAI-ManWithHorse_25s_1x1_EN'
        when singular_creative_id = '6501746012122' then 'CCB_ChumChumsPainting_22s_EN'
 
+       when singular_creative_id = '6527221708322' then 'SpinWithSloth'
+       when singular_creative_id = '6527221707522' then 'TiltingTableDangerous'
+       when singular_creative_id = '6527221709122' then 'LadyBossWithCats'
+       when singular_creative_id = '6527221707922' then 'HandsomeMan 001'
+       when singular_creative_id = '6527221708522' then 'YogaWithSloth'
+       when singular_creative_id = '6528146732722' then 'CCB_Airtraffic_Testimonial_30s'
+       when singular_creative_id = '6527221709522' then 'Testimonial 001 (ES)'
+       when singular_creative_id = '6527221708922' then 'LadyBossWithDogs'
+       when singular_creative_id = '6528145729922' then 'CCB_Zen_30s_EN'
+       when singular_creative_id = '6528145729722' then 'CCB_MeetChumChumsPort_22s_EN'
+       when singular_creative_id = '6527221709322' then 'ManOnHorse'
+       when singular_creative_id = '6527221706722' then 'HandsomeMan 002'
+       when singular_creative_id = '6527221708722' then 'SpinWithKoala'
+       when singular_creative_id = '6527221708122' then 'ManWithHorse'
+       when singular_creative_id = '6527221707122' then 'Zen'
+       when singular_creative_id = '6528145730322' then 'CCB_APVUpdate_30s_9x16_EN'
+       when singular_creative_id = '6527221707722' then 'APVUpdate'
+       when singular_creative_id = '6528145730122' then 'CCB_TestimonialAI-ManWithHorse_25s_1x1_EN'
+       when singular_creative_id = '6528145730522' then 'CCB_TestimonialAI-YogaWithSloth-v01_25s_1x1_EN'
+
     else 'Unmapped'
 
   end
@@ -2755,6 +2775,27 @@ constant: singular_simple_ad_name {
       when singular_creative_id = '6500850962922' then 'Man With Horse'
       when singular_creative_id = '6501746012122' then 'Chum Chums Painting'
 
+      when singular_creative_id = '6527221708322' then 'Spin With Sloth'
+      when singular_creative_id = '6527221707522' then 'Tilting Table'
+      when singular_creative_id = '6527221709122' then 'Lady Boss'
+      when singular_creative_id = '6527221707922' then 'Handsome Man'
+      when singular_creative_id = '6527221708522' then 'YogaWithSloth'
+      when singular_creative_id = '6528146732722' then 'Testimonial'
+      when singular_creative_id = '6527221709522' then 'Testimonial'
+      when singular_creative_id = '6527221708922' then 'Lady Boss'
+      when singular_creative_id = '6528145729922' then 'Zen'
+      when singular_creative_id = '6528145729722' then 'Meet the Chum Chums'
+      when singular_creative_id = '6527221709322' then 'Man With Horse'
+      when singular_creative_id = '6527221706722' then 'Handsome Man'
+      when singular_creative_id = '6527221708722' then 'Spin With Koala'
+      when singular_creative_id = '6527221708122' then 'Man With Horse'
+      when singular_creative_id = '6527221707122' then 'Zen'
+      when singular_creative_id = '6528145730322' then 'App Store Trailer'
+      when singular_creative_id = '6527221707722' then 'App Store Trailer'
+      when singular_creative_id = '6528145730122' then 'Man With Horse'
+      when singular_creative_id = '6528145730522' then 'YogaWithSloth'
+
+
   else 'Unmapped'
 
   end
@@ -3137,6 +3178,7 @@ constant: singular_simple_ad_name_without_table {
   when singular_creative_id = '6500851107322' then 'App Store Trailer'
   when singular_creative_id = '6500850962922' then 'Man With Horse'
   when singular_creative_id = '6501746012122' then 'Chum Chums Painting'
+
   else 'Unmapped'
 
   end
@@ -3520,6 +3562,27 @@ constant: singular_grouped_ad_name {
     when singular_creative_id = '6500851107322' then 'App Store Trailer'
     when singular_creative_id = '6500850962922' then 'AI'
     when singular_creative_id = '6501746012122' then 'Chum Chums Painting'
+
+    when singular_creative_id = '6527221708322' then 'AI'
+    when singular_creative_id = '6527221707522' then 'Tilting Table'
+    when singular_creative_id = '6527221709122' then 'AI'
+    when singular_creative_id = '6527221707922' then 'AI'
+    when singular_creative_id = '6527221708522' then 'AI'
+    when singular_creative_id = '6528146732722' then 'Testimonial'
+    when singular_creative_id = '6527221709522' then 'Testimonial'
+    when singular_creative_id = '6527221708922' then 'AI'
+    when singular_creative_id = '6528145729922' then 'Zen'
+    when singular_creative_id = '6528145729722' then 'Meet the Chum Chums'
+    when singular_creative_id = '6527221709322' then 'AI'
+    when singular_creative_id = '6527221706722' then 'AI'
+    when singular_creative_id = '6527221708722' then 'AI'
+    when singular_creative_id = '6527221708122' then 'AI'
+    when singular_creative_id = '6527221707122' then 'Zen'
+    when singular_creative_id = '6528145730322' then 'App Store Trailer'
+    when singular_creative_id = '6527221707722' then 'App Store Trailer'
+    when singular_creative_id = '6528145730122' then 'AI'
+    when singular_creative_id = '6528145730522' then 'AI'
+
 
   else 'Unmapped'
 

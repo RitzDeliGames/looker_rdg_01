@@ -8,7 +8,7 @@ view: player_summary_new {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-08-22'
+      -- last update: '2024-03-20'
 
       with
 

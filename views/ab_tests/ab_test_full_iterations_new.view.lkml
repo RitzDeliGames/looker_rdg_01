@@ -250,7 +250,7 @@ view: ab_test_full_iterations_new {
             when {% parameter selected_metric_daily %} = "Average Ad Views Per Day" then sum(1)
 
             when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Player" then max(1)
-            when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Player" then max(1)
+            when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Player" then max( case when a.round_end_events_movesmaster >= 1 then 1 else 0 end )
             when {% parameter selected_metric_daily %} = "Average Ad Views Per Player" then max(1)
 
             when {% parameter selected_metric_daily %} = "IAP ARPDAU" then sum(a.count_days_played)

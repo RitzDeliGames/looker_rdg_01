@@ -807,6 +807,34 @@ explore: player_fue_summary {
 
 ################################################################
 
+## Explore: Player Notification Summary
+
+################################################################
+
+explore: player_notification_summary {
+  label: "Player Notification Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_notification_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+  join: singular_campaign_summary {
+    view_label:  "Singular Campaign Info"
+    from:  singular_campaign_summary
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on:
+      ${player_summary_new.singular_campaign_id_override} = ${singular_campaign_summary.singular_campaign_id}
+      and date(${player_summary_new.singular_created_date_override}) = date(${singular_campaign_summary.singular_install_date})
+      ;;
+  }
+}
+
+################################################################
+
 ## AB Test Explores
 
 ################################################################
@@ -848,6 +876,7 @@ explore: revenue_model{}
 # explore: player_summary_staging {}
 # explore: ab_test_t_test{}
 
+# explore: player_notification_incremental {}
 # explore: player_ad_view_incremental {}
 # explore: firebase_player_daily_incremental {}
 # explore: player_coin_source_incremental {}

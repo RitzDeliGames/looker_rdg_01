@@ -938,6 +938,7 @@ view: player_summary_new {
 
   parameter: selected_experiment {
     type: string
+    default_value:  "$.No_AB_Test_Split"
     suggestions:  [
       "$.No_AB_Test_Split"
 

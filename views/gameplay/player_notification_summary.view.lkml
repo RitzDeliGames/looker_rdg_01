@@ -126,7 +126,6 @@ view: player_notification_summary {
   dimension: notification_name {type: string}
 
   # Numbers
-  dimension: first_play_specific_steps_order {type:number}
   dimension: cumulative_time_played_minutes {type:number}
   dimension: notification_id {type: number}
   dimension: win_streak {type: number}

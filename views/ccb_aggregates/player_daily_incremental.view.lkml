@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-02-06'
+      -- update '2024-03-26'
 
       -- create or replace table tal_scratch.player_daily_incremental_test as
 
@@ -79,7 +79,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-03-05' -- Last Full Update
+                when date(current_date()) <= '2024-03-26' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -300,6 +300,17 @@ view: player_daily_incremental {
               then 1 -- count events
               else 0
               end as int64) as round_end_events_puzzle
+
+        -- round end events - gemQuest
+          , safe_cast(case
+              when
+                event_name = 'round_end'
+                and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) IN (
+                    'gemQuest'
+                )
+              then 1 -- count events
+              else 0
+              end as int64) as round_end_events_gemquest
 
         -- round end events - ask for help
           , safe_cast(case
@@ -893,6 +904,7 @@ view: player_daily_incremental {
         , sum(round_end_events_campaign) as round_end_events_campaign
         , sum(round_end_events_movesmaster) as round_end_events_movesmaster
         , sum(round_end_events_puzzle) as round_end_events_puzzle
+        , sum(round_end_events_gemquest) as round_end_events_gemquest
         , sum(round_end_events_askforhelp) as round_end_events_askforhelp
         , sum(round_end_events_gofish) as round_end_events_gofish
         , sum(gofish_full_matches_completed) as gofish_full_matches_completed
@@ -1036,6 +1048,7 @@ view: player_daily_incremental {
         left join average_asset_load_times c
             on a.rdg_id = c.rdg_id
             and a.rdg_date = c.rdg_date
+
 
 
       ;;

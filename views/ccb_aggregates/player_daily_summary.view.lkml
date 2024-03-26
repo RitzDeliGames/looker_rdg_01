@@ -1681,6 +1681,24 @@ dimension: primary_key {
 ## Other Calculations
 ################################################################
 
+  measure: percent_players_engaged_any_event {
+    group_label: "Daily Feature Participation"
+    label: "Any Feature"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_any_event > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
   measure: percent_players_engaged_with_battle_pass {
     group_label: "Daily Feature Participation"
     label: "Battle Pass"

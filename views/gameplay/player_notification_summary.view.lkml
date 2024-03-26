@@ -149,12 +149,11 @@ view: player_notification_summary {
 
 
 ################################################################
-## Player Counts
+## Measures
 ################################################################
 
   ## Player Counts
   measure: count_distinct_active_users {
-    group_label: "Unique Player Counts"
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
   }
@@ -164,5 +163,28 @@ view: player_notification_summary {
     type: sum
     sql: ${TABLE}.notification_events ;;
   }
+
+
+################################################################
+## Notifications Per Player w/ At Least 1 Notification
+################################################################
+
+measure: notifications_per_player_w_at_least_1_notification_mean {
+  type: number
+  label: "Notifications Per Player w/ At Least 1 Notification"
+  value_format_name: decimal_1
+  sql:
+    safe_divide(
+      sum(${TABLE}.notification_events)
+      ,
+      count(distinct ${TABLE}.rdg_id)
+    )
+  ;;
+}
+
+
+
+
+
 
 }

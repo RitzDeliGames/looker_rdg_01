@@ -162,6 +162,7 @@ ads_by_date as (
         , max(a.round_end_events_campaign) as round_end_events_campaign
         , max(a.round_end_events_movesmaster) as round_end_events_movesmaster
         , max(a.round_end_events_puzzle) as round_end_events_puzzle
+        , max(a.round_end_events_gemquest) as round_end_events_gemquest
         , max(a.round_end_events_askforhelp) as round_end_events_askforhelp
         , max(a.round_end_events_gofish) as round_end_events_gofish
         , max(a.gofish_full_matches_completed) as gofish_full_matches_completed
@@ -348,6 +349,7 @@ ads_by_date as (
         , max(a.round_end_events_campaign) as round_end_events_campaign
         , max(a.round_end_events_movesmaster) as round_end_events_movesmaster
         , max(a.round_end_events_puzzle) as round_end_events_puzzle
+        , max(a.round_end_events_gemquest) as round_end_events_gemquest
         , max(a.round_end_events_askforhelp) as round_end_events_askforhelp
         , max(a.round_end_events_gofish) as round_end_events_gofish
         , max(a.gofish_full_matches_completed) as gofish_full_matches_completed
@@ -581,6 +583,7 @@ ads_by_date as (
         , a.round_end_events_campaign
         , a.round_end_events_movesmaster
         , a.round_end_events_puzzle
+        , a.round_end_events_gemquest
         , a.round_end_events_askforhelp
         , a.round_end_events_gofish
         , a.gofish_full_matches_completed
@@ -1388,6 +1391,7 @@ dimension: primary_key {
   dimension: round_end_events_campaign {type:number}
   dimension: round_end_events_movesmaster {type:number}
   dimension: round_end_events_puzzle {type:number}
+  dimension: round_end_events_gemquest {type:number}
   dimension: round_end_events_askforhelp {type:number}
 
   dimension: gofish_full_matches_completed {type: number}
@@ -1924,6 +1928,24 @@ dimension: primary_key {
       safe_divide(
         count(distinct case
           when ${TABLE}.round_end_events_puzzle > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_playing_gemquest {
+    group_label: "Participation by Game Mode"
+    label: "Gem Quest"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.round_end_events_gemquest > 0
           then ${TABLE}.rdg_id
           else null
           end )
@@ -4116,6 +4138,41 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     type: percentile
     percentile: 95
     sql: ${TABLE}.round_end_events_puzzle ;;
+  }
+  measure: sum_round_end_events_gemquest {
+    group_label: "Round End Events Gem Quest"
+    type:sum
+    sql: ${TABLE}.round_end_events_gemquest ;;
+  }
+  measure: round_end_events_gemquest_10 {
+    group_label: "Round End Events Gem Quest"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.round_end_events_gemquest ;;
+  }
+  measure: round_end_events_gemquest_25 {
+    group_label: "Round End Events Gem Quest"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.round_end_events_gemquest ;;
+  }
+  measure: round_end_events_gemquest_50 {
+    group_label: "Round End Events Gem Quest"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.round_end_events_gemquest ;;
+  }
+  measure: round_end_events_gemquest_75 {
+    group_label: "Round End Events Gem Quest"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.round_end_events_gemquest ;;
+  }
+  measure: round_end_events_gemquest_95 {
+    group_label: "Round End Events Gem Quest"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.round_end_events_gemquest ;;
   }
   measure: sum_round_time_in_minutes {
     group_label: "Round Time In Minutes"

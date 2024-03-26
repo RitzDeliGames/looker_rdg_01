@@ -165,10 +165,6 @@ view: player_notification_summary {
   }
 
 
-################################################################
-## Notifications Per Player w/ At Least 1 Notification
-################################################################
-
 measure: notifications_per_player_w_at_least_1_notification_mean {
   type: number
   label: "Notifications Per Player w/ At Least 1 Notification"
@@ -181,6 +177,23 @@ measure: notifications_per_player_w_at_least_1_notification_mean {
     )
   ;;
 }
+
+  measure: notifications_per_player_w_at_least_1_notification_per_day_mean {
+    type: number
+    label: "Notifications Per Player Per Day (w/ At Least 1 Notification)"
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      safe_divide(
+        sum(${TABLE}.notification_events)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+      ,
+      count(distinct ${TABLE}.rdg_date)
+      )
+  ;;
+  }
 
 
 

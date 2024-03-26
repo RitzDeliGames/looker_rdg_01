@@ -622,6 +622,22 @@ ads_by_date as (
         , a.feature_participation_ask_for_help_high_five
         , a.feature_participation_ask_for_help_high_five_return
         , a.feature_participation_hot_dog_contest
+        , case
+            when
+              a.feature_participation_daily_reward = 1
+              or a.feature_participation_pizza_time = 1
+              or a.feature_participation_flour_frenzy = 1
+              or a.feature_participation_lucky_dice = 1
+              or a.feature_participation_treasure_trove = 1
+              or a.feature_participation_battle_pass = 1
+              or a.feature_participation_ask_for_help_request = 1
+              or a.feature_participation_ask_for_help_completed = 1
+              or a.feature_participation_ask_for_help_high_five = 1
+              or a.feature_participation_ask_for_help_high_five_return = 1
+              or a.feature_participation_hot_dog_contest = 1
+              then 1
+            else 0
+            end as feature_participation_any_event
 
         -- ask for help counts
         , a.count_ask_for_help_request

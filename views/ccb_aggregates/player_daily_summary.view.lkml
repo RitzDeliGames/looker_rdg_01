@@ -3016,6 +3016,21 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     type:sum
     sql: ${TABLE}.round_end_events ;;
   }
+
+  measure: round_end_events_per_day {
+    label: "Average Round Events Per Day"
+    group_label: "Round End Events"
+    type:number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.round_end_events)
+        ,
+        sum(${TABLE}.count_days_played)
+        )
+        ;;
+  }
+
   measure: round_end_events_10 {
     group_label: "Round End Events"
     type: percentile
@@ -4179,6 +4194,21 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     type:sum
     sql: ${TABLE}.round_time_in_minutes ;;
   }
+
+  measure: average_round_time_per_session {
+    label: "Average Round Minutes Per Session"
+    group_label: "Round Time In Minutes"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.round_time_in_minutes)
+        ,
+        sum(${TABLE}.count_sessions)
+        )
+    ;;
+  }
+
   measure: round_time_in_minutes_10 {
     group_label: "Round Time In Minutes"
     type: percentile

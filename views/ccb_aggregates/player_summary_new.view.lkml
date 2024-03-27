@@ -3923,5 +3923,41 @@ measure: player_level_roas_estimate_d2 {
     ;;
   }
 
+################################################################
+## Player Level IAP ROAS Estimate
+################################################################
+
+  measure: player_level_iap_roas_estimate_d15 {
+    label: "Estimate D15 IAP ROAS"
+    group_label: "Player Level IAP ROAS Estimate"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d15)
+      ,
+      sum(${TABLE}.adjusted_cost_per_install)
+    )
+    ;;
+  }
+
+################################################################
+## Player Level IAP ROAS Estimate
+################################################################
+
+  measure: player_level_iaa_roas_estimate_d15 {
+    label: "Estimate D15 IAA ROAS"
+    group_label: "Player Level IAA ROAS Estimate"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d15)
+      ,
+      sum(${TABLE}.adjusted_cost_per_install)
+    )
+    ;;
+  }
+
 
 }

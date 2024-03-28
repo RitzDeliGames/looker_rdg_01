@@ -848,6 +848,14 @@ explore: ab_test_full_iterations_new {label: "AB Test: Full Iterations: New" gro
 
 ################################################################
 
+## Reporting Explores
+
+################################################################
+
+explore: mbr_scorecard {label: "Chum Chum MBR Scorecard"}
+
+################################################################
+
 ## Adhoc Explores
 
 ################################################################

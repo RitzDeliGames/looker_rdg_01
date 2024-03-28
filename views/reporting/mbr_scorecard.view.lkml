@@ -28,8 +28,8 @@ view: mbr_scorecard {
         , safe_divide(sum(a.round_time_in_minutes), sum(a.count_sessions)) as average_round_time_per_session
 
       from
-        eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary as a
-        left join eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new as b
+        ${player_daily_summary.SQL_TABLE_NAME} a
+        left join ${player_summary_new.SQL_TABLE_NAME} as b
           on a.rdg_id = b.rdg_id
 
       where
@@ -37,7 +37,11 @@ view: mbr_scorecard {
             date( extract( year from date({% parameter current_month %})), extract( month from date({% parameter current_month %})), 1 )
             , date( extract( year from date({% parameter prior_month %})), extract( month from date({% parameter prior_month %})), 1 )
           )
-        and a.country = 'US'
+
+        -- Country Filter
+        {% if country._is_filtered %}
+        and b.country in ( {% parameter country %} )
+        {% endif %}
 
       group by
         1
@@ -105,14 +109,18 @@ view: mbr_scorecard {
          as big_fish_retention_d30
 
       from
-        eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new AS a
+        ${player_summary_new.SQL_TABLE_NAME} AS a
 
       where
           date( extract( year from a.created_date ), extract( month from a.created_date ), 1 ) in (
           date( extract( year from date({% parameter current_month %})), extract( month from date({% parameter current_month %})), 1 )
           , date( extract( year from date({% parameter prior_month %})), extract( month from date({% parameter prior_month %})), 1 )
         )
-        and a.country = 'US'
+
+        -- Country Filter
+        {% if country._is_filtered %}
+        and a.country in ( {% parameter country %} )
+        {% endif %}
 
       group by
         1
@@ -152,8 +160,8 @@ view: mbr_scorecard {
             sum(a.adjusted_cost_per_install)
           ) as iaa_roas_estimate_d15
 
-      from eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new a
-      left join eraser-blast.looker_scratch.6Y_ritz_deli_games_singular_campaign_summary b
+      from ${player_summary_new.SQL_TABLE_NAME} a
+      left join ${singular_campaign_summary.SQL_TABLE_NAME} b
         on a.singular_campaign_id_override = b.singular_campaign_id
         and date((date(a.singular_created_date_override))) = date((date(b.singular_install_date)))
 
@@ -162,7 +170,12 @@ view: mbr_scorecard {
           date( extract( year from date({% parameter current_month %})), extract( month from date({% parameter current_month %})), 1 )
           , date( extract( year from date({% parameter prior_month %})), extract( month from date({% parameter prior_month %})), 1 )
           )
-        and a.country = 'US'
+
+        -- Country Filter
+        {% if country._is_filtered %}
+        and a.country in ( {% parameter country %} )
+        {% endif %}
+
         and a.max_available_day_number >= 15
         and b.singular_campaign_name_clean IS NOT NULL
 
@@ -432,7 +445,7 @@ view: mbr_scorecard {
       union all
       select
       12
-      , 'Paid ROAS'
+      , 'Paid D14 ROAS'
       , max( case
           when install_month_start_date = prior_month
           then roas_estimate_d15
@@ -456,7 +469,7 @@ view: mbr_scorecard {
       union all
       select
       13
-      , 'Paid IAP ROAS'
+      , 'Paid D14 IAP ROAS'
       , max( case
           when install_month_start_date = prior_month
           then iap_roas_estimate_d15
@@ -480,7 +493,7 @@ view: mbr_scorecard {
       union all
       select
       14
-      , 'Paid IAA ROAS'
+      , 'Paid D14 IAA ROAS'
       , max( case
           when install_month_start_date = prior_month
           then iaa_roas_estimate_d15
@@ -510,43 +523,43 @@ view: mbr_scorecard {
       select
         *
         , safe_divide( end_month_number, start_month_number ) -1 as percent_change_number
-        , case
+        , ifnull( case
             when my_order = 1 then FORMAT_DATE("%B %Y", date( extract( year from date({% parameter prior_month %})), extract( month from date({% parameter prior_month %})), 1 ))
             when my_metric = 'DAU' then safe_cast(start_month_number AS string format '999,999,999')
             when my_metric = 'Installs' then safe_cast(start_month_number AS string format '999,999,999')
             when my_metric = 'IAP ARPDAU' then safe_cast(start_month_number AS string format '$0.99')
             when my_metric = 'IAA ARPDAU' then safe_cast(start_month_number AS string format '$0.99')
-            when my_metric = 'D1 Retention' then safe_cast(start_month_number*100 AS string format '999,999,999') ||'%'
-            when my_metric = 'D14 Retention' then safe_cast(start_month_number*100 AS string format '999,999,999') ||'%'
-            when my_metric = 'D30 Retention' then safe_cast(start_month_number*100 AS string format '999,999,999') ||'%'
+            when my_metric = 'D1 Retention' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D14 Retention' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D30 Retention' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
             when my_metric = 'Average Game Rounds Per Day' then safe_cast(start_month_number AS string format '999,999,999.9')
             when my_metric = 'Average Sessions Per Day' then safe_cast(start_month_number AS string format '999,999,999.9')
             when my_metric = 'Average Round Time Per Session' then safe_cast(start_month_number AS string format '999,999,999.9')
-            when my_metric = 'Paid ROAS' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
-            when my_metric = 'Paid IAP ROAS' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
-            when my_metric = 'Paid IAA ROAS' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
+            when my_metric = 'Paid D14 ROAS' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
+            when my_metric = 'Paid D14 IAP ROAS' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
+            when my_metric = 'Paid D14 IAA ROAS' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
 
             else ''
-            end as StartMonth
+            end, '') as StartMonth
 
-        , case
+        , ifnull( case
             when my_order = 1 then FORMAT_DATE("%B %Y", date( extract( year from date({% parameter current_month %})), extract( month from date({% parameter current_month %})), 1 ))
             when my_metric = 'DAU' then safe_cast(end_month_number AS string format '999,999,999')
             when my_metric = 'Installs' then safe_cast(end_month_number AS string format '999,999,999')
             when my_metric = 'IAP ARPDAU' then safe_cast(end_month_number AS string format '$0.99')
             when my_metric = 'IAA ARPDAU' then safe_cast(end_month_number AS string format '$0.99')
-            when my_metric = 'D1 Retention' then safe_cast(end_month_number*100 AS string format '999,999,999') ||'%'
-            when my_metric = 'D14 Retention' then safe_cast(end_month_number*100 AS string format '999,999,999') ||'%'
-            when my_metric = 'D30 Retention' then safe_cast(end_month_number*100 AS string format '999,999,999') ||'%'
+            when my_metric = 'D1 Retention' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D14 Retention' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D30 Retention' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
             when my_metric = 'Average Game Rounds Per Day' then safe_cast(end_month_number AS string format '999,999,999.9')
             when my_metric = 'Average Sessions Per Day' then safe_cast(end_month_number AS string format '999,999,999.9')
             when my_metric = 'Average Round Time Per Session' then safe_cast(end_month_number AS string format '999,999,999.9')
-            when my_metric = 'Paid ROAS' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
-            when my_metric = 'Paid IAP ROAS' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
-            when my_metric = 'Paid IAA ROAS' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
+            when my_metric = 'Paid D14 ROAS' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
+            when my_metric = 'Paid D14 IAP ROAS' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
+            when my_metric = 'Paid D14 IAA ROAS' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
 
             else ''
-            end as EndMonth
+            end, '') as EndMonth
 
 
       from combined_table
@@ -559,12 +572,13 @@ view: mbr_scorecard {
 
     select
       *
-      , case
-            when my_order = 1 then null
+      , ifnull( case
+            when my_order = 1 then '% Change'
             when round(percent_change_number * 100 ,0) = 0 then '' || safe_cast( round( percent_change_number * 100 , 0 ) as string ) || '%'
             when percent_change_number > 0 then '+' || safe_cast( round( percent_change_number * 100 , 0 ) as string ) || '%'
             else safe_cast( round( percent_change_number * 100 , 0 ) as string ) || '%'
-            end as MonthlyChange
+            end
+            , '' ) as MonthlyChange
     from
       combined_table_with_formatting
 

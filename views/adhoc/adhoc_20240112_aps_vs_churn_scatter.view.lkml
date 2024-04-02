@@ -37,6 +37,19 @@ view: adhoc_20240112_aps_vs_churn_scatter {
           count(distinct a.churn_rdg_id )
           , count(distinct a.rdg_id )
           ) as churn_rate
+      , safe_divide(
+          sum( case
+            when count_losses = 1
+            then proximity_to_completion * 100
+            else null
+            end )
+          ,
+          sum( case
+            when count_losses = 1
+            then 1
+            else null
+            end )
+          ) as mean_proximity_to_completion
     from
       ${player_round_summary.SQL_TABLE_NAME} a
     where
@@ -137,6 +150,25 @@ view: adhoc_20240112_aps_vs_churn_scatter {
     ||
     safe_cast(
       ceiling(safe_divide(${TABLE}.level_serial+1,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}-1
+      as string
+      )
+    ;;
+  }
+
+  dimension: mean_proximity_to_completion { type: number}
+
+  dimension: mean_proximity_to_completion_rounded {
+    label: "Mean Proximity To Completion on Loss"
+    type:string
+    sql:
+    safe_cast(
+      floor( safe_divide(${TABLE}.mean_proximity_to_completion,5))*5
+      as string
+      )
+    || ' to '
+    ||
+    safe_cast(
+      ceiling(safe_divide(${TABLE}.mean_proximity_to_completion,5))*5-1
       as string
       )
     ;;

@@ -64,8 +64,27 @@ dimension: primary_key {
 }
 
 ################################################################
+## Parameters
+################################################################
+
+  parameter: selected_experiment {
+    type: string
+    default_value:  "$.No_AB_Test_Split"
+  }
+
+################################################################
 ## Dimensions
 ################################################################
+
+  dimension: experiment_variant {
+    type: string
+    sql:
+    safe_cast(
+        json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
+        as string)
+    ;;
+  }
+
   # rdg_date for join
   dimension: join_rdg_date {
     type: date

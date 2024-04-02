@@ -608,8 +608,26 @@ view: player_weekly_summary {
   }
 
 ################################################################
-## Custom Dimensions
+## Parameters
 ################################################################
+
+  parameter: selected_experiment {
+    type: string
+    default_value:  "$.No_AB_Test_Split"
+  }
+
+################################################################
+## Dimensions
+################################################################
+
+  dimension: experiment_variant {
+    type: string
+    sql:
+    safe_cast(
+        json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
+        as string)
+    ;;
+  }
 
   # dates
   dimension_group: rdg_week {
@@ -641,10 +659,6 @@ view: player_weekly_summary {
     tiers: [0,1,2,4,8,26,52]
     sql: ${TABLE}.week_number ;;
   }
-
-################################################################
-## Generic Dimensions
-################################################################
 
   dimension: rdg_id {type:string}
   dimension: device_id {type:string}

@@ -816,50 +816,7 @@ from
 
   parameter: selected_experiment {
     type: string
-    suggestions:  [
-      "$.No_AB_Test_Split"
-
-      , "$.altLevelOrderp2_20240314"
-      , "$.reversedQPO_20240313"
-
-      , "$.livesCosting_20240202"
-
-      , "$.hudOffers_20240228"
-      , "$.movesMasterTune_20240227"
-      , "$.dynamicEggs_20240223"
-      , "$.altLevelOrder_20240220"
-
-      , "$.ExtraMoves1k_20240130"
-      , "$.loAdMax_20240131"
-      , "$.extendedQPO_20240131"
-
-      , "$.blockColor_20240119"
-      , "$.propBehavior_20240118"
-      , "$.lv400500MovesTest_20240116"
-      , "$.lv200300MovesTest_20240116"
-      , "$.extraMovesOffering_20240111"
-
-      ,"$.lv650800Moves_20240105"
-      ,"$.lv100200Movesp2_20240103"
-      ,"$.fueLevelsV3p2_20240102"
-      ,"$.showLockedCharacters_20231215"
-      ,"$.scrollableTT_20231213"
-      ,"$.coinMultiplier_20231208"
-
-      ,"$.lv100200Moves_20231207"
-      ,"$.fueLevelsV3_20231207"
-      ,"$.hapticv3_20231207"
-      ,"$.swapTeam_20231206"
-      ,"$.colorBoost_20231205"
-      ,"$.lv300400MovesTest_20231207"
-
-      ,"$.hudSquirrel_20231128"
-      ,"$.blockSize_11152023"
-      ,"$.lockedEvents_20231107"
-
-      ,"$.coinPayout_20231108"
-
-    ]
+    default_value:  "$.No_AB_Test_Split"
   }
 
 ################################################################

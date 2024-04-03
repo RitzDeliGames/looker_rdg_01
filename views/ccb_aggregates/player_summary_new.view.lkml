@@ -3776,6 +3776,20 @@ view: player_summary_new {
     ;;
   }
 
+  measure: attributed_cost_per_transaction_d7 {
+    label: "Cost Per Transaction D7"
+    group_label: "Campaign Analysis Stats"
+    type: number
+    value_format_name: usd
+    sql:
+      safe_divide(
+        sum( ifnull( ${TABLE}.attributed_campaign_cost, 0 ) )
+        ,
+        sum( ${TABLE}.cumulative_count_mtx_purchases_d7 )
+      )
+    ;;
+  }
+
 measure: player_level_roas_estimate_d1 {
   label: "D1 ROAS"
   group_label: "Campaign ROAS"

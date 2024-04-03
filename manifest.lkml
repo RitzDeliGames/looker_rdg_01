@@ -715,6 +715,13 @@ constant: singular_campaign_id_override {
         singular_partner_name = 'Unattributed'
         and singular_campaign_id = ''
         and country = 'US'
+        and date(created_date) between '2024-03-04' and '2024-03-27'
+        then '6528145729122'
+
+      when
+        singular_partner_name = 'Unattributed'
+        and singular_campaign_id = ''
+        and country = 'US'
         and date(created_date) between '2024-01-03' and '2024-01-24'
         then '6500848734722'
 

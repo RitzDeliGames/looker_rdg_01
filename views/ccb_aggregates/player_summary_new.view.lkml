@@ -3700,18 +3700,18 @@ view: player_summary_new {
 ################################################################
 
   measure: player_estimated_cost_per_install {
-    label: "Attributed Campaign Cost"
-    group_label: "User Acquisition Stats"
+    label: "Attributed Cost"
+    group_label: "Campaign Analysis Stats"
     type: number
-    value_format_name: usd
+    value_format_name: usd_0
     sql:
       sum( ifnull( ${TABLE}.attributed_campaign_cost, 0 ) )
     ;;
   }
 
   measure: attributed_campaign_impressions {
-    label: "Attributed Campaign Impressions"
-    group_label: "User Acquisition Stats"
+    label: "Attributed Impressions"
+    group_label: "Campaign Analysis Stats"
     type: number
     value_format_name: decimal_0
     sql:
@@ -3720,8 +3720,8 @@ view: player_summary_new {
   }
 
   measure: attributed_cost_per_1000_impressions {
-    label: "Attributed CPM"
-    group_label: "User Acquisition Stats"
+    label: "CPM"
+    group_label: "Campaign Analysis Stats"
     type: number
     value_format_name: usd
     sql:
@@ -3734,8 +3734,8 @@ view: player_summary_new {
   }
 
   measure: attributed_cost_per_install {
-    label: "Attributed CPI"
-    group_label: "User Acquisition Stats"
+    label: "CPI"
+    group_label: "Campaign Analysis Stats"
     type: number
     value_format_name: usd
     sql:
@@ -3749,8 +3749,8 @@ view: player_summary_new {
 
 
   measure: attributed_installs_per_1000_impressions {
-    label: "Attributed IPM"
-    group_label: "User Acquisition Stats"
+    label: "IPM"
+    group_label: "Campaign Analysis Stats"
     type: number
     value_format_name: decimal_2
     sql:
@@ -3762,9 +3762,23 @@ view: player_summary_new {
     ;;
   }
 
+  measure: attributed_cost_per_transaction {
+    label: "Cost Per Transaction"
+    group_label: "Campaign Analysis Stats"
+    type: number
+    value_format_name: usd
+    sql:
+      safe_divide(
+        sum( ifnull( ${TABLE}.attributed_campaign_cost, 0 ) )
+        ,
+        sum( ${TABLE}.cumulative_count_mtx_purchases_current )
+      )
+    ;;
+  }
+
 measure: player_level_roas_estimate_d1 {
-  label: "Estimate D1 ROAS"
-  group_label: "Player Level ROAS Estimate"
+  label: "D1 ROAS"
+  group_label: "Campaign ROAS"
   type: number
   value_format_name: percent_1
   sql:
@@ -3777,8 +3791,8 @@ measure: player_level_roas_estimate_d1 {
 }
 
 measure: player_level_roas_estimate_d2 {
-    label: "Estimate D2 ROAS"
-    group_label: "Player Level ROAS Estimate"
+    label: "D2 ROAS"
+    group_label: "Campaign ROAS"
     type: number
     value_format_name: percent_1
     sql:
@@ -3791,8 +3805,8 @@ measure: player_level_roas_estimate_d2 {
   }
 
   measure: player_level_roas_estimate_d7 {
-    label: "Estimate D7 ROAS"
-    group_label: "Player Level ROAS Estimate"
+    label: "D7 ROAS"
+    group_label: "Campaign ROAS"
     type: number
     value_format_name: percent_1
     sql:
@@ -3805,8 +3819,8 @@ measure: player_level_roas_estimate_d2 {
   }
 
   measure: player_level_roas_estimate_d8 {
-    label: "Estimate D8 ROAS"
-    group_label: "Player Level ROAS Estimate"
+    label: "D8 ROAS"
+    group_label: "Campaign ROAS"
     type: number
     value_format_name: percent_1
     sql:
@@ -3819,8 +3833,8 @@ measure: player_level_roas_estimate_d2 {
   }
 
   measure: player_level_roas_estimate_d14 {
-    label: "Estimate D14 ROAS"
-    group_label: "Player Level ROAS Estimate"
+    label: "D14 ROAS"
+    group_label: "Campaign ROAS"
     type: number
     value_format_name: percent_1
     sql:
@@ -3833,8 +3847,8 @@ measure: player_level_roas_estimate_d2 {
   }
 
   measure: player_level_roas_estimate_d15 {
-    label: "Estimate D15 ROAS"
-    group_label: "Player Level ROAS Estimate"
+    label: "D15 ROAS"
+    group_label: "Campaign ROAS"
     type: number
     value_format_name: percent_1
     sql:
@@ -3846,9 +3860,23 @@ measure: player_level_roas_estimate_d2 {
     ;;
   }
 
+  measure: player_level_roas_estimate_d21 {
+    label: "D21 ROAS"
+    group_label: "Campaign ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d21)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
   measure: player_level_roas_estimate_d30 {
-    label: "Estimate D30 ROAS"
-    group_label: "Player Level ROAS Estimate"
+    label: "D30 ROAS"
+    group_label: "Campaign ROAS"
     type: number
     value_format_name: percent_1
     sql:
@@ -3861,8 +3889,8 @@ measure: player_level_roas_estimate_d2 {
   }
 
   measure: player_level_roas_estimate_d31 {
-    label: "Estimate D31 ROAS"
-    group_label: "Player Level ROAS Estimate"
+    label: "D31 ROAS"
+    group_label: "Campaign ROAS"
     type: number
     value_format_name: percent_1
     sql:
@@ -3875,8 +3903,8 @@ measure: player_level_roas_estimate_d2 {
   }
 
   measure: player_level_roas_estimate_d46 {
-    label: "Estimate D46 ROAS"
-    group_label: "Player Level ROAS Estimate"
+    label: "D46 ROAS"
+    group_label: "Campaign ROAS"
     type: number
     value_format_name: percent_1
     sql:
@@ -3889,8 +3917,8 @@ measure: player_level_roas_estimate_d2 {
   }
 
   measure: player_level_roas_estimate_d60 {
-    label: "Estimate D60 ROAS"
-    group_label: "Player Level ROAS Estimate"
+    label: "D60 ROAS"
+    group_label: "Campaign ROAS"
     type: number
     value_format_name: percent_1
     sql:
@@ -3903,13 +3931,83 @@ measure: player_level_roas_estimate_d2 {
   }
 
   measure: player_level_roas_estimate_d61 {
-    label: "Estimate D61 ROAS"
-    group_label: "Player Level ROAS Estimate"
+    label: "D61 ROAS"
+    group_label: "Campaign ROAS"
     type: number
     value_format_name: percent_1
     sql:
     safe_divide(
       sum(${TABLE}.cumulative_combined_dollars_d61)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_roas_estimate_d90 {
+    label: "D90 ROAS"
+    group_label: "Campaign ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d90)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_roas_estimate_d120 {
+    label: "D120 ROAS"
+    group_label: "Campaign ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d120)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_roas_estimate_d180 {
+    label: "D180 ROAS"
+    group_label: "Campaign ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d180)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_roas_estimate_d270 {
+    label: "D270 ROAS"
+    group_label: "Campaign ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d270)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_roas_estimate_d360 {
+    label: "D360 ROAS"
+    group_label: "Campaign ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d360)
       ,
       sum(${TABLE}.attributed_campaign_cost)
     )

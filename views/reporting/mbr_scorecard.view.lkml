@@ -143,21 +143,21 @@ view: mbr_scorecard {
         , safe_divide(
             sum(a.cumulative_combined_dollars_d15)
             ,
-            sum(a.adjusted_cost_per_install)
+            sum(a.attributed_campaign_cost)
           ) as roas_estimate_d15
 
         -- D15 IAP ROAS (Big Fish D14)
         , safe_divide(
             sum(a.cumulative_mtx_purchase_dollars_d15)
             ,
-            sum(a.adjusted_cost_per_install)
+            sum(a.attributed_campaign_cost)
           ) as iap_roas_estimate_d15
 
         -- D15 IAA ROAS (Big Fish D14)
         , safe_divide(
             sum(a.cumulative_ad_view_dollars_d15)
             ,
-            sum(a.adjusted_cost_per_install)
+            sum(a.attributed_campaign_cost)
           ) as iaa_roas_estimate_d15
 
       from ${player_summary_new.SQL_TABLE_NAME} a

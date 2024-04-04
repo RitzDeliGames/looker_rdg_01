@@ -160,10 +160,8 @@ view: mbr_scorecard {
             sum(a.attributed_campaign_cost)
           ) as iaa_roas_estimate_d15
 
-      from ${player_summary_new.SQL_TABLE_NAME} a
-      left join ${singular_campaign_summary.SQL_TABLE_NAME} b
-        on a.singular_campaign_id_override = b.singular_campaign_id
-        and date((date(a.singular_created_date_override))) = date((date(b.singular_install_date)))
+      from
+        ${player_summary_new.SQL_TABLE_NAME} a
 
       where
         date( extract( year from a.created_date ), extract( month from a.created_date ), 1 ) in (
@@ -176,8 +174,8 @@ view: mbr_scorecard {
         and a.country in ( {% parameter country %} )
         {% endif %}
 
-        and a.max_available_day_number >= 15
-        and b.singular_campaign_name_clean IS NOT NULL
+        -- and a.max_available_day_number >= 15
+        and a.mapped_singular_campaign_name_clean IS NOT NULL
 
       GROUP BY
           1

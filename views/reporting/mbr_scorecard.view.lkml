@@ -73,6 +73,36 @@ view: mbr_scorecard {
                 end )
         ) as big_fish_retention_d1
 
+        -- D4 Retention (Big Fish D3)
+        , safe_divide(
+            sum(case when a.max_available_day_number >= 4
+              then a.retention_d4
+              else 0
+              end )
+          ,
+            count( distinct
+              case
+                when a.max_available_day_number >= 4
+                then a.rdg_id
+                else null
+                end )
+        ) as big_fish_retention_d3
+
+        -- D8 Retention (Big Fish D7)
+        , safe_divide(
+            sum(case when a.max_available_day_number >= 8
+              then a.retention_d8
+              else 0
+              end )
+          ,
+            count( distinct
+              case
+                when a.max_available_day_number >= 8
+                then a.rdg_id
+                else null
+                end )
+        ) as big_fish_retention_d7
+
         -- D15 Retention (Big Fish D14)
         , safe_divide(
           sum(
@@ -317,6 +347,54 @@ view: mbr_scorecard {
         base_player_level_data
 
       --------------------------------------------------------------------------
+      -- D3 Retention
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      6.1
+      , 'D3 Retention'
+      , max( case
+          when install_month_start_date = prior_month
+          then big_fish_retention_d3
+          else null
+          end
+          )
+      , max( case
+          when install_month_start_date = current_month
+          then big_fish_retention_d3
+          else null
+          end
+          )
+
+      from
+        base_player_level_data
+
+      --------------------------------------------------------------------------
+      -- D7 Retention
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      6.2
+      , 'D7 Retention'
+      , max( case
+          when install_month_start_date = prior_month
+          then big_fish_retention_d7
+          else null
+          end
+          )
+      , max( case
+          when install_month_start_date = current_month
+          then big_fish_retention_d7
+          else null
+          end
+          )
+
+      from
+        base_player_level_data
+
+      --------------------------------------------------------------------------
       -- D14 Retention
       --------------------------------------------------------------------------
 
@@ -528,6 +606,8 @@ view: mbr_scorecard {
             when my_metric = 'IAP ARPDAU' then safe_cast(round(start_month_number,2) AS string format '$0.99')
             when my_metric = 'IAA ARPDAU' then safe_cast(round(start_month_number,2) AS string format '$0.99')
             when my_metric = 'D1 Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D3 Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D7 Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'D14 Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'D30 Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'Average Game Rounds Per Day' then safe_cast(round(start_month_number,1) AS string format '999,999,999.9')
@@ -547,6 +627,8 @@ view: mbr_scorecard {
             when my_metric = 'IAP ARPDAU' then safe_cast(round(end_month_number,2) AS string format '$0.99')
             when my_metric = 'IAA ARPDAU' then safe_cast(round(end_month_number,2) AS string format '$0.99')
             when my_metric = 'D1 Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D3 Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D7 Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'D14 Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'D30 Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'Average Game Rounds Per Day' then safe_cast(round(end_month_number,1) AS string format '999,999,999.9')

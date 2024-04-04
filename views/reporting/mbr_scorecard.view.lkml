@@ -523,38 +523,38 @@ view: mbr_scorecard {
         , safe_divide( end_month_number, start_month_number ) -1 as percent_change_number
         , ifnull( case
             when my_order = 1 then FORMAT_DATE("%B %Y", date( extract( year from date({% parameter prior_month %})), extract( month from date({% parameter prior_month %})), 1 ))
-            when my_metric = 'DAU' then safe_cast(start_month_number AS string format '999,999,999')
-            when my_metric = 'Installs' then safe_cast(start_month_number AS string format '999,999,999')
-            when my_metric = 'IAP ARPDAU' then safe_cast(start_month_number AS string format '$0.99')
-            when my_metric = 'IAA ARPDAU' then safe_cast(start_month_number AS string format '$0.99')
-            when my_metric = 'D1 Retention' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
-            when my_metric = 'D14 Retention' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
-            when my_metric = 'D30 Retention' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
-            when my_metric = 'Average Game Rounds Per Day' then safe_cast(start_month_number AS string format '999,999,999.9')
-            when my_metric = 'Average Sessions Per Day' then safe_cast(start_month_number AS string format '999,999,999.9')
-            when my_metric = 'Average Round Time Per Session' then safe_cast(start_month_number AS string format '999,999,999.9')
-            when my_metric = 'Paid D14 ROAS' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
-            when my_metric = 'Paid D14 IAP ROAS' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
-            when my_metric = 'Paid D14 IAA ROAS' then safe_cast(start_month_number*100 AS string format '999,999,999.9') ||'%'
+            when my_metric = 'DAU' then safe_cast(round(start_month_number,0) AS string format '999,999,999')
+            when my_metric = 'Installs' then safe_cast(round(start_month_number,0) AS string format '999,999,999')
+            when my_metric = 'IAP ARPDAU' then safe_cast(round(start_month_number,2) AS string format '$0.99')
+            when my_metric = 'IAA ARPDAU' then safe_cast(round(start_month_number,2) AS string format '$0.99')
+            when my_metric = 'D1 Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D14 Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D30 Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'Average Game Rounds Per Day' then safe_cast(round(start_month_number,1) AS string format '999,999,999.9')
+            when my_metric = 'Average Sessions Per Day' then safe_cast(round(start_month_number,1) AS string format '999,999,999.9')
+            when my_metric = 'Average Round Time Per Session' then safe_cast(round(start_month_number,1) AS string format '999,999,999.9')
+            when my_metric = 'Paid D14 ROAS' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'Paid D14 IAP ROAS' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'Paid D14 IAA ROAS' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
 
             else ''
             end, '') as StartMonth
 
         , ifnull( case
             when my_order = 1 then FORMAT_DATE("%B %Y", date( extract( year from date({% parameter current_month %})), extract( month from date({% parameter current_month %})), 1 ))
-            when my_metric = 'DAU' then safe_cast(end_month_number AS string format '999,999,999')
-            when my_metric = 'Installs' then safe_cast(end_month_number AS string format '999,999,999')
-            when my_metric = 'IAP ARPDAU' then safe_cast(end_month_number AS string format '$0.99')
-            when my_metric = 'IAA ARPDAU' then safe_cast(end_month_number AS string format '$0.99')
-            when my_metric = 'D1 Retention' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
-            when my_metric = 'D14 Retention' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
-            when my_metric = 'D30 Retention' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
-            when my_metric = 'Average Game Rounds Per Day' then safe_cast(end_month_number AS string format '999,999,999.9')
-            when my_metric = 'Average Sessions Per Day' then safe_cast(end_month_number AS string format '999,999,999.9')
-            when my_metric = 'Average Round Time Per Session' then safe_cast(end_month_number AS string format '999,999,999.9')
-            when my_metric = 'Paid D14 ROAS' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
-            when my_metric = 'Paid D14 IAP ROAS' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
-            when my_metric = 'Paid D14 IAA ROAS' then safe_cast(end_month_number*100 AS string format '999,999,999.9') ||'%'
+            when my_metric = 'DAU' then safe_cast(round(end_month_number,0) AS string format '999,999,999')
+            when my_metric = 'Installs' then safe_cast(round(end_month_number,0) AS string format '999,999,999')
+            when my_metric = 'IAP ARPDAU' then safe_cast(round(end_month_number,2) AS string format '$0.99')
+            when my_metric = 'IAA ARPDAU' then safe_cast(round(end_month_number,2) AS string format '$0.99')
+            when my_metric = 'D1 Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D14 Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D30 Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'Average Game Rounds Per Day' then safe_cast(round(end_month_number,1) AS string format '999,999,999.9')
+            when my_metric = 'Average Sessions Per Day' then safe_cast(round(end_month_number,1) AS string format '999,999,999.9')
+            when my_metric = 'Average Round Time Per Session' then safe_cast(round(end_month_number,1) AS string format '999,999,999.9')
+            when my_metric = 'Paid D14 ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'Paid D14 IAP ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'Paid D14 IAA ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
 
             else ''
             end, '') as EndMonth

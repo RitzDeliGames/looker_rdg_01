@@ -708,6 +708,16 @@ view: player_summary_new {
   dimension: cumulative_coins_spend_d90 {group_label:"Cumulative Coin Spend" type: number}
   dimension: cumulative_coins_spend_current {group_label:"Cumulative Coin Spend" type: number}
 
+  dimension: paid_vs_organic {
+    label: "Paid vs. Organic"
+    type: string
+    sql:
+      case
+        when ${TABLE}.mapped_singular_campaign_name_clean is not null
+        then 'Paid'
+        else 'Organic'
+        end ;;
+  }
 
   ################################################################################################
   ## sessions per day
@@ -4032,9 +4042,134 @@ measure: player_level_roas_estimate_d2 {
 ## Player Level IAP ROAS Estimate
 ################################################################
 
+  measure: player_level_iap_roas_estimate_d1 {
+    label: "D1 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d1)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iap_roas_estimate_d2 {
+    label: "D2 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d2)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iap_roas_estimate_d3 {
+    label: "D3 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d3)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iap_roas_estimate_d4 {
+    label: "D4 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d4)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iap_roas_estimate_d5 {
+    label: "D5 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d5)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iap_roas_estimate_d6 {
+    label: "D6 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d6)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iap_roas_estimate_d7 {
+    label: "D7 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d7)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iap_roas_estimate_d8 {
+    label: "D8 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d8)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+  measure: player_level_iap_roas_estimate_d14 {
+    label: "D14 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d14)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
   measure: player_level_iap_roas_estimate_d15 {
     label: "D15 IAP ROAS"
-    group_label: "Player Level IAP ROAS Estimate"
+    group_label: "IAP ROAS"
     type: number
     value_format_name: percent_1
     sql:
@@ -4046,18 +4181,311 @@ measure: player_level_roas_estimate_d2 {
     ;;
   }
 
+  measure: player_level_iap_roas_estimate_d30 {
+    label: "D30 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d30)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iap_roas_estimate_d31 {
+    label: "D31 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d31)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iap_roas_estimate_d45 {
+    label: "D45 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d45)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iap_roas_estimate_d46 {
+    label: "D46 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d46)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iap_roas_estimate_d60 {
+    label: "D60 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d60)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iap_roas_estimate_d61 {
+    label: "D61 IAP ROAS"
+    group_label: "IAP ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_mtx_purchase_dollars_d61)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
 ################################################################
 ## Player Level IAP ROAS Estimate
 ################################################################
 
+  measure: player_level_iaa_roas_estimate_d1 {
+    label: "D1 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d1)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+  measure: player_level_iaa_roas_estimate_d2 {
+    label: "D2 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d2)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iaa_roas_estimate_d3 {
+    label: "D3 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d3)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iaa_roas_estimate_d4 {
+    label: "D4 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d4)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iaa_roas_estimate_d5 {
+    label: "D5 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d5)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iaa_roas_estimate_d6 {
+    label: "D6 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d6)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iaa_roas_estimate_d7 {
+    label: "D7 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d7)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iaa_roas_estimate_d8 {
+    label: "D8 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d8)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iaa_roas_estimate_d14 {
+    label: "D14 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d14)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
   measure: player_level_iaa_roas_estimate_d15 {
     label: "D15 IAA ROAS"
-    group_label: "Player Level IAA ROAS Estimate"
+    group_label: "IAA ROAS"
     type: number
     value_format_name: percent_1
     sql:
     safe_divide(
       sum(${TABLE}.cumulative_ad_view_dollars_d15)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iaa_roas_estimate_d30 {
+    label: "D30 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d30)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iaa_roas_estimate_d31 {
+    label: "D31 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d31)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iaa_roas_estimate_d45 {
+    label: "D45 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d45)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iaa_roas_estimate_d46 {
+    label: "D46 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d46)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iaa_roas_estimate_d60 {
+    label: "D60 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d60)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_iaa_roas_estimate_d61 {
+    label: "D61 IAA ROAS"
+    group_label: "IAA ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_ad_view_dollars_d61)
       ,
       sum(${TABLE}.attributed_campaign_cost)
     )

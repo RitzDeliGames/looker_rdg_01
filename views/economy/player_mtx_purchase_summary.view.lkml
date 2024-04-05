@@ -201,6 +201,19 @@ dimension: primary_key {
     value_format_name: decimal_0
   }
 
+  dimension: treasure_trove_week_start_date {
+    label: "Treasure Trove Week Start"
+    type: date
+    sql:
+      date_add(
+        date(${TABLE}.rdg_date)
+        , interval
+          (-1)*(extract( dayofweek from date(${TABLE}.rdg_date)) - 1)
+          day
+        )
+    ;;
+  }
+
 ################################################################
 ## Calculated Fields
 ################################################################

@@ -208,6 +208,9 @@ view: ab_test_full_iterations_new {
             when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Day" then sum(a.round_end_events_gofish)
             when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Player" then sum(a.round_end_events_gofish)
 
+            when {% parameter selected_metric_daily %} = "Average Moves Master Rounds Played Per Day" then sum(a.round_end_events_movesmaster)
+            when {% parameter selected_metric_daily %} = "Average Moves Master Rounds Played Per Player" then sum(a.round_end_events_movesmaster)
+
             when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Day" then sum(a.ad_views_go_fish)
             when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Day" then sum(a.ad_views_moves_master)
             when {% parameter selected_metric_daily %} = "Average Ad Views Per Day" then sum(a.ad_views)
@@ -248,6 +251,9 @@ view: ab_test_full_iterations_new {
             when {% parameter selected_metric_daily %} = "Average Minutes Played Per Day" then sum(1)
             when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Day" then sum(1)
             when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Player" then max(1)
+
+            when {% parameter selected_metric_daily %} = "Average Moves Master Rounds Played Per Day" then sum(1)
+            when {% parameter selected_metric_daily %} = "Average Moves Master Rounds Played Per Player" then max(1)
 
             when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Day" then sum(1)
             when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Day" then sum(1)
@@ -891,6 +897,9 @@ view: ab_test_full_iterations_new {
       , "None"
       , "Average Go Fish Rounds Played Per Day"
       , "Average Go Fish Rounds Played Per Player"
+
+      , "Average Moves Master Rounds Played Per Day"
+      , "Average Moves Master Rounds Played Per Player"
 
       , "Average Go Fish Ad Views Per Day"
       , "Average Moves Master Ad Views Per Day"

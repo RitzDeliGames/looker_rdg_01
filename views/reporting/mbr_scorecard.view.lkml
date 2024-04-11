@@ -43,6 +43,11 @@ view: mbr_scorecard {
         and b.country in ( {% parameter country %} )
         {% endif %}
 
+        -- Platform Filter
+        {% if platform._is_filtered %}
+        and b.device_platform_mapping_os in ( {% parameter platform %} )
+        {% endif %}
+
       group by
         1
     )
@@ -152,6 +157,11 @@ view: mbr_scorecard {
         and a.country in ( {% parameter country %} )
         {% endif %}
 
+        -- Platform Filter
+        {% if platform._is_filtered %}
+        and a.device_platform_mapping_os in ( {% parameter platform %} )
+        {% endif %}
+
       group by
         1
 
@@ -204,8 +214,12 @@ view: mbr_scorecard {
         and a.country in ( {% parameter country %} )
         {% endif %}
 
-        -- and a.max_available_day_number >= 15
         and a.mapped_singular_campaign_name_clean IS NOT NULL
+
+        -- Platform Filter
+        {% if platform._is_filtered %}
+        and a.device_platform_mapping_os in ( {% parameter platform %} )
+        {% endif %}
 
       GROUP BY
           1
@@ -700,6 +714,11 @@ view: mbr_scorecard {
 
   parameter: country {
     type: string
+  }
+
+  parameter: platform {
+    type: string
+    suggestions: ["iOS","Android"]
   }
 
 ################################################################

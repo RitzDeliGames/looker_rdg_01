@@ -279,12 +279,26 @@ view: player_summary_new {
 
           select
             a.*
-            , b.singular_campaign_name_clean as mapped_singular_campaign_name_clean
+            , b.singular_campaign_name_clean as mapped_singular_campaign_name_start
           from
             base_data a
             left join campaign_name_clean_by_singular_campaign_id_table b
               on a.singular_campaign_id_override = b.singular_campaign_id
           )
+
+        ------------------------------------------------------------------------------------
+        -- Campaign Name Clean (step 3: Appsflyer )
+        ------------------------------------------------------------------------------------
+
+        , appsflyer_campaign_name_table as (
+
+          select
+            a.*
+            , @{appsflyer_campaign_name} as mapped_singular_campaign_name_clean
+          from
+            map_campaign_name_to_main_table a
+
+        )
 
         ------------------------------------------------------------------------------------
         -- Singular Total Cost By Campaign
@@ -387,7 +401,7 @@ view: player_summary_new {
                 , c.estimated_impressions_per_install
                 , b.estimated_impressions_per_install) as first_pass_impressions_per_install
           from
-            map_campaign_name_to_main_table a
+            appsflyer_campaign_name_table a
 
             left join singular_total_cost_by_campaign_table b
               on a.mapped_singular_campaign_name_clean = b.singular_campaign_name_clean

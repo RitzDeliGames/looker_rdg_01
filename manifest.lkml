@@ -515,6 +515,20 @@ constant: reward_types {
           end"
 }
 
+constant: appsflyer_campaign_name {
+  value: "
+    case
+
+      when
+        appsflyer_campaign_type = 'ua'
+        and date(created_date) between '2024-04-08' and '2024-04-19'
+      then
+        '20240412 - AA+ - LATAM/ES - MAI'
+
+      else mapped_singular_campaign_name_start
+      end"
+}
+
 constant: campaign_name_clean_update {
   value: "case
             when

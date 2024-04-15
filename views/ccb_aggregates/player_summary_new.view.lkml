@@ -229,6 +229,8 @@ view: player_summary_new {
           , supported_devices_retail_name
           , supported_devices_marketing_name
           , supported_devices_device_name
+          , appsflyer_campaign
+          , appsflyer_campaign_type
 
           ----------------------------------------------------------
           -- Fields from the manifest
@@ -717,6 +719,15 @@ view: player_summary_new {
         then 'Paid'
         else 'Organic'
         end ;;
+  }
+
+  dimension: appsflyer_campaign {
+    label: "Appsflyer Campaign"
+    group_label: "Appsflyer"
+  }
+  dimension: appsflyer_campaign_type {
+    label: "Appsflyer Campaign Type"
+    group_label: "Appsflyer"
   }
 
   ################################################################################################

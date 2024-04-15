@@ -597,6 +597,64 @@ view: player_summary_staging {
       )
 
       -----------------------------------------------------------------------
+      -- appsflyer step 1
+      -----------------------------------------------------------------------
+
+      , appsflyer_id_list as (
+
+        select
+          idfv as appsflyer_idfv
+          , max(campaign ) as appsflyer_campaign
+          , max(campaign_type ) as appsflyer_campaign_type
+          -- --, max( fullname ) as fullname
+          -- , max( af_adset ) as af_adset
+          -- , max( af_adset_id ) as af_adset_id
+          -- , max( af_ad ) as af_ad
+          -- , max( af_ad_id ) as af_ad_id
+          -- , max( af_ad_type ) as af_ad_type
+          -- , max( advertising_id ) as advertising_id
+          -- , max( gp_broadcast_referrer ) as gp_broadcast_referrer
+          -- , max( device_download_time ) as device_download_time
+          -- , max( ad_unit ) as ad_unit
+          -- , max( ad_placement ) as ad_placement
+
+
+        from
+          `eraser-blast.appsflyer.installs`
+        where
+          1=1
+          -- and platform = 'ios'
+          -- and timestamp_trunc(_dl_partition_time, day) in
+          --   ( timestamp("2024-04-12")
+          --   , timestamp("2024-04-13")
+          --   , timestamp("2024-04-14")
+          --   )
+          and event_name = 'install'
+          and media_source <> 'organic'
+          and campaign_type = 'ua'
+        group by
+          1
+
+      )
+
+      -----------------------------------------------------------------------
+      -- join on apps flyer data
+      -----------------------------------------------------------------------
+
+      , join_on_appsflyer_data as (
+
+        select
+          a.*
+          , b.appsflyer_campaign
+          , b.appsflyer_campaign_type
+        from
+          add_on_mtx_percentile_and_singular_data a
+          left join appsflyer_id_list b
+            on a.device_id = b.appsflyer_idfv
+
+      )
+
+      -----------------------------------------------------------------------
       -- prepare supported_devices table
       -----------------------------------------------------------------------
 
@@ -627,9 +685,9 @@ view: player_summary_staging {
       , b.device_name as supported_devices_device_name
       , b.model_name as supported_devices_model_name
       from
-      add_on_mtx_percentile_and_singular_data a
+      join_on_appsflyer_data a
       left join supported_devices_table b
-      on a.device_model = b.device_model
+        on a.device_model = b.device_model
 
       ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;

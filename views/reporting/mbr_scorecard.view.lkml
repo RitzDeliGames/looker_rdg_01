@@ -21,6 +21,16 @@ view: mbr_scorecard {
         , date( extract( year from date({% parameter current_month %})), extract( month from date({% parameter current_month %})), 1 ) as current_month
         , safe_divide( sum(1), count(distinct a.rdg_date)) as average_dau
         , coalesce(sum(a.new_player_indicator ), 0) as new_players
+        , sum( case
+                when b.mapped_singular_campaign_name_clean is not null
+                then a.new_player_indicator
+                else 0
+                end ) as paid_installs
+        , sum( case
+                when b.mapped_singular_campaign_name_clean is null
+                then a.new_player_indicator
+                else 0
+                end ) as organic_installs
         , safe_divide( sum(a.mtx_purchase_dollars), sum(a.count_days_played)) as average_iap_arpdau
         , safe_divide( sum(a.ad_view_dollars), sum(a.count_days_played)) as average_iaa_arpdau
         , safe_divide( sum(a.round_end_events), sum(a.count_days_played)) as average_rounds_per_day
@@ -281,6 +291,54 @@ view: mbr_scorecard {
       , max( case
           when month_start_date = current_month
           then new_players
+          else null
+          end
+          )
+
+      from
+        base_daily_data
+
+      --------------------------------------------------------------------------
+      -- Paid Installs
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      3.1
+      , 'Paid Installs'
+      , max( case
+          when month_start_date = prior_month
+          then paid_installs
+          else null
+          end
+          )
+      , max( case
+          when month_start_date = current_month
+          then paid_installs
+          else null
+          end
+          )
+
+      from
+        base_daily_data
+
+      --------------------------------------------------------------------------
+      -- Organic Installs
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      3.2
+      , 'Organic Installs'
+      , max( case
+          when month_start_date = prior_month
+          then organic_installs
+          else null
+          end
+          )
+      , max( case
+          when month_start_date = current_month
+          then organic_installs
           else null
           end
           )
@@ -617,6 +675,8 @@ view: mbr_scorecard {
             when my_order = 1 then FORMAT_DATE("%B %Y", date( extract( year from date({% parameter prior_month %})), extract( month from date({% parameter prior_month %})), 1 ))
             when my_metric = 'DAU' then safe_cast(round(start_month_number,0) AS string format '999,999,999')
             when my_metric = 'Installs' then safe_cast(round(start_month_number,0) AS string format '999,999,999')
+            when my_metric = 'Paid Installs' then safe_cast(round(start_month_number,0) AS string format '999,999,999')
+            when my_metric = 'Organic Installs' then safe_cast(round(start_month_number,0) AS string format '999,999,999')
             when my_metric = 'IAP ARPDAU' then safe_cast(round(start_month_number,2) AS string format '$0.99')
             when my_metric = 'IAA ARPDAU' then safe_cast(round(start_month_number,2) AS string format '$0.99')
             when my_metric = 'D1 Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
@@ -638,6 +698,8 @@ view: mbr_scorecard {
             when my_order = 1 then FORMAT_DATE("%B %Y", date( extract( year from date({% parameter current_month %})), extract( month from date({% parameter current_month %})), 1 ))
             when my_metric = 'DAU' then safe_cast(round(end_month_number,0) AS string format '999,999,999')
             when my_metric = 'Installs' then safe_cast(round(end_month_number,0) AS string format '999,999,999')
+            when my_metric = 'Paid Installs' then safe_cast(round(end_month_number,0) AS string format '999,999,999')
+            when my_metric = 'Organic Installs' then safe_cast(round(end_month_number,0) AS string format '999,999,999')
             when my_metric = 'IAP ARPDAU' then safe_cast(round(end_month_number,2) AS string format '$0.99')
             when my_metric = 'IAA ARPDAU' then safe_cast(round(end_month_number,2) AS string format '$0.99')
             when my_metric = 'D1 Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'

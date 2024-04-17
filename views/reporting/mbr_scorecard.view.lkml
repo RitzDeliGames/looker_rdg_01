@@ -32,7 +32,11 @@ view: mbr_scorecard {
                 else 0
                 end ) as organic_installs
         , safe_divide( sum(a.mtx_purchase_dollars), sum(a.count_days_played)) as average_iap_arpdau
+        , safe_divide( sum(a.daily_mtx_spend_indicator), sum(a.count_days_played) ) as average_iap_daily_conversion
+        , safe_divide( sum(a.mtx_purchase_dollars), sum(a.daily_mtx_spend_indicator) ) as average_iap_daily_arps
         , safe_divide( sum(a.ad_view_dollars), sum(a.count_days_played)) as average_iaa_arpdau
+        , safe_divide( sum(a.ad_views), sum(a.count_days_played)) as average_iaa_views_per_dau
+        , safe_divide( sum(a.ad_view_dollars), sum(a.ad_views))*1000 as average_iaa_ecpm
         , safe_divide( sum(a.round_end_events), sum(a.count_days_played)) as average_rounds_per_day
         , safe_divide( sum(a.count_sessions), sum(a.count_days_played)) as average_sessions_per_day
         , safe_divide(sum(a.round_time_in_minutes), sum(a.count_sessions)) as average_round_time_per_session
@@ -210,6 +214,16 @@ view: mbr_scorecard {
             sum(a.attributed_campaign_cost)
           ) as iaa_roas_estimate_d15
 
+        -- Total Cost
+        , sum(a.attributed_campaign_cost) as total_paid_cost
+
+        -- CPI
+        , safe_divide(
+            sum(a.attributed_campaign_cost)
+            ,
+            sum(1)
+          ) as total_paid_cpi
+
       from
         ${player_summary_new.SQL_TABLE_NAME} a
 
@@ -371,6 +385,54 @@ view: mbr_scorecard {
         base_daily_data
 
       --------------------------------------------------------------------------
+      -- IAP Conversion
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      4.1
+      , 'IAP Daily Conversion'
+      , max( case
+          when month_start_date = prior_month
+          then average_iap_daily_conversion
+          else null
+          end
+          )
+      , max( case
+          when month_start_date = current_month
+          then average_iap_daily_conversion
+          else null
+          end
+          )
+
+      from
+        base_daily_data
+
+      --------------------------------------------------------------------------
+      -- IAP ARPS
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      4.2
+      , 'IAP Daily ARPS'
+      , max( case
+          when month_start_date = prior_month
+          then average_iap_daily_arps
+          else null
+          end
+          )
+      , max( case
+          when month_start_date = current_month
+          then average_iap_daily_arps
+          else null
+          end
+          )
+
+      from
+        base_daily_data
+
+      --------------------------------------------------------------------------
       -- IAA ARPDAU
       --------------------------------------------------------------------------
 
@@ -387,6 +449,54 @@ view: mbr_scorecard {
       , max( case
           when month_start_date = current_month
           then average_iaa_arpdau
+          else null
+          end
+          )
+
+      from
+        base_daily_data
+
+      --------------------------------------------------------------------------
+      -- IAA Ad Views Per DAU
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      5.1
+      , 'IAA Views Per DAU'
+      , max( case
+          when month_start_date = prior_month
+          then average_iaa_views_per_dau
+          else null
+          end
+          )
+      , max( case
+          when month_start_date = current_month
+          then average_iaa_views_per_dau
+          else null
+          end
+          )
+
+      from
+        base_daily_data
+
+      --------------------------------------------------------------------------
+      -- IAA eCPM
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      5.2
+      , 'IAA Average eCPM'
+      , max( case
+          when month_start_date = prior_month
+          then average_iaa_ecpm
+          else null
+          end
+          )
+      , max( case
+          when month_start_date = current_month
+          then average_iaa_ecpm
           else null
           end
           )
@@ -587,12 +697,60 @@ view: mbr_scorecard {
         base_daily_data
 
       --------------------------------------------------------------------------
+      -- Paid Cost
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      12.1
+      , 'Paid UA Cost'
+      , max( case
+          when install_month_start_date = prior_month
+          then total_paid_cost
+          else null
+          end
+          )
+      , max( case
+          when install_month_start_date = current_month
+          then total_paid_cost
+          else null
+          end
+          )
+
+      from
+        player_level_paid_data
+
+      --------------------------------------------------------------------------
+      -- Paid CPI
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      12.2
+      , 'Paid CPI'
+      , max( case
+          when install_month_start_date = prior_month
+          then total_paid_cpi
+          else null
+          end
+          )
+      , max( case
+          when install_month_start_date = current_month
+          then total_paid_cpi
+          else null
+          end
+          )
+
+      from
+        player_level_paid_data
+
+      --------------------------------------------------------------------------
       -- Paid ROAS
       --------------------------------------------------------------------------
 
       union all
       select
-      12
+      12.3
       , 'Paid D14 ROAS'
       , max( case
           when install_month_start_date = prior_month
@@ -691,6 +849,16 @@ view: mbr_scorecard {
             when my_metric = 'Paid D14 IAP ROAS' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'Paid D14 IAA ROAS' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
 
+            when my_metric = 'Paid UA Cost' then safe_cast(round(start_month_number,1) AS string format '$999,999,999')
+            when my_metric = 'Paid CPI' then safe_cast(round(start_month_number,1) AS string format '$999,999,999.00')
+            when my_metric = 'IAP Daily Conversion' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'IAP Daily ARPS' then safe_cast(round(start_month_number,2) AS string format '$0.99')
+            when my_metric = 'IAA Views Per DAU' then safe_cast(round(start_month_number,1) AS string format '999,999,999.9')
+            when my_metric = 'IAA Average eCPM' then safe_cast(round(start_month_number,1) AS string format '$999,999,999.99')
+
+
+
+
             else ''
             end, '') as StartMonth
 
@@ -713,6 +881,13 @@ view: mbr_scorecard {
             when my_metric = 'Paid D14 ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'Paid D14 IAP ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'Paid D14 IAA ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+
+            when my_metric = 'Paid UA Cost' then safe_cast(round(end_month_number,1) AS string format '$999,999,999')
+            when my_metric = 'Paid CPI' then safe_cast(round(end_month_number,1) AS string format '$999,999,999.00')
+            when my_metric = 'IAP Daily Conversion' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'IAP Daily ARPS' then safe_cast(round(end_month_number,2) AS string format '$0.99')
+            when my_metric = 'IAA Views Per DAU' then safe_cast(round(end_month_number,1) AS string format '999,999,999.9')
+            when my_metric = 'IAA Average eCPM' then safe_cast(round(end_month_number,1) AS string format '$999,999,999.99')
 
             else ''
             end, '') as EndMonth

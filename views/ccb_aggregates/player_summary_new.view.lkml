@@ -231,6 +231,7 @@ view: player_summary_new {
           , supported_devices_device_name
           , appsflyer_campaign
           , appsflyer_campaign_type
+          , appsflyer_media_source
 
           ----------------------------------------------------------
           -- Fields from the manifest
@@ -741,6 +742,10 @@ view: player_summary_new {
   }
   dimension: appsflyer_campaign_type {
     label: "Appsflyer Campaign Type"
+    group_label: "Appsflyer"
+  }
+  dimension: appsflyer_media_source {
+    label: "Appsflyer Media Source"
     group_label: "Appsflyer"
   }
 

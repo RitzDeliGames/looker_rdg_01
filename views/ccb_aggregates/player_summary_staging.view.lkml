@@ -604,8 +604,9 @@ view: player_summary_staging {
 
         select
           idfv as appsflyer_idfv
-          , max(campaign ) as appsflyer_campaign
-          , max(campaign_type ) as appsflyer_campaign_type
+          , max( campaign ) as appsflyer_campaign
+          , max( campaign_type ) as appsflyer_campaign_type
+          , max( media_source ) as appsflyer_media_source
           -- --, max( fullname ) as fullname
           -- , max( af_adset ) as af_adset
           -- , max( af_adset_id ) as af_adset_id
@@ -630,8 +631,8 @@ view: player_summary_staging {
           --   , timestamp("2024-04-14")
           --   )
           and event_name = 'install'
-          and media_source <> 'organic'
-          and campaign_type = 'ua'
+          -- and media_source <> 'organic'
+          -- and campaign_type = 'ua'
         group by
           1
 
@@ -647,6 +648,7 @@ view: player_summary_staging {
           a.*
           , b.appsflyer_campaign
           , b.appsflyer_campaign_type
+          , b.appsflyer_media_source
         from
           add_on_mtx_percentile_and_singular_data a
           left join appsflyer_id_list b

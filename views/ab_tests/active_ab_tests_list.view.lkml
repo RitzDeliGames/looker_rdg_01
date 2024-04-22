@@ -11,6 +11,12 @@ view: active_ab_tests_list {
       -- last update: '2024-03-25'
 
       select '$.No_AB_Test_Split' as experiment_name
+
+      union all select '$.dynamicEggFue_20240326'
+      union all select '$.localNotes_20240328'
+      union all select '$.tickets_20240403'
+      union all select '$.dynamicEggsv2_20240223_8827'
+
       union all select '$.gemQuestEventv2_20240312'
       union all select '$.altLevelOrderp2_20240314'
       union all select '$.reversedQPO_20240313'

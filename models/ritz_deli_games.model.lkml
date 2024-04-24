@@ -627,6 +627,7 @@ explore: ab_test_current_population {label: "AB Tests: Current Population: Round
 explore: ab_test_current_population_w_daily_summary {label: "AB Tests: Current Population: Daily Summary" group_label: "Chum Chum AB Tests"}
 explore: ab_test_aggregate_check {label: "AB Test: Aggregate Check" group_label: "Chum Chum AB Tests"}
 explore: ab_test_full_iterations_new {label: "AB Test: Full Iterations: New" group_label: "Chum Chum AB Tests"}
+explore: ab_test_player_summary {label: "AB Test: New Players" group_label: "Chum Chum AB Tests"}
 
 ################################################################
 

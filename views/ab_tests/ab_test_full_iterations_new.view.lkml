@@ -790,7 +790,7 @@ view: ab_test_full_iterations_new {
   }
 
   dimension: significance_95 {
-    label: "Siginficance Check"
+    label: "Significance Check"
     type: string
   }
 

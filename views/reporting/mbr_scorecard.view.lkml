@@ -157,6 +157,96 @@ view: mbr_scorecard {
         )
          as big_fish_retention_d30
 
+        -- D2 Payer Retention (Big Fish D1)
+        , safe_divide(
+            sum(case when a.max_available_day_number >= 2
+              and a.cumulative_mtx_purchase_dollars_current > 0
+              then a.retention_d2
+              else 0
+              end )
+          ,
+            count( distinct
+              case
+                when a.max_available_day_number >= 2
+                and a.cumulative_mtx_purchase_dollars_current > 0
+                then a.rdg_id
+                else null
+                end )
+        ) as big_fish_payer_retention_d1
+
+        -- D4 Payer Retention (Big Fish D3)
+        , safe_divide(
+            sum(case when a.max_available_day_number >= 4
+              and a.cumulative_mtx_purchase_dollars_current > 0
+              then a.retention_d4
+              else 0
+              end )
+          ,
+            count( distinct
+              case
+                when a.max_available_day_number >= 4
+                and a.cumulative_mtx_purchase_dollars_current > 0
+                then a.rdg_id
+                else null
+                end )
+        ) as big_fish_payer_retention_d3
+
+        -- D8 Payer Retention (Big Fish D7)
+        , safe_divide(
+            sum(case when a.max_available_day_number >= 8
+              and a.cumulative_mtx_purchase_dollars_current > 0
+              then a.retention_d8
+              else 0
+              end )
+          ,
+            count( distinct
+              case
+                when a.max_available_day_number >= 8
+                and a.cumulative_mtx_purchase_dollars_current > 0
+                then a.rdg_id
+                else null
+                end )
+        ) as big_fish_payer_retention_d7
+
+        -- D15 Payer Retention (Big Fish D14)
+        , safe_divide(
+          sum(
+            case
+              when a.max_available_day_number >= 15
+              and a.cumulative_mtx_purchase_dollars_current > 0
+              then a.retention_d15
+              else 0
+              end )
+          ,
+          count( distinct
+            case
+              when a.max_available_day_number >= 15
+              and a.cumulative_mtx_purchase_dollars_current > 0
+              then a.rdg_id
+              else null
+              end )
+        ) as big_fish_payer_retention_d14
+
+        -- D31 Payer Retention (Big Fish D30)
+        , safe_divide(
+          sum(
+            case
+              when a.max_available_day_number >= 31
+              and a.cumulative_mtx_purchase_dollars_current > 0
+              then a.retention_d31
+              else 0
+              end )
+          ,
+          count( distinct
+            case
+              when a.max_available_day_number >= 31
+              and a.cumulative_mtx_purchase_dollars_current > 0
+              then a.rdg_id
+              else null
+              end )
+        )
+         as big_fish_payer_retention_d30
+
       from
         ${player_summary_new.SQL_TABLE_NAME} AS a
 
@@ -624,6 +714,125 @@ view: mbr_scorecard {
       from
         base_player_level_data
 
+      --------------------------------------------------------------------------
+      -- D1 Payer Retention
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      8.1
+      , 'D1 Payer Retention'
+      , max( case
+          when install_month_start_date = prior_month
+          then big_fish_payer_retention_d1
+          else null
+          end
+          )
+      , max( case
+          when install_month_start_date = current_month
+          then big_fish_payer_retention_d1
+          else null
+          end
+          )
+
+      from
+        base_player_level_data
+
+      --------------------------------------------------------------------------
+      -- D3 Payer Retention
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      8.2
+      , 'D3 Payer Retention'
+      , max( case
+          when install_month_start_date = prior_month
+          then big_fish_payer_retention_d3
+          else null
+          end
+          )
+      , max( case
+          when install_month_start_date = current_month
+          then big_fish_payer_retention_d3
+          else null
+          end
+          )
+
+      from
+        base_player_level_data
+
+      --------------------------------------------------------------------------
+      -- D7 Payer Retention
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      8.3
+      , 'D7 Payer Retention'
+      , max( case
+          when install_month_start_date = prior_month
+          then big_fish_payer_retention_d7
+          else null
+          end
+          )
+      , max( case
+          when install_month_start_date = current_month
+          then big_fish_payer_retention_d7
+          else null
+          end
+          )
+
+      from
+        base_player_level_data
+
+      --------------------------------------------------------------------------
+      -- D14 Payer Retention
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      8.4
+      , 'D14 Payer Retention'
+      , max( case
+          when install_month_start_date = prior_month
+          then big_fish_payer_retention_d14
+          else null
+          end
+          )
+      , max( case
+          when install_month_start_date = current_month
+          then big_fish_payer_retention_d14
+          else null
+          end
+          )
+
+      from
+        base_player_level_data
+
+      --------------------------------------------------------------------------
+      -- D30 Payer Retention
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      8.5
+      , 'D30 Payer Retention'
+      , max( case
+          when install_month_start_date = prior_month
+          then big_fish_payer_retention_d30
+          else null
+          end
+          )
+      , max( case
+          when install_month_start_date = current_month
+          then big_fish_payer_retention_d30
+          else null
+          end
+          )
+
+      from
+        base_player_level_data
 
       --------------------------------------------------------------------------
       -- Game Rounds Per Day
@@ -842,6 +1051,11 @@ view: mbr_scorecard {
             when my_metric = 'D7 Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'D14 Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'D30 Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D1 Payer Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D3 Payer Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D7 Payer Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D14 Payer Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D30 Payer Retention' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'Average Game Rounds Per Day' then safe_cast(round(start_month_number,1) AS string format '999,999,999.9')
             when my_metric = 'Average Sessions Per Day' then safe_cast(round(start_month_number,1) AS string format '999,999,999.9')
             when my_metric = 'Average Round Time Per Session' then safe_cast(round(start_month_number,1) AS string format '999,999,999.9')
@@ -875,6 +1089,11 @@ view: mbr_scorecard {
             when my_metric = 'D7 Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'D14 Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'D30 Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D1 Payer Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D3 Payer Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D7 Payer Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D14 Payer Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'D30 Payer Retention' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'Average Game Rounds Per Day' then safe_cast(round(end_month_number,1) AS string format '999,999,999.9')
             when my_metric = 'Average Sessions Per Day' then safe_cast(round(end_month_number,1) AS string format '999,999,999.9')
             when my_metric = 'Average Round Time Per Session' then safe_cast(round(end_month_number,1) AS string format '999,999,999.9')

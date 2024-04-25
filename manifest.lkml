@@ -1190,9 +1190,13 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_092' then 'Level Bundle (400)'
     when ${TABLE}.iap_id = 'item_098' then 'Level Bundle (500)'
 
-
     when ${TABLE}.iap_id = 'battle_pass' then 'Premium Battle Pass'
 
+    when ${TABLE}.iap_id = 'item_ticket_basic' then 'Tickets (S)'
+    when ${TABLE}.iap_id = 'item_ticket_premium' then 'Tickets (M)'
+    when ${TABLE}.iap_id = 'item_ticket_mega' then 'Tickets (L)'
+
+    when ${TABLE}.iap_id = 'item_disco_unlock' then 'Chum Chum Unlock: Karma Chameleon'
 
     else ${TABLE}.iap_id
   end"
@@ -1284,6 +1288,12 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id = 'item_098' then 'Level Bundle'
 
       when ${TABLE}.iap_id = 'battle_pass' then 'Premium Battle Pass'
+
+      when ${TABLE}.iap_id = 'item_ticket_basic' then 'Tickets'
+      when ${TABLE}.iap_id = 'item_ticket_premium' then 'Tickets'
+      when ${TABLE}.iap_id = 'item_ticket_mega' then 'Tickets'
+
+      when ${TABLE}.iap_id = 'item_disco_unlock' then 'Chum Chum Unlock'
 
       else ${TABLE}.iap_id
   end"

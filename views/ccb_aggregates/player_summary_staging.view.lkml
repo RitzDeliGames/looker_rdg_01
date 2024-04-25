@@ -289,6 +289,7 @@ view: player_summary_staging {
       , max( case when day_number <= 2 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d2
       , max( case when day_number <= 7 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d7
       , max( case when day_number <= 14 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d14
+      , max( case when day_number <= 15 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d15
       , max( case when day_number <= 30 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d30
       , max( case when day_number <= 60 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d60
       , max( case when day_number <= 90 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d90

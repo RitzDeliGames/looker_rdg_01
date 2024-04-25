@@ -93,6 +93,7 @@ view: player_summary_new {
           , cumulative_ad_views_d2
           , cumulative_ad_views_d7
           , cumulative_ad_views_d14
+          , cumulative_ad_views_d15
           , cumulative_ad_views_d30
           , cumulative_ad_views_d60
           , cumulative_ad_views_d90
@@ -711,6 +712,7 @@ view: player_summary_new {
   dimension: cumulative_ad_views_d2 {label: "Cumulative IAA Views: D2" group_label:"Cumulative IAA Views" type: number}
   dimension: cumulative_ad_views_d7 {label: "Cumulative IAA Views: D7" group_label:"Cumulative IAA Views" type: number}
   dimension: cumulative_ad_views_d14 {label: "Cumulative IAA Views: D14" group_label:"Cumulative IAA Views" type: number}
+  dimension: cumulative_ad_views_d15 {label: "Cumulative IAA Views: D15" group_label:"Cumulative IAA Views" type: number}
   dimension: cumulative_ad_views_d30 {label: "Cumulative IAA Views: D30" group_label:"Cumulative IAA Views" type: number}
   dimension: cumulative_ad_views_d60 {label: "Cumulative IAA Views: D60" group_label:"Cumulative IAA Views" type: number}
   dimension: cumulative_ad_views_d90 {label: "Cumulative IAA Views: D90" group_label:"Cumulative IAA Views" type: number}

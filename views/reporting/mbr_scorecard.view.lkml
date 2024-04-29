@@ -329,6 +329,28 @@ view: mbr_scorecard {
             sum(a.attributed_campaign_cost)
           ) as ecpm_adjusted_iaa_roas_estimate_d15
 
+        -- D15 eCPM and CPI Adjusted ROAS (Big Fish D14)
+        , safe_divide(
+            sum(a.cumulative_mtx_purchase_dollars_d15)
+            + sum( ifnull( a.cumulative_ad_views_d15, 0 ) * 0.035 )
+            ,
+            sum(1)*20.00
+          ) as ecpm_and_cpi_adjusted_roas_estimate_d15
+
+        -- D15 CPI Adjusted IAP ROAS (Big Fish D14)
+        , safe_divide(
+            sum(a.cumulative_mtx_purchase_dollars_d15)
+            ,
+            sum(1)*20.00
+          ) as cpi_adjusted_iap_roas_estimate_d15
+
+        -- D15 eCPM and CPI Adjusted IAA ROAS (Big Fish D14)
+        , safe_divide(
+            sum( ifnull( a.cumulative_ad_views_d15, 0 ) * 0.035 )
+            ,
+            sum(1)*20.00
+          ) as ecpm_and_cpi_adjusted_iaa_roas_estimate_d15
+
       from
         ${player_summary_new.SQL_TABLE_NAME} a
 
@@ -1066,12 +1088,35 @@ view: mbr_scorecard {
         player_level_paid_data
 
       --------------------------------------------------------------------------
-      -- eCPM Adjusted Paid IAA ROAS
+      -- eCPM Adjusted Paid IAP ROAS
       --------------------------------------------------------------------------
 
       union all
       select
       14.2
+      , 'eCPM Adjusted Paid D14 IAP ROAS'
+      , max( case
+          when install_month_start_date = prior_month
+          then iap_roas_estimate_d15
+          else null
+          end
+          )
+      , max( case
+          when install_month_start_date = current_month
+          then iap_roas_estimate_d15
+          else null
+          end
+          )
+
+      from
+        player_level_paid_data
+      --------------------------------------------------------------------------
+      -- eCPM Adjusted Paid IAA ROAS
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      14.3
       , 'eCPM Adjusted Paid D14 IAA ROAS'
       , max( case
           when install_month_start_date = prior_month
@@ -1085,10 +1130,79 @@ view: mbr_scorecard {
           else null
           end
           )
+      from
+        player_level_paid_data
+
+      --------------------------------------------------------------------------
+      -- eCPM and CPI Adjusted Paid ROAS
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      15.1
+      , 'eCPM and CPI Adjusted Paid ROAS'
+      , max( case
+          when install_month_start_date = prior_month
+          then ecpm_and_cpi_adjusted_roas_estimate_d15
+          else null
+          end
+          )
+      , max( case
+          when install_month_start_date = current_month
+          then ecpm_and_cpi_adjusted_roas_estimate_d15
+          else null
+          end
+          )
+
+      from
+        player_level_paid_data
+      --------------------------------------------------------------------------
+      -- eCPM and CPI Adjusted Paid IAP ROAS
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      15.2
+      , 'eCPM and CPI Adjusted Paid IAP ROAS'
+      , max( case
+          when install_month_start_date = prior_month
+          then cpi_adjusted_iap_roas_estimate_d15
+          else null
+          end
+          )
+      , max( case
+          when install_month_start_date = current_month
+          then cpi_adjusted_iap_roas_estimate_d15
+          else null
+          end
+          )
 
       from
         player_level_paid_data
 
+      --------------------------------------------------------------------------
+      -- eCPM and CPI Adjusted Paid IAP ROAS
+      --------------------------------------------------------------------------
+
+      union all
+      select
+      15.3
+      , 'eCPM and CPI Adjusted Paid IAA ROAS'
+      , max( case
+          when install_month_start_date = prior_month
+          then ecpm_and_cpi_adjusted_iaa_roas_estimate_d15
+          else null
+          end
+          )
+      , max( case
+          when install_month_start_date = current_month
+          then ecpm_and_cpi_adjusted_iaa_roas_estimate_d15
+          else null
+          end
+          )
+
+      from
+        player_level_paid_data
 
     )
 
@@ -1127,8 +1241,14 @@ view: mbr_scorecard {
             when my_metric = 'Paid D14 ROAS' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'Paid D14 IAP ROAS' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'Paid D14 IAA ROAS' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+
             when my_metric = 'eCPM Adjusted Paid D14 ROAS' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'eCPM Adjusted Paid D14 IAP ROAS' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'eCPM Adjusted Paid D14 IAA ROAS' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+
+            when my_metric = 'eCPM and CPI Adjusted Paid ROAS' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'eCPM and CPI Adjusted Paid IAP ROAS' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'eCPM and CPI Adjusted Paid IAA ROAS' then safe_cast(round(start_month_number*100,1) AS string format '999,999,999.9') ||'%'
 
             when my_metric = 'Paid UA Cost' then safe_cast(round(start_month_number,1) AS string format '$999,999,999')
             when my_metric = 'Paid CPI' then safe_cast(round(start_month_number,1) AS string format '$999,999,999.00')
@@ -1167,8 +1287,14 @@ view: mbr_scorecard {
             when my_metric = 'Paid D14 ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'Paid D14 IAP ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'Paid D14 IAA ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+
             when my_metric = 'eCPM Adjusted Paid D14 ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'eCPM Adjusted Paid D14 IAP ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
             when my_metric = 'eCPM Adjusted Paid D14 IAA ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+
+            when my_metric = 'eCPM and CPI Adjusted Paid ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'eCPM and CPI Adjusted Paid IAP ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
+            when my_metric = 'eCPM and CPI Adjusted Paid IAA ROAS' then safe_cast(round(end_month_number*100,1) AS string format '999,999,999.9') ||'%'
 
             when my_metric = 'Paid UA Cost' then safe_cast(round(end_month_number,1) AS string format '$999,999,999')
             when my_metric = 'Paid CPI' then safe_cast(round(end_month_number,1) AS string format '$999,999,999.00')

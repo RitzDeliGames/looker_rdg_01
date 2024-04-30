@@ -670,6 +670,7 @@ explore: revenue_model{}
 # explore: player_summary_staging {}
 # explore: ab_test_t_test{}
 
+# explore: player_reward_incremental {}
 # explore: player_notification_incremental {}
 # explore: player_ad_view_incremental {}
 # explore: firebase_player_daily_incremental {}

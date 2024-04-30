@@ -617,6 +617,24 @@ explore: player_notification_summary {
 
 ################################################################
 
+## Explore: Player Reward Summary
+
+################################################################
+
+explore: player_reward_summary {
+  label: "Player Reward Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_reward_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+################################################################
+
 ## AB Test Explores
 
 ################################################################

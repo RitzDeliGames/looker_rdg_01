@@ -608,6 +608,7 @@ view: player_summary_staging {
           , max( campaign ) as appsflyer_campaign
           , max( campaign_type ) as appsflyer_campaign_type
           , max( media_source ) as appsflyer_media_source
+          , max( appsflyer_id ) as appsflyer_id
           -- --, max( fullname ) as fullname
           -- , max( af_adset ) as af_adset
           -- , max( af_adset_id ) as af_adset_id
@@ -650,6 +651,7 @@ view: player_summary_staging {
           , b.appsflyer_campaign
           , b.appsflyer_campaign_type
           , b.appsflyer_media_source
+          , b.appsflyer_id
         from
           add_on_mtx_percentile_and_singular_data a
           left join appsflyer_id_list b

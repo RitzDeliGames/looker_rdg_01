@@ -233,6 +233,7 @@ view: player_summary_new {
           , appsflyer_campaign
           , appsflyer_campaign_type
           , appsflyer_media_source
+          , appsflyer_id
 
           ----------------------------------------------------------
           -- Fields from the manifest
@@ -497,6 +498,7 @@ view: player_summary_new {
 
   # strings
   dimension: rdg_id {group_label:"Player IDs" type: string}
+  dimension: appsflyer_id {group_label:"Player IDs" type: string}
   dimension: device_id {group_label:"Player IDs" type: string}
   dimension: display_name {group_label:"Player IDs" type: string}
   dimension: advertising_id {group_label:"Player IDs" type: string}

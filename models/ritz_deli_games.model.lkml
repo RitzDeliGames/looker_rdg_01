@@ -635,6 +635,24 @@ explore: player_reward_summary {
 
 ################################################################
 
+## Explore: Player Coin Efficiency
+
+################################################################
+
+explore: player_coin_efficiency_by_game_mode {
+  label: "Player Coin Efficiency"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_coin_efficiency_by_game_mode.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+################################################################
+
 ## AB Test Explores
 
 ################################################################

@@ -1213,6 +1213,14 @@ dimension: primary_key {
   dimension: region {type:string sql:@{country_region};;}
   dimension: experiments {type:string}
   dimension: version {type:string}
+
+  dimension: version_number {
+    type:number
+    sql:
+      safe_cast(${TABLE}.version as numeric)
+      ;;
+    }
+
   dimension: install_version {type:string}
 
   # numbers

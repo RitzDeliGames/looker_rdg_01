@@ -265,6 +265,12 @@ view: player_ad_view_summary {
   # Strings
   dimension: rdg_id {type:string}
   dimension: version {type:string}
+  dimension: version_number {
+    type:number
+    sql:
+      safe_cast(${TABLE}.version as numeric)
+      ;;
+  }
   dimension: session_id {type:string}
   dimension: experiments {type:string}
   dimension: win_streak {type:number}

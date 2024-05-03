@@ -41,6 +41,13 @@ view: player_coin_efficiency_by_game_mode {
           ${player_round_summary.SQL_TABLE_NAME}
         where
           rdg_date = '2024-04-01'
+          and game_mode in (
+            'campaign'
+            , 'gemQuest'
+            , 'goFish'
+            , 'movesMaster'
+            , 'puzzle'
+            )
 
       )
 
@@ -486,6 +493,183 @@ view: player_coin_efficiency_by_game_mode {
         + ifnull(${TABLE}.coin_equivalent_in_round_mtx_purchase_dollars,0)
         + ifnull(${TABLE}.coin_equivalent_in_round_ad_view_dollars,0)
         )
+
+    ;;
+  }
+
+  measure: count_rounds {
+    label: "Count Rounds"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.count_rounds) ;;
+  }
+
+  measure: in_round_coin_spend_per_round {
+    label: "In Round Coin Spend Per Round"
+    group_label: "Coin Spend Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql: safe_divide( sum(${TABLE}.in_round_coin_spend), sum(${TABLE}.count_rounds) ) ;;
+  }
+
+  measure: coin_equivalent_in_round_mtx_purchase_dollars_per_round {
+    label: "In Round IAP Dollar Equivalent Spend Per Round"
+    group_label: "Coin Spend Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql: safe_divide( sum(${TABLE}.coin_equivalent_in_round_mtx_purchase_dollars), sum(${TABLE}.count_rounds) ) ;;
+  }
+
+  measure: coin_equivalent_in_round_ad_view_dollars_per_round {
+    label: "In Round IAA Dollar Equivalent Spend Per Round"
+    group_label: "Coin Spend Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql: safe_divide( sum(${TABLE}.coin_equivalent_in_round_ad_view_dollars), sum(${TABLE}.count_rounds) ) ;;
+  }
+
+  measure: in_round_coin_rewards_per_round {
+    label: "In Round Coin Rewards Per Round"
+    group_label: "Coin Source Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql: safe_divide( sum(${TABLE}.in_round_coin_rewards), sum(${TABLE}.count_rounds) ) ;;
+  }
+
+  measure: additional_rewards_coins_per_round {
+    label: "Additional Game Mode Coin Rewards Per Round"
+    group_label: "Coin Source Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql: safe_divide( sum(${TABLE}.additional_rewards_coins), sum(${TABLE}.count_rounds) ) ;;
+  }
+
+  measure: additional_rewards_bomb_per_round {
+    label: "Bombs Sourced Per Round"
+    group_label: "Coin Source Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql: safe_divide( sum(${TABLE}.additional_rewards_bomb), sum(${TABLE}.count_rounds) ) ;;
+  }
+
+  measure: additional_rewards_rocket_per_round {
+    label: "Rockets Sourced Per Round"
+    group_label: "Coin Source Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql: safe_divide( sum(${TABLE}.additional_rewards_rocket), sum(${TABLE}.count_rounds) ) ;;
+  }
+
+  measure: additional_rewards_colorball_per_round {
+    label: "Color Balls Sourced Per Round"
+    group_label: "Coin Source Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql: safe_divide( sum(${TABLE}.additional_rewards_colorball), sum(${TABLE}.count_rounds) ) ;;
+  }
+
+  measure: additional_rewards_infinitelives_per_round {
+    label: "Infinite Lives Sourced Per Round"
+    group_label: "Coin Source Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql: safe_divide( sum(${TABLE}.additional_rewards_infinitelives), sum(${TABLE}.count_rounds) ) ;;
+  }
+
+  measure: additional_rewards_clearcell_per_round {
+    label: "Clear Cell Sourced Per Round"
+    group_label: "Coin Source Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql: safe_divide( sum(${TABLE}.additional_rewards_clearcell), sum(${TABLE}.count_rounds) ) ;;
+  }
+
+  measure: additional_rewards_clearhorizontal_per_round {
+    label: "Clear Horizontal Sourced Per Round"
+    group_label: "Coin Source Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql: safe_divide( sum(${TABLE}.additional_rewards_clearhorizontal), sum(${TABLE}.count_rounds) ) ;;
+  }
+
+  measure: additional_rewards_clearvertical_per_round {
+    label: "Clear Vertical Sourced Per Round"
+    group_label: "Coin Source Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql: safe_divide( sum(${TABLE}.additional_rewards_clearvertical), sum(${TABLE}.count_rounds) ) ;;
+  }
+
+  measure: additional_rewards_shuffle_per_round {
+    label: "Shuffle Sourced Per Round"
+    group_label: "Coin Source Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql: safe_divide( sum(${TABLE}.additional_rewards_shuffle), sum(${TABLE}.count_rounds) ) ;;
+  }
+
+  measure: total_coin_equivalent_source_per_round {
+    label: "Total Coin Equivalent Source Per Round"
+    group_label: "Coin Source Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    safe_divide(
+      sum(
+        + ifnull(${TABLE}.in_round_coin_rewards,0)
+        + ifnull(${TABLE}.additional_rewards_coins,0)
+        + ifnull(${TABLE}.additional_rewards_bomb,0)
+        + ifnull(${TABLE}.additional_rewards_rocket,0)
+        + ifnull(${TABLE}.additional_rewards_colorball,0)
+        + ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        + ifnull(${TABLE}.additional_rewards_clearcell,0)
+        + ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        + ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        + ifnull(${TABLE}.additional_rewards_shuffle,0)
+        )
+      , sum(${TABLE}.count_rounds) )
+    ;;
+  }
+
+  measure: total_coin_equivalent_spend_per_round {
+    label: "Total Coin Equivalent Spend Per Round"
+    group_label: "Coin Spend Equivalents Per Round"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    safe_divide(
+      sum(
+        + ifnull(${TABLE}.in_round_coin_spend,0)
+        + ifnull(${TABLE}.coin_equivalent_in_round_mtx_purchase_dollars,0)
+        + ifnull(${TABLE}.coin_equivalent_in_round_ad_view_dollars,0)
+        )
+      , sum(${TABLE}.count_rounds) )
+    ;;
+  }
+
+  measure: total_coin_efficiency_per_round {
+    label: "Total Coin Efficiency Per Round"
+    group_label: "Coin Efficiency"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    safe_divide(
+      sum(
+        + ifnull(${TABLE}.in_round_coin_rewards,0)
+        + ifnull(${TABLE}.additional_rewards_coins,0)
+        + ifnull(${TABLE}.additional_rewards_bomb,0)
+        + ifnull(${TABLE}.additional_rewards_rocket,0)
+        + ifnull(${TABLE}.additional_rewards_colorball,0)
+        + ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        + ifnull(${TABLE}.additional_rewards_clearcell,0)
+        + ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        + ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        + ifnull(${TABLE}.additional_rewards_shuffle,0)
+        + ifnull(${TABLE}.in_round_coin_spend,0)
+        + ifnull(${TABLE}.coin_equivalent_in_round_mtx_purchase_dollars,0)
+        + ifnull(${TABLE}.coin_equivalent_in_round_ad_view_dollars,0)
+        )
+      , sum(${TABLE}.count_rounds) )
 
     ;;
   }

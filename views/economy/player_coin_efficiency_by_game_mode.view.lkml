@@ -426,4 +426,69 @@ view: player_coin_efficiency_by_game_mode {
     sql: sum(${TABLE}.additional_rewards_shuffle) ;;
   }
 
+  measure: total_coin_equivalent_source {
+    label: "Total Coin Equivalent Source"
+    group_label: "Coin Source Equivalents"
+    type: number
+    value_format_name: decimal_0
+    sql:
+
+      sum(
+        + ifnull(${TABLE}.in_round_coin_rewards,0)
+        + ifnull(${TABLE}.additional_rewards_coins,0)
+        + ifnull(${TABLE}.additional_rewards_bomb,0)
+        + ifnull(${TABLE}.additional_rewards_rocket,0)
+        + ifnull(${TABLE}.additional_rewards_colorball,0)
+        + ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        + ifnull(${TABLE}.additional_rewards_clearcell,0)
+        + ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        + ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        + ifnull(${TABLE}.additional_rewards_shuffle,0)
+        )
+
+    ;;
+  }
+
+  measure: total_coin_equivalent_spend {
+    label: "Total Coin Equivalent Spend"
+    group_label: "Coin Spend Equivalents"
+    type: number
+    value_format_name: decimal_0
+    sql:
+
+    sum(
+      + ifnull(${TABLE}.in_round_coin_spend,0)
+      + ifnull(${TABLE}.coin_equivalent_in_round_mtx_purchase_dollars,0)
+      + ifnull(${TABLE}.coin_equivalent_in_round_ad_view_dollars,0)
+      )
+    ;;
+  }
+
+  measure: total_coin_efficiency {
+    label: "Total Coin Efficiency"
+    group_label: "Coin Efficiency"
+    type: number
+    value_format_name: decimal_0
+    sql:
+
+      sum(
+        + ifnull(${TABLE}.in_round_coin_rewards,0)
+        + ifnull(${TABLE}.additional_rewards_coins,0)
+        + ifnull(${TABLE}.additional_rewards_bomb,0)
+        + ifnull(${TABLE}.additional_rewards_rocket,0)
+        + ifnull(${TABLE}.additional_rewards_colorball,0)
+        + ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        + ifnull(${TABLE}.additional_rewards_clearcell,0)
+        + ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        + ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        + ifnull(${TABLE}.additional_rewards_shuffle,0)
+        + ifnull(${TABLE}.in_round_coin_spend,0)
+        + ifnull(${TABLE}.coin_equivalent_in_round_mtx_purchase_dollars,0)
+        + ifnull(${TABLE}.coin_equivalent_in_round_ad_view_dollars,0)
+        )
+
+    ;;
+  }
+
+
 }

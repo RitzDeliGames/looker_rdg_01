@@ -26,6 +26,13 @@ view: player_coin_efficiency_by_game_mode {
           , rdg_date
           , game_mode
 
+          -- additional fields
+          , version
+          , experiments
+          , created_date
+          , days_since_created
+          , day_number
+
           -- count_rounds
           , count_rounds
 
@@ -40,7 +47,8 @@ view: player_coin_efficiency_by_game_mode {
         from
           ${player_round_summary.SQL_TABLE_NAME}
         where
-          rdg_date = '2024-04-01'
+          1=1
+          --and rdg_date = '2024-04-01'
           and game_mode in (
             'campaign'
             , 'gemQuest'
@@ -62,6 +70,13 @@ view: player_coin_efficiency_by_game_mode {
           rdg_id
           , rdg_date
           , game_mode
+
+          -- additional fields
+          , max( version ) as version
+          , max( experiments ) as experiments
+          , max( created_date ) as created_date
+          , max( days_since_created ) as days_since_created
+          , max( day_number ) as day_number
 
           -- Count Rounds
           , sum(count_rounds) as count_rounds
@@ -100,6 +115,13 @@ view: player_coin_efficiency_by_game_mode {
 
               else 'Other'
               end as game_mode
+
+          -- additional fields
+          , version
+          , experiments
+          , created_date
+          , days_since_created
+          , day_number
 
           -- Coin Reward Equivalents
           , case when
@@ -153,7 +175,7 @@ view: player_coin_efficiency_by_game_mode {
 
         where
           1=1
-          and rdg_date = '2024-04-01'
+          --and rdg_date = '2024-04-01'
           and reward_event in (
             'head_2_head'
             , 'zone_restore'
@@ -174,6 +196,13 @@ view: player_coin_efficiency_by_game_mode {
           rdg_id
           , rdg_date
           , game_mode
+
+          -- additional fields
+          , max( version ) as version
+          , max( experiments ) as experiments
+          , max( created_date ) as created_date
+          , max( days_since_created ) as days_since_created
+          , max( day_number ) as day_number
 
           -- Coin Reward Equivalents
           , sum( additional_rewards_coins ) as additional_rewards_coins
@@ -204,6 +233,14 @@ view: player_coin_efficiency_by_game_mode {
           rdg_id
           , rdg_date
           , game_mode
+
+          -- additional fields
+          , version
+          , experiments
+          , created_date
+          , days_since_created
+          , day_number
+
           , count_rounds
           , in_round_coin_spend
           , coin_equivalent_in_round_mtx_purchase_dollars
@@ -226,6 +263,14 @@ view: player_coin_efficiency_by_game_mode {
           rdg_id
           , rdg_date
           , game_mode
+
+          -- additional fields
+          , version
+          , experiments
+          , created_date
+          , days_since_created
+          , day_number
+
           , 0 as count_rounds
           , 0 in_round_coin_spend
           , 0 coin_equivalent_in_round_mtx_purchase_dollars
@@ -254,6 +299,13 @@ view: player_coin_efficiency_by_game_mode {
         rdg_id
         , rdg_date
         , game_mode
+
+        -- additional fields
+        , max( version ) as version
+        , max( experiments ) as experiments
+        , max( created_date ) as created_date
+        , max( days_since_created ) as days_since_created
+        , max( day_number ) as day_number
 
         -- summarized measures
         , sum(count_rounds) as count_rounds
@@ -301,25 +353,48 @@ view: player_coin_efficiency_by_game_mode {
 # ## Parameters
 # ################################################################
 
-#   parameter: selected_experiment {
-#     type: string
-#     default_value:  "$.No_AB_Test_Split"
-#   }
+  parameter: selected_experiment {
+    type: string
+    default_value:  "$.No_AB_Test_Split"
+  }
 
 ################################################################
 ## Dimensions
 ################################################################
 
-  # Date Groups
   dimension_group: rdg_date {
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.rdg_date ;;
   }
 
+  dimension_group: created_date {
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.created_date ;;
+  }
+
   dimension: rdg_id {type: string}
   dimension: game_mode {type: string}
-
+  dimension: version {type: string}
+  dimension: version_number {
+    type:number
+    value_format_name: id
+    sql:
+      safe_cast(${TABLE}.version as numeric)
+      ;;
+  }
+  dimension: experiments {type: string}
+  dimension: days_since_created {type: number}
+  dimension: day_number {type: number}
+  dimension: experiment_variant {
+    type: string
+    sql:
+    safe_cast(
+        json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
+        as string)
+    ;;
+  }
 ################################################################
 ## Measures
 ################################################################

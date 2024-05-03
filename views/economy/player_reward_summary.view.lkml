@@ -19,6 +19,7 @@ view: player_reward_summary {
       , rdg_date
       , timestamp_utc
       , event_name
+      , reward_event
       , reward_type
       , game_mode
       , battle_pass_reward_type
@@ -101,14 +102,23 @@ view: player_reward_summary {
   }
 
   # Strings
+  dimension: reward_event {
+    group_label: "Reward Info"
+    type:string}
   dimension: rdg_id {type:string}
   dimension: event_name {type:string}
   dimension: version {type:string}
   dimension: session_id {type:string}
   dimension: experiments {type:string}
-  dimension: reward_type {type:string}
-  dimension: game_mode {type:string}
-  dimension: battle_pass_reward_type {type:string}
+  dimension: reward_type {
+    group_label: "Reward Info"
+    type:string}
+  dimension: game_mode {
+    group_label: "Reward Info"
+    type:string}
+  dimension: battle_pass_reward_type {
+    group_label: "Reward Info"
+    type:string}
 
   # Numbers
   dimension: cumulative_time_played_minutes {type:number}
@@ -117,8 +127,13 @@ view: player_reward_summary {
   dimension: days_since_created {type: number}
   dimension: day_number {type:number}
   dimension: battle_pass_level {type:number}
-  dimension: reward_events {type:number}
-  dimension: reward_amount {type:number}
+  dimension: reward_events {
+    label: "Count Reward Events"
+    group_label: "Reward Info"
+    type:number}
+  dimension: reward_amount {
+    group_label: "Reward Info"
+    type:number}
 
   # Calculated Dimensions
   dimension: experiment_variant {

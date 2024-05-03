@@ -31,8 +31,8 @@ view: player_coin_efficiency_by_game_mode {
 
           -- Coin Spend Equivalents
           , in_round_coin_spend * (-1) as in_round_coin_spend
-          , in_round_mtx_purchase_dollars * safe_divide(6000,99) * (-1) as coin_equivalent_in_round_mtx_purchase_dollars
-          , in_round_ad_view_dollars * safe_divide(6000,99) * (-1) as coin_equivalent_in_round_ad_view_dollars
+          , in_round_mtx_purchase_dollars * safe_divide(6000,0.693) * (-1) as coin_equivalent_in_round_mtx_purchase_dollars
+          , in_round_ad_view_dollars * safe_divide(6000,0.99) * (-1) as coin_equivalent_in_round_ad_view_dollars
 
           -- Coin Reward Equivalents
           , in_round_coin_rewards
@@ -100,6 +100,47 @@ view: player_coin_efficiency_by_game_mode {
               else 0
               end as additional_rewards_coins
 
+          , case when
+              reward_type = 'BOMB' then reward_amount * safe_divide(3900,1)
+              else 0
+              end as additional_rewards_bomb
+
+          , case when
+              reward_type = 'ROCKET' then reward_amount * safe_divide(19000,8)
+              else 0
+              end as additional_rewards_rocket
+
+          , case when
+              reward_type = 'COLOR_BALL' then reward_amount * safe_divide(4900,1)
+              else 0
+              end as additional_rewards_colorball
+
+          , case when
+              reward_type = 'INFINITE_LIVES' then reward_amount * safe_divide(0.35 * 6000 , 0.99)
+              else 0
+              end as additional_rewards_infinitelives
+
+          , case when
+              reward_type = 'clear_cell' then reward_amount * safe_divide(4900,1)
+              else 0
+              end as additional_rewards_clearcell
+
+          , case when
+              reward_type = 'clear_horizontal' then reward_amount * safe_divide(8400,1)
+              else 0
+              end as additional_rewards_clearhorizontal
+
+          , case when
+              reward_type = 'clear_vertical' then reward_amount * safe_divide(8400,1)
+              else 0
+              end as additional_rewards_clearvertical
+
+          , case when
+              reward_type = 'shuffle' then reward_amount * safe_divide(4900,1)
+              else 0
+              end as additional_rewards_shuffle
+
+
         from
           ${player_reward_summary.SQL_TABLE_NAME}
 
@@ -129,6 +170,15 @@ view: player_coin_efficiency_by_game_mode {
 
           -- Coin Reward Equivalents
           , sum( additional_rewards_coins ) as additional_rewards_coins
+          , sum( additional_rewards_bomb ) as additional_rewards_bomb
+          , sum( additional_rewards_rocket ) as additional_rewards_rocket
+          , sum( additional_rewards_colorball ) as additional_rewards_colorball
+          , sum( additional_rewards_infinitelives ) as additional_rewards_infinitelives
+          , sum( additional_rewards_clearcell ) as additional_rewards_clearcell
+          , sum( additional_rewards_clearhorizontal ) as additional_rewards_clearhorizontal
+          , sum( additional_rewards_clearvertical ) as additional_rewards_clearvertical
+          , sum( additional_rewards_shuffle ) as additional_rewards_shuffle
+
 
         from
           additional_reward_data_table
@@ -153,6 +203,14 @@ view: player_coin_efficiency_by_game_mode {
           , coin_equivalent_in_round_ad_view_dollars
           , in_round_coin_rewards
           , 0 as additional_rewards_coins
+          , 0 as additional_rewards_bomb
+          , 0 as additional_rewards_rocket
+          , 0 as additional_rewards_colorball
+          , 0 as additional_rewards_infinitelives
+          , 0 as additional_rewards_clearcell
+          , 0 as additional_rewards_clearhorizontal
+          , 0 as additional_rewards_clearvertical
+          , 0 as additional_rewards_shuffle
         from
           summarize_round_summary_data_table
 
@@ -167,6 +225,14 @@ view: player_coin_efficiency_by_game_mode {
           , 0 coin_equivalent_in_round_ad_view_dollars
           , 0 in_round_coin_rewards
           , additional_rewards_coins
+          , additional_rewards_bomb
+          , additional_rewards_rocket
+          , additional_rewards_colorball
+          , additional_rewards_infinitelives
+          , additional_rewards_clearcell
+          , additional_rewards_clearhorizontal
+          , additional_rewards_clearvertical
+          , additional_rewards_shuffle
         from
           summarize_additional_reward_data_table
 
@@ -189,6 +255,14 @@ view: player_coin_efficiency_by_game_mode {
         , sum(coin_equivalent_in_round_ad_view_dollars) as coin_equivalent_in_round_ad_view_dollars
         , sum(in_round_coin_rewards) as in_round_coin_rewards
         , sum(additional_rewards_coins) as additional_rewards_coins
+        , sum(additional_rewards_bomb) as additional_rewards_bomb
+        , sum( additional_rewards_rocket ) as additional_rewards_rocket
+        , sum( additional_rewards_colorball ) as additional_rewards_colorball
+        , sum( additional_rewards_infinitelives ) as additional_rewards_infinitelives
+        , sum( additional_rewards_clearcell ) as additional_rewards_clearcell
+        , sum( additional_rewards_clearhorizontal ) as additional_rewards_clearhorizontal
+        , sum( additional_rewards_clearvertical ) as additional_rewards_clearvertical
+        , sum( additional_rewards_shuffle ) as additional_rewards_shuffle
       from
         union_all_tables
       group by
@@ -252,6 +326,7 @@ view: player_coin_efficiency_by_game_mode {
     label: "In Round Coin Spend"
     group_label: "Coin Spend Equivalents"
     type: number
+    value_format_name: decimal_0
     sql: sum(${TABLE}.in_round_coin_spend) ;;
   }
 
@@ -259,6 +334,7 @@ view: player_coin_efficiency_by_game_mode {
     label: "In Round IAP Dollar Equivalent Spend"
     group_label: "Coin Spend Equivalents"
     type: number
+    value_format_name: decimal_0
     sql: sum(${TABLE}.coin_equivalent_in_round_mtx_purchase_dollars) ;;
   }
 
@@ -266,6 +342,7 @@ view: player_coin_efficiency_by_game_mode {
     label: "In Round IAA Dollar Equivalent Spend"
     group_label: "Coin Spend Equivalents"
     type: number
+    value_format_name: decimal_0
     sql: sum(${TABLE}.coin_equivalent_in_round_ad_view_dollars) ;;
   }
 
@@ -273,6 +350,7 @@ view: player_coin_efficiency_by_game_mode {
     label: "In Round Coin Rewards"
     group_label: "Coin Source Equivalents"
     type: number
+    value_format_name: decimal_0
     sql: sum(${TABLE}.in_round_coin_rewards) ;;
   }
 
@@ -280,8 +358,72 @@ view: player_coin_efficiency_by_game_mode {
     label: "Additional Game Mode Coin Rewards"
     group_label: "Coin Source Equivalents"
     type: number
+    value_format_name: decimal_0
     sql: sum(${TABLE}.additional_rewards_coins) ;;
   }
 
+  measure: additional_rewards_bomb {
+    label: "Bombs"
+    group_label: "Coin Source Equivalents"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.additional_rewards_bomb) ;;
+  }
+
+  measure: additional_rewards_rocket {
+    label: "Rockets"
+    group_label: "Coin Source Equivalents"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.additional_rewards_rocket) ;;
+  }
+
+  measure: additional_rewards_colorball {
+    label: "Color Balls"
+    group_label: "Coin Source Equivalents"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.additional_rewards_colorball) ;;
+  }
+
+  measure: additional_rewards_infinitelives {
+    label: "Infinite Lives"
+    group_label: "Coin Source Equivalents"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.additional_rewards_infinitelives) ;;
+  }
+
+  measure: additional_rewards_clearcell {
+    label: "Clear Cell"
+    group_label: "Coin Source Equivalents"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.additional_rewards_clearcell) ;;
+  }
+
+  measure: additional_rewards_clearhorizontal {
+    label: "Clear Horizontal"
+    group_label: "Coin Source Equivalents"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.additional_rewards_clearhorizontal) ;;
+  }
+
+  measure: additional_rewards_clearvertical {
+    label: "Clear Vertical"
+    group_label: "Coin Source Equivalents"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.additional_rewards_clearvertical) ;;
+  }
+
+  measure: additional_rewards_shuffle {
+    label: "Shuffle"
+    group_label: "Coin Source Equivalents"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.additional_rewards_shuffle) ;;
+  }
 
 }

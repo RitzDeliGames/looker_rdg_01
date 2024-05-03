@@ -25,18 +25,14 @@ view: player_coin_efficiency_by_game_mode {
           , rdg_date
           , game_mode
           , count_rounds
-          , in_round_mtx_purchase_dollars
-          , in_round_ad_view_dollars
-          , in_round_coin_spend
-          , in_round_coin_rewards
 
-          , in_round_mtx_purchase_dollars * safe_divide(6000,99)
-            + in_round_ad_view_dollars * safe_divide(6000,99)
-            + in_round_coin_spend
-            as coin_equivalent_sink
+          -- Coin Spend Equivalents
+          , in_round_coin_spend * (-1) as in_round_coin_spend
+          , in_round_mtx_purchase_dollars * safe_divide(6000,99) * (-1) as coin_equivalent_in_round_mtx_purchase_dollars
+          , in_round_ad_view_dollars * safe_divide(6000,99) * (-1) as coin_equivalent_in_round_ad_view_dollars
 
+          -- Coin Reward Equivalents
           , in_round_coin_rewards
-            as coin_equivalent_source
 
         from
           ${player_round_summary.SQL_TABLE_NAME}
@@ -54,13 +50,13 @@ view: player_coin_efficiency_by_game_mode {
         , rdg_date
         , game_mode
 
-        , sum( count_rounds ) as count_rounds
-        , sum( in_round_mtx_purchase_dollars ) as in_round_mtx_purchase_dollars
-        , sum( in_round_ad_view_dollars ) as in_round_ad_view_dollars
+        -- Coin Spend Equivalents
         , sum( in_round_coin_spend ) as in_round_coin_spend
+        , sum( coin_equivalent_in_round_mtx_purchase_dollars ) as coin_equivalent_in_round_mtx_purchase_dollars
+        , sum( coin_equivalent_in_round_ad_view_dollars ) as coin_equivalent_in_round_ad_view_dollars
+
+        -- Coin Reward Equivalents
         , sum( in_round_coin_rewards ) as in_round_coin_rewards
-        , sum( coin_equivalent_sink ) as coin_equivalent_sink
-        , sum( coin_equivalent_source ) as coin_equivalent_source
 
       from
         round_summary_data
@@ -114,18 +110,44 @@ view: player_coin_efficiency_by_game_mode {
   }
 
   dimension: rdg_id {type: string}
+  dimension: game_mode {type: string}
 
 ################################################################
 ## Measures
 ################################################################
 
-  ## Player Counts
   measure: count_distinct_active_users {
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
   }
 
+  measure: in_round_coin_spend {
+    label: "In Round Coin Spend"
+    group_label: "Coin Spend Equivalents"
+    type: number
+    sql: sum(${TABLE}.in_round_coin_spend) ;;
+  }
 
+  measure: coin_equivalent_in_round_mtx_purchase_dollars {
+    label: "In Round IAP Dollar Equivalent Spend"
+    group_label: "Coin Spend Equivalents"
+    type: number
+    sql: sum(${TABLE}.coin_equivalent_in_round_mtx_purchase_dollars) ;;
+  }
+
+  measure: coin_equivalent_in_round_ad_view_dollars {
+    label: "In Round IAA Dollar Equivalent Spend"
+    group_label: "Coin Spend Equivalents"
+    type: number
+    sql: sum(${TABLE}.coin_equivalent_in_round_ad_view_dollars) ;;
+  }
+
+  measure: in_round_coin_rewards {
+    label: "In Round Coin Rewards"
+    group_label: "Coin Source Equivalents"
+    type: number
+    sql: sum(${TABLE}.in_round_coin_rewards) ;;
+  }
 
 
 }

@@ -749,5 +749,323 @@ view: player_coin_efficiency_by_game_mode {
     ;;
   }
 
+  measure: iap_percent_of_coin_equivalent_spend {
+    label: "% IAP"
+    group_label: "% of Coin Spend Equivalents"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        ifnull(${TABLE}.coin_equivalent_in_round_mtx_purchase_dollars,0)
+        )
+      , sum(
+        + ifnull(${TABLE}.in_round_coin_spend,0)
+        + ifnull(${TABLE}.coin_equivalent_in_round_mtx_purchase_dollars,0)
+        + ifnull(${TABLE}.coin_equivalent_in_round_ad_view_dollars,0)
+        )
+      )
+    ;;
+  }
+
+  measure: iaa_percent_of_coin_equivalent_spend {
+    label: "% IAA"
+    group_label: "% of Coin Spend Equivalents"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        ifnull(${TABLE}.coin_equivalent_in_round_ad_view_dollars,0)
+        )
+      , sum(
+        + ifnull(${TABLE}.in_round_coin_spend,0)
+        + ifnull(${TABLE}.coin_equivalent_in_round_mtx_purchase_dollars,0)
+        + ifnull(${TABLE}.coin_equivalent_in_round_ad_view_dollars,0)
+        )
+      )
+    ;;
+  }
+
+  measure: in_round_coin_spend_percent_of_coin_equivalent_spend {
+    label: "% In Round Coin Spend"
+    group_label: "% of Coin Spend Equivalents"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        ifnull(${TABLE}.in_round_coin_spend,0)
+        )
+      , sum(
+        + ifnull(${TABLE}.in_round_coin_spend,0)
+        + ifnull(${TABLE}.coin_equivalent_in_round_mtx_purchase_dollars,0)
+        + ifnull(${TABLE}.coin_equivalent_in_round_ad_view_dollars,0)
+        )
+    )
+    ;;
+  }
+
+  measure: end_of_round_coin_rewards_percent_of_coin_equivalent_source {
+    label: "% End of Round Coin Rewards"
+    group_label: "% of Coin Souce Equivalents"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        ifnull(${TABLE}.in_round_coin_rewards,0)
+        )
+      , sum(
+        + ifnull(${TABLE}.in_round_coin_rewards,0)
+        + ifnull(${TABLE}.additional_rewards_coins,0)
+        + ifnull(${TABLE}.additional_rewards_bomb,0)
+        + ifnull(${TABLE}.additional_rewards_rocket,0)
+        + ifnull(${TABLE}.additional_rewards_colorball,0)
+        + ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        + ifnull(${TABLE}.additional_rewards_clearcell,0)
+        + ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        + ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        + ifnull(${TABLE}.additional_rewards_shuffle,0)
+        )
+      )
+    ;;
+  }
+
+  measure: additional_coins_percent_of_coin_equivalent_source {
+    label: "% End of Game Mode Coin Rewards"
+    group_label: "% of Coin Souce Equivalents"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        ifnull(${TABLE}.additional_rewards_coins,0)
+        )
+      , sum(
+        + ifnull(${TABLE}.in_round_coin_rewards,0)
+        + ifnull(${TABLE}.additional_rewards_coins,0)
+        + ifnull(${TABLE}.additional_rewards_bomb,0)
+        + ifnull(${TABLE}.additional_rewards_rocket,0)
+        + ifnull(${TABLE}.additional_rewards_colorball,0)
+        + ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        + ifnull(${TABLE}.additional_rewards_clearcell,0)
+        + ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        + ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        + ifnull(${TABLE}.additional_rewards_shuffle,0)
+        )
+      )
+    ;;
+  }
+
+  measure: additional_rewards_bomb_percent_of_coin_equivalent_source {
+    label: "% Bombs"
+    group_label: "% of Coin Souce Equivalents"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        ifnull(${TABLE}.additional_rewards_bomb,0)
+        )
+      , sum(
+        + ifnull(${TABLE}.in_round_coin_rewards,0)
+        + ifnull(${TABLE}.additional_rewards_coins,0)
+        + ifnull(${TABLE}.additional_rewards_bomb,0)
+        + ifnull(${TABLE}.additional_rewards_rocket,0)
+        + ifnull(${TABLE}.additional_rewards_colorball,0)
+        + ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        + ifnull(${TABLE}.additional_rewards_clearcell,0)
+        + ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        + ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        + ifnull(${TABLE}.additional_rewards_shuffle,0)
+        )
+      )
+    ;;
+  }
+
+  measure: additional_rewards_rocket_percent_of_coin_equivalent_source {
+    label: "% Rocket"
+    group_label: "% of Coin Souce Equivalents"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        ifnull(${TABLE}.additional_rewards_rocket,0)
+        )
+      , sum(
+        + ifnull(${TABLE}.in_round_coin_rewards,0)
+        + ifnull(${TABLE}.additional_rewards_coins,0)
+        + ifnull(${TABLE}.additional_rewards_bomb,0)
+        + ifnull(${TABLE}.additional_rewards_rocket,0)
+        + ifnull(${TABLE}.additional_rewards_colorball,0)
+        + ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        + ifnull(${TABLE}.additional_rewards_clearcell,0)
+        + ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        + ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        + ifnull(${TABLE}.additional_rewards_shuffle,0)
+        )
+      )
+    ;;
+  }
+
+  measure: additional_rewards_colorball_percent_of_coin_equivalent_source {
+    label: "% ColorBall"
+    group_label: "% of Coin Souce Equivalents"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        ifnull(${TABLE}.additional_rewards_colorball,0)
+        )
+      , sum(
+        + ifnull(${TABLE}.in_round_coin_rewards,0)
+        + ifnull(${TABLE}.additional_rewards_coins,0)
+        + ifnull(${TABLE}.additional_rewards_bomb,0)
+        + ifnull(${TABLE}.additional_rewards_rocket,0)
+        + ifnull(${TABLE}.additional_rewards_colorball,0)
+        + ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        + ifnull(${TABLE}.additional_rewards_clearcell,0)
+        + ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        + ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        + ifnull(${TABLE}.additional_rewards_shuffle,0)
+        )
+      )
+    ;;
+  }
+
+  measure: additional_rewards_infinitelives_percent_of_coin_equivalent_source {
+    label: "% Infinite Lives"
+    group_label: "% of Coin Souce Equivalents"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        )
+      , sum(
+        + ifnull(${TABLE}.in_round_coin_rewards,0)
+        + ifnull(${TABLE}.additional_rewards_coins,0)
+        + ifnull(${TABLE}.additional_rewards_bomb,0)
+        + ifnull(${TABLE}.additional_rewards_rocket,0)
+        + ifnull(${TABLE}.additional_rewards_colorball,0)
+        + ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        + ifnull(${TABLE}.additional_rewards_clearcell,0)
+        + ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        + ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        + ifnull(${TABLE}.additional_rewards_shuffle,0)
+        )
+      )
+    ;;
+  }
+
+
+  measure: additional_rewards_clearcell_percent_of_coin_equivalent_source {
+    label: "% Clear Cell"
+    group_label: "% of Coin Souce Equivalents"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        ifnull(${TABLE}.additional_rewards_clearcell,0)
+        )
+      , sum(
+        + ifnull(${TABLE}.in_round_coin_rewards,0)
+        + ifnull(${TABLE}.additional_rewards_coins,0)
+        + ifnull(${TABLE}.additional_rewards_bomb,0)
+        + ifnull(${TABLE}.additional_rewards_rocket,0)
+        + ifnull(${TABLE}.additional_rewards_colorball,0)
+        + ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        + ifnull(${TABLE}.additional_rewards_clearcell,0)
+        + ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        + ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        + ifnull(${TABLE}.additional_rewards_shuffle,0)
+        )
+      )
+    ;;
+  }
+
+
+  measure: additional_rewards_clearhorizontal_percent_of_coin_equivalent_source {
+    label: "% Clear Horizontal"
+    group_label: "% of Coin Souce Equivalents"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        )
+      , sum(
+        + ifnull(${TABLE}.in_round_coin_rewards,0)
+        + ifnull(${TABLE}.additional_rewards_coins,0)
+        + ifnull(${TABLE}.additional_rewards_bomb,0)
+        + ifnull(${TABLE}.additional_rewards_rocket,0)
+        + ifnull(${TABLE}.additional_rewards_colorball,0)
+        + ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        + ifnull(${TABLE}.additional_rewards_clearcell,0)
+        + ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        + ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        + ifnull(${TABLE}.additional_rewards_shuffle,0)
+        )
+      )
+    ;;
+  }
+
+  measure: additional_rewards_clearvertical_percent_of_coin_equivalent_source {
+    label: "% Clear Vertical"
+    group_label: "% of Coin Souce Equivalents"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        )
+      , sum(
+        + ifnull(${TABLE}.in_round_coin_rewards,0)
+        + ifnull(${TABLE}.additional_rewards_coins,0)
+        + ifnull(${TABLE}.additional_rewards_bomb,0)
+        + ifnull(${TABLE}.additional_rewards_rocket,0)
+        + ifnull(${TABLE}.additional_rewards_colorball,0)
+        + ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        + ifnull(${TABLE}.additional_rewards_clearcell,0)
+        + ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        + ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        + ifnull(${TABLE}.additional_rewards_shuffle,0)
+        )
+      )
+    ;;
+  }
+
+  measure: additional_rewards_shuffle_percent_of_coin_equivalent_source {
+    label: "% Shuffle"
+    group_label: "% of Coin Souce Equivalents"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        ifnull(${TABLE}.additional_rewards_shuffle,0)
+        )
+      , sum(
+        + ifnull(${TABLE}.in_round_coin_rewards,0)
+        + ifnull(${TABLE}.additional_rewards_coins,0)
+        + ifnull(${TABLE}.additional_rewards_bomb,0)
+        + ifnull(${TABLE}.additional_rewards_rocket,0)
+        + ifnull(${TABLE}.additional_rewards_colorball,0)
+        + ifnull(${TABLE}.additional_rewards_infinitelives,0)
+        + ifnull(${TABLE}.additional_rewards_clearcell,0)
+        + ifnull(${TABLE}.additional_rewards_clearhorizontal,0)
+        + ifnull(${TABLE}.additional_rewards_clearvertical,0)
+        + ifnull(${TABLE}.additional_rewards_shuffle,0)
+        )
+      )
+    ;;
+  }
 
 }

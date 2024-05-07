@@ -1223,6 +1223,13 @@ dimension: primary_key {
 
   dimension: install_version {type:string}
 
+  dimension: install_version_number {
+    type:number
+    sql:
+      safe_cast(${TABLE}.install_version as numeric)
+      ;;
+  }
+
   # numbers
   dimension: mtx_purchase_dollars {
     label: "IAP Dollars"

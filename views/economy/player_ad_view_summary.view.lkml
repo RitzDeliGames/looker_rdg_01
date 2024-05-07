@@ -22,18 +22,46 @@ view: player_ad_view_summary {
       iron_source_facebook_data as (
 
         select
-          timestamp(date(a.event_timestamp)) as rdg_date
+          rdg_date
           , country
-          -- , sum(1) as count_rows
-          , sum(a.revenue) as sum_revenue_facebook
-          -- , safe_divide(sum(a.revenue), sum(1)) as estimated_ad_view_dollars_per_view
+          , sum(sum_revenue_facebook) as sum_revenue_facebook
+        from (
 
-        from
-          eraser-blast.ironsource.ironsource_daily_impressions_export a
+          -- Old Iron Source
+          select
+            timestamp(date(a.event_timestamp)) as rdg_date
+            , country
+            -- , sum(1) as count_rows
+            , sum(a.revenue) as sum_revenue_facebook
+            -- , safe_divide(sum(a.revenue), sum(1)) as estimated_ad_view_dollars_per_view
 
-        where
-          timestamp(date(a.event_timestamp)) >= '2023-02-23'
-          and ad_network = 'facebook'
+          from
+            eraser-blast.ironsource.ironsource_daily_impressions_export a
+
+          where
+            timestamp(date(a.event_timestamp)) >= '2023-02-23'
+            and ad_network = 'facebook'
+          group by
+            1,2
+
+          -- Big Fish (new) Iron Source
+          union all
+          select
+            timestamp(date(a.event_timestamp)) as rdg_date
+            , country
+            -- , sum(1) as count_rows
+            , sum(a.revenue) as sum_revenue_facebook
+            -- , safe_divide(sum(a.revenue), sum(1)) as estimated_ad_view_dollars_per_view
+
+          from
+            eraser-blast.ironsource.bigfish_is_daily_impressions a
+
+          where
+            timestamp(date(a.event_timestamp)) >= '2023-02-23'
+            and ad_network = 'facebook'
+          group by
+            1,2
+          ) a
         group by
           1,2
 

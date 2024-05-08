@@ -2865,6 +2865,20 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     value_format_name: decimal_0
   }
 
+  measure: average_minutes_per_session {
+    group_label: "Average Minutes Per Session"
+    label: "Mean"
+    type: number
+    percentile: 10
+    sql:
+      safe_divide(
+        sum( ${TABLE}.time_played_minutes )
+        , sum( ${TABLE}.count_sessions )
+      )
+      ;;
+    value_format_name: decimal_1
+  }
+
   measure: minutes_per_session_10 {
     group_label: "Average Minutes Per Session"
     label: "10th Percentile"

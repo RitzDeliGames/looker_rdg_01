@@ -506,6 +506,16 @@ view: player_summary_new {
   dimension: firebase_advertising_id {group_label:"Player IDs" type:string}
   dimension: experiments {type: string}
   dimension: version_at_install {group_label:"Versions" label: "Install Version" type: string}
+
+  dimension: version_number_at_install {
+    label: "Install Version Number"
+    group_label:"Versions"
+    type:number
+    sql:
+      safe_cast(${TABLE}.version_at_install as numeric)
+      ;;
+  }
+
   dimension: version_d2 {group_label:"Versions" type: string}
   dimension: version_d7 {group_label:"Versions" type: string}
   dimension: version_d14 {group_label:"Versions" type: string}

@@ -62,6 +62,18 @@ view: mbr_scorecard {
         and b.device_platform_mapping_os in ( {% parameter platform %} )
         {% endif %}
 
+        -- Paid vs. Organic
+        {% if paid_vs_organic._is_filtered %}
+        and
+          case
+            when b.mapped_singular_campaign_name_clean is not null
+            then 'Paid'
+            else 'Organic'
+            end
+            = {% parameter paid_vs_organic %}
+        {% endif %}
+
+
       group by
         1
     )
@@ -266,6 +278,17 @@ view: mbr_scorecard {
         and a.device_platform_mapping_os in ( {% parameter platform %} )
         {% endif %}
 
+        -- Paid vs. Organic
+        {% if paid_vs_organic._is_filtered %}
+        and
+          case
+            when a.mapped_singular_campaign_name_clean is not null
+            then 'Paid'
+            else 'Organic'
+            end
+            = {% parameter paid_vs_organic %}
+        {% endif %}
+
       group by
         1
 
@@ -370,6 +393,17 @@ view: mbr_scorecard {
         -- Platform Filter
         {% if platform._is_filtered %}
         and a.device_platform_mapping_os in ( {% parameter platform %} )
+        {% endif %}
+
+        -- Paid vs. Organic
+        {% if paid_vs_organic._is_filtered %}
+        and
+          case
+            when a.mapped_singular_campaign_name_clean is not null
+            then 'Paid'
+            else 'Organic'
+            end
+            = {% parameter paid_vs_organic %}
         {% endif %}
 
       GROUP BY
@@ -1370,6 +1404,11 @@ view: mbr_scorecard {
   parameter: platform {
     type: string
     suggestions: ["iOS","Android"]
+  }
+
+  parameter: paid_vs_organic {
+    type: string
+    suggestions: ["Paid","Organic"]
   }
 
 ################################################################

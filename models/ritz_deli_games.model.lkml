@@ -651,6 +651,25 @@ explore: player_coin_efficiency_by_game_mode {
   }
 }
 
+
+################################################################
+
+## Explore: Player Ticket Spend Summary
+
+################################################################
+
+explore: player_ticket_spend_summary {
+  label: "Player Ticket Spend Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_ticket_spend_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
 ################################################################
 
 ## AB Test Explores
@@ -706,6 +725,7 @@ explore: revenue_model{}
 # explore: player_summary_staging {}
 # explore: ab_test_t_test{}
 
+# explore: player_ticket_spend_incremental {}
 # explore: player_reward_incremental {}
 # explore: player_notification_incremental {}
 # explore: player_ad_view_incremental {}

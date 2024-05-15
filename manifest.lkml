@@ -1066,6 +1066,9 @@ constant: ad_placements_clean {
   when ${TABLE}.source_id like '%DefaultRewardedVideo' then 'Generic Reward'
   when ${TABLE}.source_id like '%Rewarded' then 'Generic Reward'
 
+  when ${TABLE}.source_id = 'quick_boost_rocket' then 'Rocket'
+  when ${TABLE}.source_id = 'quick_lives' then 'Lives'
+
   else ${TABLE}.source_id
   end"
 }

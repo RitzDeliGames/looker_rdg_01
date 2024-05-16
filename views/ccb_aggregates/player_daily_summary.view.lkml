@@ -732,6 +732,11 @@ ads_by_date as (
         , a.pregame_boost_bomb
         , a.pregame_boost_colorball
         , a.pregame_boost_extramoves
+        , ifnull( a.pregame_boost_rocket, 0 )
+            + ifnull( a.pregame_boost_bomb, 0 )
+            + ifnull( a.pregame_boost_colorball, 0 )
+            + ifnull( a.pregame_boost_extramoves, 0 )
+            as pregame_boost_total
 
         -- Daily Pop-up
         , a.daily_popup_BattlePass
@@ -5517,6 +5522,26 @@ measure: count_daily_popup_BattlePass {
     sql:
       safe_divide(
         sum(${TABLE}.pregame_boost_extramoves)
+        , sum(${TABLE}.count_days_played)
+      ) ;;
+  }
+
+  measure: sum_pregame_boost_total {
+    group_label: "Pre-Game Boosts"
+    label: "Total Boosts"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_total) ;;
+  }
+
+  measure: pregame_boost_total_per_dau {
+    group_label: "Pre-Game Boosts"
+    label: "Total Boosts Per DAU"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_total)
         , sum(${TABLE}.count_days_played)
       ) ;;
   }

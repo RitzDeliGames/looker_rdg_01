@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-03-26'
+      -- update '2024-05-16'
 
       -- create or replace table tal_scratch.player_daily_incremental_test as
 
@@ -79,7 +79,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-03-26' -- Last Full Update
+                when date(current_date()) <= '2024-05-16' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -838,6 +838,54 @@ view: player_daily_incremental {
             end as powerup_skillet
 
         -------------------------------------------------
+        -- Pre-Game Boosts
+        -------------------------------------------------
+
+        , case
+            when event_name = 'round_start'
+            then
+              case
+                when json_extract_scalar(extra_json,"$.boosts") like '%ROCKET%'
+                then 1
+                else 0
+                end
+            else 0
+            end as pregame_boost_rocket
+
+        , case
+            when event_name = 'round_start'
+            then
+              case
+                when json_extract_scalar(extra_json,"$.boosts") like '%BOMB%'
+                then 1
+                else 0
+                end
+            else 0
+            end as pregame_boost_bomb
+
+        , case
+            when event_name = 'round_start'
+            then
+              case
+                when json_extract_scalar(extra_json,"$.boosts") like '%COLOR_BALL%'
+                then 1
+                else 0
+                end
+            else 0
+            end as pregame_boost_colorball
+
+        , case
+            when event_name = 'round_start'
+            then
+              case
+                when json_extract_scalar(extra_json,"$.boosts") like '%EXTRA_MOVES%'
+                then 1
+                else 0
+                end
+            else 0
+            end as pregame_boost_extramoves
+
+        -------------------------------------------------
         -- Daily Popup (step_1)
         -------------------------------------------------
 
@@ -1006,6 +1054,15 @@ view: player_daily_incremental {
             + powerup_chopsticks
             + powerup_skillet
             ) as total_chum_powerups_used
+
+        -------------------------------------------------
+        -- Pre Game Boosts
+        -------------------------------------------------
+
+        , sum( pregame_boost_rocket ) as pregame_boost_rocket
+        , sum( pregame_boost_bomb ) as pregame_boost_bomb
+        , sum( pregame_boost_colorball ) as pregame_boost_colorball
+        , sum( pregame_boost_extramoves ) as pregame_boost_extramoves
 
         -------------------------------------------------
         -- Daily Popup (step 2)

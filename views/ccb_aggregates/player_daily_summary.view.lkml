@@ -262,6 +262,12 @@ ads_by_date as (
         , max( a.powerup_skillet ) as powerup_skillet
         , max( a.total_chum_powerups_used ) as total_chum_powerups_used
 
+        -- Pregame Boosts
+        , max( a.pregame_boost_rocket ) as pregame_boost_rocket
+        , max( a.pregame_boost_bomb ) as pregame_boost_bomb
+        , max( a.pregame_boost_colorball ) as pregame_boost_colorball
+        , max( a.pregame_boost_extramoves ) as pregame_boost_extramoves
+
         -- Daily Pop-up
         , max( a.daily_popup_BattlePass ) as daily_popup_BattlePass
         , max( a.daily_popup_DailyReward ) as daily_popup_DailyReward
@@ -447,6 +453,12 @@ ads_by_date as (
         , max( a.powerup_chopsticks ) as powerup_chopsticks
         , max( a.powerup_skillet ) as powerup_skillet
         , max( a.total_chum_powerups_used ) as total_chum_powerups_used
+
+        -- Pregame Boosts
+        , max( a.pregame_boost_rocket ) as pregame_boost_rocket
+        , max( a.pregame_boost_bomb ) as pregame_boost_bomb
+        , max( a.pregame_boost_colorball ) as pregame_boost_colorball
+        , max( a.pregame_boost_extramoves ) as pregame_boost_extramoves
 
         -- Daily Pop-up
         , max( a.daily_popup_BattlePass ) as daily_popup_BattlePass
@@ -714,6 +726,12 @@ ads_by_date as (
         , a.powerup_chopsticks
         , a.powerup_skillet
         , a.total_chum_powerups_used
+
+        -- Pregame Boosts
+        , a.pregame_boost_rocket
+        , a.pregame_boost_bomb
+        , a.pregame_boost_colorball
+        , a.pregame_boost_extramoves
 
         -- Daily Pop-up
         , a.daily_popup_BattlePass
@@ -5419,8 +5437,89 @@ measure: count_daily_popup_BattlePass {
     value_format_name: decimal_0
   }
 
+######################################################################################
+## Pre Game Boosts
+######################################################################################
 
+  measure: sum_pregame_boost_rocket {
+    group_label: "Pre-Game Boosts"
+    label: "Total Rockets"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_rocket) ;;
+  }
 
+  measure: pregame_boost_rocket_per_dau {
+    group_label: "Pre-Game Boosts"
+    label: "Total Rockets Per DAU"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_rocket)
+        , sum(${TABLE}.count_days_played)
+      ) ;;
+  }
+
+  measure: sum_pregame_boost_bomb {
+    group_label: "Pre-Game Boosts"
+    label: "Total Bombs"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_bomb) ;;
+  }
+
+  measure: pregame_boost_bomb_per_dau {
+    group_label: "Pre-Game Boosts"
+    label: "Total Bombs Per DAU"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_bomb)
+        , sum(${TABLE}.count_days_played)
+      ) ;;
+  }
+
+  measure: sum_pregame_boost_colorball {
+    group_label: "Pre-Game Boosts"
+    label: "Total Colorballs"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_colorball) ;;
+  }
+
+  measure: pregame_boost_colorball_per_dau {
+    group_label: "Pre-Game Boosts"
+    label: "Total Colorballs Per DAU"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_colorball)
+        , sum(${TABLE}.count_days_played)
+      ) ;;
+  }
+
+  measure: sum_pregame_boost_extramoves {
+    group_label: "Pre-Game Boosts"
+    label: "Total ExtraMoves"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_extramoves) ;;
+  }
+
+  measure: pregame_boost_extramoves_per_dau {
+    group_label: "Pre-Game Boosts"
+    label: "Total ExtraMoves Per DAU"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_extramoves)
+        , sum(${TABLE}.count_days_played)
+      ) ;;
+  }
 
 
 

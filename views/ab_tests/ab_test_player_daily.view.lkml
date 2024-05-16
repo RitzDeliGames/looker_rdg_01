@@ -24,6 +24,10 @@ view: ab_test_player_daily {
         a.rdg_id
         , max(json_extract_scalar(a.experiments,{% parameter selected_experiment %})) as variant
         , case
+
+        when {% parameter selected_metric_daily %} = "Average Pre-Game Boosts Per Day" then sum(a.pregame_boost_total)
+        when {% parameter selected_metric_daily %} = "Average Pre-Game Boosts Per Player" then sum(a.pregame_boost_total)
+
         when {% parameter selected_metric_daily %} = "Average Minutes Played Per Day" then sum(a.round_time_in_minutes)
         when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Day" then sum(a.round_end_events_gofish)
         when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Player" then sum(a.round_end_events_gofish)
@@ -71,6 +75,10 @@ view: ab_test_player_daily {
 
         else sum(1) end as numerator
         , case
+
+        when {% parameter selected_metric_daily %} = "Average Pre-Game Boosts Per Day" then sum(1)
+        when {% parameter selected_metric_daily %} = "Average Pre-Game Boosts Per Player" then max(1)
+
         when {% parameter selected_metric_daily %} = "Average Minutes Played Per Day" then sum(1)
         when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Day" then sum(1)
         when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Player" then max(1)
@@ -659,6 +667,10 @@ view: ab_test_player_daily {
     suggestions:  [
 
       , "None"
+
+      , "Average Pre-Game Boosts Per Day"
+      , "Average Pre-Game Boosts Per Player"
+
       , "Average Go Fish Rounds Played Per Day"
       , "Average Go Fish Rounds Played Per Player"
 

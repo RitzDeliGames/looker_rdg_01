@@ -45,6 +45,14 @@ view: player_campaign_level_summary {
         , max(churn_indicator) as churn_indicator
         , max(churn_rdg_id) as churn_rdg_id
         , max(case when count_wins = 1 then moves_remaining else 0 end ) as moves_remaining_on_win
+
+        -- pre game boosts
+        , sum( pregame_boost_rocket ) as pregame_boost_rocket
+        , sum( pregame_boost_bomb ) as pregame_boost_bomb
+        , sum( pregame_boost_colorball ) as pregame_boost_colorball
+        , sum( pregame_boost_extramoves ) as pregame_boost_extramoves
+        , sum( pregame_boost_total ) as pregame_boost_total
+
       from
         --eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary
         ${player_round_summary.SQL_TABLE_NAME}
@@ -343,6 +351,108 @@ view: player_campaign_level_summary {
     value_format_name: usd
   }
 
+######################################################################################
+## Pre Game Boosts
+######################################################################################
 
+  measure: sum_pregame_boost_rocket {
+    group_label: "Pre-Game Boosts"
+    label: "Total Rockets"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_rocket) ;;
+  }
+
+  measure: pregame_boost_rocket_per_level {
+    group_label: "Pre-Game Boosts"
+    label: "Total Rockets Per Level"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_rocket)
+        , sum(1)
+      ) ;;
+  }
+
+  measure: sum_pregame_boost_bomb {
+    group_label: "Pre-Game Boosts"
+    label: "Total Bombs"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_bomb) ;;
+  }
+
+  measure: pregame_boost_bomb_per_level {
+    group_label: "Pre-Game Boosts"
+    label: "Total Bombs Per Level"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_bomb)
+        , sum(1)
+      ) ;;
+  }
+
+  measure: sum_pregame_boost_colorball {
+    group_label: "Pre-Game Boosts"
+    label: "Total Colorballs"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_colorball) ;;
+  }
+
+  measure: pregame_boost_colorball_per_level {
+    group_label: "Pre-Game Boosts"
+    label: "Total Colorballs Per Level"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_colorball)
+        , sum(1)
+      ) ;;
+  }
+
+  measure: sum_pregame_boost_extramoves {
+    group_label: "Pre-Game Boosts"
+    label: "Total ExtraMoves"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_extramoves) ;;
+  }
+
+  measure: pregame_boost_extramoves_per_level {
+    group_label: "Pre-Game Boosts"
+    label: "Total ExtraMoves Per Level"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_extramoves)
+        , sum(1)
+      ) ;;
+  }
+
+  measure: sum_pregame_boost_total {
+    group_label: "Pre-Game Boosts"
+    label: "Total Boosts"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_total) ;;
+  }
+
+  measure: pregame_boost_total_per_level {
+    group_label: "Pre-Game Boosts"
+    label: "Total Boosts Per Level"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_total)
+        , sum(1)
+      ) ;;
+  }
 
 }

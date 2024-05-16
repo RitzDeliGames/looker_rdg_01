@@ -138,6 +138,13 @@ base_data as (
     , max(a.powerup_skillet) as powerup_skillet
     , max(a.total_chum_powerups_used) as total_chum_powerups_used
 
+    -- pre game boosts
+    , max( a.pregame_boost_rocket ) as pregame_boost_rocket
+    , max( a.pregame_boost_bomb ) as pregame_boost_bomb
+    , max( a.pregame_boost_colorball ) as pregame_boost_colorball
+    , max( a.pregame_boost_extramoves ) as pregame_boost_extramoves
+    , max( a.pregame_boost_total ) as pregame_boost_total
+
     -- techincal stats
     , max(a.used_memory_bytes) as used_memory_bytes
 
@@ -282,6 +289,13 @@ base_data as (
     , max(a.powerup_skillet) as powerup_skillet
     , max(a.total_chum_powerups_used) as total_chum_powerups_used
 
+    -- pre game boosts
+    , max( a.pregame_boost_rocket ) as pregame_boost_rocket
+    , max( a.pregame_boost_bomb ) as pregame_boost_bomb
+    , max( a.pregame_boost_colorball ) as pregame_boost_colorball
+    , max( a.pregame_boost_extramoves ) as pregame_boost_extramoves
+    , max( a.pregame_boost_total ) as pregame_boost_total
+
     -- techincal stats
     , max(a.used_memory_bytes) as used_memory_bytes
 
@@ -419,6 +433,12 @@ base_data as (
     , max(a.powerup_skillet) as powerup_skillet
     , max(a.total_chum_powerups_used) as total_chum_powerups_used
 
+    -- pre game boosts
+    , max( a.pregame_boost_rocket ) as pregame_boost_rocket
+    , max( a.pregame_boost_bomb ) as pregame_boost_bomb
+    , max( a.pregame_boost_colorball ) as pregame_boost_colorball
+    , max( a.pregame_boost_extramoves ) as pregame_boost_extramoves
+    , max( a.pregame_boost_total ) as pregame_boost_total
 
     -- techincal stats
     , max(a.used_memory_bytes) as used_memory_bytes
@@ -571,6 +591,12 @@ base_data as (
     , max(a.powerup_skillet) as powerup_skillet
     , max(a.total_chum_powerups_used) as total_chum_powerups_used
 
+    -- pre game boosts
+    , max( a.pregame_boost_rocket ) as pregame_boost_rocket
+    , max( a.pregame_boost_bomb ) as pregame_boost_bomb
+    , max( a.pregame_boost_colorball ) as pregame_boost_colorball
+    , max( a.pregame_boost_extramoves ) as pregame_boost_extramoves
+    , max( a.pregame_boost_total ) as pregame_boost_total
 
     -- techincal stats
     , max(a.used_memory_bytes) as used_memory_bytes
@@ -2174,6 +2200,110 @@ from
       )
   ;;
  }
+
+######################################################################################
+## Pre Game Boosts
+######################################################################################
+
+  measure: sum_pregame_boost_rocket {
+    group_label: "Pre-Game Boosts"
+    label: "Total Rockets"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_rocket) ;;
+  }
+
+  measure: pregame_boost_rocket_per_round {
+    group_label: "Pre-Game Boosts"
+    label: "Total Rockets Per Round"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_rocket)
+        , sum(${TABLE}.count_rounds)
+      ) ;;
+  }
+
+  measure: sum_pregame_boost_bomb {
+    group_label: "Pre-Game Boosts"
+    label: "Total Bombs"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_bomb) ;;
+  }
+
+  measure: pregame_boost_bomb_per_round {
+    group_label: "Pre-Game Boosts"
+    label: "Total Bombs Per Round"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_bomb)
+        , sum(${TABLE}.count_rounds)
+      ) ;;
+  }
+
+  measure: sum_pregame_boost_colorball {
+    group_label: "Pre-Game Boosts"
+    label: "Total Colorballs"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_colorball) ;;
+  }
+
+  measure: pregame_boost_colorball_per_round {
+    group_label: "Pre-Game Boosts"
+    label: "Total Colorballs Per Round"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_colorball)
+        , sum(${TABLE}.count_rounds)
+      ) ;;
+  }
+
+  measure: sum_pregame_boost_extramoves {
+    group_label: "Pre-Game Boosts"
+    label: "Total ExtraMoves"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_extramoves) ;;
+  }
+
+  measure: pregame_boost_extramoves_per_round {
+    group_label: "Pre-Game Boosts"
+    label: "Total ExtraMoves Per Round"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_extramoves)
+        , sum(${TABLE}.count_rounds)
+      ) ;;
+  }
+
+  measure: sum_pregame_boost_total {
+    group_label: "Pre-Game Boosts"
+    label: "Total Boosts"
+    type: number
+    value_format_name: decimal_0
+    sql: sum(${TABLE}.pregame_boost_total) ;;
+  }
+
+  measure: pregame_boost_total_per_round {
+    group_label: "Pre-Game Boosts"
+    label: "Total Boosts Per Round"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_total)
+        , sum(${TABLE}.count_rounds)
+      ) ;;
+  }
 
 
 }

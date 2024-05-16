@@ -4,7 +4,7 @@ view: player_round_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update on '2024-01-03'
+      -- update on '2024-05-16'
 
      -- create or replace table tal_scratch.player_round_incremental as
 
@@ -47,7 +47,7 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2024-01-03' -- Last Full Update
+                      when date(current_date()) <= '2024-05-16' -- Last Full Update
                       then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -144,8 +144,56 @@ view: player_round_incremental {
               , lag(timestamp_utc) over ( partition by rdg_id order by timestamp_utc) as round_start_timestamp_utc
               , lag(event_name) over ( partition by rdg_id order by timestamp_utc) as round_start_event_name
               , timestamp_utc as round_end_timestamp_utc
-          from
-              base_data
+
+              -------------------------------------------------
+              -- Pre-Game Boosts
+              -------------------------------------------------
+
+              , lag(case
+                  when event_name = 'round_start'
+                  then
+                    case
+                      when json_extract_scalar(extra_json,"$.boosts") like '%ROCKET%'
+                      then 1
+                      else 0
+                      end
+                  else 0
+                  end) over ( partition by rdg_id order by timestamp_utc) as pregame_boost_rocket
+
+              , lag(case
+                  when event_name = 'round_start'
+                  then
+                    case
+                      when json_extract_scalar(extra_json,"$.boosts") like '%BOMB%'
+                      then 1
+                      else 0
+                      end
+                  else 0
+                  end) over ( partition by rdg_id order by timestamp_utc) as pregame_boost_bomb
+
+              , lag(case
+                  when event_name = 'round_start'
+                  then
+                    case
+                      when json_extract_scalar(extra_json,"$.boosts") like '%COLOR_BALL%'
+                      then 1
+                      else 0
+                      end
+                  else 0
+                  end) over ( partition by rdg_id order by timestamp_utc) as pregame_boost_colorball
+
+              , lag(case
+                  when event_name = 'round_start'
+                  then
+                    case
+                      when json_extract_scalar(extra_json,"$.boosts") like '%EXTRA_MOVES%'
+                      then 1
+                      else 0
+                      end
+                  else 0
+                  end) over ( partition by rdg_id order by timestamp_utc) as pregame_boost_extramoves
+                from
+                    base_data
       )
 
       ------------------------------------------------------------------------
@@ -245,6 +293,12 @@ view: player_round_incremental {
               -- moves_master_tier
               , safe_cast(json_extract_scalar(extra_json, "$.moves_master_tier") as numeric) as moves_master_tier
 
+              -- pre game boosts
+              , pregame_boost_rocket
+              , pregame_boost_bomb
+              , pregame_boost_colorball
+              , pregame_boost_extramoves
+
           from
               get_round_start_timestamp
           where
@@ -324,6 +378,18 @@ view: player_round_incremental {
             + powerup_chopsticks
             + powerup_skillet
             ) as total_chum_powerups_used
+
+        -- pre game boosts
+        , max( pregame_boost_rocket ) as pregame_boost_rocket
+        , max( pregame_boost_bomb ) as pregame_boost_bomb
+        , max( pregame_boost_colorball ) as pregame_boost_colorball
+        , max( pregame_boost_extramoves ) as pregame_boost_extramoves
+        , max(
+            ifnull(pregame_boost_rocket,0)
+            + ifnull(pregame_boost_bomb,0)
+            + ifnull(pregame_boost_colorball,0)
+            + ifnull(pregame_boost_extramoves,0)
+            ) as pregame_boost_total
 
         -- technical stats tracking
         , max(used_memory_bytes) as used_memory_bytes

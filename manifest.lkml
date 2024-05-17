@@ -1145,6 +1145,9 @@ constant: ad_placements_for_tickets_spend {
 
   when source_id = 'quick_boost_rocket' then 'Rocket'
   when source_id = 'quick_lives' then 'Lives'
+  when source_id = 'treasure_trove' then 'Treasure Trove'
+  when source_id = 'quick_torches' then 'Gem Quest'
+  when source_id = 'castle_climb_rescue' then 'Castle Climb'
 
   else source_id
   end"

@@ -672,6 +672,25 @@ explore: player_ticket_spend_summary {
 
 ################################################################
 
+## Explore: Player Tickets and Ad Views Summary
+
+################################################################
+
+explore: player_tickets_plus_ads_summary {
+  label: "Player Ticket and Ad Views Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_tickets_plus_ads_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+
+################################################################
+
 ## AB Test Explores
 
 ################################################################

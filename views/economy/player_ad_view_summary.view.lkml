@@ -227,7 +227,10 @@ view: player_ad_view_summary {
       -- select results
       ------------------------------------------------------------------
 
-      select * from add_cumulative_caluclations
+      select
+        *
+        , @{ad_placements_for_ad_summary} as ad_placement
+      from add_cumulative_caluclations
 
 
 
@@ -307,7 +310,7 @@ view: player_ad_view_summary {
   dimension: ad_placement {
     type: string
     sql:
-      @{ad_placements}
+      ${TABLE}.ad_placement
     ;;
     }
   dimension: ad_network {type:string}

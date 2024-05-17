@@ -16,6 +16,7 @@ view: player_ticket_spend_summary {
 
         -- All columns from player_coin_spend_incremental
         *
+        , @{ad_placements_for_tickets_spend} as ad_placement
 
         -- Player Age Information
         , timestamp(date(created_at)) as created_date -- Created Date
@@ -151,7 +152,7 @@ view: player_ticket_spend_summary {
     label: "Ticket Placement"
     type: string
     sql:
-     @{ad_placements_clean}
+     ${TABLE}.ad_placement
     ;;
   }
 

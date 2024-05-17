@@ -1121,6 +1121,8 @@ constant: ad_placements_for_ad_summary {
   when ad_reward_source_id = 'quick_lives' then 'Lives'
   when ad_reward_source_id = 'quick_magnifiers' then 'Magnifiers'
   when ad_reward_source_id = 'treasure_trove' then 'Treasure Trove'
+  when ad_reward_source_id = 'castle_climb_rescue' then 'Castle Climb'
+  when ad_reward_source_id = 'quick_torches' then 'Gem Quest'
 
   else 'Unmapped'
   end"

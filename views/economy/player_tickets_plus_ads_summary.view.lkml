@@ -234,6 +234,7 @@ view: player_tickets_plus_ads_summary {
 
   measure: ticket_spend_per_dau_spending_tickets_or_viewing_ads {
     label: "Ticket Spend Per DAU Spending Tickets or Viewing Ads"
+    type: number
     sql:
       safe_divide(
         sum(${TABLE}.tickets_spend)
@@ -245,7 +246,8 @@ view: player_tickets_plus_ads_summary {
   }
 
   measure: ad_views_per_dau_spending_tickets_or_viewing_ads {
-    label: "Ticket Spend Per DAU Spending Tickets or Viewing Ads"
+    label: "Ad Views Per DAU Spending Tickets or Viewing Ads"
+    type: number
     sql:
     safe_divide(
       sum(${TABLE}.ad_views)

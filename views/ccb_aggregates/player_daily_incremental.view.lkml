@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-05-16'
+      -- update '2024-05-17'
 
       -- create or replace table tal_scratch.player_daily_incremental_test as
 
@@ -79,7 +79,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-05-16' -- Last Full Update
+                when date(current_date()) <= '2024-05-17' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -99,7 +99,7 @@ view: player_daily_incremental {
         ------------------------------------------------------------------------
 
         -- and rdg_id = '3989ffa2-2b93-4f33-a940-86c4746036ba'
-        -- and date(timestamp) = '2024-02-06'
+        -- and date(timestamp) = '2024-05-15'
 
       )
 
@@ -465,6 +465,8 @@ view: player_daily_incremental {
           , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_03") AS NUMERIC) as coins_balance
           , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_04") AS NUMERIC) as lives_balance
           , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_07") AS NUMERIC) as stars_balance
+          , safe_cast(json_extract_scalar(currencies,"$.DICE") AS NUMERIC) as dice_balance
+          , safe_cast(json_extract_scalar(currencies,"$.TICKET") AS NUMERIC) as ticket_balance
 
           -------------------------------------------------
           -- system info
@@ -972,9 +974,12 @@ view: player_daily_incremental {
         , sum(coins_spend) as coins_spend
         , sum(coins_sourced_from_rewards) as coins_sourced_from_rewards
         , sum(stars_spend) as stars_spend
+
         , round(avg(coins_balance),0) as ending_coins_balance
         , round(avg(lives_balance),0) as ending_lives_balance
         , round(avg(stars_balance),0) as ending_stars_balance
+        , round(avg(dice_balance),0) as dice_balance
+        , round(avg(ticket_balance),0) as ticket_balance
 
         -- system_info
         , max( hardware ) as hardware

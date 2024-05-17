@@ -182,9 +182,13 @@ ads_by_date as (
         , max(a.coins_spend) as coins_spend
         , max(a.coins_sourced_from_rewards) as coins_sourced_from_rewards
         , max(a.stars_spend) as stars_spend
+
+        -- ending currency balances
         , max(a.ending_coins_balance) as ending_coins_balance
         , max(a.ending_lives_balance) as ending_lives_balance
         , max(a.ending_stars_balance) as ending_stars_balance
+        , max(a.dice_balance) as ending_dice_balance
+        , max(a.ticket_balance) as ending_ticket_balance
 
         -- system_info
         , max( a.hardware ) as hardware
@@ -375,9 +379,13 @@ ads_by_date as (
         , max(a.coins_spend) as coins_spend
         , max(a.coins_sourced_from_rewards) as coins_sourced_from_rewards
         , max(a.stars_spend) as stars_spend
+
+        -- ending currency balances
         , max(a.ending_coins_balance) as ending_coins_balance
         , max(a.ending_lives_balance) as ending_lives_balance
         , max(a.ending_stars_balance) as ending_stars_balance
+        , max(a.ending_dice_balance) as ending_dice_balance
+        , max(a.ending_ticket_balance) as ending_ticket_balance
 
         -- system_info
         , max( a.hardware ) as hardware
@@ -614,11 +622,14 @@ ads_by_date as (
 
         , a.coins_spend
         , a.coins_sourced_from_rewards
-
         , a.stars_spend
+
+        -- ending currency balances
         , a.ending_coins_balance
         , a.ending_lives_balance
         , a.ending_stars_balance
+        , a.ending_dice_balance
+        , a.ending_ticket_balance
 
         -- end of content and zones
         , a.end_of_content_levels
@@ -3313,6 +3324,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     type:sum
     sql: ${TABLE}.ending_coins_balance ;;
   }
+
   measure: ending_coins_balance_10 {
     group_label: "Ending Coins Balance"
     type: percentile
@@ -3343,6 +3355,92 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     percentile: 95
     sql: ${TABLE}.ending_coins_balance ;;
   }
+
+  ## Ending Ticket Balance
+  measure: ending_ticket_balance_10 {
+    label: "10th Percentile"
+    group_label: "Ending Ticket Balance"
+    type: percentile
+    percentile: 10
+    value_format_name: decimal_0
+    sql: ${TABLE}.ending_ticket_balance ;;
+  }
+  measure: ending_ticket_balance_25 {
+    label: "25th Percentile"
+    group_label: "Ending Ticket Balance"
+    type: percentile
+    percentile: 25
+    value_format_name: decimal_0
+    sql: ${TABLE}.ending_ticket_balance ;;
+  }
+  measure: ending_ticket_balance_50 {
+    label: "Median"
+    group_label: "Ending Ticket Balance"
+    type: percentile
+    percentile: 50
+    value_format_name: decimal_0
+    sql: ${TABLE}.ending_ticket_balance ;;
+  }
+  measure: ending_ticket_balance_75 {
+    label: "75th Percentile"
+    group_label: "Ending Ticket Balance"
+    type: percentile
+    percentile: 75
+    value_format_name: decimal_0
+    sql: ${TABLE}.ending_ticket_balance ;;
+  }
+  measure: ending_ticket_balance_95 {
+    label: "95th Percentile"
+    group_label: "Ending Ticket Balance"
+    type: percentile
+    percentile: 95
+    value_format_name: decimal_0
+    sql: ${TABLE}.ending_ticket_balance ;;
+  }
+
+  ## Ending Dice Balance
+  measure: ending_dice_balance_10 {
+    label: "10th Percentile"
+    group_label: "Ending Dice Balance"
+    type: percentile
+    percentile: 10
+    value_format_name: decimal_0
+    sql: ${TABLE}.ending_dice_balance ;;
+  }
+  measure: ending_dice_balance_25 {
+    label: "25th Percentile"
+    group_label: "Ending Dice Balance"
+    type: percentile
+    percentile: 25
+    value_format_name: decimal_0
+    sql: ${TABLE}.ending_dice_balance ;;
+  }
+  measure: ending_dice_balance_50 {
+    label: "Median"
+    group_label: "Ending Dice Balance"
+    type: percentile
+    percentile: 50
+    value_format_name: decimal_0
+    sql: ${TABLE}.ending_dice_balance ;;
+  }
+  measure: ending_dice_balance_75 {
+    label: "75th Percentile"
+    group_label: "Ending Dice Balance"
+    type: percentile
+    percentile: 75
+    value_format_name: decimal_0
+    sql: ${TABLE}.ending_dice_balance ;;
+  }
+  measure: ending_dice_balance_95 {
+    label: "95th Percentile"
+    group_label: "Ending Dice Balance"
+    type: percentile
+    percentile: 95
+    value_format_name: decimal_0
+    sql: ${TABLE}.ending_dice_balance ;;
+  }
+
+
   measure: sum_ending_lives_balance {
     group_label: "Ending Lives Balance"
     type:sum

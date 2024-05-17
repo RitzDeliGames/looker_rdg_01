@@ -302,6 +302,7 @@ view: player_campaign_level_summary {
   }
 
   measure: churn_rate {
+    group_label: "Churn"
     label: "Churn Rate"
     type:  number
     sql:
@@ -312,6 +313,33 @@ view: player_campaign_level_summary {
       )
     ;;
     value_format_name: percent_2
+  }
+
+  measure: excess_churn_rate {
+    group_label: "Churn"
+    type: number
+    sql:
+      safe_divide(
+        sum(
+          case
+            when
+              ${TABLE}.count_wins < 1
+            then ${TABLE}.churn_indicator
+            else 0
+            end )
+        -
+        sum(
+          case
+            when
+              ${TABLE}.count_wins >= 1
+            then ${TABLE}.churn_indicator
+            else 0
+            end )
+        ,
+        sum(1)
+      )
+    ;;
+    value_format_name: percent_1
   }
 
   measure: average_chums_used_per_level {

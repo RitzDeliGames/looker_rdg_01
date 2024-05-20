@@ -35,6 +35,7 @@ view: player_daily_incremental {
           , rdg_id
           , device_id
           , social_id
+          , bfg_uid
           , `language` as language_json
           , install_version
           , engagement_ticks
@@ -79,7 +80,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-05-17' -- Last Full Update
+                when date(current_date()) <= '2024-05-20' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -199,6 +200,7 @@ view: player_daily_incremental {
           , device_id
           , advertising_id
           , user_id
+          , bfg_uid
           , platform
           , country
           , created_at as created_utc
@@ -934,6 +936,7 @@ view: player_daily_incremental {
         , max(device_id) as device_id
         , max(advertising_id) as advertising_id
         , max(user_id) as user_id
+        , max(bfg_uid) as bfg_uid
         , max(display_name) as display_name
         , max(platform) as platform
         , max(country) as country
@@ -1096,6 +1099,8 @@ view: player_daily_incremental {
     -- Add on histogram
     ------------------------------------------------------------------------
 
+    , add_on_histogram_table as (
+
     select
         a.*
         , b.percent_frames_below_22
@@ -1110,6 +1115,14 @@ view: player_daily_incremental {
         left join average_asset_load_times c
             on a.rdg_id = c.rdg_id
             and a.rdg_date = c.rdg_date
+
+    )
+
+    ------------------------------------------------------------------------
+    -- summary
+    ------------------------------------------------------------------------
+
+    select * from add_on_histogram_table
 
 
 

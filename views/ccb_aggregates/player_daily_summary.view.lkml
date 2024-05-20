@@ -117,6 +117,7 @@ ads_by_date as (
         , max(a.device_id) as device_id
         , max(a.advertising_id) as advertising_id
         , max(a.user_id) as user_id
+        , max(a.bfg_uid) as bfg_uid
         , max(a.display_name) as display_name
         , max(a.platform) as platform
         , max(a.country) as country
@@ -312,6 +313,7 @@ ads_by_date as (
         , max(a.device_id) as device_id
         , max(a.advertising_id) as advertising_id
         , max(a.user_id) as user_id
+        , max(a.bfg_uid) as bfg_uid
         , max(a.display_name) as display_name
         , max(a.platform) as platform
         , max(a.country) as country
@@ -556,6 +558,7 @@ ads_by_date as (
         , a.device_id
         , a.advertising_id
         , a.user_id
+        , a.bfg_uid
         , a.display_name
         , a.platform
         , a.country
@@ -1242,6 +1245,7 @@ dimension: primary_key {
   dimension: device_id {type:string}
   dimension: advertising_id {type:string}
   dimension: user_id {type:string}
+  dimension: bfg_uid {type:string}
   dimension: platform {type:string}
   dimension: country {type:string}
   dimension: region {type:string sql:@{country_region};;}

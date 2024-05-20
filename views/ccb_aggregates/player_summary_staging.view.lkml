@@ -84,6 +84,9 @@ view: player_summary_staging {
       rows between unbounded preceding and unbounded following
       ) user_id
 
+      -- bfg_uid
+      , bfg_uid
+
       -- display_name
       , last_value(display_name) OVER (
       PARTITION BY rdg_id
@@ -207,6 +210,7 @@ view: player_summary_staging {
       , max(device_id) as device_id
       , max(advertising_id) as advertising_id
       , max(user_id) as user_id
+      , max(bfg_uid) as bfg_uid
       , max(display_name) as display_name
       , max(platform) as platform
       , max(country) as country

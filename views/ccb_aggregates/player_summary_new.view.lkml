@@ -21,6 +21,7 @@ view: player_summary_new {
           , device_id
           , advertising_id
           , user_id
+          , bfg_uid
           , display_name
           , platform
           , country
@@ -503,6 +504,7 @@ view: player_summary_new {
   dimension: display_name {group_label:"Player IDs" type: string}
   dimension: advertising_id {group_label:"Player IDs" type: string}
   dimension: user_id {group_label:"Player IDs" type: string}
+  dimension: bfg_uid {group_label:"Player IDs" type: string}
   dimension: firebase_advertising_id {group_label:"Player IDs" type:string}
   dimension: experiments {type: string}
   dimension: version_at_install {group_label:"Versions" label: "Install Version" type: string}

@@ -258,7 +258,7 @@ select
     suggestions: [
       "$.button_tag"
       , "$.game_mode"
-      , "$.logs","$.error", "$.stack","$.config_timestamp","$.frame_count", "$.round_count"
+      , "$.logs","$.error", "$.stack","$.config_timestamp","$.frame_count", "$.round_count","$.reward_event"
       , "$.logs[0]"
       ]
     }
@@ -277,7 +277,7 @@ select
     suggestions: [
       "$.button_tag"
       , "$.game_mode"
-      , "$.logs","$.error", "$.stack","$.config_timestamp","$.frame_count", "$.round_count"
+      , "$.logs","$.error", "$.stack","$.config_timestamp","$.frame_count", "$.round_count","$.reward_event"
       , "$.logs[0]"
     ]
   }

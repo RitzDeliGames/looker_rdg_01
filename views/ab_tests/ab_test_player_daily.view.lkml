@@ -25,6 +25,9 @@ view: ab_test_player_daily {
         , max(json_extract_scalar(a.experiments,{% parameter selected_experiment %})) as variant
         , case
 
+        when {% parameter selected_metric_daily %} = "Average Sessions Per Day" then sum(a.count_sessions)
+        when {% parameter selected_metric_daily %} = "Average Sessions Per Player" then sum(a.count_sessions)
+
         when {% parameter selected_metric_daily %} = "Average Pre-Game Boosts Per Day" then sum(a.pregame_boost_total)
         when {% parameter selected_metric_daily %} = "Average Pre-Game Boosts Per Player" then sum(a.pregame_boost_total)
 
@@ -75,6 +78,9 @@ view: ab_test_player_daily {
 
         else sum(1) end as numerator
         , case
+
+        when {% parameter selected_metric_daily %} = "Average Sessions Per Day" then sum(1)
+        when {% parameter selected_metric_daily %} = "Average Sessions Per Player" then max(1)
 
         when {% parameter selected_metric_daily %} = "Average Pre-Game Boosts Per Day" then sum(1)
         when {% parameter selected_metric_daily %} = "Average Pre-Game Boosts Per Player" then max(1)
@@ -667,6 +673,9 @@ view: ab_test_player_daily {
     suggestions:  [
 
       , "None"
+
+      , "Average Sessions Per Day"
+      , "Average Sessions Per Player"
 
       , "Average Pre-Game Boosts Per Day"
       , "Average Pre-Game Boosts Per Player"

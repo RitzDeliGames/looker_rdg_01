@@ -1199,7 +1199,12 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_shuffle' then '1x Shuffle Skill'
     when ${TABLE}.iap_id = 'item_shuffle_bulk' then '5x Shuffle Skill'
     when ${TABLE}.iap_id = 'item_chopsticks_bulk' then '5x Chopsticks Skill'
+    when ${TABLE}.iap_id = 'item_skillet' then '1x Skillet Skill'
+    when ${TABLE}.iap_id = 'item_skillet_bulk' then '5x Skillet Skill'
+    when ${TABLE}.iap_id = 'item_disc' then '1x Disco Skill'
+    when ${TABLE}.iap_id = 'item_disco_bulk' then '5x Disco Skill'
 
+    when ${TABLE}.iap_id = 'item_disco_unlock' then 'Chum Chum Unlock: Karma Chameleon'
 
     when ${TABLE}.iap_id = 'item_rocket' then '1x Rocket Boost'
     when ${TABLE}.iap_id = 'item_rocket_bulk' then '8x Rocket Boost'
@@ -1251,7 +1256,8 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_ticket_premium' then 'Tickets (M)'
     when ${TABLE}.iap_id = 'item_ticket_mega' then 'Tickets (L)'
 
-    when ${TABLE}.iap_id = 'item_disco_unlock' then 'Chum Chum Unlock: Karma Chameleon'
+
+
 
     else ${TABLE}.iap_id
   end"
@@ -1302,6 +1308,10 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id = 'item_shuffle' then 'Chum Chum Skills'
       when ${TABLE}.iap_id = 'item_shuffle_bulk' then 'Chum Chum Skills'
       when ${TABLE}.iap_id = 'item_chopsticks_bulk' then 'Chum Chum Skills'
+      when ${TABLE}.iap_id = 'item_skillet' then 'Chum Chum Skills'
+      when ${TABLE}.iap_id = 'item_skillet_bulk' then 'Chum Chum Skills'
+      when ${TABLE}.iap_id = 'item_disc' then 'Chum Chum Skills'
+      when ${TABLE}.iap_id = 'item_disco_bulk' then 'Chum Chum Skills'
 
       when ${TABLE}.iap_id like '%bomb%' then 'Pre-Game Boosts'
       when ${TABLE}.iap_id like '%rocket%' then 'Pre-Game Boosts'

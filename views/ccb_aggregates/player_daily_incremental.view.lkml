@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-05-17'
+      -- update '2024-05-22'
 
       -- create or replace table tal_scratch.player_daily_incremental_test as
 
@@ -80,7 +80,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-05-20' -- Last Full Update
+                when date(current_date()) <= '2024-05-22' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -595,6 +595,41 @@ view: player_daily_incremental {
             else 0
             end as int64) as feature_participation_battle_pass
 
+        , safe_cast(case
+            when
+              event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%CastleClimb%'
+            then 1
+            else 0
+            end as int64) as feature_participation_castle_climb
+
+        -------------------------------------------------
+        -- Feature Completion
+        -------------------------------------------------
+
+        , safe_cast(case
+            when
+              event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%ChestOpening_CastleClimb%'
+            then 1
+            else 0
+            end as int64) as feature_completion_castle_climb
+
+        , safe_cast(case
+            when
+              event_name = 'GemQuestComplete'
+            then 1
+            else 0
+            end as int64) as feature_completion_gem_quest
+
+        -- Sheet_Puzzle.Claim
+        , safe_cast(case
+            when
+              event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%Sheet_Puzzle.Claim%'
+            then 1
+            else 0
+            end as int64) as feature_completion_puzzle
 
         -------------------------------------------------
         -- Errors
@@ -1011,6 +1046,12 @@ view: player_daily_incremental {
         , max( feature_participation_ask_for_help_high_five ) as feature_participation_ask_for_help_high_five
         , max( feature_participation_ask_for_help_high_five_return ) as feature_participation_ask_for_help_high_five_return
         , max( feature_participation_hot_dog_contest ) as feature_participation_hot_dog_contest
+        , max( feature_participation_castle_climb ) as feature_participation_castle_climb
+
+        -- feature completion
+        , max( feature_completion_castle_climb ) as feature_completion_castle_climb
+        , max( feature_completion_gem_quest ) as feature_completion_gem_quest
+        , max( feature_completion_puzzle ) as feature_completion_puzzle
 
         -- ask for help counts
         , sum( feature_participation_ask_for_help_request ) as count_ask_for_help_request

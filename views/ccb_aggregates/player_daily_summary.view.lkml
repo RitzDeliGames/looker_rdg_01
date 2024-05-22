@@ -213,12 +213,18 @@ ads_by_date as (
         , max( a.feature_participation_lucky_dice ) as feature_participation_lucky_dice
         , max( a.feature_participation_treasure_trove ) as feature_participation_treasure_trove
         , max( a.feature_participation_battle_pass ) as feature_participation_battle_pass
+        , max( a.feature_participation_castle_climb ) as feature_participation_castle_climb
 
         , max( feature_participation_ask_for_help_request ) as feature_participation_ask_for_help_request
         , max( feature_participation_ask_for_help_completed ) as feature_participation_ask_for_help_completed
         , max( feature_participation_ask_for_help_high_five ) as feature_participation_ask_for_help_high_five
         , max( feature_participation_ask_for_help_high_five_return ) as feature_participation_ask_for_help_high_five_return
         , max( feature_participation_hot_dog_contest ) as feature_participation_hot_dog_contest
+
+        -- feature completion
+        , max( a.feature_completion_castle_climb ) as feature_completion_castle_climb
+        , max( a.feature_completion_gem_quest ) as feature_completion_gem_quest
+        , max( a.feature_completion_puzzle ) as feature_completion_puzzle
 
         -- ask for help counts
         , max( feature_participation_ask_for_help_request ) as count_ask_for_help_request
@@ -416,6 +422,12 @@ ads_by_date as (
         , max( feature_participation_ask_for_help_high_five ) as feature_participation_ask_for_help_high_five
         , max( feature_participation_ask_for_help_high_five_return ) as feature_participation_ask_for_help_high_five_return
         , max( feature_participation_hot_dog_contest ) as feature_participation_hot_dog_contest
+        , max( a.feature_participation_castle_climb ) as feature_participation_castle_climb
+
+        -- feature completion
+        , max( a.feature_completion_castle_climb ) as feature_completion_castle_climb
+        , max( a.feature_completion_gem_quest ) as feature_completion_gem_quest
+        , max( a.feature_completion_puzzle ) as feature_completion_puzzle
 
         -- ask for help counts
         , max( feature_participation_ask_for_help_request ) as count_ask_for_help_request
@@ -651,6 +663,7 @@ ads_by_date as (
         , a.feature_participation_ask_for_help_high_five
         , a.feature_participation_ask_for_help_high_five_return
         , a.feature_participation_hot_dog_contest
+        , a.feature_participation_castle_climb
         , case
             when
               a.feature_participation_daily_reward = 1
@@ -664,9 +677,15 @@ ads_by_date as (
               or a.feature_participation_ask_for_help_high_five = 1
               or a.feature_participation_ask_for_help_high_five_return = 1
               or a.feature_participation_hot_dog_contest = 1
+              or a.feature_completion_castle_climb = 1
               then 1
             else 0
             end as feature_participation_any_event
+
+        -- feature completion
+        , a.feature_completion_castle_climb
+        , a.feature_completion_gem_quest
+        , a.feature_completion_puzzle
 
         -- ask for help counts
         , a.count_ask_for_help_request
@@ -1828,6 +1847,24 @@ dimension: primary_key {
     value_format_name: percent_0
   }
 
+  measure: percent_players_engaged_with_castle_climb {
+    group_label: "Daily Feature Participation"
+    label: "Castle Climb"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_castle_climb > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
 
   measure: percent_players_engaged_with_lucky_dice {
     group_label: "Daily Feature Participation"
@@ -1937,7 +1974,59 @@ dimension: primary_key {
     value_format_name: percent_0
   }
 
+  measure: percent_players_completed_castle_climb {
+    group_label: "Daily Feature Completion"
+    label: "Castle Climb"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_completion_castle_climb > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
 
+  measure: percent_players_completed_gem_quest {
+    group_label: "Daily Feature Completion"
+    label: "Gem Quest"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_completion_gem_quest > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: feature_completion_puzzle {
+    group_label: "Daily Feature Completion"
+    label: "Puzzle"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_completion_puzzle > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
 
   measure: percent_players_playing_rounds {
     group_label: "Calculated Fields"

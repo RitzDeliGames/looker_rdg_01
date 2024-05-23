@@ -623,6 +623,21 @@ constant: campaign_name_clean_update {
           end"
 }
 
+constant: bfg_campaign_name_mapping {
+  value: "
+    case
+      when b.campaign = 'ccb|android|facebook|us|charactermarketability|linkclick|cell1|may24_1507641' then '20240524 - Facebook - USA - MAI'
+      when b.campaign = 'ccb|android|facebook|us|charactermarketability|linkclick|cell2|may24_1507648' then '20240524 - Facebook - USA - MAI'
+      when b.campaign = 'ccb|android|facebook|us|charactermarketability|linkclick|cell3|may24_1507652' then '20240524 - Facebook - USA - MAI'
+      when b.campaign = 'chum|facebook|android|latam|aa+|mai|apr24_137769' then '20240424 - Facebook - LATAM - MAI'
+      when b.campaign = 'chum|facebook|android|us|aa+|aeo|apr24_1500678' then '20240424 - Facebook - USA - Purchase'
+      when b.campaign = 'chum|facebook|android|us|aa+|aeo|may24_1506781' then '20240524 - Facebook - USA - Purchase'
+      when b.campaign = 'chum|facebook|creativetest|android|us|mai|may24_1508328' then '20240524 - Facebook - USA - MAI'
+      when b.campaign = 'mistplay-ccb-android-os12-us-roasopti-all18_137763' then '20240424 - Mistplay - USA - ROAS'
+
+    end"
+}
+
 constant: campaign_with_organics_estimate {
   value: "case
     when

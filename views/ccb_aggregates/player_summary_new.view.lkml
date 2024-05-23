@@ -442,8 +442,10 @@ view: player_summary_new {
         )
 
         ------------------------------------------------------------------------------------
-        -- Calculate Adjustment
+        -- Calculate Adjustment for Singular
         ------------------------------------------------------------------------------------
+
+        , singular_cost_adjustment_table as (
 
         select
           a.*
@@ -456,7 +458,7 @@ view: player_summary_new {
               )
               * my_difference_cost
               + first_pass_cost_per_install
-              as attributed_campaign_cost
+              as singular_attributed_campaign_cost
 
           -- Impressions Adjustment
           , safe_divide(
@@ -466,11 +468,87 @@ view: player_summary_new {
               )
               * my_difference_impressions
               + first_pass_impressions_per_install
-              as attributed_campaign_impressions
+              as singular_attributed_campaign_impressions
         from
           best_guess_cpi_table a
           left join cpi_adjustment_for_total_cost_table b
             on a.mapped_singular_campaign_name_clean = b.mapped_singular_campaign_name_clean
+
+      )
+
+      ------------------------------------------------------------------------------------
+      -- Big Fish Attribution Step 1
+      ------------------------------------------------------------------------------------
+
+      , big_fish_attribution_table as (
+
+
+        select
+          bfgudid as bfg_uid
+          , max( campaign ) as campaign
+          , max( install_date ) as install_date
+          , max( ad_name ) as ad_name
+          , max( ad_id ) as ad_id
+          , max( marketing_channel ) as marketing_channel
+          , max( marketing_channel_category ) as marketing_channel_category
+          , max( media_source ) as media_source
+          , max( cpi  ) as cpi
+
+        from
+          -- TEMPORARY: WILL NEED TO REPLACED WITH FINAL PROD TABLE
+          -- `eraser-blast-staging.test_bfg_import.attribution_data`
+          eraser-blast.tal_scratch.temp_test_bfg_import_attribution_data
+        where
+          length(campaign) > 2
+          and length(bfgudid) > 2
+        group by
+          1
+
+      )
+
+      ------------------------------------------------------------------------------------
+      -- Map on Big Fish Information
+      ------------------------------------------------------------------------------------
+
+      , map_on_big_fish_information_table as (
+
+      select
+        a.*
+        , b.campaign as bfg_campaign
+        , @{bfg_campaign_name_mapping} as bfg_campaign_mapped
+        , b.ad_name as bfg_ad_name
+        , b.ad_name as bfg_ad_name_mapped -- TEMP: Will Need Mapping
+        , b.ad_name as bfg_ad_name_mapped_grouped -- TEMP: Will Need Mapping
+        , b.ad_id as bfg_ad_id
+        , b.marketing_channel as bfg_marketing_channel
+        , b.marketing_channel_category as bfg_marketing_channel_category
+        , b.media_source as bfg_media_source
+        , b.media_source as bfg_media_source_mapped -- TEMP: Will Need Mapping
+        , b.cpi as bfg_cpi
+      from
+        singular_cost_adjustment_table a
+        left join big_fish_attribution_table b
+          on a.bfg_uid = b.bfg_uid
+
+      )
+
+      select
+        *
+        , coalesce( mapped_singular_campaign_name_clean, bfg_campaign_mapped ) as campaign_name
+        , coalesce( singular_full_ad_name, bfg_ad_name ) as ad_name_full
+        , coalesce( singular_simple_ad_name, bfg_ad_name_mapped ) as ad_name_simple
+        , coalesce( singular_grouped_ad_name, bfg_ad_name_mapped_grouped ) as ad_name_grouped
+        , coalesce( singular_partner_name, bfg_media_source_mapped ) as partner_name
+        , coalesce(
+              case when singular_attributed_campaign_cost <= 0 then null else singular_attributed_campaign_cost end
+              , case when bfg_cpi <= 0 then null else bfg_cpi end
+              , 0
+              ) as attributed_campaign_cost
+        , coalesce( singular_attributed_campaign_impressions, 0 ) as attributed_campaign_impressions
+
+
+      from map_on_big_fish_information_table
+
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (6) + 2 )*( -10 ) minute)) ;;
@@ -509,6 +587,7 @@ view: player_summary_new {
   dimension: experiments {type: string}
   dimension: version_at_install {group_label:"Versions" label: "Install Version" type: string}
 
+
   dimension: version_number_at_install {
     label: "Install Version Number"
     group_label:"Versions"
@@ -529,10 +608,6 @@ view: player_summary_new {
   dimension: country {type: string}
   dimension: region {type:string}
   dimension: cumulative_time_played_minutes {label:"Minutes Played" value_format:"#,##0" type: number}
-  dimension: mapped_singular_campaign_name_clean {
-    label: "Campaign Name (Clean)"
-    group_label: "Singular Campaign Mapping"
-  }
 
   ## minutes played in first x days
   dimension: minutes_played_in_first_1_days {type: number}
@@ -741,29 +816,7 @@ view: player_summary_new {
   dimension: cumulative_coins_spend_d90 {group_label:"Cumulative Coin Spend" type: number}
   dimension: cumulative_coins_spend_current {group_label:"Cumulative Coin Spend" type: number}
 
-  dimension: paid_vs_organic {
-    label: "Paid vs. Organic"
-    type: string
-    sql:
-      case
-        when ${TABLE}.mapped_singular_campaign_name_clean is not null
-        then 'Paid'
-        else 'Organic'
-        end ;;
-  }
 
-  dimension: appsflyer_campaign {
-    label: "Appsflyer Campaign"
-    group_label: "Appsflyer"
-  }
-  dimension: appsflyer_campaign_type {
-    label: "Appsflyer Campaign Type"
-    group_label: "Appsflyer"
-  }
-  dimension: appsflyer_media_source {
-    label: "Appsflyer Media Source"
-    group_label: "Appsflyer"
-  }
 
   ################################################################################################
   ## sessions per day
@@ -1005,14 +1058,56 @@ view: player_summary_new {
 
 
 ######################################################################
+## Combined Campaign Mapping
+######################################################################
+
+  dimension: mapped_singular_campaign_name_clean {
+    label: "Campaign Name (Clean)"
+    group_label: "Singular Campaign Mapping"
+    sql: ${TABLE}.campaign_name ;;
+  }
+
+  dimension: singular_partner_name {
+    group_label: "Campaign Mapping"
+    sql: ${TABLE}.partner_name ;;
+    type:string}
+
+  dimension: paid_vs_organic {
+    label: "Paid vs. Organic"
+    group_label: "Campaign Mapping"
+    type: string
+    sql:
+      case
+        when ${TABLE}.campaign_name is not null
+        then 'Paid'
+        else 'Organic'
+        end ;;
+  }
+
+  dimension: singular_full_ad_name {
+    group_label: "Singular Creative Mapping"
+    type: string
+    sql: ${TABLE}.ad_name_full ;;
+  }
+
+  dimension: singular_grouped_ad_name {
+    group_label: "Singular Creative Mapping"
+    type: string
+    sql: ${TABLE}.ad_name_grouped ;;
+  }
+
+  dimension: singular_simple_ad_name {
+    group_label: "Singular Creative Mapping"
+    type: string
+    sql: ${TABLE}.ad_name_simple ;;
+  }
+
+######################################################################
 ## Singular Campaign Mapping
 ######################################################################
 
-  dimension: singular_device_id {
-    group_label: "Singular Campaign Mapping"
-    type:string}
 
-  dimension: singular_partner_name {
+  dimension: singular_device_id {
     group_label: "Singular Campaign Mapping"
     type:string}
 
@@ -1041,29 +1136,20 @@ view: player_summary_new {
     type: string
   }
 
+
+
 ######################################################################
 ## Singular Creative Mapping
 ######################################################################
 
-  dimension: singular_full_ad_name {
-    group_label: "Singular Creative Mapping"
-    type: string
-  }
+
 
   dimension: singular_creative_id {
     group_label: "Singular Creative Mapping"
     type: string
   }
 
-  dimension: singular_grouped_ad_name {
-    group_label: "Singular Creative Mapping"
-    type: string
-  }
 
-  dimension: singular_simple_ad_name {
-    group_label: "Singular Creative Mapping"
-    type: string
-  }
 
 
 ######################################################################

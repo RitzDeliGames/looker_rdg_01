@@ -1063,7 +1063,7 @@ view: player_summary_new {
 
   dimension: mapped_singular_campaign_name_clean {
     label: "Campaign Name (Clean)"
-    group_label: "Singular Campaign Mapping"
+    group_label: "Campaign Mapping"
     sql: ${TABLE}.campaign_name ;;
   }
 
@@ -1085,22 +1085,40 @@ view: player_summary_new {
   }
 
   dimension: singular_full_ad_name {
-    group_label: "Singular Creative Mapping"
+    group_label: "Creative Mapping"
     type: string
     sql: ${TABLE}.ad_name_full ;;
   }
 
   dimension: singular_grouped_ad_name {
-    group_label: "Singular Creative Mapping"
+    group_label: "Creative Mapping"
     type: string
     sql: ${TABLE}.ad_name_grouped ;;
   }
 
   dimension: singular_simple_ad_name {
-    group_label: "Singular Creative Mapping"
+    group_label: "Creative Mapping"
     type: string
     sql: ${TABLE}.ad_name_simple ;;
   }
+
+######################################################################
+## BFG Campaign Mapping
+######################################################################
+
+  dimension: bfg_campaign {
+    group_label: "BFG Campaign Mapping"
+    type: string
+  }
+  dimension: bfg_ad_name {
+    group_label: "BFG Campaign Mapping"
+    type: string
+  }
+  dimension: bfg_media_source {
+    group_label: "BFG Campaign Mapping"
+    type: string
+  }
+
 
 ######################################################################
 ## Singular Campaign Mapping

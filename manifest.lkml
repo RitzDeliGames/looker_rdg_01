@@ -515,18 +515,25 @@ constant: reward_types {
           end"
 }
 
+constant: appsflyer_campaign_name_backup {
+  value: "
+  case
+
+  when
+  appsflyer_campaign_type = 'ua'
+  and date(created_date) between '2024-04-08' and '2024-04-19'
+  then
+  '20240412 - Facebook - LATAM/ES - MAI'
+
+  else mapped_singular_campaign_name_start
+  end
+  "
+}
+
 constant: appsflyer_campaign_name {
   value: "
-    case
-
-      when
-        appsflyer_campaign_type = 'ua'
-        and date(created_date) between '2024-04-08' and '2024-04-19'
-      then
-        '20240412 - AA+ - LATAM/ES - MAI'
-
-      else mapped_singular_campaign_name_start
-      end"
+    mapped_singular_campaign_name_start
+      "
 }
 
 constant: campaign_name_clean_update {
@@ -534,46 +541,46 @@ constant: campaign_name_clean_update {
             when
               campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_LATAM/ES_N/A'
               and date(singular_install_date) between '2023-04-11' and '2023-04-13'
-              then '20230413 - AAA - LATAM/ES - 15 Min'
+              then '20230413 - Facebook - LATAM/ES - 15 Min'
 
 
-            when campaign_name = 'CHUM|Facebook|Android|US|AA+|20240307' then '20240307 - AA+ - USA - Purchase'
+            when campaign_name = 'CHUM|Facebook|Android|US|AA+|20240307' then '20240307 - Facebook - USA - Purchase'
 
-            when campaign_name = 'CHUM|Facebook|Android|LATAM-ES|AA+|Mar03' then '20240303 - AA+ - LATAM/ES - 30 Min'
+            when campaign_name = 'CHUM|Facebook|Android|LATAM-ES|AA+|Mar03' then '20240303 - Facebook - LATAM/ES - 30 Min'
 
-            when campaign_name = 'CHUM|Facebook|Android|US|AA+|Jan24' then '20240103 - AA+ - USA - Purchase'
+            when campaign_name = 'CHUM|Facebook|Android|US|AA+|Jan24' then '20240103 - Facebook - USA - Purchase'
 
-            when campaign_name = 'Android_AAA+_30_Minutes_MX_20231214' then '20231214 - AAA+ - MX - 30 Min'
+            when campaign_name = 'Android_AAA+_30_Minutes_MX_20231214' then '20231214 - Facebook - MX - 30 Min'
 
-            when campaign_name = 'Android_AAA+_30_Minutes_MX_20231129' then '20231129 - AAA+ - MX - 30 Min'
+            when campaign_name = 'Android_AAA+_30_Minutes_MX_20231129' then '20231129 - Facebook - MX - 30 Min'
 
-            when campaign_name = 'Android_AAA+_MAI_US_20231110' then '20231110 - AAA+ - USA - Install'
-            when campaign_name = 'Android_AAA+TutorialComplete_US_20231030' then '20231030 - AAA+ - USA - Tutorial Complete'
+            when campaign_name = 'Android_AAA+_MAI_US_20231110' then '20231110 - Facebook - USA - Install'
+            when campaign_name = 'Android_AAA+TutorialComplete_US_20231030' then '20231030 - Facebook - USA - Tutorial Complete'
 
-            when campaign_name = 'Android_AAA+_30_Minutes_LATAM/ES_20231019' then '20231019 - AAA+ - LATAM/ES - 30 Min'
-            when campaign_name = 'iOS_AAA+_Install_LATAM/ES_20231019' then '20231019 - AAA+ - LATAM/ES - 30 Min'
+            when campaign_name = 'Android_AAA+_30_Minutes_LATAM/ES_20231019' then '20231019 - Facebook - LATAM/ES - 30 Min'
+            when campaign_name = 'iOS_AAA+_Install_LATAM/ES_20231019' then '20231019 - Facebook - LATAM/ES - 30 Min'
 
-            when campaign_name = 'Android_AAA+_30_Minutes_US_20230828' then '20230828 - AAA+ - USA - 30 Min'
-            when campaign_name = 'Android_AAA+_60_Minutes_US_20230825' then '20230825 - AAA+ - USA - 60 Min'
-            when campaign_name = 'Android_AAA_MAI_US_20230705' then '20230705 - AAA - USA - Install'
-            when campaign_name = 'Android_AAA_Events_Purchase_Women&Men_US_N/A' then '20230131 - AAA - USA - Purchase'
-            when campaign_name = 'Android_AAA_Purchase_US_20230523' then '20230523 - AAA - USA - Purchase'
-            when campaign_name = 'Android_AAA+_Purchase_US_20230808' then '20230808 - AAA+ - USA - Purchase'
-            when campaign_name = 'Android_AAA+_Purchase_US_20230809' then '20230808 - AAA+ - USA - Purchase'
-            when campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_US_N/A' then '20230308 - AAA - USA - 15 Min'
-            when campaign_name = 'Android_AAA_15_Minutes_US_20230427' then '20230427 - AAA - USA - 15 Min'
-            when campaign_name = 'Android_AAA_30_Minutes_US_20230710' then '20230710 - AAA - USA - 30 Min'
-            when campaign_name = 'Android_AAA+_30_Minutes_US_20230721' then '20230721 - AAA+ - USA - 30 Min'
+            when campaign_name = 'Android_AAA+_30_Minutes_US_20230828' then '20230828 - Facebook - USA - 30 Min'
+            when campaign_name = 'Android_AAA+_60_Minutes_US_20230825' then '20230825 - Facebook - USA - 60 Min'
+            when campaign_name = 'Android_AAA_MAI_US_20230705' then '20230705 - Facebook - USA - Install'
+            when campaign_name = 'Android_AAA_Events_Purchase_Women&Men_US_N/A' then '20230131 - Facebook - USA - Purchase'
+            when campaign_name = 'Android_AAA_Purchase_US_20230523' then '20230523 - Facebook - USA - Purchase'
+            when campaign_name = 'Android_AAA+_Purchase_US_20230808' then '20230808 - Facebook - USA - Purchase'
+            when campaign_name = 'Android_AAA+_Purchase_US_20230809' then '20230808 - Facebook - USA - Purchase'
+            when campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_US_N/A' then '20230308 - Facebook - USA - 15 Min'
+            when campaign_name = 'Android_AAA_15_Minutes_US_20230427' then '20230427 - Facebook - USA - 15 Min'
+            when campaign_name = 'Android_AAA_30_Minutes_US_20230710' then '20230710 - Facebook - USA - 30 Min'
+            when campaign_name = 'Android_AAA+_30_Minutes_US_20230721' then '20230721 - Facebook - USA - 30 Min'
             when campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - No Event'
             when campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_LATAM/ES_N/A v2' then 'AAA - LATAM/ES - No Event'
             when campaign_name = 'Android_AAA_Events_5_Minutes_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - 5 Min'
             when campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_LATAM/ES_N/A' then 'AAA - LATAM/ES - 15 Min'
-            when campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230413' then '20230413 - AAA - LATAM/ES - 15 Min'
-            when campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230510' then '20230510 - AAA - LATAM/ES - 15 Min'
-            when campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230523' then '20230523 - AAA - LATAM/ES - 15 Min'
-            when campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230607' then '20230607 - AAA - LATAM/ES - 15 Min'
-            when campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230807' then '20230807 - AAA - LATAM/ES - 15 Min'
-            when campaign_name = 'Android_AAA_30_Minutes_LATAM/ES_20230717' then '20230717 - AAA - LATAM/ES - 30 Min'
+            when campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230413' then '20230413 - Facebook - LATAM/ES - 15 Min'
+            when campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230510' then '20230510 - Facebook - LATAM/ES - 15 Min'
+            when campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230523' then '20230523 - Facebook - LATAM/ES - 15 Min'
+            when campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230607' then '20230607 - Facebook - LATAM/ES - 15 Min'
+            when campaign_name = 'Android_AAA_15_Minutes_LATAM/ES_20230807' then '20230807 - Facebook - LATAM/ES - 15 Min'
+            when campaign_name = 'Android_AAA_30_Minutes_LATAM/ES_20230717' then '20230717 - Facebook - LATAM/ES - 30 Min'
             when campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_LATAM/PTBR_N/A' then 'AAA - LATAM/BR - 15 Min'
             when campaign_name = 'Android_AAA_Installs_No_Event_Women&Men_Scan_N/A' then'AAA - Scandinavia - No Event'
             when campaign_name = 'Android_AAA_Events_15_Minutes_Women&Men_Scan_N/A' then'AAA - Scandinavia - 15 Min'

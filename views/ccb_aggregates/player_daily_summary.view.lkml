@@ -2306,6 +2306,22 @@ dimension: primary_key {
     value_format_name: usd
   }
 
+  measure: average_iaa_ecpm {
+    label: "IAA eCPM"
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      1000
+      *
+      safe_divide(
+        sum(${TABLE}.ad_view_dollars)
+        ,
+        sum(${TABLE}.ad_views)
+      )
+    ;;
+    value_format_name: usd
+  }
+
   measure: average_daily_ads_conversion {
     label: "Daily IAA Conversion"
     group_label: "Revenue Metrics"

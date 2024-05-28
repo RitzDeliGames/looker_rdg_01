@@ -495,9 +495,7 @@ view: player_summary_new {
           , max( cpi  ) as cpi
 
         from
-          -- TEMPORARY: WILL NEED TO REPLACED WITH FINAL PROD TABLE
-          -- `eraser-blast-staging.test_bfg_import.attribution_data`
-          eraser-blast.tal_scratch.temp_test_bfg_import_attribution_data
+          eraser-blast.bfg_import.attribution_data
         where
           length(campaign) > 2
           and length(bfgudid) > 2

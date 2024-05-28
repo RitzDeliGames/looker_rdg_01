@@ -633,14 +633,15 @@ constant: campaign_name_clean_update {
 constant: bfg_campaign_name_mapping {
   value: "
     case
-      when b.campaign = 'ccb|android|facebook|us|charactermarketability|linkclick|cell1|may24_1507641' then '20240524 - Facebook - USA - MAI'
-      when b.campaign = 'ccb|android|facebook|us|charactermarketability|linkclick|cell2|may24_1507648' then '20240524 - Facebook - USA - MAI'
-      when b.campaign = 'ccb|android|facebook|us|charactermarketability|linkclick|cell3|may24_1507652' then '20240524 - Facebook - USA - MAI'
+      when b.campaign = 'ccb|android|facebook|us|charactermarketability|linkclick|cell1|may24_1507641' then '20240524 - Facebook - USA - Marketability'
+      when b.campaign = 'ccb|android|facebook|us|charactermarketability|linkclick|cell2|may24_1507648' then '20240524 - Facebook - USA - Marketability'
+      when b.campaign = 'ccb|android|facebook|us|charactermarketability|linkclick|cell3|may24_1507652' then '20240524 - Facebook - USA - Marketability'
       when b.campaign = 'chum|facebook|android|latam|aa+|mai|apr24_137769' then '20240424 - Facebook - LATAM - MAI'
       when b.campaign = 'chum|facebook|android|us|aa+|aeo|apr24_1500678' then '20240424 - Facebook - USA - Purchase'
       when b.campaign = 'chum|facebook|android|us|aa+|aeo|may24_1506781' then '20240524 - Facebook - USA - Purchase'
-      when b.campaign = 'chum|facebook|creativetest|android|us|mai|may24_1508328' then '20240524 - Facebook - USA - MAI'
+      when b.campaign = 'chum|facebook|creativetest|android|us|mai|may24_1508328' then '20240524 - Facebook - USA - Creative Test'
       when b.campaign = 'mistplay-ccb-android-os12-us-roasopti-all18_137763' then '20240424 - Mistplay - USA - ROAS'
+      when b.campaign = 'ccb|facebook|android|us|aa+|mai|may24_1510798' then '20240524 - Facebook - USA - MAI'
 
     end"
 }

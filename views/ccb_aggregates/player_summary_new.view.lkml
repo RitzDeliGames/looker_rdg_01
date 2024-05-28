@@ -530,6 +530,86 @@ view: player_summary_new {
 
       )
 
+      ------------------------------------------------------------------------------------
+      -- BFG Impressions by Campaign/Date
+      ------------------------------------------------------------------------------------
+
+      , bfg_impression_by_campaign_date as (
+
+        select
+          lower(campaign_name) as campaign
+          , registration_date
+          , sum( total_spend ) as total_spend
+          , sum( partner_impressions ) as partner_impressions
+          , sum( total_regs ) as total_regs
+        from
+          eraser-blast.bfg_import.gogame_data
+        where
+          1=1
+          and length(campaign_name) > 2
+        group by
+          1,2
+
+      )
+
+      ------------------------------------------------------------------------------------
+      -- BFG Impressions by Campaign/Date Mapped
+      ------------------------------------------------------------------------------------
+
+      , bfg_impression_by_campaign_date_mapped as (
+
+        select
+          *
+          , @{bfg_campaign_name_mapping} as bfg_campaign_mapped
+        from
+          bfg_impression_by_campaign_date b
+
+      )
+
+      ------------------------------------------------------------------------------------
+      -- BFG Impressions by Campaign Only
+      ------------------------------------------------------------------------------------
+
+      , bfg_impression_by_campaign_only as (
+
+        select
+          bfg_campaign_mapped
+          , sum( total_spend ) as total_spend
+          , sum( partner_impressions ) as partner_impressions
+          , sum( total_regs ) as total_regs
+        from
+          bfg_impression_by_campaign_date_mapped b
+        group by
+          1
+      )
+
+      ------------------------------------------------------------------------------------
+      -- Map on BFG Impressions
+      ------------------------------------------------------------------------------------
+
+      , map_on_bfg_impressions as (
+
+        select
+          a.*
+          , coalesce(
+              safe_divide( b.partner_impressions, b.total_regs )
+              , safe_divide( c.partner_impressions, c.total_regs )
+              ) as bfg_impressions
+        from
+          map_on_big_fish_information_table a
+          left join bfg_impression_by_campaign_date_mapped b
+            on a.bfg_campaign_mapped = b.bfg_campaign_mapped
+            and date(a.created_date) = date(b.registration_date)
+          left join bfg_impression_by_campaign_only c
+            on a.bfg_campaign_mapped = c.bfg_campaign_mapped
+
+      )
+
+
+      ------------------------------------------------------------------------------------
+      -- Final Table
+      ------------------------------------------------------------------------------------
+
       select
         *
         , coalesce( mapped_singular_campaign_name_clean, bfg_campaign_mapped ) as campaign_name
@@ -542,10 +622,10 @@ view: player_summary_new {
               , case when bfg_cpi <= 0 then null else bfg_cpi end
               , 0
               ) as attributed_campaign_cost
-        , coalesce( singular_attributed_campaign_impressions, 0 ) as attributed_campaign_impressions
+        , coalesce( singular_attributed_campaign_impressions, bfg_impressions ) as attributed_campaign_impressions
 
 
-      from map_on_big_fish_information_table
+      from map_on_bfg_impressions
 
 
       ;;

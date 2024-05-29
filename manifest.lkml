@@ -642,7 +642,8 @@ constant: bfg_campaign_name_mapping {
       when b.campaign = 'chum|facebook|creativetest|android|us|mai|may24_1508328' then '20240524 - Facebook - USA - Creative Test'
       when b.campaign = 'mistplay-ccb-android-os12-us-roasopti-all18_137763' then '20240424 - Mistplay - USA - ROAS'
       when b.campaign = 'ccb|facebook|android|us|aa+|mai|may24_1510798' then '20240524 - Facebook - USA - MAI'
-
+      when b.campaign = 'chum|facebook|ios|latam|aa+|mai|apr24_137765' then '20240424 - Facebook - LATAM - MAI'
+      when b.campaign = 'chum|facebook|creativetest|android|us|aa+|mai|may24_1508328' then '20240524 - Facebook - USA - Creative Test'
     end"
 }
 

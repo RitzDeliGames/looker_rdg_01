@@ -3990,7 +3990,7 @@ view: player_summary_new {
     label: "IPM"
     group_label: "Campaign Analysis Stats"
     type: number
-    value_format_name: decimal_2
+    value_format_name: decimal_1
     sql:
       safe_divide(
         count(distinct ${TABLE}.rdg_id )

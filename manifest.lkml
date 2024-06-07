@@ -646,7 +646,7 @@ constant: bfg_campaign_name_mapping {
       when b.campaign = 'chum|facebook|creativetest|android|us|aa+|mai|may24_1508328' then '20240524 - Facebook - USA - Creative Test'
       when b.campaign = 'ccb|rdg|facebook|android|us|aa+|aeo|tutorialcomplete|may24_1510911' then '20240530 - Facebook - USA - Tutorial Complete'
       when b.campaign = 'ccb|rdg|facebook|creativetest|android|us|mai|may24_1510912' then '20240530 - Facebook - USA - Creative Test'
-
+      when b.campaign = 'ccb|rdg|facebook|android|us|aa+|aeo|purchase|may24_1510988' then '20240605 - Facebook - USA - Purchase'
     end"
 }
 

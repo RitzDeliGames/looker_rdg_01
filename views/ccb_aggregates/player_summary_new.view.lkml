@@ -477,6 +477,39 @@ view: player_summary_new {
       )
 
       ------------------------------------------------------------------------------------
+      -- Big Fish BFG ID One Time Override: Step 1
+      ------------------------------------------------------------------------------------
+
+      , bfg_id_overrides_step_1 as (
+
+        select
+          rdg_id
+          , max( bfgudid ) as bfg_uid
+        from
+          eraser-blast.tal_scratch.2024_06_10_one_time_map_bfg_to_rdg_id_hardcoded
+        group by
+          1
+
+      )
+
+      ------------------------------------------------------------------------------------
+      -- Big Fish BFG ID One Time Override: Step 2
+      ------------------------------------------------------------------------------------
+
+      , bfg_id_overrides_step_2 as (
+
+        select
+          a.* except ( bfg_uid )
+          , coalesce( a.bfg_uid, b.bfg_uid ) as bfg_uid
+
+        from
+          singular_cost_adjustment_table a
+          left join bfg_id_overrides_step_1 b
+            on a.rdg_id = b.rdg_id
+
+      )
+
+      ------------------------------------------------------------------------------------
       -- Big Fish Attribution Step 1
       ------------------------------------------------------------------------------------
 
@@ -524,7 +557,7 @@ view: player_summary_new {
         , b.media_source as bfg_media_source_mapped -- TEMP: Will Need Mapping
         , b.cpi as bfg_cpi
       from
-        singular_cost_adjustment_table a
+        bfg_id_overrides_step_2 a
         left join big_fish_attribution_table b
           on a.bfg_uid = b.bfg_uid
 

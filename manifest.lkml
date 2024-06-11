@@ -2546,12 +2546,15 @@ constant: ad_name_simple {
     when ad_name_full = 'MultiCharacter2' then 'CCB Marketability Test - MultiCharacter2'
     when ad_name_full = 'MultiCharacter3' then 'CCB Marketability Test - MultiCharacter3'
 
-    when ad_name_full = 'CCB|CutenessOverload' then 'CCB Creative Test - CutenessOverload'
-    when ad_name_full = 'CCB|DropTheCharacters' then 'CCB Creative Test - DropTheCharacters'
-    when ad_name_full = 'CCB|FullBoard1' then 'CCB Creative Test - FullBoard1'
-    when ad_name_full = 'CCB|FullBoard2' then 'CCB Creative Test - FullBoard2'
-    when ad_name_full = 'CCB|Multiboard1' then 'CCB Creative Test - Multiboard1'
-    when ad_name_full = 'CCB|Multiboard2' then 'CCB Creative Test - Multiboard2'
+    when ad_name_full like '%ApvUpdate%' then 'ApvUpdate'
+    when ad_name_full like '%ChumChumPainting%' then 'ChumChumPainting'
+    when ad_name_full like '%ComboVideo%' then 'ComboVideo'
+    when ad_name_full like '%DropTheCharacters%' then 'DropTheCharacters'
+    when ad_name_full like '%CutenessOverload%' then 'CutenessOverload'
+    when ad_name_full like '%FullBoard%' then 'FullBoard'
+    when ad_name_full like '%MeetNewChumChum%' then 'MeetNewChumChum'
+    when ad_name_full like '%Multiboard%' then 'Multiboard'
+    when ad_name_full like '%Mistplay%' then 'Mistplay'
 
     when ad_name_full like '%AppStoreTrailer%' then 'App Store Trailer'
  when ad_name_full like '%APVUpdate%' then 'App Store Trailer'
@@ -2624,15 +2627,15 @@ constant: ad_name_grouped {
     when ad_name_full = 'MultiCharacter2' then 'CCB Marketability Test'
     when ad_name_full = 'MultiCharacter3' then 'CCB Marketability Test'
 
-    when ad_name_full = 'CCB|CutenessOverload' then 'CCB Creative Test'
-    when ad_name_full = 'CCB|DropTheCharacters' then 'CCB Creative Test'
-    when ad_name_full = 'CCB|FullBoard1' then 'CCB Creative Test'
-    when ad_name_full = 'CCB|FullBoard2' then 'CCB Creative Test'
-    when ad_name_full = 'CCB|Multiboard1' then 'CCB Creative Test'
-    when ad_name_full = 'CCB|Multiboard2' then 'CCB Creative Test'
-
-
-
+    when ad_name_full like '%ApvUpdate%' then 'ApvUpdate'
+    when ad_name_full like '%ChumChumPainting%' then 'ChumChumPainting'
+    when ad_name_full like '%ComboVideo%' then 'ComboVideo'
+    when ad_name_full like '%DropTheCharacters%' then 'DropTheCharacters'
+    when ad_name_full like '%CutenessOverload%' then 'CutenessOverload'
+    when ad_name_full like '%FullBoard%' then 'FullBoard'
+    when ad_name_full like '%MeetNewChumChum%' then 'MeetNewChumChum'
+    when ad_name_full like '%Multiboard%' then 'Multiboard'
+    when ad_name_full like '%Mistplay%' then 'Mistplay'
 
       when ad_name_full like '%AppStoreTrailer%' then 'App Store Trailer'
      when ad_name_full like '%APVUpdate%' then 'App Store Trailer'

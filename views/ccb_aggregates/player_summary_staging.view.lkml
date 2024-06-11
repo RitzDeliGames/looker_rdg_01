@@ -78,7 +78,7 @@ view: player_summary_staging {
       ) advertising_id
 
       -- user_id
-      , first_value(user_id) over (
+      , last_value(user_id) over (
       partition by  rdg_id
       order by rdg_date ASC
       rows between unbounded preceding and unbounded following

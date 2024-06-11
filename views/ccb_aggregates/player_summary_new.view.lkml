@@ -640,25 +640,41 @@ view: player_summary_new {
 
 
       ------------------------------------------------------------------------------------
-      -- Final Table
+      -- Combine BFG and Singular Campaign Info
+      ------------------------------------------------------------------------------------
+
+      , combine_bfg_and_singular_campaign_table as (
+
+        select
+          *
+          , coalesce( mapped_singular_campaign_name_clean, bfg_campaign_mapped ) as campaign_name
+          , coalesce( bfg_ad_name, singular_full_ad_name ) as ad_name_full
+          -- , coalesce( singular_simple_ad_name, bfg_ad_name_mapped ) as ad_name_simple
+          -- , coalesce( singular_grouped_ad_name, bfg_ad_name_mapped_grouped ) as ad_name_grouped
+          , coalesce( singular_partner_name, bfg_media_source_mapped ) as partner_name
+          , coalesce(
+                case when singular_attributed_campaign_cost <= 0 then null else singular_attributed_campaign_cost end
+                , case when bfg_cpi <= 0 then null else bfg_cpi end
+                , 0
+                ) as attributed_campaign_cost
+          , coalesce( singular_attributed_campaign_impressions, bfg_impressions ) as attributed_campaign_impressions
+
+
+        from map_on_bfg_impressions
+
+      )
+
+      ------------------------------------------------------------------------------------
+      -- Map Simple and Grouped Campaign Names
       ------------------------------------------------------------------------------------
 
       select
         *
-        , coalesce( mapped_singular_campaign_name_clean, bfg_campaign_mapped ) as campaign_name
-        , coalesce( singular_full_ad_name, bfg_ad_name ) as ad_name_full
-        , coalesce( singular_simple_ad_name, bfg_ad_name_mapped ) as ad_name_simple
-        , coalesce( singular_grouped_ad_name, bfg_ad_name_mapped_grouped ) as ad_name_grouped
-        , coalesce( singular_partner_name, bfg_media_source_mapped ) as partner_name
-        , coalesce(
-              case when singular_attributed_campaign_cost <= 0 then null else singular_attributed_campaign_cost end
-              , case when bfg_cpi <= 0 then null else bfg_cpi end
-              , 0
-              ) as attributed_campaign_cost
-        , coalesce( singular_attributed_campaign_impressions, bfg_impressions ) as attributed_campaign_impressions
+        , @{ad_name_simple} as ad_name_simple
+        , @{ad_name_grouped} as ad_name_grouped
+      from
+        combine_bfg_and_singular_campaign_table
 
-
-      from map_on_bfg_impressions
 
 
       ;;
@@ -1197,18 +1213,21 @@ view: player_summary_new {
 
   dimension: singular_full_ad_name {
     group_label: "Creative Mapping"
+    label: "Full Ad Name"
     type: string
     sql: ${TABLE}.ad_name_full ;;
   }
 
   dimension: singular_grouped_ad_name {
     group_label: "Creative Mapping"
+    label: "Grouped Ad Name"
     type: string
     sql: ${TABLE}.ad_name_grouped ;;
   }
 
   dimension: singular_simple_ad_name {
     group_label: "Creative Mapping"
+    label: "Simple Ad Name"
     type: string
     sql: ${TABLE}.ad_name_simple ;;
   }

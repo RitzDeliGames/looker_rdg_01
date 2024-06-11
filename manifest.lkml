@@ -2151,7 +2151,7 @@ constant: battle_pass_number {
 
 
 ###################################################################
-# Singular Ad Mapping
+# Singular Full Name Ad Mapping
 # Built here
 # https://docs.google.com/spreadsheets/d/1E7LtLtz_SzYiBrCzsT-lNvjPMI9RC_r5FybUTVk2GVo/edit?usp=sharing
 # Ask Tal Kreuch for access
@@ -2518,6 +2518,165 @@ constant: singular_full_ad_name {
        when singular_creative_id = '6528145730522' then 'CCB_TestimonialAI-YogaWithSloth-v01_25s_1x1_EN'
 
     else 'Unmapped'
+
+  end
+  "
+}
+
+###################################################################
+# Ad Name Simple
+# Built here
+# https://docs.google.com/spreadsheets/d/1E7LtLtz_SzYiBrCzsT-lNvjPMI9RC_r5FybUTVk2GVo/edit?usp=sharing
+# Ask Tal Kreuch for access
+###################################################################
+
+constant: ad_name_simple {
+  value: "
+  case
+
+    when ad_name_full = 'Bear' then 'CCB Marketability Test - Bear'
+    when ad_name_full = 'Bull' then 'CCB Marketability Test - Bull'
+    when ad_name_full = 'Cat' then 'CCB Marketability Test - Cat'
+    when ad_name_full = 'Chameleon' then 'CCB Marketability Test - Chameleon'
+    when ad_name_full = 'Dog' then 'CCB Marketability Test - Dog'
+    when ad_name_full = 'Fox' then 'CCB Marketability Test - Fox'
+    when ad_name_full = 'Octopus' then 'CCB Marketability Test - Octopus'
+    when ad_name_full = 'Squirrel' then 'CCB Marketability Test - Squirrel'
+    when ad_name_full = 'MultiCharacter1' then 'CCB Marketability Test - MultiCharacter1'
+    when ad_name_full = 'MultiCharacter2' then 'CCB Marketability Test - MultiCharacter2'
+    when ad_name_full = 'MultiCharacter3' then 'CCB Marketability Test - MultiCharacter3'
+
+    when ad_name_full = 'CCB|CutenessOverload' then 'CCB Creative Test - CutenessOverload'
+    when ad_name_full = 'CCB|DropTheCharacters' then 'CCB Creative Test - DropTheCharacters'
+    when ad_name_full = 'CCB|FullBoard1' then 'CCB Creative Test - FullBoard1'
+    when ad_name_full = 'CCB|FullBoard2' then 'CCB Creative Test - FullBoard2'
+    when ad_name_full = 'CCB|Multiboard1' then 'CCB Creative Test - Multiboard1'
+    when ad_name_full = 'CCB|Multiboard2' then 'CCB Creative Test - Multiboard2'
+
+    when ad_name_full like '%AppStoreTrailer%' then 'App Store Trailer'
+ when ad_name_full like '%APVUpdate%' then 'App Store Trailer'
+ when ad_name_full like '%Asian Baby%' then 'Asian Baby'
+ when ad_name_full like '%ASOTrailer%' then 'App Store Trailer'
+ when ad_name_full like '%Chef%' then 'Chef'
+ when ad_name_full like '%Elevator%' then 'Elevator'
+ when ad_name_full like '%HandsomeMan%' then 'Handsome Man'
+ when ad_name_full like '%Handsome Man%' then 'Handsome Man'
+ when ad_name_full like '%Lady Boss%' then 'Lady Boss'
+ when ad_name_full like '%LadyBoss%' then 'Lady Boss'
+ when ad_name_full like '%ManOnHorse%' then 'Man With Horse'
+ when ad_name_full like '%ManWithHorse%' then 'Man With Horse'
+ when ad_name_full like '%Match3%' then 'Match3'
+ when ad_name_full like '%Playable%' then 'Playable'
+ when ad_name_full like '%Punk Grandma%' then 'Punk Grandma'
+ when ad_name_full like '%Simple Blast%' then 'Simple Blast'
+ when ad_name_full like '%SimpleBlast%' then 'Simple Blast'
+ when ad_name_full like '%Spin Girl%' then 'Spin Girl'
+ when ad_name_full like '%SpinWithKoala%' then 'Spin With Koala'
+ when ad_name_full like '%SpinWithSloth%' then 'Spin With Sloth'
+ when ad_name_full like '%Tilting Table%' then 'Tilting Table'
+ when ad_name_full like '%TiltingTable%' then 'Tilting Table'
+ when ad_name_full like '%WeirdTeddyBear%' then 'WeirdTeddyBear'
+ when ad_name_full like '%Yoga Girl%' then 'Yoga Girl'
+ when ad_name_full like '%YogaWithSloth%' then 'YogaWithSloth'
+ when ad_name_full like '%Zen%' then 'Zen'
+ when ad_name_full like '%App Store Trailer%' then 'App Store Trailer'
+ when ad_name_full like '%SimpleMatch%' then 'SimpleMatch'
+ when ad_name_full like '%SassyDog%' then 'Sassy Dog'
+ when ad_name_full like '%WeirdTreats%' then 'WeirdTreats'
+ when ad_name_full like '%WeirdTeddy%' then 'WeirdTeddyBear'
+ when ad_name_full like '%TTC%' then 'Tilting Table'
+ when ad_name_full like '%GirlWithCats%' then 'Girl With Cats'
+ when ad_name_full like '%AsianBaby%' then 'Asian Baby'
+ when ad_name_full like '%PunkAsianGrandma%' then 'Punk Asian Grandma'
+ when ad_name_full like '%LoungingWithCats%' then 'Lounging With Cats'
+ when ad_name_full like '%LoungingWithSheep%' then 'Lounging With Sheep'
+ when ad_name_full like '%MeetChum%' then 'Meet the Chum Chums'
+ when ad_name_full like '%ChumsPainting%' then 'Chum Chums Painting'
+ when ad_name_full like '%TestimonialAI%' then 'Testimonial (Unmapped AI)'
+ when ad_name_full like '%Testimonial%' then 'Testimonial'
+
+  else 'Unmapped'
+
+  end
+  "
+}
+
+###################################################################
+# Ad Name Grouped
+# Built here
+# https://docs.google.com/spreadsheets/d/1E7LtLtz_SzYiBrCzsT-lNvjPMI9RC_r5FybUTVk2GVo/edit?usp=sharing
+# Ask Tal Kreuch for access
+###################################################################
+
+constant: ad_name_grouped {
+  value: "
+  case
+
+    when ad_name_full = 'Bear' then 'CCB Marketability Test'
+    when ad_name_full = 'Bull' then 'CCB Marketability Test'
+    when ad_name_full = 'Cat' then 'CCB Marketability Test'
+    when ad_name_full = 'Chameleon' then 'CCB Marketability Test'
+    when ad_name_full = 'Dog' then 'CCB Marketability Test'
+    when ad_name_full = 'Fox' then 'CCB Marketability Test'
+    when ad_name_full = 'Octopus' then 'CCB Marketability Test'
+    when ad_name_full = 'Squirrel' then 'CCB Marketability Test'
+    when ad_name_full = 'MultiCharacter1' then 'CCB Marketability Test'
+    when ad_name_full = 'MultiCharacter2' then 'CCB Marketability Test'
+    when ad_name_full = 'MultiCharacter3' then 'CCB Marketability Test'
+
+    when ad_name_full = 'CCB|CutenessOverload' then 'CCB Creative Test'
+    when ad_name_full = 'CCB|DropTheCharacters' then 'CCB Creative Test'
+    when ad_name_full = 'CCB|FullBoard1' then 'CCB Creative Test'
+    when ad_name_full = 'CCB|FullBoard2' then 'CCB Creative Test'
+    when ad_name_full = 'CCB|Multiboard1' then 'CCB Creative Test'
+    when ad_name_full = 'CCB|Multiboard2' then 'CCB Creative Test'
+
+
+
+
+      when ad_name_full like '%AppStoreTrailer%' then 'App Store Trailer'
+     when ad_name_full like '%APVUpdate%' then 'App Store Trailer'
+     when ad_name_full like '%Asian Baby%' then 'AI'
+     when ad_name_full like '%ASOTrailer%' then 'App Store Trailer'
+     when ad_name_full like '%Chef%' then 'AirTraffic'
+     when ad_name_full like '%Elevator%' then 'AirTraffic'
+     when ad_name_full like '%HandsomeMan%' then 'AI'
+     when ad_name_full like '%Handsome Man%' then 'AI'
+     when ad_name_full like '%Lady Boss%' then 'AI'
+     when ad_name_full like '%LadyBoss%' then 'AI'
+     when ad_name_full like '%ManOnHorse%' then 'AI'
+     when ad_name_full like '%ManWithHorse%' then 'AI'
+     when ad_name_full like '%Match3%' then 'Match3'
+     when ad_name_full like '%Playable%' then 'Playable'
+     when ad_name_full like '%Punk Grandma%' then 'AI'
+     when ad_name_full like '%Simple Blast%' then 'Simple Blast'
+     when ad_name_full like '%SimpleBlast%' then 'Simple Blast'
+     when ad_name_full like '%Spin Girl%' then 'AI'
+     when ad_name_full like '%SpinWithKoala%' then 'AI'
+     when ad_name_full like '%SpinWithSloth%' then 'AI'
+     when ad_name_full like '%Tilting Table%' then 'Tilting Table'
+     when ad_name_full like '%TiltingTable%' then 'Tilting Table'
+     when ad_name_full like '%WeirdTeddyBear%' then 'AI'
+     when ad_name_full like '%Yoga Girl%' then 'AI'
+     when ad_name_full like '%YogaWithSloth%' then 'AI'
+     when ad_name_full like '%Zen%' then 'Zen'
+     when ad_name_full like '%App Store Trailer%' then 'App Store Trailer'
+     when ad_name_full like '%SimpleMatch%' then 'SimpleMatch'
+     when ad_name_full like '%SassyDog%' then 'AirTraffic'
+     when ad_name_full like '%WeirdTreats%' then 'AI'
+     when ad_name_full like '%WeirdTeddy%' then 'AI'
+     when ad_name_full like '%TTC%' then 'Tilting Table'
+     when ad_name_full like '%GirlWithCats%' then 'AI'
+     when ad_name_full like '%AsianBaby%' then 'AI'
+     when ad_name_full like '%PunkAsianGrandma%' then 'AI'
+     when ad_name_full like '%LoungingWithCats%' then 'AI'
+     when ad_name_full like '%LoungingWithSheep%' then 'AI'
+     when ad_name_full like '%MeetChum%' then 'Meet the Chum Chums'
+     when ad_name_full like '%ChumsPainting%' then 'Chum Chums Painting'
+     when ad_name_full like '%TestimonialAI%' then 'AI'
+     when ad_name_full like '%Testimonial%' then 'Testimonial'
+
+  else 'Unmapped'
 
   end
   "

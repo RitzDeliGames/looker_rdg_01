@@ -8,9 +8,11 @@ view: active_ab_tests_list {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2024-05-16'
+      -- last update: '2024-06-11'
 
       select '$.No_AB_Test_Split' as experiment_name
+
+      union all select '$.rewardedAdsGQ_20240427'
 
       union all select '$.ticketsv2_20240510'
       union all select '$.haptics_20240509'

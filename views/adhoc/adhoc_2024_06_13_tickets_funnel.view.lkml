@@ -128,6 +128,20 @@ view: adhoc_2024_06_13_tickets_funnel {
     sql_trigger_value: select extract( year from current_timestamp());;
   }
 
+####################################################################
+## Primary Key
+####################################################################
+
+  dimension: primary_key {
+    type: string
+    sql:
+    ${TABLE}.rdg_id
+    || '_' || ${TABLE}.timestamp_utc
+    || '_' || ${TABLE}.event_name
+    ;;
+    primary_key: yes
+    hidden: yes
+  }
 
 ################################################################
 ## Dimensions

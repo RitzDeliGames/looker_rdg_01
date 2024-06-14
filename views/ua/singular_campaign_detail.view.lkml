@@ -14,24 +14,24 @@ view: singular_campaign_detail {
       -- singular_country_code_helper
       -----------------------------------------------------------------------
 
-      singular_country_code_helper as (
+      -- singular_country_code_helper as (
 
-      select
-      Alpha_3_code
-      , max(country) as singular_country_name
-      , max(Alpha_2_code) as singular_country
-      from
-      `eraser-blast.singular.country_codes`
-      group by
-      1
+      -- select
+      -- Alpha_3_code
+      -- , max(country) as singular_country_name
+      -- , max(Alpha_2_code) as singular_country
+      -- from
+      -- `eraser-blast.singular.country_codes`
+      -- group by
+      -- 1
 
-      )
+      -- )
 
       -----------------------------------------------------------------------
       -- singular_campaign_summary
       -----------------------------------------------------------------------
 
-      , singular_campaign_summary as (
+      singular_campaign_summary as (
 
       select
       a.adn_campaign_id as singular_campaign_id
@@ -39,12 +39,12 @@ view: singular_campaign_detail {
       , a.source as singular_source
       , a.platform as singular_platform
       , case
-      when a.platform = 'iOS' then 'Apple'
-      when a.platform = 'Android' then 'Google'
-      else 'Other'
-      end as device_platform_mapping
-      , b.singular_country_name as singular_country_name
-      , b.singular_country as country
+          when a.platform = 'iOS' then 'Apple'
+          when a.platform = 'Android' then 'Google'
+          else 'Other'
+          end as device_platform_mapping
+      -- , b.singular_country_name as singular_country_name
+      -- , b.singular_country as country
 
       , max( a.adn_campaign_name ) campaign_name
       , sum( cast(a.adn_impressions as int64)) as singular_total_impressions
@@ -55,10 +55,10 @@ view: singular_campaign_detail {
 
       from
       `eraser-blast.singular.marketing_data` a
-      left join singular_country_code_helper b
-      on a.country_field = b.Alpha_3_code
+      -- left join singular_country_code_helper b
+      -- on a.country_field = b.Alpha_3_code
       group by
-      1,2,3,4,5,6,7
+      1,2,3,4,5
       )
 
       -----------------------------------------------------------------------
@@ -73,8 +73,8 @@ view: singular_campaign_detail {
         , singular_source
         , singular_platform
         , device_platform_mapping
-        , singular_country_name
-        , country
+        -- , singular_country_name
+        -- , country
         , campaign_name
         , singular_total_impressions
         , singular_total_cost
@@ -87,18 +87,13 @@ view: singular_campaign_detail {
         -- constants from the manifest
         -----------------------------------------------------------------------
 
-        , @{country_region} as region
+        -- , country_region as region
         , @{campaign_name_clean_update} as singular_campaign_name_clean
 
       from
         singular_campaign_summary
 
-
-
-
-
       ;;
-    ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (1) + 2 )*( -10 ) minute)) ;;
     publish_as_db_view: yes
 
@@ -107,18 +102,6 @@ view: singular_campaign_detail {
 ####################################################################
 ## Primary Key
 ####################################################################
-
-  # a.adn_campaign_id as singular_campaign_id
-  # , timestamp(a.date) as singular_install_date
-  # , a.source as singular_source
-  # , a.platform as singular_platform
-  # , case
-  #     when a.platform = 'iOS' then 'Apple'
-  #     when a.platform = 'Android' then 'Google'
-  #     else 'Other'
-  #     end as device_platform_mapping
-  # , b.singular_country_name as singular_country_name
-  # , b.singular_country as singular_country
 
   dimension: primary_key {
     type: string
@@ -136,17 +119,6 @@ view: singular_campaign_detail {
     hidden: yes
   }
 
-
-# Old Primary Key
-  # dimension: primary_key {
-  #   type: string
-  #   sql:
-  #   ${TABLE}.singular_campaign_id
-  #   || '_' || ${TABLE}.singular_install_date
-  #   ;;
-  #   primary_key: yes
-  #   hidden: yes
-  # }
 
 ####################################################################
 ## Date Groups
@@ -203,23 +175,17 @@ view: singular_campaign_detail {
   dimension: device_platform_mapping {
     group_label: "Singular Campaign Info"
     type:string}
-  dimension: singular_country_name {
-    group_label: "Singular Campaign Info"
-    type:string}
-  dimension: country {
-    group_label: "Singular Campaign Info"
-    type:string}
-  dimension: region {
-    group_label: "Singular Campaign Info"
-    type:string
-    }
 
-
-
-
-####################################################################
-## Campaign Name Clean
-####################################################################
+  # dimension: singular_country_name {
+  #   group_label: "Singular Campaign Info"
+  #   type:string}
+  # dimension: country {
+  #   group_label: "Singular Campaign Info"
+  #   type:string}
+  # dimension: region {
+  #   group_label: "Singular Campaign Info"
+  #   type:string
+  #   }
 
   dimension: singular_campaign_name_clean {
     group_label: "Singular Campaign Info"

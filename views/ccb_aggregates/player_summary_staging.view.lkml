@@ -78,11 +78,18 @@ view: player_summary_staging {
       ) advertising_id
 
       -- user_id
-      , last_value(user_id) over (
+      , first_value(user_id) over (
       partition by  rdg_id
       order by rdg_date ASC
       rows between unbounded preceding and unbounded following
       ) user_id
+
+      -- latest_user_id
+      , last_value(user_id) over (
+      partition by  rdg_id
+      order by rdg_date ASC
+      rows between unbounded preceding and unbounded following
+      ) latest_user_id
 
       -- bfg_uid
       , bfg_uid
@@ -210,6 +217,7 @@ view: player_summary_staging {
       , max(device_id) as device_id
       , max(advertising_id) as advertising_id
       , max(user_id) as user_id
+      , max(latest_user_id) as latest_user_id
       , max(bfg_uid) as bfg_uid
       , max(display_name) as display_name
       , max(platform) as platform

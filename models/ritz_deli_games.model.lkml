@@ -727,7 +727,20 @@ explore: adhoc_20240202_churn_by_recent_wins_losses {label: "Churn By Recent Win
 explore: adhoc_2024_02_12_battle_pass_player_summary {label: "Battle Pass Player Summary" group_label: "Chum Chum Adhoc"}
 explore: adhoc_2024_02_21_aps_vs_churn_spender_non_spender {label: "APS vs. Churn Scatter - Spender vs. Non Spender" group_label: "Chum Chum Adhoc"}
 explore: adhoc_2024_02_26_puzzle_vs_campaign_aps_vs_churn {label: "APS vs. Churn Scatter - Puzzle vs. Campaign" group_label: "Chum Chum Adhoc"}
-explore: adhoc_2024_06_13_tickets_funnel {label: "Tickets Test Funnel 5/11-6/11" group_label: "Chum Chum Adhoc"}
+
+explore: adhoc_2024_06_13_tickets_funnel {
+  label: "Tickets Test Funnel 5/11-6/11"
+  group_label: "Chum Chum Adhoc"
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${adhoc_2024_06_13_tickets_funnel.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
 
 ################################################################
 

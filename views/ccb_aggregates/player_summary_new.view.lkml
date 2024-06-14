@@ -21,6 +21,7 @@ view: player_summary_new {
           , device_id
           , advertising_id
           , user_id
+          , latest_user_id
           , bfg_uid
           , display_name
           , platform
@@ -708,7 +709,18 @@ view: player_summary_new {
   dimension: device_id {group_label:"Player IDs" type: string}
   dimension: display_name {group_label:"Player IDs" type: string}
   dimension: advertising_id {group_label:"Player IDs" type: string}
-  dimension: user_id {group_label:"Player IDs" type: string}
+
+  dimension: user_id {
+    label: "First User ID"
+    group_label:"Player IDs"
+    type: string
+    }
+  dimension: latest_user_id {
+    label: "Lastest User ID"
+    group_label:"Player IDs"
+    type: string
+  }
+
   dimension: bfg_uid {group_label:"Player IDs" type: string}
   dimension: firebase_advertising_id {group_label:"Player IDs" type:string}
   dimension: experiments {type: string}

@@ -2361,6 +2361,85 @@ view: player_summary_new {
   }
 
 ################################################################
+## Average Mtx Revenue Per Player
+################################################################
+
+  measure: average_mtx_revenue_per_player_d2 {
+    label: "IAP Revenue Per Player: D2"
+    group_label: "Average IAP Revenue Per Player"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d2
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: average_mtx_revenue_per_player_d7 {
+    label: "IAP Revenue Per Player: D7"
+    group_label: "Average IAP Revenue Per Player"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d7
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 7
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: average_mtx_revenue_per_player_d14 {
+    label: "IAP Revenue Per Player: D14"
+    group_label: "Average IAP Revenue Per Player"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 14
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d14
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 14
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+################################################################
 ## Average Mtx Revenue Per Paying User
 ################################################################
 

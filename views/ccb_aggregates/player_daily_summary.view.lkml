@@ -2200,6 +2200,79 @@ dimension: primary_key {
   }
 
 ################################################################
+## Average Game Mode Rounds Per DAU
+################################################################
+
+  measure: average_game_mode_rounds_per_dau_campaign {
+    group_label: "Average Game Mode Rounds Per DAU"
+    label: "Campaign"
+    type: number
+    sql:
+      safe_divide(
+        sum( ${TABLE}.round_end_events_campaign )
+        ,
+        sum( ${TABLE}.count_days_played )
+      )
+    ;;
+    value_format_name: decimal_1
+  }
+  measure: average_game_mode_rounds_per_dau_movesmaster {
+    group_label: "Average Game Mode Rounds Per DAU"
+    label: "Moves Master"
+    type: number
+    sql:
+      safe_divide(
+        sum( ${TABLE}.round_end_events_movesmaster )
+        ,
+        sum( ${TABLE}.count_days_played )
+      )
+    ;;
+    value_format_name: decimal_1
+  }
+
+  measure: average_game_mode_rounds_per_dau_puzzle {
+    group_label: "Average Game Mode Rounds Per DAU"
+    label: "Puzzle"
+    type: number
+    sql:
+      safe_divide(
+        sum( ${TABLE}.round_end_events_puzzle )
+        ,
+        sum( ${TABLE}.count_days_played )
+      )
+    ;;
+    value_format_name: decimal_1
+  }
+
+  measure: average_game_mode_rounds_per_dau_gemquest {
+    group_label: "Average Game Mode Rounds Per DAU"
+    label: "Gem Quest"
+    type: number
+    sql:
+      safe_divide(
+        sum( ${TABLE}.round_end_events_gemquest )
+        ,
+        sum( ${TABLE}.count_days_played )
+      )
+    ;;
+    value_format_name: decimal_1
+  }
+
+  measure: average_game_mode_rounds_per_dau_gofish {
+    group_label: "Average Game Mode Rounds Per DAU"
+    label: "Go Fish"
+    type: number
+    sql:
+      safe_divide(
+        sum( ${TABLE}.round_end_events_gofish )
+        ,
+        sum( ${TABLE}.count_days_played )
+      )
+    ;;
+    value_format_name: decimal_1
+  }
+
+################################################################
 ## Revenue Metrics
 ################################################################
 

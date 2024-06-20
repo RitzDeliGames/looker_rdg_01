@@ -2907,12 +2907,42 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     percentile: 95
     sql: ${TABLE}.mtx_ltv_from_data ;;
   }
+
   measure: sum_ad_views {
     label: "Sum IAA Views"
     group_label: "IAA Views"
     type:sum
     sql: ${TABLE}.ad_views ;;
   }
+
+  measure: ad_views_per_dau {
+    label: "Average % of DAU Viewing Ads"
+    group_label: "IAA Views"
+    type: number
+    value_format_name: percent_0
+    sql:
+      safe_divide(
+        sum( case when ${TABLE}.ad_views > 0 then 1 else 0 end )
+        ,
+        sum( ${TABLE}.count_days_played)
+        )
+      ;;
+  }
+
+  measure: ad_views_per_viewing_dau {
+    label: "Average IAA Views Per Viewing DAU"
+    group_label: "IAA Views"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum( ${TABLE}.ad_views )
+        ,
+        sum( case when ${TABLE}.ad_views > 0 then 1 else 0 end )
+        )
+      ;;
+  }
+
   measure: ad_views_10 {
     label: "10th Percentile"
     group_label: "IAA Views"

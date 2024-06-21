@@ -199,6 +199,13 @@ view: player_ad_view_summary {
             rows between unbounded preceding and current row
             ) cumulative_count_ad_views
 
+        , sum(ifnull(count_ad_views,0)) over (
+            partition by rdg_id, rdg_date
+            order by timestamp_utc asc
+            rows between unbounded preceding and current row
+            ) cumulative_count_ad_views_this_day
+
+
         -- ad placement mapping
         , case
           when source_id like '%DailyReward' then 'Daily Reward'
@@ -366,6 +373,7 @@ view: player_ad_view_summary {
   dimension: day_number {type:number}
   dimension: cumulative_ad_view_dollars {type:number label: "LTV - IAA"}
   dimension: cumulative_count_ad_views {type:number label: "Cumulative IAA Views"}
+  dimension: cumulative_count_ad_views_this_day {type:number label: "Cumulative IAA Views This Date"}
 
 ################################################################
 ## Player Counts

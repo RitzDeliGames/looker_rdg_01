@@ -376,6 +376,238 @@ view: player_ad_view_summary {
   dimension: cumulative_count_ad_views_this_day {type:number label: "Cumulative IAA Views This Date"}
 
 ################################################################
+## eCPM Ratio from Ad View 1 to Ad View X
+################################################################
+
+measure: ecpm_ratio_ad_view_1_to_ad_view_1 {
+  group_label: "eCPM Decline by Day"
+  label: "Daily IAA View 1 Ratio"
+  type: number
+  value_format_name: percent_0
+  sql:
+    safe_divide(
+      safe_divide(
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+        then ${TABLE}.ad_view_dollars
+        else 0
+        end )
+        ,
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+        then ${TABLE}.count_ad_views
+        else 0
+        end )
+      )
+      ,
+      safe_divide(
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+        then ${TABLE}.ad_view_dollars
+        else 0
+        end )
+        ,
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+        then ${TABLE}.count_ad_views
+        else 0
+        end )
+      )
+    )
+  ;;
+}
+
+  measure: ecpm_ratio_ad_view_1_to_ad_view_2 {
+    group_label: "eCPM Decline by Day"
+    label: "Daily IAA View 2 Ratio"
+    type: number
+    value_format_name: percent_0
+    sql:
+    safe_divide(
+      safe_divide(
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 2
+        then ${TABLE}.ad_view_dollars
+        else 0
+        end )
+        ,
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 2
+        then ${TABLE}.count_ad_views
+        else 0
+        end )
+      )
+      ,
+      safe_divide(
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+        then ${TABLE}.ad_view_dollars
+        else 0
+        end )
+        ,
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+        then ${TABLE}.count_ad_views
+        else 0
+        end )
+      )
+    )
+  ;;
+  }
+
+  measure: ecpm_ratio_ad_view_1_to_ad_view_5 {
+    group_label: "eCPM Decline by Day"
+    label: "Daily IAA View 5 Ratio"
+    type: number
+    value_format_name: percent_0
+    sql:
+    safe_divide(
+      safe_divide(
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 5
+        then ${TABLE}.ad_view_dollars
+        else 0
+        end )
+        ,
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 5
+        then ${TABLE}.count_ad_views
+        else 0
+        end )
+      )
+      ,
+      safe_divide(
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+        then ${TABLE}.ad_view_dollars
+        else 0
+        end )
+        ,
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+        then ${TABLE}.count_ad_views
+        else 0
+        end )
+      )
+    )
+  ;;
+  }
+
+  measure: ecpm_ratio_ad_view_1_to_ad_view_10 {
+    group_label: "eCPM Decline by Day"
+    label: "Daily IAA View 10 Ratio"
+    type: number
+    value_format_name: percent_0
+    sql:
+    safe_divide(
+      safe_divide(
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 10
+        then ${TABLE}.ad_view_dollars
+        else 0
+        end )
+        ,
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 10
+        then ${TABLE}.count_ad_views
+        else 0
+        end )
+      )
+      ,
+      safe_divide(
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+        then ${TABLE}.ad_view_dollars
+        else 0
+        end )
+        ,
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+        then ${TABLE}.count_ad_views
+        else 0
+        end )
+      )
+    )
+  ;;
+  }
+
+  measure: ecpm_ratio_ad_view_1_to_ad_view_15 {
+    group_label: "eCPM Decline by Day"
+    label: "Daily IAA View 15 Ratio"
+    type: number
+    value_format_name: percent_0
+    sql:
+    safe_divide(
+      safe_divide(
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 15
+        then ${TABLE}.ad_view_dollars
+        else 0
+        end )
+        ,
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 15
+        then ${TABLE}.count_ad_views
+        else 0
+        end )
+      )
+      ,
+      safe_divide(
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+        then ${TABLE}.ad_view_dollars
+        else 0
+        end )
+        ,
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+        then ${TABLE}.count_ad_views
+        else 0
+        end )
+      )
+    )
+  ;;
+  }
+
+  measure: ecpm_ratio_ad_view_1_to_ad_view_20 {
+    group_label: "eCPM Decline by Day"
+    label: "Daily IAA View 20 Ratio"
+    type: number
+    value_format_name: percent_0
+    sql:
+    safe_divide(
+      safe_divide(
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 20
+        then ${TABLE}.ad_view_dollars
+        else 0
+        end )
+        ,
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 20
+        then ${TABLE}.count_ad_views
+        else 0
+        end )
+      )
+      ,
+      safe_divide(
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+        then ${TABLE}.ad_view_dollars
+        else 0
+        end )
+        ,
+        sum(
+        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+        then ${TABLE}.count_ad_views
+        else 0
+        end )
+      )
+    )
+  ;;
+  }
+
+################################################################
 ## Player Counts
 ################################################################
 

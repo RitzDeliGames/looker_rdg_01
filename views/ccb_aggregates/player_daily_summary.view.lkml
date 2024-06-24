@@ -5233,6 +5233,20 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     type:sum
     sql: ${TABLE}.coins_sourced_from_rewards ;;
   }
+
+  measure: coins_sourced_from_rewards_per_dau {
+    label: "Average Coins Sourced From Rewards Per DAU"
+    group_label: "Coins Sourced From Rewards"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      safe_divide(
+        sum( ${TABLE}.coins_sourced_from_rewards )
+        , sum(${TABLE}.count_days_played)
+        )
+        ;;
+  }
+
   measure: cumulative_coins_sourced_from_rewards_10 {
     group_label: "Coins Sourced From Rewards"
     type: percentile

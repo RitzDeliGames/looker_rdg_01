@@ -38,6 +38,7 @@ view: singular_campaign_detail {
       , timestamp(a.date) as singular_install_date
       , a.source as singular_source
       , a.platform as singular_platform
+      , a.adn_sub_adnetwork_name
       , case
           when a.platform = 'iOS' then 'Apple'
           when a.platform = 'Android' then 'Google'
@@ -58,7 +59,7 @@ view: singular_campaign_detail {
       -- left join singular_country_code_helper b
       -- on a.country_field = b.Alpha_3_code
       group by
-      1,2,3,4,5
+      1,2,3,4,5,6
       )
 
       -----------------------------------------------------------------------
@@ -81,6 +82,7 @@ view: singular_campaign_detail {
         , singular_total_original_cost
         , singular_total_installs
         , singular_total_clicks
+        , adn_sub_adnetwork_name
         , min( singular_install_date ) over ( partition by singular_campaign_id ) as campaign_start_date
 
         -----------------------------------------------------------------------
@@ -113,6 +115,7 @@ view: singular_campaign_detail {
     || '_' || ${TABLE}.device_platform_mapping
     || '_' || ${TABLE}.singular_country_name
     || '_' || ${TABLE}.country
+    || '_' || ${TABLE}.adn_sub_adnetwork_name
 
       ;;
     primary_key: yes
@@ -192,5 +195,29 @@ view: singular_campaign_detail {
     label: "Campaign Name (Clean)"
     type: string
   }
+
+  dimension: adn_sub_adnetwork_name {
+    group_label: "Singular Campaign Info"
+    label: "Placement"
+    type: string
+  }
+
+  dimension: placement_combined {
+    group_label: "Singular Campaign Info"
+    label: "Placement Group"
+    type: string
+    sql:
+      case
+        when ${TABLE}.adn_sub_adnetwork_name = 'Facebook' then 'Feeds (Facebook + Instagram)'
+        when ${TABLE}.adn_sub_adnetwork_name = 'Facebook Audience Network' then 'Audience Network'
+        when ${TABLE}.adn_sub_adnetwork_name = 'Instagram' then 'Feeds (Facebook + Instagram)'
+        else 'Other'
+        end
+
+    ;;
+
+
+  }
+
 
 }

@@ -73,6 +73,11 @@ view: mbr_scorecard {
             = {% parameter paid_vs_organic %}
         {% endif %}
 
+        -- Campaign Name Like
+        {% if campaign_name_like._is_filtered %}
+        and b.campaign_name like '%{% parameter campaign_name_like %}%'
+        {% endif %}
+
 
       group by
         1
@@ -289,6 +294,11 @@ view: mbr_scorecard {
             = {% parameter paid_vs_organic %}
         {% endif %}
 
+        -- Campaign Name Like
+        {% if campaign_name_like._is_filtered %}
+        and a.campaign_name like '%{% parameter campaign_name_like %}%'
+        {% endif %}
+
       group by
         1
 
@@ -404,6 +414,11 @@ view: mbr_scorecard {
             else 'Organic'
             end
             = {% parameter paid_vs_organic %}
+        {% endif %}
+
+        -- USA Purchase Filter
+        {% if campaign_name_like._is_filtered %}
+        and a.campaign_name like '%{% parameter campaign_name_like %}%'
         {% endif %}
 
       GROUP BY
@@ -1409,6 +1424,11 @@ view: mbr_scorecard {
   parameter: paid_vs_organic {
     type: string
     suggestions: ["Paid","Organic"]
+  }
+
+  parameter: campaign_name_like {
+    type: unquoted
+    suggestions: ["Purchase"]
   }
 
 ################################################################

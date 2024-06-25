@@ -22,12 +22,12 @@ view: mbr_scorecard {
         , safe_divide( sum(1), count(distinct a.rdg_date)) as average_dau
         , coalesce(sum(a.new_player_indicator ), 0) as new_players
         , sum( case
-                when b.mapped_singular_campaign_name_clean is not null
+                when b.campaign_name is not null
                 then a.new_player_indicator
                 else 0
                 end ) as paid_installs
         , sum( case
-                when b.mapped_singular_campaign_name_clean is null
+                when b.campaign_name is null
                 then a.new_player_indicator
                 else 0
                 end ) as organic_installs
@@ -66,7 +66,7 @@ view: mbr_scorecard {
         {% if paid_vs_organic._is_filtered %}
         and
           case
-            when b.mapped_singular_campaign_name_clean is not null
+            when b.campaign_name is not null
             then 'Paid'
             else 'Organic'
             end
@@ -282,7 +282,7 @@ view: mbr_scorecard {
         {% if paid_vs_organic._is_filtered %}
         and
           case
-            when a.mapped_singular_campaign_name_clean is not null
+            when a.campaign_name is not null
             then 'Paid'
             else 'Organic'
             end
@@ -388,7 +388,7 @@ view: mbr_scorecard {
         and a.country in ( {% parameter country %} )
         {% endif %}
 
-        and a.mapped_singular_campaign_name_clean IS NOT NULL
+        and a.campaign_name IS NOT NULL
 
         -- Platform Filter
         {% if platform._is_filtered %}
@@ -399,7 +399,7 @@ view: mbr_scorecard {
         {% if paid_vs_organic._is_filtered %}
         and
           case
-            when a.mapped_singular_campaign_name_clean is not null
+            when a.campaign_name is not null
             then 'Paid'
             else 'Organic'
             end

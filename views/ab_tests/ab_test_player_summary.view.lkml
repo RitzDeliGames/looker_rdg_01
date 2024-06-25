@@ -23,6 +23,15 @@ view: ab_test_player_summary {
       rdg_id
       , json_extract_scalar(experiments,{% parameter selected_experiment %}) as variant
       , case
+
+      when 'iap_conversion_d1' = {% parameter selected_metric %} then case when cumulative_mtx_purchase_dollars_d1 > 0 then 1 else 0 end
+      when 'iap_conversion_d2' = {% parameter selected_metric %} then case when cumulative_mtx_purchase_dollars_d2 > 0 then 1 else 0 end
+      when 'iap_conversion_d7' = {% parameter selected_metric %} then case when cumulative_mtx_purchase_dollars_d7 > 0 then 1 else 0 end
+      when 'iap_conversion_d14' = {% parameter selected_metric %} then case when cumulative_mtx_purchase_dollars_d14 > 0 then 1 else 0 end
+      when 'iap_conversion_d30' = {% parameter selected_metric %} then case when cumulative_mtx_purchase_dollars_d30 > 0 then 1 else 0 end
+      when 'iap_conversion_d60' = {% parameter selected_metric %} then case when cumulative_mtx_purchase_dollars_d60 > 0 then 1 else 0 end
+      when 'iap_conversion_d90' = {% parameter selected_metric %} then case when cumulative_mtx_purchase_dollars_d90 > 0 then 1 else 0 end
+
       when 'days_played_in_first_7_days' = {% parameter selected_metric %} then days_played_in_first_7_days
 
       when 'cumulative_ad_views_d1' = {% parameter selected_metric %} then cumulative_ad_views_d1
@@ -761,6 +770,15 @@ view: ab_test_player_summary {
     suggestions:  [
 
       , "None"
+
+      , "iap_conversion_d1"
+      , "iap_conversion_d2"
+      , "iap_conversion_d7"
+      , "iap_conversion_d14"
+      , "iap_conversion_d30"
+      , "iap_conversion_d60"
+      , "iap_conversion_d90"
+
       , "cumulative_ad_views_d1"
       , "cumulative_ad_views_d2"
       , "cumulative_ad_views_d7"

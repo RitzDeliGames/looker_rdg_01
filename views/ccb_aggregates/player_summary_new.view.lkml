@@ -593,10 +593,15 @@ view: player_summary_new {
       , bfg_impression_by_campaign_date_mapped as (
 
         select
-          *
-          , @{bfg_campaign_name_mapping} as bfg_campaign_mapped
+          @{bfg_campaign_name_mapping} as bfg_campaign_mapped
+          , date(b.registration_date) as registration_date
+          , sum( total_spend ) as total_spend
+          , sum( partner_impressions ) as partner_impressions
+          , sum( total_regs ) as total_regs
         from
           bfg_impression_by_campaign_date b
+        group by
+          1,2
 
       )
 

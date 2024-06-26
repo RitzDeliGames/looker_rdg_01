@@ -25,6 +25,9 @@ view: ab_test_player_daily {
         , max(json_extract_scalar(a.experiments,{% parameter selected_experiment %})) as variant
         , case
 
+        when {% parameter selected_metric_daily %} = "Average Coins Sourced From Rewards Per Day" then sum(a.coins_sourced_from_rewards)
+        when {% parameter selected_metric_daily %} = "Average Coins Sourced From Rewards Per Player" then sum(a.coins_sourced_from_rewards)
+
         when {% parameter selected_metric_daily %} = "Average Sessions Per Day" then sum(a.count_sessions)
         when {% parameter selected_metric_daily %} = "Average Sessions Per Player" then sum(a.count_sessions)
 
@@ -78,6 +81,9 @@ view: ab_test_player_daily {
 
         else sum(1) end as numerator
         , case
+
+        when {% parameter selected_metric_daily %} = "Average Coins Sourced From Rewards Per Day" then sum(1)
+        when {% parameter selected_metric_daily %} = "Average Coins Sourced From Rewards Per Player" then max(1)
 
         when {% parameter selected_metric_daily %} = "Average Sessions Per Day" then sum(1)
         when {% parameter selected_metric_daily %} = "Average Sessions Per Player" then max(1)
@@ -717,6 +723,9 @@ view: ab_test_player_daily {
 
       , "Average Coin Spend Per Day"
       , "Average Coin Spend Per Player"
+
+      , "Average Coins Sourced From Rewards Per Day"
+      , "Average Coins Sourced From Rewards Per Player"
 
       , "Average Days Played Per Player"
       , "Average Round End Events Per Player"

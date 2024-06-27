@@ -80,6 +80,20 @@ view: live_ops_calendar {
       )
 
       ------------------------------------------------------------
+      -- Live Ops Event Start Date
+      ------------------------------------------------------------
+
+      , my_live_ops_event_start_date_table as (
+
+        select
+          *
+          , min(rdg_date) over ( partition by safe_cast(castle_climb_number as string) order by rdg_date ) as castle_climb_event_start_date
+        from
+          my_live_ops_number_table
+
+      )
+
+      ------------------------------------------------------------
       -- Final Table - Last Chance to Avoid Dupes
       ------------------------------------------------------------
 
@@ -91,13 +105,13 @@ view: live_ops_calendar {
         , max( castle_climb_day_length ) as castle_climb_day_length
         , max( castle_climb_day_number ) as castle_climb_day_number
         , max( castle_climb_number ) as castle_climb_number
+        , max( castle_climb_event_start_date ) as castle_climb_event_start_date
       from
-        my_live_ops_number_table
+        my_live_ops_event_start_date_table
       where
         rdg_date is not null
       group by
         1
-
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (1) + 2 )*( -10 ) minute)) ;;
@@ -159,5 +173,13 @@ view: live_ops_calendar {
     label: "Event Number"
     type: number
   }
+
+  dimension: castle_climb_event_start_date {
+    group_label: "Castle Climb"
+    label: "Event Start Date"
+    type: date
+  }
+
+
 
 }

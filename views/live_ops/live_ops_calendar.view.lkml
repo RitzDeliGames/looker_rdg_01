@@ -105,7 +105,7 @@ view: live_ops_calendar {
         , max( castle_climb_day_length ) as castle_climb_day_length
         , max( castle_climb_day_number ) as castle_climb_day_number
         , max( castle_climb_number ) as castle_climb_number
-        , max( castle_climb_event_start_date ) as castle_climb_event_start_date
+        , max( case when castle_climb_day_number is null then null else castle_climb_event_start_date end ) as castle_climb_event_start_date
       from
         my_live_ops_event_start_date_table
       where

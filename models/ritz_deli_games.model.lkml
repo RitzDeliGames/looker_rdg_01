@@ -190,6 +190,16 @@ explore: player_daily_summary {
     relationship:  many_to_one
     sql_on: ${player_daily_summary.version} = ${version_summary.version};;
   }
+
+  join: live_ops_calendar {
+    view_label: "Live Ops Calendar"
+    from:  live_ops_calendar
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_daily_summary.rdg_date_date} = ${live_ops_calendar.rdg_date_date};;
+
+  }
+
 }
 
 ################################################################
@@ -757,6 +767,7 @@ explore: big_query_jobs {}
 explore: revenue_model{}
 # explore: player_summary_staging {}
 # explore: ab_test_t_test{}
+explore: live_ops_calendar {}
 
 # explore: player_ticket_spend_incremental {}
 # explore: player_reward_incremental {}

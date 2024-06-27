@@ -132,7 +132,7 @@ view: adhoc_2024_06_27_castle_climb_reward_funnel {
     label: "Castle Climb Event Start"
     type: time
     timeframes: [date]
-    sql: ${TABLE}.castle_climb_event_start_date ;;
+    sql: timestamp(${TABLE}.castle_climb_event_start_date) ;;
   }
 
   dimension: reward_events_fixed {

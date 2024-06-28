@@ -336,6 +336,7 @@ view: ab_test_player_daily {
       iteration_number
       , my_sampled_group
       , sum(1) as count_players
+      , sum(case when numerator_prior is not null then 1 else 0 end ) as count_players_prior
       , safe_divide( sum( numerator ) , sum( denominator ) ) as average_metric
       , safe_divide( sum( numerator_prior ) , sum( denominator_prior ) ) as average_metric_prior
       from
@@ -358,6 +359,8 @@ view: ab_test_player_daily {
       , sum( case when my_sampled_group = 'b' then count_players else 0 end ) as group_b_players
       , sum( case when my_sampled_group = 'a' then average_metric else 0 end ) as group_a
       , sum( case when my_sampled_group = 'b' then average_metric else 0 end ) as group_b
+      , sum( case when my_sampled_group = 'a' then count_players_prior else 0 end ) as group_a_players_prior
+      , sum( case when my_sampled_group = 'b' then count_players_prior else 0 end ) as group_b_players_prior
       , sum( case when my_sampled_group = 'a' then average_metric_prior else 0 end ) as group_a_prior
       , sum( case when my_sampled_group = 'b' then average_metric_prior else 0 end ) as group_b_prior
       from
@@ -376,14 +379,16 @@ view: ab_test_player_daily {
 
       select
         iteration_number
+
         , group_a_players
         , group_b_players
-
         , group_a
         , group_b
         , group_b - group_a as my_difference
         , abs( group_b - group_a ) as my_abs_difference
 
+        , group_a_players_prior
+        , group_b_players_prior
         , group_a_prior
         , group_b_prior
         , group_b_prior - group_a_prior as my_difference_prior
@@ -401,12 +406,16 @@ view: ab_test_player_daily {
 
       select
         iteration_number
+
         , group_a_players
         , group_b_players
         , group_a
         , group_b
         , my_difference
         , my_abs_difference
+
+        , group_a_players_prior
+        , group_b_players_prior
         , group_a_prior
         , group_b_prior
         , my_difference_prior
@@ -503,6 +512,8 @@ view: ab_test_player_daily {
       , 0 as count_iterations
       , 'actual' as iteration_type
 
+      , group_a_players_prior
+      , group_b_players_prior
       , group_a_prior
       , group_b_prior
       , my_difference_prior
@@ -529,6 +540,8 @@ view: ab_test_player_daily {
       , 1 as count_iterations
       , 'iterations' as iteration_type
 
+      , group_a_players_prior
+      , group_b_players_prior
       , group_a_prior
       , group_b_prior
       , my_difference_prior
@@ -573,6 +586,8 @@ view: ab_test_player_daily {
         ,6)
         as float64) as my_abs_difference_rounded
 
+        , group_a_players_prior
+        , group_b_players_prior
         , group_a_prior
         , group_b_prior
         , my_difference_prior
@@ -629,36 +644,42 @@ view: ab_test_player_daily {
 
   dimension: group_a_players {
     label: "Group A Players"
+    group_label: "Current Period Evaluation"
     type: number
     value_format_name: decimal_0
   }
 
   dimension: group_b_players {
     label: "Group B Players"
+    group_label: "Current Period Evaluation"
     type: number
     value_format_name: decimal_0
   }
 
   dimension: group_a {
     label: "Group A Metric Average"
+    group_label: "Current Period Evaluation"
     type: number
     value_format_name: decimal_4
   }
 
   dimension: group_b {
     label: "Group B Metric Average"
+    group_label: "Current Period Evaluation"
     type: number
     value_format_name: decimal_4
   }
 
   dimension: my_difference {
     label: "Difference in Average Metric"
+    group_label: "Current Period Evaluation"
     type: number
     value_format_name: decimal_4
   }
 
   dimension: my_abs_difference {
     label: "Absolute Difference in Average Metric"
+    group_label: "Current Period Evaluation"
     type: number
     value_format_name: decimal_4
   }
@@ -671,58 +692,83 @@ view: ab_test_player_daily {
 
   dimension: percent_greater_than {
     label: "Estimated Significance Level"
+    group_label: "Current Period Evaluation"
     type: number
     value_format_name: percent_0
   }
 
   dimension: significance_95 {
     label: "Significance Check"
+    group_label: "Current Period Evaluation"
     type: string
   }
 
   dimension: my_abs_difference_rounded {
     label: "Rounded Difference"
+    group_label: "Current Period Evaluation"
     type: number
     value_format_name: decimal_4
   }
 
+  dimension: group_a_players_prior {
+    label: "Group A Players"
+    group_label: "Prior Period Evaluation"
+    type: number
+    value_format_name: decimal_0
+  }
+
+  dimension: group_b_players_prior {
+    label: "Group B Players"
+    group_label: "Prior Period Evaluation"
+    type: number
+    value_format_name: decimal_0
+  }
+
+
   dimension: group_a_prior {
     label: "Group A Metric Average"
+    group_label: "Prior Period Evaluation"
     type: number
     value_format_name: decimal_4
   }
 
   dimension: group_b_prior {
     label: "Group B Metric Average"
+    group_label: "Prior Period Evaluation"
     type: number
     value_format_name: decimal_4
   }
 
   dimension: my_difference_prior {
     label: "Difference in Average Metric"
+    group_label: "Prior Period Evaluation"
     type: number
     value_format_name: decimal_4
   }
 
   dimension: my_abs_difference_prior {
     label: "Absolute Difference in Average Metric"
+    group_label: "Prior Period Evaluation"
     type: number
     value_format_name: decimal_4
   }
 
   dimension: percent_greater_than_prior {
     label: "Estimated Significance Level"
+    group_label: "Prior Period Evaluation"
     type: number
     value_format_name: percent_0
   }
 
   dimension: significance_95_prior {
     label: "Significance Check"
+    group_label: "Prior Period Evaluation"
     type: string
   }
 
   dimension: my_abs_difference_rounded_prior {
     label: "Rounded Difference"
+    group_label: "Prior Period Evaluation"
     type: number
     value_format_name: decimal_4
   }

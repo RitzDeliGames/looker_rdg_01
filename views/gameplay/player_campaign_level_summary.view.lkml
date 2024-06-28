@@ -203,19 +203,19 @@ view: player_campaign_level_summary {
 
   dimension: count_rounds {
     type: number
-    sql: ${TABLE}.count_rounds ;;
+
 
   }
 
   dimension: count_wins {
     type: number
-    sql: ${TABLE}.count_rounds ;;
+
 
   }
 
   dimension: count_losses {
     type: number
-    sql: ${TABLE}.count_rounds ;;
+
 
   }
 

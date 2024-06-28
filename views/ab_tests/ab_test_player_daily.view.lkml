@@ -10,76 +10,105 @@ view: ab_test_player_daily {
     with
 
       ---------------------------------------------------------------------------------------
-      -- base data
+      -- Find min date for experiment
       ---------------------------------------------------------------------------------------
 
-      base_data as (
+      my_find_min_date_for_experiment_table as (
 
+        select
+          min(date(a.rdg_date)) as min_date_for_experiment
+          , date_add(min(date(a.rdg_date)), interval -{% parameter leading_days_for_prior_evaluation_period %} day) as min_date_minus_days_prior
+        from
+          ${player_daily_summary.SQL_TABLE_NAME} a
+          inner join ${player_summary_new.SQL_TABLE_NAME} b
+            on a.rdg_id = b.rdg_id
+        where
+          1=1
+
+          -- Date Filters
+          and date(a.rdg_date) >= date({% parameter start_date %})
+          and date(a.rdg_date) <= date({% parameter end_date %})
+
+          --Test Filter
+          and json_extract_scalar(a.experiments,{% parameter selected_experiment %}) in ( {% parameter selected_variant_a %} , {% parameter selected_variant_b %} )
+      )
 
       ---------------------------------------------------------------------------------------
       -- Data From Daily Summary
       ---------------------------------------------------------------------------------------
 
+      , base_data_with_both_time_periods as (
+
       select
         a.rdg_id
-        , max(json_extract_scalar(a.experiments,{% parameter selected_experiment %})) as variant
         , case
+            when date(a.rdg_date) >= date({% parameter start_date %})
+            then 'current_period'
+            else 'prior_period'
+            end as evaluation_period
+        , max(
+            case
+              when date(a.rdg_date) >= date({% parameter start_date %})
+              then json_extract_scalar(a.experiments,{% parameter selected_experiment %})
+              else null
+              end )
+            as variant
+        , case
+            when {% parameter selected_metric_daily %} = "Average Coins Sourced From Rewards Per Day" then sum(a.coins_sourced_from_rewards)
+            when {% parameter selected_metric_daily %} = "Average Coins Sourced From Rewards Per Player" then sum(a.coins_sourced_from_rewards)
 
-        when {% parameter selected_metric_daily %} = "Average Coins Sourced From Rewards Per Day" then sum(a.coins_sourced_from_rewards)
-        when {% parameter selected_metric_daily %} = "Average Coins Sourced From Rewards Per Player" then sum(a.coins_sourced_from_rewards)
+            when {% parameter selected_metric_daily %} = "Average Sessions Per Day" then sum(a.count_sessions)
+            when {% parameter selected_metric_daily %} = "Average Sessions Per Player" then sum(a.count_sessions)
 
-        when {% parameter selected_metric_daily %} = "Average Sessions Per Day" then sum(a.count_sessions)
-        when {% parameter selected_metric_daily %} = "Average Sessions Per Player" then sum(a.count_sessions)
+            when {% parameter selected_metric_daily %} = "Average Pre-Game Boosts Per Day" then sum(a.pregame_boost_total)
+            when {% parameter selected_metric_daily %} = "Average Pre-Game Boosts Per Player" then sum(a.pregame_boost_total)
 
-        when {% parameter selected_metric_daily %} = "Average Pre-Game Boosts Per Day" then sum(a.pregame_boost_total)
-        when {% parameter selected_metric_daily %} = "Average Pre-Game Boosts Per Player" then sum(a.pregame_boost_total)
+            when {% parameter selected_metric_daily %} = "Average Minutes Played Per Day" then sum(a.round_time_in_minutes)
+            when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Day" then sum(a.round_end_events_gofish)
+            when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Player" then sum(a.round_end_events_gofish)
 
-        when {% parameter selected_metric_daily %} = "Average Minutes Played Per Day" then sum(a.round_time_in_minutes)
-        when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Day" then sum(a.round_end_events_gofish)
-        when {% parameter selected_metric_daily %} = "Average Go Fish Rounds Played Per Player" then sum(a.round_end_events_gofish)
+            when {% parameter selected_metric_daily %} = "Average Moves Master Rounds Played Per Day" then sum(a.round_end_events_movesmaster)
+            when {% parameter selected_metric_daily %} = "Average Moves Master Rounds Played Per Player" then sum(a.round_end_events_movesmaster)
 
-        when {% parameter selected_metric_daily %} = "Average Moves Master Rounds Played Per Day" then sum(a.round_end_events_movesmaster)
-        when {% parameter selected_metric_daily %} = "Average Moves Master Rounds Played Per Player" then sum(a.round_end_events_movesmaster)
+            when {% parameter selected_metric_daily %} = "Average Gem Quest Rounds Played Per Day" then sum(a.round_end_events_gemquest)
+            when {% parameter selected_metric_daily %} = "Average Gem Quest Rounds Played Per Player" then sum(a.round_end_events_gemquest)
 
-        when {% parameter selected_metric_daily %} = "Average Gem Quest Rounds Played Per Day" then sum(a.round_end_events_gemquest)
-        when {% parameter selected_metric_daily %} = "Average Gem Quest Rounds Played Per Player" then sum(a.round_end_events_gemquest)
+            when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Day" then sum(a.ad_views_go_fish)
+            when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Day" then sum(a.ad_views_moves_master)
+            when {% parameter selected_metric_daily %} = "Average Ad Views Per Day" then sum(a.ad_views)
 
-        when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Day" then sum(a.ad_views_go_fish)
-        when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Day" then sum(a.ad_views_moves_master)
-        when {% parameter selected_metric_daily %} = "Average Ad Views Per Day" then sum(a.ad_views)
+            when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Player" then sum(a.ad_views_go_fish)
+            when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Player" then sum(a.ad_views_moves_master)
+            when {% parameter selected_metric_daily %} = "Average Ad Views Per Player" then sum(a.ad_views)
 
-        when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Player" then sum(a.ad_views_go_fish)
-        when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Player" then sum(a.ad_views_moves_master)
-        when {% parameter selected_metric_daily %} = "Average Ad Views Per Player" then sum(a.ad_views)
+            when {% parameter selected_metric_daily %} = "IAP ARPDAU" then sum(a.mtx_purchase_dollars)
+            when {% parameter selected_metric_daily %} = "IAP Conversion per Day" then sum(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "IAP Revenue Per Player" then sum(a.mtx_purchase_dollars)
+            when {% parameter selected_metric_daily %} = "IAP Conversion Per Player" then sum(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "IAP Revenue Per Spender" then sum(a.mtx_purchase_dollars)
 
-        when {% parameter selected_metric_daily %} = "IAP ARPDAU" then sum(a.mtx_purchase_dollars)
-        when {% parameter selected_metric_daily %} = "IAP Conversion per Day" then sum(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
-        when {% parameter selected_metric_daily %} = "IAP Revenue Per Player" then sum(a.mtx_purchase_dollars)
-        when {% parameter selected_metric_daily %} = "IAP Conversion Per Player" then sum(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
-        when {% parameter selected_metric_daily %} = "IAP Revenue Per Spender" then sum(a.mtx_purchase_dollars)
+            when {% parameter selected_metric_daily %} = "IAA ARPDAU" then sum(a.ad_view_dollars)
+            when {% parameter selected_metric_daily %} = "IAA Conversion per Day" then sum(case when a.ad_view_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "IAA Revenue Per Player" then sum(a.ad_view_dollars)
+            when {% parameter selected_metric_daily %} = "IAA Conversion Per Player" then sum(case when a.ad_view_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "IAA Revenue Per Ads Viewer" then sum(a.ad_view_dollars)
 
-        when {% parameter selected_metric_daily %} = "IAA ARPDAU" then sum(a.ad_view_dollars)
-        when {% parameter selected_metric_daily %} = "IAA Conversion per Day" then sum(case when a.ad_view_dollars > 0 then 1 else 0 end)
-        when {% parameter selected_metric_daily %} = "IAA Revenue Per Player" then sum(a.ad_view_dollars)
-        when {% parameter selected_metric_daily %} = "IAA Conversion Per Player" then sum(case when a.ad_view_dollars > 0 then 1 else 0 end)
-        when {% parameter selected_metric_daily %} = "IAA Revenue Per Ads Viewer" then sum(a.ad_view_dollars)
+            when {% parameter selected_metric_daily %} = "Combined ARPDAU" then sum(a.combined_dollars)
+            when {% parameter selected_metric_daily %} = "Combined Conversion per Day" then sum(case when a.combined_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "Combined Revenue Per Player" then sum(a.combined_dollars)
+            when {% parameter selected_metric_daily %} = "Combined Conversion Per Player" then sum(case when a.combined_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "Combined Revenue Per IAP Spender" then sum(a.combined_dollars)
 
-        when {% parameter selected_metric_daily %} = "Combined ARPDAU" then sum(a.combined_dollars)
-        when {% parameter selected_metric_daily %} = "Combined Conversion per Day" then sum(case when a.combined_dollars > 0 then 1 else 0 end)
-        when {% parameter selected_metric_daily %} = "Combined Revenue Per Player" then sum(a.combined_dollars)
-        when {% parameter selected_metric_daily %} = "Combined Conversion Per Player" then sum(case when a.combined_dollars > 0 then 1 else 0 end)
-        when {% parameter selected_metric_daily %} = "Combined Revenue Per IAP Spender" then sum(a.combined_dollars)
+            when {% parameter selected_metric_daily %} = "Average Coin Spend Per Day" then sum(a.coins_spend)
+            when {% parameter selected_metric_daily %} = "Average Coin Spend Per Player" then sum(a.coins_spend)
 
-        when {% parameter selected_metric_daily %} = "Average Coin Spend Per Day" then sum(a.coins_spend)
-        when {% parameter selected_metric_daily %} = "Average Coin Spend Per Player" then sum(a.coins_spend)
+            when {% parameter selected_metric_daily %} = "Average Days Played Per Player" then sum(a.count_days_played)
+            when {% parameter selected_metric_daily %} = "Average Round End Events Per Player" then sum(a.round_end_events)
+            when {% parameter selected_metric_daily %} = "Average Churn Rate Per Player" then max(a.churn_indicator)
 
-        when {% parameter selected_metric_daily %} = "Average Days Played Per Player" then sum(a.count_days_played)
-        when {% parameter selected_metric_daily %} = "Average Round End Events Per Player" then sum(a.round_end_events)
-        when {% parameter selected_metric_daily %} = "Average Churn Rate Per Player" then max(a.churn_indicator)
+            when {% parameter selected_metric_daily %} = "Average Daily Feature Participation (Any Event)" then sum(a.feature_participation_any_event)
 
-        when {% parameter selected_metric_daily %} = "Average Daily Feature Participation (Any Event)" then sum(a.feature_participation_any_event)
-
-        else sum(1) end as numerator
+          else sum(1) end as numerator
         , case
 
         when {% parameter selected_metric_daily %} = "Average Coins Sourced From Rewards Per Day" then sum(1)
@@ -142,6 +171,7 @@ view: ab_test_player_daily {
         ${player_daily_summary.SQL_TABLE_NAME} a
         inner join ${player_summary_new.SQL_TABLE_NAME} b
           on a.rdg_id = b.rdg_id
+        cross join my_find_min_date_for_experiment_table c
 
       where
 
@@ -150,6 +180,7 @@ view: ab_test_player_daily {
         -- Date Filters
         and date(a.rdg_date) >= date({% parameter start_date %})
         and date(a.rdg_date) <= date({% parameter end_date %})
+        and date(a.rdg_date) >= date(c.min_date_minus_days_prior)
 
         -- Install Date Filters
         {% if install_start_date._is_filtered %}
@@ -199,7 +230,7 @@ view: ab_test_player_daily {
         {% endif %}
 
       group by
-        1
+        1,2
 
       having
         max(1) = max(1)
@@ -215,6 +246,26 @@ view: ab_test_player_daily {
         {% endif %}
 
 
+
+      )
+
+      ---------------------------------------------------------------------------------------
+      -- Group base table
+      ---------------------------------------------------------------------------------------
+      -- evaluation_period
+      -- , case when date(a.rdg_date) >= date({% parameter start_date %}) then 'current_period' else 'prior_period' end as evaluation_period
+
+      , base_data as (
+
+        select
+          rdg_id
+          , max(variant) as variant
+          , max( case when evaluation_period = 'current_period' then numerator else null end ) as numerator
+          , max( case when evaluation_period = 'current_period' then denominator else null end ) as denominator
+        from
+          base_data_with_both_time_periods
+        group by
+          1
 
       )
 
@@ -643,6 +694,12 @@ view: ab_test_player_daily {
   parameter: day_number_min {
     type: number
   }
+
+  parameter: leading_days_for_prior_evaluation_period {
+    type: number
+    default_value: "0"
+  }
+
 
   parameter: day_number_max {
     type: number

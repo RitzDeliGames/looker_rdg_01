@@ -769,6 +769,7 @@ explore: revenue_model{}
 # explore: player_summary_staging {}
 # explore: ab_test_t_test{}
 explore: live_ops_calendar {}
+explore: gogame_data {}
 
 # explore: player_ticket_spend_incremental {}
 # explore: player_reward_incremental {}

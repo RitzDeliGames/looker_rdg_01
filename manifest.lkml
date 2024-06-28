@@ -633,6 +633,7 @@ constant: campaign_name_clean_update {
 constant: bfg_campaign_name_mapping {
   value: "
     case
+      when b.campaign = 'ccb|rdg|facebook|android|latam|aa+|aeo|tutorial|jun24_1520208' then '20240624 - Facebook - LATAM - Tutorial Complete'
       when b.campaign = 'ccb|android|facebook|us|charactermarketability|linkclick|cell1|may24_1507641' then '20240524 - Facebook - USA - Marketability'
       when b.campaign = 'ccb|android|facebook|us|charactermarketability|linkclick|cell2|may24_1507648' then '20240524 - Facebook - USA - Marketability'
       when b.campaign = 'ccb|android|facebook|us|charactermarketability|linkclick|cell3|may24_1507652' then '20240524 - Facebook - USA - Marketability'

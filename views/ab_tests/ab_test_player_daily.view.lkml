@@ -339,6 +339,10 @@ view: ab_test_player_daily {
       , sum(case when numerator_prior is not null then 1 else 0 end ) as count_players_prior
       , safe_divide( sum( numerator ) , sum( denominator ) ) as average_metric
       , safe_divide( sum( numerator_prior ) , sum( denominator_prior ) ) as average_metric_prior
+      , safe_divide(
+          sum( case when numerator_prior is not null then numerator else null end )
+          , sum( case when numerator_prior is not null then denominator else null end )
+          ) as average_metric_current_for_prior_players
       from
       my_sample_with_replacement
       group by
@@ -363,6 +367,8 @@ view: ab_test_player_daily {
       , sum( case when my_sampled_group = 'b' then count_players_prior else 0 end ) as group_b_players_prior
       , sum( case when my_sampled_group = 'a' then average_metric_prior else 0 end ) as group_a_prior
       , sum( case when my_sampled_group = 'b' then average_metric_prior else 0 end ) as group_b_prior
+      , sum( case when my_sampled_group = 'a' then average_metric_current_for_prior_players else 0 end ) as group_a_current_for_prior_only
+      , sum( case when my_sampled_group = 'b' then average_metric_current_for_prior_players else 0 end ) as group_b_current_for_prior_only
       from
       my_average_metric_by_iteration
       group by
@@ -393,6 +399,12 @@ view: ab_test_player_daily {
         , group_b_prior
         , group_b_prior - group_a_prior as my_difference_prior
         , abs( group_b_prior - group_a_prior ) as my_abs_difference_prior
+
+        , group_a_current_for_prior_only
+        , group_b_current_for_prior_only
+        , group_b_current_for_prior_only - group_a_current_for_prior_only as my_difference_current_for_prior_only
+        , abs( group_b_current_for_prior_only - group_a_current_for_prior_only ) as my_abs_difference_current_for_prior_only
+
       from
         difference_by_metric_step_1
 
@@ -420,6 +432,12 @@ view: ab_test_player_daily {
         , group_b_prior
         , my_difference_prior
         , my_abs_difference_prior
+
+        , group_a_current_for_prior_only
+        , group_b_current_for_prior_only
+        , my_difference_current_for_prior_only
+        , my_abs_difference_current_for_prior_only
+
       from
         difference_by_metric_step_2
       where
@@ -440,6 +458,10 @@ view: ab_test_player_daily {
 
         , b.my_abs_difference_prior as iteration_1_abs_difference_prior
         , case when b.my_abs_difference_prior > a.my_abs_difference_prior then 1 else 0 end as my_greater_than_indicator_prior
+
+        , b.my_abs_difference_current_for_prior_only as iteration_1_abs_difference_current_for_prior_only
+        , case when b.my_abs_difference_current_for_prior_only > a.my_abs_difference_current_for_prior_only then 1 else 0 end as my_greater_than_indicator_current_for_prior_only
+
 
       from
         difference_by_metric_step_2 a
@@ -472,6 +494,12 @@ view: ab_test_player_daily {
             else 'NOT ' || safe_cast({% parameter selected_significance %} as string) || '% Significant!'
             end as significance_95_prior
 
+        , avg(my_greater_than_indicator_current_for_prior_only) as percent_greater_than_current_for_prior_only
+        , case
+            when avg(my_greater_than_indicator_current_for_prior_only) >= safe_divide({% parameter selected_significance %},100)
+            then safe_cast({% parameter selected_significance %} as string) || '% Significant!'
+            else 'NOT ' || safe_cast({% parameter selected_significance %} as string) || '% Significant!'
+            end as significance_95_current_for_prior_only
 
       from
       calculate_greater_than_instances
@@ -521,6 +549,12 @@ view: ab_test_player_daily {
       , percent_greater_than_prior
       , significance_95_prior
 
+      , group_a_current_for_prior_only
+      , group_b_current_for_prior_only
+      , my_difference_current_for_prior_only
+      , my_abs_difference_current_for_prior_only
+      , percent_greater_than_current_for_prior_only
+      , significance_95_current_for_prior_only
 
       from
       summarize_percent_greater_than
@@ -548,6 +582,13 @@ view: ab_test_player_daily {
       , my_abs_difference_prior
       , 0 as percent_greater_than_prior
       , '' as significance_95_prior
+
+      , group_a_current_for_prior_only
+      , group_b_current_for_prior_only
+      , my_difference_current_for_prior_only
+      , my_abs_difference_current_for_prior_only
+      , 0 as percent_greater_than_current_for_prior_only
+      , '' as significance_95_current_for_prior_only
 
       from
       calculate_greater_than_instances
@@ -606,6 +647,25 @@ view: ab_test_player_daily {
             , 0 ) as int64)
             ,6)
             as float64) as my_abs_difference_rounded_prior
+
+        , group_a_current_for_prior_only
+        , group_b_current_for_prior_only
+        , my_difference_current_for_prior_only
+        , my_abs_difference_current_for_prior_only
+        , percent_greater_than_current_for_prior_only
+        , significance_95_current_for_prior_only
+        , safe_cast(
+            round(
+            round( safe_divide( max(my_abs_difference_current_for_prior_only) over (), 50 ) , 6 )
+            *
+            safe_cast(round(
+            safe_divide(
+            my_abs_difference_current_for_prior_only
+            , safe_divide( max(my_abs_difference_current_for_prior_only) over (), 50 )
+            )
+            , 0 ) as int64)
+            ,6)
+            as float64) as my_abs_difference_rounded_current_for_prior_only
 
       from
       output_before_rounding
@@ -773,6 +833,54 @@ view: ab_test_player_daily {
     value_format_name: decimal_4
   }
 
+
+  dimension: group_a_current_for_prior_only {
+    label: "Group A Metric Average"
+    group_label: "Current Period Evaluation for Prior Period Players"
+    type: number
+    value_format_name: decimal_4
+  }
+
+  dimension: group_b_current_for_prior_only {
+    label: "Group B Metric Average"
+    group_label: "Current Period Evaluation for Prior Period Players"
+    type: number
+    value_format_name: decimal_4
+  }
+
+  dimension: my_difference_current_for_prior_only {
+    label: "Difference in Average Metric"
+    group_label: "Current Period Evaluation for Prior Period Players"
+    type: number
+    value_format_name: decimal_4
+  }
+
+  dimension: my_abs_difference_current_for_prior_only {
+    label: "Absolute Difference in Average Metric"
+    group_label: "Current Period Evaluation for Prior Period Players"
+    type: number
+    value_format_name: decimal_4
+  }
+
+  dimension: percent_greater_than_current_for_prior_only {
+    label: "Estimated Significance Level"
+    group_label: "Current Period Evaluation for Prior Period Players"
+    type: number
+    value_format_name: percent_0
+  }
+
+  dimension: significance_95_current_for_prior_only {
+    label: "Significance Check"
+    group_label: "Current Period Evaluation for Prior Period Players"
+    type: string
+  }
+
+  dimension: my_abs_difference_rounded_current_for_prior_only {
+    label: "Rounded Difference"
+    group_label: "Current Period Evaluation for Prior Period Players"
+    type: number
+    value_format_name: decimal_4
+  }
 
   dimension: iteration_type {
     label: "Iteration Type"

@@ -42,13 +42,13 @@ view: ab_test_player_daily {
       select
         a.rdg_id
         , case
-            when date(a.rdg_date) >= date({% parameter start_date %})
+            when date(a.rdg_date) >= date(c.min_date_for_experiment)
             then 'current_period'
             else 'prior_period'
             end as evaluation_period
         , max(
             case
-              when date(a.rdg_date) >= date({% parameter start_date %})
+              when date(a.rdg_date) >= date(c.min_date_for_experiment)
               then json_extract_scalar(a.experiments,{% parameter selected_experiment %})
               else null
               end )
@@ -191,8 +191,8 @@ view: ab_test_player_daily {
         and date(b.created_date) <= date({% parameter install_end_date %})
         {% endif %}
 
-        --Test Filter
-        and json_extract_scalar(a.experiments,{% parameter selected_experiment %}) in ( {% parameter selected_variant_a %} , {% parameter selected_variant_b %} )
+        -- Test Filter
+        -- and json_extract_scalar(a.experiments,{% parameter selected_experiment %}) in ( {% parameter selected_variant_a %} , {% parameter selected_variant_b %} )
 
         -- Level Filter (start)
         {% if start_level_serial._is_filtered %}
@@ -262,6 +262,8 @@ view: ab_test_player_daily {
           , max(variant) as variant
           , max( case when evaluation_period = 'current_period' then numerator else null end ) as numerator
           , max( case when evaluation_period = 'current_period' then denominator else null end ) as denominator
+          , max( case when evaluation_period = 'prior_period' then numerator else null end ) as numerator_prior
+          , max( case when evaluation_period = 'prior_period' then denominator else null end ) as denominator_prior
         from
           base_data_with_both_time_periods
         group by
@@ -288,17 +290,19 @@ view: ab_test_player_daily {
       , my_iterations as (
 
       select
-      a.*
-      , case
-      when a.variant = {% parameter selected_variant_a %} then 'a'
-      when a.variant = {% parameter selected_variant_b %} then 'b'
-      else 'other'
-      end as my_group
-      , b.iteration_number
-      , rand() as random_number
+        a.*
+        , case
+        when a.variant = {% parameter selected_variant_a %} then 'a'
+        when a.variant = {% parameter selected_variant_b %} then 'b'
+        else 'other'
+        end as my_group
+        , b.iteration_number
+        , rand() as random_number
       from
-      base_data a
-      cross join my_iteration_table b
+        base_data a
+        cross join my_iteration_table b
+      where
+        a.variant is not null
 
       )
 
@@ -333,6 +337,7 @@ view: ab_test_player_daily {
       , my_sampled_group
       , sum(1) as count_players
       , safe_divide( sum( numerator ) , sum( denominator ) ) as average_metric
+      , safe_divide( sum( numerator_prior ) , sum( denominator_prior ) ) as average_metric_prior
       from
       my_sample_with_replacement
       group by
@@ -353,6 +358,8 @@ view: ab_test_player_daily {
       , sum( case when my_sampled_group = 'b' then count_players else 0 end ) as group_b_players
       , sum( case when my_sampled_group = 'a' then average_metric else 0 end ) as group_a
       , sum( case when my_sampled_group = 'b' then average_metric else 0 end ) as group_b
+      , sum( case when my_sampled_group = 'a' then average_metric_prior else 0 end ) as group_a_prior
+      , sum( case when my_sampled_group = 'b' then average_metric_prior else 0 end ) as group_b_prior
       from
       my_average_metric_by_iteration
       group by
@@ -368,15 +375,21 @@ view: ab_test_player_daily {
       , difference_by_metric_step_2 as (
 
       select
-      iteration_number
-      , group_a_players
-      , group_b_players
-      , group_a
-      , group_b
-      , group_b - group_a as my_difference
-      , abs( group_b - group_a ) as my_abs_difference
+        iteration_number
+        , group_a_players
+        , group_b_players
+
+        , group_a
+        , group_b
+        , group_b - group_a as my_difference
+        , abs( group_b - group_a ) as my_abs_difference
+
+        , group_a_prior
+        , group_b_prior
+        , group_b_prior - group_a_prior as my_difference_prior
+        , abs( group_b_prior - group_a_prior ) as my_abs_difference_prior
       from
-      difference_by_metric_step_1
+        difference_by_metric_step_1
 
       )
 
@@ -387,17 +400,21 @@ view: ab_test_player_daily {
       , iteration_1_only as (
 
       select
-      iteration_number
-      , group_a_players
-      , group_b_players
-      , group_a
-      , group_b
-      , my_difference
-      , my_abs_difference
+        iteration_number
+        , group_a_players
+        , group_b_players
+        , group_a
+        , group_b
+        , my_difference
+        , my_abs_difference
+        , group_a_prior
+        , group_b_prior
+        , my_difference_prior
+        , my_abs_difference_prior
       from
-      difference_by_metric_step_2
+        difference_by_metric_step_2
       where
-      iteration_number = 1
+        iteration_number = 1
 
       )
 
@@ -408,14 +425,18 @@ view: ab_test_player_daily {
       , calculate_greater_than_instances as (
 
       select
-      a.*
-      , b.my_abs_difference as iteration_1_abs_difference
-      , case when b.my_abs_difference > a.my_abs_difference then 1 else 0 end as my_greater_than_indicator
+        a.*
+        , b.my_abs_difference as iteration_1_abs_difference
+        , case when b.my_abs_difference > a.my_abs_difference then 1 else 0 end as my_greater_than_indicator
+
+        , b.my_abs_difference_prior as iteration_1_abs_difference_prior
+        , case when b.my_abs_difference_prior > a.my_abs_difference_prior then 1 else 0 end as my_greater_than_indicator_prior
+
       from
-      difference_by_metric_step_2 a
-      cross join iteration_1_only b
+        difference_by_metric_step_2 a
+        cross join iteration_1_only b
       where
-      a.iteration_number > 1
+        a.iteration_number > 1
 
       )
 
@@ -426,13 +447,22 @@ view: ab_test_player_daily {
       , summarize_results as (
 
       select
-      max(iteration_number)-1 as my_iterations
-      , avg(my_greater_than_indicator) as percent_greater_than
-      , case
-      when avg(my_greater_than_indicator) >= safe_divide({% parameter selected_significance %},100)
-      then safe_cast({% parameter selected_significance %} as string) || '% Significant!'
-      else 'NOT ' || safe_cast({% parameter selected_significance %} as string) || '% Significant!'
-      end as significance_95
+        max(iteration_number)-1 as my_iterations
+
+        , avg(my_greater_than_indicator) as percent_greater_than
+        , case
+            when avg(my_greater_than_indicator) >= safe_divide({% parameter selected_significance %},100)
+            then safe_cast({% parameter selected_significance %} as string) || '% Significant!'
+            else 'NOT ' || safe_cast({% parameter selected_significance %} as string) || '% Significant!'
+            end as significance_95
+
+        , avg(my_greater_than_indicator_prior) as percent_greater_than_prior
+        , case
+            when avg(my_greater_than_indicator_prior) >= safe_divide({% parameter selected_significance %},100)
+            then safe_cast({% parameter selected_significance %} as string) || '% Significant!'
+            else 'NOT ' || safe_cast({% parameter selected_significance %} as string) || '% Significant!'
+            end as significance_95_prior
+
 
       from
       calculate_greater_than_instances
@@ -472,6 +502,15 @@ view: ab_test_player_daily {
       , significance_95
       , 0 as count_iterations
       , 'actual' as iteration_type
+
+      , group_a_prior
+      , group_b_prior
+      , my_difference_prior
+      , my_abs_difference_prior
+      , percent_greater_than_prior
+      , significance_95_prior
+
+
       from
       summarize_percent_greater_than
 
@@ -489,6 +528,14 @@ view: ab_test_player_daily {
       , '' as significance_95
       , 1 as count_iterations
       , 'iterations' as iteration_type
+
+      , group_a_prior
+      , group_b_prior
+      , my_difference_prior
+      , my_abs_difference_prior
+      , 0 as percent_greater_than_prior
+      , '' as significance_95_prior
+
       from
       calculate_greater_than_instances
 
@@ -501,30 +548,50 @@ view: ab_test_player_daily {
       , output_with_rounding as (
 
       select
-      iteration_number
-      , group_a_players
-      , group_b_players
-      , group_a
-      , group_b
-      , my_difference
-      , my_abs_difference
-      , my_iterations
-      , percent_greater_than
-      , significance_95
-      , count_iterations
-      , iteration_type
-      , safe_cast(
-      round(
-      round( safe_divide( max(my_abs_difference) over (), 50 ) , 6 )
-      *
-      safe_cast(round(
-      safe_divide(
-      my_abs_difference
-      , safe_divide( max(my_abs_difference) over (), 50 )
-      )
-      , 0 ) as int64)
-      ,6)
-      as float64) as my_abs_difference_rounded
+        iteration_number
+        , group_a_players
+        , group_b_players
+        , group_a
+        , group_b
+        , my_difference
+        , my_abs_difference
+        , my_iterations
+        , percent_greater_than
+        , significance_95
+        , count_iterations
+        , iteration_type
+        , safe_cast(
+        round(
+        round( safe_divide( max(my_abs_difference) over (), 50 ) , 6 )
+        *
+        safe_cast(round(
+        safe_divide(
+        my_abs_difference
+        , safe_divide( max(my_abs_difference) over (), 50 )
+        )
+        , 0 ) as int64)
+        ,6)
+        as float64) as my_abs_difference_rounded
+
+        , group_a_prior
+        , group_b_prior
+        , my_difference_prior
+        , my_abs_difference_prior
+        , percent_greater_than_prior
+        , significance_95_prior
+        , safe_cast(
+            round(
+            round( safe_divide( max(my_abs_difference_prior) over (), 50 ) , 6 )
+            *
+            safe_cast(round(
+            safe_divide(
+            my_abs_difference_prior
+            , safe_divide( max(my_abs_difference_prior) over (), 50 )
+            )
+            , 0 ) as int64)
+            ,6)
+            as float64) as my_abs_difference_rounded_prior
+
       from
       output_before_rounding
 
@@ -618,6 +685,48 @@ view: ab_test_player_daily {
     type: number
     value_format_name: decimal_4
   }
+
+  dimension: group_a_prior {
+    label: "Group A Metric Average"
+    type: number
+    value_format_name: decimal_4
+  }
+
+  dimension: group_b_prior {
+    label: "Group B Metric Average"
+    type: number
+    value_format_name: decimal_4
+  }
+
+  dimension: my_difference_prior {
+    label: "Difference in Average Metric"
+    type: number
+    value_format_name: decimal_4
+  }
+
+  dimension: my_abs_difference_prior {
+    label: "Absolute Difference in Average Metric"
+    type: number
+    value_format_name: decimal_4
+  }
+
+  dimension: percent_greater_than_prior {
+    label: "Estimated Significance Level"
+    type: number
+    value_format_name: percent_0
+  }
+
+  dimension: significance_95_prior {
+    label: "Significance Check"
+    type: string
+  }
+
+  dimension: my_abs_difference_rounded_prior {
+    label: "Rounded Difference"
+    type: number
+    value_format_name: decimal_4
+  }
+
 
   dimension: iteration_type {
     label: "Iteration Type"

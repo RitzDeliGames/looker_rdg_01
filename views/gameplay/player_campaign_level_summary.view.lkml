@@ -19,6 +19,7 @@ view: player_campaign_level_summary {
         , date_diff(date(min(rdg_date)), date(min(created_at)), day) as days_since_created -- Days Since Created
         , 1 + date_diff(date(min(rdg_date)), date(min(created_at)), day) as day_number -- Player Day Number
 
+        , max(level_difficuly) as level_difficuly
         , min(level_id) as level_id
         , min(rdg_date) as first_played_rdg_date
         , max(rdg_date) as last_played_rdg_date
@@ -109,6 +110,23 @@ view: player_campaign_level_summary {
 ################################################################
 
   dimension: rdg_id { type:string }
+  dimension: level_difficuly {
+    label: "Level Difficulty Label"
+    type: string
+  }
+  dimension: level_difficuly_order {
+    label: "Level Difficulty Label Order"
+    type: number
+    sql:
+        case
+          when ${TABLE}.level_difficuly = 'easy' then 1
+          when ${TABLE}.level_difficuly = 'normal' then 2
+          when ${TABLE}.level_difficuly = 'hard' then 3
+          else 4
+          end
+
+    ;;
+  }
 
   dimension_group: rdg_date {
     type: time

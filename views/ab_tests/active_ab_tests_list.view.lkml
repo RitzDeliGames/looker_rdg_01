@@ -12,6 +12,8 @@ view: active_ab_tests_list {
 
       select '$.No_AB_Test_Split' as experiment_name
 
+      union all select '$.altLevelOrderp4_20240508_8142'
+
       union all select '$.coinMultiplier_20240607'
       union all select '$.fakeProfiles_20240531'
       union all select '$.donutSprint_20240422'

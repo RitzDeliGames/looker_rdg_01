@@ -1140,6 +1140,59 @@ view: player_summary_new {
     group_label: "System Info"
     type: number
   }
+
+
+  dimension: system_memory_size_bin {
+    group_label: "System Info"
+    type: string
+    sql:
+      case
+        when system_memory_size < 1000 then '< 1000'
+        when system_memory_size between 1000 and 1999 then '1000 - 1999'
+        when system_memory_size between 2000 and 2999 then '2000 - 2999'
+        when system_memory_size between 3000 and 3999 then '3000 - 3999'
+        when system_memory_size between 4000 and 4999 then '4000 - 4999'
+        when system_memory_size between 5000 and 5999 then '5000 - 5999'
+        when system_memory_size between 6000 and 6999 then '6000 - 6999'
+        when system_memory_size between 7000 and 7999 then '7000 - 7999'
+        when system_memory_size between 8000 and 8999 then '8000 - 8999'
+        when system_memory_size between 9000 and 9999 then '9000 - 9999'
+        when system_memory_size between 10000 and 10999 then '10000 - 10999'
+        when system_memory_size between 11000 and 11999 then '11000 - 11999'
+        when system_memory_size between 12000 and 12999 then '12000 - 12999'
+        when system_memory_size > 13000 then '> 13000'
+        else 'Undefined'
+        end
+
+    ;;
+  }
+  dimension: system_memory_size_bin_order {
+    group_label: "System Info"
+    type: number
+    sql:
+      case
+        when system_memory_size < 1000 then 1
+        when system_memory_size between 1000 and 1999 then 2
+        when system_memory_size between 2000 and 2999 then 3
+        when system_memory_size between 3000 and 3999 then 4
+        when system_memory_size between 4000 and 4999 then 5
+        when system_memory_size between 5000 and 5999 then 6
+        when system_memory_size between 6000 and 6999 then 7
+        when system_memory_size between 7000 and 7999 then 8
+        when system_memory_size between 8000 and 8999 then 9
+        when system_memory_size between 9000 and 9999 then 10
+        when system_memory_size between 10000 and 10999 then 11
+        when system_memory_size between 11000 and 11999 then 12
+        when system_memory_size between 12000 and 12999 then 13
+        when system_memory_size > 13000 then 14
+        else 15
+        end
+
+
+    ;;
+  }
+
+
   dimension: graphics_memory_size {
     group_label: "System Info"
     type: number

@@ -214,6 +214,7 @@ ads_by_date as (
         , max( a.feature_participation_treasure_trove ) as feature_participation_treasure_trove
         , max( a.feature_participation_battle_pass ) as feature_participation_battle_pass
         , max( a.feature_participation_castle_climb ) as feature_participation_castle_climb
+        , max( a.feature_participation_donut_sprint ) as feature_participation_donut_sprint
 
         , max( feature_participation_ask_for_help_request ) as feature_participation_ask_for_help_request
         , max( feature_participation_ask_for_help_completed ) as feature_participation_ask_for_help_completed
@@ -423,6 +424,7 @@ ads_by_date as (
         , max( feature_participation_ask_for_help_high_five_return ) as feature_participation_ask_for_help_high_five_return
         , max( feature_participation_hot_dog_contest ) as feature_participation_hot_dog_contest
         , max( a.feature_participation_castle_climb ) as feature_participation_castle_climb
+        , max( a.feature_participation_donut_sprint ) as feature_participation_donut_sprint
 
         -- feature completion
         , max( a.feature_completion_castle_climb ) as feature_completion_castle_climb
@@ -664,6 +666,7 @@ ads_by_date as (
         , a.feature_participation_ask_for_help_high_five_return
         , a.feature_participation_hot_dog_contest
         , a.feature_participation_castle_climb
+        , a.feature_participation_donut_sprint
         , case
             when
               a.feature_participation_daily_reward = 1
@@ -1855,6 +1858,24 @@ dimension: primary_key {
       safe_divide(
         count(distinct case
           when ${TABLE}.feature_participation_castle_climb > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_engaged_with_donut_sprint {
+    group_label: "Daily Feature Participation"
+    label: "Donut Sprint"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_donut_sprint > 0
           then ${TABLE}.rdg_id
           else null
           end )

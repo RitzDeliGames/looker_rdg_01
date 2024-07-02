@@ -244,6 +244,7 @@ view: player_summary_new {
           , @{country_region} as region
           , @{device_platform_mapping} as device_platform_mapping
           , @{device_platform_mapping_os} as device_platform_mapping_os
+          , @{device_os_version_mapping} as device_os_version_mapping
           , @{singular_campaign_id_override} as singular_campaign_id_override
           , @{singular_created_date_override} as singular_created_date_override
           , @{singular_campaign_blended_window_override} as singular_campaign_blended_window_override
@@ -1235,6 +1236,10 @@ view: player_summary_new {
     type: string
   }
 
+  dimension: device_os_version_mapping {
+    group_label: "System Info"
+    type: string
+  }
 
   dimension: supported_devices_retail_name {
     group_label: "System Info"

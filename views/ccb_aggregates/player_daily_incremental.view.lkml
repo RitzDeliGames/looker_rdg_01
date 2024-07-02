@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-06-27'
+      -- update '2024-07-02'
 
       -- create or replace table tal_scratch.player_daily_incremental_test as
 
@@ -80,7 +80,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-06-27' -- Last Full Update
+                when date(current_date()) <= '2024-07-02' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -603,6 +603,14 @@ view: player_daily_incremental {
             else 0
             end as int64) as feature_participation_castle_climb
 
+        , safe_cast(case
+            when
+              event_name = 'SimpleEventJoin'
+              and safe_cast(json_extract_scalar(extra_json, "$.event_id") as string) like '%ds_event%'
+            then 1
+            else 0
+            end as int64) as feature_participation_donut_sprint
+
         -------------------------------------------------
         -- Feature Completion
         -------------------------------------------------
@@ -1056,6 +1064,7 @@ view: player_daily_incremental {
         , max( feature_participation_ask_for_help_high_five_return ) as feature_participation_ask_for_help_high_five_return
         , max( feature_participation_hot_dog_contest ) as feature_participation_hot_dog_contest
         , max( feature_participation_castle_climb ) as feature_participation_castle_climb
+        , max( feature_participation_donut_sprint ) as feature_participation_donut_sprint
 
         -- feature completion
         , max( feature_completion_castle_climb ) as feature_completion_castle_climb
@@ -1177,7 +1186,7 @@ view: player_daily_incremental {
     -- select
     --   date(rdg_date) as rdg_date
     --   --, version
-    --   , sum( errors_low_memory_warning ) as errors_low_memory_warning
+    --   , sum( feature_participation_donut_sprint ) as feature_participation_donut_sprint
     -- from
     --   add_on_histogram_table
     -- group by

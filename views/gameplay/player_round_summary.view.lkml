@@ -1928,8 +1928,8 @@ from
       )
     ;;
     value_format_name: percent_1
-
   }
+
   measure: churn_rate_on_win {
     group_label: "Excess Churn Estimate"
     type: number
@@ -1994,6 +1994,19 @@ from
             end )
         ,
         count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+    value_format_name: percent_1
+  }
+
+  measure: churn_rate_per_round {
+    group_label: "Calculated Fields"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.churn_indicator)
+        ,
+        sum(${TABLE}.count_rounds)
       )
     ;;
     value_format_name: percent_1

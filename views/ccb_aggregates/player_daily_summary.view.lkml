@@ -82,7 +82,33 @@ ads_by_date as (
 
 , player_daily_incremental_w_prior_date as (
     select
-        *
+        * except ( cumulative_engagement_ticks )
+
+        -- Fix for cumulative engagement ticks
+        , ifnull(coalesce(
+          case when cumulative_engagement_ticks = 0 then null else cumulative_engagement_ticks end
+          , case
+              when lag(cumulative_engagement_ticks,1) over ( partition by rdg_id order by rdg_date asc ) = 0
+              then null
+              else lag(cumulative_engagement_ticks,1) over ( partition by rdg_id order by rdg_date asc )
+              end
+          , case
+              when lag(cumulative_engagement_ticks,2) over ( partition by rdg_id order by rdg_date asc ) = 0
+              then null
+              else lag(cumulative_engagement_ticks,2) over ( partition by rdg_id order by rdg_date asc )
+              end
+          , case
+              when lag(cumulative_engagement_ticks,3) over ( partition by rdg_id order by rdg_date asc ) = 0
+              then null
+              else lag(cumulative_engagement_ticks,3) over ( partition by rdg_id order by rdg_date asc )
+              end
+          , case
+              when lag(cumulative_engagement_ticks,4) over ( partition by rdg_id order by rdg_date asc ) = 0
+              then null
+              else lag(cumulative_engagement_ticks,4) over ( partition by rdg_id order by rdg_date asc )
+              end
+          ),0) as cumulative_engagement_ticks
+
         -- Date last played
         , ifnull(
                 lag(rdg_date, 1) over (
@@ -990,15 +1016,16 @@ select
   -- time played
   -- This is calculated as engagement ticks / 2
   , 0.5 * (
-      IFNULL(cumulative_engagement_ticks,0) -
-      IFNULL(LAG(cumulative_engagement_ticks,1) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ),0))
+      IFNULL(cumulative_engagement_ticks,0)
+      -
+      ifnull(lag(cumulative_engagement_ticks,1) over ( partition by rdg_id order by rdg_date asc ),0)
+
+      )
       AS time_played_minutes
 
   -- cumulative_time_played_minutes
-  , 0.5 * ( IFNULL(cumulative_engagement_ticks,0) ) AS cumulative_time_played_minutes
+  , 0.5 * (
+      IFNULL(cumulative_engagement_ticks,0) ) AS cumulative_time_played_minutes
 
   -- cumulative_round_start_events
   , SUM(round_start_events) OVER (

@@ -2110,6 +2110,26 @@ dimension: primary_key {
     ;;
     value_format_name: percent_0
   }
+  measure: percent_players_playing_any_mode {
+    group_label: "Participation by Game Mode"
+    label: "Any Mode (ex Campaign)"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.round_end_events_movesmaster > 0
+            or ${TABLE}.round_end_events_puzzle > 0
+            or ${TABLE}.round_end_events_gofish > 0
+            or ${TABLE}.round_end_events_gemquest > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
   measure: percent_players_playing_movesmaster {
     group_label: "Participation by Game Mode"
     label: "Moves Master"

@@ -12,6 +12,14 @@ view: active_ab_tests_list {
 
       select '$.No_AB_Test_Split' as experiment_name
 
+      union all select '$.loLockedIcons_20240702'
+      union all select '$.lv1and2_20240701'
+      union all select '$.lv25Moves_20240701'
+      union all select '$.gemQuestDifficulty_20240701'
+      union all select '$.memThreshold_20240701'
+      union all select '$.ticketQPO_20240626'
+      union all select '$.bunnySkill_20240626'
+
       union all select '$.altLevelOrderp4_20240508_8142'
 
       union all select '$.coinMultiplier_20240607'

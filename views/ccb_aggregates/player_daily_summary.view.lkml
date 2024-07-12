@@ -2872,6 +2872,106 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
   }
 
 ################################################################
+## Mean Ad Views By Placement
+################################################################
+
+  dimension: mean_ad_views_daily_rewards {
+    group_label: "Mean IAA Views By Placement"
+    label: "Daily Rewards"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_daily_rewards), sum(${TABLE}.count_days_played) )  ;;
+  }
+
+  dimension: mean_ad_views_moves_master {
+    group_label: "Mean IAA Views By Placement"
+    label: "Moves Master"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_moves_master), sum(${TABLE}.count_days_played) )  ;;
+  }
+
+  dimension: mean_ad_views_pizza {
+    group_label: "Mean IAA Views By Placement"
+    label: "Pizza"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_pizza), sum(${TABLE}.count_days_played) )  ;;
+  }
+
+  dimension: mean_ad_views_lucky_dice {
+    group_label: "Mean IAA Views By Placement"
+    label: "Lucky Dice"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_lucky_dice), sum(${TABLE}.count_days_played) )  ;;
+  }
+
+  dimension: mean_ad_views_ask_for_help {
+    group_label: "Mean IAA Views By Placement"
+    label: "Ask For Help"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_ask_for_help), sum(${TABLE}.count_days_played) )  ;;
+  }
+
+  dimension: mean_ad_views_battle_pass {
+    group_label: "Mean IAA Views By Placement"
+    label: "Battle Pass"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_battle_pass), sum(${TABLE}.count_days_played) )  ;;
+  }
+
+  dimension: mean_ad_views_puzzles {
+    group_label: "Mean IAA Views By Placement"
+    label: "Puzzles"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_puzzles), sum(${TABLE}.count_days_played) )  ;;
+  }
+
+  dimension: mean_ad_views_go_fish {
+    group_label: "Mean IAA Views By Placement"
+    label: "Go Fish"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_go_fish), sum(${TABLE}.count_days_played) )  ;;
+  }
+
+  dimension: mean_ad_views_rocket {
+    group_label: "Mean IAA Views By Placement"
+    label: "Rocket"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_rocket), sum(${TABLE}.count_days_played) )  ;;
+  }
+
+  dimension: mean_ad_views_lives {
+    group_label: "Mean IAA Views By Placement"
+    label: "Lives"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_lives), sum(${TABLE}.count_days_played) )  ;;
+  }
+
+  dimension: mean_ad_views_magnifiers {
+    group_label: "Mean IAA Views By Placement"
+    label: "Magnifiers"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_magnifiers), sum(${TABLE}.count_days_played) )  ;;
+  }
+
+  dimension: mean_ad_views_treasure_trove {
+    group_label: "Mean IAA Views By Placement"
+    label: "Treasure Trove"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_treasure_trove), sum(${TABLE}.count_days_played) )  ;;
+  }
+
+################################################################
 ## Ad Dollars By Placement
 ################################################################
 

@@ -82,7 +82,7 @@ ads_by_date as (
 
 , player_daily_incremental_w_prior_date as (
     select
-        * except ( cumulative_engagement_ticks )
+        * except ( cumulative_engagement_ticks, secret_eggs )
 
         -- Fix for cumulative engagement ticks
         , ifnull(coalesce(
@@ -108,6 +108,31 @@ ads_by_date as (
               else lag(cumulative_engagement_ticks,4) over ( partition by rdg_id order by rdg_date asc )
               end
           ),0) as cumulative_engagement_ticks
+
+        -- Fix for secret eggs
+        , ifnull(coalesce(
+          case when secret_eggs = 0 then null else secret_eggs end
+          , case
+              when lag(secret_eggs,1) over ( partition by rdg_id order by rdg_date asc ) = 0
+              then null
+              else lag(secret_eggs,1) over ( partition by rdg_id order by rdg_date asc )
+              end
+          , case
+              when lag(secret_eggs,2) over ( partition by rdg_id order by rdg_date asc ) = 0
+              then null
+              else lag(secret_eggs,2) over ( partition by rdg_id order by rdg_date asc )
+              end
+          , case
+              when lag(secret_eggs,3) over ( partition by rdg_id order by rdg_date asc ) = 0
+              then null
+              else lag(secret_eggs,3) over ( partition by rdg_id order by rdg_date asc )
+              end
+          , case
+              when lag(secret_eggs,4) over ( partition by rdg_id order by rdg_date asc ) = 0
+              then null
+              else lag(secret_eggs,4) over ( partition by rdg_id order by rdg_date asc )
+              end
+          ),0) as secret_eggs
 
         -- Date last played
         , ifnull(
@@ -216,6 +241,7 @@ ads_by_date as (
         , max(a.ending_stars_balance) as ending_stars_balance
         , max(a.dice_balance) as ending_dice_balance
         , max(a.ticket_balance) as ending_ticket_balance
+        , max(a.secret_eggs) as secret_eggs
 
         -- system_info
         , max( a.hardware ) as hardware
@@ -421,6 +447,7 @@ ads_by_date as (
         , max(a.ending_stars_balance) as ending_stars_balance
         , max(a.ending_dice_balance) as ending_dice_balance
         , max(a.ending_ticket_balance) as ending_ticket_balance
+        , max(a.secret_eggs) as secret_eggs
 
         -- system_info
         , max( a.hardware ) as hardware
@@ -673,6 +700,7 @@ ads_by_date as (
         , a.ending_stars_balance
         , a.ending_dice_balance
         , a.ending_ticket_balance
+        , a.secret_eggs
 
         -- end of content and zones
         , a.end_of_content_levels
@@ -3676,6 +3704,50 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     percentile: 95
     value_format_name: decimal_0
     sql: ${TABLE}.ending_ticket_balance ;;
+  }
+
+  ## Secret Eggs Balance
+  dimension: secret_eggs {type:number}
+
+  measure: secret_eggs_10 {
+    label: "10th Percentile"
+    group_label: "Secret Eggs Balance"
+    type: percentile
+    percentile: 10
+    value_format_name: decimal_0
+    sql: ${TABLE}.secret_eggs ;;
+  }
+  measure: secret_eggs_25 {
+    label: "25th Percentile"
+    group_label: "Secret Eggs Balance"
+    type: percentile
+    percentile: 25
+    value_format_name: decimal_0
+    sql: ${TABLE}.secret_eggs ;;
+  }
+  measure: secret_eggs_50 {
+    label: "Median"
+    group_label: "Secret Eggs Balance"
+    type: percentile
+    percentile: 50
+    value_format_name: decimal_0
+    sql: ${TABLE}.secret_eggs ;;
+  }
+  measure: secret_eggs_75 {
+    label: "75th Percentile"
+    group_label: "Secret Eggs Balance"
+    type: percentile
+    percentile: 75
+    value_format_name: decimal_0
+    sql: ${TABLE}.secret_eggs ;;
+  }
+  measure: secret_eggs_95 {
+    label: "95th Percentile"
+    group_label: "Secret Eggs Balance"
+    type: percentile
+    percentile: 95
+    value_format_name: decimal_0
+    sql: ${TABLE}.secret_eggs ;;
   }
 
   ## Ending Dice Balance

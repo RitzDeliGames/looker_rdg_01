@@ -698,6 +698,23 @@ explore: player_tickets_plus_ads_summary {
   }
 }
 
+################################################################
+
+## Explore: Player Frame Rate Summary
+
+################################################################
+
+explore: player_frame_rate_summary {
+  label: "Player Frame Rate Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_frame_rate_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
 
 ################################################################
 
@@ -770,7 +787,7 @@ explore: revenue_model{}
 # explore: ab_test_t_test{}
 explore: live_ops_calendar {}
 explore: gogame_data {}
-explore: player_frame_rate_incremental {}
+# explore: player_frame_rate_incremental {}
 
 # explore: player_ticket_spend_incremental {}
 # explore: player_reward_incremental {}

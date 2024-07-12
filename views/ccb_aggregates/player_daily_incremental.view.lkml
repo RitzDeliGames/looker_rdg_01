@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-07-02'
+      -- update '2024-07-12'
 
       -- create or replace table tal_scratch.player_daily_incremental_test as
 
@@ -80,7 +80,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-07-02' -- Last Full Update
+                when date(current_date()) <= '2024-07-12' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -469,6 +469,7 @@ view: player_daily_incremental {
           , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_07") AS NUMERIC) as stars_balance
           , safe_cast(json_extract_scalar(currencies,"$.DICE") AS NUMERIC) as dice_balance
           , safe_cast(json_extract_scalar(currencies,"$.TICKET") AS NUMERIC) as ticket_balance
+          , safe_cast(json_extract_scalar(safe_cast(json_extract(extra_json,"$.achievements") as string),"$.secret_eggs") as numeric) as secret_eggs
 
           -------------------------------------------------
           -- system info
@@ -1035,6 +1036,7 @@ view: player_daily_incremental {
         , round(avg(stars_balance),0) as ending_stars_balance
         , round(avg(dice_balance),0) as dice_balance
         , round(avg(ticket_balance),0) as ticket_balance
+        , max(secret_eggs) as secret_eggs
 
         -- system_info
         , max( hardware ) as hardware
@@ -1186,15 +1188,13 @@ view: player_daily_incremental {
     -- select
     --   date(rdg_date) as rdg_date
     --   --, version
-    --   , sum( feature_participation_donut_sprint ) as feature_participation_donut_sprint
+    --   , sum( secret_eggs ) as secret_eggs
     -- from
     --   add_on_histogram_table
     -- group by
     --   1
     -- order by
     --   1
-
-
 
       ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

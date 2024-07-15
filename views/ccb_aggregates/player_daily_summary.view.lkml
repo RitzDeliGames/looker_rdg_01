@@ -2875,97 +2875,97 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
 ## Mean Ad Views By Placement
 ################################################################
 
-  dimension: mean_ad_views_daily_rewards {
+  measure: mean_ad_views_daily_rewards {
     group_label: "Mean IAA Views By Placement"
-    label: "Daily Rewards"
+    label: "IAA Views Per DAU - Daily Rewards"
     value_format_name: decimal_1
     type: number
     sql: safe_divide( sum(${TABLE}.ad_views_daily_rewards), sum(${TABLE}.count_days_played) )  ;;
   }
 
-  dimension: mean_ad_views_moves_master {
+  measure: mean_ad_views_moves_master {
     group_label: "Mean IAA Views By Placement"
-    label: "Moves Master"
+    label: "IAA Views Per DAU - Moves Master"
     value_format_name: decimal_1
     type: number
     sql: safe_divide( sum(${TABLE}.ad_views_moves_master), sum(${TABLE}.count_days_played) )  ;;
   }
 
-  dimension: mean_ad_views_pizza {
+  measure: mean_ad_views_pizza {
     group_label: "Mean IAA Views By Placement"
-    label: "Pizza"
+    label: "IAA Views Per DAU - Pizza"
     value_format_name: decimal_1
     type: number
     sql: safe_divide( sum(${TABLE}.ad_views_pizza), sum(${TABLE}.count_days_played) )  ;;
   }
 
-  dimension: mean_ad_views_lucky_dice {
+  measure: mean_ad_views_lucky_dice {
     group_label: "Mean IAA Views By Placement"
-    label: "Lucky Dice"
+    label: "IAA Views Per DAU - Lucky Dice"
     value_format_name: decimal_1
     type: number
     sql: safe_divide( sum(${TABLE}.ad_views_lucky_dice), sum(${TABLE}.count_days_played) )  ;;
   }
 
-  dimension: mean_ad_views_ask_for_help {
+  measure: mean_ad_views_ask_for_help {
     group_label: "Mean IAA Views By Placement"
-    label: "Ask For Help"
+    label: "IAA Views Per DAU - Ask For Help"
     value_format_name: decimal_1
     type: number
     sql: safe_divide( sum(${TABLE}.ad_views_ask_for_help), sum(${TABLE}.count_days_played) )  ;;
   }
 
-  dimension: mean_ad_views_battle_pass {
+  measure: mean_ad_views_battle_pass {
     group_label: "Mean IAA Views By Placement"
-    label: "Battle Pass"
+    label: "IAA Views Per DAU - Battle Pass"
     value_format_name: decimal_1
     type: number
     sql: safe_divide( sum(${TABLE}.ad_views_battle_pass), sum(${TABLE}.count_days_played) )  ;;
   }
 
-  dimension: mean_ad_views_puzzles {
+  measure: mean_ad_views_puzzles {
     group_label: "Mean IAA Views By Placement"
-    label: "Puzzles"
+    label: "IAA Views Per DAU - Puzzles"
     value_format_name: decimal_1
     type: number
     sql: safe_divide( sum(${TABLE}.ad_views_puzzles), sum(${TABLE}.count_days_played) )  ;;
   }
 
-  dimension: mean_ad_views_go_fish {
+  measure: mean_ad_views_go_fish {
     group_label: "Mean IAA Views By Placement"
-    label: "Go Fish"
+    label: "IAA Views Per DAU - Go Fish"
     value_format_name: decimal_1
     type: number
     sql: safe_divide( sum(${TABLE}.ad_views_go_fish), sum(${TABLE}.count_days_played) )  ;;
   }
 
-  dimension: mean_ad_views_rocket {
+  measure: mean_ad_views_rocket {
     group_label: "Mean IAA Views By Placement"
-    label: "Rocket"
+    label: "IAA Views Per DAU - Rocket"
     value_format_name: decimal_1
     type: number
     sql: safe_divide( sum(${TABLE}.ad_views_rocket), sum(${TABLE}.count_days_played) )  ;;
   }
 
-  dimension: mean_ad_views_lives {
+  measure: mean_ad_views_lives {
     group_label: "Mean IAA Views By Placement"
-    label: "Lives"
+    label: "IAA Views Per DAU - Lives"
     value_format_name: decimal_1
     type: number
     sql: safe_divide( sum(${TABLE}.ad_views_lives), sum(${TABLE}.count_days_played) )  ;;
   }
 
-  dimension: mean_ad_views_magnifiers {
+  measure: mean_ad_views_magnifiers {
     group_label: "Mean IAA Views By Placement"
-    label: "Magnifiers"
+    label: "IAA Views Per DAU - Magnifiers"
     value_format_name: decimal_1
     type: number
     sql: safe_divide( sum(${TABLE}.ad_views_magnifiers), sum(${TABLE}.count_days_played) )  ;;
   }
 
-  dimension: mean_ad_views_treasure_trove {
+  measure: mean_ad_views_treasure_trove {
     group_label: "Mean IAA Views By Placement"
-    label: "Treasure Trove"
+    label: "IAA Views Per DAU - Treasure Trove"
     value_format_name: decimal_1
     type: number
     sql: safe_divide( sum(${TABLE}.ad_views_treasure_trove), sum(${TABLE}.count_days_played) )  ;;

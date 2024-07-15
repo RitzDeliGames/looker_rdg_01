@@ -257,39 +257,57 @@ singular_creative_data as (
   -- select data
   ----------------------------------------------------------------------
 
+  , select_data_from_join as (
+
+    select
+      rdg_date
+      , singular_install_date
+      , asset_name
+      , country_field
+      , alfa_3_country_code
+      , platform
+      , singular_campaign_id
+      , adn_creative_id
+      , singular_creative_id
+      , data_connector_source_name
+      , source
+      , os
+      , campaign_name
+      , creative_type
+      , full_ad_name
+      , simple_ad_name
+      , singular_total_cost
+      , singular_total_impressions
+      , singular_total_clicks
+      , singular_total_installs
+
+      ----------------------------------------------------------------------
+      -- constants from manifest
+      ----------------------------------------------------------------------
+
+      , @{map_3_digit_country_code_to_3_digit_country_code} as country
+      , @{singular_grouped_ad_name} as singular_grouped_ad_name
+      , @{singular_simple_ad_name} as singular_simple_ad_name
+      , @{campaign_name_clean_update} as campaign
+
+    from
+      join_metadata_by_creative_id
+
+    )
+
+  ----------------------------------------------------------------------
+  -- fix for campaign name
+  ----------------------------------------------------------------------
+
   select
-    rdg_date
-    , singular_install_date
-    , asset_name
-    , country_field
-    , alfa_3_country_code
-    , platform
-    , singular_campaign_id
-    , adn_creative_id
-    , singular_creative_id
-    , data_connector_source_name
-    , source
-    , os
-    , campaign_name
-    , creative_type
-    , full_ad_name
-    , simple_ad_name
-    , singular_total_cost
-    , singular_total_impressions
-    , singular_total_clicks
-    , singular_total_installs
-
-    ----------------------------------------------------------------------
-    -- constants from manifest
-    ----------------------------------------------------------------------
-
-    , @{map_3_digit_country_code_to_3_digit_country_code} as country
-    , @{singular_grouped_ad_name} as singular_grouped_ad_name
-    , @{singular_simple_ad_name} as singular_simple_ad_name
-    , @{campaign_name_clean_update} as singular_campaign_name_clean
-
+    b.* except ( campaign )
+    , @{bfg_campaign_name_mapping} as singular_campaign_name_clean
   from
-    join_metadata_by_creative_id
+    select_data_from_join b
+
+
+
+
 
       ;;
     ## the hardcoded meta data table is scheduled for 1AM UTC

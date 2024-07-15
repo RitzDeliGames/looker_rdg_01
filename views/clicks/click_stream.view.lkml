@@ -383,6 +383,7 @@ view: click_stream {
     */
 
 
+  /*
   --------------------------------------------------------------
   -- Click Stream Adhoc
   -- Explore Churn at level 48
@@ -448,7 +449,38 @@ view: click_stream {
     and coalesce(install_version,'null') <> '-1'
   group by
     1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+*/
 
+  --------------------------------------------------------------
+  -- FUE Steps - Using FUE Summary
+  --------------------------------------------------------------
+
+  select
+    a.rdg_id
+    ,b.country
+    ,b.version_at_install as install_version
+    ,a.version
+    ,timestamp_utc as timestamp
+    ,'FUE' as event_name
+    ,a.cumulative_time_played_minutes * 2 as engagement_ticks
+    ,0 currency_02_balance
+    ,0 currency_03_balance
+    ,0 currency_04_balance
+    ,0 currency_05_balance
+    ,cast(a.level_serial as int64) last_level_serial
+    ,a.current_FueStep button_tag
+    ,a.experiments
+    ,'' as extra_json
+    ,a.level_serial as last_level_id
+    ,lag(timestamp_utc)
+        over (partition by a.rdg_id order by timestamp_utc desc) greater_level_completed
+  from
+    `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_fue_summary` a
+    inner join eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new b
+      on a.rdg_id = b.rdg_id
+  where
+    date(rdg_date) >= date_add(current_date(), interval -150 day)
+  group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

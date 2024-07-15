@@ -95,6 +95,11 @@ view: ab_test_campaign_levels {
         and b.system_memory_size >= {% parameter selected_minimum_system_memory_size %}
         {% endif %}
 
+        -- maximum system memory
+        {% if selected_maximum_system_memory_size._is_filtered %}
+        and b.system_memory_size <= {% parameter selected_maximum_system_memory_size %}
+        {% endif %}
+
         -- country filter
         {% if country._is_filtered %}
         and b.country = {% parameter country %}
@@ -539,6 +544,10 @@ view: ab_test_campaign_levels {
   }
 
   parameter: selected_minimum_system_memory_size {
+    type: number
+  }
+
+  parameter: selected_maximum_system_memory_size {
     type: number
   }
 

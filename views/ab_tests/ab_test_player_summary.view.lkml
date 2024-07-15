@@ -222,6 +222,11 @@ view: ab_test_player_summary {
       and system_memory_size >= {% parameter selected_minimum_system_memory_size %}
       {% endif %}
 
+      -- maximum system memory
+      {% if selected_maximum_system_memory_size._is_filtered %}
+      and system_memory_size <= {% parameter selected_maximum_system_memory_size %}
+      {% endif %}
+
       -- Level Filter (start)
       {% if start_level_serial._is_filtered %}
       and highest_last_level_serial_current >= {% parameter start_level_serial %}
@@ -686,6 +691,10 @@ view: ab_test_player_summary {
   }
 
   parameter: selected_minimum_system_memory_size {
+    type: number
+  }
+
+  parameter: selected_maximum_system_memory_size {
     type: number
   }
 

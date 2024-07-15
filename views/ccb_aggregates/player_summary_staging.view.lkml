@@ -576,6 +576,7 @@ view: player_summary_staging {
       , max(singular_partner_name) as singular_partner_name
       , max(creative_id) as singular_creative_id
       , max(creative_name) as full_ad_name
+      , max(creative_name) as asset_name
       from
       singular_player_summary_pre_aggregate
       group by
@@ -597,6 +598,7 @@ view: player_summary_staging {
       , d.singular_partner_name
       , d.singular_creative_id
       , d.full_ad_name
+      , d.asset_name
 
       from
       summarize_data A

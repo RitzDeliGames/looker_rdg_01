@@ -2875,6 +2875,14 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
 ## Mean Ad Views By Placement
 ################################################################
 
+  measure: mean_ad_views_total {
+    group_label: "Mean IAA Views By Placement"
+    label: "IAA Views Per DAU - Total"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views), sum(${TABLE}.count_days_played) )  ;;
+  }
+
   measure: mean_ad_views_daily_rewards {
     group_label: "Mean IAA Views By Placement"
     label: "IAA Views Per DAU - Daily Rewards"

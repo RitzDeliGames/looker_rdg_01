@@ -2872,6 +2872,38 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
   }
 
 ################################################################
+## Mean Ad Views Per Round Played
+################################################################
+
+  measure: iaa_views_per_round_movesmaster {
+    group_label: "IAA Views Per Round Played"
+    label: "IAA Views Per Round - Moves Master"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_moves_master), sum(${TABLE}.round_end_events_movesmaster) )  ;;
+  }
+
+  measure: iaa_views_per_round_puzzle {
+    group_label: "IAA Views Per Round Played"
+    label: "IAA Views Per Round - Puzzle"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_puzzles), sum(${TABLE}.round_end_events_puzzle) )  ;;
+  }
+
+  measure: iaa_views_per_round_gofish {
+    group_label: "IAA Views Per Round Played"
+    label: "IAA Views Per Round - Go Fish"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_go_fish), sum(${TABLE}.round_end_events_gofish) )  ;;
+  }
+
+
+
+
+
+################################################################
 ## Mean Ad Views By Placement
 ################################################################
 

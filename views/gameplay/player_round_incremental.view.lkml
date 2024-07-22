@@ -4,7 +4,7 @@ view: player_round_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update on '2024-05-16'
+      -- update on '2024-07-22'
 
      -- create or replace table tal_scratch.player_round_incremental as
 
@@ -47,7 +47,7 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2024-05-16' -- Last Full Update
+                      when date(current_date()) <= '2024-07-22' -- Last Full Update
                       then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -227,6 +227,7 @@ view: player_round_incremental {
               , safe_cast(json_extract_scalar( extra_json , "$.coins_earned") as numeric) as coins_earned
               , safe_cast(json_extract_scalar( extra_json , "$.objective_count_total") as numeric) as objective_count_total
               , safe_cast(json_extract_scalar( extra_json , "$.objective_progress") as numeric) as objective_progress
+              , safe_cast(json_extract_scalar( extra_json, "$.objectives" ) as string) as objectives
               , safe_cast(json_extract_scalar( extra_json , "$.moves") as numeric) as moves
               , safe_cast(json_extract_scalar( extra_json , "$.level_serial") as numeric) as level_serial
               , safe_cast(json_extract_scalar( extra_json , "$.level_id") as string) as level_id
@@ -337,6 +338,7 @@ view: player_round_incremental {
           , max(coins_earned) as coins_earned
           , max(objective_count_total) as objective_count_total
           , max(objective_progress) as objective_progress
+          , max(objectives) as objectives
           , max(moves) as moves
           , max(level_id) as level_id
           , max(level_difficuly) as level_difficuly

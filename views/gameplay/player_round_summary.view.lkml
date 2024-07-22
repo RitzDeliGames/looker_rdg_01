@@ -1056,6 +1056,7 @@ from
   dimension: coins_earned {type:number}
   dimension: objective_count_total {type:number}
   dimension: objective_progress {type:number}
+  dimension: objectives {type: string}
   dimension: moves {type:number}
   dimension: level_id {
     group_label: "Level Fields"

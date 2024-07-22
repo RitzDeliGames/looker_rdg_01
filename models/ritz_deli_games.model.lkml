@@ -276,19 +276,7 @@ explore: player_round_summary {
       ;;
   }
 
-  join: level_mechanics {
-    view_label:  "Level Mechanics"
-    from:  level_mechanics
-    type:  left_outer
-    relationship:  many_to_one
-    sql_on:
-      ${player_round_summary.level_serial} = ${level_mechanics.level_serial}
-      ;;
-  }
-
-
 }
-
 
 ################################################################
 

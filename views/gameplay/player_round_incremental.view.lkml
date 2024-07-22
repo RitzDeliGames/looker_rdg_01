@@ -290,6 +290,9 @@ view: player_round_incremental {
 
               -- technical stats tracking
               , safe_cast(json_extract_scalar(extra_json, "$.used_memory_bytes") as numeric) as used_memory_bytes
+              , safe_cast(json_extract_scalar( extra_json , "$.total_reserved_memory") as numeric) as total_reserved_memory
+              , safe_cast(json_extract_scalar( extra_json , "$.gc_reserved_memory") as numeric) as gc_reserved_memory
+              , safe_cast(json_extract_scalar( extra_json , "$.system_used_memory") as numeric) as system_used_memory
 
               -- moves_master_tier
               , safe_cast(json_extract_scalar(extra_json, "$.moves_master_tier") as numeric) as moves_master_tier
@@ -395,6 +398,9 @@ view: player_round_incremental {
 
         -- technical stats tracking
         , max(used_memory_bytes) as used_memory_bytes
+        , max(total_reserved_memory) as total_reserved_memory
+        , max(gc_reserved_memory) as gc_reserved_memory
+        , max(system_used_memory) as system_used_memory
 
         -- moves_master_tier
         , max(moves_master_tier) as moves_master_tier

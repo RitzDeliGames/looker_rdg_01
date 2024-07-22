@@ -71,16 +71,54 @@ view: player_frame_rate_summary {
   dimension: version {type:string}
   dimension: session_id {type:string}
   dimension: experiments {type:string}
+  dimension: sheet_id {type:string}
 
 ################################################################
-## Player Counts
+## Measures
 ################################################################
 
-  ## Player Counts
   measure: count_distinct_active_users {
-    group_label: "Unique Player Counts"
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
+  }
+
+  measure: percent_frames_below_22 {
+    label: "% Frames Below 22"
+    type: number
+    value_format_name: percent_0
+    sql:
+      safe_divide(
+        sum(${TABLE}.percent_frames_below_22)
+        ,
+        sum(1)
+      )
+      ;;
+  }
+
+  measure: percent_frames_between_23_and_40 {
+    label: "% Frames Between 23 and 40"
+    type: number
+    value_format_name: percent_0
+    sql:
+      safe_divide(
+        sum(${TABLE}.percent_frames_between_23_and_40)
+        ,
+        sum(1)
+      )
+      ;;
+  }
+
+  measure: percent_frames_above_40 {
+    label: "% Frames Above 40"
+    type: number
+    value_format_name: percent_0
+    sql:
+      safe_divide(
+        sum(${TABLE}.percent_frames_above_40)
+        ,
+        sum(1)
+      )
+      ;;
   }
 
 

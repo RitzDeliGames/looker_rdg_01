@@ -98,6 +98,7 @@ base_data as (
     , max(a.coins_earned) as coins_earned
     , max(a.objective_count_total) as objective_count_total
     , max(a.objective_progress) as objective_progress
+    , max(a.objectives) as objectives
     , max(a.moves) as moves
     , max(a.level_id) as level_id
     , max(a.last_level_serial) as last_level_serial
@@ -242,6 +243,7 @@ base_data as (
     , max(a.coins_earned) as coins_earned
     , max(a.objective_count_total) as objective_count_total
     , max(a.objective_progress) as objective_progress
+    , max(a.objectives) as objectives
     , max(a.moves) as moves
     , max(a.level_id) as level_id
     , max(a.last_level_serial) as last_level_serial
@@ -393,6 +395,7 @@ base_data as (
     , max(a.coins_earned) as coins_earned
     , max(a.objective_count_total) as objective_count_total
     , max(a.objective_progress) as objective_progress
+    , max(a.objectives) as objectives
     , max(a.moves) as moves
     , max(a.level_id) as level_id
     , max(a.last_level_serial) as last_level_serial
@@ -551,6 +554,7 @@ base_data as (
     , max(a.coins_earned) as coins_earned
     , max(a.objective_count_total) as objective_count_total
     , max(a.objective_progress) as objective_progress
+    , max(a.objectives) as objectives
     , max(a.moves) as moves
     , max(a.level_id) as level_id
     , max(a.last_level_serial) as last_level_serial

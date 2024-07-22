@@ -148,6 +148,9 @@ base_data as (
 
     -- techincal stats
     , max(a.used_memory_bytes) as used_memory_bytes
+    , max(a.total_reserved_memory) as total_reserved_memory
+    , max(a.gc_reserved_memory) as gc_reserved_memory
+    , max(a.system_used_memory) as system_used_memory
 
     -- frame rates
     , max( a.percent_frames_below_22 ) as percent_frames_below_22
@@ -300,6 +303,9 @@ base_data as (
 
     -- techincal stats
     , max(a.used_memory_bytes) as used_memory_bytes
+    , max(a.total_reserved_memory) as total_reserved_memory
+    , max(a.gc_reserved_memory) as gc_reserved_memory
+    , max(a.system_used_memory) as system_used_memory
 
     -- frame rates
     , max( a.percent_frames_below_22 ) as percent_frames_below_22
@@ -445,6 +451,9 @@ base_data as (
 
     -- techincal stats
     , max(a.used_memory_bytes) as used_memory_bytes
+    , max(a.total_reserved_memory) as total_reserved_memory
+    , max(a.gc_reserved_memory) as gc_reserved_memory
+    , max(a.system_used_memory) as system_used_memory
 
     -- frame rates
     , max( a.percent_frames_below_22 ) as percent_frames_below_22
@@ -604,6 +613,9 @@ base_data as (
 
     -- techincal stats
     , max(a.used_memory_bytes) as used_memory_bytes
+    , max(a.total_reserved_memory) as total_reserved_memory
+    , max(a.gc_reserved_memory) as gc_reserved_memory
+    , max(a.system_used_memory) as system_used_memory
 
     -- frame rates
     , max( a.percent_frames_below_22 ) as percent_frames_below_22
@@ -2116,6 +2128,160 @@ from
     sql: ${TABLE}.used_memory_bytes;;
     value_format_name: decimal_0
   }
+
+########################################33
+## Total Reserved Memory
+########################################33
+
+  dimension: total_reserved_memory {type:number}
+
+  measure: total_reserved_memory_10 {
+    group_label: "Total Reserved Memory"
+    label: "10th Percentile"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.total_reserved_memory;;
+    value_format_name: decimal_0
+  }
+
+  measure: total_reserved_memory_25 {
+    group_label: "Total Reserved Memory"
+    label: "25th Percentile"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.total_reserved_memory;;
+    value_format_name: decimal_0
+  }
+
+  measure: total_reserved_memory_50 {
+    group_label: "Total Reserved Memory"
+    label: "Median"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.total_reserved_memory;;
+    value_format_name: decimal_0
+  }
+
+  measure: total_reserved_memory_75 {
+    group_label: "Total Reserved Memory"
+    label: "75th Percentile"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.total_reserved_memory;;
+    value_format_name: decimal_0
+  }
+
+  measure: total_reserved_memory_95 {
+    group_label: "Total Reserved Memory"
+    label: "95th Percentile"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.total_reserved_memory;;
+    value_format_name: decimal_0
+  }
+
+########################################33
+## GC Reserved Memory
+########################################33
+
+  dimension: gc_reserved_memory {type:number}
+
+  measure: gc_reserved_memory_10 {
+    group_label: "GC Reserved Memory"
+    label: "10th Percentile"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.gc_reserved_memory;;
+    value_format_name: decimal_0
+  }
+
+  measure: gc_reserved_memory_25 {
+    group_label: "GC Reserved Memory"
+    label: "25th Percentile"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.gc_reserved_memory;;
+    value_format_name: decimal_0
+  }
+
+  measure: gc_reserved_memory_50 {
+    group_label: "GC Reserved Memory"
+    label: "Median"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.gc_reserved_memory;;
+    value_format_name: decimal_0
+  }
+
+  measure: gc_reserved_memory_75 {
+    group_label: "GC Reserved Memory"
+    label: "75th Percentile"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.gc_reserved_memory;;
+    value_format_name: decimal_0
+  }
+
+  measure: gc_reserved_memory_95 {
+    group_label: "GC Reserved Memory"
+    label: "95th Percentile"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.gc_reserved_memory;;
+    value_format_name: decimal_0
+  }
+
+########################################33
+## System Used Memory
+########################################33
+
+  dimension: system_used_memory {type:number}
+
+  measure: system_used_memory_10 {
+    group_label: "System Used Memory"
+    label: "10th Percentile"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.system_used_memory;;
+    value_format_name: decimal_0
+  }
+
+  measure: system_used_memory_25 {
+    group_label: "System Used Memory"
+    label: "25th Percentile"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.system_used_memory;;
+    value_format_name: decimal_0
+  }
+
+  measure: system_used_memory_50 {
+    group_label: "System Used Memory"
+    label: "Median"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.system_used_memory;;
+    value_format_name: decimal_0
+  }
+
+  measure: system_used_memory_75 {
+    group_label: "System Used Memory"
+    label: "75th Percentile"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.system_used_memory;;
+    value_format_name: decimal_0
+  }
+
+  measure: system_used_memory_95 {
+    group_label: "System Used Memory"
+    label: "95th Percentile"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.system_used_memory;;
+    value_format_name: decimal_0
+  }
+
 
 ########################################33
 ## Rounds to Reach Loss Screen

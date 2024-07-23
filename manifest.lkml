@@ -1305,7 +1305,10 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_ticket_premium' then 'Tickets (M)'
     when ${TABLE}.iap_id = 'item_ticket_mega' then 'Tickets (L)'
 
-
+    when ${TABLE}.iap_id = 'item_bundle_100k5tick' then 'Item Bundle: 100K Coins 5 Tickets'
+    when ${TABLE}.iap_id = 'item_bundle_3chums' then 'Item Bundle: 3 Chums'
+    when ${TABLE}.iap_id = 'item_bundle_062024' then 'Item Bundle: Extra Moves, Coins, Tickets'
+    when ${TABLE}.iap_id = 'item_chopsticks' then 'Chopsticks'
 
 
     else ${TABLE}.iap_id
@@ -1410,6 +1413,11 @@ constant: iap_id_strings_grouped_new {
       when ${TABLE}.iap_id = 'item_ticket_mega' then 'Tickets'
 
       when ${TABLE}.iap_id = 'item_disco_unlock' then 'Chum Chum Unlock'
+
+    when ${TABLE}.iap_id = 'item_bundle_100k5tick' then 'Item Bundles'
+    when ${TABLE}.iap_id = 'item_bundle_3chums' then 'Item Bundles'
+    when ${TABLE}.iap_id = 'item_bundle_062024' then 'Item Bundles'
+    when ${TABLE}.iap_id = 'item_chopsticks' then 'Chum Chum Skills'
 
       else ${TABLE}.iap_id
   end"

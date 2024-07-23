@@ -729,6 +729,13 @@ base_data as (
         rows between unbounded preceding and current row
         ) cumulative_rounds_this_session
 
+    -- total rounds this session
+    , sum(ifnull(count_rounds,0)) over (
+        partition by rdg_id, session_id
+        order by round_start_timestamp_utc asc
+        rows between unbounded preceding and unbounded following
+        ) total_rounds_this_session
+
     -- Cumulative fields
 
     , sum(ifnull(total_mtx_purchase_dollars,0)) over (
@@ -1050,6 +1057,7 @@ from
     }
   dimension: version {type:string}
   dimension: cumulative_rounds_this_session {type:number}
+  dimension: total_rounds_this_session {type:number}
   dimension: event_name {type:string}
   dimension: session_id {type:string}
   dimension: experiments {type:string}

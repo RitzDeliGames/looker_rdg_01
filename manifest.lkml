@@ -1674,6 +1674,19 @@ constant: coin_spend_name {
   value: "
   case
 
+    when ${TABLE}.source_id = 'castle_climb_rescue' and ${TABLE}.iap_id = 'item_rescue' then 'Castle Climb Rescue'
+    when ${TABLE}.source_id = 'character' and ${TABLE}.iap_id = 'item_moves_unlock' then 'Moves Bunny Unlock'
+    when ${TABLE}.source_id = 'extra_moves_12' and ${TABLE}.iap_id = 'extra_moves_12' then 'Extra Moves'
+    when ${TABLE}.source_id = 'extra_moves_15' and ${TABLE}.iap_id = 'extra_moves_15' then 'Extra Moves'
+    when ${TABLE}.source_id = 'extra_moves_9' and ${TABLE}.iap_id = 'extra_moves_9' then 'Extra Moves'
+    when ${TABLE}.source_id = 'gem_quest' and ${TABLE}.iap_id = 'item_torch' then 'Gem Quest Torch'
+    when ${TABLE}.source_id = 'Panel_Store.Purchase.item_001' and ${TABLE}.iap_id = 'item_002' then 'Legacy'
+    when ${TABLE}.source_id = 'Panel_Store.Purchase.item_019' and ${TABLE}.iap_id = 'item_019' then 'Extra Moves'
+    when ${TABLE}.source_id = 'quick_skill_disco' and ${TABLE}.iap_id = 'item_disco' then 'Disco Chameleon'
+    when ${TABLE}.source_id = 'quick_skill_disco' and ${TABLE}.iap_id = 'item_disco_bulk' then 'Disco Chameleon'
+    when ${TABLE}.source_id = 'quick_skill_moves' and ${TABLE}.iap_id = 'item_moves' then 'Moves Bunny'
+    when ${TABLE}.source_id = 'quick_skill_moves' and ${TABLE}.iap_id = 'item_moves_bulk' then 'Moves Bunny'
+
     when ${TABLE}.source_id = 'extra_moves_7' and ${TABLE}.iap_id = 'extra_moves_7' then 'Extra Moves'
     when ${TABLE}.source_id = 'character' and ${TABLE}.iap_id = 'item_skillet_unlock' then 'Skillet'
     when ${TABLE}.source_id = 'extra_moves_10' and ${TABLE}.iap_id = 'extra_moves_10' then 'Extra Moves'
@@ -1767,6 +1780,19 @@ constant: coin_spend_name {
 constant: coin_spend_name_group {
   value: "
   case
+
+    when ${TABLE}.source_id = 'castle_climb_rescue' and ${TABLE}.iap_id = 'item_rescue' then 'Castle Climb'
+    when ${TABLE}.source_id = 'character' and ${TABLE}.iap_id = 'item_moves_unlock' then 'New Chum Chum'
+    when ${TABLE}.source_id = 'extra_moves_12' and ${TABLE}.iap_id = 'extra_moves_12' then 'Extra Moves'
+    when ${TABLE}.source_id = 'extra_moves_15' and ${TABLE}.iap_id = 'extra_moves_15' then 'Extra Moves'
+    when ${TABLE}.source_id = 'extra_moves_9' and ${TABLE}.iap_id = 'extra_moves_9' then 'Extra Moves'
+    when ${TABLE}.source_id = 'gem_quest' and ${TABLE}.iap_id = 'item_torch' then 'Gem Quest'
+    when ${TABLE}.source_id = 'Panel_Store.Purchase.item_001' and ${TABLE}.iap_id = 'item_002' then 'Legacy'
+    when ${TABLE}.source_id = 'Panel_Store.Purchase.item_019' and ${TABLE}.iap_id = 'item_019' then 'Extra Moves'
+    when ${TABLE}.source_id = 'quick_skill_disco' and ${TABLE}.iap_id = 'item_disco' then 'Chum Chum Skill'
+    when ${TABLE}.source_id = 'quick_skill_disco' and ${TABLE}.iap_id = 'item_disco_bulk' then 'Chum Chum Skill'
+    when ${TABLE}.source_id = 'quick_skill_moves' and ${TABLE}.iap_id = 'item_moves' then 'Chum Chum Skill'
+    when ${TABLE}.source_id = 'quick_skill_moves' and ${TABLE}.iap_id = 'item_moves_bulk' then 'Chum Chum Skill'
 
     when ${TABLE}.source_id = 'extra_moves_7' and ${TABLE}.iap_id = 'extra_moves_7' then 'Extra Moves'
     when ${TABLE}.source_id = 'character' and ${TABLE}.iap_id = 'item_skillet_unlock' then 'New Chum Chum'

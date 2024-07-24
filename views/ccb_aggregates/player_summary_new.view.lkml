@@ -2132,6 +2132,32 @@ view: player_summary_new {
 
   }
 
+  measure: cumulative_mtx_conversion_d15 {
+    label: "Cumulative IAP Conversion: D15"
+    group_label: "Cumulative IAP Conversion"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d15 > 0
+          then 1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+
+  }
+
   measure: cumulative_mtx_conversion_d30 {
     label: "Cumulative IAP Conversion: D30"
     group_label: "Cumulative IAP Conversion"

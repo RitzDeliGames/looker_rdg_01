@@ -1044,10 +1044,11 @@ select
   -- time played
   -- This is calculated as engagement ticks / 2
   , 0.5 * (
-      IFNULL(cumulative_engagement_ticks,0)
-      -
-      ifnull(lag(cumulative_engagement_ticks,1) over ( partition by rdg_id order by rdg_date asc ),0)
-
+      case
+      when ifnull(cumulative_engagement_ticks,0) - ifnull(lag(cumulative_engagement_ticks,1) over ( partition by rdg_id order by rdg_date asc ),0) > 2800
+      then 2800
+      else ifnull(cumulative_engagement_ticks,0) - ifnull(lag(cumulative_engagement_ticks,1) over ( partition by rdg_id order by rdg_date asc ),0)
+      end
       )
       AS time_played_minutes
 

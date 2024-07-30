@@ -1368,8 +1368,11 @@ view: player_summary_new {
     type: string
     suggestions:  [
       "Transaction"
-      ,"15 Minutes"
-      , "Test Null"
+      , "Spender"
+      , "Install"
+      , "15 Minutes"
+      , "30 Minutes"
+      , "60 Minutes"
       ]
   }
 
@@ -1386,8 +1389,16 @@ view: player_summary_new {
           case
             when {% parameter selected_campaign_result %} = "Transaction"
               then ${TABLE}.cumulative_count_mtx_purchases_current
+            when {% parameter selected_campaign_result %} = "Spender"
+              then case when ${TABLE}.cumulative_mtx_purchase_dollars_current > 0 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "Install"
+              then 1
             when {% parameter selected_campaign_result %} = "15 Minutes"
-              then case when ${cumulative_time_played_minutes} >= 15 then 1 else 0 end
+              then case when ${TABLE}.cumulative_time_played_minutes >= 15 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "30 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 30 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "60 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 60 then 1 else 0 end
 
             else 0
             end

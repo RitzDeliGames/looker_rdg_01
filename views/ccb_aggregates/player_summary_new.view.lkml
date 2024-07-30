@@ -1359,6 +1359,43 @@ view: player_summary_new {
     type: string
   }
 
+######################################################################
+## Cost Per Result
+######################################################################
+
+  parameter: selected_campaign_result {
+    label: "Selected Campaign Result"
+    type: string
+    suggestions:  [
+      "Transaction"
+      ,"15 Minutes"
+      , "Test Null"
+      ]
+  }
+
+  measure: selected_cost_per_result {
+    label: "Cost Per Result"
+    group_label: "Campaign Analysis Stats"
+    type: number
+    value_format_name: usd
+    sql:
+      safe_divide(
+        sum( ifnull( ${TABLE}.attributed_campaign_cost, 0 ) )
+        ,
+        sum(
+          case
+            when {% parameter selected_campaign_result %} = "Transaction"
+              then ${TABLE}.cumulative_count_mtx_purchases_current
+            when {% parameter selected_campaign_result %} = "15 Minutes"
+              then case when ${cumulative_time_played_minutes} >= 15 then 1 else 0 end
+
+            else 0
+            end
+
+            )
+      )
+    ;;
+  }
 
 
 ######################################################################

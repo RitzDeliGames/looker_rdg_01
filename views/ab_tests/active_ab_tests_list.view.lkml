@@ -12,6 +12,11 @@ view: active_ab_tests_list {
 
       select '$.No_AB_Test_Split' as experiment_name
 
+      union all select '$.triggerOnRelease_20240715'
+      union all select '$.powerupBlockSwap_20240711'
+      union all select '$.triggerOnSwipe_20240715'
+      union all select '$.unlosable10_20240710'
+
       union all select '$.loLockedIcons_20240702'
       union all select '$.lv1and2_20240701'
       union all select '$.lv25Moves_20240701'

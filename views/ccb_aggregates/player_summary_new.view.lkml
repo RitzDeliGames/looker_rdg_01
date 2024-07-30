@@ -1408,6 +1408,36 @@ view: player_summary_new {
     ;;
   }
 
+  measure: selected_result_conversion {
+    label: "Result Conversion"
+    group_label: "Campaign Analysis Stats"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        sum(
+          case
+            when {% parameter selected_campaign_result %} = "Transaction"
+              then case when ${TABLE}.cumulative_mtx_purchase_dollars_current > 0 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "Spender"
+              then case when ${TABLE}.cumulative_mtx_purchase_dollars_current > 0 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "Install"
+              then 1
+            when {% parameter selected_campaign_result %} = "15 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 15 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "30 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 30 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "60 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 60 then 1 else 0 end
+
+      else 0
+      end
+      ),
+      sum( 1 )
+      )
+      ;;
+  }
+
 
 ######################################################################
 ## Singular Creative Mapping

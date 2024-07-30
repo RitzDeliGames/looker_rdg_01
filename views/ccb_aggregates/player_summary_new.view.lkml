@@ -2035,7 +2035,7 @@ view: player_summary_new {
 
   measure: cumulative_mtx_payers_current {
     label: "Sum IAP Spenders"
-    group_label: "Cumulative Conversion"
+    group_label: "Cumulative IAP Conversion"
     type: number
     sql:
       sum(
@@ -2046,6 +2046,26 @@ view: player_summary_new {
           end )
     ;;
     value_format_name: decimal_0
+
+  }
+
+  measure: cumulative_mtx_conversion_current {
+    label: "Cumulative IAP Conversion"
+    group_label: "Cumulative IAP Conversion"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.cumulative_mtx_purchase_dollars_current > 0
+          then 1
+          else 0
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_1
 
   }
 

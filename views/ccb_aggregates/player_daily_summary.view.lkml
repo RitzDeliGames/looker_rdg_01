@@ -5600,6 +5600,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
   }
 
   measure: average_power_up_balance {
+    type: number
     label: "Average Pre-Game Power Up Balance"
     group_label: "Power Up Balances"
     value_format_name: decimal_1
@@ -5608,7 +5609,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
         sum(
           ifnull(${TABLE}.ending_balance_rocket,0)
           + ifnull(${TABLE}.ending_balance_bomb,0)
-          + ifnull(${TABLE}.ending_balance_color_ball,0
+          + ifnull(${TABLE}.ending_balance_color_ball,0)
           )
         ,
         sum(

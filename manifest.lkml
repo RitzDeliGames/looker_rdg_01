@@ -649,6 +649,7 @@ constant: bfg_campaign_name_mapping {
   value: "
     case
 
+      when lower(b.campaign) = 'ccb|rdg|facebook|install|android|us|mai|rdgapp|jul24_1534693' then '20240731 - Facebook - USA - MAI'
       when lower(b.campaign) = 'ccb|rdg|facebook|android|latam|aa+|aeo|tutorial|rdgapp|jul24_1532599' then '20240725 - Facebook - LATAM - Tutorial Complete'
       when lower(b.campaign) = 'ccb|rdg|facebook|android|latam|aa+|aeo|engagement60|jul24_1526475' then '20240710 - Facebook - LATAM - 60 Min'
       when lower(b.campaign) = 'ccb|rdg|facebook|android|latam|aa+|aeo|tutorial|jul24_1526471' then '20240710 - Facebook - LATAM - Tutorial Complete'

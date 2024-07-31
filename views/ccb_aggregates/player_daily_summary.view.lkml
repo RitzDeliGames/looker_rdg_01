@@ -5599,6 +5599,25 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     sql: safe_divide( ${TABLE}.coins_sourced_from_rewards , ${TABLE}.round_end_events )  ;;
   }
 
+  measure: average_power_up_balance {
+    label: "Average Pre-Game Power Up Balance"
+    group_label: "Power Up Balances"
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(
+          ifnull(${TABLE}.ending_balance_rocket,0)
+          + ifnull(${TABLE}.ending_balance_bomb,0)
+          + ifnull(${TABLE}.ending_balance_color_ball,0
+          )
+        ,
+        sum(
+          ${TABLE}.count_days_played
+          )
+      )
+    ;;
+  }
+
   measure: sum_ending_balance_rocket {
     group_label: "Ending Balance Rocket"
     type:sum

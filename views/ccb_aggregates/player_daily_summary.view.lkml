@@ -855,394 +855,410 @@ ads_by_date as (
 -- cumulative calculations
 -----------------------------------------------------------------------
 
+, cumulative_calculations_step_1 as (
+
+  select
+
+    -- Start with all the rows from join_to_player_daily_incremental
+    *
+
+    , TIMESTAMP(created_date) as created_date_timestamp
+
+    -- Days Since Created
+    , DATE_DIFF(DATE(rdg_date), created_date, DAY) AS days_since_created
+
+    -- Player Day Number
+    , 1 + DATE_DIFF(DATE(rdg_date), created_date, DAY) AS day_number
+
+    -- new_player_indicator
+    , CASE WHEN DATE_DIFF(DATE(rdg_date), created_date, DAY) = 0 THEN 1 ELSE 0 END AS new_player_indicator
+
+     -- new_player_rdg_id
+    , CASE WHEN DATE_DIFF(DATE(rdg_date), created_date, DAY) = 0 THEN rdg_id ELSE NULL END AS new_player_rdg_id
+
+    -- Date last played
+    , LAG(DATE(rdg_date), 1) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ) date_last_played
+
+    -- Days Since Last Played
+    , DATE_DIFF(
+        DATE(rdg_date)
+        , LAG(DATE(rdg_date), 1) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            )
+        , DAY
+        ) days_since_last_played
+
+    -- next_date_played
+    , LEAD(DATE(rdg_date), 1) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ) next_date_played
+
+    -- cumulative_session_count
+    , SUM(count_sessions) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_session_count
+
+    -- churn_indicator
+    , CASE
+        WHEN
+          LEAD(DATE(rdg_date), 1) OVER (
+          PARTITION BY rdg_id
+          ORDER BY rdg_date ASC
+          ) IS NULL
+        THEN 1
+        ELSE 0
+        END AS churn_indicator
+
+    -- churn_rdg_id
+    , CASE
+        WHEN
+          LEAD(DATE(rdg_date), 1) OVER (
+          PARTITION BY rdg_id
+          ORDER BY rdg_date ASC
+          ) IS NULL
+        THEN rdg_id
+        ELSE NULL
+        END AS churn_rdg_id
+
+    -- days_until_next_played
+    , DATE_DIFF(
+        LEAD(DATE(rdg_date), 1) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            )
+        , DATE(rdg_date)
+        , DAY
+        ) days_until_next_played
+
+    -- cumulative_mtx_purchase_dollars
+    -- Includes adjustment for App Store %
+    , SUM( ifnull( mtx_purchase_dollars, 0 ) ) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_mtx_purchase_dollars
+
+    -- cumulative_count_mtx_purchases
+    , SUM( ifnull( count_mtx_purchases, 0 ) ) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_count_mtx_purchases
+
+    -- cumulative_ad_view_dollars
+    , SUM(IFNULL(ad_view_dollars,0)) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_ad_view_dollars
+
+    -- combined_dollars
+    -- Includes adjustment for App Store %
+    , ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0) AS combined_dollars
+
+    -- cumulative_combined_dollars
+    -- Includes adjustment for App Store %
+    , SUM(ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0)) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_combined_dollars
+
+    -- daily_mtx_spend_indicator
+    , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN 1 ELSE 0 END AS daily_mtx_spend_indicator
+
+    -- daily_mtx_spender_rdg_id
+    , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN rdg_id ELSE NULL END AS daily_mtx_spender_rdg_id
+
+    -- first_mtx_spend_indicator
+    , CASE
+        WHEN IFNULL(mtx_purchase_dollars,0) > 0
+        AND
+          ifnull( sum(mtx_purchase_dollars) OVER (
+          PARTITION BY rdg_id
+          ORDER BY rdg_date ASC
+          ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING ),0)
+          = 0
+        THEN 1
+        ELSE 0
+        END AS first_mtx_spend_indicator
+
+    -- lifetime_mtx_spend_indicator
+    , CASE
+        WHEN
+          SUM(mtx_purchase_dollars) OVER (
+          PARTITION BY rdg_id
+          ORDER BY rdg_date ASC
+          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+          > 0
+        THEN 1
+        ELSE 0
+        END AS lifetime_mtx_spend_indicator
+
+    -- lifetime_mtx_spender_rdg_id
+    , CASE
+        WHEN
+          SUM(mtx_purchase_dollars) OVER (
+          PARTITION BY rdg_id
+          ORDER BY rdg_date ASC
+          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+          > 0
+        THEN rdg_id
+        ELSE NULL
+        END AS lifetime_mtx_spender_rdg_id
+
+    -- cumulative_ad_views
+    , SUM(ad_views) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_ad_views
+
+
+    -- first_ad_view_indicator
+    , CASE
+        WHEN IFNULL(ad_views,0) > 0
+        AND
+          ifnull( SUM(ad_views) OVER (
+          PARTITION BY rdg_id
+          ORDER BY rdg_date ASC
+          ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING ),0)
+          = 0
+        THEN 1
+        ELSE 0
+        END AS first_ad_view_indicator
+
+    -- Calculate engagement ticks
+    -- uses prior row cumulative_engagement_ticks
+    , IFNULL(cumulative_engagement_ticks,0) -
+        IFNULL(LAG(cumulative_engagement_ticks,1) OVER (
+            PARTITION BY rdg_id
+            ORDER BY rdg_date ASC
+            ),0) AS engagement_ticks
+
+    -- time played
+    -- This is calculated as engagement ticks / 2
+    , 0.5 * (
+        case
+        when ifnull(cumulative_engagement_ticks,0) - ifnull(lag(cumulative_engagement_ticks,1) over ( partition by rdg_id order by rdg_date asc ),0) > 2800
+        then 2800
+        else ifnull(cumulative_engagement_ticks,0) - ifnull(lag(cumulative_engagement_ticks,1) over ( partition by rdg_id order by rdg_date asc ),0)
+        end
+        )
+        AS time_played_minutes
+
+    -- cumulative_time_played_minutes
+    -- , 0.5 * ( IFNULL(cumulative_engagement_ticks,0) ) AS cumulative_time_played_minutes
+
+    -- cumulative_round_start_events
+    , SUM(round_start_events) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_round_start_events
+
+    -- cumulative_round_end_events
+    , SUM(round_end_events) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_round_end_events
+
+    -- round_end_events_campaign
+    , SUM(round_end_events_campaign) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_round_end_events_campaign
+
+    -- round_end_events_movesmaster
+    , SUM(round_end_events_movesmaster) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_round_end_events_movesmaster
+
+    -- round_end_events_puzzle
+    , SUM(round_end_events_puzzle) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_round_end_events_puzzle
+
+    -- round_end_events_askforhelp
+    , SUM(round_end_events_askforhelp) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_round_end_events_askforhelp
+
+    -- round_end_events_gofish
+    , SUM(round_end_events_gofish) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_round_end_events_gofish
+
+    -- cumulative days played go fish
+    , sum( case when gofish_full_matches_completed > 0 then 1 else 0 end ) over (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_days_with_gofish_full_matches_completed
+
+    -- cumulative go fish matches
+    , sum( gofish_full_matches_completed ) over (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_gofish_full_matches_completed
+
+    -- cumulative go fish wins
+    , sum( gofish_full_matches_won ) over (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_gofish_full_matches_won
+
+    -- round_time_in_minutes
+    , SUM(round_time_in_minutes) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_round_time_in_minutes
+
+    -- round_time_in_minutes_campaign
+    , SUM(round_time_in_minutes_campaign) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_round_time_in_minutes_campaign
+
+    -- round_time_in_minutes_movesmaster
+    , SUM(round_time_in_minutes_movesmaster) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_round_time_in_minutes_movesmaster
+
+    -- round_time_in_minutes_puzzle
+    , SUM(round_time_in_minutes_puzzle) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_round_time_in_minutes_puzzle
+
+    -- round_time_in_minutes_askforhelp
+    , SUM(round_time_in_minutes_askforhelp) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_round_time_in_minutes_askforhelp
+
+    -- round_time_in_minutes_gofish
+    , SUM(round_time_in_minutes_gofish) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_round_time_in_minutes_gofish
+
+    -- count_days_played
+    -- this is just always 1
+    , 1 as count_days_played
+
+    -- cumulative_count_days_played
+    , SUM(1) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_count_days_played
+
+    -- Calculate levels_progressed
+    -- uses prior row highest_last_level_serial
+    , IFNULL(highest_last_level_serial,0) -
+        IFNULL(LAG(highest_last_level_serial,1) OVER (
+          PARTITION BY rdg_id
+          ORDER BY rdg_date ASC
+          ),0) AS levels_progressed
+
+    -- this_date_max_go_fish_rank
+    , MAX(this_date_max_go_fish_rank) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) max_gofish_rank
+
+    -- cumulative_coins_spend
+    , SUM(coins_spend) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_coins_spend
+
+          -- , a.coins_sourced_from_rewards
+
+    -- cumulative_coins_sourced_from_rewards
+    , SUM(coins_sourced_from_rewards) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_coins_sourced_from_rewards
+
+    -- cumulative_star_spend
+    , SUM(stars_spend) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_star_spend
+
+
+    -- low_render_perf_count
+    -- low_render_perf_count_cumulative
+
+    , low_render_perf_count_cumulative
+      - ifnull(lag(low_render_perf_count_cumulative, 1) over (
+          partition by rdg_id
+          order by rdg_date asc
+          ),0) low_render_perf_count
+
+    -- cumulative Chum Skills Used
+    , SUM(total_chum_powerups_used) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_total_chum_powerups_used
+
+
+  FROM
+    data_with_system_info_updates
+
+  where
+      -- select date_add( current_date(), interval -1 day )
+      rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
+
+
+)
+
+-----------------------------------------------------------------------
+-- fix for cumulative time played minutes
+-----------------------------------------------------------------------
+
 select
-
-  -- Start with all the rows from join_to_player_daily_incremental
   *
-
-  , TIMESTAMP(created_date) as created_date_timestamp
-
-  -- Days Since Created
-  , DATE_DIFF(DATE(rdg_date), created_date, DAY) AS days_since_created
-
-  -- Player Day Number
-  , 1 + DATE_DIFF(DATE(rdg_date), created_date, DAY) AS day_number
-
-  -- new_player_indicator
-  , CASE WHEN DATE_DIFF(DATE(rdg_date), created_date, DAY) = 0 THEN 1 ELSE 0 END AS new_player_indicator
-
-   -- new_player_rdg_id
-  , CASE WHEN DATE_DIFF(DATE(rdg_date), created_date, DAY) = 0 THEN rdg_id ELSE NULL END AS new_player_rdg_id
-
-  -- Date last played
-  , LAG(DATE(rdg_date), 1) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ) date_last_played
-
-  -- Days Since Last Played
-  , DATE_DIFF(
-      DATE(rdg_date)
-      , LAG(DATE(rdg_date), 1) OVER (
-          PARTITION BY rdg_id
-          ORDER BY rdg_date ASC
-          )
-      , DAY
-      ) days_since_last_played
-
-  -- next_date_played
-  , LEAD(DATE(rdg_date), 1) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ) next_date_played
-
-  -- cumulative_session_count
-  , SUM(count_sessions) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_session_count
-
-  -- churn_indicator
-  , CASE
-      WHEN
-        LEAD(DATE(rdg_date), 1) OVER (
+  , SUM(time_played_minutes) OVER (
         PARTITION BY rdg_id
         ORDER BY rdg_date ASC
-        ) IS NULL
-      THEN 1
-      ELSE 0
-      END AS churn_indicator
-
-  -- churn_rdg_id
-  , CASE
-      WHEN
-        LEAD(DATE(rdg_date), 1) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ) IS NULL
-      THEN rdg_id
-      ELSE NULL
-      END AS churn_rdg_id
-
-  -- days_until_next_played
-  , DATE_DIFF(
-      LEAD(DATE(rdg_date), 1) OVER (
-          PARTITION BY rdg_id
-          ORDER BY rdg_date ASC
-          )
-      , DATE(rdg_date)
-      , DAY
-      ) days_until_next_played
-
-  -- cumulative_mtx_purchase_dollars
-  -- Includes adjustment for App Store %
-  , SUM( ifnull( mtx_purchase_dollars, 0 ) ) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_mtx_purchase_dollars
-
-  -- cumulative_count_mtx_purchases
-  , SUM( ifnull( count_mtx_purchases, 0 ) ) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_count_mtx_purchases
-
-  -- cumulative_ad_view_dollars
-  , SUM(IFNULL(ad_view_dollars,0)) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_ad_view_dollars
-
-  -- combined_dollars
-  -- Includes adjustment for App Store %
-  , ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0) AS combined_dollars
-
-  -- cumulative_combined_dollars
-  -- Includes adjustment for App Store %
-  , SUM(ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0)) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_combined_dollars
-
-  -- daily_mtx_spend_indicator
-  , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN 1 ELSE 0 END AS daily_mtx_spend_indicator
-
-  -- daily_mtx_spender_rdg_id
-  , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN rdg_id ELSE NULL END AS daily_mtx_spender_rdg_id
-
-  -- first_mtx_spend_indicator
-  , CASE
-      WHEN IFNULL(mtx_purchase_dollars,0) > 0
-      AND
-        ifnull( sum(mtx_purchase_dollars) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING ),0)
-        = 0
-      THEN 1
-      ELSE 0
-      END AS first_mtx_spend_indicator
-
-  -- lifetime_mtx_spend_indicator
-  , CASE
-      WHEN
-        SUM(mtx_purchase_dollars) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
-        > 0
-      THEN 1
-      ELSE 0
-      END AS lifetime_mtx_spend_indicator
-
-  -- lifetime_mtx_spender_rdg_id
-  , CASE
-      WHEN
-        SUM(mtx_purchase_dollars) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
-        > 0
-      THEN rdg_id
-      ELSE NULL
-      END AS lifetime_mtx_spender_rdg_id
-
-  -- cumulative_ad_views
-  , SUM(ad_views) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_ad_views
-
-
-  -- first_ad_view_indicator
-  , CASE
-      WHEN IFNULL(ad_views,0) > 0
-      AND
-        ifnull( SUM(ad_views) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING ),0)
-        = 0
-      THEN 1
-      ELSE 0
-      END AS first_ad_view_indicator
-
-  -- Calculate engagement ticks
-  -- uses prior row cumulative_engagement_ticks
-  , IFNULL(cumulative_engagement_ticks,0) -
-      IFNULL(LAG(cumulative_engagement_ticks,1) OVER (
-          PARTITION BY rdg_id
-          ORDER BY rdg_date ASC
-          ),0) AS engagement_ticks
-
-  -- time played
-  -- This is calculated as engagement ticks / 2
-  , 0.5 * (
-      case
-      when ifnull(cumulative_engagement_ticks,0) - ifnull(lag(cumulative_engagement_ticks,1) over ( partition by rdg_id order by rdg_date asc ),0) > 2800
-      then 2800
-      else ifnull(cumulative_engagement_ticks,0) - ifnull(lag(cumulative_engagement_ticks,1) over ( partition by rdg_id order by rdg_date asc ),0)
-      end
-      )
-      AS time_played_minutes
-
-  -- cumulative_time_played_minutes
-  , 0.5 * (
-      IFNULL(cumulative_engagement_ticks,0) ) AS cumulative_time_played_minutes
-
-  -- cumulative_round_start_events
-  , SUM(round_start_events) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_start_events
-
-  -- cumulative_round_end_events
-  , SUM(round_end_events) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_end_events
-
-  -- round_end_events_campaign
-  , SUM(round_end_events_campaign) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_end_events_campaign
-
-  -- round_end_events_movesmaster
-  , SUM(round_end_events_movesmaster) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_end_events_movesmaster
-
-  -- round_end_events_puzzle
-  , SUM(round_end_events_puzzle) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_end_events_puzzle
-
-  -- round_end_events_askforhelp
-  , SUM(round_end_events_askforhelp) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_end_events_askforhelp
-
-  -- round_end_events_gofish
-  , SUM(round_end_events_gofish) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_end_events_gofish
-
-  -- cumulative days played go fish
-  , sum( case when gofish_full_matches_completed > 0 then 1 else 0 end ) over (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_days_with_gofish_full_matches_completed
-
-  -- cumulative go fish matches
-  , sum( gofish_full_matches_completed ) over (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_gofish_full_matches_completed
-
-  -- cumulative go fish wins
-  , sum( gofish_full_matches_won ) over (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_gofish_full_matches_won
-
-  -- round_time_in_minutes
-  , SUM(round_time_in_minutes) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_time_in_minutes
-
-  -- round_time_in_minutes_campaign
-  , SUM(round_time_in_minutes_campaign) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_time_in_minutes_campaign
-
-  -- round_time_in_minutes_movesmaster
-  , SUM(round_time_in_minutes_movesmaster) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_time_in_minutes_movesmaster
-
-  -- round_time_in_minutes_puzzle
-  , SUM(round_time_in_minutes_puzzle) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_time_in_minutes_puzzle
-
-  -- round_time_in_minutes_askforhelp
-  , SUM(round_time_in_minutes_askforhelp) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_time_in_minutes_askforhelp
-
-  -- round_time_in_minutes_gofish
-  , SUM(round_time_in_minutes_gofish) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_round_time_in_minutes_gofish
-
-  -- count_days_played
-  -- this is just always 1
-  , 1 as count_days_played
-
-  -- cumulative_count_days_played
-  , SUM(1) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_count_days_played
-
-  -- Calculate levels_progressed
-  -- uses prior row highest_last_level_serial
-  , IFNULL(highest_last_level_serial,0) -
-      IFNULL(LAG(highest_last_level_serial,1) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ),0) AS levels_progressed
-
-  -- this_date_max_go_fish_rank
-  , MAX(this_date_max_go_fish_rank) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) max_gofish_rank
-
-  -- cumulative_coins_spend
-  , SUM(coins_spend) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_coins_spend
-
-        -- , a.coins_sourced_from_rewards
-
-  -- cumulative_coins_sourced_from_rewards
-  , SUM(coins_sourced_from_rewards) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_coins_sourced_from_rewards
-
-  -- cumulative_star_spend
-  , SUM(stars_spend) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_star_spend
-
-
-  -- low_render_perf_count
-  -- low_render_perf_count_cumulative
-
-  , low_render_perf_count_cumulative
-    - ifnull(lag(low_render_perf_count_cumulative, 1) over (
-        partition by rdg_id
-        order by rdg_date asc
-        ),0) low_render_perf_count
-
-  -- cumulative Chum Skills Used
-  , SUM(total_chum_powerups_used) OVER (
-      PARTITION BY rdg_id
-      ORDER BY rdg_date ASC
-      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-      ) cumulative_total_chum_powerups_used
-
-
-FROM
-  data_with_system_info_updates
-
-where
-    -- select date_add( current_date(), interval -1 day )
-    rdg_date <= timestamp(date_add( current_date(), interval -1 day ))
-
-
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_time_played_minutes
+from
+  cumulative_calculations_step_1
 
 
 

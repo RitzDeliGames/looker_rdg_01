@@ -1370,6 +1370,12 @@ view: player_summary_new {
       "Transaction"
       , "Spender"
       , "Install"
+      , "1 Minute"
+      , "2 Minutes"
+      , "3 Minutes"
+      , "4 Minutes"
+      , "5 Minutes"
+      , "10 Minutes"
       , "15 Minutes"
       , "30 Minutes"
       , "60 Minutes"
@@ -1400,6 +1406,19 @@ view: player_summary_new {
             when {% parameter selected_campaign_result %} = "60 Minutes"
               then case when ${TABLE}.cumulative_time_played_minutes >= 60 then 1 else 0 end
 
+            when {% parameter selected_campaign_result %} = "1 Minute"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 1 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "2 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 2 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "3 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 3 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "4 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 4 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "5 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 5 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "10 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 10 then 1 else 0 end
+
             else 0
             end
 
@@ -1429,6 +1448,19 @@ view: player_summary_new {
               then case when ${TABLE}.cumulative_time_played_minutes >= 30 then 1 else 0 end
             when {% parameter selected_campaign_result %} = "60 Minutes"
               then case when ${TABLE}.cumulative_time_played_minutes >= 60 then 1 else 0 end
+
+            when {% parameter selected_campaign_result %} = "1 Minute"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 1 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "2 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 2 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "3 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 3 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "4 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 4 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "5 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 5 then 1 else 0 end
+            when {% parameter selected_campaign_result %} = "10 Minutes"
+              then case when ${TABLE}.cumulative_time_played_minutes >= 10 then 1 else 0 end
 
       else 0
       end

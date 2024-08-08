@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-07-12'
+      -- update '2024-08-08'
 
       -- create or replace table tal_scratch.player_daily_incremental_test as
 
@@ -80,7 +80,7 @@ view: player_daily_incremental {
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-07-12' -- Last Full Update
+                when date(current_date()) <= '2024-08-08' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -612,6 +612,14 @@ view: player_daily_incremental {
             else 0
             end as int64) as feature_participation_donut_sprint
 
+        , safe_cast(case
+            when
+              event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%FoodTruck%'
+            then 1
+            else 0
+            end as int64) as feature_participation_food_truck
+
         -------------------------------------------------
         -- Feature Completion
         -------------------------------------------------
@@ -1067,6 +1075,7 @@ view: player_daily_incremental {
         , max( feature_participation_hot_dog_contest ) as feature_participation_hot_dog_contest
         , max( feature_participation_castle_climb ) as feature_participation_castle_climb
         , max( feature_participation_donut_sprint ) as feature_participation_donut_sprint
+        , max( feature_participation_food_truck ) as feature_participation_food_truck
 
         -- feature completion
         , max( feature_completion_castle_climb ) as feature_completion_castle_climb
@@ -1187,8 +1196,8 @@ view: player_daily_incremental {
 
     -- select
     --   date(rdg_date) as rdg_date
-    --   --, version
-    --   , sum( secret_eggs ) as secret_eggs
+    --   , sum(1) as count_players
+    --   , sum( feature_participation_food_truck ) as feature_participation_food_truck_sum
     -- from
     --   add_on_histogram_table
     -- group by

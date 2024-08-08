@@ -273,6 +273,7 @@ ads_by_date as (
         , max( feature_participation_ask_for_help_high_five ) as feature_participation_ask_for_help_high_five
         , max( feature_participation_ask_for_help_high_five_return ) as feature_participation_ask_for_help_high_five_return
         , max( feature_participation_hot_dog_contest ) as feature_participation_hot_dog_contest
+        , max( feature_participation_food_truck ) as feature_participation_food_truck
 
         -- feature completion
         , max( a.feature_completion_castle_climb ) as feature_completion_castle_climb
@@ -478,6 +479,7 @@ ads_by_date as (
         , max( feature_participation_hot_dog_contest ) as feature_participation_hot_dog_contest
         , max( a.feature_participation_castle_climb ) as feature_participation_castle_climb
         , max( a.feature_participation_donut_sprint ) as feature_participation_donut_sprint
+        , max( a.feature_participation_food_truck ) as feature_participation_food_truck
 
         -- feature completion
         , max( a.feature_completion_castle_climb ) as feature_completion_castle_climb
@@ -719,6 +721,7 @@ ads_by_date as (
         , a.feature_participation_ask_for_help_high_five
         , a.feature_participation_ask_for_help_high_five_return
         , a.feature_participation_hot_dog_contest
+        , a.feature_participation_food_truck
         , a.feature_participation_castle_climb
         , a.feature_participation_donut_sprint
         , case
@@ -735,6 +738,7 @@ ads_by_date as (
               or a.feature_participation_ask_for_help_high_five_return = 1
               or a.feature_participation_hot_dog_contest = 1
               or a.feature_completion_castle_climb = 1
+              or a.feature_participation_food_truck = 1
               then 1
             else 0
             end as feature_participation_any_event
@@ -1452,6 +1456,10 @@ dimension: primary_key {
     label: "Hotdog Contest"
     type:number}
 
+  dimension: feature_participation_food_truck {
+    group_label: "Daily Feature Participation"
+    label: "Food Truck"
+    type:number}
 
 
 
@@ -1912,6 +1920,24 @@ dimension: primary_key {
       safe_divide(
         count(distinct case
           when ${TABLE}.feature_participation_hot_dog_contest > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_engaged_with_food_truck {
+    group_label: "Daily Feature Participation"
+    label: "Food Truck"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.feature_participation_food_truck > 0
           then ${TABLE}.rdg_id
           else null
           end )

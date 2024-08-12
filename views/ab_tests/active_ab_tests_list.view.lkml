@@ -12,6 +12,7 @@ view: active_ab_tests_list {
 
       select '$.No_AB_Test_Split' as experiment_name
 
+      union all select '$.foodTruck_20240731'
       union all select '$.donutSprint_20240619'
 
       union all select '$.triggerOnRelease_20240715'

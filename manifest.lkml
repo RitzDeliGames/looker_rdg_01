@@ -1687,6 +1687,31 @@ constant: coin_spend_name {
   value: "
   case
 
+when ${TABLE}.source_id = 'plot_02' and ${TABLE}.iap_id = 'plot_02' then 'Plot 02'
+when ${TABLE}.source_id = 'plot_08' and ${TABLE}.iap_id = 'plot_08' then 'Plot 08'
+when ${TABLE}.source_id = 'plot_04' and ${TABLE}.iap_id = 'plot_04' then 'Plot 04'
+when ${TABLE}.source_id = 'plot_06' and ${TABLE}.iap_id = 'plot_06' then 'Plot 06'
+when ${TABLE}.source_id = 'plot_05' and ${TABLE}.iap_id = 'plot_05' then 'Plot 05'
+when ${TABLE}.source_id = 'oven' and ${TABLE}.iap_id = 'oven' then 'Oven'
+when ${TABLE}.source_id = 'croissant_table' and ${TABLE}.iap_id = 'croissant_table' then 'Croissant Table'
+when ${TABLE}.source_id = 'honey' and ${TABLE}.iap_id = 'honey' then 'Honey'
+when ${TABLE}.source_id = 'apple_tree' and ${TABLE}.iap_id = 'apple_tree' then 'Apple Tree'
+when ${TABLE}.source_id = 'ice_cream' and ${TABLE}.iap_id = 'ice_cream' then 'Ice Cream'
+when ${TABLE}.source_id = 'plot_03' and ${TABLE}.iap_id = 'plot_03' then 'Plot 03'
+when ${TABLE}.source_id = 'donut_table' and ${TABLE}.iap_id = 'donut_table' then 'Donut Table'
+when ${TABLE}.source_id = 'plot_07' and ${TABLE}.iap_id = 'plot_07' then 'Plot 07'
+when ${TABLE}.source_id = 'plot_13' and ${TABLE}.iap_id = 'plot_13' then 'Plot 13'
+when ${TABLE}.source_id = 'plot_14' and ${TABLE}.iap_id = 'plot_14' then 'Plot 14'
+when ${TABLE}.source_id = 'plot_09' and ${TABLE}.iap_id = 'plot_09' then 'Plot 09'
+when ${TABLE}.source_id = 'plot_11' and ${TABLE}.iap_id = 'plot_11' then 'Plot 11'
+when ${TABLE}.source_id = 'picnic' and ${TABLE}.iap_id = 'picnic' then 'Picnic'
+when ${TABLE}.source_id = 'tree_stump' and ${TABLE}.iap_id = 'tree_stump' then 'Tree Stump'
+when ${TABLE}.source_id = 'sign' and ${TABLE}.iap_id = 'sign' then 'Sign'
+when ${TABLE}.source_id = 'tea_table' and ${TABLE}.iap_id = 'tea_table' then 'Tea Table'
+when ${TABLE}.source_id = 'hay' and ${TABLE}.iap_id = 'hay' then 'Hay'
+when ${TABLE}.source_id = 'bush' and ${TABLE}.iap_id = 'bush' then 'Bush'
+
+
     when ${TABLE}.source_id = 'castle_climb_rescue' and ${TABLE}.iap_id = 'item_rescue' then 'Castle Climb Rescue'
     when ${TABLE}.source_id = 'character' and ${TABLE}.iap_id = 'item_moves_unlock' then 'Moves Bunny Unlock'
     when ${TABLE}.source_id = 'extra_moves_12' and ${TABLE}.iap_id = 'extra_moves_12' then 'Extra Moves'
@@ -1793,6 +1818,30 @@ constant: coin_spend_name {
 constant: coin_spend_name_group {
   value: "
   case
+
+    when ${TABLE}.source_id = 'plot_02' and ${TABLE}.iap_id = 'plot_02' then 'Food Truck'
+    when ${TABLE}.source_id = 'plot_08' and ${TABLE}.iap_id = 'plot_08' then 'Food Truck'
+    when ${TABLE}.source_id = 'plot_04' and ${TABLE}.iap_id = 'plot_04' then 'Food Truck'
+    when ${TABLE}.source_id = 'plot_06' and ${TABLE}.iap_id = 'plot_06' then 'Food Truck'
+    when ${TABLE}.source_id = 'plot_05' and ${TABLE}.iap_id = 'plot_05' then 'Food Truck'
+    when ${TABLE}.source_id = 'oven' and ${TABLE}.iap_id = 'oven' then 'Food Truck'
+    when ${TABLE}.source_id = 'croissant_table' and ${TABLE}.iap_id = 'croissant_table' then 'Food Truck'
+    when ${TABLE}.source_id = 'honey' and ${TABLE}.iap_id = 'honey' then 'Food Truck'
+    when ${TABLE}.source_id = 'apple_tree' and ${TABLE}.iap_id = 'apple_tree' then 'Food Truck'
+    when ${TABLE}.source_id = 'ice_cream' and ${TABLE}.iap_id = 'ice_cream' then 'Food Truck'
+    when ${TABLE}.source_id = 'plot_03' and ${TABLE}.iap_id = 'plot_03' then 'Food Truck'
+    when ${TABLE}.source_id = 'donut_table' and ${TABLE}.iap_id = 'donut_table' then 'Food Truck'
+    when ${TABLE}.source_id = 'plot_07' and ${TABLE}.iap_id = 'plot_07' then 'Food Truck'
+    when ${TABLE}.source_id = 'plot_13' and ${TABLE}.iap_id = 'plot_13' then 'Food Truck'
+    when ${TABLE}.source_id = 'plot_14' and ${TABLE}.iap_id = 'plot_14' then 'Food Truck'
+    when ${TABLE}.source_id = 'plot_09' and ${TABLE}.iap_id = 'plot_09' then 'Food Truck'
+    when ${TABLE}.source_id = 'plot_11' and ${TABLE}.iap_id = 'plot_11' then 'Food Truck'
+    when ${TABLE}.source_id = 'picnic' and ${TABLE}.iap_id = 'picnic' then 'Food Truck'
+    when ${TABLE}.source_id = 'tree_stump' and ${TABLE}.iap_id = 'tree_stump' then 'Food Truck'
+    when ${TABLE}.source_id = 'sign' and ${TABLE}.iap_id = 'sign' then 'Food Truck'
+    when ${TABLE}.source_id = 'tea_table' and ${TABLE}.iap_id = 'tea_table' then 'Food Truck'
+    when ${TABLE}.source_id = 'hay' and ${TABLE}.iap_id = 'hay' then 'Food Truck'
+    when ${TABLE}.source_id = 'bush' and ${TABLE}.iap_id = 'bush' then 'Food Truck'
 
     when ${TABLE}.source_id = 'castle_climb_rescue' and ${TABLE}.iap_id = 'item_rescue' then 'Castle Climb'
     when ${TABLE}.source_id = 'character' and ${TABLE}.iap_id = 'item_moves_unlock' then 'New Chum Chum'

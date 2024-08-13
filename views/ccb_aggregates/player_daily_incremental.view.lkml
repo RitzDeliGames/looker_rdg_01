@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-08-08'
+      -- update '2024-08-13'
 
       -- create or replace table tal_scratch.player_daily_incremental_test as
 
@@ -77,30 +77,30 @@ view: player_daily_incremental {
           -- but future runs we only want the last 9 days
           ------------------------------------------------------------------------
 
-        date(timestamp) >=
-            case
-                -- select date(current_date())
-                when date(current_date()) <= '2024-08-08' -- Last Full Update
-                then '2022-06-01'
-                else date_add(current_date(), interval -9 day)
-                end
-        and date(timestamp) <= date_add(current_date(), interval -1 DAY)
+          date(timestamp) >=
+              case
+                  -- select date(current_date())
+                  when date(current_date()) <= '2024-08-13' -- Last Full Update
+                  then '2022-06-01'
+                  else date_add(current_date(), interval -9 day)
+                  end
+          and date(timestamp) <= date_add(current_date(), interval -1 DAY)
 
-        ------------------------------------------------------------------------
-        -- user type selection
-        -- We only want users that are marked as "external"
-        -- This removes any bots or internal QA accounts
-        ------------------------------------------------------------------------
+          ------------------------------------------------------------------------
+          -- user type selection
+          -- We only want users that are marked as "external"
+          -- This removes any bots or internal QA accounts
+          ------------------------------------------------------------------------
 
-        and user_type = 'external'
+          and user_type = 'external'
 
-        ------------------------------------------------------------------------
-        -- check my data
-        -- this is adhoc if I want to check a query with my own data
-        ------------------------------------------------------------------------
+          ------------------------------------------------------------------------
+          -- check my data
+          -- this is adhoc if I want to check a query with my own data
+          ------------------------------------------------------------------------
 
-        -- and rdg_id = '3989ffa2-2b93-4f33-a940-86c4746036ba'
-        -- and date(timestamp) = '2024-05-15'
+          -- and rdg_id = '3989ffa2-2b93-4f33-a940-86c4746036ba'
+          -- and date(timestamp) = '2024-08-13'
 
       )
 
@@ -313,6 +313,16 @@ view: player_daily_incremental {
               then 1 -- count events
               else 0
               end as int64) as round_end_events_gemquest
+
+        -- round end events - gemQuest
+          , safe_cast(case
+              when
+                event_name = 'round_end'
+                and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) = 'gemQuest'
+                and safe_cast( json_extract_scalar( extra_json , "$.quest_complete") as boolean) = true
+              then 1 -- count events
+              else 0
+              end as int64) as round_win_events_gemquest
 
         -- round end events - ask for help
           , safe_cast(case
@@ -981,6 +991,84 @@ view: player_daily_incremental {
             else null
             end as daily_popup_action
 
+        -------------------------------------------------
+        -- Estimate Ad Placements
+        -------------------------------------------------
+
+        -- Moves Master
+        , case
+          when event_name = 'round_end'
+          and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) = 'movesMaster'
+          and safe_cast( json_extract_scalar( extra_json , "$.quest_complete") as boolean) = true
+          then 1 else 0 end as estimate_ad_placements_movesmaster
+
+        -- Battle Pass
+        , case
+          when event_name = 'reward'
+          and safe_cast(json_extract_scalar( extra_json , "$.reward_event") as string) = 'battle_pass'
+          and safe_cast(json_extract_scalar( extra_json , "$.battle_pass_reward_type") as string) = 'free'
+          then 1 else 0 end as estimate_ad_placements_battlepass
+
+        -- Go Fish
+        , case
+          when event_name = 'round_end'
+          and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) = 'goFish'
+          and safe_cast( json_extract_scalar( extra_json , "$.quest_complete") as boolean) = true
+          then 1 else 0 end as estimate_ad_placements_gofish
+
+        -- Puzzle
+        , case
+          when event_name = 'round_end'
+          and safe_cast(json_extract_scalar(extra_json, "$.game_mode") as string) = 'puzzle'
+          and safe_cast( json_extract_scalar( extra_json , "$.quest_complete") as boolean) = true
+          then 1 else 0 end as estimate_ad_placements_puzzle
+
+        -- Out of Lives
+        , case
+          when event_name = 'ButtonClicked'
+          and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%.NoPlay'
+          and safe_cast( json_extract_scalar( currencies , "$.CURRENCY_04") as numeric) = 0
+          then 1 else 0 end as estimate_ad_placements_lives
+
+        -- Pizza
+        -- can just say cap at 1 per day, only if pizza was collected
+        , case
+          when event_name = 'ButtonClicked'
+          and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%Sheet_PizzaTime%'
+          then 1 else 0 end as estimate_ad_placements_pizzatime
+
+
+        -- Lukcy Dice
+      , case
+          when event_name = 'ButtonClicked'
+          and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%Panel_ZoneHome.LuckyDice%'
+          and safe_cast( json_extract_scalar( currencies , "$.DICE") as numeric) = 0
+          then 1 else 0 end
+        + case
+          when event_name = 'ButtonClicked'
+          and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) = 'Sheet_LuckyDice.Roll'
+          and safe_cast( json_extract_scalar( currencies , "$.DICE") as numeric) = 0
+          then 1 else 0 end
+
+           as estimate_ad_placements_luckydice
+
+        -- Treasure Trove
+        -- Ads Treasure Trove
+
+        -- Rocket
+        , case
+          when event_name = 'ButtonClicked'
+          and
+            ( safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%.Play'
+              or safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%.PlayFromFeature'
+              or safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%.PlayFromQuest'
+            )
+          and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) not like '%PreGame%'
+          and safe_cast( json_extract_scalar( tickets , "$.ROCKET") as numeric) = 0
+          then 1 else 0 end as estimate_ad_placements_rocket
+
+        -- Daily Reward (We're not going to do this one)
+
         from
             base_data
     )
@@ -1019,6 +1107,7 @@ view: player_daily_incremental {
         , sum(round_end_events_movesmaster) as round_end_events_movesmaster
         , sum(round_end_events_puzzle) as round_end_events_puzzle
         , sum(round_end_events_gemquest) as round_end_events_gemquest
+        , sum(round_win_events_gemquest) as round_win_events_gemquest
         , sum(round_end_events_askforhelp) as round_end_events_askforhelp
         , sum(round_end_events_gofish) as round_end_events_gofish
         , sum(gofish_full_matches_completed) as gofish_full_matches_completed
@@ -1158,6 +1247,16 @@ view: player_daily_incremental {
         , max( case when daily_popup_category = 'TreasureTrove' then daily_popup_action else null end ) as daily_popup_TreasureTrove
         , max( case when daily_popup_category = 'UpdateApp' then daily_popup_action else null end ) as daily_popup_UpdateApp
 
+        -- Estimate Ad Placements
+        , sum( estimate_ad_placements_movesmaster ) as estimate_ad_placements_movesmaster
+        , sum( estimate_ad_placements_battlepass ) as estimate_ad_placements_battlepass
+        , sum( estimate_ad_placements_gofish ) as estimate_ad_placements_gofish
+        , sum( estimate_ad_placements_puzzle ) as estimate_ad_placements_puzzle
+        , sum( estimate_ad_placements_lives ) as estimate_ad_placements_lives
+        , max( estimate_ad_placements_pizzatime ) as estimate_ad_placements_pizzatime -- NOTE: capping at 1 for this one
+        , sum( estimate_ad_placements_luckydice ) as estimate_ad_placements_luckydice
+        , sum( estimate_ad_placements_rocket ) as estimate_ad_placements_rocket
+
       from
         pre_aggregate_calculations_from_base_data
       group by
@@ -1195,9 +1294,22 @@ view: player_daily_incremental {
     select * from add_on_histogram_table
 
     -- select
-    --   date(rdg_date) as rdg_date
-    --   , sum(1) as count_players
-    --   , sum( feature_participation_food_truck ) as feature_participation_food_truck_sum
+    --    date(rdg_date) as rdg_date
+
+    --     -- Estimate Ad Placements
+    --     , sum( estimate_ad_placements_movesmaster ) as estimate_ad_placements_movesmaster
+    --     , sum( estimate_ad_placements_battlepass ) as estimate_ad_placements_battlepass
+    --     , sum( estimate_ad_placements_gofish ) as estimate_ad_placements_gofish
+    --     , sum( estimate_ad_placements_puzzle ) as estimate_ad_placements_puzzle
+    --     , sum( estimate_ad_placements_lives ) as estimate_ad_placements_lives
+    --     , sum( estimate_ad_placements_pizzatime ) as estimate_ad_placements_pizzatime
+    --     , sum( estimate_ad_placements_luckydice ) as estimate_ad_placements_luckydice
+    --     , sum( estimate_ad_placements_rocket ) as estimate_ad_placements_rocket
+
+    --   -- gem quest check
+    --   , sum( round_end_events_gemquest ) as round_end_events_gemquest
+    --   , sum( round_win_events_gemquest ) as round_win_events_gemquest
+
     -- from
     --   add_on_histogram_table
     -- group by

@@ -219,6 +219,7 @@ ads_by_date as (
         , max(a.round_end_events_gofish) as round_end_events_gofish
         , max(a.gofish_full_matches_completed) as gofish_full_matches_completed
         , max(a.gofish_full_matches_won) as gofish_full_matches_won
+        , max(a.round_win_events_gemquest) as round_win_events_gemquest
 
         , max(a.round_time_in_minutes) as round_time_in_minutes
         , max(a.round_time_in_minutes_campaign) as round_time_in_minutes_campaign
@@ -346,6 +347,15 @@ ads_by_date as (
         , max( a.daily_popup_TreasureTrove ) as daily_popup_TreasureTrove
         , max( a.daily_popup_UpdateApp ) as daily_popup_UpdateApp
 
+        -- Estimate Ad Placements
+        , max( a.estimate_ad_placements_movesmaster ) as estimate_ad_placements_movesmaster
+        , max( a.estimate_ad_placements_battlepass ) as estimate_ad_placements_battlepass
+        , max( a.estimate_ad_placements_gofish ) as estimate_ad_placements_gofish
+        , max( a.estimate_ad_placements_puzzle ) as estimate_ad_placements_puzzle
+        , max( a.estimate_ad_placements_lives ) as estimate_ad_placements_lives
+        , max( a.estimate_ad_placements_pizzatime ) as estimate_ad_placements_pizzatime
+        , max( a.estimate_ad_placements_luckydice ) as estimate_ad_placements_luckydice
+        , max( a.estimate_ad_placements_rocket ) as estimate_ad_placements_rocket
 
     from
         player_daily_incremental_w_prior_date a
@@ -426,6 +436,7 @@ ads_by_date as (
         , max(a.round_end_events_gofish) as round_end_events_gofish
         , max(a.gofish_full_matches_completed) as gofish_full_matches_completed
         , max(a.gofish_full_matches_won) as gofish_full_matches_won
+        , max(a.round_win_events_gemquest) as round_win_events_gemquest
 
         , max(a.round_time_in_minutes) as round_time_in_minutes
         , max(a.round_time_in_minutes_campaign) as round_time_in_minutes_campaign
@@ -551,6 +562,16 @@ ads_by_date as (
         , max( a.daily_popup_Puzzle ) as daily_popup_Puzzle
         , max( a.daily_popup_TreasureTrove ) as daily_popup_TreasureTrove
         , max( a.daily_popup_UpdateApp ) as daily_popup_UpdateApp
+
+        -- Estimate Ad Placements
+        , max( a.estimate_ad_placements_movesmaster ) as estimate_ad_placements_movesmaster
+        , max( a.estimate_ad_placements_battlepass ) as estimate_ad_placements_battlepass
+        , max( a.estimate_ad_placements_gofish ) as estimate_ad_placements_gofish
+        , max( a.estimate_ad_placements_puzzle ) as estimate_ad_placements_puzzle
+        , max( a.estimate_ad_placements_lives ) as estimate_ad_placements_lives
+        , max( a.estimate_ad_placements_pizzatime ) as estimate_ad_placements_pizzatime
+        , max( a.estimate_ad_placements_luckydice ) as estimate_ad_placements_luckydice
+        , max( a.estimate_ad_placements_rocket ) as estimate_ad_placements_rocket
 
     from
         join_on_ads_data a
@@ -680,6 +701,7 @@ ads_by_date as (
         , a.round_end_events_gofish
         , a.gofish_full_matches_completed
         , a.gofish_full_matches_won
+        , a.round_win_events_gemquest
 
         , a.round_time_in_minutes
         , a.round_time_in_minutes_campaign
@@ -844,6 +866,16 @@ ads_by_date as (
         , a.daily_popup_Puzzle
         , a.daily_popup_TreasureTrove
         , a.daily_popup_UpdateApp
+
+        -- Estimate Ad Placements
+        , a.estimate_ad_placements_movesmaster
+        , a.estimate_ad_placements_battlepass
+        , a.estimate_ad_placements_gofish
+        , a.estimate_ad_placements_puzzle
+        , a.estimate_ad_placements_lives
+        , a.estimate_ad_placements_pizzatime
+        , a.estimate_ad_placements_luckydice
+        , a.estimate_ad_placements_rocket
 
     from
         join_on_mtx_data a

@@ -2683,6 +2683,73 @@ dimension: primary_key {
       );;
   }
 
+################################################################
+## Ad Placement Estimates
+################################################################
+
+  measure: estimate_ad_placements_movesmaster_per_day {
+    label: "Moves Master"
+    group_label: "Estimate Ad Placements Per Day"
+    type: number
+    value_format_name: decimal_1
+    sql: safe_divide( sum( ${TABLE}.estimate_ad_placements_movesmaster ) , sum( ${TABLE}.count_days_played ) );;
+  }
+
+  measure: estimate_ad_placements_battlepass_per_day {
+    label: "Battle Pass"
+    group_label: "Estimate Ad Placements Per Day"
+    type: number
+    value_format_name: decimal_1
+    sql: safe_divide( sum( ${TABLE}.estimate_ad_placements_battlepass ) , sum( ${TABLE}.count_days_played ) );;
+  }
+
+  measure: estimate_ad_placements_gofish_per_day {
+    label: "Go Fish"
+    group_label: "Estimate Ad Placements Per Day"
+    type: number
+    value_format_name: decimal_1
+    sql: safe_divide( sum( ${TABLE}.estimate_ad_placements_gofish ) , sum( ${TABLE}.count_days_played ) );;
+  }
+
+  measure: estimate_ad_placements_puzzle_per_day {
+    label: "Puzzle"
+    group_label: "Estimate Ad Placements Per Day"
+    type: number
+    value_format_name: decimal_1
+    sql: safe_divide( sum( ${TABLE}.estimate_ad_placements_puzzle ) , sum( ${TABLE}.count_days_played ) );;
+  }
+
+  measure: estimate_ad_placements_lives_per_day {
+    label: "Lives"
+    group_label: "Estimate Ad Placements Per Day"
+    type: number
+    value_format_name: decimal_1
+    sql: safe_divide( sum( ${TABLE}.estimate_ad_placements_lives ) , sum( ${TABLE}.count_days_played ) );;
+  }
+
+  measure: estimate_ad_placements_pizzatime_per_day {
+    label: "Pizza Time"
+    group_label: "Estimate Ad Placements Per Day"
+    type: number
+    value_format_name: decimal_1
+    sql: safe_divide( sum( ${TABLE}.estimate_ad_placements_pizzatime ) , sum( ${TABLE}.count_days_played ) );;
+  }
+
+  measure: estimate_ad_placements_luckydice_per_day {
+    label: "Lucky Dice"
+    group_label: "Estimate Ad Placements Per Day"
+    type: number
+    value_format_name: decimal_1
+    sql: safe_divide( sum( ${TABLE}.estimate_ad_placements_luckydice ) , sum( ${TABLE}.count_days_played ) );;
+  }
+
+  measure: estimate_ad_placements_rocket_per_day {
+    label: "Rocket"
+    group_label: "Estimate Ad Placements Per Day"
+    type: number
+    value_format_name: decimal_1
+    sql: safe_divide( sum( ${TABLE}.estimate_ad_placements_rocket ) , sum( ${TABLE}.count_days_played ) );;
+  }
 
 ################################################################
 ## Possible Crashes

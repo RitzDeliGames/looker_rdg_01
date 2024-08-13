@@ -2251,6 +2251,24 @@ dimension: primary_key {
     value_format_name: percent_0
   }
 
+  measure: percent_players_over_level_40 {
+    group_label: "Participation by Game Mode"
+    label: "Players Over Level 40"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.highest_last_level_serial >= 40
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
   measure: percent_players_playing_puzzle {
     group_label: "Participation by Game Mode"
     label: "Puzzle"

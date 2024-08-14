@@ -54,6 +54,8 @@ view: ab_test_player_daily {
               end )
             as variant
         , case
+            when {% parameter selected_metric_daily %} = "Average Gem Quest APS" then sum(a.round_end_events_gemquest)
+
             when {% parameter selected_metric_daily %} = "Average Coins Sourced From Rewards Per Day" then sum(a.coins_sourced_from_rewards)
             when {% parameter selected_metric_daily %} = "Average Coins Sourced From Rewards Per Player" then sum(a.coins_sourced_from_rewards)
 
@@ -110,6 +112,8 @@ view: ab_test_player_daily {
 
           else sum(1) end as numerator
         , case
+
+        when {% parameter selected_metric_daily %} = "Average Gem Quest APS" then sum(a.round_win_events_gemquest)
 
         when {% parameter selected_metric_daily %} = "Average Coins Sourced From Rewards Per Day" then sum(1)
         when {% parameter selected_metric_daily %} = "Average Coins Sourced From Rewards Per Player" then max(1)
@@ -1061,6 +1065,8 @@ view: ab_test_player_daily {
       , "Average Churn Rate Per Player"
 
       , "Average Daily Feature Participation (Any Event)"
+
+      , "Average Gem Quest APS"
 
     ]
   }

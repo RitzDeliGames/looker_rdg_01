@@ -100,6 +100,7 @@ view: ab_test_player_daily {
             when {% parameter selected_metric_daily %} = "Combined Revenue Per Player" then sum(a.combined_dollars)
             when {% parameter selected_metric_daily %} = "Combined Conversion Per Player" then sum(case when a.combined_dollars > 0 then 1 else 0 end)
             when {% parameter selected_metric_daily %} = "Combined Revenue Per IAP Spender" then sum(a.combined_dollars)
+            when {% parameter selected_metric_daily %} = "IAP Percent of Combined Revenue" then sum(a.mtx_purchase_dollars)
 
             when {% parameter selected_metric_daily %} = "Average Coin Spend Per Day" then sum(a.coins_spend)
             when {% parameter selected_metric_daily %} = "Average Coin Spend Per Player" then sum(a.coins_spend)
@@ -159,6 +160,7 @@ view: ab_test_player_daily {
         when {% parameter selected_metric_daily %} = "Combined Revenue Per Player" then max(1)
         when {% parameter selected_metric_daily %} = "Combined Conversion Per Player" then max(1)
         when {% parameter selected_metric_daily %} = "Combined Revenue Per IAP Spender" then max(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
+        when {% parameter selected_metric_daily %} = "IAP Percent of Combined Revenue" then sum(a.combined_dollars)
 
         when {% parameter selected_metric_daily %} = "Average Coin Spend Per Day" then sum(a.count_days_played)
         when {% parameter selected_metric_daily %} = "Average Coin Spend Per Player" then max(1)
@@ -1053,6 +1055,7 @@ view: ab_test_player_daily {
       , "Combined Revenue Per Player"
       , "Combined Conversion Per Player"
       , "Combined Revenue Per IAP Spender"
+      , "IAP Percent of Combined Revenue"
 
       , "Average Coin Spend Per Day"
       , "Average Coin Spend Per Player"

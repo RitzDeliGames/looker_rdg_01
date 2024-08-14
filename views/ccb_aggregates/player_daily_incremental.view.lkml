@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-08-13'
+      -- update '2024-08-14'
 
       -- create or replace table tal_scratch.player_daily_incremental_test as
 
@@ -80,7 +80,7 @@ view: player_daily_incremental {
           date(timestamp) >=
               case
                   -- select date(current_date())
-                  when date(current_date()) <= '2024-08-13' -- Last Full Update
+                  when date(current_date()) <= '2024-08-14' -- Last Full Update
                   then '2022-06-01'
                   else date_add(current_date(), interval -9 day)
                   end
@@ -1063,6 +1063,7 @@ view: player_daily_incremental {
               or safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%.PlayFromFeature'
               or safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) like '%.PlayFromQuest'
             )
+          and safe_cast(json_extract_scalar(extra_json, "$.path") as string) not like '%Start Round'
           and safe_cast(json_extract_scalar(extra_json, "$.button_tag") as string) not like '%PreGame%'
           and safe_cast( json_extract_scalar( tickets , "$.ROCKET") as numeric) = 0
           then 1 else 0 end as estimate_ad_placements_rocket

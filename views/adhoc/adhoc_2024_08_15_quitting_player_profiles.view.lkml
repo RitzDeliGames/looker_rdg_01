@@ -131,14 +131,14 @@ view: adhoc_2024_08_15_quitting_player_profiles {
 ## Measures
 ################################################################
 
-  dimension: count_distinct_players {
+  measure: count_distinct_players {
     label: "Count Distinct Players"
     type: number
     value_format_name: decimal_0
     sql: count(distinct ${TABLE}.rdg_id) ;;
   }
 
-  dimension: campaign_levels_advanced {
+  measure: campaign_levels_advanced {
     label: "Campaign Levels Advanced"
     type: number
     value_format_name: decimal_0
@@ -151,7 +151,7 @@ view: adhoc_2024_08_15_quitting_player_profiles {
     ;;
   }
 
-  dimension: mean_highest_campaign_level {
+  measure: mean_highest_campaign_level {
     label: "Mean Highest Campaign Level"
     type: number
     value_format_name: decimal_0
@@ -164,7 +164,7 @@ view: adhoc_2024_08_15_quitting_player_profiles {
   ;;
   }
 
-  dimension: mean_round_end_events {
+  measure: mean_round_end_events {
     label: "Mean Round End Events"
     type: number
     value_format_name: decimal_0

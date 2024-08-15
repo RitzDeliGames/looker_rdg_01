@@ -758,6 +758,20 @@ explore: adhoc_2024_06_13_tickets_funnel {
   }
 }
 
+explore: adhoc_2024_08_15_quitting_player_profiles {
+  label: "Quitting Player Profiles"
+  group_label: "Chum Chum Adhoc"
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${adhoc_2024_08_15_quitting_player_profiles.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
 ################################################################
 
 ## Other Explores

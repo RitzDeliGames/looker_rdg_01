@@ -54,6 +54,11 @@ base_data as (
         order by round_start_timestamp_utc asc
         ) as next_round_start_timestamp_utc
 
+    , lead(session_id) over (
+        partition by rdg_id
+        order by round_start_timestamp_utc asc
+        ) as next_round_session_id
+
     -- lag previous win_streak as win_streak_at_round_start
     , ifnull(
         lag(win_streak) over (
@@ -83,6 +88,7 @@ base_data as (
     , max(a.created_at) as created_at
     , max(a.version) as version
     , max(a.session_id) as session_id
+    , max(a.next_round_session_id) as next_round_session_id
     , max(a.experiments) as experiments
     , max(a.win_streak_at_round_start) as win_streak_at_round_start
     , max(a.win_streak) as win_streak_at_round_end
@@ -231,6 +237,7 @@ base_data as (
     , max(a.created_at) as created_at
     , max(a.version) as version
     , max(a.session_id) as session_id
+    , max(a.next_round_session_id) as next_round_session_id
     , max(a.experiments) as experiments
     , max(a.win_streak_at_round_start) as win_streak_at_round_start
     , max(a.win_streak_at_round_end) as win_streak_at_round_end
@@ -386,6 +393,7 @@ base_data as (
     , max(a.created_at) as created_at
     , max(a.version) as version
     , max(a.session_id) as session_id
+    , max(a.next_round_session_id) as next_round_session_id
     , max(a.experiments) as experiments
     , max(a.win_streak_at_round_start) as win_streak_at_round_start
     , max(a.win_streak_at_round_end) as win_streak_at_round_end
@@ -548,6 +556,7 @@ base_data as (
     , max(a.created_at) as created_at
     , max(a.version) as version
     , max(a.session_id) as session_id
+    , max(a.next_round_session_id) as next_round_session_id
     , max(a.experiments) as experiments
     , max(a.win_streak_at_round_start) as win_streak_at_round_start
     , max(a.win_streak_at_round_end) as win_streak_at_round_end
@@ -935,6 +944,7 @@ select
   -- Churn Stuff
   -----------------------------------------------------------------------------
 
+  , case when next_round_session_id <> session_id then 1 else 0 end as last_round_in_session_indicator
   , case when next_round_start_timestamp_utc is null then 1 else 0 end as churn_indicator
   , case when next_round_start_timestamp_utc is null then rdg_id else null end as churn_rdg_id
   , case
@@ -2030,6 +2040,20 @@ from
     sql:
       safe_divide(
         sum(${TABLE}.churn_indicator)
+        ,
+        sum(${TABLE}.count_rounds)
+      )
+    ;;
+    value_format_name: percent_1
+  }
+
+  measure: last_round_in_session_rate_per_round {
+    label: "Last Round In Session Rate Per Round"
+    group_label: "Calculated Fields"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.last_round_in_session_indicator)
         ,
         sum(${TABLE}.count_rounds)
       )

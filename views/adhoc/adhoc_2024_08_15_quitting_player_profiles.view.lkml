@@ -25,9 +25,11 @@ view: adhoc_2024_08_15_quitting_player_profiles {
             ) as day_number_bucket
         , max(churn_indicator) as churn_indicator
         , max(1) as count_players
+        , sum(1) as count_days_played
         , max(highest_last_level_serial) as highest_last_level_serial
         , min(lowest_last_level_serial) as lowest_last_level_serial
         , sum(round_end_events) as round_end_events
+        , sum(round_end_events_campaign) as round_end_events_campaign
         , sum(round_end_events_movesmaster) as round_end_events_movesmaster
         , sum(round_end_events_puzzle) as round_end_events_puzzle
         , sum(round_end_events_gemquest) as round_end_events_gemquest
@@ -146,7 +148,7 @@ view: adhoc_2024_08_15_quitting_player_profiles {
       safe_divide(
         sum( ${TABLE}.highest_last_level_serial - ${TABLE}.lowest_last_level_serial )
         ,
-        sum( count_players )
+        sum( ${TABLE}.count_players )
       )
     ;;
   }
@@ -159,7 +161,7 @@ view: adhoc_2024_08_15_quitting_player_profiles {
     safe_divide(
       sum( ${TABLE}.highest_last_level_serial )
       ,
-      sum( count_players )
+      sum( ${TABLE}.count_players )
     )
   ;;
   }
@@ -172,11 +174,107 @@ view: adhoc_2024_08_15_quitting_player_profiles {
     safe_divide(
       sum( ${TABLE}.round_end_events )
       ,
-      sum( count_players )
+      sum( ${TABLE}.count_players )
     )
   ;;
   }
 
+  measure: mean_days_played {
+    label: "Mean Days Played"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.count_days_played )
+      ,
+      sum( ${TABLE}.count_players )
+    )
+  ;;
+  }
+
+  measure: mean_round_end_events_per_day {
+    group_label: "Rounds Per Day"
+    label: "Mean Round End Events Per Day"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.round_end_events )
+      ,
+      sum( ${TABLE}.count_days_played )
+    )
+  ;;
+  }
+
+  measure: mean_campaign_rounds_per_day {
+    group_label: "Rounds Per Day"
+    label: "Mean Campaign Rounds Per Day"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.round_end_events_campaign )
+      ,
+      sum( ${TABLE}.count_days_played )
+    )
+  ;;
+  }
+
+  measure: mean_moves_master_rounds_per_day {
+    group_label: "Rounds Per Day"
+    label: "Mean Moves Master Rounds Per Day"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.round_end_events_movesmaster )
+      ,
+      sum( ${TABLE}.count_days_played )
+    )
+  ;;
+  }
+
+  measure: mean_puzzle_rounds_per_day {
+    group_label: "Rounds Per Day"
+    label: "Mean Puzzle Rounds Per Day"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.round_end_events_puzzle )
+      ,
+      sum( ${TABLE}.count_days_played )
+    )
+  ;;
+  }
+
+  measure: mean_gem_quest_rounds_per_day {
+    group_label: "Rounds Per Day"
+    label: "Mean Gem Quest Rounds Per Day"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.round_end_events_gemquest )
+      ,
+      sum( ${TABLE}.count_days_played )
+    )
+  ;;
+  }
+
+  measure: mean_go_fish_rounds_per_day {
+    group_label: "Rounds Per Day"
+    label: "Mean Go Fish Rounds Per Day"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.round_end_events_gofish )
+      ,
+      sum( ${TABLE}.count_days_played )
+    )
+  ;;
+  }
 
 
 

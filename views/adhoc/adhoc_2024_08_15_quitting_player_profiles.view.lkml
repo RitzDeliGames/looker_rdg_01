@@ -276,6 +276,144 @@ view: adhoc_2024_08_15_quitting_player_profiles {
   ;;
   }
 
+  measure: participation_rate_campaign {
+    group_label: "Participation Rates"
+    label: "Participation Rate Campaign"
+    type: number
+    value_format_name: percent_0
+    sql:
+    safe_divide(
+      sum( case when ${TABLE}.round_end_events_campaign > 0 then 1 else 0 end )
+      ,
+      sum( ${TABLE}.count_players )
+    )
+  ;;
+  }
 
+  measure: participation_rate_moves_master {
+    group_label: "Participation Rates"
+    label: "Participation Rate Moves Master"
+    type: number
+    value_format_name: percent_0
+    sql:
+    safe_divide(
+      sum( case when ${TABLE}.round_end_events_movesmaster > 0 then 1 else 0 end )
+      ,
+      sum( ${TABLE}.count_players )
+    )
+  ;;
+  }
+
+  measure: participation_rate_puzzle {
+    group_label: "Participation Rates"
+    label: "Participation Rate Puzzle"
+    type: number
+    value_format_name: percent_0
+    sql:
+    safe_divide(
+      sum( case when ${TABLE}.round_end_events_puzzle > 0 then 1 else 0 end )
+      ,
+      sum( ${TABLE}.count_players )
+    )
+  ;;
+  }
+
+  measure: participation_rate_go_fish {
+    group_label: "Participation Rates"
+    label: "Participation Rate Go Fish"
+    type: number
+    value_format_name: percent_0
+    sql:
+    safe_divide(
+      sum( case when ${TABLE}.round_end_events_gofish > 0 then 1 else 0 end )
+      ,
+      sum( ${TABLE}.count_players )
+    )
+  ;;
+  }
+
+  measure: participation_rate_gem_quest {
+    group_label: "Participation Rates"
+    label: "Participation Rate Gem Quest"
+    type: number
+    value_format_name: percent_0
+    sql:
+    safe_divide(
+      sum( case when ${TABLE}.round_end_events_gemquest > 0 then 1 else 0 end )
+      ,
+      sum( ${TABLE}.count_players )
+    )
+  ;;
+  }
+
+  measure: mean_campaign_rounds_per_day_for_participators {
+    group_label: "Rounds Per Day For Participators"
+    label: "Mean Campaign Rounds Per Day For Participators"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.round_end_events_campaign )
+      ,
+      sum( case when ${TABLE}.round_end_events_campaign > 1 then ${TABLE}.count_days_played else 0 end )
+    )
+  ;;
+  }
+
+  measure: mean_moves_master_rounds_per_day_for_participators {
+    group_label: "Rounds Per Day For Participators"
+    label: "Mean Moves Master Rounds Per Day For Participators"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.round_end_events_movesmaster )
+      ,
+      sum( case when ${TABLE}.round_end_events_movesmaster > 1 then ${TABLE}.count_days_played else 0 end )
+    )
+  ;;
+  }
+
+  measure: mean_puzzle_rounds_per_day_for_participators {
+    group_label: "Rounds Per Day For Participators"
+    label: "Mean Puzzle Rounds Per Day For Participators"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.round_end_events_puzzle )
+      ,
+      sum( case when ${TABLE}.round_end_events_puzzle > 1 then ${TABLE}.count_days_played else 0 end )
+    )
+  ;;
+  }
+
+  measure: mean_gem_quest_rounds_per_day_for_participators {
+    group_label: "Rounds Per Day For Participators"
+    label: "Mean Gem Quest Rounds Per Day For Participators"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.round_end_events_gemquest )
+      ,
+      sum( case when ${TABLE}.round_end_events_gemquest > 1 then ${TABLE}.count_days_played else 0 end )
+    )
+  ;;
+  }
+
+  measure: mean_go_fish_rounds_per_day_for_participators {
+    group_label: "Rounds Per Day For Participators"
+    label: "Mean Go Fish Rounds Per Day For Participators"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.round_end_events_gofish )
+      ,
+      sum( case when ${TABLE}.round_end_events_gofish > 1 then ${TABLE}.count_days_played else 0 end )
+    )
+  ;;
+  }
 
 }

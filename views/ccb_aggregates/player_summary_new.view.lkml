@@ -3875,6 +3875,25 @@ view: player_summary_new {
     value_format_name: percent_0
   }
 
+  measure: engagement_milestone_90_minutes {
+    label: "90+ Min"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 90
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
   measure: engagement_milestone_120_minutes {
     label: "120+ Min"
     group_label: "Engagement Milestones"
@@ -3970,6 +3989,21 @@ view: player_summary_new {
       count( distinct
         case
           when ${TABLE}.cumulative_time_played_minutes >= 60
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: numerator_engagement_milestone_90_minutes {
+    label: "90+ Min Numerator"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 90
           then ${TABLE}.rdg_id
           else null
           end )

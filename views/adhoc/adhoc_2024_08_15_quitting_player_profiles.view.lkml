@@ -161,10 +161,10 @@ view: adhoc_2024_08_15_quitting_player_profiles {
               safe_divide(
                 ${TABLE}.ending_day_number_bucket_order + ${TABLE}.my_day_number_bucket_size - 1
                 , ${TABLE}.my_day_number_bucket_size )
-                <> ${TABLE}.count_of_entries then 'Not Survived'
-            when ${TABLE}.ending_churn_indicator is null then 'Not Survived'
+                <> ${TABLE}.count_of_entries then 'Not Played In All Buckets'
+            when ${TABLE}.ending_churn_indicator is null then 'Not Played In All Buckets'
             when ${TABLE}.ending_churn_indicator = 0 then 'Not Churned'
-            when ${TABLE}.ending_churn_indicator = 1 then 'Churned'
+            when ${TABLE}.ending_churn_indicator = 1 then 'Churned at End'
 
             else 'Other' end
 

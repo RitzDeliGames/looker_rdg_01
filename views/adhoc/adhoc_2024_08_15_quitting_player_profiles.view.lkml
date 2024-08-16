@@ -7,6 +7,14 @@ view: adhoc_2024_08_15_quitting_player_profiles {
   derived_table: {
     sql:
 
+     with
+
+    ------------------------------------------------------------------------------------------------------
+    -- base data
+    ------------------------------------------------------------------------------------------------------
+
+     base_data as (
+
       select
         rdg_id
         , safe_cast(
@@ -23,6 +31,10 @@ view: adhoc_2024_08_15_quitting_player_profiles {
             ceiling(safe_divide(day_number,{% parameter day_number_bucket_size %}))*{% parameter day_number_bucket_size %}
             as string
             ) as day_number_bucket
+        , max({% parameter day_number_bucket_size %}) as my_day_number_bucket_size
+        -- , max({% parameter day_number_low %}) as starting_day_number_bucket_order
+        , max(1) as starting_day_number_bucket_order
+        , max({% parameter day_number_high %}-{% parameter day_number_bucket_size %}+1) as ending_day_number_bucket_order
         , max(churn_indicator) as churn_indicator
         , max(1) as count_players
         , sum(1) as count_days_played
@@ -50,12 +62,27 @@ view: adhoc_2024_08_15_quitting_player_profiles {
       from
         ${player_daily_summary.SQL_TABLE_NAME}
       where
-        day_number >= {% parameter day_number_low %}
+        -- day_number >= {% parameter day_number_low %}
+        day_number >= 1
         and day_number <= {% parameter day_number_high %}
         and date(rdg_date) >= date({% parameter start_date %})
         and date(rdg_date) <= date({% parameter end_date %})
       group by
         1,2,3
+
+     )
+
+    ------------------------------------------------------------------------------------------------------------------------------
+    -- Summarize with Starting/Ending Churn Info
+    ------------------------------------------------------------------------------------------------------------------------------
+
+    select
+      *
+      , sum( 1 ) over (partition by rdg_id) as count_of_entries
+      , max( case when starting_day_number_bucket_order = day_number_bucket_order then 1 else null end ) over (partition by rdg_id) as starting_indicator
+      , max( case when ending_day_number_bucket_order = day_number_bucket_order then churn_indicator else null end ) over (partition by rdg_id) as ending_churn_indicator
+    from
+      base_data
 
       ;;
     publish_as_db_view: no
@@ -79,6 +106,13 @@ view: adhoc_2024_08_15_quitting_player_profiles {
 ################################################################
 ## Parameters
 ################################################################
+
+  parameter: graph_type {
+    label: "Show For:"
+    type: string
+    default_value: "All Players"
+    suggestions: ["All Players", "Surviving Players"]
+  }
 
   parameter: start_date {
     label: "Start Date"
@@ -116,7 +150,29 @@ view: adhoc_2024_08_15_quitting_player_profiles {
   dimension: churn_group {
     label: "Churn Group"
     type: string
-    sql: case when ${TABLE}.churn_indicator = 1 then 'Churned' else 'Not Churned' end  ;;
+    sql:
+      case
+        when {% parameter graph_type %} = "All Players" then
+          case when ${TABLE}.churn_indicator = 1 then 'Churned' else 'Not Churned' end
+        when {% parameter graph_type %} = "Surviving Players" then
+          case
+            when ${TABLE}.starting_indicator is null then 'Not Started in Window'
+            when
+              safe_divide(
+                ${TABLE}.ending_day_number_bucket_order + ${TABLE}.my_day_number_bucket_size - 1
+                , ${TABLE}.my_day_number_bucket_size )
+                <> ${TABLE}.count_of_entries then 'Not Survived'
+            when ${TABLE}.ending_churn_indicator is null then 'Not Survived'
+            when ${TABLE}.ending_churn_indicator = 0 then 'Not Churned'
+            when ${TABLE}.ending_churn_indicator = 1 then 'Churned'
+
+            else 'Other' end
+
+
+      else "No Group"
+      end
+        ;;
+
   }
 
   dimension: day_number_bucket {

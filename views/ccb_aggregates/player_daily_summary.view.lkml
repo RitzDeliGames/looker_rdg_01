@@ -3264,6 +3264,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     type: percentile
     percentile: 10
     sql: ${TABLE}.mtx_purchase_dollars ;;
+    value_format_name: usd
   }
   measure: mtx_purchase_dollars_25 {
     label: "25th Percentile"
@@ -3271,6 +3272,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     type: percentile
     percentile: 25
     sql: ${TABLE}.mtx_purchase_dollars ;;
+    value_format_name: usd
   }
   measure: mtx_purchase_dollars_50 {
     label: "Median"
@@ -3278,6 +3280,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     type: percentile
     percentile: 50
     sql: ${TABLE}.mtx_purchase_dollars ;;
+    value_format_name: usd
   }
   measure: mtx_purchase_dollars_75 {
     label: "75th Percentile"
@@ -3285,6 +3288,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     type: percentile
     percentile: 75
     sql: ${TABLE}.mtx_purchase_dollars ;;
+    value_format_name: usd
   }
   measure: mtx_purchase_dollars_95 {
     label: "95th Percentile"
@@ -3292,6 +3296,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     type: percentile
     percentile: 95
     sql: ${TABLE}.mtx_purchase_dollars ;;
+    value_format_name: usd
   }
   measure: sum_ad_view_dollars {
     label: "Sum IAA Dollars"

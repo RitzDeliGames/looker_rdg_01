@@ -1007,6 +1007,7 @@ view: player_summary_new {
         when ${TABLE}.campaign_name like '%60 Min%' then 'Engagement Campaign'
         when ${TABLE}.campaign_name like '%Tutorial Complete%' then 'Engagement Campaign'
         when ${TABLE}.campaign_name like '%Install%' then 'Install Campaign'
+        when ${TABLE}.campaign_name like '%Creative%' then 'Install Campaign'
         when ${TABLE}.campaign_name like '%MAI%' then 'Install Campaign'
         when ${TABLE}.campaign_name like '%tCPI%' then 'Install Campaign'
         when ${TABLE}.campaign_name like '%tCPA%' then 'Engagement Campaign'

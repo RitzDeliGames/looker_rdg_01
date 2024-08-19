@@ -706,6 +706,25 @@ explore: player_frame_rate_summary {
 
 ################################################################
 
+## Explore: Moves Master Recap Summary
+
+################################################################
+
+explore: moves_master_recap_summary {
+  label: "Moves Master Recap Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${moves_master_recap_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+
+################################################################
+
 ## AB Test Explores
 
 ################################################################

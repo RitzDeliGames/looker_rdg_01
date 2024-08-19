@@ -985,6 +985,39 @@ view: player_summary_new {
   }
 
   ################################################################################################
+  ## sessions per day
+  ################################################################################################
+
+  dimension: install_category {
+    label: "Install Category"
+    type: string
+    sql:
+      case
+        when ${TABLE}.campaign_name is null then ''
+        when ${TABLE}.campaign_name like '%Mistplay%' then 'Mistplay - '
+        when ${TABLE}.campaign_name like '%Facebook%' then 'Facebook - '
+      else 'Facebook - '
+      end
+      ||
+      case
+        when ${TABLE}.campaign_name is null then 'Organic'
+        when ${TABLE}.campaign_name like '%Purchase%' then 'Purchase Campaign'
+        when ${TABLE}.campaign_name like '%15 Min%' then '15 Minute Campaign'
+        when ${TABLE}.campaign_name like '%30 Min%' then '30 Minute Campaign'
+        when ${TABLE}.campaign_name like '%60 Min%' then '60 Minute Campaign'
+        when ${TABLE}.campaign_name like '%Tutorial Complete%' then 'Tutorial Complete Campaign'
+        when ${TABLE}.campaign_name like '%Install%' then 'Install Campaign'
+        when ${TABLE}.campaign_name like '%MAI%' then 'Install Campaign'
+        when ${TABLE}.campaign_name like '%ROAS%' then 'ROAS Campaign'
+
+        else 'Other Campaign'
+        end
+    ;;
+
+  }
+
+
+  ################################################################################################
   ## minutes per day
   ################################################################################################
 

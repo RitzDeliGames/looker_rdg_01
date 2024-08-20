@@ -2,7 +2,7 @@ view: click_stream {
   derived_table: {
     sql:
 
-    /*
+
       select
         rdg_id
         ,country
@@ -16,7 +16,8 @@ view: click_stream {
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
         ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric) currency_05_balance
         ,cast(last_level_serial as int64) last_level_serial
-        ,json_extract_scalar(extra_json,"$.button_tag") button_tag
+        -- , json_extract_scalar(extra_json,"$.button_tag") button_tag
+        , @{button_tags} as button_tag
         ,experiments
         ,extra_json
         ,last_level_id
@@ -24,13 +25,13 @@ view: click_stream {
             over (partition by rdg_id order by timestamp desc) greater_level_completed
       from `eraser-blast.game_data.events`
       where event_name = 'ButtonClicked'
-        and DATE(timestamp) >= DATE_ADD(CURRENT_DATE(), INTERVAL -9 DAY)
+        and DATE(timestamp) >= DATE_ADD(CURRENT_DATE(), INTERVAL -12 DAY)
         AND DATE(timestamp) <= DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
         and user_type = 'external'
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
       group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
-    /*
+
 
 
       /*
@@ -455,6 +456,7 @@ view: click_stream {
   -- FUE Steps - Using FUE Summary
   --------------------------------------------------------------
 
+/*
   select
     a.rdg_id
     ,b.country
@@ -481,6 +483,8 @@ view: click_stream {
   where
     date(rdg_date) >= date_add(current_date(), interval -150 day)
   group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+*/
+
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

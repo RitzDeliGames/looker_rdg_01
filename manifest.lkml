@@ -469,6 +469,20 @@ constant:  iam_ui_actions {
 
 constant: button_tags {
   value: "case
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_QuickPurchase.Close' then 'Quick Purchase - Close'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRound_Failure.Continue' then 'Mini-Game - EoR - Continue'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_GoFish.Play' then 'Go Fish - Play'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BattlePass.' then 'BattlePass'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Puzzle.Pregame' then 'Puzzle - PreGame'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'SheetContainer.OverlayClose' then 'Close Overlay'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BattlePass.Close' then 'BattlePass - Close'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_HotdogContest.PlayFromFeature' then 'Hotdog - Play'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_QuickPurchase.Basic' then 'Quick Purchase - Basic'
+            when json_extract_scalar(extra_json,'$.button_tag') like '%Panel_ZoneHome.BattlePass%' then 'BattlePass'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_GemQuest.GoPoolOfTorches' then 'GemQuest - PoolOfTorches'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TreasureTrove.Close' then 'TreasureTrove - Close'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_TreasureTrove.Purchase.' then 'TreasureTrove - Purchase'
+
             when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_ZoneHome.Tasks' then 'Zones Home - Open'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_ZoneHome.Play' then 'Zones Home - Play'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Panel_ZoneHome.NewZone' then 'Zones Home - New Zone'

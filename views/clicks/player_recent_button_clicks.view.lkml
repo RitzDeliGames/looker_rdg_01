@@ -29,6 +29,7 @@ view: player_recent_button_clicks {
               , win_streak
               , currencies
               , last_level_serial
+              , @{button_tags} as button_tag_group
           from
               `eraser-blast.game_data.events`
           where
@@ -78,6 +79,7 @@ view: player_recent_button_clicks {
               , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
               , safe_cast(json_extract_scalar(currencies,"$.CURRENCY_07") as numeric) currency_07_balance
               , safe_cast(json_extract_scalar( extra_json , "$.config_timestamp") as numeric) as config_timestamp
+              , button_tag_group
 
           from
               base_data
@@ -96,6 +98,7 @@ view: player_recent_button_clicks {
           , button_tag
 
           -- summarized fields
+          , max(button_tag_group) as button_tag_group
           , max( version ) as version
           , max( session_id ) as session_id
           , max( win_streak ) as win_streak
@@ -157,12 +160,38 @@ view: player_recent_button_clicks {
 
   dimension: rdg_id {type: string}
   dimension: button_tag {type: string}
+  dimension: button_tag_group {type: string}
+
+  dimension: button_tag_1st_section {
+    type:string
+    sql:
+      ltrim(
+      substring(
+        ${TABLE}.button_tag
+        , 1
+        , case
+            when strpos(${TABLE}.button_tag, '.')-1 < 0
+            then 200
+            else  strpos(${TABLE}.button_tag, '.')-1
+            end ))
+    ;;
+    }
+
+  dimension: button_tag_2nd_section {
+    type:string
+    sql: substring(${TABLE}.button_tag, strpos(${TABLE}.button_tag, '.')+1) ;;
+  }
+
 
   dimension: version {type: number}
   dimension: session_id {type: string}
   dimension: win_streak {type: number}
   dimension: last_level_serial {type: number}
   dimension: count_button_clicks {type: number}
+
+
+
+
 
 ####################################################################
 ## Parameters

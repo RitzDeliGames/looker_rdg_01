@@ -247,7 +247,13 @@ view: player_mechanics_summary {
     label: "Version"
     type: number
     sql: ${TABLE}.version ;;
+  }
 
+  dimension: version_number {
+    type:number
+    sql:
+      safe_cast(${TABLE}.version as numeric)
+      ;;
   }
 
   dimension: count_rounds {
@@ -281,8 +287,15 @@ view: player_mechanics_summary {
 ################################################################
 
   measure: count_distinct_users {
+    label: "Count Distinct Users"
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
+  }
+
+  measure: count_distinct_level_id {
+    label: "Count Distinct Levels"
+    type: count_distinct
+    sql: ${TABLE}.level_id ;;
   }
 
   measure: count_distinct_churned_users {
@@ -290,7 +303,7 @@ view: player_mechanics_summary {
     sql: ${TABLE}.churn_rdg_id ;;
   }
 
-  measure: sum_count_rounds {type: sum sql: ${TABLE}.count_rounds;; value_format_name: decimal_0}
+  measure: sum_count_rounds {label: "Count Rounds" type: sum sql: ${TABLE}.count_rounds;; value_format_name: decimal_0}
   measure: sum_count_wins {type: sum sql: ${TABLE}.count_wins;; value_format_name: decimal_0}
   measure: sum_count_losses {type: sum sql: ${TABLE}.count_losses;; value_format_name: decimal_0}
   measure: sum_powerup_hammer {type: sum sql: ${TABLE}.powerup_hammer;; value_format_name: decimal_0}
@@ -349,79 +362,52 @@ view: player_mechanics_summary {
     value_format_name: decimal_1
   }
 
-  measure: churn_rate {
+  measure: churn_rate_per_round {
     group_label: "Churn"
-    label: "Churn Rate"
+    label: "Churn Rate Per Round"
     type:  number
     sql:
       safe_divide(
         sum(${TABLE}.churn_indicator)
         ,
-        sum(1)
+        sum(${TABLE}.count_rounds)
       )
     ;;
     value_format_name: percent_2
   }
 
-  measure: excess_churn_rate {
-    group_label: "Churn"
-    type: number
-    sql:
-      safe_divide(
-        sum(
-          case
-            when
-              ${TABLE}.count_wins < 1
-            then ${TABLE}.churn_indicator
-            else 0
-            end )
-        -
-        sum(
-          case
-            when
-              ${TABLE}.count_wins >= 1
-            then ${TABLE}.churn_indicator
-            else 0
-            end )
-        ,
-        sum(1)
-      )
-    ;;
-    value_format_name: percent_1
-  }
-
-  measure: average_chums_used_per_level {
+  measure: average_chums_used_per_round {
     type:  number
     sql:
       safe_divide(
         sum(${TABLE}.total_chum_powerups_used)
         ,
-        sum(1)
+        sum(${TABLE}.count_rounds)
       )
     ;;
     value_format_name: decimal_3
   }
 
-  measure: average_in_round_coin_spend_per_level {
+  measure: average_in_round_coin_spend_per_round {
     type:  number
     sql:
       safe_divide(
         sum(${TABLE}.in_round_coin_spend)
         ,
-        sum(1)
+        sum(${TABLE}.count_rounds)
       )
     ;;
     value_format_name: decimal_0
   }
 
-  measure: average_in_round_mtx_dollars_per_level {
-    label: "Average In Round IAP Dollars Per Level"
+  measure: average_in_round_mtx_dollars_per_round {
+    label: "Average In Round IAP Dollars Per Round"
     type:  number
     sql:
       safe_divide(
         sum(${TABLE}.in_round_mtx_purchase_dollars)
         ,
-        sum(1)
+        sum(${TABLE}.count_rounds)
       )
     ;;
     value_format_name: usd
@@ -439,7 +425,7 @@ view: player_mechanics_summary {
     sql: sum(${TABLE}.pregame_boost_rocket) ;;
   }
 
-  measure: pregame_boost_rocket_per_level {
+  measure: pregame_boost_rocket_per_round {
     group_label: "Pre-Game Boosts"
     label: "Total Rockets Per Level"
     type: number
@@ -447,7 +433,7 @@ view: player_mechanics_summary {
     sql:
       safe_divide(
         sum(${TABLE}.pregame_boost_rocket)
-        , sum(1)
+        , sum(${TABLE}.count_rounds)
       ) ;;
   }
 
@@ -459,7 +445,7 @@ view: player_mechanics_summary {
     sql: sum(${TABLE}.pregame_boost_bomb) ;;
   }
 
-  measure: pregame_boost_bomb_per_level {
+  measure: pregame_boost_bomb_per_round {
     group_label: "Pre-Game Boosts"
     label: "Total Bombs Per Level"
     type: number
@@ -467,7 +453,7 @@ view: player_mechanics_summary {
     sql:
       safe_divide(
         sum(${TABLE}.pregame_boost_bomb)
-        , sum(1)
+        , sum(${TABLE}.count_rounds)
       ) ;;
   }
 
@@ -479,7 +465,7 @@ view: player_mechanics_summary {
     sql: sum(${TABLE}.pregame_boost_colorball) ;;
   }
 
-  measure: pregame_boost_colorball_per_level {
+  measure: pregame_boost_colorball_per_round {
     group_label: "Pre-Game Boosts"
     label: "Total Colorballs Per Level"
     type: number
@@ -487,7 +473,7 @@ view: player_mechanics_summary {
     sql:
       safe_divide(
         sum(${TABLE}.pregame_boost_colorball)
-        , sum(1)
+        , sum(${TABLE}.count_rounds)
       ) ;;
   }
 
@@ -499,7 +485,7 @@ view: player_mechanics_summary {
     sql: sum(${TABLE}.pregame_boost_extramoves) ;;
   }
 
-  measure: pregame_boost_extramoves_per_level {
+  measure: pregame_boost_extramoves_per_round {
     group_label: "Pre-Game Boosts"
     label: "Total ExtraMoves Per Level"
     type: number
@@ -507,7 +493,7 @@ view: player_mechanics_summary {
     sql:
       safe_divide(
         sum(${TABLE}.pregame_boost_extramoves)
-        , sum(1)
+        , sum(${TABLE}.count_rounds)
       ) ;;
   }
 
@@ -519,7 +505,7 @@ view: player_mechanics_summary {
     sql: sum(${TABLE}.pregame_boost_total) ;;
   }
 
-  measure: pregame_boost_total_per_level {
+  measure: pregame_boost_total_per_round {
     group_label: "Pre-Game Boosts"
     label: "Total Boosts Per Level"
     type: number
@@ -527,7 +513,7 @@ view: player_mechanics_summary {
     sql:
       safe_divide(
         sum(${TABLE}.pregame_boost_total)
-        , sum(1)
+        , sum(${TABLE}.count_rounds)
       ) ;;
   }
 

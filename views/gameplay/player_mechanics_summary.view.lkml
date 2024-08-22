@@ -427,7 +427,7 @@ view: player_mechanics_summary {
 
   measure: pregame_boost_rocket_per_round {
     group_label: "Pre-Game Boosts"
-    label: "Total Rockets Per Level"
+    label: "Total Rockets Per Round"
     type: number
     value_format_name: decimal_1
     sql:
@@ -447,7 +447,7 @@ view: player_mechanics_summary {
 
   measure: pregame_boost_bomb_per_round {
     group_label: "Pre-Game Boosts"
-    label: "Total Bombs Per Level"
+    label: "Total Bombs Per Round"
     type: number
     value_format_name: decimal_1
     sql:
@@ -467,7 +467,7 @@ view: player_mechanics_summary {
 
   measure: pregame_boost_colorball_per_round {
     group_label: "Pre-Game Boosts"
-    label: "Total Colorballs Per Level"
+    label: "Total Colorballs Per Round"
     type: number
     value_format_name: decimal_1
     sql:
@@ -487,7 +487,7 @@ view: player_mechanics_summary {
 
   measure: pregame_boost_extramoves_per_round {
     group_label: "Pre-Game Boosts"
-    label: "Total ExtraMoves Per Level"
+    label: "Total ExtraMoves Per Round"
     type: number
     value_format_name: decimal_1
     sql:
@@ -507,7 +507,7 @@ view: player_mechanics_summary {
 
   measure: pregame_boost_total_per_round {
     group_label: "Pre-Game Boosts"
-    label: "Total Boosts Per Level"
+    label: "Total Boosts Per Round"
     type: number
     value_format_name: decimal_1
     sql:

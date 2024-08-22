@@ -298,6 +298,27 @@ explore: player_campaign_level_summary {
 
 }
 
+
+################################################################
+
+## Explore: Player Mechanics Summary
+
+################################################################
+
+explore: player_mechanics_summary {
+  label: "Player Mechanics Summary"
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_mechanics_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+
+}
+
 ################################################################
 
 ## Explore: Player Puzzle Level Summary

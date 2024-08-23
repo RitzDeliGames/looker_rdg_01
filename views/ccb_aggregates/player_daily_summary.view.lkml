@@ -3417,6 +3417,21 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
       ;;
   }
 
+  measure: ad_views_per_dau_actual {
+    label: "Average IAA Views Per DAU"
+    group_label: "IAA Views"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum( ${TABLE}.ad_views )
+        ,
+        sum( ${TABLE}.count_days_played)
+        )
+      ;;
+  }
+
+
   measure: ad_views_10 {
     label: "10th Percentile"
     group_label: "IAA Views"

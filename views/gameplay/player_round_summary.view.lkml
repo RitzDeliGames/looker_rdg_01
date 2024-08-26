@@ -85,6 +85,8 @@ base_data as (
     , a.round_start_timestamp_utc
     , a.round_end_timestamp_utc
     , a.event_name
+    , max(a.round_start_cumulative_minutes) as round_start_cumulative_minutes
+    , max(a.round_end_cumulative_minutes) as round_end_cumulative_minutes
     , max(a.created_at) as created_at
     , max(a.version) as version
     , max(a.session_id) as session_id
@@ -234,6 +236,8 @@ base_data as (
     , a.round_start_timestamp_utc
     , a.round_end_timestamp_utc
     , a.event_name
+    , max(a.round_start_cumulative_minutes) as round_start_cumulative_minutes
+    , max(a.round_end_cumulative_minutes) as round_end_cumulative_minutes
     , max(a.created_at) as created_at
     , max(a.version) as version
     , max(a.session_id) as session_id
@@ -390,6 +394,8 @@ base_data as (
     , a.round_start_timestamp_utc
     , a.round_end_timestamp_utc
     , a.event_name
+    , max(a.round_start_cumulative_minutes) as round_start_cumulative_minutes
+    , max(a.round_end_cumulative_minutes) as round_end_cumulative_minutes
     , max(a.created_at) as created_at
     , max(a.version) as version
     , max(a.session_id) as session_id
@@ -553,6 +559,8 @@ base_data as (
     , a.round_start_timestamp_utc
     , a.round_end_timestamp_utc
     , a.event_name
+    , max(a.round_start_cumulative_minutes) as round_start_cumulative_minutes
+    , max(a.round_end_cumulative_minutes) as round_end_cumulative_minutes
     , max(a.created_at) as created_at
     , max(a.version) as version
     , max(a.session_id) as session_id
@@ -1060,6 +1068,8 @@ from
     type:string
     }
   dimension: game_mode {type:string}
+  dimension: round_start_cumulative_minutes {type:number}
+  dimension: round_end_cumulative_minutes {type:number}
   dimension: level_serial {
     group_label: "Level Fields"
     label: "Current Level"

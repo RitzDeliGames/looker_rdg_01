@@ -4,7 +4,7 @@ view: player_round_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update on '2024-07-22'
+      -- update on '2024-08-26'
 
      -- create or replace table tal_scratch.player_round_incremental as
 
@@ -29,6 +29,7 @@ view: player_round_incremental {
               , win_streak
               , currencies
               , last_level_serial
+              , engagement_ticks
               , case
                   when event_name = 'round_end'
                   then safe_cast(json_extract_scalar(extra_json,"$.round_count") as int64)-1
@@ -47,7 +48,7 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2024-07-22' -- Last Full Update
+                      when date(current_date()) <= '2024-08-26' -- Last Full Update
                       then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -67,7 +68,7 @@ view: player_round_incremental {
             ------------------------------------------------------------------------
 
             -- and rdg_id = '3989ffa2-2b93-4f33-a940-86c4746036ba'
-            -- and date(timestamp) = '2023-09-28'
+            -- and date(timestamp) = '2024-08-26'
 
 
 
@@ -145,6 +146,10 @@ view: player_round_incremental {
               , lag(event_name) over ( partition by rdg_id order by timestamp_utc) as round_start_event_name
               , timestamp_utc as round_end_timestamp_utc
 
+              -- cumulative_minutes
+              , lag(0.5 * engagement_ticks) over ( partition by rdg_id order by timestamp_utc) as round_start_cumulative_minutes
+              , 0.5 * engagement_ticks as round_end_cumulative_minutes
+
               -------------------------------------------------
               -- Pre-Game Boosts
               -------------------------------------------------
@@ -207,6 +212,8 @@ view: player_round_incremental {
               , timestamp(date(timestamp_utc)) as rdg_date
               , round_start_timestamp_utc
               , round_end_timestamp_utc
+              , round_start_cumulative_minutes
+              , round_end_cumulative_minutes
               , created_at
               , version
               , session_id
@@ -325,6 +332,8 @@ view: player_round_incremental {
           , event_name
           , round_end_timestamp_utc
           , max(round_start_timestamp_utc) as round_start_timestamp_utc
+          , max(round_start_cumulative_minutes) as round_start_cumulative_minutes
+          , max(round_end_cumulative_minutes) as round_end_cumulative_minutes
           , max(created_at) as created_at
           , max(version) as version
           , max(session_id) as session_id

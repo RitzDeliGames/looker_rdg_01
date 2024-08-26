@@ -501,4 +501,67 @@ view: player_campaign_level_summary {
       ) ;;
   }
 
+#########################################################################################
+## Player Day Number
+#########################################################################################
+
+  measure: player_day_number_mean {
+    group_label: "Day Number To Reach Level"
+    label: "Mean"
+    type:  number
+    sql:
+      safe_divide(
+        sum(${TABLE}.day_number)
+        ,
+        sum(1)
+      )
+    ;;
+    value_format_name: decimal_1
+  }
+
+  measure: player_day_number_10 {
+    group_label: "Day Number To Reach Level"
+    label: "10th Percentile"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.day_number ;;
+    value_format_name: decimal_0
+  }
+  measure: player_day_number_25 {
+    group_label: "Day Number To Reach Level"
+    label: "25th Percentile"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.day_number ;;
+    value_format_name: decimal_0
+  }
+  measure: player_day_number_50 {
+    group_label: "Day Number To Reach Level"
+    label: "Median"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.day_number ;;
+    value_format_name: decimal_0
+  }
+  measure: player_day_number_75 {
+    group_label: "Day Number To Reach Level"
+    label: "75th Percentile"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.day_number ;;
+    value_format_name: decimal_0
+  }
+  measure: player_day_number_95 {
+    group_label: "Day Number To Reach Level"
+    label: "95th Percentile"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.day_number ;;
+    value_format_name: decimal_0
+  }
+
+
+
+
+
 }

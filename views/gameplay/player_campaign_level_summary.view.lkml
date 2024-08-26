@@ -19,6 +19,7 @@ view: player_campaign_level_summary {
         , date_diff(date(min(rdg_date)), date(min(created_at)), day) as days_since_created -- Days Since Created
         , 1 + date_diff(date(min(rdg_date)), date(min(created_at)), day) as day_number -- Player Day Number
 
+        , min(round_start_cumulative_minutes) as min_round_start_cumulative_minutes
         , max(level_difficuly) as level_difficuly
         , min(level_id) as level_id
         , min(rdg_date) as first_played_rdg_date
@@ -560,6 +561,64 @@ view: player_campaign_level_summary {
     value_format_name: decimal_0
   }
 
+#########################################################################################
+## Minutes At Round Start
+#########################################################################################
+
+  measure: cumulative_minutes_at_first_play_mean {
+    group_label: "Cumulative Minutes At First Play"
+    label: "Mean"
+    type:  number
+    sql:
+      safe_divide(
+        sum(${TABLE}.min_round_start_cumulative_minutes)
+        ,
+        sum(1)
+      )
+    ;;
+    value_format_name: decimal_0
+  }
+
+  measure: cumulative_minutes_at_first_play_10 {
+    group_label: "Cumulative Minutes At First Play"
+    label: "10th Percentile"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.min_round_start_cumulative_minutes ;;
+    value_format_name: decimal_0
+  }
+  measure: cumulative_minutes_at_first_play_25 {
+    group_label: "Cumulative Minutes At First Play"
+    label: "25th Percentile"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.min_round_start_cumulative_minutes ;;
+    value_format_name: decimal_0
+  }
+  measure: cumulative_minutes_at_first_play_50 {
+    group_label: "Cumulative Minutes At First Play"
+    label: "Median"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.min_round_start_cumulative_minutes ;;
+    value_format_name: decimal_0
+  }
+  measure: cumulative_minutes_at_first_play_75 {
+    group_label: "Cumulative Minutes At First Play"
+    label: "75th Percentile"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.min_round_start_cumulative_minutes ;;
+    value_format_name: decimal_0
+  }
+  measure: cumulative_minutes_at_first_play_95 {
+    group_label: "Cumulative Minutes At First Play"
+    label: "95th Percentile"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.min_round_start_cumulative_minutes ;;
+    value_format_name: decimal_0
+  }
 
 
 

@@ -1834,15 +1834,7 @@ from
     value_format_name: decimal_0
   }
 
-  measure: median_round_length_in_minutes {
-    group_label: "Calculated Fields"
-    type: percentile
-    percentile: 50
-    sql:
-      ${TABLE}.round_length_minutes
-      ;;
-    value_format_name: decimal_1
-  }
+
   measure: percent_of_rounds_with_moves_added {
     group_label: "Calculated Fields"
     type: number
@@ -2118,6 +2110,72 @@ from
     percentile: 95
     sql: ${TABLE}.total_chum_powerups_used;;
     value_format_name: decimal_0
+  }
+
+########################################33
+## Round Time in Minutes
+########################################33
+
+  measure: round_length_in_minutes_mean {
+    group_label: "Round Length in Minutes"
+    label: "Mean"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.round_length_minutes)
+        ,
+        sum(${TABLE}.count_rounds)
+      )
+    ;;
+    value_format_name: decimal_1
+
+  }
+
+  measure: round_length_in_minutes_10 {
+    group_label: "Round Length in Minutes"
+    label: "10th Percentile"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.round_length_minutes;;
+    value_format_name: decimal_1
+  }
+
+  measure: round_length_in_minutes_25 {
+    group_label: "Round Length in Minutes"
+    label: "25th Percentile"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.round_length_minutes;;
+    value_format_name: decimal_1
+  }
+
+  measure: median_round_length_in_minutes {
+    group_label: "Round Length in Minutes"
+    label: "Median"
+    type: percentile
+    percentile: 50
+    sql:
+      ${TABLE}.round_length_minutes
+      ;;
+    value_format_name: decimal_1
+  }
+
+  measure: round_length_in_minutes_75 {
+    group_label: "Round Length in Minutes"
+    label: "75th Percentile"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.round_length_minutes;;
+    value_format_name: decimal_1
+  }
+
+  measure: round_length_in_minutes_95 {
+    group_label: "Round Length in Minutes"
+    label: "95th Percentile"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.round_length_minutes;;
+    value_format_name: decimal_1
   }
 
 ########################################33

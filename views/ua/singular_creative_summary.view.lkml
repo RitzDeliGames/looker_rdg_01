@@ -254,6 +254,76 @@ singular_creative_data as (
 )
 
   ----------------------------------------------------------------------
+  -- combine with go game creative data
+  ----------------------------------------------------------------------
+
+  , my_combined_with_go_game_creative_data_step as (
+
+    select
+      rdg_date
+      , singular_install_date
+      , asset_name
+      , country_field
+      , alfa_3_country_code
+      , platform
+      , singular_campaign_id
+      , adn_creative_id
+      , singular_creative_id
+      , data_connector_source_name
+      , source
+      , os
+      , campaign_name
+      , creative_type
+      , full_ad_name
+      , simple_ad_name
+      , singular_total_cost
+      , singular_total_impressions
+      , singular_total_clicks
+      , singular_total_installs
+
+    from
+      join_metadata_by_creative_id
+    where
+      date(rdg_date) <= '2024-07-17' -- last date for singular data
+
+    union all
+
+    select
+      timestamp(REGISTRATION_DATE) as rdg_date
+      , timestamp(REGISTRATION_DATE) as singular_install_date
+      , publisher as asset_name
+      , COUNTRY_CODE as country_field
+      , COUNTRY_CODE as alfa_3_country_code
+      , PLATFORM as platform
+      , '' as singular_campaign_id
+      , publisher_id as adn_creative_id
+      , publisher_id as singular_creative_id
+      , AFFILIATE_NAME as data_connector_source_name
+      , AFFILIATE_NAME as source
+      , PLATFORM as os
+      , lower(CAMPAIGN_NAME) as campaign_name
+      , '' as creative_type
+      , PUBLISHER as full_ad_name
+      , PUBLISHER as simple_ad_name
+      , sum(TOTAL_SPEND) as singular_total_cost
+      , sum(PARTNER_IMPRESSIONS) as singular_total_impressions
+      , sum(PARTNER_CLICKS) as singular_total_clicks
+      , sum(PARTNER_INSTALLS) as singular_total_installs
+
+    from
+      eraser-blast.bfg_import.gogame_data
+    where
+      GAME = 'Chum Chum Blast'
+      and date(timestamp(REGISTRATION_DATE)) > '2024-07-17' -- picking up where singular leaves off
+      and PARTNER_IMPRESSIONS is not null -- no nulls!
+      and publisher is not null -- no nulls!
+      and length(publisher) > 2 -- filtering out \N values
+    group by
+      1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+
+  )
+
+  ----------------------------------------------------------------------
   -- select data
   ----------------------------------------------------------------------
 
@@ -291,7 +361,7 @@ singular_creative_data as (
       , @{campaign_name_clean_update} as campaign
 
     from
-      join_metadata_by_creative_id
+      my_combined_with_go_game_creative_data_step
 
     )
 

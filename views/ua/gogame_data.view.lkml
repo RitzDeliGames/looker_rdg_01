@@ -42,6 +42,8 @@ view: gogame_data {
           , UARETENTION_D3
           , UARETENTION_D7
           , lower(CAMPAIGN_NAME) as campaign
+          , publisher
+          , publisher_Id
 
         FROM
           `eraser-blast.bfg_import.gogame_data`
@@ -78,6 +80,8 @@ view: gogame_data {
       || '_' || ${TABLE}.REAL_COUNTRY
       || '_' || ${TABLE}.COUNTRY_ID
       || '_' || ${TABLE}.COUNTRY_CODE
+      || '_' || ${TABLE}.publisher
+      || '_' || ${TABLE}.publisher_Id
       ;;
     primary_key: yes
     hidden: yes
@@ -136,5 +140,8 @@ view: gogame_data {
   dimension: UARETENTION_D1 {type: number}
   dimension: UARETENTION_D3 {type: number}
   dimension: UARETENTION_D7 {type: number}
+  dimension: publisher {type: string}
+  dimension: publisher_Id {type: number}
+
 
 }

@@ -2750,6 +2750,28 @@ constant: ad_name_simple {
   value: "
   case
 
+    when ad_name_full like '%WhatisaChumChum%' then 'What is a Chum Chum'
+    when ad_name_full like '%RedditChallenge%' then 'Reddit Challenge'
+    when ad_name_full like '%PullthePinSalad%' then 'Pull the Pin Salad'
+    when ad_name_full like '%OverTheCliff%' then 'Over The Cliff'
+    when ad_name_full like '%MovesMasterExplanation%' then 'Moves Master Explanation'
+    when ad_name_full like '%HungryChum%' then 'Hungry Chum'
+    when ad_name_full like '%FeedChumChums%' then 'Feed Chum Chums'
+    when ad_name_full like '%CrossBridge%' then 'Cross Bridge'
+    when ad_name_full like '%CoupleBet%' then 'Couple Bet'
+    when ad_name_full like '%TheEggs%' then 'The Eggs'
+
+    when ad_name_full = 'Other' then 'Other'
+
+    when ad_name_full like '%RelaxAndUnlock%' then 'Relax And Unlock'
+    when ad_name_full like '%CharacterAppeal_Squirrel_OPPA%' then 'Character Appeal: Oppa'
+    when ad_name_full like '%FlexibleImages%' then 'Flexible Images'
+    when ad_name_full like '%OneMoveLeft%' then 'One Move Left'
+    when ad_name_full like '%AdoptMe%' then 'Adopt Me'
+    when ad_name_full like '%CharacterAppeal_multi%' then 'Character Appeal: Multi'
+    when ad_name_full like '%TapForNoise%' then 'Tab For Noise'
+    when ad_name_full like '%AllTheEggs%' then 'All The Eggs'
+
     when ad_name_full like '%MinuteCombo%' then 'Minute Combo'
     when ad_name_full like '%Meet chum chums%' then 'Meet the Chum Chums'
     when ad_name_full like '%meet chum chums%' then 'Meet the Chum Chums'
@@ -2926,6 +2948,28 @@ constant: ad_name_grouped {
 constant: singular_simple_ad_name {
   value: "
   case
+
+    when asset_name like '%WhatisaChumChum%' then 'What is a Chum Chum'
+    when asset_name like '%RedditChallenge%' then 'Reddit Challenge'
+    when asset_name like '%PullthePinSalad%' then 'Pull the Pin Salad'
+    when asset_name like '%OverTheCliff%' then 'Over The Cliff'
+    when asset_name like '%MovesMasterExplanation%' then 'Moves Master Explanation'
+    when asset_name like '%HungryChum%' then 'Hungry Chum'
+    when asset_name like '%FeedChumChums%' then 'Feed Chum Chums'
+    when asset_name like '%CrossBridge%' then 'Cross Bridge'
+    when asset_name like '%CoupleBet%' then 'Couple Bet'
+    when asset_name like '%TheEggs%' then 'The Eggs'
+
+    when asset_name = 'Other' then 'Other'
+
+    when asset_name like '%RelaxAndUnlock%' then 'Relax And Unlock'
+    when asset_name like '%CharacterAppeal_Squirrel_OPPA%' then 'Character Appeal: Oppa'
+    when asset_name like '%FlexibleImages%' then 'Flexible Images'
+    when asset_name like '%OneMoveLeft%' then 'One Move Left'
+    when asset_name like '%AdoptMe%' then 'Adopt Me'
+    when asset_name like '%CharacterAppeal_multi%' then 'Character Appeal: Multi'
+    when asset_name like '%TapForNoise%' then 'Tab For Noise'
+    when asset_name like '%AllTheEggs%' then 'All The Eggs'
 
     when asset_name like '%MinuteCombo%' then 'Minute Combo'
     when asset_name like '%Meet chum chums%' then 'Meet the Chum Chums'

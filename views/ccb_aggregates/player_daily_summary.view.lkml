@@ -4149,38 +4149,62 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     sql: ${TABLE}.ending_lives_balance ;;
   }
   measure: sum_ending_stars_balance {
+    label: "Sum"
     group_label: "Ending Stars Balance"
     type:sum
+    value_format_name: decimal_0
     sql: ${TABLE}.ending_stars_balance ;;
   }
+  measure: mean_ending_stars_balance {
+    label: "Mean"
+    group_label: "Ending Stars Balance"
+    type:number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( case when ${TABLE}.ending_stars_balance > 10000 then null else ${TABLE}.ending_stars_balance end )
+      , sum( case when ${TABLE}.ending_stars_balance > 10000 then null else 1 end )
+    )
+    ;;
+  }
   measure: ending_stars_balance_10 {
+    label: "10th Percentile"
     group_label: "Ending Stars Balance"
     type: percentile
     percentile: 10
+    value_format_name: decimal_0
     sql: ${TABLE}.ending_stars_balance ;;
   }
   measure: ending_stars_balance_25 {
+    label: "25th Percentile"
     group_label: "Ending Stars Balance"
     type: percentile
     percentile: 25
+    value_format_name: decimal_0
     sql: ${TABLE}.ending_stars_balance ;;
   }
   measure: ending_stars_balance_50 {
+    label: "Median"
     group_label: "Ending Stars Balance"
     type: percentile
     percentile: 50
+    value_format_name: decimal_0
     sql: ${TABLE}.ending_stars_balance ;;
   }
   measure: ending_stars_balance_75 {
+    label: "75th Percentile"
     group_label: "Ending Stars Balance"
     type: percentile
     percentile: 75
+    value_format_name: decimal_0
     sql: ${TABLE}.ending_stars_balance ;;
   }
   measure: ending_stars_balance_95 {
+    label: "95th Percentile"
     group_label: "Ending Stars Balance"
     type: percentile
     percentile: 95
+    value_format_name: decimal_0
     sql: ${TABLE}.ending_stars_balance ;;
   }
   measure: sum_days_since_created {

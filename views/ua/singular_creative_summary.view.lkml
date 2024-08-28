@@ -4,7 +4,7 @@ view: singular_creative_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-03-20'
+      -- update '2024-08-28'
 
 -- create or replace table tal_scratch.singular_creative_summary as
 

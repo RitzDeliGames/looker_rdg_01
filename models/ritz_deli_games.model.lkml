@@ -835,7 +835,9 @@ explore: adhoc_2024_08_21_first_and_second_button_clicks {
 explore: firebase_player_summary {}
 explore: singular_campaign_summary {}
 explore: singular_campaign_detail {}
-explore: singular_creative_summary {}
+explore: singular_creative_summary {
+  view_label: "Creative Summary"
+}
 explore: big_query_jobs {}
 # explore: player_daily_incremental {}
 explore: revenue_model{}

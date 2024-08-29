@@ -1074,6 +1074,7 @@ constant: game_mode_consolidated {
 
 constant: ad_placements_clean {
   value: "case
+            when ${TABLE}.source_id like '%Castle_Climb%' then 'Castle Climb'
             when ${TABLE}.source_id like '%DailyReward' then 'Daily Reward'
             when ${TABLE}.source_id like '%Moves_Master%' then 'Moves Master'
             when ${TABLE}.source_id like '%Pizza%' then 'Pizza'
@@ -1124,6 +1125,8 @@ constant: max_cumulative_star_spend_override {
 
 constant: ad_placements_clean {
   value: "case
+
+  when ${TABLE}.source_id like '%Castle_Climb%' then 'Castle Climb'
   when ${TABLE}.source_id like '%DailyReward' then 'Daily Reward'
   when ${TABLE}.source_id like '%Moves_Master%' then 'Moves Master'
   when ${TABLE}.source_id like '%Pizza%' then 'Pizza'
@@ -1157,6 +1160,7 @@ constant: ad_reward_id_strings {
 
 constant: ad_placements {
   value: "case
+  when ${TABLE}.source_id like '%Castle_Climb%' then 'Castle Climb'
   when ${TABLE}.source_id like '%DailyReward' then 'Daily Reward'
   when ${TABLE}.source_id like '%Moves_Master%' then 'Moves Master'
   when ${TABLE}.source_id like '%Pizza%' then 'Pizza'
@@ -1178,6 +1182,8 @@ constant: ad_placements {
 
 constant: ad_placements_for_ad_summary {
   value: "case
+
+  when source_id like '%Castle_Climb%' then 'Castle Climb'
   when source_id like '%DailyReward' then 'Daily Reward'
   when source_id like '%Moves_Master%' then 'Moves Master'
   when source_id like '%Pizza%' then 'Pizza'
@@ -1201,6 +1207,8 @@ constant: ad_placements_for_ad_summary {
 
 constant: ad_placements_for_tickets_spend {
   value: "case
+
+  when source_id like '%Castle_Climb%' then 'Castle Climb'
   when source_id like '%DailyReward' then 'Daily Reward'
   when source_id like '%Moves_Master%' then 'Moves Master'
   when source_id like '%Pizza%' then 'Pizza'
@@ -1916,6 +1924,8 @@ when ${TABLE}.source_id = 'bush' and ${TABLE}.iap_id = 'bush' then 'Bush'
    when ${TABLE}.source_id = 'BUBBLE' and ${TABLE}.iap_id = 'boost_005' then 'Legacy'
    when ${TABLE}.source_id = 'TIME' and ${TABLE}.iap_id = 'boost_004' then 'Legacy'
 
+
+  when ${TABLE}.source_id like 'Panel_Store.Purchase.item_%' then 'Legacy'
   else 'Unmapped'
   end
   "
@@ -2047,7 +2057,7 @@ constant: coin_spend_name_group {
    when ${TABLE}.source_id = 'BUBBLE' and ${TABLE}.iap_id = 'boost_005' then 'Legacy'
    when ${TABLE}.source_id = 'TIME' and ${TABLE}.iap_id = 'boost_004' then 'Legacy'
 
-
+  when ${TABLE}.source_id like 'Panel_Store.Purchase.item_%' then 'Legacy'
   else 'Unmapped'
   end
   "

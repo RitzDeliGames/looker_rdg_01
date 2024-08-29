@@ -8,7 +8,7 @@ view: player_summary_new {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2024-08-28'
+      -- last update: '2024-08-29'
 
       with
 
@@ -685,7 +685,7 @@ view: player_summary_new {
 
 
       ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (6) + 2 )*( -10 ) minute)) ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (10) + 2 )*( -10 ) minute)) ;;
     publish_as_db_view: yes
     partition_keys: ["created_date"]
 

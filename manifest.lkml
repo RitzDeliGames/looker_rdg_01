@@ -1800,7 +1800,7 @@ constant: coin_source_name_group {
 constant: coin_spend_name {
   value: "
   case
-
+when ${TABLE}.source_id = 'menu' and ${TABLE}.iap_id = 'menu' then 'Menu'
 when ${TABLE}.source_id = 'plot_02' and ${TABLE}.iap_id = 'plot_02' then 'Plot 02'
 when ${TABLE}.source_id = 'plot_08' and ${TABLE}.iap_id = 'plot_08' then 'Plot 08'
 when ${TABLE}.source_id = 'plot_04' and ${TABLE}.iap_id = 'plot_04' then 'Plot 04'

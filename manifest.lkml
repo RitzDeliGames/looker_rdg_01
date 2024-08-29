@@ -1941,6 +1941,7 @@ constant: coin_spend_name_group {
     when ${TABLE}.source_id = 'plot_06' and ${TABLE}.iap_id = 'plot_06' then 'Food Truck'
     when ${TABLE}.source_id = 'plot_05' and ${TABLE}.iap_id = 'plot_05' then 'Food Truck'
     when ${TABLE}.source_id = 'oven' and ${TABLE}.iap_id = 'oven' then 'Food Truck'
+    when ${TABLE}.source_id = 'menu' and ${TABLE}.iap_id = 'menu' then 'Food Truck'
     when ${TABLE}.source_id = 'croissant_table' and ${TABLE}.iap_id = 'croissant_table' then 'Food Truck'
     when ${TABLE}.source_id = 'honey' and ${TABLE}.iap_id = 'honey' then 'Food Truck'
     when ${TABLE}.source_id = 'apple_tree' and ${TABLE}.iap_id = 'apple_tree' then 'Food Truck'

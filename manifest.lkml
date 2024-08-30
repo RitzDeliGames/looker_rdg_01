@@ -662,6 +662,7 @@ constant: campaign_name_clean_update {
 constant: bfg_campaign_name_mapping {
   value: "
     case
+      when lower(b.campaign) = 'ccb|fb|rdg|android|us|aeo|60minutes|2024.08.14_1539485' then '20240830 - Facebook - USA - 60 Min'
       when lower(b.campaign) = 'ccb|fb|rdg|android|latam|aeo|tutorialcomplete|1_1539505' then '20240819 - Facebook - LATAM - Tutorial Complete'
       when lower(b.campaign) = 'ccb|fb|rdg|android|latam|aeo|tutorialcomplete|2_1539506' then '20240819 - Facebook - LATAM - Tutorial Complete'
       when lower(b.campaign) = 'ccb|fb|rdg|android|latam|aeo|tutorialcomplete|2024.08.19_1539506' then '20240819 - Facebook - LATAM - Tutorial Complete'

@@ -994,6 +994,7 @@ view: player_summary_new {
     sql:
       case
         when ${TABLE}.campaign_name is null then ''
+        when ${TABLE}.campaign_name like '%Google%' then 'Google - '
         when ${TABLE}.campaign_name like '%Mistplay%' then 'Mistplay - '
         when ${TABLE}.campaign_name like '%Facebook%' then 'Facebook - '
       else 'Facebook - '

@@ -1351,14 +1351,14 @@ dimension: primary_key {
   # dates
   dimension_group: rdg_date {
     group_label: "Activity Dates"
-    label: "Activity Date"
+    label: "Activity"
     type: time
-    timeframes: [date, week, month, year]
+    timeframes: [date, week, month, year, day_of_week, day_of_week_index]
     sql: ${TABLE}.rdg_date ;;
   }
   dimension_group: created_date_timestamp {
     group_label: "Install Date"
-    label: "Installed On"
+    label: "Install"
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.created_date_timestamp ;;

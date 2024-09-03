@@ -2769,6 +2769,10 @@ constant: ad_name_simple {
   value: "
   case
 
+    when ad_name_full = 'chum chums' then 'Chum Chums'
+    when ad_name_full = 'UGC' then 'UGC'
+    when ad_name_full = 'gameplay' then 'Gameplay'
+
     when ad_name_full like '%WhatisaChumChum%' then 'What is a Chum Chum'
     when ad_name_full like '%RedditChallenge%' then 'Reddit Challenge'
     when ad_name_full like '%PullthePinSalad%' then 'Pull the Pin Salad'
@@ -2967,6 +2971,10 @@ constant: ad_name_grouped {
 constant: singular_simple_ad_name {
   value: "
   case
+
+    when asset_name = 'chum chums' then 'Chum Chums'
+    when asset_name = 'UGC' then 'UGC'
+    when asset_name = 'gameplay' then 'Gameplay'
 
     when asset_name like '%WhatisaChumChum%' then 'What is a Chum Chum'
     when asset_name like '%RedditChallenge%' then 'Reddit Challenge'

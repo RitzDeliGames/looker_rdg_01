@@ -51,6 +51,7 @@ view: player_summary_new {
           , cumulative_mtx_purchase_dollars_d21
           , cumulative_mtx_purchase_dollars_d30
           , cumulative_mtx_purchase_dollars_d31
+          , cumulative_mtx_purchase_dollars_d45
           , cumulative_mtx_purchase_dollars_d46
           , cumulative_mtx_purchase_dollars_d60
           , cumulative_mtx_purchase_dollars_d61
@@ -2391,6 +2392,32 @@ view: player_summary_new {
       count( distinct
         case
           when ${TABLE}.max_available_day_number >= 30
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+
+  }
+
+  measure: cumulative_mtx_conversion_d45 {
+    label: "Cumulative IAP Conversion: D45"
+    group_label: "Cumulative IAP Conversion"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 45
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d45 > 0
+          then 1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 45
           then ${TABLE}.rdg_id
           else null
           end )

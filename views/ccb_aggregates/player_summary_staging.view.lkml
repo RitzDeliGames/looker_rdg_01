@@ -251,6 +251,7 @@ view: player_summary_staging {
       , max( case when day_number <= 21 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d21
       , max( case when day_number <= 30 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d30
       , max( case when day_number <= 31 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d31
+      , max( case when day_number <= 45 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d45
       , max( case when day_number <= 46 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d46
       , max( case when day_number <= 60 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d60
       , max( case when day_number <= 61 then cumulative_mtx_purchase_dollars else 0 end ) as cumulative_mtx_purchase_dollars_d61

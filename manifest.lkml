@@ -665,9 +665,10 @@ constant: bfg_campaign_name_mapping {
   value: "
     case
 
+      when lower(b.campaign) = 'ccb|fb|gentlemen|ios|us|aeo|purchase|_1542873' then '20240904 - iOS - Meta - USA - Purchase'
+      when lower(b.campaign) = 'ccb|fb|gentlemen|ios|us|mai|install|_1542872' then '20240904 - iOS - Meta - USA - Install'
       when lower(b.campaign) = 'mistplay-ccb_and_invoicereadjustment-may2024_may1-2-missingspends_1515359' then '20240424 - Android - Mistplay - USA - ROAS'
       when lower(b.campaign) = 'ccb|uac|gentlemen|android|us|tcpa|purchase|_1539736' then '20240830 - Android - Google - USA - Purchase'
-
       when lower(b.campaign) like 'ccb|fb|rdg|android|us|aeo|60minutes|2024.08.14_1539485%' then '20240830 - Android - Meta - USA - 60 Min'
       when lower(b.campaign) = 'ccb|fb|rdg|android|latam|aeo|tutorialcomplete|1_1539505' then '20240819 - Android - Meta - LATAM - Tutorial Complete'
       when lower(b.campaign) = 'ccb|fb|rdg|android|latam|aeo|tutorialcomplete|2_1539506' then '20240819 - Android - Meta - LATAM - Tutorial Complete'

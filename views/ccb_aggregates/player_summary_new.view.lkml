@@ -113,6 +113,7 @@ view: player_summary_new {
           , cumulative_combined_dollars_d21
           , cumulative_combined_dollars_d30
           , cumulative_combined_dollars_d31
+          , cumulative_combined_dollars_d45
           , cumulative_combined_dollars_d46
           , cumulative_combined_dollars_d60
           , cumulative_combined_dollars_d61
@@ -2022,6 +2023,54 @@ view: player_summary_new {
       count( distinct
         case
           when ${TABLE}.max_available_day_number >= 31
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: revenue_per_install_d45 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 45
+          then ${TABLE}.cumulative_combined_dollars_d45
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 45
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: revenue_per_install_d46 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 46
+          then ${TABLE}.cumulative_combined_dollars_d46
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 46
           then ${TABLE}.rdg_id
           else null
           end )

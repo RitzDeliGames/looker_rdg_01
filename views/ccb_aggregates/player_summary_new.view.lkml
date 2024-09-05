@@ -150,6 +150,7 @@ view: player_summary_new {
           , retention_d28
           , retention_d30
           , retention_d31
+          , retention_d45
           , retention_d46
           , retention_d60
           , retention_d61
@@ -3362,6 +3363,30 @@ view: player_summary_new {
     ;;
     value_format_name: percent_1
     drill_fields: [numerator_retention_d30,available_player_count_d30]
+  }
+
+  measure: average_retention_d45 {
+    group_label: "Average Retention"
+    label: "D45"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 45
+          then ${TABLE}.retention_d45
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 45
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
   }
 
   measure: average_retention_d60 {

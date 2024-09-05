@@ -1076,6 +1076,12 @@ from
     type:number
     }
   dimension: version {type:string}
+  dimension: version_number {
+    type:number
+    sql:
+      safe_cast(${TABLE}.version as numeric)
+      ;;
+  }
   dimension: cumulative_rounds_this_session {type:number}
   dimension: total_rounds_this_session {type:number}
   dimension: event_name {type:string}

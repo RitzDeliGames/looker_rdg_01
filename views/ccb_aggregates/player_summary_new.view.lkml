@@ -999,8 +999,8 @@ view: player_summary_new {
         when ${TABLE}.campaign_name is null then ''
         when ${TABLE}.campaign_name like '%Google%' then 'Google - '
         when ${TABLE}.campaign_name like '%Mistplay%' then 'Mistplay - '
-        when ${TABLE}.campaign_name like '%Facebook%' then 'Facebook - '
-      else 'Facebook - '
+        when ${TABLE}.campaign_name like '%Meta%' then 'Meta - '
+      else 'Meta - '
       end
       ||
       case

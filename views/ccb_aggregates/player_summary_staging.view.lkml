@@ -369,6 +369,7 @@ view: player_summary_staging {
       , max( case when day_number = 60 then 1 else 0 end ) as retention_d60
       , max( case when day_number = 61 then 1 else 0 end ) as retention_d61
       , max( case when day_number = 90 then 1 else 0 end ) as retention_d90
+      , max( case when day_number = 91 then 1 else 0 end ) as retention_d91
       , max( case when day_number = 120 then 1 else 0 end ) as retention_d120
       , max( case when day_number = 180 then 1 else 0 end ) as retention_d180
       , max( case when day_number = 360 then 1 else 0 end ) as retention_d360

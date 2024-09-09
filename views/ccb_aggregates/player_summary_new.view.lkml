@@ -155,6 +155,7 @@ view: player_summary_new {
           , retention_d60
           , retention_d61
           , retention_d90
+          , retention_d91
           , retention_d120
           , retention_d180
           , retention_d360
@@ -3684,6 +3685,31 @@ view: player_summary_new {
       count( distinct
         case
           when ${TABLE}.max_available_day_number >= 61
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+    # drill_fields: [numerator_retention_d120,available_player_count_d120]
+  }
+
+  measure: big_fish_retention_d90 {
+    group_label: "Big Fish Retention"
+    label: "Big Fish D90"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 91
+          then ${TABLE}.retention_d91
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 91
           then ${TABLE}.rdg_id
           else null
           end )

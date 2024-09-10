@@ -80,7 +80,7 @@ view: player_daily_incremental {
           date(timestamp) >=
               case
                   -- select date(current_date())
-                  when date(current_date()) <= '2024-08-14' -- Last Full Update
+                  when date(current_date()) <= '2024-09-10' -- Last Full Update
                   then '2022-06-01'
                   else date_add(current_date(), interval -9 day)
                   end
@@ -219,8 +219,14 @@ view: player_daily_incremental {
               when event_name = 'transaction'
               and json_extract_scalar(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_01' -- real dollars
               and (
-                json_extract_scalar(extra_json,"$.rvs_id") LIKE '%GPA%' -- check for valid transactions on Google Play
-                OR json_extract_scalar(extra_json,"$.rvs_id") LIKE '%AppleAppStore%' -- check for valid transactions on Apple
+                (
+                    platform like '%Android%'
+                    and json_extract_scalar(extra_json,"$.rvs_id") LIKE '%GPA%' -- check for valid transactions on Google Play
+                  )
+                OR (
+                    platform like '%iOS%'
+                    and length(json_extract_scalar(extra_json,"$.rvs_id")) > 2 -- check for valid transactions on Apple
+                  )
                 )
               then ifnull(safe_cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") AS numeric) * 0.01 * 0.70 ,0) -- purchase amount + app store cut
               else 0

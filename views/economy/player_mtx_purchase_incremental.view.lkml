@@ -32,6 +32,7 @@ base_data_full as (
         , currencies
         , last_level_serial
         , engagement_ticks
+        , platform
         , case
             when event_name = 'round_end'
             then safe_cast(json_extract_scalar(extra_json,"$.round_count") as int64)-1
@@ -50,7 +51,7 @@ base_data_full as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-08-31' -- Last Full Update
+                when date(current_date()) <= '2024-09-10' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -125,9 +126,15 @@ base_data_full as (
         event_name = 'transaction'
         and json_extract_scalar(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_01' -- real dollars
         and (
-            json_extract_scalar(extra_json,"$.rvs_id") like '%GPA%' -- check for valid transactions on Google Play
-            or json_extract_scalar(extra_json,"$.rvs_id") like '%AppleAppStore%' -- check for valid transactions on Apple
-            )
+              (
+                  platform like '%Android%'
+                  and json_extract_scalar(extra_json,"$.rvs_id") LIKE '%GPA%' -- check for valid transactions on Google Play
+                )
+              OR (
+                  platform like '%iOS%'
+                  and length(json_extract_scalar(extra_json,"$.rvs_id")) > 2 -- check for valid transactions on Apple
+                )
+              )
     )
 
 
@@ -152,6 +159,7 @@ base_data_full as (
         , round(safe_cast(a.engagement_ticks as int64) / 2) cumulative_time_played_minutes
         , 1 as count_mtx_purchases
         , a.round_count
+        , a.platform
 
         -- MTX Purchase Informaion
         , json_extract_scalar(a.extra_json,"$.source_id") as source_id

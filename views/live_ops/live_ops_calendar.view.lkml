@@ -29,6 +29,10 @@ view: live_ops_calendar {
           , date('2024-05-14') as castle_climb_start_date
           , 4 as castle_climb_day_length
 
+          -- Moves Master
+          , date('2022-10-11') as moves_master_start_date
+          , 7 as moves_master_day_length
+
 
         from
           unnest( generate_array(1,365 * 15 ) ) as my_row_number
@@ -62,6 +66,11 @@ view: live_ops_calendar {
               then null
               else date_diff(rdg_date,castle_climb_start_date,day)
               end as castle_climb_day_number
+          , case
+              when rdg_date < moves_master_start_date
+              then null
+              else date_diff(rdg_date,moves_master_start_date,day)
+              end as moves_master_day_number
         from
           my_rdg_date_table
       )
@@ -75,6 +84,7 @@ view: live_ops_calendar {
         select
           *
           , floor(safe_divide( castle_climb_day_number, castle_climb_day_length ))+1 as castle_climb_number
+          , floor(safe_divide( moves_master_day_number, moves_master_day_length ))+1 as moves_master_number
         from my_live_ops_day_number_table
 
       )
@@ -88,6 +98,7 @@ view: live_ops_calendar {
         select
           *
           , min(rdg_date) over ( partition by safe_cast(castle_climb_number as string) order by rdg_date ) as castle_climb_event_start_date
+          , min(rdg_date) over ( partition by safe_cast(moves_master_number as string) order by rdg_date ) as moves_master_event_start_date
         from
           my_live_ops_number_table
 
@@ -101,11 +112,20 @@ view: live_ops_calendar {
         rdg_date
         , max( my_row_number ) as my_row_number
         , max( calendar_start_date ) as calendar_start_date
+
+        -- castle climb
         , max( castle_climb_start_date ) as castle_climb_start_date
         , max( castle_climb_day_length ) as castle_climb_day_length
         , max( castle_climb_day_number ) as castle_climb_day_number
         , max( castle_climb_number ) as castle_climb_number
         , max( case when castle_climb_day_number is null then null else castle_climb_event_start_date end ) as castle_climb_event_start_date
+
+        -- moves master
+        , max( moves_master_start_date ) as moves_master_start_date
+        , max( moves_master_day_length ) as moves_master_day_length
+        , max( moves_master_day_number ) as moves_master_day_number
+        , max( moves_master_number ) as moves_master_number
+        , max( case when moves_master_day_number is null then null else moves_master_event_start_date end ) as moves_master_event_start_date
       from
         my_live_ops_event_start_date_table
       where
@@ -180,6 +200,40 @@ view: live_ops_calendar {
     type: date
   }
 
+  ############################################################
+  ## Moves Master
+  ############################################################
 
+  dimension_group: moves_master_start_date {
+    group_label: "Moves Master"
+    label: "Launch"
+    type: time
+    timeframes: [date, week, month, year]
+    sql: timestamp(${TABLE}.moves_master_start_date) ;;
+  }
+
+  dimension: moves_master_day_length {
+    group_label: "Moves Master"
+    label: "Event Length in Days"
+    type: number
+  }
+
+  dimension: moves_master_day_number {
+    group_label: "Moves Master"
+    label: "Days Since Launch"
+    type: number
+  }
+
+  dimension: moves_master_number {
+    group_label: "Moves Master"
+    label: "Event Number"
+    type: number
+  }
+
+  dimension: moves_master_event_start_date {
+    group_label: "Moves Master"
+    label: "Event Start Date"
+    type: date
+  }
 
 }

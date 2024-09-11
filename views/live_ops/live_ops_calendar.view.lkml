@@ -33,6 +33,10 @@ view: live_ops_calendar {
           , date('2022-10-11') as moves_master_start_date
           , 7 as moves_master_day_length
 
+          -- Puzzle
+          , date('2023-05-17') as puzzle_start_date
+          , 7 as puzzle_day_length
+
 
         from
           unnest( generate_array(1,365 * 15 ) ) as my_row_number
@@ -71,6 +75,11 @@ view: live_ops_calendar {
               then null
               else date_diff(rdg_date,moves_master_start_date,day)
               end as moves_master_day_number
+          , case
+              when rdg_date < puzzle_start_date
+              then null
+              else date_diff(rdg_date,puzzle_start_date,day)
+              end as puzzle_day_number
         from
           my_rdg_date_table
       )
@@ -85,6 +94,7 @@ view: live_ops_calendar {
           *
           , floor(safe_divide( castle_climb_day_number, castle_climb_day_length ))+1 as castle_climb_number
           , floor(safe_divide( moves_master_day_number, moves_master_day_length ))+1 as moves_master_number
+          , floor(safe_divide( puzzle_day_number, puzzle_day_length ))+1 as puzzle_number
         from my_live_ops_day_number_table
 
       )
@@ -99,6 +109,7 @@ view: live_ops_calendar {
           *
           , min(rdg_date) over ( partition by safe_cast(castle_climb_number as string) order by rdg_date ) as castle_climb_event_start_date
           , min(rdg_date) over ( partition by safe_cast(moves_master_number as string) order by rdg_date ) as moves_master_event_start_date
+          , min(rdg_date) over ( partition by safe_cast(puzzle_number as string) order by rdg_date ) as puzzle_event_start_date
         from
           my_live_ops_number_table
 
@@ -126,6 +137,14 @@ view: live_ops_calendar {
         , max( moves_master_day_number ) as moves_master_day_number
         , max( moves_master_number ) as moves_master_number
         , max( case when moves_master_day_number is null then null else moves_master_event_start_date end ) as moves_master_event_start_date
+
+        -- puzzle
+        , max( puzzle_start_date ) as puzzle_start_date
+        , max( puzzle_day_length ) as puzzle_day_length
+        , max( puzzle_day_number ) as puzzle_day_number
+        , max( puzzle_number ) as puzzle_number
+        , max( case when puzzle_day_number is null then null else puzzle_event_start_date end ) as puzzle_event_start_date
+
       from
         my_live_ops_event_start_date_table
       where
@@ -232,6 +251,42 @@ view: live_ops_calendar {
 
   dimension: moves_master_event_start_date {
     group_label: "Moves Master"
+    label: "Event Start Date"
+    type: date
+  }
+
+  ############################################################
+  ## Puzzle
+  ############################################################
+
+  dimension_group: puzzle_start_date {
+    group_label: "Puzzle"
+    label: "Launch"
+    type: time
+    timeframes: [date, week, month, year]
+    sql: timestamp(${TABLE}.puzzle_start_date) ;;
+  }
+
+  dimension: puzzle_day_length {
+    group_label: "Puzzle"
+    label: "Event Length in Days"
+    type: number
+  }
+
+  dimension: puzzle_day_number {
+    group_label: "Puzzle"
+    label: "Days Since Launch"
+    type: number
+  }
+
+  dimension: puzzle_number {
+    group_label: "Puzzle"
+    label: "Event Number"
+    type: number
+  }
+
+  dimension: puzzle_event_start_date {
+    group_label: "Puzzle"
     label: "Event Start Date"
     type: date
   }

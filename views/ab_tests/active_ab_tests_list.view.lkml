@@ -12,6 +12,9 @@ view: active_ab_tests_list {
 
       select '$.No_AB_Test_Split' as experiment_name
 
+      union all select '$.scrollableHUDOffers_06122024'
+      union all select '$.ticketQPO_20240626'
+
       union all select '$.deferTicketFUE_20240731'
 
       union all select '$.popupPriority_20240807'

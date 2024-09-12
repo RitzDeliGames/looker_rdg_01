@@ -1329,6 +1329,21 @@ dimension: primary_key {
     default_value:  "$.No_AB_Test_Split"
   }
 
+  parameter: selected_experiment_start_date {
+    type: date
+  }
+
+  dimension: selected_experiment_installed_after_start_date {
+    type: string
+    sql:
+      case
+        when date(${TABLE}.created_date_timestamp) < date({% parameter selected_experiment_start_date %})
+        then 'Installed Before Start Date'
+        else 'Installed After Start Date'
+        end
+    ;;
+  }
+
 ################################################################
 ## Dimensions
 ################################################################

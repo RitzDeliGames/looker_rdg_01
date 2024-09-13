@@ -154,6 +154,61 @@ measure: percent_dau_in_mode {
   ;;
 }
 
+  measure: percent_unique_dau_in_mode {
+    label: "Average % Unique Players In Mode"
+    type: number
+    value_format_name: percent_0
+    sql:
+    safe_divide(
+      sum(${TABLE}.game_mode_participation_indicator)
+      , sum(1)
+      )
+  ;;
+  }
 
+  measure: rounds_played_10 {
+    group_label: "Rounds Played Percentiles"
+    label: "10th Percentile"
+    type: percentile
+    percentile: 10
+    value_format_name: decimal_0
+    sql: case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.game_mode_round_end_events else null end  ;;
+  }
+
+  measure: rounds_played_25 {
+    group_label: "Rounds Played Percentiles"
+    label: "25th Percentile"
+    type: percentile
+    percentile: 25
+    value_format_name: decimal_0
+    sql: case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.game_mode_round_end_events else null end  ;;
+  }
+
+  measure: rounds_played_50 {
+    group_label: "Rounds Played Percentiles"
+    label: "Median"
+    type: percentile
+    percentile: 50
+    value_format_name: decimal_0
+    sql: case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.game_mode_round_end_events else null end  ;;
+  }
+
+  measure: rounds_played_75 {
+    group_label: "Rounds Played Percentiles"
+    label: "75th Percentile"
+    type: percentile
+    percentile: 75
+    value_format_name: decimal_0
+    sql: case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.game_mode_round_end_events else null end  ;;
+  }
+
+  measure: rounds_played_95 {
+    group_label: "Rounds Played Percentiles"
+    label: "95th Percentile"
+    type: percentile
+    percentile: 95
+    value_format_name: decimal_0
+    sql: case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.game_mode_round_end_events else null end  ;;
+  }
 
 }

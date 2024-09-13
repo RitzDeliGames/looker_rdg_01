@@ -52,7 +52,7 @@ view: game_mode_event_summary {
           , sum( a.total_chum_powerups_used ) as total_chum_powerups_used
           , sum( a.in_round_coin_spend ) as in_round_coin_spend
           , sum( a.in_round_count_ad_views ) as in_round_count_ad_views
-          , sum( a.in_round_mtx_purchase_dollars ) as in_round_mtx_purchase_dollars
+          , sum( a.in_round_combined_dollars ) as in_round_combined_dollars
         from
           -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
           -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
@@ -88,7 +88,7 @@ view: game_mode_event_summary {
         , ifnull( b.total_chum_powerups_used, 0 ) as total_chum_powerups_used
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
-        , ifnull( b.in_round_mtx_purchase_dollars  , 0 ) as in_round_mtx_purchase_dollars
+        , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
       from
         moves_master_daily a
         left join moves_master_rounds b
@@ -185,6 +185,78 @@ measure: percent_dau_in_mode {
     sql:
     safe_divide(
       sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.game_mode_popup_indicator else 0 end )
+      , sum(${TABLE}.game_mode_participation_indicator)
+      )
+  ;;
+  }
+
+  measure: average_rounds_with_moves_added_per_player {
+    label: "Average Rounds With Moves Added Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.count_rounds_with_moves_added else 0 end )
+      , sum(${TABLE}.game_mode_participation_indicator)
+      )
+  ;;
+  }
+
+  measure: average_pre_game_boosts_per_player {
+    label: "Average Pre-Game Boosts Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.pregame_boost_total else 0 end )
+      , sum(${TABLE}.game_mode_participation_indicator)
+      )
+  ;;
+  }
+
+  measure: average_chum_chums_per_player {
+    label: "Average Chum Chums Used Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.total_chum_powerups_used else 0 end )
+      , sum(${TABLE}.game_mode_participation_indicator)
+      )
+  ;;
+  }
+
+  measure: average_coins_spend_per_player {
+    label: "Average Coins Spent Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    safe_divide(
+      sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.in_round_coin_spend else 0 end )
+      , sum(${TABLE}.game_mode_participation_indicator)
+      )
+  ;;
+  }
+
+  measure: average_ads_vied_per_player {
+    label: "Average Ads Viewed Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.in_round_count_ad_views else 0 end )
+      , sum(${TABLE}.game_mode_participation_indicator)
+      )
+  ;;
+  }
+
+  measure: average_combined_dollars_per_player {
+    label: "Average Revenue Per Player"
+    type: number
+    value_format_name: usd
+    sql:
+    safe_divide(
+      sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.in_round_combined_dollars else 0 end )
       , sum(${TABLE}.game_mode_participation_indicator)
       )
   ;;

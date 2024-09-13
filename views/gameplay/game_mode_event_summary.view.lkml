@@ -70,6 +70,180 @@ view: game_mode_event_summary {
           1,2
       )
 
+      , puzzle_daily as (
+
+        select
+          b.puzzle_event_start_date as event_start_date
+          , a.rdg_id
+          , sum(a.count_days_played) as count_days_played
+          , max( case when a.round_end_events_puzzle > 0 then 1 else 0 end ) as game_mode_participation_indicator
+          , max( case when a.round_end_events_puzzle > 0 and a.feature_completion_puzzle > 0 then 1 else 0 end ) as game_mode_completion_indicator
+          , sum( case when a.round_end_events_puzzle > 0 then a.count_days_played else 0 end ) as days_played_game_mode
+          , sum( a.round_end_events_puzzle ) as game_mode_round_end_events
+          , max( case when a.daily_popup_Puzzle is not null then 1 else 0 end ) as game_mode_popup_indicator
+        from
+          -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary a
+          -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
+          --  on date(a.rdg_date) = b.rdg_date
+          ${player_daily_summary.SQL_TABLE_NAME} a
+          left join ${live_ops_calendar.SQL_TABLE_NAME} b
+            on date(a.rdg_date) = b.rdg_date
+        where
+          b.moves_master_event_start_date is not null
+          -- and b.moves_master_event_start_date = '2024-09-03'
+          -- and date(a.rdg_date) >= '2024-09-03'
+        group by
+          1,2
+
+      )
+
+      , puzzle_rounds as (
+
+        select
+          b.puzzle_event_start_date as event_start_date
+          , a.rdg_id
+          , count( distinct a.level_id ) as count_unique_levels
+          , sum( a.count_rounds ) as count_rounds
+          , sum( a.count_wins ) as count_wins
+          , sum( a.count_rounds_with_moves_added ) as count_rounds_with_moves_added
+          , sum( a.pregame_boost_total ) as pregame_boost_total
+          , sum( a.total_chum_powerups_used ) as total_chum_powerups_used
+          , sum( a.in_round_coin_spend ) as in_round_coin_spend
+          , sum( a.in_round_count_ad_views ) as in_round_count_ad_views
+          , sum( a.in_round_combined_dollars ) as in_round_combined_dollars
+        from
+          -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
+          -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
+          --   on date(a.rdg_date) = b.rdg_date
+          ${player_round_summary.SQL_TABLE_NAME} a
+          left join ${live_ops_calendar.SQL_TABLE_NAME} b
+            on date(a.rdg_date) = b.rdg_date
+        where
+          b.moves_master_event_start_date is not null
+          and a.game_mode = 'puzzle'
+          --and b.moves_master_event_start_date = '2024-09-03'
+          --and date(a.rdg_date) >= '2024-09-03'
+
+        group by
+          1,2
+      )
+
+      , go_fish_daily as (
+
+        select
+          b.go_fish_event_start_date as event_start_date
+          , a.rdg_id
+          , sum(a.count_days_played) as count_days_played
+          , max( case when a.round_end_events_gofish > 0 then 1 else 0 end ) as game_mode_participation_indicator
+          , max( case when a.round_end_events_gofish > 0 and a.gofish_full_matches_completed > 0 then 1 else 0 end ) as game_mode_completion_indicator
+          , sum( case when a.round_end_events_gofish > 0 then a.count_days_played else 0 end ) as days_played_game_mode
+          , sum( a.round_end_events_gofish ) as game_mode_round_end_events
+          , max( case when a.daily_popup_GoFish is not null then 1 else 0 end ) as game_mode_popup_indicator
+        from
+          -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary a
+          -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
+          --  on date(a.rdg_date) = b.rdg_date
+          ${player_daily_summary.SQL_TABLE_NAME} a
+          left join ${live_ops_calendar.SQL_TABLE_NAME} b
+            on date(a.rdg_date) = b.rdg_date
+        where
+          b.moves_master_event_start_date is not null
+          -- and b.moves_master_event_start_date = '2024-09-03'
+          -- and date(a.rdg_date) >= '2024-09-03'
+        group by
+          1,2
+
+      )
+
+      , go_fish_rounds as (
+
+        select
+          b.go_fish_event_start_date as event_start_date
+          , a.rdg_id
+          , count( distinct a.level_id ) as count_unique_levels
+          , sum( a.count_rounds ) as count_rounds
+          , sum( a.count_wins ) as count_wins
+          , sum( a.count_rounds_with_moves_added ) as count_rounds_with_moves_added
+          , sum( a.pregame_boost_total ) as pregame_boost_total
+          , sum( a.total_chum_powerups_used ) as total_chum_powerups_used
+          , sum( a.in_round_coin_spend ) as in_round_coin_spend
+          , sum( a.in_round_count_ad_views ) as in_round_count_ad_views
+          , sum( a.in_round_combined_dollars ) as in_round_combined_dollars
+        from
+          -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
+          -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
+          --   on date(a.rdg_date) = b.rdg_date
+          ${player_round_summary.SQL_TABLE_NAME} a
+          left join ${live_ops_calendar.SQL_TABLE_NAME} b
+            on date(a.rdg_date) = b.rdg_date
+        where
+          b.moves_master_event_start_date is not null
+          and a.game_mode = 'goFish'
+          --and b.moves_master_event_start_date = '2024-09-03'
+          --and date(a.rdg_date) >= '2024-09-03'
+
+        group by
+          1,2
+      )
+
+      , gem_quest_daily as (
+
+        select
+          b.gem_quest_event_start_date as event_start_date
+          , a.rdg_id
+          , sum(a.count_days_played) as count_days_played
+          , max( case when a.round_end_events_gemquest > 0 then 1 else 0 end ) as game_mode_participation_indicator
+          , max( case when a.round_end_events_gemquest > 0 and a.feature_completion_gem_quest > 0 then 1 else 0 end ) as game_mode_completion_indicator
+          , sum( case when a.round_end_events_gemquest > 0 then a.count_days_played else 0 end ) as days_played_game_mode
+          , sum( a.round_end_events_gemquest ) as game_mode_round_end_events
+          , max( 0 ) as game_mode_popup_indicator
+        from
+          -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary a
+          -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
+          --  on date(a.rdg_date) = b.rdg_date
+          ${player_daily_summary.SQL_TABLE_NAME} a
+          left join ${live_ops_calendar.SQL_TABLE_NAME} b
+            on date(a.rdg_date) = b.rdg_date
+        where
+          b.moves_master_event_start_date is not null
+          -- and b.moves_master_event_start_date = '2024-09-03'
+          -- and date(a.rdg_date) >= '2024-09-03'
+        group by
+          1,2
+
+      )
+
+      , gem_quest_rounds as (
+
+        select
+          b.gem_quest_event_start_date as event_start_date
+          , a.rdg_id
+          , count( distinct a.level_id ) as count_unique_levels
+          , sum( a.count_rounds ) as count_rounds
+          , sum( a.count_wins ) as count_wins
+          , sum( a.count_rounds_with_moves_added ) as count_rounds_with_moves_added
+          , sum( a.pregame_boost_total ) as pregame_boost_total
+          , sum( a.total_chum_powerups_used ) as total_chum_powerups_used
+          , sum( a.in_round_coin_spend ) as in_round_coin_spend
+          , sum( a.in_round_count_ad_views ) as in_round_count_ad_views
+          , sum( a.in_round_combined_dollars ) as in_round_combined_dollars
+        from
+          -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
+          -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
+          --   on date(a.rdg_date) = b.rdg_date
+          ${player_round_summary.SQL_TABLE_NAME} a
+          left join ${live_ops_calendar.SQL_TABLE_NAME} b
+            on date(a.rdg_date) = b.rdg_date
+        where
+          b.moves_master_event_start_date is not null
+          and a.game_mode = 'gemQuest'
+          --and b.moves_master_event_start_date = '2024-09-03'
+          --and date(a.rdg_date) >= '2024-09-03'
+
+        group by
+          1,2
+      )
+
       select
         timestamp(a.event_start_date) as event_start_date
         , 'movesMaster' as game_mode
@@ -92,6 +266,84 @@ view: game_mode_event_summary {
       from
         moves_master_daily a
         left join moves_master_rounds b
+          on a.event_start_date = b.event_start_date
+          and a.rdg_id = b.rdg_id
+
+      union all
+      select
+        timestamp(a.event_start_date) as event_start_date
+        , 'puzzle' as game_mode
+        , a.rdg_id
+        , a.count_days_played
+        , a.game_mode_participation_indicator
+        , a.game_mode_completion_indicator
+        , a.days_played_game_mode
+        , a.game_mode_round_end_events
+        , a.game_mode_popup_indicator
+        , ifnull( b.count_unique_levels, 0 ) as count_unique_levels
+        , ifnull( b.count_rounds, 0 ) as count_rounds
+        , ifnull( b.count_wins, 0 ) as count_wins
+        , ifnull( b.count_rounds_with_moves_added, 0 ) as count_rounds_with_moves_added
+        , ifnull( b.pregame_boost_total, 0 ) as pregame_boost_total
+        , ifnull( b.total_chum_powerups_used, 0 ) as total_chum_powerups_used
+        , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
+        , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
+        , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+      from
+        puzzle_daily a
+        left join puzzle_rounds b
+          on a.event_start_date = b.event_start_date
+          and a.rdg_id = b.rdg_id
+
+      union all
+      select
+        timestamp(a.event_start_date) as event_start_date
+        , 'goFish' as game_mode
+        , a.rdg_id
+        , a.count_days_played
+        , a.game_mode_participation_indicator
+        , a.game_mode_completion_indicator
+        , a.days_played_game_mode
+        , a.game_mode_round_end_events
+        , a.game_mode_popup_indicator
+        , ifnull( b.count_unique_levels, 0 ) as count_unique_levels
+        , ifnull( b.count_rounds, 0 ) as count_rounds
+        , ifnull( b.count_wins, 0 ) as count_wins
+        , ifnull( b.count_rounds_with_moves_added, 0 ) as count_rounds_with_moves_added
+        , ifnull( b.pregame_boost_total, 0 ) as pregame_boost_total
+        , ifnull( b.total_chum_powerups_used, 0 ) as total_chum_powerups_used
+        , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
+        , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
+        , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+      from
+        go_fish_daily a
+        left join go_fish_rounds b
+          on a.event_start_date = b.event_start_date
+          and a.rdg_id = b.rdg_id
+
+      union all
+      select
+        timestamp(a.event_start_date) as event_start_date
+        , 'gemQuest' as game_mode
+        , a.rdg_id
+        , a.count_days_played
+        , a.game_mode_participation_indicator
+        , a.game_mode_completion_indicator
+        , a.days_played_game_mode
+        , a.game_mode_round_end_events
+        , a.game_mode_popup_indicator
+        , ifnull( b.count_unique_levels, 0 ) as count_unique_levels
+        , ifnull( b.count_rounds, 0 ) as count_rounds
+        , ifnull( b.count_wins, 0 ) as count_wins
+        , ifnull( b.count_rounds_with_moves_added, 0 ) as count_rounds_with_moves_added
+        , ifnull( b.pregame_boost_total, 0 ) as pregame_boost_total
+        , ifnull( b.total_chum_powerups_used, 0 ) as total_chum_powerups_used
+        , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
+        , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
+        , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+      from
+        gem_quest_daily a
+        left join gem_quest_rounds b
           on a.event_start_date = b.event_start_date
           and a.rdg_id = b.rdg_id
 

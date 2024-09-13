@@ -37,14 +37,17 @@ view: live_ops_calendar {
           -- Puzzle
           , date('2023-05-17') as puzzle_start_date
           , 7 as puzzle_day_length
+          , 1 as puzzle_days_off_at_end
 
           -- Go Fish
           , date('2023-09-22') as go_fish_start_date
           , 7 as go_fish_day_length
+          , 1 as go_fish_days_off_at_end
 
           -- Gem Quest
           , date('2024-03-28') as gem_quest_start_date
           , 7 as gem_quest_day_length
+          , 1 as gem_quest_days_off_at_end
 
         from
           unnest( generate_array(1,365 * 15 ) ) as my_row_number
@@ -132,8 +135,14 @@ view: live_ops_calendar {
           , row_number() over ( partition by safe_cast(moves_master_number as string) order by rdg_date asc ) as moves_master_event_day_number
           , row_number() over ( partition by safe_cast(moves_master_number as string) order by rdg_date desc ) as moves_master_event_days_remaining
           , min(rdg_date) over ( partition by safe_cast(puzzle_number as string) order by rdg_date ) as puzzle_event_start_date
+          , row_number() over ( partition by safe_cast(puzzle_number as string) order by rdg_date asc ) as puzzle_event_day_number
+          , row_number() over ( partition by safe_cast(puzzle_number as string) order by rdg_date desc ) as puzzle_event_days_remaining
           , min(rdg_date) over ( partition by safe_cast(go_fish_number as string) order by rdg_date ) as go_fish_event_start_date
+          , row_number() over ( partition by safe_cast(go_fish_number as string) order by rdg_date asc ) as go_fish_event_day_number
+          , row_number() over ( partition by safe_cast(go_fish_number as string) order by rdg_date desc ) as go_fish_event_days_remaining
           , min(rdg_date) over ( partition by safe_cast(gem_quest_number as string) order by rdg_date ) as gem_quest_event_start_date
+          , row_number() over ( partition by safe_cast(gem_quest_number as string) order by rdg_date asc ) as gem_quest_event_day_number
+          , row_number() over ( partition by safe_cast(gem_quest_number as string) order by rdg_date desc ) as gem_quest_event_days_remaining
         from
           my_live_ops_number_table
 
@@ -167,22 +176,27 @@ view: live_ops_calendar {
         , max( puzzle_start_date ) as puzzle_start_date
         , max( puzzle_day_length ) as puzzle_day_length
         , max( puzzle_day_number ) as puzzle_day_number
-        , max( puzzle_number ) as puzzle_number
-        , max( case when puzzle_day_number is null then null else puzzle_event_start_date end ) as puzzle_event_start_date
+        , max( case when puzzle_event_days_remaining <= puzzle_days_off_at_end then null else puzzle_number end ) as puzzle_number
+        , max( case when puzzle_day_number is null then null when puzzle_event_days_remaining <= puzzle_days_off_at_end then null else puzzle_event_start_date end ) as puzzle_event_start_date
+        , max( case when puzzle_day_number is null then null when puzzle_event_days_remaining <= puzzle_days_off_at_end then null else puzzle_event_day_number end ) as puzzle_event_day_number
+
 
         -- go_fish
         , max( go_fish_start_date ) as go_fish_start_date
         , max( go_fish_day_length ) as go_fish_day_length
         , max( go_fish_day_number ) as go_fish_day_number
-        , max( go_fish_number ) as go_fish_number
-        , max( case when go_fish_day_number is null then null else go_fish_event_start_date end ) as go_fish_event_start_date
+        , max( case when go_fish_event_days_remaining <= go_fish_days_off_at_end then null else go_fish_number end ) as go_fish_number
+        , max( case when go_fish_day_number is null then null when go_fish_event_days_remaining <= go_fish_days_off_at_end then null else go_fish_event_start_date end ) as go_fish_event_start_date
+        , max( case when go_fish_day_number is null then null when go_fish_event_days_remaining <= go_fish_days_off_at_end then null else go_fish_event_day_number end ) as go_fish_event_day_number
 
         -- gem_quest
         , max( gem_quest_start_date ) as gem_quest_start_date
         , max( gem_quest_day_length ) as gem_quest_day_length
         , max( gem_quest_day_number ) as gem_quest_day_number
-        , max( gem_quest_number ) as gem_quest_number
-        , max( case when gem_quest_day_number is null then null else gem_quest_event_start_date end ) as gem_quest_event_start_date
+        , max( case when gem_quest_event_days_remaining <= gem_quest_days_off_at_end then null else gem_quest_number end ) as gem_quest_number
+        , max( case when gem_quest_day_number is null then null when gem_quest_event_days_remaining <= gem_quest_days_off_at_end then null else gem_quest_event_start_date end ) as gem_quest_event_start_date
+        , max( case when gem_quest_day_number is null then null when gem_quest_event_days_remaining <= gem_quest_days_off_at_end then null else gem_quest_event_day_number end ) as gem_quest_event_day_number
+
 
       from
         my_live_ops_event_start_date_table

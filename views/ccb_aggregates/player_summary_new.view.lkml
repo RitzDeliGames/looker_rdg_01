@@ -997,29 +997,49 @@ view: player_summary_new {
     type: string
     sql:
       case
-        when ${TABLE}.campaign_name is null then ''
-        when ${TABLE}.campaign_name like '%Google%' then 'Google - '
-        when ${TABLE}.campaign_name like '%Mistplay%' then 'Mistplay - '
-        when ${TABLE}.campaign_name like '%Meta%' then 'Meta - '
-      else 'Meta - '
-      end
-      ||
-      case
         when ${TABLE}.campaign_name is null then 'Organic'
-        when ${TABLE}.campaign_name like '%Purchase%' then 'Purchase Campaign'
-        when ${TABLE}.campaign_name like '%15 Min%' then 'Engagement Campaign'
-        when ${TABLE}.campaign_name like '%30 Min%' then 'Engagement Campaign'
-        when ${TABLE}.campaign_name like '%60 Min%' then 'Engagement Campaign'
-        when ${TABLE}.campaign_name like '%Tutorial Complete%' then 'Engagement Campaign'
-        when ${TABLE}.campaign_name like '%Install%' then 'Install Campaign'
-        when ${TABLE}.campaign_name like '%Creative%' then 'Install Campaign'
-        when ${TABLE}.campaign_name like '%MAI%' then 'Install Campaign'
-        when ${TABLE}.campaign_name like '%tCPI%' then 'Install Campaign'
-        when ${TABLE}.campaign_name like '%tCPA%' then 'Engagement Campaign'
-        when ${TABLE}.campaign_name like '%ROAS%' then 'RoAS Campaign'
-
-        else 'Other Campaign'
+        when
+          ${TABLE}.campaign_name not like '%Google%'
+          and ${TABLE}.campaign_name not like '%Mistplay%'
+          and ${TABLE}.campaign_name not like '%Meta%'
+          and ${TABLE}.campaign_name not like '%Facebook%'
+          and ${TABLE}.campaign_name not like '%Applovin%'
+          then 'Unmapped Campaign'
+        else
+          case
+            when ${TABLE}.campaign_name like '%Google%' then 'Google - '
+            when ${TABLE}.campaign_name like '%Mistplay%' then 'Mistplay - '
+            when ${TABLE}.campaign_name like '%Meta%' then 'Meta - '
+            when ${TABLE}.campaign_name like '%Facebook%' then 'Meta - '
+            when ${TABLE}.campaign_name like '%Applovin%' then 'Applovin - '
+          else ''
+          end
+          ||
+          case
+            when ${TABLE}.campaign_name is null then 'Organic'
+            when ${TABLE}.campaign_name like '%Purchase%' then 'Purchase Campaign'
+            when ${TABLE}.campaign_name like '%MAE%' then 'Engagement Campaign'
+            when ${TABLE}.campaign_name like '%5 Min%' then 'Engagement Campaign'
+            when ${TABLE}.campaign_name like '%15 Min%' then 'Engagement Campaign'
+            when ${TABLE}.campaign_name like '%30 Min%' then 'Engagement Campaign'
+            when ${TABLE}.campaign_name like '%60 Min%' then 'Engagement Campaign'
+            when ${TABLE}.campaign_name like '%10_Minutes%' then 'Engagement Campaign'
+            when ${TABLE}.campaign_name like '%Tutorial Complete%' then 'Engagement Campaign'
+            when ${TABLE}.campaign_name like '%Install%' then 'Install Campaign'
+            when ${TABLE}.campaign_name like '%Creative%' then 'Install Campaign'
+            when ${TABLE}.campaign_name like '%MAI%' then 'Install Campaign'
+            when ${TABLE}.campaign_name like '%UAI%' then 'Install Campaign'
+            when ${TABLE}.campaign_name like '%VAI%' then 'Install Campaign'
+            when ${TABLE}.campaign_name like '%tCPI%' then 'Install Campaign'
+            when ${TABLE}.campaign_name like '%No Event%' then 'Install Campaign'
+            when ${TABLE}.campaign_name like '%Marketability%' then 'Install Campaign'
+            when ${TABLE}.campaign_name like '%tCPA%' then 'Engagement Campaign'
+            when ${TABLE}.campaign_name like '%ROAS%' then 'RoAS Campaign'
+          else 'Other Campaign'
+          end
         end
+
+
     ;;
 
   }

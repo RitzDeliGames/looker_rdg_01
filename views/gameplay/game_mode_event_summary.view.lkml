@@ -124,10 +124,36 @@ view: game_mode_event_summary {
   dimension: rdg_id { type:string }
   dimension: game_mode { type:string }
   dimension_group: event_start_date {
+    label: "Event Start"
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.event_start_date ;;
   }
+  dimension: event_start_date_string {
+    label: "Event Start Key"
+    type:string
+    sql:
+      format_datetime("%Y-%m-%d",${TABLE}.event_start_date)
+
+    ;;
+  }
+
+################################################################
+## Measure
+################################################################
+
+measure: percent_dau_in_mode {
+  label: "Average % DAU In Mode"
+  type: number
+  value_format_name: percent_0
+  sql:
+    safe_divide(
+      sum(${TABLE}.days_played_game_mode)
+      , sum(${TABLE}.count_days_played)
+      )
+  ;;
+}
+
 
 
 }

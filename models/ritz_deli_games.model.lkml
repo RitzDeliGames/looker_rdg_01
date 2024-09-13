@@ -743,6 +743,24 @@ explore: moves_master_recap_summary {
   }
 }
 
+################################################################
+
+## Explore: Game Mode Event Summary
+
+################################################################
+
+explore: game_mode_event_summary {
+  label: "Game Mode Event Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${game_mode_event_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
 
 ################################################################
 
@@ -857,7 +875,7 @@ explore: gogame_data {}
 # explore: player_coin_source_incremental {}
 # explore: player_coin_spend_incremental {}
 # explore: player_round_incremental {}
-explore: player_mtx_purchase_incremental {}
+# explore: player_mtx_purchase_incremental {}
 # explore: player_battle_pass_incremental {}
 # explore: player_error_incremental {}
 # explore: player_fue_incremental {}

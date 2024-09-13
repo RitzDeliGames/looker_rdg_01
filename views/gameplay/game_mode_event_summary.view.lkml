@@ -19,7 +19,7 @@ view: game_mode_event_summary {
           , a.rdg_id
           , sum(a.count_days_played) as count_days_played
           , max( case when a.round_end_events_movesmaster > 0 then 1 else 0 end ) as game_mode_participation_indicator
-          , 1 as game_mode_completion_indicator
+          , max( case when a.round_end_events_movesmaster > 0 then 1 else 0 end ) as game_mode_completion_indicator
           , sum( case when a.round_end_events_movesmaster > 0 then a.count_days_played else 0 end ) as days_played_game_mode
           , sum( a.round_end_events_movesmaster ) as game_mode_round_end_events
           , max( case when a.daily_popup_MovesMaster is not null then 1 else 0 end ) as game_mode_popup_indicator
@@ -166,8 +166,69 @@ measure: percent_dau_in_mode {
   ;;
   }
 
+  measure: percent_unique_engaged_dau_to_complete_event {
+    label: "Average % Engaged Players To Complete Event"
+    type: number
+    value_format_name: percent_0
+    sql:
+    safe_divide(
+      sum(${TABLE}.game_mode_completion_indicator)
+      , sum(${TABLE}.game_mode_participation_indicator)
+      )
+  ;;
+  }
+
+  measure: percent_unique_engaged_dau_to_see_popup {
+    label: "Average % Engaged Players To View Popup"
+    type: number
+    value_format_name: percent_0
+    sql:
+    safe_divide(
+      sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.game_mode_popup_indicator else 0 end )
+      , sum(${TABLE}.game_mode_participation_indicator)
+      )
+  ;;
+  }
+
+  measure: average_unique_levels_played_per_player {
+    label: "Average Unique Levels Played Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.count_unique_levels else 0 end )
+      , sum(${TABLE}.game_mode_participation_indicator)
+      )
+  ;;
+  }
+
+  measure: average_rounds_played_per_player {
+    group_label: "Rounds Played"
+    label: "Average"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.game_mode_round_end_events else 0 end )
+      , sum(${TABLE}.game_mode_participation_indicator)
+      )
+  ;;
+  }
+
+  measure: average_aps_per_player {
+    label: "Average APS"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.count_rounds else 0 end )
+      , sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.count_wins else 0 end )
+      )
+  ;;
+  }
+
   measure: rounds_played_10 {
-    group_label: "Rounds Played Percentiles"
+    group_label: "Rounds Played"
     label: "10th Percentile"
     type: percentile
     percentile: 10
@@ -176,7 +237,7 @@ measure: percent_dau_in_mode {
   }
 
   measure: rounds_played_25 {
-    group_label: "Rounds Played Percentiles"
+    group_label: "Rounds Played"
     label: "25th Percentile"
     type: percentile
     percentile: 25
@@ -185,7 +246,7 @@ measure: percent_dau_in_mode {
   }
 
   measure: rounds_played_50 {
-    group_label: "Rounds Played Percentiles"
+    group_label: "Rounds Played"
     label: "Median"
     type: percentile
     percentile: 50
@@ -194,7 +255,7 @@ measure: percent_dau_in_mode {
   }
 
   measure: rounds_played_75 {
-    group_label: "Rounds Played Percentiles"
+    group_label: "Rounds Played"
     label: "75th Percentile"
     type: percentile
     percentile: 75
@@ -203,7 +264,7 @@ measure: percent_dau_in_mode {
   }
 
   measure: rounds_played_95 {
-    group_label: "Rounds Played Percentiles"
+    group_label: "Rounds Played"
     label: "95th Percentile"
     type: percentile
     percentile: 95

@@ -17,6 +17,10 @@ view: game_mode_event_summary {
         select
           b.moves_master_event_start_date as event_start_date
           , a.rdg_id
+          , min(safe_cast(a.version as numeric)) as version_number_at_start_of_event
+          , min(a.day_number) as day_number_at_start_of_event
+          , min(a.lowest_last_level_serial) as lowest_level_at_start_of_event
+          , min(a.experiments) as experiments
           , sum(a.count_days_played) as count_days_played
           , max( case when a.round_end_events_movesmaster > 0 then 1 else 0 end ) as game_mode_participation_indicator
           , max( case when a.round_end_events_movesmaster > 0 then 1 else 0 end ) as game_mode_completion_indicator
@@ -75,6 +79,10 @@ view: game_mode_event_summary {
         select
           b.puzzle_event_start_date as event_start_date
           , a.rdg_id
+          , min(safe_cast(a.version as numeric)) as version_number_at_start_of_event
+          , min(a.day_number) as day_number_at_start_of_event
+          , min(a.lowest_last_level_serial) as lowest_level_at_start_of_event
+          , min(a.experiments) as experiments
           , sum(a.count_days_played) as count_days_played
           , max( case when a.round_end_events_puzzle > 0 then 1 else 0 end ) as game_mode_participation_indicator
           , max( case when a.round_end_events_puzzle > 0 and a.feature_completion_puzzle > 0 then 1 else 0 end ) as game_mode_completion_indicator
@@ -133,6 +141,10 @@ view: game_mode_event_summary {
         select
           b.go_fish_event_start_date as event_start_date
           , a.rdg_id
+          , min(safe_cast(a.version as numeric)) as version_number_at_start_of_event
+          , min(a.day_number) as day_number_at_start_of_event
+          , min(a.lowest_last_level_serial) as lowest_level_at_start_of_event
+          , min(a.experiments) as experiments
           , sum(a.count_days_played) as count_days_played
           , max( case when a.round_end_events_gofish > 0 then 1 else 0 end ) as game_mode_participation_indicator
           , max( case when a.round_end_events_gofish > 0 and a.gofish_full_matches_completed > 0 then 1 else 0 end ) as game_mode_completion_indicator
@@ -191,6 +203,10 @@ view: game_mode_event_summary {
         select
           b.gem_quest_event_start_date as event_start_date
           , a.rdg_id
+          , min(safe_cast(a.version as numeric)) as version_number_at_start_of_event
+          , min(a.day_number) as day_number_at_start_of_event
+          , min(a.lowest_last_level_serial) as lowest_level_at_start_of_event
+          , min(a.experiments) as experiments
           , sum(a.count_days_played) as count_days_played
           , max( case when a.round_end_events_gemquest > 0 then 1 else 0 end ) as game_mode_participation_indicator
           , max( case when a.round_end_events_gemquest > 0 and a.feature_completion_gem_quest > 0 then 1 else 0 end ) as game_mode_completion_indicator
@@ -248,6 +264,10 @@ view: game_mode_event_summary {
         timestamp(a.event_start_date) as event_start_date
         , 'movesMaster' as game_mode
         , a.rdg_id
+        , a.version_number_at_start_of_event
+        , a.day_number_at_start_of_event
+        , a.lowest_level_at_start_of_event
+        , a.experiments
         , a.count_days_played
         , a.game_mode_participation_indicator
         , a.game_mode_completion_indicator
@@ -274,6 +294,10 @@ view: game_mode_event_summary {
         timestamp(a.event_start_date) as event_start_date
         , 'puzzle' as game_mode
         , a.rdg_id
+        , a.version_number_at_start_of_event
+        , a.day_number_at_start_of_event
+        , a.lowest_level_at_start_of_event
+        , a.experiments
         , a.count_days_played
         , a.game_mode_participation_indicator
         , a.game_mode_completion_indicator
@@ -300,6 +324,10 @@ view: game_mode_event_summary {
         timestamp(a.event_start_date) as event_start_date
         , 'goFish' as game_mode
         , a.rdg_id
+        , a.version_number_at_start_of_event
+        , a.day_number_at_start_of_event
+        , a.lowest_level_at_start_of_event
+        , a.experiments
         , a.count_days_played
         , a.game_mode_participation_indicator
         , a.game_mode_completion_indicator
@@ -326,6 +354,10 @@ view: game_mode_event_summary {
         timestamp(a.event_start_date) as event_start_date
         , 'gemQuest' as game_mode
         , a.rdg_id
+        , a.version_number_at_start_of_event
+        , a.day_number_at_start_of_event
+        , a.lowest_level_at_start_of_event
+        , a.experiments
         , a.count_days_played
         , a.game_mode_participation_indicator
         , a.game_mode_completion_indicator
@@ -387,6 +419,34 @@ view: game_mode_event_summary {
     sql:
       format_datetime("%Y-%m-%d",${TABLE}.event_start_date)
 
+    ;;
+  }
+
+  dimension: version_number_at_start_of_event {
+    type: number
+    label: "Version Number"
+    }
+  dimension: day_number_at_start_of_event {
+    type: number
+    label: "Day Number"
+    }
+
+  dimension: lowest_level_at_start_of_event {
+    type:number
+    label: "Lowest Campaign Level"
+    }
+
+  parameter: selected_experiment {
+    type: string
+    default_value:  "$.No_AB_Test_Split"
+  }
+
+  dimension: experiment_variant {
+    type: string
+    sql:
+    safe_cast(
+        json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
+        as string)
     ;;
   }
 

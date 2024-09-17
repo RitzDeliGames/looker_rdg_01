@@ -469,6 +469,8 @@ constant:  iam_ui_actions {
 
 constant: button_tags {
   value: "case
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_LuckyDice.Roll' then 'Luck Dice - Roll'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_LuckyDice.Close' then 'Luck Dice - Close'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_QuickPurchase.Close' then 'Quick Purchase - Close'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRound_Failure.Continue' then 'Mini-Game - EoR - Continue'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_GoFish.Play' then 'Go Fish - Play'

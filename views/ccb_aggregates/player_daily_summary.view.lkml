@@ -346,6 +346,9 @@ ads_by_date as (
         , max( a.daily_popup_Puzzle ) as daily_popup_Puzzle
         , max( a.daily_popup_TreasureTrove ) as daily_popup_TreasureTrove
         , max( a.daily_popup_UpdateApp ) as daily_popup_UpdateApp
+        , max( a.daily_popup_CastleClimb ) as daily_popup_CastleClimb
+        , max( a.daily_popup_GemQuest ) as daily_popup_GemQuest
+        , max( a.daily_popup_DonutSprint ) as daily_popup_DonutSprint
 
         -- Estimate Ad Placements
         , max( a.estimate_ad_placements_movesmaster ) as estimate_ad_placements_movesmaster
@@ -562,6 +565,9 @@ ads_by_date as (
         , max( a.daily_popup_Puzzle ) as daily_popup_Puzzle
         , max( a.daily_popup_TreasureTrove ) as daily_popup_TreasureTrove
         , max( a.daily_popup_UpdateApp ) as daily_popup_UpdateApp
+        , max( a.daily_popup_CastleClimb ) as daily_popup_CastleClimb
+        , max( a.daily_popup_GemQuest ) as daily_popup_GemQuest
+        , max( a.daily_popup_DonutSprint ) as daily_popup_DonutSprint
 
         -- Estimate Ad Placements
         , max( a.estimate_ad_placements_movesmaster ) as estimate_ad_placements_movesmaster
@@ -866,6 +872,9 @@ ads_by_date as (
         , a.daily_popup_Puzzle
         , a.daily_popup_TreasureTrove
         , a.daily_popup_UpdateApp
+        , a.daily_popup_CastleClimb
+        , a.daily_popup_GemQuest
+        , a.daily_popup_DonutSprint
 
         -- Estimate Ad Placements
         , a.estimate_ad_placements_movesmaster
@@ -6194,6 +6203,9 @@ dimension: count_of_daily_popups_shown {
     + case when ${TABLE}.daily_popup_Puzzle is not null then 1 else 0 end
     + case when ${TABLE}.daily_popup_TreasureTrove is not null then 1 else 0 end
     + case when ${TABLE}.daily_popup_UpdateApp is not null then 1 else 0 end
+    + case when ${TABLE}.daily_popup_CastleClimb is not null then 1 else 0 end
+    + case when ${TABLE}.daily_popup_GemQuest is not null then 1 else 0 end
+    + case when ${TABLE}.daily_popup_DonutSprint is not null then 1 else 0 end
   ;;
 }
 
@@ -6282,6 +6294,30 @@ measure: count_daily_popup_BattlePass {
     group_label: "Daily Popup"
     type: number
     sql: sum( case when ${TABLE}.daily_popup_UpdateApp is not null then 1 else 0 end )   ;;
+    value_format_name: decimal_0
+  }
+
+  measure: count_daily_popup_CastleClimb {
+    label: "Count Daily Popups: CastleClimb"
+    group_label: "Daily Popup"
+    type: number
+    sql: sum( case when ${TABLE}.daily_popup_CastleClimb is not null then 1 else 0 end )   ;;
+    value_format_name: decimal_0
+  }
+
+  measure: count_daily_popup_GemQuest {
+    label: "Count Daily Popups: GemQuest"
+    group_label: "Daily Popup"
+    type: number
+    sql: sum( case when ${TABLE}.daily_popup_GemQuest is not null then 1 else 0 end )   ;;
+    value_format_name: decimal_0
+  }
+
+  measure: count_daily_popup_DonutSprint {
+    label: "Count Daily Popups: DonutSprint"
+    group_label: "Daily Popup"
+    type: number
+    sql: sum( case when ${TABLE}.daily_popup_DonutSprint is not null then 1 else 0 end )   ;;
     value_format_name: decimal_0
   }
 

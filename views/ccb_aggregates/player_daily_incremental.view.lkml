@@ -80,7 +80,7 @@ view: player_daily_incremental {
           date(timestamp) >=
               case
                   -- select date(current_date())
-                  when date(current_date()) <= '2024-09-10' -- Last Full Update
+                  when date(current_date()) <= '2024-09-17' -- Last Full Update
                   then '2022-06-01'
                   else date_add(current_date(), interval -9 day)
                   end
@@ -1253,6 +1253,9 @@ view: player_daily_incremental {
         , max( case when daily_popup_category = 'Puzzle' then daily_popup_action else null end ) as daily_popup_Puzzle
         , max( case when daily_popup_category = 'TreasureTrove' then daily_popup_action else null end ) as daily_popup_TreasureTrove
         , max( case when daily_popup_category = 'UpdateApp' then daily_popup_action else null end ) as daily_popup_UpdateApp
+        , max( case when daily_popup_category = 'CastleClimb' then daily_popup_action else null end ) as daily_popup_CastleClimb
+        , max( case when daily_popup_category = 'GemQuest' then daily_popup_action else null end ) as daily_popup_GemQuest
+        , max( case when daily_popup_category = 'DonutSprint' then daily_popup_action else null end ) as daily_popup_DonutSprint
 
         -- Estimate Ad Placements
         , sum( estimate_ad_placements_movesmaster ) as estimate_ad_placements_movesmaster
@@ -1304,18 +1307,20 @@ view: player_daily_incremental {
     --    date(rdg_date) as rdg_date
 
     --     -- Estimate Ad Placements
-    --     , sum( estimate_ad_placements_movesmaster ) as estimate_ad_placements_movesmaster
-    --     , sum( estimate_ad_placements_battlepass ) as estimate_ad_placements_battlepass
-    --     , sum( estimate_ad_placements_gofish ) as estimate_ad_placements_gofish
-    --     , sum( estimate_ad_placements_puzzle ) as estimate_ad_placements_puzzle
-    --     , sum( estimate_ad_placements_lives ) as estimate_ad_placements_lives
-    --     , sum( estimate_ad_placements_pizzatime ) as estimate_ad_placements_pizzatime
-    --     , sum( estimate_ad_placements_luckydice ) as estimate_ad_placements_luckydice
-    --     , sum( estimate_ad_placements_rocket ) as estimate_ad_placements_rocket
-
-    --   -- gem quest check
-    --   , sum( round_end_events_gemquest ) as round_end_events_gemquest
-    --   , sum( round_win_events_gemquest ) as round_win_events_gemquest
+    --     , max( daily_popup_BattlePass ) as daily_popup_BattlePass
+    --     , max( daily_popup_DailyReward ) as daily_popup_DailyReward
+    --     , max( daily_popup_FlourFrenzy ) as daily_popup_FlourFrenzy
+    --     , max( daily_popup_GoFish ) as daily_popup_GoFish
+    --     , max( daily_popup_HotdogContest ) as daily_popup_HotdogContest
+    --     , max( daily_popup_LuckyDice ) as daily_popup_LuckyDice
+    --     , max( daily_popup_MovesMaster ) as daily_popup_MovesMaster
+    --     , max( daily_popup_PizzaTime ) as daily_popup_PizzaTime
+    --     , max( daily_popup_Puzzle ) as daily_popup_Puzzle
+    --     , max( daily_popup_TreasureTrove ) as daily_popup_TreasureTrove
+    --     , max( daily_popup_UpdateApp ) as daily_popup_UpdateApp
+    --     , max( daily_popup_CastleClimb ) as daily_popup_CastleClimb
+    --     , max( daily_popup_GemQuest ) as daily_popup_GemQuest
+    --     , max( daily_popup_DonutSprint ) as daily_popup_DonutSprint
 
     -- from
     --   add_on_histogram_table

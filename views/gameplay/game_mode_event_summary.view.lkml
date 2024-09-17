@@ -212,7 +212,7 @@ view: game_mode_event_summary {
           , max( case when a.round_end_events_gemquest > 0 and a.feature_completion_gem_quest > 0 then 1 else 0 end ) as game_mode_completion_indicator
           , sum( case when a.round_end_events_gemquest > 0 then a.count_days_played else 0 end ) as days_played_game_mode
           , sum( a.round_end_events_gemquest ) as game_mode_round_end_events
-          , max( 0 ) as game_mode_popup_indicator
+          , max( case when a.daily_popup_GemQuest is not null then 1 else 0 end ) as game_mode_popup_indicator
         from
           -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary a
           -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b

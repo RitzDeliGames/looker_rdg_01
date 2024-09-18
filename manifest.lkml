@@ -1499,6 +1499,19 @@ constant: iam_group {
     when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.Close' then 'RateUs'
     when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.IAM' then 'RateUs'
     when ${TABLE}.button_tag = 'Sheet_InAppMessaging_TOTD.' then 'TOTD'
+
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_BoostEquip.' then 'Boost Equip'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_IAP_bundle.' then 'IAP Bundle'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Toaster.Close' then 'Toaster'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Notifications.IAM' then 'Notifications'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Chameleon.IAM' then 'Chameleon'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Chameleon.Close' then 'Chameleon'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.' then 'MTX Offer: Spring'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.Close' then 'MTX Offer: Spring'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.' then 'MTX Offer: Lemonade'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.Close' then 'MTX Offer: Lemonade'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Survey.' then 'Survey'
+
   else 'UnMapped'
   end"
 }
@@ -1519,6 +1532,19 @@ constant: iam_conversion {
   when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.Close' then 0
   when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.IAM' then 1
   when ${TABLE}.button_tag = 'Sheet_InAppMessaging_TOTD.' then 0
+
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_BoostEquip.' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_IAP_bundle.' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Toaster.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Notifications.IAM' then 1
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Chameleon.IAM' then 1
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Chameleon.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.' then 1
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.' then 1
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Survey.' then 0
+
   else 0
   end"
 }

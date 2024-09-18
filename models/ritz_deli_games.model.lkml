@@ -866,7 +866,8 @@ explore: gogame_data {}
 # explore: player_frame_rate_incremental {}
 # explore: moves_master_recap_incremental {}
 
-
+# explore: player_simple_event_incremental {}
+explore: player_simple_event_summary_hotdog {}
 # explore: player_ticket_spend_incremental {}
 # explore: player_reward_incremental {}
 # explore: player_notification_incremental {}

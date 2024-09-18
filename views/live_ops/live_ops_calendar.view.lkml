@@ -29,6 +29,10 @@ view: live_ops_calendar {
           , date('2024-05-14') as castle_climb_start_date
           , 4 as castle_climb_day_length
 
+          -- Hot Dog Competition
+          , date('2023-07-20') as hot_dog_start_date
+          , 2 as hot_dog_day_length
+
           -- Moves Master
           , date('2022-10-11') as moves_master_start_date
           , 7 as moves_master_day_length
@@ -82,6 +86,11 @@ view: live_ops_calendar {
               else date_diff(rdg_date,castle_climb_start_date,day)
               end as castle_climb_day_number
           , case
+              when rdg_date < hot_dog_start_date
+              then null
+              else date_diff(rdg_date,hot_dog_start_date,day)
+              end as hot_dog_day_number
+          , case
               when rdg_date < moves_master_start_date
               then null
               else date_diff(rdg_date,moves_master_start_date,day)
@@ -114,6 +123,7 @@ view: live_ops_calendar {
         select
           *
           , floor(safe_divide( castle_climb_day_number, castle_climb_day_length ))+1 as castle_climb_number
+          , floor(safe_divide( hot_dog_day_number, hot_dog_day_length ))+1 as hot_dog_number
           , floor(safe_divide( moves_master_day_number, moves_master_day_length ))+1 as moves_master_number
           , floor(safe_divide( puzzle_day_number, puzzle_day_length ))+1 as puzzle_number
           , floor(safe_divide( go_fish_day_number, go_fish_day_length ))+1 as go_fish_number
@@ -131,6 +141,7 @@ view: live_ops_calendar {
         select
           *
           , min(rdg_date) over ( partition by safe_cast(castle_climb_number as string) order by rdg_date ) as castle_climb_event_start_date
+          , min(rdg_date) over ( partition by safe_cast(hot_dog_number as string) order by rdg_date ) as hot_dog_event_start_date
           , min(rdg_date) over ( partition by safe_cast(moves_master_number as string) order by rdg_date ) as moves_master_event_start_date
           , row_number() over ( partition by safe_cast(moves_master_number as string) order by rdg_date asc ) as moves_master_event_day_number
           , row_number() over ( partition by safe_cast(moves_master_number as string) order by rdg_date desc ) as moves_master_event_days_remaining
@@ -163,6 +174,13 @@ view: live_ops_calendar {
         , max( castle_climb_day_number ) as castle_climb_day_number
         , max( castle_climb_number ) as castle_climb_number
         , max( case when castle_climb_day_number is null then null else castle_climb_event_start_date end ) as castle_climb_event_start_date
+
+        -- hot_dog
+        , max( hot_dog_start_date ) as hot_dog_start_date
+        , max( hot_dog_day_length ) as hot_dog_day_length
+        , max( hot_dog_day_number ) as hot_dog_day_number
+        , max( hot_dog_number ) as hot_dog_number
+        , max( case when hot_dog_day_number is null then null else hot_dog_event_start_date end ) as hot_dog_event_start_date
 
         -- moves_master
         , max( moves_master_start_date ) as moves_master_start_date
@@ -268,6 +286,43 @@ view: live_ops_calendar {
 
   dimension: castle_climb_event_start_date {
     group_label: "Castle Climb"
+    label: "Event Start Date"
+    type: date
+  }
+
+  ############################################################
+  ## Hot Dog
+  ############################################################
+
+  dimension_group: hot_dog_start_date {
+
+    group_label: "Hot Dog Competition"
+    label: "Launch"
+    type: time
+    timeframes: [date, week, month, year]
+    sql: timestamp(${TABLE}.hot_dog_start_date) ;;
+  }
+
+  dimension: hot_dog_day_length {
+    group_label: "Hot Dog Competition"
+    label: "Event Length in Days"
+    type: number
+  }
+
+  dimension: hot_dog_day_number {
+    group_label: "Hot Dog Competition"
+    label: "Days Since Launch"
+    type: number
+  }
+
+  dimension: hot_dog_number {
+    group_label: "Hot Dog Competition"
+    label: "Event Number"
+    type: number
+  }
+
+  dimension: hot_dog_event_start_date {
+    group_label: "Hot Dog Competition"
     label: "Event Start Date"
     type: date
   }

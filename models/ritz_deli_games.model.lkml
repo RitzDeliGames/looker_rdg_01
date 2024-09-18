@@ -844,6 +844,20 @@ explore: adhoc_2024_08_21_first_and_second_button_clicks {
   }
 }
 
+explore: adhoc_2024_09_18_rate_us_IAM_per_player_per_day {
+  label: "Rate Us IAM Per Player Per Day"
+  group_label: "Chum Chum Adhoc"
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${adhoc_2024_09_18_rate_us_IAM_per_player_per_day.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
 ################################################################
 
 ## Other Explores

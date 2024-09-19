@@ -858,6 +858,20 @@ explore: adhoc_2024_09_18_rate_us_IAM_per_player_per_day {
   }
 }
 
+explore: adhoc_2024_09_19_notifications_iam_check {
+  label: "Notifcations IAM: Time to Get"
+  group_label: "Chum Chum Adhoc"
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${adhoc_2024_09_19_notifications_iam_check.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
 ################################################################
 
 ## Other Explores

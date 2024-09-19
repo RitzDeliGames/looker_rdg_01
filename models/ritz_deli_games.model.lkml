@@ -872,6 +872,20 @@ explore: adhoc_2024_09_19_notifications_iam_check {
   }
 }
 
+explore: adhoc_2024_09_20_check_time_to_join_flour_frenzy {
+  label: "Check Time To Join Flour Frenzy"
+  group_label: "Chum Chum Adhoc"
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${adhoc_2024_09_20_check_time_to_join_flour_frenzy.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
 ################################################################
 
 ## Other Explores

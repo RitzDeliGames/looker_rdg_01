@@ -17,6 +17,7 @@ view: adhoc_2024_09_20_check_time_to_join_flour_frenzy {
 
         select
           rdg_id
+          , timestamp(date(timestamp)) as rdg_date
           , timestamp as timestamp_utc
           , event_name
           , safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) as button_tag
@@ -32,10 +33,32 @@ view: adhoc_2024_09_20_check_time_to_join_flour_frenzy {
               and safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Panel_ZoneHome.FlourFrenzy%'
             )
             or
+            ( event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Sheet_PM_FlourFrenzy.Continue%'
+            )
+            or
+            ( event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Sheet_ChangeName.Save%'
+            )
+            or
+            ( event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Sheet_ChangeName.RandomizeName%'
+            )
+            or
+            ( event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Sheet_CollectionEvent_Preview.StartFF%'
+            )
+            -- Sheet_Avatar.Save
+            or
+            ( event_name = 'ButtonClicked'
+              and safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Sheet_Avatar.Save%'
+            )
+            or
             (
               event_name = 'SimpleEventJoin'
               and safe_cast(json_extract_scalar( extra_json , "$.event_id") as string) like 'ff%'
             )
+
 
           )
       )
@@ -64,6 +87,7 @@ view: adhoc_2024_09_20_check_time_to_join_flour_frenzy {
       ;;
     publish_as_db_view: yes
     sql_trigger_value: select extract( year from current_timestamp());;
+    partition_keys: ["rdg_date"]
   }
 
 ####################################################################
@@ -89,11 +113,11 @@ view: adhoc_2024_09_20_check_time_to_join_flour_frenzy {
     label: "Activity"
     type: time
     timeframes: [date, week, month, year]
-    sql: ${TABLE}.timestamp_utc ;;
+    sql: ${TABLE}.rdg_date ;;
   }
 
   dimension: rdg_id {type: string}
-
+  dimension: seconds_to_join_event {type: number}
 
 
 ################################################################
@@ -167,5 +191,12 @@ view: adhoc_2024_09_20_check_time_to_join_flour_frenzy {
     sql: ${TABLE}.seconds_to_join_event ;;
   }
 
+  measure: seconds_to_join_event_99 {
+    group_label: "Time To Join Event (Seconds)"
+    label: "99th Percentile"
+    type: percentile
+    percentile: 99
+    sql: ${TABLE}.seconds_to_join_event ;;
+  }
 
 }

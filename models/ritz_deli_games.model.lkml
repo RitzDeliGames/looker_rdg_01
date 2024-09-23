@@ -761,6 +761,37 @@ explore: game_mode_event_summary {
   }
 }
 
+################################################################
+
+## Explore: Simple Event Summaries
+
+################################################################
+
+explore: player_simple_event_summary_hotdog {
+  group_label: "Chum Chum Simple Event Summaries"
+  label: "Hot Dog Simple Event Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_simple_event_summary_hotdog.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+explore: player_simple_event_summary_flourfrenzy {
+  group_label: "Chum Chum Simple Event Summaries"
+  label: "Flour Frenzy Simple Event Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_simple_event_summary_flourfrenzy.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
 
 ################################################################
 
@@ -909,7 +940,8 @@ explore: gogame_data {}
 # explore: moves_master_recap_incremental {}
 
 # explore: player_simple_event_incremental {}
-explore: player_simple_event_summary_hotdog {}
+# explore: player_simple_event_summary_hotdog {}
+# explore: player_simple_event_summary_flourfrenzy {}
 # explore: player_ticket_spend_incremental {}
 # explore: player_reward_incremental {}
 # explore: player_notification_incremental {}

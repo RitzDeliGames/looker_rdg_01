@@ -502,6 +502,18 @@ measure: percent_dau_in_mode {
   ;;
   }
 
+  measure: percent_unique_dau_to_see_popup {
+    label: "Average % Active Players To View Popup"
+    type: number
+    value_format_name: percent_0
+    sql:
+    safe_divide(
+      sum( ${TABLE}.game_mode_popup_indicator )
+      , sum(1)
+      )
+  ;;
+  }
+
   measure: average_rounds_with_moves_added_per_player {
     label: "Average Rounds With Moves Added Per Player"
     type: number

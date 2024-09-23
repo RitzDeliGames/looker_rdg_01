@@ -833,6 +833,20 @@ explore: adhoc_2024_02_21_aps_vs_churn_spender_non_spender {label: "APS vs. Chur
 explore: adhoc_2024_02_26_puzzle_vs_campaign_aps_vs_churn {label: "APS vs. Churn Scatter - Puzzle vs. Campaign" group_label: "Chum Chum Adhoc"}
 explore: adhoc_2024_06_27_castle_climb_reward_funnel {label: "Castle Climb Reward Funnel" group_label: "Chum Chum Adhoc"}
 
+explore: adhoc_2024_09_23_check_multiple_flour_frenzy_joins {
+  label: "Check Multiple Flour Frenzy Joins"
+  group_label: "Chum Chum Adhoc"
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${adhoc_2024_09_23_check_multiple_flour_frenzy_joins.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
 explore: adhoc_2024_06_13_tickets_funnel {
   label: "Tickets Test Funnel 5/11-6/11"
   group_label: "Chum Chum Adhoc"

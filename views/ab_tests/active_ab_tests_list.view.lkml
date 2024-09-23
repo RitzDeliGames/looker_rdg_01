@@ -12,6 +12,15 @@ view: active_ab_tests_list {
 
       select '$.No_AB_Test_Split' as experiment_name
 
+      union all select '$.featureUnlocks2_20240910'
+      union all select '$.boostersByAds_20240910'
+      union all select '$.fakeProfiles2_20240910'
+      union all select '$.altLevelOrderp5_20240911'
+      union all select '$.dynamicMoves_20240911'
+      union all select '$.foodTruckv2_20240910'
+      union all select '$.moves26to500_20240904'
+      union all select '$.movesMasterTune_20240611'
+
       union all select '$.scrollableHUDOffers_06122024'
       union all select '$.ticketQPO_20240626'
 

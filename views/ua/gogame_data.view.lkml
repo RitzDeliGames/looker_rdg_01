@@ -99,6 +99,13 @@ view: gogame_data {
     sql: timestamp(${TABLE}.REGISTRATION_DATE) ;;
   }
 
+  measure: earliest_registration_date {
+    label: "Earlist Registration Date"
+    type: date
+    timeframes: [date]
+    sql: min(${TABLE}.REGISTRATION_DATE) ;;
+  }
+
 ####################################################################
 ## Other Dimensions
 ####################################################################

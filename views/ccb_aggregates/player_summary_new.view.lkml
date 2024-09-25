@@ -1330,6 +1330,12 @@ view: player_summary_new {
     sql: ${TABLE}.campaign_name ;;
   }
 
+  dimension: campaign_name_clean_copy {
+    label: "Campaign Name (Clean) 2"
+    group_label: "Campaign Mapping"
+    sql: ${TABLE}.campaign_name ;;
+  }
+
   dimension: singular_partner_name {
     group_label: "Campaign Mapping"
     sql: ${TABLE}.partner_name ;;

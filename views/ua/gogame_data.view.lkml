@@ -4,7 +4,7 @@ view: gogame_data {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-06-28'
+      -- update '2024-09-26'
 
       with
 

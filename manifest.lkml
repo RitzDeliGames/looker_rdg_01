@@ -675,6 +675,9 @@ constant: bfg_campaign_name_mapping {
   value: "
     case
 
+      when lower(b.campaign) = 'ccb|fb|gentlemen|ios|us|aeo|purchase|_1542891' then '20240924 - iOS - Meta - USA - Purchase'
+      when lower(b.campaign) = 'ccb|fb|gentleman|android|tier1|vo|purchase|1_1539921' then '20240924 - Android - Meta - USA - Value'
+      when lower(b.campaign) = 'ccb|fb|gentlemen|ios|us|aeo|purchase|_1542892' then '20240924 - iOS - Meta - USA - Purchase'
       when lower(b.campaign) = 'ccb|fb|gentlemen|ios|us|aeo|tutorialcomplete|_1542895' then '20240914 - iOS - Meta - USA - Tutorial Complete'
       when lower(b.campaign) = 'ccb|uac|gentlemen|android|us|troas|purchase|09122024_1548667' then '20240913 - Android - Google - USA - Purchase'
       when lower(b.campaign) = 'ccb_ios_anonymized_ua+re_137778' then 'iOS - Anonymized'

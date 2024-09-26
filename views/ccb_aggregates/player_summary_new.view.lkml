@@ -1018,6 +1018,7 @@ view: player_summary_new {
           case
             when ${TABLE}.campaign_name is null then 'Organic'
             when ${TABLE}.campaign_name like '%Purchase%' then 'Purchase Campaign'
+            when ${TABLE}.campaign_name like '%Value%' then 'Purchase Campaign'
             when ${TABLE}.campaign_name like '%MAE%' then 'Engagement Campaign'
             when ${TABLE}.campaign_name like '%5 Min%' then 'Engagement Campaign'
             when ${TABLE}.campaign_name like '%15 Min%' then 'Engagement Campaign'

@@ -4,7 +4,7 @@ view: singular_campaign_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-10-17'
+      -- update '2024-09-27'
 
       with
 

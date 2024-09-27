@@ -4,7 +4,7 @@ view: singular_campaign_detail {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-05-16'
+      -- update '2024-09-27'
 
       -- create or replace table tal_scratch.singular_campaign_summary as
 

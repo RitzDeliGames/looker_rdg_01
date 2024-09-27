@@ -8,7 +8,7 @@ view: version_summary {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- last update: '2023-03-01'
+      -- last update: '2024-09-27'
 
       select
         version

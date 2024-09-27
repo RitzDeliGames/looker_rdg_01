@@ -938,6 +938,7 @@ explore: adhoc_2024_09_20_check_time_to_join_flour_frenzy {
 ################################################################
 
 explore: firebase_player_summary {}
+explore: firebase_player_daily_incremental {}
 explore: singular_campaign_summary {}
 explore: singular_campaign_detail {}
 explore: singular_creative_summary {

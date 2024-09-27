@@ -4,7 +4,7 @@ view: player_battle_pass_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-09-18'
+      -- update '2024-09-27'
 
 -- create or replace table tal_scratch.player_battle_pass_incremental as
 
@@ -44,7 +44,7 @@ base_data as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-09-18' -- Last Full Update
+                when date(current_date()) <= '2024-09-27' -- Last Full Update
                 then '2023-08-01' -- Battle Pass Start
                 else date_add(current_date(), interval -9 day)
                 end

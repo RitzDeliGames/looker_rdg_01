@@ -4,7 +4,7 @@ view: player_coin_source_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2023-08-30' v2
+      -- update '2024-09-27'
 
 
 
@@ -45,7 +45,7 @@ base_data as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2023-08-30' -- Last Full Update
+                when date(current_date()) <= '2024-09-27' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end

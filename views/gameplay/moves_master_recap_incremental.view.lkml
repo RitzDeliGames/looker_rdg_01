@@ -4,7 +4,7 @@ view: moves_master_recap_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-08-19'
+      -- update '2024-09-27'
 
       -- create or replace table tal_scratch.moves_master_recap_incremental as
 
@@ -44,7 +44,7 @@ view: moves_master_recap_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2024-08-19' -- Last Full Update (come back to that)
+                      when date(current_date()) <= '2024-09-27' -- Last Full Update (come back to that)
                       then '2024-07-10' -- Moves Master Recap Event Start
                       else date_add(current_date(), interval -9 day)
                       end

@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-08-14'
+      -- update '2024-09-27'
 
       -- create or replace table tal_scratch.player_daily_incremental_test as
 
@@ -80,7 +80,7 @@ view: player_daily_incremental {
           date(timestamp) >=
               case
                   -- select date(current_date())
-                  when date(current_date()) <= '2024-09-17' -- Last Full Update
+                  when date(current_date()) <= '2024-09-27' -- Last Full Update
                   then '2022-06-01'
                   else date_add(current_date(), interval -9 day)
                   end

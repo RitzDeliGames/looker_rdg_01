@@ -4,7 +4,7 @@ view: player_frame_rate_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-07-12'
+      -- update '2024-09-27'
 
 
       -- create or replace table tal_scratch.player_ticket_spend_incremental as
@@ -44,7 +44,7 @@ view: player_frame_rate_incremental {
               date(timestamp) >=
                  case
                      -- select date(current_date())
-                     when date(current_date()) <= '2024-07-12' -- Last Full Update
+                     when date(current_date()) <= '2024-09-27' -- Last Full Update
                      then '2024-06-01'
                      else date_add(current_date(), interval -9 day)
                      end

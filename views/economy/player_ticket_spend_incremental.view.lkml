@@ -5,7 +5,7 @@ view: player_ticket_spend_incremental {
 
 
       -- ccb_aggregate_update_tag
-      -- update '2024-05-15'
+      -- update '2024-09-27'
 
 
       -- create or replace table tal_scratch.player_ticket_spend_incremental as
@@ -45,7 +45,7 @@ view: player_ticket_spend_incremental {
               date(timestamp) >=
                  case
                      -- select date(current_date())
-                     when date(current_date()) <= '2024-05-15' -- Last Full Update
+                     when date(current_date()) <= '2024-09-27' -- Last Full Update
                      then '2024-04-17'
                      else date_add(current_date(), interval -9 day)
                      end

@@ -4,7 +4,7 @@ view: player_simple_event_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-09-18'
+      -- update '2024-09-27'
 
       -- create or replace table tal_scratch.player_simple_event_incrementalmoves_master_recap_incremental as
 
@@ -37,7 +37,7 @@ view: player_simple_event_incremental {
           date(timestamp) >=
               case
                   -- select date(current_date())
-                  when date(current_date()) <= '2024-09-18' -- Last Full Update
+                  when date(current_date()) <= '2024-09-27' -- Last Full Update
                   then '2024-02-01' -- Simple Event Start
                   else date_add(current_date(), interval -9 day)
                   end

@@ -4,7 +4,7 @@ view: player_reward_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-05-03'
+      -- update '2024-09-27'
 
       -- create or replace table tal_scratch.player_reward_incremental as
 
@@ -43,7 +43,7 @@ view: player_reward_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2024-05-03' -- Last Full Update
+                      when date(current_date()) <= '2024-09-27' -- Last Full Update
                       then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end

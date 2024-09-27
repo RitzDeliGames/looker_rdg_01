@@ -671,6 +671,22 @@ constant: campaign_name_clean_update {
           end"
 }
 
+constant: campaign_milestone_category {
+  value: "
+  case
+    when
+      ${TABLE}.campaign_name in (
+        '20240924 - Android - Meta - USA - Value'
+        , '20240914 - iOS - Meta - USA - Tutorial Complete'
+        , '20240830 - Android - Meta - USA - 60 Min'
+        , '20240924 - iOS - Meta - USA - Purchase' )
+      and date(${TABLE}.created_date) between '2024-09-23' and '2024-10-07'
+    then 'Milestone 2'
+    else 'Other'
+    end
+  "
+}
+
 constant: campaign_install_category {
   value: "
       case
@@ -725,6 +741,7 @@ constant: bfg_campaign_name_mapping {
 
       when lower(b.campaign) = 'ccb|fb|gentlemen|ios|us|aeo|purchase|_1542891' then '20240924 - iOS - Meta - USA - Purchase'
       when lower(b.campaign) = 'ccb|fb|gentleman|android|tier1|vo|purchase|1_1539921' then '20240924 - Android - Meta - USA - Value'
+      when lower(b.campaign) = 'ccb|fb|gentlemen|android|tier1|vo|purchase|1_1539921' then '20240924 - Android - Meta - USA - Value'
       when lower(b.campaign) = 'ccb|fb|gentlemen|ios|us|aeo|purchase|_1542892' then '20240924 - iOS - Meta - USA - Purchase'
       when lower(b.campaign) = 'ccb|fb|gentlemen|ios|us|aeo|tutorialcomplete|_1542895' then '20240914 - iOS - Meta - USA - Tutorial Complete'
       when lower(b.campaign) = 'ccb|uac|gentlemen|android|us|troas|purchase|09122024_1548667' then '20240913 - Android - Google - USA - Purchase'

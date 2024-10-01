@@ -24,6 +24,12 @@ view: ab_test_player_summary {
       , json_extract_scalar(experiments,{% parameter selected_experiment %}) as variant
       , case
 
+      when 'retention_on_or_after_d2' = {% parameter selected_metric %} then case when highest_played_day_number >= 2 then 1 else 0 end
+      when 'retention_on_or_after_d7' = {% parameter selected_metric %} then case when highest_played_day_number >= 7 then 1 else 0 end
+      when 'retention_on_or_after_d14' = {% parameter selected_metric %} then case when highest_played_day_number >= 14 then 1 else 0 end
+      when 'retention_on_or_after_d21' = {% parameter selected_metric %} then case when highest_played_day_number >= 21 then 1 else 0 end
+      when 'retention_on_or_after_d30' = {% parameter selected_metric %} then case when highest_played_day_number >= 30 then 1 else 0 end
+
       when 'iap_conversion_d1' = {% parameter selected_metric %} then case when cumulative_mtx_purchase_dollars_d1 > 0 then 1 else 0 end
       when 'iap_conversion_d2' = {% parameter selected_metric %} then case when cumulative_mtx_purchase_dollars_d2 > 0 then 1 else 0 end
       when 'iap_conversion_d7' = {% parameter selected_metric %} then case when cumulative_mtx_purchase_dollars_d7 > 0 then 1 else 0 end
@@ -779,6 +785,12 @@ view: ab_test_player_summary {
     suggestions:  [
 
       , "None"
+
+      , "retention_on_or_after_d2"
+      , "retention_on_or_after_d7"
+      , "retention_on_or_after_d14"
+      , "retention_on_or_after_d21"
+      , "retention_on_or_after_d30"
 
       , "iap_conversion_d1"
       , "iap_conversion_d2"

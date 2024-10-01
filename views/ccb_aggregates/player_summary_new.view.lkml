@@ -28,6 +28,11 @@ view: player_summary_new {
           , country
           , created_date
           , max_available_day_number
+          , case
+              when date_diff( date(last_played_date) , date( created_date ), day) + 1 < 1
+              then 1
+              else date_diff( date(last_played_date) , date( created_date ), day) + 1
+              end as highest_played_day_number
           , experiments
           , latest_experiments
           , cumulative_time_played_minutes
@@ -811,7 +816,7 @@ view: player_summary_new {
 
   dimension: highest_played_day_number  {
     type:  number
-    sql: DATE_DIFF( DATE(${TABLE}.last_played_date) , DATE( ${TABLE}.created_date ), DAY) + 1 ;;
+    sql: ${TABLE}.highest_played_day_number ;;
   }
 
   # numbers

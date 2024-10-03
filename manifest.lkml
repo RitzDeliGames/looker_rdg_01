@@ -675,16 +675,11 @@ constant: campaign_milestone_category {
   value: "
   case
     when
-      ( ${TABLE}.campaign_name in (
-        '20240924 - Android - Meta - USA - Value'
-        , '20240914 - iOS - Meta - USA - Tutorial Complete'
+      ${TABLE}.campaign_name in (
+        '20240924 - Android - Meta - Tier 1 - Value'
         , '20240830 - Android - Meta - USA - 60 Min'
-        , '20240924 - iOS - Meta - USA - Purchase' )
-      or
-        ${TABLE}.platform like '%iOS%'
-        and ${TABLE}.country = 'US'
-      )
-      and date(${TABLE}.created_date) between '2024-09-23' and '2024-10-07'
+        )
+      and date(${TABLE}.created_date) between '2024-09-23' and '2024-10-06'
     then 'Milestone 2'
     else 'Other'
     end

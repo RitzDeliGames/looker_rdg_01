@@ -12,6 +12,13 @@ view: active_ab_tests_list {
 
       select '$.No_AB_Test_Split' as experiment_name
 
+      union all select '$.adBreak_20240923'
+      union all select '$.notificationIAM_20240923'
+      union all select '$.dailyRewardsBig_20240923'
+      union all select '$.memThresholdv2_20240923'
+      union all select '$.castleClimbAdRewards_20240924'
+      union all select '$.moreAdsPizzaAndDice_20240924'
+
       union all select '$.featureUnlocks2_20240910'
       union all select '$.boostersByAds_20240910'
       union all select '$.fakeProfiles2_20240910'

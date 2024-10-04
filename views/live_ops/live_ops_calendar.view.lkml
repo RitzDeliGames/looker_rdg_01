@@ -33,6 +33,11 @@ view: live_ops_calendar {
           , date('2023-07-20') as hot_dog_start_date
           , 2 as hot_dog_day_length
 
+          -- Flour Frenzy
+          , date('2022-12-15') as flour_frenzy_start_date
+          , 2 as flour_frenzy_day_length
+          , 1 as flour_frenzy_days_off_at_end
+
           -- Moves Master
           , date('2022-10-11') as moves_master_start_date
           , 7 as moves_master_day_length
@@ -91,6 +96,11 @@ view: live_ops_calendar {
               else date_diff(rdg_date,hot_dog_start_date,day)
               end as hot_dog_day_number
           , case
+              when rdg_date < flour_frenzy_start_date
+              then null
+              else date_diff(rdg_date,flour_frenzy_start_date,day)
+              end as flour_frenzy_day_number
+          , case
               when rdg_date < moves_master_start_date
               then null
               else date_diff(rdg_date,moves_master_start_date,day)
@@ -124,6 +134,7 @@ view: live_ops_calendar {
           *
           , floor(safe_divide( castle_climb_day_number, castle_climb_day_length ))+1 as castle_climb_number
           , floor(safe_divide( hot_dog_day_number, hot_dog_day_length ))+1 as hot_dog_number
+          , floor(safe_divide( flour_frenzy_day_number, flour_frenzy_day_length ))+1 as flour_frenzy_number
           , floor(safe_divide( moves_master_day_number, moves_master_day_length ))+1 as moves_master_number
           , floor(safe_divide( puzzle_day_number, puzzle_day_length ))+1 as puzzle_number
           , floor(safe_divide( go_fish_day_number, go_fish_day_length ))+1 as go_fish_number
@@ -142,6 +153,9 @@ view: live_ops_calendar {
           *
           , min(rdg_date) over ( partition by safe_cast(castle_climb_number as string) order by rdg_date ) as castle_climb_event_start_date
           , min(rdg_date) over ( partition by safe_cast(hot_dog_number as string) order by rdg_date ) as hot_dog_event_start_date
+          , min(rdg_date) over ( partition by safe_cast(flour_frenzy_number as string) order by rdg_date ) as flour_frenzy_event_start_date
+          , row_number() over ( partition by safe_cast(flour_frenzy_number as string) order by rdg_date asc ) as flour_frenzy_event_day_number
+          , row_number() over ( partition by safe_cast(flour_frenzy_number as string) order by rdg_date desc ) as flour_frenzy_event_days_remaining
           , min(rdg_date) over ( partition by safe_cast(moves_master_number as string) order by rdg_date ) as moves_master_event_start_date
           , row_number() over ( partition by safe_cast(moves_master_number as string) order by rdg_date asc ) as moves_master_event_day_number
           , row_number() over ( partition by safe_cast(moves_master_number as string) order by rdg_date desc ) as moves_master_event_days_remaining
@@ -182,6 +196,14 @@ view: live_ops_calendar {
         , max( hot_dog_number ) as hot_dog_number
         , max( case when hot_dog_day_number is null then null else hot_dog_event_start_date end ) as hot_dog_event_start_date
 
+        -- flour_frenzy
+        , max( flour_frenzy_start_date ) as flour_frenzy_start_date
+        , max( flour_frenzy_day_length ) as flour_frenzy_day_length
+        , max( flour_frenzy_day_number ) as flour_frenzy_day_number
+        , max( case when flour_frenzy_event_days_remaining <= flour_frenzy_days_off_at_end then null else flour_frenzy_number end ) as flour_frenzy_number
+        , max( case when flour_frenzy_day_number is null then null when flour_frenzy_event_days_remaining <= flour_frenzy_days_off_at_end then null else flour_frenzy_event_start_date end ) as flour_frenzy_event_start_date
+        , max( case when flour_frenzy_day_number is null then null when flour_frenzy_event_days_remaining <= flour_frenzy_days_off_at_end then null else flour_frenzy_event_day_number end ) as flour_frenzy_event_day_number
+
         -- moves_master
         , max( moves_master_start_date ) as moves_master_start_date
         , max( moves_master_day_length ) as moves_master_day_length
@@ -197,7 +219,6 @@ view: live_ops_calendar {
         , max( case when puzzle_event_days_remaining <= puzzle_days_off_at_end then null else puzzle_number end ) as puzzle_number
         , max( case when puzzle_day_number is null then null when puzzle_event_days_remaining <= puzzle_days_off_at_end then null else puzzle_event_start_date end ) as puzzle_event_start_date
         , max( case when puzzle_day_number is null then null when puzzle_event_days_remaining <= puzzle_days_off_at_end then null else puzzle_event_day_number end ) as puzzle_event_day_number
-
 
         -- go_fish
         , max( go_fish_start_date ) as go_fish_start_date
@@ -323,6 +344,44 @@ view: live_ops_calendar {
 
   dimension: hot_dog_event_start_date {
     group_label: "Hot Dog Competition"
+    label: "Event Start Date"
+    type: date
+  }
+
+############################################################
+
+  ## Flour Frenzy
+  ############################################################
+
+  dimension_group: flour_frenzy_start_date {
+
+    group_label: "Flour Frenzy"
+    label: "Launch"
+    type: time
+    timeframes: [date, week, month, year]
+    sql: timestamp(${TABLE}.flour_frenzy_start_date) ;;
+  }
+
+  dimension: flour_frenzy_day_length {
+    group_label: "Flour Frenzy"
+    label: "Event Length in Days"
+    type: number
+  }
+
+  dimension: flour_frenzy_day_number {
+    group_label: "Flour Frenzy"
+    label: "Days Since Launch"
+    type: number
+  }
+
+  dimension: flour_frenzy_number {
+    group_label: "Flour Frenzy"
+    label: "Event Number"
+    type: number
+  }
+
+  dimension: flour_frenzy_event_start_date {
+    group_label: "Flour Frenzy"
     label: "Event Start Date"
     type: date
   }

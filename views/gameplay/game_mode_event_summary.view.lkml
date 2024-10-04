@@ -524,6 +524,24 @@ measure: percent_dau_in_mode {
   ;;
 }
 
+  measure: unique_dau_during_event {
+    label: "Unique Players During Event"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    sum(1)
+  ;;
+  }
+
+  measure: unique_dau_participating_in_event {
+    label: "Unique Players Participating in Event"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      sum(${TABLE}.game_mode_participation_indicator)
+  ;;
+  }
+
   measure: percent_unique_dau_in_mode {
     label: "Average % Unique Players In Mode"
     type: number
@@ -583,6 +601,19 @@ measure: percent_dau_in_mode {
       )
   ;;
   }
+
+  measure: percent_of_rounds_with_moves_added {
+    label: "Percent of Rounds With Moves Added"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.count_rounds_with_moves_added else 0 end )
+      , sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.game_mode_round_end_events else 0 end )
+      )
+  ;;
+  }
+
 
   measure: average_pre_game_boosts_per_player {
     label: "Average Pre-Game Boosts Per Player"

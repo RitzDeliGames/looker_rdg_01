@@ -203,6 +203,7 @@ view: live_ops_calendar {
         , max( case when flour_frenzy_event_days_remaining <= flour_frenzy_days_off_at_end then null else flour_frenzy_number end ) as flour_frenzy_number
         , max( case when flour_frenzy_day_number is null then null when flour_frenzy_event_days_remaining <= flour_frenzy_days_off_at_end then null else flour_frenzy_event_start_date end ) as flour_frenzy_event_start_date
         , max( case when flour_frenzy_day_number is null then null when flour_frenzy_event_days_remaining <= flour_frenzy_days_off_at_end then null else flour_frenzy_event_day_number end ) as flour_frenzy_event_day_number
+        , max( case when flour_frenzy_day_number is null then null else flour_frenzy_event_start_date end ) as flour_frenzy_event_start_date_plus_claim_window
 
         -- moves_master
         , max( moves_master_start_date ) as moves_master_start_date
@@ -383,6 +384,13 @@ view: live_ops_calendar {
   dimension: flour_frenzy_event_start_date {
     group_label: "Flour Frenzy"
     label: "Event Start Date"
+    type: date
+  }
+
+  # flour_frenzy_event_start_date_plus_claim_window
+  dimension: flour_frenzy_event_start_date_plus_claim_window {
+    group_label: "Flour Frenzy"
+    label: "Event Plus Claim Window Start Date"
     type: date
   }
 

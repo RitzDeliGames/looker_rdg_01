@@ -3709,6 +3709,36 @@ view: player_summary_new {
     # drill_fields: [numerator_retention_d120,available_player_count_d120]
   }
 
+
+################################################################
+## Retention On or After (Console Style)
+################################################################
+
+  measure: retention_on_or_after_d30 {
+    group_label: "Retention On Or After"
+    label: "On Or After D30"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 30
+          and ${TABLE}.highest_played_day_number >= 30
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 30
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+  }
+
 ################################################################
 ## Big Fish Combined Dollars
 ################################################################

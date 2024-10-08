@@ -71,7 +71,7 @@ constant: device_manufacturer_mapping{
             when ${TABLE}.hardware like '%Nokia%' THEN 'Nokia'
             when ${TABLE}.hardware like '%Hisense%' THEN 'Hisense'
             when ${TABLE}.hardware like '%HTC%' THEN 'HTC'
-            else ${TABLE}.hardware
+            else 'Unmapped'
           end"
 }
 

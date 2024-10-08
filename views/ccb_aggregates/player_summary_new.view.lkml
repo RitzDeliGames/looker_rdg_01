@@ -1167,6 +1167,13 @@ view: player_summary_new {
     type: number
   }
 
+  dimension: device_manufacturer_mapping {
+    group_label: "System Info"
+    type: string
+    sql:  @{device_manufacturer_mapping} ;;
+
+  }
+
 
   dimension: system_memory_size_bin {
     group_label: "System Info"

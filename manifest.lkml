@@ -73,6 +73,7 @@ constant: device_manufacturer_mapping{
             when lower(${TABLE}.hardware) like '%tecno%' THEN 'Tecno'
             when lower(${TABLE}.hardware) like '%tinno%' THEN 'Tinno'
             when lower(${TABLE}.hardware) like '%vivo%' THEN 'Vivo'
+            when lower(${TABLE}.hardware) like '%whoop%' THEN 'Whoop'
             when lower(${TABLE}.hardware) like '%wingtech%' THEN 'Wingtech'
             when lower(${TABLE}.hardware) like '%xiaomi%' THEN 'Xiaomi'
             when lower(${TABLE}.hardware) like '%zte%' THEN 'ZTE'

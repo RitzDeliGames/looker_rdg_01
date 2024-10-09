@@ -1582,10 +1582,10 @@ constant: iap_id_strings_grouped_new {
 
     when ${TABLE}.iap_id = 'item_bundle_halloween2' then 'Halloween Offers'
     when ${TABLE}.iap_id = 'item_bundle_halloween1' then 'Halloween Offers'
-    when ${TABLE}.iap_id = 'item_121' then 'Halloween Offers'
-    when ${TABLE}.iap_id = 'item_118' then 'Halloween Offers'
-    when ${TABLE}.iap_id = 'item_114' then 'Halloween Offers'
-    when ${TABLE}.iap_id = 'item_109' then 'Halloween Offers'
+    when ${TABLE}.iap_id = 'item_121' then 'Halloween: Treasure Trove'
+    when ${TABLE}.iap_id = 'item_118' then 'Halloween: Treasure Trove'
+    when ${TABLE}.iap_id = 'item_114' then 'Halloween: Treasure Trove'
+    when ${TABLE}.iap_id = 'item_109' then 'Halloween: Treasure Trove'
 
       else ${TABLE}.iap_id
   end"

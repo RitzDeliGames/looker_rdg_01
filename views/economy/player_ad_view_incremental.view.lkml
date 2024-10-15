@@ -4,7 +4,7 @@ view: player_ad_view_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-09-27'
+      -- update '2024-10-15'
 
       -- create or replace table tal_scratch.player_ad_view_incremental as
 
@@ -48,7 +48,7 @@ full_base_data as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-09-27' -- Last Full Update
+                when date(current_date()) <= '2024-10-15' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 -- else date_add(current_date(), interval -30 day)
@@ -170,6 +170,7 @@ full_base_data as (
         , a.experiments
         , a.win_streak
         , a.ad_reward_source_id
+        , a.last_level_serial
         , 1 as count_ad_views
 
         -- Ad Informaion
@@ -233,6 +234,7 @@ full_base_data as (
                 , ad_network
                 , '' ) ) as ad_network
         , max(country) as country
+        , max(last_level_serial) as last_level_serial
         , max(current_level_id) as current_level_id
         , max(current_level_serial) as current_level_serial
         , max(

@@ -145,6 +145,7 @@ view: player_ad_view_summary {
           , a.country
           , a.current_level_id
           , a.current_level_serial
+          , a.last_level_serial
           , ifnulL( b.estimated_ad_view_dollars_per_view, a.ad_view_dollars ) as ad_view_dollars
           , a.coins_balance
           , a.lives_balance

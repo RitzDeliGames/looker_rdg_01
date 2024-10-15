@@ -769,7 +769,8 @@ constant: campaign_install_category {
 constant: bfg_campaign_name_mapping {
   value: "
     case
-
+      when lower(b.campaign) = 'ccb|uac|gentlemen|android|latam|hybrid_1554335' then '20241011 - Android - Meta - LATAM - Hybrid'
+      when lower(b.campaign) = 'ccb|fb|gentlemen|android|us|aeo|60minutes|highenddevice_1554334' then '20241015 - Android - Meta - USA - 60 Min'
       when lower(b.campaign) = 'ccb|fb|gentlemen|ios|us|aeo|purchase|_1542891' then '20240924 - iOS - Meta - USA - Purchase'
       when lower(b.campaign) = 'ccb|fb|gentleman|android|tier1|vo|purchase|1_1539921' then '20240924 - Android - Meta - Tier 1 - Value'
       when lower(b.campaign) = 'ccb|fb|gentlemen|android|tier1|vo|purchase|1_1539921' then '20240924 - Android - Meta - Tier 1 - Value'

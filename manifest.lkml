@@ -1466,12 +1466,19 @@ constant: iap_id_strings_new {
     when ${TABLE}.iap_id = 'item_bundle_062024' then 'Item Bundle: Extra Moves, Coins, Tickets'
     when ${TABLE}.iap_id = 'item_chopsticks' then 'Chopsticks'
 
-    when ${TABLE}.iap_id = 'item_bundle_halloween2' then 'Halloween: Grim Rewards (Non-Spender)'
-    when ${TABLE}.iap_id = 'item_bundle_halloween1' then 'Halloween: Grim Rewards (Spender)'
+    when ${TABLE}.iap_id = 'item_bundle_halloween1' then 'Halloween: Grim Rewards 1 (Spender)'
+    when ${TABLE}.iap_id = 'item_bundle_halloween2' then 'Halloween: Grim Rewards 2 (Non-Spender)'
+    when ${TABLE}.iap_id = 'item_bundle_halloween3' then 'Halloween: Grim Rewards 3 (Spender)'
+    when ${TABLE}.iap_id = 'item_bundle_halloween4' then 'Halloween: Grim Rewards 4 (Non-Spender Early Game)'
+    when ${TABLE}.iap_id = 'item_bundle_halloween5' then 'Halloween: Grim Rewards 5 (Non-Spender Mid/Late Game)'
+
     when ${TABLE}.iap_id = 'item_121' then 'Halloween Treasure Trove: 4'
     when ${TABLE}.iap_id = 'item_118' then 'Halloween Treasure Trove: 3'
     when ${TABLE}.iap_id = 'item_114' then 'Halloween Treasure Trove: 2'
     when ${TABLE}.iap_id = 'item_109' then 'Halloween Treasure Trove: 1'
+
+
+
 
     else ${TABLE}.iap_id
   end"
@@ -1581,8 +1588,12 @@ constant: iap_id_strings_grouped_new {
     when ${TABLE}.iap_id = 'item_bundle_062024' then 'Item Bundles'
     when ${TABLE}.iap_id = 'item_chopsticks' then 'Chum Chum Skills'
 
-    when ${TABLE}.iap_id = 'item_bundle_halloween2' then 'Halloween Offers'
     when ${TABLE}.iap_id = 'item_bundle_halloween1' then 'Halloween Offers'
+    when ${TABLE}.iap_id = 'item_bundle_halloween2' then 'Halloween Offers'
+    when ${TABLE}.iap_id = 'item_bundle_halloween3' then 'Halloween Offers'
+    when ${TABLE}.iap_id = 'item_bundle_halloween4' then 'Halloween Offers'
+    when ${TABLE}.iap_id = 'item_bundle_halloween5' then 'Halloween Offers'
+
     when ${TABLE}.iap_id = 'item_121' then 'Halloween: Treasure Trove'
     when ${TABLE}.iap_id = 'item_118' then 'Halloween: Treasure Trove'
     when ${TABLE}.iap_id = 'item_114' then 'Halloween: Treasure Trove'

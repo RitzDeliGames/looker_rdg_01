@@ -755,6 +755,24 @@ view: player_campaign_level_summary {
   }
 
 #########################################################################################
+## IAP At Level Progression
+#########################################################################################
+
+measure: progression_count_mtx_purchases {
+  group_label: "Progression Metrics"
+  label: "Campaign Progression: Count IAP"
+  type: number
+  value_format_name: decimal_0
+  sql: sum( ${TABLE}.count_mtx_purchases )  ;;
+}
+
+          # , sum( count_mtx_purchases ) as count_mtx_purchases
+          # , sum( mtx_purchase_dollars ) as mtx_purchase_dollars
+          # , sum( case when cumulative_count_mtx_purchases = 1 then count_mtx_purchases else 0 end ) as count_first_time_mtx_purchases
+          # , sum( case when cumulative_count_mtx_purchases = 1 then mtx_purchase_dollars else 0 end ) as first_time_mtx_purchase_dollars
+
+
+#########################################################################################
 ## Minutes At Round Start
 #########################################################################################
 

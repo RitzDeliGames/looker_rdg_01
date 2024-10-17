@@ -445,6 +445,7 @@ view: player_campaign_level_summary {
 ################################################################
 
   measure: count_distinct_users {
+    label: "Unique Players"
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
   }
@@ -457,13 +458,13 @@ view: player_campaign_level_summary {
   measure: sum_count_rounds {type: sum sql: ${TABLE}.count_rounds;; value_format_name: decimal_0}
   measure: sum_count_wins {type: sum sql: ${TABLE}.count_wins;; value_format_name: decimal_0}
   measure: sum_count_losses {type: sum sql: ${TABLE}.count_losses;; value_format_name: decimal_0}
-  measure: sum_powerup_hammer {type: sum sql: ${TABLE}.powerup_hammer;; value_format_name: decimal_0}
-  measure: sum_powerup_rolling_pin {type: sum sql: ${TABLE}.powerup_rolling_pin;; value_format_name: decimal_0}
-  measure: sum_powerup_piping_bag {type: sum sql: ${TABLE}.powerup_piping_bag;; value_format_name: decimal_0}
-  measure: sum_powerup_shuffle {type: sum sql: ${TABLE}.powerup_shuffle;; value_format_name: decimal_0}
-  measure: sum_powerup_chopsticks {type: sum sql: ${TABLE}.powerup_chopsticks;; value_format_name: decimal_0}
-  measure: sum_powerup_skillet {type: sum sql: ${TABLE}.powerup_skillet;; value_format_name: decimal_0}
-  measure: sum_total_chum_powerups_used {type: sum sql: ${TABLE}.total_chum_powerups_used;; value_format_name: decimal_0}
+  measure: sum_powerup_hammer {label: "Chums Spend: Hammer" type: sum sql: ${TABLE}.powerup_hammer;; value_format_name: decimal_0}
+  measure: sum_powerup_rolling_pin {label: "Chums Spend: Rolling Pin" type: sum sql: ${TABLE}.powerup_rolling_pin;; value_format_name: decimal_0}
+  measure: sum_powerup_piping_bag {label: "Chums Spend: Piping Bag" type: sum sql: ${TABLE}.powerup_piping_bag;; value_format_name: decimal_0}
+  measure: sum_powerup_shuffle {label: "Chums Spend: Shuffle" type: sum sql: ${TABLE}.powerup_shuffle;; value_format_name: decimal_0}
+  measure: sum_powerup_chopsticks {label: "Chums Spend: Chopsticks" type: sum sql: ${TABLE}.powerup_chopsticks;; value_format_name: decimal_0}
+  measure: sum_powerup_skillet {label: "Chums Spend: Skillet" type: sum sql: ${TABLE}.powerup_skillet;; value_format_name: decimal_0}
+  measure: sum_total_chum_powerups_used {label: "Chums Spend: Total"type: sum sql: ${TABLE}.total_chum_powerups_used;; value_format_name: decimal_0}
 
   measure: sum_in_round_count_mtx_purchases {
     label: "Sum Count In Round IAPs"
@@ -755,22 +756,101 @@ view: player_campaign_level_summary {
   }
 
 #########################################################################################
-## IAP At Level Progression
+## Selectable Measure
 #########################################################################################
 
-measure: progression_count_mtx_purchases {
-  group_label: "Progression Metrics"
-  label: "Campaign Progression: Count IAP"
-  type: number
-  value_format_name: decimal_0
-  sql: sum( ${TABLE}.count_mtx_purchases )  ;;
+parameter: select_measure {
+  label: "Select Measure"
+  type: string
+  suggestions: [
+    "Unique Players"
+    , "APS"
+    ]
 }
 
-          # , sum( count_mtx_purchases ) as count_mtx_purchases
-          # , sum( mtx_purchase_dollars ) as mtx_purchase_dollars
-          # , sum( case when cumulative_count_mtx_purchases = 1 then count_mtx_purchases else 0 end ) as count_first_time_mtx_purchases
-          # , sum( case when cumulative_count_mtx_purchases = 1 then mtx_purchase_dollars else 0 end ) as first_time_mtx_purchase_dollars
+measure: selected_measure {
+  label: "Selected Measure"
+  type: number
+  value_format_name: decimal_1
+  sql:
+    case
+      when {% parameter select_measure %} = "Unique Players" then ${count_distinct_users}
+      when {% parameter select_measure %} = "APS" then ${mean_attempts_per_success}
+      else sum(0)
+      end
+  ;;
 
+
+}
+
+
+#########################################################################################
+## Progression Metrics
+#########################################################################################
+
+  measure: progression_count_mtx_purchases {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Count IAP"
+    type: number
+    value_format_name: decimal_0
+    sql: sum( ${TABLE}.count_mtx_purchases )  ;;
+  }
+
+  measure: progression_count_first_time_mtx_purchases {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Count First Time IAP"
+    type: number
+    value_format_name: decimal_0
+    sql: sum( ${TABLE}.count_first_time_mtx_purchases )  ;;
+  }
+
+  measure: progression_mtx_purchase_dollars {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: IAP Dollars"
+    type: number
+    value_format_name: usd_0
+    sql: sum( ${TABLE}.mtx_purchase_dollars )  ;;
+  }
+
+  measure: progression_first_time_mtx_purchase_dollars {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: First Time IAP Dollars"
+    type: number
+    value_format_name: usd_0
+    sql: sum( ${TABLE}.first_time_mtx_purchase_dollars )  ;;
+  }
+
+  measure: progression_count_ad_views {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Count Ad Views"
+    type: number
+    value_format_name: decimal_0
+    sql: sum( ${TABLE}.count_ad_views )  ;;
+  }
+
+  measure: progression_ad_view_dollars {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Ad Dollars"
+    type: number
+    value_format_name: usd_0
+    sql: sum( ${TABLE}.ad_view_dollars )  ;;
+  }
+
+  measure: progression_count_first_time_ad_views {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Count First Time Ad Views"
+    type: number
+    value_format_name: decimal_0
+    sql: sum( ${TABLE}.count_first_time_ad_views )  ;;
+  }
+
+  measure: progression_first_time_ad_view_dollars {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: First Time Ad Dollars"
+    type: number
+    value_format_name: usd_0
+    sql: sum( ${TABLE}.first_time_ad_view_dollars )  ;;
+  }
 
 #########################################################################################
 ## Minutes At Round Start

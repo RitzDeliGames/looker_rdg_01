@@ -130,6 +130,19 @@ view: player_campaign_level_summary {
           , sum( ad_view_dollars ) as ad_view_dollars
           , sum( case when cumulative_count_ad_views = 1 then count_ad_views else 0 end ) as count_first_time_ad_views
           , sum( case when cumulative_count_ad_views = 1 then ad_view_dollars else 0 end ) as first_time_ad_view_dollars
+          , sum( case when ad_placement_mapping = 'Daily Reward' then count_ad_views else 0 end ) as ad_views_daily_rewards
+          , sum( case when ad_placement_mapping = 'Moves Master' then count_ad_views else 0 end ) as ad_views_moves_master
+          , sum( case when ad_placement_mapping = 'Pizza' then count_ad_views else 0 end ) as ad_views_pizza
+          , sum( case when ad_placement_mapping = 'Lucky Dice' then count_ad_views else 0 end ) as ad_views_lucky_dice
+          , sum( case when ad_placement_mapping = 'Ask For Help' then count_ad_views else 0 end ) as ad_views_ask_for_help
+          , sum( case when ad_placement_mapping = 'Battle Pass' then count_ad_views else 0 end ) as ad_views_battle_pass
+          , sum( case when ad_placement_mapping = 'Puzzles' then count_ad_views else 0 end ) as ad_views_puzzles
+          , sum( case when ad_placement_mapping = 'Go Fish' then count_ad_views else 0 end ) as ad_views_go_fish
+          , sum( case when ad_placement_mapping = 'Rocket' then count_ad_views else 0 end ) as ad_views_rocket
+          , sum( case when ad_placement_mapping = 'Lives' then count_ad_views else 0 end ) as ad_views_lives
+          , sum( case when ad_placement_mapping = 'Magnifiers' then count_ad_views else 0 end ) as ad_views_magnifiers
+          , sum( case when ad_placement_mapping = 'Treasure Trove' then count_ad_views else 0 end ) as ad_views_treasure_trove
+
         from
           -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
           ${player_ad_view_summary.SQL_TABLE_NAME}
@@ -857,6 +870,87 @@ measure: selected_measure {
     value_format_name: usd_0
     sql: sum( ${TABLE}.first_time_ad_view_dollars )  ;;
   }
+
+  measure: progression_ad_views_daily_rewards {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Ad Views Daily Reward"
+    type: number
+    value_format_name: decimal_0
+    sql: sum( ${TABLE}.ad_views_daily_rewards )  ;;
+  }
+
+  measure: progression_ad_views_moves_master {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Ad Views Moves Master"
+    type: number
+    value_format_name: decimal_0
+    sql: sum( ${TABLE}.ad_views_moves_master )  ;;
+  }
+
+  measure: progression_ad_views_ad_views_pizza {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Ad Views Pizza"
+    type: number
+    value_format_name: decimal_0
+    sql: sum( ${TABLE}.ad_views_pizza )  ;;
+  }
+
+  measure: progression_ad_views_lucky_dice {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Ad Views Lucky Dice"
+    type: number
+    value_format_name: decimal_0
+    sql: sum( ${TABLE}.ad_views_lucky_dice )  ;;
+  }
+
+  measure: progression_ad_views_battle_pass {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Ad Views Battle Pass"
+    type: number
+    value_format_name: decimal_0
+    sql: sum( ${TABLE}.ad_views_battle_pass )  ;;
+  }
+
+  measure: progression_ad_views_puzzles {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Ad Views Puzzle"
+    type: number
+    value_format_name: decimal_0
+    sql: sum( ${TABLE}.ad_views_puzzles )  ;;
+  }
+
+  measure: progression_ad_views_go_fish {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Ad Views Go Fish"
+    type: number
+    value_format_name: decimal_0
+    sql: sum( ${TABLE}.ad_views_go_fish )  ;;
+  }
+
+  measure: progression_ad_views_rocket {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Ad Views Rocket"
+    type: number
+    value_format_name: decimal_0
+    sql: sum( ${TABLE}.ad_views_rocket )  ;;
+  }
+
+  measure: progression_ad_views_lives {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Ad Views Lives"
+    type: number
+    value_format_name: decimal_0
+    sql: sum( ${TABLE}.ad_views_lives )  ;;
+  }
+
+  measure: progression_ad_views_treasure_trove {
+    group_label: "Progression Metrics"
+    label: "Campaign Progression: Ad Views Treasure Trove"
+    type: number
+    value_format_name: decimal_0
+    sql: sum( ${TABLE}.ad_views_treasure_trove )  ;;
+  }
+
 
 #########################################################################################
 ## Minutes At Round Start

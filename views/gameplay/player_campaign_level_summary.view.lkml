@@ -850,6 +850,45 @@ view: player_campaign_level_summary {
     suggestions: [
       "Unique Players"
       , "APS"
+      , "Count IAP"
+      , "Count First Time IAP"
+      , "IAP Dollars"
+      , "Count Ad Views"
+      , "Ad Dollars"
+      , "Count First Time Ad Views"
+      , "Chums Spend: Hammer"
+      , "Chums Spend: Rolling Pin"
+      , "Chums Spend: Piping Bag"
+      , "Chums Spend: Shuffle"
+      , "Chums Spend: Skillet"
+      , "Chums Spend: Chopsticks"
+      , "Chums Spend: Disco"
+      , "Chums Spend: Moves"
+      , "Chums Spend: Drill"
+      , "Chums Spend: Total"
+      , "Pre-Game Boosts: Rocket"
+      , "Pre-Game Boosts: Bomb"
+      , "Pre-Game Boosts: ColorBall"
+      , "Pre-Game Boosts: Moves"
+      , "Pre-Game Boosts: Total"
+      , "Ad Views: Battle Pass"
+      , "Ad Views: Daily Reward"
+      , "Ad Views: Go Fish"
+      , "Ad Views: Lives"
+      , "Ad Views: Lucky Dice"
+      , "Ad Views: Moves Master"
+      , "Ad Views: Pizza"
+      , "Ad Views: Puzzle"
+      , "Ad Views: Rocket"
+      , "Ad Views: Treasure Trove"
+      , "Coin Spend"
+      , "Coin Spend: Extra Moves"
+      , "Coin Spend: Food Truck"
+      , "Coin Spend: Chum Chum Skill"
+      , "Coin Spend: Lives"
+      , "Coin Spend: Pre-Game Boosts"
+      , "Coin Spend: New Chum Chum"
+      , "Coin Spend: Gem Quest"
     ]
   }
 
@@ -861,6 +900,45 @@ view: player_campaign_level_summary {
     case
       when {% parameter select_measure %} = "Unique Players" then ${count_distinct_users}
       when {% parameter select_measure %} = "APS" then ${mean_attempts_per_success}
+      when {% parameter select_measure %} = "Count IAP" then ${progression_count_mtx_purchases}
+      when {% parameter select_measure %} = "Count First Time IAP" then ${progression_count_first_time_mtx_purchases}
+      when {% parameter select_measure %} = "IAP Dollars" then ${progression_mtx_purchase_dollars}
+      when {% parameter select_measure %} = "Count Ad Views" then ${progression_count_ad_views}
+      when {% parameter select_measure %} = "Ad Dollars" then ${progression_ad_view_dollars}
+      when {% parameter select_measure %} = "Count First Time Ad Views" then ${progression_first_time_ad_view_dollars}
+      when {% parameter select_measure %} = "Chums Spend: Hammer" then ${sum_powerup_hammer}
+      when {% parameter select_measure %} = "Chums Spend: Rolling Pin" then ${sum_powerup_rolling_pin}
+      when {% parameter select_measure %} = "Chums Spend: Piping Bag" then ${sum_powerup_piping_bag}
+      when {% parameter select_measure %} = "Chums Spend: Shuffle" then ${sum_powerup_shuffle}
+      when {% parameter select_measure %} = "Chums Spend: Skillet" then ${sum_powerup_skillet}
+      when {% parameter select_measure %} = "Chums Spend: Chopsticks" then ${sum_powerup_chopsticks}
+      when {% parameter select_measure %} = "Chums Spend: Total" then ${sum_total_chum_powerups_used}
+      when {% parameter select_measure %} = "Chums Spend: Disco" then ${sum_skill_disco}
+      when {% parameter select_measure %} = "Chums Spend: Moves" then ${sum_skill_moves}
+      when {% parameter select_measure %} = "Chums Spend: Drill" then ${sum_skill_drill}
+      when {% parameter select_measure %} = "Pre-Game Boosts: Rocket" then ${sum_pregame_boost_rocket}
+      when {% parameter select_measure %} = "Pre-Game Boosts: Bomb" then ${sum_pregame_boost_bomb}
+      when {% parameter select_measure %} = "Pre-Game Boosts: ColorBall" then ${sum_pregame_boost_colorball}
+      when {% parameter select_measure %} = "Pre-Game Boosts: Moves" then ${sum_pregame_boost_extramoves}
+      when {% parameter select_measure %} = "Pre-Game Boosts: Total" then ${sum_pregame_boost_total}
+      when {% parameter select_measure %} = "Ad Views: Battle Pass" then ${progression_ad_views_battle_pass}
+      when {% parameter select_measure %} = "Ad Views: Daily Reward" then ${progression_ad_views_daily_rewards}
+      when {% parameter select_measure %} = "Ad Views: Go Fish" then ${progression_ad_views_go_fish}
+      when {% parameter select_measure %} = "Ad Views: Lives" then ${progression_ad_views_lives}
+      when {% parameter select_measure %} = "Ad Views: Lucky Dice" then ${progression_ad_views_lucky_dice}
+      when {% parameter select_measure %} = "Ad Views: Moves Master" then ${progression_ad_views_moves_master}
+      when {% parameter select_measure %} = "Ad Views: Pizza" then ${progression_ad_views_ad_views_pizza}
+      when {% parameter select_measure %} = "Ad Views: Puzzle" then ${progression_ad_views_puzzles}
+      when {% parameter select_measure %} = "Ad Views: Rocket" then ${progression_ad_views_rocket}
+      when {% parameter select_measure %} = "Ad Views: Treasure Trove" then ${progression_ad_views_treasure_trove}
+      when {% parameter select_measure %} = "Coin Spend" then ${progression_coin_spend}
+      when {% parameter select_measure %} = "Coin Spend: Extra Moves" then ${progression_coin_spend_extra_moves}
+      when {% parameter select_measure %} = "Coin Spend: Food Truck" then ${progression_coin_spend_food_truck}
+      when {% parameter select_measure %} = "Coin Spend: Chum Chum Skill" then ${progression_coin_spend_chum_chum_skill}
+      when {% parameter select_measure %} = "Coin Spend: Lives" then ${progression_coin_spend_lives}
+      when {% parameter select_measure %} = "Coin Spend: Pre-Game Boosts" then ${progression_coin_spend_pre_game_boosts}
+      when {% parameter select_measure %} = "Coin Spend: New Chum Chum" then ${progression_coin_spend_new_chum_chum}
+      when {% parameter select_measure %} = "Coin Spend: Gem Quest" then ${progression_coin_spend_gem_quest}
       else sum(0)
       end
   ;;

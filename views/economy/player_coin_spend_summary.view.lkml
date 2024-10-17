@@ -17,6 +17,10 @@ view: player_coin_spend_summary {
         -- All columns from player_coin_spend_incremental
         *
 
+        -- manifest stuff
+        , @{coin_spend_name} as coin_spend_name
+        , @{coin_spend_name_group} as coin_spend_name_group
+
         -- Player Age Information
         , timestamp(date(created_at)) as created_date -- Created Date
         , date_diff(date(rdg_date), date(created_at), day) as days_since_created -- Days Since Created
@@ -37,7 +41,7 @@ view: player_coin_spend_summary {
 
       from
         -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_coin_spend_incremental`
-        ${player_coin_spend_incremental.SQL_TABLE_NAME}
+        ${player_coin_spend_incremental.SQL_TABLE_NAME} a
 
 
       ;;
@@ -159,14 +163,12 @@ dimension: primary_key {
     group_label: "Coin Sinks"
     label: "Coin Sink: Name"
     type:string
-    sql:  @{coin_spend_name} ;;
   }
 
   dimension: coin_spend_name_group {
     group_label: "Coin Sinks"
     label: "Coin Sink: Group"
     type:string
-    sql:  @{coin_spend_name_group} ;;
   }
 
   parameter: selected_coin_spend_parameter {
@@ -189,8 +191,8 @@ dimension: primary_key {
     type:string
     sql:
       case
-        when {% parameter selected_coin_spend_parameter %} = 'Coin Sink: Group' then @{coin_spend_name_group}
-        when {% parameter selected_coin_spend_parameter %} = 'Coin Sink: Name' then @{coin_spend_name}
+        when {% parameter selected_coin_spend_parameter %} = 'Coin Sink: Group' then ${coin_spend_name_group}
+        when {% parameter selected_coin_spend_parameter %} = 'Coin Sink: Name' then ${coin_spend_name}
 
         when {% parameter selected_coin_spend_parameter %} = 'Coin Sink: Starting Source ID' then ${TABLE}.source_id
         when {% parameter selected_coin_spend_parameter %} = 'Coin Sink: Starting IAP ID' then ${TABLE}.iap_id

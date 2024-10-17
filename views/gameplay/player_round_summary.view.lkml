@@ -145,6 +145,9 @@ base_data as (
     , max(a.powerup_shuffle) as powerup_shuffle
     , max(a.powerup_chopsticks) as powerup_chopsticks
     , max(a.powerup_skillet) as powerup_skillet
+    , max(a.skill_disco) as skill_disco
+    , max(a.skill_moves) as skill_moves
+    , max(a.skill_drill) as skill_drill
     , max(a.total_chum_powerups_used) as total_chum_powerups_used
 
     -- pre game boosts
@@ -303,6 +306,9 @@ base_data as (
     , max(a.powerup_shuffle) as powerup_shuffle
     , max(a.powerup_chopsticks) as powerup_chopsticks
     , max(a.powerup_skillet) as powerup_skillet
+    , max(a.skill_disco) as skill_disco
+    , max(a.skill_moves) as skill_moves
+    , max(a.skill_drill) as skill_drill
     , max(a.total_chum_powerups_used) as total_chum_powerups_used
 
     -- pre game boosts
@@ -454,6 +460,9 @@ base_data as (
     , max(a.powerup_shuffle) as powerup_shuffle
     , max(a.powerup_chopsticks) as powerup_chopsticks
     , max(a.powerup_skillet) as powerup_skillet
+    , max(a.skill_disco) as skill_disco
+    , max(a.skill_moves) as skill_moves
+    , max(a.skill_drill) as skill_drill
     , max(a.total_chum_powerups_used) as total_chum_powerups_used
 
     -- pre game boosts
@@ -619,6 +628,9 @@ base_data as (
     , max(a.powerup_shuffle) as powerup_shuffle
     , max(a.powerup_chopsticks) as powerup_chopsticks
     , max(a.powerup_skillet) as powerup_skillet
+    , max(a.skill_disco) as skill_disco
+    , max(a.skill_moves) as skill_moves
+    , max(a.skill_drill) as skill_drill
     , max(a.total_chum_powerups_used) as total_chum_powerups_used
 
     -- pre game boosts

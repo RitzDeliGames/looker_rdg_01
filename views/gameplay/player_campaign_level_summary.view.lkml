@@ -44,6 +44,9 @@ view: player_campaign_level_summary {
           , sum(powerup_shuffle) as powerup_shuffle
           , sum(powerup_chopsticks) as powerup_chopsticks
           , sum(powerup_skillet) as powerup_skillet
+          , sum(skill_disco) as skill_disco
+          , sum(skill_moves) as skill_moves
+          , sum(skill_drill) as skill_drill
           , sum(total_chum_powerups_used) as total_chum_powerups_used
           , sum(in_round_mtx_purchase_dollars) as  in_round_mtx_purchase_dollars
           , sum(in_round_count_mtx_purchases) as in_round_count_mtx_purchases
@@ -464,6 +467,9 @@ view: player_campaign_level_summary {
   measure: sum_powerup_shuffle {label: "Chums Spend: Shuffle" type: sum sql: ${TABLE}.powerup_shuffle;; value_format_name: decimal_0}
   measure: sum_powerup_chopsticks {label: "Chums Spend: Chopsticks" type: sum sql: ${TABLE}.powerup_chopsticks;; value_format_name: decimal_0}
   measure: sum_powerup_skillet {label: "Chums Spend: Skillet" type: sum sql: ${TABLE}.powerup_skillet;; value_format_name: decimal_0}
+  measure: sum_skill_disco {label: "Chums Spend: Disco" type: sum sql: ${TABLE}.skill_disco;; value_format_name: decimal_0}
+  measure: sum_skill_moves {label: "Chums Spend: Moves" type: sum sql: ${TABLE}.skill_moves;; value_format_name: decimal_0}
+  measure: sum_skill_drill {label: "Chums Spend: Drill" type: sum sql: ${TABLE}.skill_drill;; value_format_name: decimal_0}
   measure: sum_total_chum_powerups_used {label: "Chums Spend: Total"type: sum sql: ${TABLE}.total_chum_powerups_used;; value_format_name: decimal_0}
 
   measure: sum_in_round_count_mtx_purchases {

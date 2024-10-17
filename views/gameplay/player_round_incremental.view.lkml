@@ -4,7 +4,7 @@ view: player_round_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update on '2024-09-27'
+      -- update on '2024-10-17'
 
      -- create or replace table tal_scratch.player_round_incremental as
 
@@ -48,7 +48,7 @@ view: player_round_incremental {
               date(timestamp) >=
                   case
                       -- select date(current_date())
-                      when date(current_date()) <= '2024-09-27' -- Last Full Update
+                      when date(current_date()) <= '2024-10-17' -- Last Full Update
                       then '2022-06-01'
                       else date_add(current_date(), interval -9 day)
                       end
@@ -295,6 +295,10 @@ view: player_round_incremental {
                     else ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_skillet") as numeric),0)
                     end as powerup_skillet
 
+              , ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_disco") as numeric),0) as skill_disco
+              , ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_moves") as numeric),0) as skill_moves
+              , ifnull(safe_cast(json_extract_scalar(extra_json, "$.skill_drill") as numeric),0) as skill_drill
+
               -- technical stats tracking
               , safe_cast(json_extract_scalar(extra_json, "$.used_memory_bytes") as numeric) as used_memory_bytes
               , safe_cast(json_extract_scalar( extra_json , "$.total_reserved_memory") as numeric) as total_reserved_memory
@@ -384,6 +388,9 @@ view: player_round_incremental {
         , max(powerup_shuffle) as powerup_shuffle
         , max(powerup_chopsticks) as powerup_chopsticks
         , max(powerup_skillet) as powerup_skillet
+        , max(skill_disco) as skill_disco
+        , max(skill_moves) as skill_moves
+        , max(skill_drill) as skill_drill
         , max(
             powerup_hammer
             + powerup_rolling_pin
@@ -391,6 +398,9 @@ view: player_round_incremental {
             + powerup_shuffle
             + powerup_chopsticks
             + powerup_skillet
+            + skill_disco
+            + skill_moves
+            + skill_drill
             ) as total_chum_powerups_used
 
         -- pre game boosts

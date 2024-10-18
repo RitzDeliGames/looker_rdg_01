@@ -12,6 +12,10 @@ view: active_ab_tests_list {
 
       select '$.No_AB_Test_Split' as experiment_name
 
+      union all select '$.bypassRestorePrerequisites_20241004'
+      union all select '$.newGameFUE_20240927'
+      union all select '$.eorRewardedStars_20240925'
+
       union all select '$.adBreak_20240923'
       union all select '$.notificationIAM_20240923'
       union all select '$.dailyRewardsBig_20240923'

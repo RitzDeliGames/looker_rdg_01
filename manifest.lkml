@@ -1210,6 +1210,9 @@ constant: ad_placements_clean {
             when ${TABLE}.source_id like '%Puzzles%' then 'Puzzles'
             when ${TABLE}.source_id like '%Go_Fish%' then 'Go Fish'
             when ${TABLE}.source_id like '%Gem_Quest%' then 'Gem Quest'
+            when ${TABLE}.source_id like '%TreasureTrove%' then 'Treasure Trove'
+            when ${TABLE}.source_id like '%Interstitial%' then 'Startup Interstial'
+
 
             when ${TABLE}.source_id like '%DefaultRewardedVideo' then 'Generic Reward'
             when ${TABLE}.source_id like '%Rewarded' then 'Generic Reward'
@@ -1225,6 +1228,8 @@ constant: ad_reward_id_strings {
   when ${TABLE}.ad_reward_source_id = 'quick_lives' then 'Lives'
   when ${TABLE}.ad_reward_source_id = 'quick_magnifiers' then 'Magnifiers'
   when ${TABLE}.ad_reward_source_id = 'treasure_trove' then 'Treasure Trove'
+  when ${TABLE}.ad_reward_source_id = 'quick_boost_bomb' then 'Bomb'
+  when ${TABLE}.ad_reward_source_id = 'quick_boost_color_ball' then 'Color Ball'
   else ${TABLE}.ad_reward_source_id
   end"
 }
@@ -1319,6 +1324,9 @@ constant: ad_placements_for_ad_summary {
   when source_id like '%Puzzles%' then 'Puzzles'
   when source_id like '%Go_Fish%' then 'Go Fish'
   when source_id like '%Gem_Quest%' then 'Gem Quest'
+  when source_id like '%TreasureTrove%' then 'Treasure Trove'
+  when source_id like '%Interstitial%' then 'Startup Interstitial'
+  when source_id like '%EoR_Doubler%' then 'End of Round Doubler'
 
   when ad_reward_source_id = 'quick_boost_rocket' then 'Rocket'
   when ad_reward_source_id = 'quick_lives' then 'Lives'
@@ -1326,6 +1334,8 @@ constant: ad_placements_for_ad_summary {
   when ad_reward_source_id = 'treasure_trove' then 'Treasure Trove'
   when ad_reward_source_id = 'castle_climb_rescue' then 'Castle Climb'
   when ad_reward_source_id = 'quick_torches' then 'Gem Quest'
+  when ad_reward_source_id = 'quick_boost_bomb' then 'Bomb'
+  when ad_reward_source_id = 'quick_boost_color_ball' then 'Color Ball'
 
   else 'Unmapped'
   end"
@@ -1344,6 +1354,8 @@ constant: ad_placements_for_tickets_spend {
   when source_id like '%Puzzles%' then 'Puzzles'
   when source_id like '%Go_Fish%' then 'Go Fish'
   when source_id like '%Gem_Quest%' then 'Gem Quest'
+  when source_id like '%TreasureTrove%' then 'Treasure Trove'
+  when source_id like '%Interstitial%' then 'Startup Interstitial'
 
   when source_id like '%DefaultRewardedVideo' then 'Generic Reward'
   when source_id like '%Rewarded' then 'Generic Reward'
@@ -1353,6 +1365,8 @@ constant: ad_placements_for_tickets_spend {
   when source_id = 'treasure_trove' then 'Treasure Trove'
   when source_id = 'quick_torches' then 'Gem Quest'
   when source_id = 'castle_climb_rescue' then 'Castle Climb'
+  when source_id = 'quick_boost_bomb' then 'Bomb'
+  when source_id = 'quick_boost_color_ball' then 'Color Ball'
 
   else source_id
   end"

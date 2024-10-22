@@ -36,6 +36,7 @@ view: player_campaign_level_summary {
       , max(version) as max_version
       , min(experiments) as experiments
       , sum(count_rounds) as count_rounds
+      , sum(count_rounds_with_moves_added) as count_rounds_with_moves_added
       , sum(count_wins) as count_wins
       , sum(count_losses) as count_losses
       , sum(powerup_hammer) as powerup_hammer
@@ -58,6 +59,8 @@ view: player_campaign_level_summary {
       , max(churn_indicator) as churn_indicator
       , max(churn_rdg_id) as churn_rdg_id
       , max(case when count_wins = 1 then moves_remaining else 0 end ) as moves_remaining_on_win
+      , sum(case when count_losses = 1 then proximity_to_completion else 0 end ) as total_proximity_to_completion_on_loss
+      , sum(round_length_minutes) as round_length_minutes
 
       -- pre game boosts
       , sum( pregame_boost_rocket ) as pregame_boost_rocket
@@ -110,6 +113,34 @@ view: player_campaign_level_summary {
       -- date(rdg_date) = '2024-01-01'
       group by
       1,2
+
+      )
+
+      ----------------------------------------------------------------
+      -- tickets_spend
+      ----------------------------------------------------------------
+
+      , tickets_spend_table as (
+
+        select
+          rdg_id
+          , last_level_serial as level_serial
+          , timestamp(date(min(created_at))) as created_date -- Created Date
+          , date_diff(date(min(rdg_date)), date(min(created_at)), day) as days_since_created -- Days Since Created
+          , 1 + date_diff(date(min(rdg_date)), date(min(created_at)), day) as day_number -- Player Day Number
+          , min(rdg_date) as first_played_rdg_date
+          , max(rdg_date) as last_played_rdg_date
+          , min(version) as min_version
+          , max(version) as max_version
+          , min(experiments) as experiments
+          , sum( tickets_spend ) as tickets_spend
+        from
+          -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ticket_spend_summary
+          ${player_ticket_spend_summary.SQL_TABLE_NAME}
+        -- where
+         -- date(rdg_date) = '2024-10-01'
+        group by
+          1,2
 
       )
 
@@ -271,6 +302,22 @@ view: player_campaign_level_summary {
       coin_spend_table
       group by 1,2
 
+      union all
+      select
+      rdg_id
+      , level_serial
+      , min(created_date) as created_date
+      , min(days_since_created) as days_since_created
+      , min(day_number) as day_number
+      , min(first_played_rdg_date) as first_played_rdg_date
+      , min(last_played_rdg_date) as last_played_rdg_date
+      , min(min_version) as min_version
+      , min(max_version) as max_version
+      , min(experiments) as experiments
+      from
+      tickets_spend_table
+      group by 1,2
+
       ) a
       group by
       1,2
@@ -326,20 +373,34 @@ view: player_campaign_level_summary {
       , min_version
       , max_version
       , experiments  )
+      , f.* except (
+      rdg_id
+      , level_serial
+      , created_date
+      , days_since_created
+      , day_number
+      , first_played_rdg_date
+      , last_played_rdg_date
+      , min_version
+      , max_version
+      , experiments  )
       from
-      my_combined_list a
-      left join campaign_levels b
-      on a.rdg_id = b.rdg_id
-      and a.level_serial = b.level_serial
-      left join mtx_purchases c
-      on a.rdg_id = c.rdg_id
-      and a.level_serial = c.level_serial
-      left join ad_views d
-      on a.rdg_id = d.rdg_id
-      and a.level_serial = d.level_serial
-      left join coin_spend_table e
-      on a.rdg_id = e.rdg_id
-      and a.level_serial = e.level_serial
+        my_combined_list a
+        left join campaign_levels b
+          on a.rdg_id = b.rdg_id
+          and a.level_serial = b.level_serial
+        left join mtx_purchases c
+          on a.rdg_id = c.rdg_id
+          and a.level_serial = c.level_serial
+        left join ad_views d
+          on a.rdg_id = d.rdg_id
+          and a.level_serial = d.level_serial
+        left join coin_spend_table e
+          on a.rdg_id = e.rdg_id
+          and a.level_serial = e.level_serial
+        left join tickets_spend_table f
+          on a.rdg_id = f.rdg_id
+          and a.level_serial = f.level_serial
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (5) + 2 )*( -10 ) minute)) ;;
@@ -589,6 +650,18 @@ view: player_campaign_level_summary {
     value_format_name: decimal_1
   }
 
+  measure: win_rate {
+    label: "Win Rate"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.count_wins)
+        , sum(${TABLE}.count_rounds)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
   measure: churn_rate {
     group_label: "Churn"
     label: "Churn Rate"
@@ -600,7 +673,7 @@ view: player_campaign_level_summary {
         sum(1)
       )
     ;;
-    value_format_name: percent_2
+    value_format_name: percent_1
   }
 
   measure: excess_churn_rate {
@@ -665,6 +738,42 @@ view: player_campaign_level_summary {
       )
     ;;
     value_format_name: usd
+  }
+
+  measure: mean_proximity_to_completion_on_loss {
+    label: "Mean Proximity to Completion on Loss"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        sum( ${TABLE}.total_proximity_to_completion_on_loss )
+        , sum( ${TABLE}.count_losses )
+      )
+    ;;
+  }
+
+  measure: mean_moves_remaining_on_win {
+    label: "Mean Moves Remaining On Win"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum( ${TABLE}.moves_remaining_on_win )
+        , sum( ${TABLE}.count_wins )
+      )
+    ;;
+  }
+
+  measure: average_round_time_per_player {
+    label: "Mean Round Time in Minutes Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      safe_divide(
+        sum( ${TABLE}.round_length_minutes )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
   }
 
 ######################################################################################
@@ -882,6 +991,22 @@ view: player_campaign_level_summary {
   }
 
 ######################################################################################
+## Moves Added count_rounds_with_moves_added
+######################################################################################
+
+measure: percent_rounds_with_moves_added {
+  label: "% Rounds with Moves Added"
+  type: number
+  value_format_name: percent_1
+  sql:
+    safe_divide(
+      sum( ${TABLE}.count_rounds_with_moves_added )
+      , sum( ${TABLE}.count_rounds )
+    )
+  ;;
+}
+
+######################################################################################
 ## Pre Game Boosts
 ######################################################################################
 
@@ -1046,6 +1171,36 @@ view: player_campaign_level_summary {
       safe_divide(
         sum(${TABLE}.pregame_boost_total)
         , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+#########################################################################################
+## Ticket Spend Per Player
+#########################################################################################
+
+  measure: ticket_spend_per_player {
+    group_label: "Progression Metrics"
+    label: "Tickets: Tickets Spend Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.tickets_spend)
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: ticket_spend_per_spender {
+    group_label: "Progression Metrics"
+    label: "Tickets: Tickets Spend Per Ticket Spender"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.tickets_spend)
+        , count( distinct case when ${TABLE}.tickets_spend > 0 then ${TABLE}.rdg_id else null end )
       )
     ;;
   }
@@ -1291,6 +1446,19 @@ view: player_campaign_level_summary {
     sql:
       safe_divide(
         sum( ${TABLE}.mtx_purchase_dollars )
+        , count( distinct case when ${TABLE}.count_mtx_purchases > 0 then ${TABLE}.rdg_id else null end )
+      )
+      ;;
+  }
+
+  measure: progression_mtx_purchases_per_spender {
+    group_label: "Progression Metrics"
+    label: "IAP: Count IAP Per Spender"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum( ${TABLE}.count_mtx_purchases )
         , count( distinct case when ${TABLE}.count_mtx_purchases > 0 then ${TABLE}.rdg_id else null end )
       )
       ;;

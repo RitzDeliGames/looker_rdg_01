@@ -598,6 +598,18 @@ explore: player_error_summary {
   }
 }
 
+explore: player_error_by_dau {
+  label: "Player Errors by DAU"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_error_by_dau.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
 ################################################################
 
 ## Explore: Player FUE Summary

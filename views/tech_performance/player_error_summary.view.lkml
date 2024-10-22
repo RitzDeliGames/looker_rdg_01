@@ -14,8 +14,14 @@ view: player_error_summary {
 
       select
       *
+
+        -- Player Age Information
+        , timestamp(date(created_at)) as created_date -- Created Date
+        , date_diff(date(rdg_date), date(created_at), day) as days_since_created -- Days Since Created
+        , 1 + date_diff(date(rdg_date), date(created_at), day) as day_number -- Player Day Number
+
       from
-      ${player_error_incremental.SQL_TABLE_NAME} a
+        ${player_error_incremental.SQL_TABLE_NAME} a
 
       ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -3 hour)) ;;

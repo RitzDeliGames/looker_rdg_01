@@ -540,16 +540,6 @@ view: player_campaign_level_summary {
   measure: sum_count_rounds {type: sum sql: ${TABLE}.count_rounds;; value_format_name: decimal_0}
   measure: sum_count_wins {type: sum sql: ${TABLE}.count_wins;; value_format_name: decimal_0}
   measure: sum_count_losses {type: sum sql: ${TABLE}.count_losses;; value_format_name: decimal_0}
-  measure: sum_powerup_hammer {label: "Chums Spend: Hammer" type: sum sql: ${TABLE}.powerup_hammer;; value_format_name: decimal_0}
-  measure: sum_powerup_rolling_pin {label: "Chums Spend: Rolling Pin" type: sum sql: ${TABLE}.powerup_rolling_pin;; value_format_name: decimal_0}
-  measure: sum_powerup_piping_bag {label: "Chums Spend: Piping Bag" type: sum sql: ${TABLE}.powerup_piping_bag;; value_format_name: decimal_0}
-  measure: sum_powerup_shuffle {label: "Chums Spend: Shuffle" type: sum sql: ${TABLE}.powerup_shuffle;; value_format_name: decimal_0}
-  measure: sum_powerup_chopsticks {label: "Chums Spend: Chopsticks" type: sum sql: ${TABLE}.powerup_chopsticks;; value_format_name: decimal_0}
-  measure: sum_powerup_skillet {label: "Chums Spend: Skillet" type: sum sql: ${TABLE}.powerup_skillet;; value_format_name: decimal_0}
-  measure: sum_skill_disco {label: "Chums Spend: Disco" type: sum sql: ${TABLE}.skill_disco;; value_format_name: decimal_0}
-  measure: sum_skill_moves {label: "Chums Spend: Moves" type: sum sql: ${TABLE}.skill_moves;; value_format_name: decimal_0}
-  measure: sum_skill_drill {label: "Chums Spend: Drill" type: sum sql: ${TABLE}.skill_drill;; value_format_name: decimal_0}
-  measure: sum_total_chum_powerups_used {label: "Chums Spend: Total"type: sum sql: ${TABLE}.total_chum_powerups_used;; value_format_name: decimal_0}
 
   measure: sum_in_round_count_mtx_purchases {
     label: "Sum Count In Round IAPs"
@@ -678,6 +668,220 @@ view: player_campaign_level_summary {
   }
 
 ######################################################################################
+## Chum Skills
+######################################################################################
+
+  measure: sum_powerup_hammer {
+    label: "Chums Spend: Hammer"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.powerup_hammer;;
+  }
+
+  measure: sum_powerup_rolling_pin {
+    label: "Chums Spend: Rolling Pin"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.powerup_rolling_pin;;
+  }
+
+  measure: sum_powerup_piping_bag {
+    label: "Chums Spend: Piping Bag"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.powerup_piping_bag;;
+  }
+
+  measure: sum_powerup_shuffle {
+    label: "Chums Spend: Shuffle"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.powerup_shuffle;;
+  }
+
+  measure: sum_powerup_chopsticks {
+    label: "Chums Spend: Chopsticks"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.powerup_chopsticks;;
+  }
+
+  measure: sum_powerup_skillet {
+    label: "Chums Spend: Skillet"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.powerup_skillet;;
+  }
+
+  measure: sum_skill_disco {
+    label: "Chums Spend: Disco"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.skill_disco;;
+  }
+
+  measure: sum_skill_moves {
+    label: "Chums Spend: Moves"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.skill_moves;;
+  }
+
+  measure: sum_skill_drill {
+    label: "Chums Spend: Drill"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.skill_drill;;
+  }
+
+  measure: sum_total_chum_powerups_used {
+    label: "Chums Spend: Total"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.total_chum_powerups_used;;
+  }
+
+  measure: sum_powerup_hammer_per_player {
+    label: "Chums Spend: Hammer Per Player"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.powerup_hammer)
+        , count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+  }
+
+  measure: sum_powerup_rolling_pin_per_player {
+    label: "Chums Spend: Rolling Pin Per Player"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.powerup_rolling_pin)
+        , count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+  }
+
+  measure: sum_powerup_piping_bag_per_player {
+    label: "Chums Spend: Piping Bag Per Player"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.powerup_piping_bag)
+        , count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+  }
+
+  measure: sum_powerup_shuffle_per_player {
+    label: "Chums Spend: Shuffle Per Player"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.powerup_shuffle)
+        , count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+  }
+
+  measure: sum_powerup_chopsticks_per_player {
+    label: "Chums Spend: Chopsticks Per Player"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.powerup_chopsticks)
+        , count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+  }
+
+  measure: sum_powerup_skillet_per_player {
+    label: "Chums Spend: Skillet Per Player"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.powerup_skillet)
+        , count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+  }
+
+  measure: sum_skill_disco_per_player {
+    label: "Chums Spend: Disco Per Player"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.skill_disco)
+        , count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+  }
+
+  measure: sum_skill_moves_per_player {
+    label: "Chums Spend: Moves Per Player"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.skill_moves)
+        , count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+  }
+
+  measure: sum_skill_drill_per_player {
+    label: "Chums Spend: Drill Per Player"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.skill_drill)
+        , count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+  }
+
+  measure: sum_total_chum_powerups_used_per_player {
+    label: "Chums Spend: Total Per Player"
+    group_label: "Chums Spend"
+    type: sum
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.total_chum_powerups_used)
+        , count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+  }
+
+######################################################################################
 ## Pre Game Boosts
 ######################################################################################
 
@@ -779,6 +983,71 @@ view: player_campaign_level_summary {
         sum(${TABLE}.pregame_boost_total)
         , sum(1)
       ) ;;
+  }
+
+  measure: sum_pregame_boost_rocket_per_player {
+    group_label: "Pre-Game Boosts"
+    label: "Pre-Game Boosts: Rockets Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_rocket)
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: sum_pregame_boost_bomb_per_player {
+    group_label: "Pre-Game Boosts"
+    label: "Pre-Game Boosts: Bombs Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_bomb)
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: sum_pregame_boost_colorball_per_player {
+    group_label: "Pre-Game Boosts"
+    label: "Pre-Game Boosts: Colorballs Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_colorball)
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: sum_pregame_boost_extramoves_per_player {
+    group_label: "Pre-Game Boosts"
+    label: "Pre-Game Boosts: Extra Moves Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_extramoves)
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: sum_pregame_boost_total_per_player {
+    group_label: "Pre-Game Boosts"
+    label: "Pre-Game Boosts: Total Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum(${TABLE}.pregame_boost_total)
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
   }
 
 #########################################################################################
@@ -953,15 +1222,41 @@ view: player_campaign_level_summary {
 
   measure: progression_count_mtx_purchases {
     group_label: "Progression Metrics"
-    label: "Count IAP"
+    label: "IAP: Count of IAP"
     type: number
     value_format_name: decimal_0
     sql: sum( ${TABLE}.count_mtx_purchases )  ;;
   }
 
+  measure: iap_unique_player_conversion {
+    group_label: "Progression Metrics"
+    label: "IAP: Unique Player Conversion"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        count( distinct case when ${TABLE}.count_mtx_purchases > 0 then ${TABLE}.rdg_id else null end )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: iap_unique_player_first_time_conversion {
+    group_label: "Progression Metrics"
+    label: "IAP: Unique Player First Time Conversion"
+    type: number
+    value_format_name: percent_1
+    sql:
+      safe_divide(
+        count( distinct case when ${TABLE}.count_first_time_mtx_purchases > 0 then ${TABLE}.rdg_id else null end )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
   measure: progression_count_first_time_mtx_purchases {
     group_label: "Progression Metrics"
-    label: "Count First Time IAP"
+    label: "IAP: Count First Time IAP"
     type: number
     value_format_name: decimal_0
     sql: sum( ${TABLE}.count_first_time_mtx_purchases )  ;;
@@ -969,15 +1264,41 @@ view: player_campaign_level_summary {
 
   measure: progression_mtx_purchase_dollars {
     group_label: "Progression Metrics"
-    label: "IAP Dollars"
+    label: "IAP: Dollars"
     type: number
     value_format_name: usd_0
     sql: sum( ${TABLE}.mtx_purchase_dollars )  ;;
   }
 
+  measure: progression_mtx_purchase_dollars_per_player {
+    group_label: "Progression Metrics"
+    label: "IAP: Dollars Per Player"
+    type: number
+    value_format_name: usd
+    sql:
+      safe_divide(
+        sum( ${TABLE}.mtx_purchase_dollars )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+      ;;
+  }
+
+  measure: progression_mtx_purchase_dollars_per_spender {
+    group_label: "Progression Metrics"
+    label: "IAP: Dollars Per Spender"
+    type: number
+    value_format_name: usd
+    sql:
+      safe_divide(
+        sum( ${TABLE}.mtx_purchase_dollars )
+        , count( distinct case when ${TABLE}.count_mtx_purchases > 0 then ${TABLE}.rdg_id else null end )
+      )
+      ;;
+  }
+
   measure: progression_first_time_mtx_purchase_dollars {
     group_label: "Progression Metrics"
-    label: "First Time IAP Dollars"
+    label: "IAP: First Time IAP Dollars"
     type: number
     value_format_name: usd_0
     sql: sum( ${TABLE}.first_time_mtx_purchase_dollars )  ;;
@@ -985,15 +1306,67 @@ view: player_campaign_level_summary {
 
   measure: progression_count_ad_views {
     group_label: "Progression Metrics"
-    label: "Count Ad Views"
+    label: "Ads: Count Views"
     type: number
     value_format_name: decimal_0
     sql: sum( ${TABLE}.count_ad_views )  ;;
   }
 
+  measure: progression_ad_views_per_player {
+    group_label: "Progression Metrics"
+    label: "Ads: Views Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      safe_divide(
+        sum( ${TABLE}.count_ad_views )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+     ;;
+  }
+
+  measure: progression_percent_unique_players_viewing_ads {
+    group_label: "Progression Metrics"
+    label: "Ads: Percent Players Viewing Ads"
+    type: number
+    value_format_name: percent_0
+    sql:
+      safe_divide(
+        count( distinct case when ${TABLE}.count_ad_views > 0 then ${TABLE}.rdg_id else null end )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+     ;;
+  }
+
+  measure: progression_ad_dollars_per_player {
+    group_label: "Progression Metrics"
+    label: "Ads: Dollars Per Player"
+    type: number
+    value_format_name: usd
+    sql:
+      safe_divide(
+        sum( ${TABLE}.ad_view_dollars )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+     ;;
+  }
+
+  measure: progression_ad_views_per_viewer {
+    group_label: "Progression Metrics"
+    label: "Ads: Views Per Viewer"
+    type: number
+    value_format_name: usd
+    sql:
+      safe_divide(
+        sum( ${TABLE}.count_ad_views )
+        , count( distinct case when ${TABLE}.count_ad_views > 0 then ${TABLE}.rdg_id else null end )
+      )
+     ;;
+  }
+
   measure: progression_ad_view_dollars {
     group_label: "Progression Metrics"
-    label: "Ad Dollars"
+    label: "Ads: Dollars"
     type: number
     value_format_name: usd_0
     sql: sum( ${TABLE}.ad_view_dollars )  ;;
@@ -1001,7 +1374,7 @@ view: player_campaign_level_summary {
 
   measure: progression_count_first_time_ad_views {
     group_label: "Progression Metrics"
-    label: "Count First Time Ad Views"
+    label: "Ads: Count First Time Ad Views"
     type: number
     value_format_name: decimal_0
     sql: sum( ${TABLE}.count_first_time_ad_views )  ;;
@@ -1009,7 +1382,7 @@ view: player_campaign_level_summary {
 
   measure: progression_first_time_ad_view_dollars {
     group_label: "Progression Metrics"
-    label: "First Time Ad Dollars"
+    label: "Ads: First Time Ad Dollars"
     type: number
     value_format_name: usd_0
     sql: sum( ${TABLE}.first_time_ad_view_dollars )  ;;
@@ -1095,6 +1468,136 @@ view: player_campaign_level_summary {
     sql: sum( ${TABLE}.ad_views_treasure_trove )  ;;
   }
 
+  measure: progression_ad_views_daily_rewards_per_player {
+    group_label: "Progression Metrics"
+    label: "Ad Views: Daily Reward Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.ad_views_daily_rewards )
+      , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_ad_views_moves_master_per_player {
+    group_label: "Progression Metrics"
+    label: "Ad Views: Moves Master Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.ad_views_moves_master )
+      , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_ad_views_ad_views_pizza_per_player {
+    group_label: "Progression Metrics"
+    label: "Ad Views: Pizza Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.ad_views_pizza )
+      , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_ad_views_lucky_dice_per_player {
+    group_label: "Progression Metrics"
+    label: "Ad Views: Lucky Dice Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.ad_views_lucky_dice )
+      , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_ad_views_battle_pass_per_player {
+    group_label: "Progression Metrics"
+    label: "Ad Views: Battle Pass Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.ad_views_battle_pass )
+      , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_ad_views_puzzles_per_player {
+    group_label: "Progression Metrics"
+    label: "Ad Views: Puzzle Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.ad_views_puzzles )
+      , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_ad_views_go_fish_per_player {
+    group_label: "Progression Metrics"
+    label: "Ad Views: Go Fish Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.ad_views_go_fish )
+      , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_ad_views_rocket_per_player {
+    group_label: "Progression Metrics"
+    label: "Ad Views: Rocket Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.ad_views_rocket )
+      , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_ad_views_lives_per_player {
+    group_label: "Progression Metrics"
+    label: "Ad Views: Lives Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.ad_views_lives )
+      , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_ad_views_treasure_trove_per_player {
+    group_label: "Progression Metrics"
+    label: "Ad Views: Treasure Trove Per Player"
+    type: number
+    value_format_name: decimal_1
+    sql:
+    safe_divide(
+      sum( ${TABLE}.ad_views_treasure_trove )
+      , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
   measure: progression_coin_spend {
     group_label: "Progression Metrics"
     label: "Coin Spend"
@@ -1165,6 +1668,123 @@ view: player_campaign_level_summary {
     type: number
     value_format_name: decimal_0
     sql: sum( ${TABLE}.coin_spend_gem_quest )  ;;
+  }
+
+  measure: progression_coin_spend_per_player {
+    group_label: "Progression Metrics"
+    label: "Coin Spend Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      safe_divide(
+        sum( ${TABLE}.coin_spend )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_coin_spend_extra_moves_per_player {
+    group_label: "Progression Metrics"
+    label: "Coin Spend: Extra Moves Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      safe_divide(
+        sum( ${TABLE}.coin_spend_extra_moves )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_coin_spend_food_truck_per_player {
+    group_label: "Progression Metrics"
+    label: "Coin Spend: Food Truck Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      safe_divide(
+        sum( ${TABLE}.coin_spend_food_truck )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_coin_spend_chum_chum_skill_per_player {
+    group_label: "Progression Metrics"
+    label: "Coin Spend: Chum Chum Skill Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      safe_divide(
+        sum( ${TABLE}.coin_spend_chum_chum_skill )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_coin_spend_pre_game_boosts_per_player {
+    group_label: "Progression Metrics"
+    label: "Coin Spend: Pre-Game Boosts Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      safe_divide(
+        sum( ${TABLE}.coin_spend_pre_game_boosts )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_coin_spend_lives_per_player {
+    group_label: "Progression Metrics"
+    label: "Coin Spend: Lives Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      safe_divide(
+        sum( ${TABLE}.coin_spend_lives )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_coin_spend_new_chum_chum_per_player {
+    group_label: "Progression Metrics"
+    label: "Coin Spend: New Chum Chum Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      safe_divide(
+        sum( ${TABLE}.coin_spend_new_chum_chum )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_coin_spend_legacy_per_player {
+    group_label: "Progression Metrics"
+    label: "Coin Spend: Legacy Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      safe_divide(
+        sum( ${TABLE}.coin_spend_legacy )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
+
+  measure: progression_coin_spend_gem_quest_per_player {
+    group_label: "Progression Metrics"
+    label: "Coin Spend: Gem Quest Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      safe_divide(
+        sum( ${TABLE}.coin_spend_gem_quest )
+        , count( distinct ${TABLE}.rdg_id )
+      )
+    ;;
   }
 
 #########################################################################################

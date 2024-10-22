@@ -21,7 +21,13 @@ view: player_error_by_dau {
         select
           rdg_date
           , rdg_id
-
+          , max( timestamp(created_date) ) as created_date
+          , max( days_since_created ) as days_since_created
+          , max( day_number ) as day_number
+          , max( version ) as version
+          , max( experiments ) as experiments
+          , max( highest_last_level_serial ) as last_level_serial
+          , max( cumulative_time_played_minutes ) as cumulative_time_played_minutes
 
         from
           -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary
@@ -45,14 +51,6 @@ view: player_error_by_dau {
           , my_error_excluding_frame
           , max( simplified_error ) as simplified_error
           , sum( count_errors ) as count_errors
-          , max( timestamp(created_date) ) as created_date
-          , max( days_since_created ) as days_since_created
-          , max( day_number ) as day_number
-          , max( version ) as version
-          , max( experiments ) as experiments
-          , max( last_level_serial ) as last_level_serial
-          , max( cumulative_time_played_minutes ) as cumulative_time_played_minutes
-
         from
           -- `eraser-blast.looker_scratch.LR_6Y3LG1729616131553_player_error_summary`
           ${player_error_summary.SQL_TABLE_NAME}
@@ -142,11 +140,6 @@ view: player_error_by_dau {
           on a.rdg_id = b.rdg_id
           and a.rdg_date = b.rdg_date
           and a.my_error_excluding_frame = b.my_error_excluding_frame
-
-
-
-
-
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (5) + 2 )*( -10 ) minute)) ;;

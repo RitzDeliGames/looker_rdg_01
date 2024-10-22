@@ -754,8 +754,8 @@ view: player_campaign_level_summary {
   measure: sum_powerup_hammer_per_player {
     label: "Chums Spend: Hammer Per Player"
     group_label: "Chums Spend"
-    type: sum
-    value_format_name: decimal_1
+    type: number
+    value_format_name: decimal_2
     sql:
       safe_divide(
         sum(${TABLE}.powerup_hammer)
@@ -767,8 +767,8 @@ view: player_campaign_level_summary {
   measure: sum_powerup_rolling_pin_per_player {
     label: "Chums Spend: Rolling Pin Per Player"
     group_label: "Chums Spend"
-    type: sum
-    value_format_name: decimal_1
+    type: number
+    value_format_name: decimal_2
     sql:
       safe_divide(
         sum(${TABLE}.powerup_rolling_pin)
@@ -780,8 +780,8 @@ view: player_campaign_level_summary {
   measure: sum_powerup_piping_bag_per_player {
     label: "Chums Spend: Piping Bag Per Player"
     group_label: "Chums Spend"
-    type: sum
-    value_format_name: decimal_1
+    type: number
+    value_format_name: decimal_2
     sql:
       safe_divide(
         sum(${TABLE}.powerup_piping_bag)
@@ -793,8 +793,8 @@ view: player_campaign_level_summary {
   measure: sum_powerup_shuffle_per_player {
     label: "Chums Spend: Shuffle Per Player"
     group_label: "Chums Spend"
-    type: sum
-    value_format_name: decimal_1
+    type: number
+    value_format_name: decimal_2
     sql:
       safe_divide(
         sum(${TABLE}.powerup_shuffle)
@@ -806,8 +806,8 @@ view: player_campaign_level_summary {
   measure: sum_powerup_chopsticks_per_player {
     label: "Chums Spend: Chopsticks Per Player"
     group_label: "Chums Spend"
-    type: sum
-    value_format_name: decimal_1
+    type: number
+    value_format_name: decimal_2
     sql:
       safe_divide(
         sum(${TABLE}.powerup_chopsticks)
@@ -819,8 +819,8 @@ view: player_campaign_level_summary {
   measure: sum_powerup_skillet_per_player {
     label: "Chums Spend: Skillet Per Player"
     group_label: "Chums Spend"
-    type: sum
-    value_format_name: decimal_1
+    type: number
+    value_format_name: decimal_2
     sql:
       safe_divide(
         sum(${TABLE}.powerup_skillet)
@@ -832,8 +832,8 @@ view: player_campaign_level_summary {
   measure: sum_skill_disco_per_player {
     label: "Chums Spend: Disco Per Player"
     group_label: "Chums Spend"
-    type: sum
-    value_format_name: decimal_1
+    type: number
+    value_format_name: decimal_2
     sql:
       safe_divide(
         sum(${TABLE}.skill_disco)
@@ -845,8 +845,8 @@ view: player_campaign_level_summary {
   measure: sum_skill_moves_per_player {
     label: "Chums Spend: Moves Per Player"
     group_label: "Chums Spend"
-    type: sum
-    value_format_name: decimal_1
+    type: number
+    value_format_name: decimal_2
     sql:
       safe_divide(
         sum(${TABLE}.skill_moves)
@@ -858,8 +858,8 @@ view: player_campaign_level_summary {
   measure: sum_skill_drill_per_player {
     label: "Chums Spend: Drill Per Player"
     group_label: "Chums Spend"
-    type: sum
-    value_format_name: decimal_1
+    type: number
+    value_format_name: decimal_2
     sql:
       safe_divide(
         sum(${TABLE}.skill_drill)
@@ -871,7 +871,7 @@ view: player_campaign_level_summary {
   measure: sum_total_chum_powerups_used_per_player {
     label: "Chums Spend: Total Per Player"
     group_label: "Chums Spend"
-    type: sum
+    type: number
     value_format_name: decimal_1
     sql:
       safe_divide(
@@ -1316,7 +1316,7 @@ view: player_campaign_level_summary {
     group_label: "Progression Metrics"
     label: "Ads: Views Per Player"
     type: number
-    value_format_name: decimal_0
+    value_format_name: decimal_1
     sql:
       safe_divide(
         sum( ${TABLE}.count_ad_views )
@@ -1355,7 +1355,7 @@ view: player_campaign_level_summary {
     group_label: "Progression Metrics"
     label: "Ads: Views Per Viewer"
     type: number
-    value_format_name: usd
+    value_format_name: decimal_1
     sql:
       safe_divide(
         sum( ${TABLE}.count_ad_views )

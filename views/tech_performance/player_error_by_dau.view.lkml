@@ -189,6 +189,7 @@ view: player_error_by_dau {
   dimension: simplified_error { type:string }
   dimension: days_since_created {type:number}
   dimension: day_number {type:number}
+  dimension: version {type: string}
 
   dimension_group: rdg_date {
     label: "Activity"

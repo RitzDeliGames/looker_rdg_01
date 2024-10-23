@@ -143,17 +143,13 @@ view: adhoc_2024_10_23_treasure_trove_weekly_comparison {
     sql: count(distinct ${TABLE}.rdg_id) ;;
   }
 
-#   mtx_treasure_trove
-# mtx_treasure_trove_halloween
-# ad_dollars_treasure_trove
-
   measure:  mtx_treasure_trove_per_player {
     label: "IAP: Treasure Trove Per Player"
     type: number
     value_format_name: usd
     sql:
       safe_divide(
-        sum(${TABLE}.mtx_treasure_trove)
+        sum( ifnull( ${TABLE}.mtx_treasure_trove, 0 ) )
         , count(distinct ${TABLE}.rdg_id)
       )
     ;;
@@ -165,7 +161,7 @@ view: adhoc_2024_10_23_treasure_trove_weekly_comparison {
     value_format_name: usd
     sql:
       safe_divide(
-        sum(${TABLE}.mtx_treasure_trove_halloween)
+        sum( ifnull( ${TABLE}.mtx_treasure_trove_halloween, 0 ) )
         , count(distinct ${TABLE}.rdg_id)
       )
     ;;
@@ -177,7 +173,7 @@ view: adhoc_2024_10_23_treasure_trove_weekly_comparison {
     value_format_name: usd
     sql:
       safe_divide(
-        sum(${TABLE}.ad_dollars_treasure_trove)
+        sum( ifnull( ${TABLE}.ad_dollars_treasure_trove, 0 ) )
         , count(distinct ${TABLE}.rdg_id)
       )
     ;;

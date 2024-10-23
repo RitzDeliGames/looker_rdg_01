@@ -4,7 +4,7 @@ view: player_ad_view_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-10-15'
+      -- update '2024-10-23'
 
       -- create or replace table tal_scratch.player_ad_view_incremental as
 
@@ -48,7 +48,7 @@ full_base_data as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-10-15' -- Last Full Update
+                when date(current_date()) <= '2024-10-23' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 -- else date_add(current_date(), interval -30 day)
@@ -124,6 +124,19 @@ full_base_data as (
             partition by rdg_id
             order by timestamp_utc asc, event_name asc ) as ad_reward_transaction_purchase_currency
 
+        , lag(json_extract_scalar(extra_json,"$.source_id")) over (
+            partition by rdg_id
+            order by timestamp_utc asc, event_name asc ) as lag_ad_reward_source_id_all
+
+        , lag(event_name) over (
+            partition by rdg_id
+            order by timestamp_utc asc, event_name asc ) as lag_ad_reward_event_name
+
+        , lag(json_extract_scalar(extra_json,"$.transaction_purchase_currency")) over (
+            partition by rdg_id
+            order by timestamp_utc asc, event_name asc ) as lag_ad_reward_transaction_purchase_currency
+
+
     from
         full_base_data
     where
@@ -143,7 +156,13 @@ full_base_data as (
             when
                 ad_reward_event_name = 'transaction'
                 and ad_reward_transaction_purchase_currency = 'REWARDED_AD'
-            then  ad_reward_source_id_all
+            then
+                ad_reward_source_id_all
+            when
+                lag_ad_reward_event_name = 'transaction'
+                and lag_ad_reward_transaction_purchase_currency = 'REWARDED_AD'
+            then
+                lag_ad_reward_source_id_all
             else null
             end as ad_reward_source_id
     from

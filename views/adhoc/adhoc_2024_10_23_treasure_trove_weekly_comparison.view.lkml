@@ -40,6 +40,8 @@ view: adhoc_2024_10_23_treasure_trove_weekly_comparison {
           , b.treasure_trove_event_start_date
           , sum( case when a.iap_id_strings_grouped = 'Treasure Trove' then a.mtx_purchase_dollars else 0 end ) as mtx_treasure_trove
           , sum( case when a.iap_id_strings_grouped = 'Halloween: Treasure Trove' then a.mtx_purchase_dollars else 0 end ) as mtx_treasure_trove_halloween
+          , sum( case when a.iap_id_strings_grouped in ( 'Treasure Trove' , 'Halloween: Treasure Trove' ) then a.count_mtx_purchases else 0 end ) as count_mtx_purchases_all_types
+
         from
           -- eraser-blast.looker_scratch.LR_6YSDQ1729714591832_player_mtx_purchase_summary a
           -- left join eraser-blast.looker_scratch.LR_6YMIA1729705637007_live_ops_calendar b
@@ -57,6 +59,7 @@ view: adhoc_2024_10_23_treasure_trove_weekly_comparison {
           a.rdg_id
           , b.treasure_trove_event_start_date
           , sum( case when a.ad_placement_mapping = 'Treasure Trove' then a.ad_view_dollars else 0 end ) as ad_dollars_treasure_trove
+          , sum( case when a.ad_placement_mapping = 'Treasure Trove' then a.count_ad_views else 0 end ) as count_ad_views_treasure_trove
         from
           -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary a
           -- left join eraser-blast.looker_scratch.LR_6YMIA1729705637007_live_ops_calendar b
@@ -105,6 +108,19 @@ view: adhoc_2024_10_23_treasure_trove_weekly_comparison {
 ################################################################
 ## Dimensions
 ################################################################
+
+# count_ad_views_treasure_trove
+# count_mtx_purchases_all_types
+
+  dimension: count_ad_views_treasure_trove {
+    label: "Count Treasure Trove IAA"
+    type: number
+  }
+
+  dimension: count_mtx_purchases_all_types {
+    label: "Count Treasure Trove IAP"
+    type: number
+  }
 
   dimension: rdg_id {type: string}
 

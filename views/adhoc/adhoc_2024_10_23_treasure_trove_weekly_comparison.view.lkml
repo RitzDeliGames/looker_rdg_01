@@ -19,6 +19,7 @@ view: adhoc_2024_10_23_treasure_trove_weekly_comparison {
           a.rdg_id
           , b.treasure_trove_event_start_date
           , min(a.day_number) as min_day_number
+          , max(a.day_number) as max_day_number
         from
           -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_daily_summary a
           -- left join eraser-blast.looker_scratch.LR_6YMIA1729705637007_live_ops_calendar b
@@ -107,6 +108,16 @@ view: adhoc_2024_10_23_treasure_trove_weekly_comparison {
 
   dimension: rdg_id {type: string}
 
+  dimension: min_day_number {
+    label: "Day Number (Min)"
+    type: number
+    }
+
+  dimension: max_day_number {
+    label: "Day Number (Max)"
+    type: number
+  }
+
   dimension_group: treasure_trove_event_start_date {
     label: "Treasure Trove Week Start"
     type: time
@@ -137,7 +148,7 @@ view: adhoc_2024_10_23_treasure_trove_weekly_comparison {
 # ad_dollars_treasure_trove
 
   measure:  mtx_treasure_trove_per_player {
-    label: "IAP: Treasure Trove"
+    label: "IAP: Treasure Trove Per Player"
     type: number
     value_format_name: usd
     sql:
@@ -149,7 +160,7 @@ view: adhoc_2024_10_23_treasure_trove_weekly_comparison {
   }
 
   measure:  mtx_treasure_trove_halloween_per_player {
-    label: "IAP: Halloween Treasure Trove"
+    label: "IAP: Halloween Treasure Trove Per Player"
     type: number
     value_format_name: usd
     sql:
@@ -161,7 +172,7 @@ view: adhoc_2024_10_23_treasure_trove_weekly_comparison {
   }
 
   measure:  ad_dollars_treasure_trove_per_player {
-    label: "IAA: Treasure Trove"
+    label: "IAA: Treasure Trove Per Player"
     type: number
     value_format_name: usd
     sql:

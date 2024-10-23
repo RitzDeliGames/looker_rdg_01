@@ -58,6 +58,10 @@ view: live_ops_calendar {
           , 7 as gem_quest_day_length
           , 1 as gem_quest_days_off_at_end
 
+          -- Treasure Trove
+          , date('2023-06-17') as treasure_trove_start_date
+          , 7 as treasure_trove_day_length
+
         from
           unnest( generate_array(1,365 * 15 ) ) as my_row_number
 
@@ -120,6 +124,11 @@ view: live_ops_calendar {
               then null
               else date_diff(rdg_date,gem_quest_start_date,day)
               end as gem_quest_day_number
+           , case
+              when rdg_date < treasure_trove_start_date
+              then null
+              else date_diff(rdg_date,treasure_trove_start_date,day)
+              end as treasure_trove_day_number
         from
           my_rdg_date_table
       )
@@ -139,6 +148,7 @@ view: live_ops_calendar {
           , floor(safe_divide( puzzle_day_number, puzzle_day_length ))+1 as puzzle_number
           , floor(safe_divide( go_fish_day_number, go_fish_day_length ))+1 as go_fish_number
           , floor(safe_divide( gem_quest_day_number, gem_quest_day_length ))+1 as gem_quest_number
+          , floor(safe_divide( treasure_trove_day_number, treasure_trove_day_length ))+1 as treasure_trove_number
         from my_live_ops_day_number_table
 
       )
@@ -168,6 +178,7 @@ view: live_ops_calendar {
           , min(rdg_date) over ( partition by safe_cast(gem_quest_number as string) order by rdg_date ) as gem_quest_event_start_date
           , row_number() over ( partition by safe_cast(gem_quest_number as string) order by rdg_date asc ) as gem_quest_event_day_number
           , row_number() over ( partition by safe_cast(gem_quest_number as string) order by rdg_date desc ) as gem_quest_event_days_remaining
+          , min(rdg_date) over ( partition by safe_cast(treasure_trove_number as string) order by rdg_date ) as treasure_trove_event_start_date
         from
           my_live_ops_number_table
 
@@ -237,6 +248,12 @@ view: live_ops_calendar {
         , max( case when gem_quest_day_number is null then null when gem_quest_event_days_remaining <= gem_quest_days_off_at_end then null else gem_quest_event_start_date end ) as gem_quest_event_start_date
         , max( case when gem_quest_day_number is null then null when gem_quest_event_days_remaining <= gem_quest_days_off_at_end then null else gem_quest_event_day_number end ) as gem_quest_event_day_number
 
+        -- treasure_trove
+        , max( treasure_trove_start_date ) as treasure_trove_start_date
+        , max( treasure_trove_day_length ) as treasure_trove_day_length
+        , max( treasure_trove_day_number ) as treasure_trove_day_number
+        , max( treasure_trove_number ) as treasure_trove_number
+        , max( case when treasure_trove_day_number is null then null else treasure_trove_event_start_date end ) as treasure_trove_event_start_date
 
       from
         my_live_ops_event_start_date_table
@@ -308,6 +325,42 @@ view: live_ops_calendar {
 
   dimension: castle_climb_event_start_date {
     group_label: "Castle Climb"
+    label: "Event Start Date"
+    type: date
+  }
+
+  ############################################################
+  ## Treasure Trove
+  ############################################################
+
+  dimension_group: treasure_trove_start_date {
+    group_label: "Treasure Trove"
+    label: "Launch"
+    type: time
+    timeframes: [date, week, month, year]
+    sql: timestamp(${TABLE}.treasure_trove_start_date) ;;
+  }
+
+  dimension: treasure_trove_day_length {
+    group_label: "Treasure Trove"
+    label: "Event Length in Days"
+    type: number
+  }
+
+  dimension: treasure_trove_day_number {
+    group_label: "Treasure Trove"
+    label: "Days Since Launch"
+    type: number
+  }
+
+  dimension: treasure_trove_number {
+    group_label: "Treasure Trove"
+    label: "Event Number"
+    type: number
+  }
+
+  dimension: treasure_trove_event_start_date {
+    group_label: "Treasure Trove"
     label: "Event Start Date"
     type: date
   }

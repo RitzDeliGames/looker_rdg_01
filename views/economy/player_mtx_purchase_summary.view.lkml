@@ -35,9 +35,12 @@ view: player_mtx_purchase_summary {
             rows between unbounded preceding and current row
             ) cumulative_count_mtx_purchases
 
+        , @{iap_id_strings_new} as iap_id_strings
+        , @{iap_id_strings_grouped_new} as iap_id_strings_grouped
+
       from
-        -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_incremental`
-        ${player_mtx_purchase_incremental.SQL_TABLE_NAME}
+        -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_incremental` a
+        ${player_mtx_purchase_incremental.SQL_TABLE_NAME} a
 
       ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
@@ -165,13 +168,11 @@ dimension: primary_key {
   dimension: iap_id_strings {
     group_label: "SKU Information"
     label: "IAP Names"
-    sql: @{iap_id_strings_new} ;;
   }
 
   dimension: iap_id_strings_grouped {
     group_label: "SKU Information"
     label: "IAP Names Grouped"
-    sql: @{iap_id_strings_grouped_new} ;;
   }
 
   dimension: iap_purchase_qty {

@@ -347,6 +347,7 @@ explore: player_puzzle_level_summary {
 
 explore: player_ad_view_summary {
   label: "Player Ad View Summary"
+
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -355,6 +356,16 @@ explore: player_ad_view_summary {
       ${player_ad_view_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
+
+  join: live_ops_calendar {
+    view_label: "Live Ops Calendar"
+    from:  live_ops_calendar
+    type:  left_outer
+    relationship:  many_to_one
+    sql_on: ${player_ad_view_summary.rdg_date_date} = ${live_ops_calendar.rdg_date_date};;
+
+  }
+
 }
 
 ################################################################

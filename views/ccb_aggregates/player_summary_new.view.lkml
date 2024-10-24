@@ -541,8 +541,6 @@ view: player_summary_new {
         , b.campaign as bfg_campaign
         , @{bfg_campaign_name_mapping} as bfg_campaign_mapped
         , b.ad_name as bfg_ad_name
-        , b.ad_name as bfg_ad_name_mapped -- TEMP: Will Need Mapping
-        , b.ad_name as bfg_ad_name_mapped_grouped -- TEMP: Will Need Mapping
         , b.ad_id as bfg_ad_id
         , b.marketing_channel as bfg_marketing_channel
         , b.marketing_channel_category as bfg_marketing_channel_category

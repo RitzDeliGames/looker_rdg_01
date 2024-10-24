@@ -241,10 +241,6 @@ view: player_summary_new {
           , supported_devices_retail_name
           , supported_devices_marketing_name
           , supported_devices_device_name
-          , appsflyer_campaign
-          , appsflyer_campaign_type
-          , appsflyer_media_source
-          , appsflyer_id
 
           ----------------------------------------------------------
           -- Fields from the manifest
@@ -294,26 +290,12 @@ view: player_summary_new {
 
           select
             a.*
-            , b.singular_campaign_name_clean as mapped_singular_campaign_name_start
+            , b.singular_campaign_name_clean as mapped_singular_campaign_name_clean
           from
             base_data a
             left join campaign_name_clean_by_singular_campaign_id_table b
               on a.singular_campaign_id_override = b.singular_campaign_id
           )
-
-        ------------------------------------------------------------------------------------
-        -- Campaign Name Clean (step 3: Appsflyer )
-        ------------------------------------------------------------------------------------
-
-        , appsflyer_campaign_name_table as (
-
-          select
-            a.*
-            , @{appsflyer_campaign_name} as mapped_singular_campaign_name_clean
-          from
-            map_campaign_name_to_main_table a
-
-        )
 
         ------------------------------------------------------------------------------------
         -- Singular Total Cost By Campaign
@@ -416,7 +398,7 @@ view: player_summary_new {
                 , c.estimated_impressions_per_install
                 , b.estimated_impressions_per_install) as first_pass_impressions_per_install
           from
-            appsflyer_campaign_name_table a
+            map_campaign_name_to_main_table a
 
             left join singular_total_cost_by_campaign_table b
               on a.mapped_singular_campaign_name_clean = b.singular_campaign_name_clean
@@ -720,7 +702,6 @@ view: player_summary_new {
 
   # strings
   dimension: rdg_id {group_label:"Player IDs" type: string}
-  dimension: appsflyer_id {group_label:"Player IDs" type: string}
   dimension: device_id {group_label:"Player IDs" type: string}
   dimension: display_name {group_label:"Player IDs" type: string}
   dimension: advertising_id {group_label:"Player IDs" type: string}
@@ -1417,6 +1398,8 @@ view: player_summary_new {
       , "15 Minutes"
       , "30 Minutes"
       , "60 Minutes"
+      , "Ad Viewer"
+      , "Total Ad Views"
       ]
   }
 
@@ -1456,6 +1439,12 @@ view: player_summary_new {
               then case when ${TABLE}.cumulative_time_played_minutes >= 5 then 1 else 0 end
             when {% parameter selected_campaign_result %} = "10 Minutes"
               then case when ${TABLE}.cumulative_time_played_minutes >= 10 then 1 else 0 end
+
+            when {% parameter selected_campaign_result %} = "Ad Viewer"
+              then case when ${TABLE}.cumulative_ad_views_current >= 1 then 1 else 0 end
+
+            when {% parameter selected_campaign_result %} = "Total Ad Views"
+              then ${TABLE}.cumulative_ad_views_current
 
             else 0
             end
@@ -1499,6 +1488,12 @@ view: player_summary_new {
               then case when ${TABLE}.cumulative_time_played_minutes >= 5 then 1 else 0 end
             when {% parameter selected_campaign_result %} = "10 Minutes"
               then case when ${TABLE}.cumulative_time_played_minutes >= 10 then 1 else 0 end
+
+            when {% parameter selected_campaign_result %} = "Ad Viewer"
+              then case when ${TABLE}.cumulative_ad_views_current >= 1 then 1 else 0 end
+
+            when {% parameter selected_campaign_result %} = "Total Ad Views"
+              then case when ${TABLE}.cumulative_ad_views_current >= 1 then 1 else 0 end
 
       else 0
       end

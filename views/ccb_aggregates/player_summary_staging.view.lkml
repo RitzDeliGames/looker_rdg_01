@@ -495,15 +495,13 @@ view: player_summary_staging {
 
       , percentile_current_cumulative_mtx_purchase_dollars_table AS (
 
-      SELECT
-      rdg_id
-      , FLOOR(100*CUME_DIST() OVER (
-      ORDER BY cumulative_mtx_purchase_dollars_current
-      )) cumulative_mtx_purchase_dollars_current_percentile
-      FROM
-      summarize_data
-      WHERE
-      cumulative_mtx_purchase_dollars_current > 0
+        select
+          rdg_id
+          , floor(100 * cume_dist() over (order by cumulative_mtx_purchase_dollars_current )) cumulative_mtx_purchase_dollars_current_percentile
+        from
+          summarize_data
+        where
+          cumulative_mtx_purchase_dollars_current > 0
       )
 
       -----------------------------------------------------------------------
@@ -512,20 +510,20 @@ view: player_summary_staging {
 
       , firebase_player_summary as (
 
-      select
-      firebase_user_id
-      , max(last_played_date) as last_played_date
-      , max(latest_table_update) as latest_table_update
-      , max(firebase_advertising_id) as firebase_advertising_id
-      , max(firebase_platform) as firebase_platform
-      , max(firebase_created_date) as firebase_created_date
+        select
+          firebase_user_id
+          , max(last_played_date) as last_played_date
+          , max(latest_table_update) as latest_table_update
+          , max(firebase_advertising_id) as firebase_advertising_id
+          , max(firebase_platform) as firebase_platform
+          , max(firebase_created_date) as firebase_created_date
 
-      FROM
-      -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_summary`
-      ${firebase_player_summary.SQL_TABLE_NAME}
+        from
+          -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_summary`
+          ${firebase_player_summary.SQL_TABLE_NAME}
 
-      GROUP BY
-      1
+        group by
+          1
 
       )
 
@@ -574,17 +572,17 @@ view: player_summary_staging {
 
       , singular_player_summary as (
 
-      select
-      singular_device_id
-      , max(singular_campaign_id) as singular_campaign_id
-      , max(singular_partner_name) as singular_partner_name
-      , max(creative_id) as singular_creative_id
-      , max(creative_name) as full_ad_name
-      , max(creative_name) as asset_name
-      from
-      singular_player_summary_pre_aggregate
-      group by
-      1
+        select
+          singular_device_id
+          , max(singular_campaign_id) as singular_campaign_id
+          , max(singular_partner_name) as singular_partner_name
+          , max(creative_id) as singular_creative_id
+          , max(creative_name) as full_ad_name
+          , max(creative_name) as asset_name
+        from
+          singular_player_summary_pre_aggregate
+        group by
+          1
       )
 
       -----------------------------------------------------------------------
@@ -593,87 +591,25 @@ view: player_summary_staging {
 
       , add_on_mtx_percentile_and_singular_data as (
 
-      select
-      a.*
-      , b.cumulative_mtx_purchase_dollars_current_percentile
-      , c.firebase_advertising_id
-      , d.singular_device_id
-      , d.singular_campaign_id
-      , d.singular_partner_name
-      , d.singular_creative_id
-      , d.full_ad_name
-      , d.asset_name
-
-      from
-      summarize_data A
-      left join percentile_current_cumulative_mtx_purchase_dollars_table B
-      on A.rdg_id = B.rdg_id
-      left join firebase_player_summary c
-      on a.user_id = c.firebase_user_id
-      left join singular_player_summary d
-      on c.firebase_advertising_id = d.singular_device_id
-
-      )
-
-      -----------------------------------------------------------------------
-      -- appsflyer step 1
-      -----------------------------------------------------------------------
-
-      , appsflyer_id_list as (
-
-        select
-          idfv as appsflyer_idfv
-          , max( campaign ) as appsflyer_campaign
-          , max( campaign_type ) as appsflyer_campaign_type
-          , max( media_source ) as appsflyer_media_source
-          , max( appsflyer_id ) as appsflyer_id
-          -- --, max( fullname ) as fullname
-          -- , max( af_adset ) as af_adset
-          -- , max( af_adset_id ) as af_adset_id
-          -- , max( af_ad ) as af_ad
-          -- , max( af_ad_id ) as af_ad_id
-          -- , max( af_ad_type ) as af_ad_type
-          -- , max( advertising_id ) as advertising_id
-          -- , max( gp_broadcast_referrer ) as gp_broadcast_referrer
-          -- , max( device_download_time ) as device_download_time
-          -- , max( ad_unit ) as ad_unit
-          -- , max( ad_placement ) as ad_placement
-
-
-        from
-          `eraser-blast.appsflyer.installs`
-        where
-          1=1
-          -- and platform = 'ios'
-          -- and timestamp_trunc(_dl_partition_time, day) in
-          --   ( timestamp("2024-04-12")
-          --   , timestamp("2024-04-13")
-          --   , timestamp("2024-04-14")
-          --   )
-          and event_name = 'install'
-          -- and media_source <> 'organic'
-          -- and campaign_type = 'ua'
-        group by
-          1
-
-      )
-
-      -----------------------------------------------------------------------
-      -- join on apps flyer data
-      -----------------------------------------------------------------------
-
-      , join_on_appsflyer_data as (
-
         select
           a.*
-          , b.appsflyer_campaign
-          , b.appsflyer_campaign_type
-          , b.appsflyer_media_source
-          , b.appsflyer_id
+          , b.cumulative_mtx_purchase_dollars_current_percentile
+          , c.firebase_advertising_id
+          , d.singular_device_id
+          , d.singular_campaign_id
+          , d.singular_partner_name
+          , d.singular_creative_id
+          , d.full_ad_name
+          , d.asset_name
+
         from
-          add_on_mtx_percentile_and_singular_data a
-          left join appsflyer_id_list b
-            on a.device_id = b.appsflyer_idfv
+          summarize_data A
+          left join percentile_current_cumulative_mtx_purchase_dollars_table B
+            on A.rdg_id = B.rdg_id
+          left join firebase_player_summary c
+            on a.user_id = c.firebase_user_id
+          left join singular_player_summary d
+            on c.firebase_advertising_id = d.singular_device_id
 
       )
 
@@ -683,18 +619,18 @@ view: player_summary_staging {
 
       , supported_devices_table as (
 
-      select
-      retail_name || ' ' || model_name as device_model
-      , max(retail_name) as retail_name
-      , max(marketing_name) as marketing_name
-      , max(device_name) as device_name
-      , max(model_name) as model_name
-      from
-      `eraser-blast.game_data.supported_devices`
-      where
-      retail_name != "Retail Branding"
-      group by
-      1
+        select
+          retail_name || ' ' || model_name as device_model
+          , max(retail_name) as retail_name
+          , max(marketing_name) as marketing_name
+          , max(device_name) as device_name
+          , max(model_name) as model_name
+        from
+          `eraser-blast.game_data.supported_devices`
+        where
+          retail_name != "Retail Branding"
+        group by
+          1
       )
 
       -----------------------------------------------------------------------
@@ -702,15 +638,15 @@ view: player_summary_staging {
       -----------------------------------------------------------------------
 
       select
-      a.*
-      , b.retail_name as supported_devices_retail_name
-      , b.marketing_name as supported_devices_marketing_name
-      , b.device_name as supported_devices_device_name
-      , b.model_name as supported_devices_model_name
+        a.*
+        , b.retail_name as supported_devices_retail_name
+        , b.marketing_name as supported_devices_marketing_name
+        , b.device_name as supported_devices_device_name
+        , b.model_name as supported_devices_model_name
       from
-      join_on_appsflyer_data a
-      left join supported_devices_table b
-        on a.device_model = b.device_model
+        add_on_mtx_percentile_and_singular_data a
+        left join supported_devices_table b
+          on a.device_model = b.device_model
 
       ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -5 hour)) ;;

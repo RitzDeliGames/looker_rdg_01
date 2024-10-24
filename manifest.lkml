@@ -3167,9 +3167,6 @@ constant: ad_name_grouped {
 constant: singular_simple_ad_name {
   value: "
   case
-
-    when asset_name = 'chum chums' then 'Chum Chums'
-    when asset_name = 'UGC' then 'UGC'
     when asset_name = 'gameplay' then 'Gameplay'
     when asset_name = 'AI UGC' then 'AI UGC'
     when asset_name = 'CCB_Matej_UGCAI1' then 'UGC AI 1'
@@ -3177,6 +3174,9 @@ constant: singular_simple_ad_name {
     when asset_name = 'CCB_Matej_UGCAI3' then 'UGC AI 3'
     when asset_name = 'CCB_Matej_UGCAI4' then 'UGC AI 4'
 
+    when asset_name like 'UGC%' then 'UGC'
+    when asset_name like 'chum chums%' then 'Chum Chums'
+    when asset_name like '%Brain_Female%' then 'Brain Female'
     when asset_name like '%Altered gameplay%' then 'Altered Gameplay'
     when asset_name like '%FarmCars%' then 'Farm Cars'
     when asset_name like '%Makeover%' then 'Makeover'

@@ -148,6 +148,17 @@ view: adhoc_2024_10_23_treasure_trove_weekly_comparison {
      ;;
     }
 
+  dimension: halloween_indicator {
+    type: string
+    sql:
+      case
+        when date(${TABLE}.treasure_trove_event_start_date) between '2024-10-05' and '2024-10-26'
+        then 'Halloween'
+        else 'Not Halloween'
+        end
+    ;;
+  }
+
 ################################################################
 ## Measures
 ################################################################

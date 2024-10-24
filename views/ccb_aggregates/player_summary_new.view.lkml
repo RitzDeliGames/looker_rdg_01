@@ -647,8 +647,6 @@ view: player_summary_new {
           *
           , coalesce( mapped_singular_campaign_name_clean, bfg_campaign_mapped ) as campaign_name
           , coalesce( bfg_ad_name, singular_full_ad_name ) as ad_name_full
-          -- , coalesce( singular_simple_ad_name, bfg_ad_name_mapped ) as ad_name_simple
-          -- , coalesce( singular_grouped_ad_name, bfg_ad_name_mapped_grouped ) as ad_name_grouped
           , coalesce( singular_partner_name, bfg_media_source_mapped ) as partner_name
           , coalesce(
                 case when singular_attributed_campaign_cost <= 0 then null else singular_attributed_campaign_cost end

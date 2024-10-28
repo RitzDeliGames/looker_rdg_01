@@ -494,6 +494,38 @@ view: game_mode_event_summary {
     label: "Lowest Campaign Level"
     }
 
+  parameter: dynamic_level_bucket_size {
+    type: number
+  }
+
+  dimension: dynamic_level_bucket {
+    label: "Dynamic Level Bucket"
+    type:string
+    sql:
+    safe_cast(
+      floor( safe_divide(${TABLE}.lowest_level_at_start_of_event,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
+      as string
+      )
+    || ' to '
+    ||
+    safe_cast(
+      ceiling(safe_divide(${TABLE}.lowest_level_at_start_of_event+1,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}-1
+      as string
+      )
+    ;;
+  }
+
+  dimension: dynamic_level_bucket_order {
+    label: "Dynamic Level Bucket Order"
+    type:number
+    sql:
+    safe_cast(
+      floor( safe_divide(${TABLE}.lowest_level_at_start_of_event,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
+      as int64
+      )
+    ;;
+  }
+
   parameter: selected_experiment {
     type: string
     default_value:  "$.No_AB_Test_Split"

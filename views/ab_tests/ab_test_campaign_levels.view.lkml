@@ -29,6 +29,7 @@ view: ab_test_campaign_levels {
           when {% parameter selected_metric_campaign_level %} = "Average Churn Rate Per Level" then max(a.churn_indicator)
           when {% parameter selected_metric_campaign_level %} = "Average In Round Coin Spend Per Level" then sum(a.in_round_coin_spend)
           when {% parameter selected_metric_campaign_level %} = "Average Moves Remaining Per Level" then sum(a.moves_remaining_on_win)
+          when {% parameter selected_metric_campaign_level %} = "Average Count of Rounds With Moves Added" then sum(a.count_rounds_with_moves_added)
 
 
           else sum(1) end as numerator
@@ -39,7 +40,7 @@ view: ab_test_campaign_levels {
           when {% parameter selected_metric_campaign_level %} = "Average Churn Rate Per Level" then sum(1)
           when {% parameter selected_metric_campaign_level %} = "Average In Round Coin Spend Per Level" then sum(1)
           when {% parameter selected_metric_campaign_level %} = "Average Moves Remaining Per Level" then sum(1)
-
+          when {% parameter selected_metric_campaign_level %} = "Average Count of Rounds With Moves Added" then max(1)
 
           else sum(1) end as denominator
       from
@@ -761,6 +762,7 @@ view: ab_test_campaign_levels {
       , "Average Churn Rate Per Level"
       , "Average In Round Coin Spend Per Level"
       , "Average Moves Remaining Per Level"
+      , "Average Count of Rounds With Moves Added"
 
 
     ]

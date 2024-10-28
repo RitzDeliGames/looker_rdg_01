@@ -1855,6 +1855,30 @@ view: player_summary_new {
 
   }
 
+  measure: revenue_per_install_d4 {
+    group_label: "Revenue Per Install (RPI)"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          then ${TABLE}.cumulative_combined_dollars_d4
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
   measure: revenue_per_install_d7 {
     group_label: "Revenue Per Install (RPI)"
     type: number
@@ -2260,6 +2284,32 @@ view: player_summary_new {
 
   }
 
+  measure: cumulative_mtx_conversion_d4 {
+    label: "Cumulative IAP Conversion: D4"
+    group_label: "Cumulative IAP Conversion"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d4 > 0
+          then 1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+
+  }
+
 
   measure: cumulative_mtx_conversion_d7 {
     label: "Cumulative IAP Conversion: D7"
@@ -2391,6 +2441,32 @@ view: player_summary_new {
 
   }
 
+  measure: cumulative_mtx_conversion_d31 {
+    label: "Cumulative IAP Conversion: D31"
+    group_label: "Cumulative IAP Conversion"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d31 > 0
+          then 1
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: percent_1
+
+  }
+
   measure: cumulative_mtx_conversion_d45 {
     label: "Cumulative IAP Conversion: D45"
     group_label: "Cumulative IAP Conversion"
@@ -2467,6 +2543,169 @@ view: player_summary_new {
     ;;
     value_format_name: percent_1
 
+  }
+
+################################################################
+## D(x) Payers
+################################################################
+
+  measure: count_iap_payers_at_d2 {
+    label: "D2 Payers"
+    group_label: "D(x) Payer Counts"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d2 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+  }
+
+  measure: count_iap_payers_at_d4 {
+    label: "D4 Payers"
+    group_label: "D(x) Payer Counts"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d4 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+  }
+
+  measure: count_iap_payers_at_d8 {
+    label: "D8 Payers"
+    group_label: "D(x) Payer Counts"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d8 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+  }
+
+  measure: count_iap_payers_at_d15 {
+    label: "D15 Payers"
+    group_label: "D(x) Payer Counts"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d15 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+  }
+
+  measure: count_iap_payers_at_d31 {
+    label: "D31 Payers"
+    group_label: "D(x) Payer Counts"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d31 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+  }
+
+################################################################
+## D(x) Cohort Size
+################################################################
+
+  measure: count_players_at_d2 {
+    label: "D2 Cohort Size"
+    group_label: "D(x) Cohort Size"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+  }
+
+  measure: count_players_at_d4 {
+    label: "D4 Cohort Size"
+    group_label: "D(x) Cohort Size"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+  }
+
+  measure: count_players_at_d8 {
+    label: "D8 Cohort Size"
+    group_label: "D(x) Cohort Size"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+  }
+
+  measure: count_players_at_d15 {
+    label: "D15 Cohort Size"
+    group_label: "D(x) Cohort Size"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
+  }
+
+  measure: count_players_at_d31 {
+    label: "D31 Cohort Size"
+    group_label: "D(x) Cohort Size"
+    type: number
+    value_format_name: decimal_0
+    sql:
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    ;;
   }
 
 
@@ -2711,6 +2950,30 @@ view: player_summary_new {
 
   }
 
+  measure: average_mtx_revenue_per_player_d4 {
+    label: "IAP Revenue Per Player: D4"
+    group_label: "Average IAP Revenue Per Player"
+    type: number
+    value_format_name: usd
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d4
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+  }
+
   measure: average_mtx_revenue_per_player_d7 {
     label: "IAP Revenue Per Player: D7"
     group_label: "Average IAP Revenue Per Player"
@@ -2734,6 +2997,30 @@ view: player_summary_new {
     ;;
     value_format_name: usd
 
+  }
+
+  measure: average_mtx_revenue_per_player_d8 {
+    label: "IAP Revenue Per Player: D8"
+    group_label: "Average IAP Revenue Per Player"
+    type: number
+    value_format_name: usd
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d8
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
   }
 
   measure: average_mtx_revenue_per_player_d14 {
@@ -2761,6 +3048,54 @@ view: player_summary_new {
 
   }
 
+  measure: average_mtx_revenue_per_player_d15 {
+    label: "IAP Revenue Per Player: D15"
+    group_label: "Average IAP Revenue Per Player"
+    type: number
+    value_format_name: usd
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d15
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+  }
+
+  measure: average_mtx_revenue_per_player_d31 {
+    label: "IAP Revenue Per Player: D31"
+    group_label: "Average IAP Revenue Per Player"
+    type: number
+    value_format_name: usd
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d31
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+  }
+
 ################################################################
 ## Average IAA Revenue Per Player
 ################################################################
@@ -2781,6 +3116,31 @@ view: player_summary_new {
       count( distinct
         case
           when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
+  measure: average_iaa_revenue_per_player_d4 {
+    label: "IAA Revenue Per Player: D4"
+    group_label: "Average IAA Revenue Per Player"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          then ${TABLE}.cumulative_ad_view_dollars_d4
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 4
           then ${TABLE}.rdg_id
           else null
           end )
@@ -2815,6 +3175,31 @@ view: player_summary_new {
 
   }
 
+  measure: average_iaa_revenue_per_player_d8 {
+    label: "IAA Revenue Per Player: D8"
+    group_label: "Average IAA Revenue Per Player"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.cumulative_ad_view_dollars_d8
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
   measure: average_iaa_revenue_per_player_d14 {
     label: "IAA Revenue Per Player: D14"
     group_label: "Average IAA Revenue Per Player"
@@ -2840,7 +3225,55 @@ view: player_summary_new {
 
   }
 
+  measure: average_iaa_revenue_per_player_d15 {
+    label: "IAA Revenue Per Player: D15"
+    group_label: "Average IAA Revenue Per Player"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          then ${TABLE}.cumulative_ad_view_dollars_d15
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
 
+  }
+
+  measure: average_iaa_revenue_per_player_d31 {
+    label: "IAA Revenue Per Player: D31"
+    group_label: "Average IAA Revenue Per Player"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          then ${TABLE}.cumulative_ad_view_dollars_d31
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
 
 ################################################################
 ## Average Mtx Revenue Per Paying User
@@ -2898,6 +3331,32 @@ view: player_summary_new {
 
   }
 
+  measure: average_mtx_revenue_per_paying_user_d4 {
+    label: "IAP Revenue Per Payer: D4"
+    group_label: "Average IAP Revenue Per Payer"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d4
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d4 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+
+  }
+
   measure: average_mtx_revenue_per_paying_user_d7 {
     label: "IAP Revenue Per Payer: D7"
     group_label: "Average IAP Revenue Per Payer"
@@ -2914,7 +3373,7 @@ view: player_summary_new {
       count( distinct
         case
           when ${TABLE}.max_available_day_number >= 7
-          and ${TABLE}.cumulative_count_mtx_purchases_d7 > 0
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d7 > 0
           then ${TABLE}.rdg_id
           else null
           end )
@@ -2940,7 +3399,7 @@ view: player_summary_new {
       count( distinct
         case
           when ${TABLE}.max_available_day_number >= 8
-          and ${TABLE}.cumulative_count_mtx_purchases_d8 > 0
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d8 > 0
           then ${TABLE}.rdg_id
           else null
           end )
@@ -2948,6 +3407,56 @@ view: player_summary_new {
     ;;
     value_format_name: usd
 
+  }
+
+  measure: average_mtx_revenue_per_paying_user_d15 {
+    label: "IAP Revenue Per Payer: D15"
+    group_label: "Average IAP Revenue Per Payer"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d15
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d15 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: average_mtx_revenue_per_paying_user_d31 {
+    label: "IAP Revenue Per Payer: D31"
+    group_label: "Average IAP Revenue Per Payer"
+    type: number
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          then ${TABLE}.cumulative_mtx_purchase_dollars_d31
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d31 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+    value_format_name: usd
   }
 
 ################################################################
@@ -3529,6 +4038,140 @@ view: player_summary_new {
   }
 
 ################################################################
+## Payer Retention
+################################################################
+
+  measure: average_payer_retention_d2 {
+    group_label: "D(x) Payer Retention"
+    label: "Payer Retention: D2"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d2 > 0
+          then ${TABLE}.retention_d2
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d2 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+  }
+
+  measure: average_payer_retention_d4 {
+    group_label: "D(x) Payer Retention"
+    label: "Payer Retention: D4"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d4 > 0
+          then ${TABLE}.retention_d4
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d4 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+  }
+
+  measure: average_payer_retention_d8 {
+    group_label: "D(x) Payer Retention"
+    label: "Payer Retention: D8"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d8 > 0
+          then ${TABLE}.retention_d8
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d8 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+  }
+
+  measure: average_payer_retention_d15 {
+    group_label: "D(x) Payer Retention"
+    label: "Payer Retention: D15"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d15 > 0
+          then ${TABLE}.retention_d15
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d15 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+  }
+
+  measure: average_payer_retention_d31 {
+    group_label: "D(x) Payer Retention"
+    label: "Payer Retention: D31"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d31 > 0
+          then ${TABLE}.retention_d31
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          and ${TABLE}.cumulative_mtx_purchase_dollars_d31 > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+  }
+
+################################################################
 ## Big Fish Retention
 ################################################################
 
@@ -3740,6 +4383,22 @@ view: player_summary_new {
 ################################################################
 ## Big Fish Combined Dollars
 ################################################################
+
+  measure: big_fish_net_combined_dollars_d1 {
+    group_label:"Big Fish LTV - Cumulative Net"
+    label: "Big Fish LTV: D1"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.cumulative_combined_dollars_d2;;
+  }
+
+  measure: big_fish_net_combined_dollars_d3 {
+    group_label:"Big Fish LTV - Cumulative Net"
+    label: "Big Fish LTV: D3"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.cumulative_combined_dollars_d4;;
+  }
 
   measure: big_fish_net_combined_dollars_d7 {
     group_label:"Big Fish LTV - Cumulative Net"
@@ -4766,6 +5425,20 @@ measure: player_level_roas_estimate_d2 {
     sql:
     safe_divide(
       sum(${TABLE}.cumulative_combined_dollars_d2)
+      ,
+      sum(${TABLE}.attributed_campaign_cost)
+    )
+    ;;
+  }
+
+  measure: player_level_roas_estimate_d4 {
+    label: "D4 ROAS"
+    group_label: "Campaign ROAS"
+    type: number
+    value_format_name: percent_1
+    sql:
+    safe_divide(
+      sum(${TABLE}.cumulative_combined_dollars_d4)
       ,
       sum(${TABLE}.attributed_campaign_cost)
     )

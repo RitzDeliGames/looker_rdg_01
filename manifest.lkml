@@ -834,6 +834,7 @@ constant: campaign_install_category {
 constant: bfg_campaign_name_mapping {
   value: "
     case
+      when lower(b.campaign) = 'ccb|fb|rdg|android|latam|aeo|60minutes_1535952' then '20241025 - Android - Meta - LATAM - 60 Min'
       when lower(b.campaign) = 'ccb|uac|gentlemen|android|br|tcpa|60minutes_1554904' then '20241019 - Android - Google - LATAM - 60 Min'
       when lower(b.campaign) = 'ccb|uac|gentlemen|android|us|hybrid_1554905' then '20241019 - Android - Google - USA - Hybrid'
       when lower(b.campaign) = 'ccb|uac|gentlemen|android|latam|hybrid_1554335' then '20241011 - Android - Google - LATAM - Hybrid'

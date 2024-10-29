@@ -3107,7 +3107,7 @@ view: player_summary_new {
     label: "IAA Views Per Player: D2"
     group_label: "Average IAA Views Per Player"
     type: number
-    value_format_name: usd
+    value_format_name: decimal_1
     sql:
     safe_divide(
       sum(
@@ -3131,7 +3131,7 @@ view: player_summary_new {
     label: "IAA Views Per Player: D4"
     group_label: "Average IAA Views Per Player"
     type: number
-    value_format_name: usd
+    value_format_name: decimal_1
     sql:
     safe_divide(
       sum(
@@ -3155,7 +3155,7 @@ view: player_summary_new {
     label: "IAA Views Per Player: D8"
     group_label: "Average IAA Views Per Player"
     type: number
-    value_format_name: usd
+    value_format_name: decimal_1
     sql:
     safe_divide(
       sum(
@@ -3179,7 +3179,7 @@ view: player_summary_new {
     label: "IAA Views Per Player: D15"
     group_label: "Average IAA Views Per Player"
     type: number
-    value_format_name: usd
+    value_format_name: decimal_1
     sql:
     safe_divide(
       sum(
@@ -3203,7 +3203,7 @@ view: player_summary_new {
     label: "IAA Views Per Player: D31"
     group_label: "Average IAA Views Per Player"
     type: number
-    value_format_name: usd
+    value_format_name: decimal_1
     sql:
     safe_divide(
       sum(

@@ -974,6 +974,7 @@ explore: adhoc_2024_09_20_check_time_to_join_flour_frenzy {
 
 ################################################################
 
+explore: stats_by_creative_name {view_label: "Stats by Creative Name" }
 explore: firebase_player_summary {}
 explore: firebase_player_daily_incremental {}
 explore: singular_campaign_summary {}

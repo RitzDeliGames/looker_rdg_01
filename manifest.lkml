@@ -3019,6 +3019,21 @@ constant: ad_name_simple {
   value: "
   case
 
+    when ad_name_full like '%ConveyerBelt%' then 'ConveyerBelt'
+    when ad_name_full like '%WomanCar_UGCAI%' then 'WomanCar_UGCAI'
+    when ad_name_full like '%WomanWalking_UGCAI%' then 'WomanWalking_UGCAI'
+    when ad_name_full like '%ManOutside_UGCAI%' then 'ManOutside_UGCAI'
+    when ad_name_full like '%ChumChumBoost%' then 'ChumChumBoost'
+    when ad_name_full like '%WomanCouch_UGCAI%' then 'WomanCouch_UGCAI'
+    when ad_name_full like '%ChumsDoItAll%' then 'ChumsDoItAll'
+    when ad_name_full like '%custom flat fee%' then 'custom flat fee'
+    when ad_name_full like '%FullMealFood%' then 'FullMealFood'
+    when ad_name_full like '%InsidetheMind%' then 'InsidetheMind'
+    when ad_name_full like '%CCB_Matej_UGCAI_4%' then 'UGC AI 4'
+    when ad_name_full like '%RelaxingGameplay%' then 'RelaxingGameplay'
+    when ad_name_full like '%ArrowBlocker%' then 'ArrowBlocker'
+    when ad_name_full like '%InsidetheMind%' then 'InsidetheMind'
+
     when ad_name_full = 'chum chums' then 'Chum Chums'
     when ad_name_full = 'UGC' then 'UGC'
     when ad_name_full = 'gameplay' then 'Gameplay'
@@ -3143,6 +3158,7 @@ constant: ad_name_simple {
  when ad_name_full like '%TestimonialAI%' then 'Testimonial (Unmapped AI)'
  when ad_name_full like '%Testimonial%' then 'Testimonial'
 
+  when length(ad_name_full) > 30 and ad_name_full not like '%|%' then 'Unmapped Hash'
   else 'Unmapped'
 
   end
@@ -3233,6 +3249,22 @@ constant: ad_name_grouped {
 constant: new_singular_creative_name {
   value: "
   case
+
+  when creative_name like '%ConveyerBelt%' then 'ConveyerBelt'
+  when creative_name like '%WomanCar_UGCAI%' then 'WomanCar_UGCAI'
+  when creative_name like '%WomanWalking_UGCAI%' then 'WomanWalking_UGCAI'
+  when creative_name like '%ManOutside_UGCAI%' then 'ManOutside_UGCAI'
+  when creative_name like '%ChumChumBoost%' then 'ChumChumBoost'
+  when creative_name like '%WomanCouch_UGCAI%' then 'WomanCouch_UGCAI'
+  when creative_name like '%ChumsDoItAll%' then 'ChumsDoItAll'
+  when creative_name like '%custom flat fee%' then 'custom flat fee'
+  when creative_name like '%FullMealFood%' then 'FullMealFood'
+  when creative_name like '%InsidetheMind%' then 'InsidetheMind'
+  when creative_name like '%CCB_Matej_UGCAI_4%' then 'UGC AI 4'
+  when creative_name like '%RelaxingGameplay%' then 'RelaxingGameplay'
+  when creative_name like '%ArrowBlocker%' then 'ArrowBlocker'
+  when creative_name like '%InsidetheMind%' then 'InsidetheMind'
+
   when creative_name = 'gameplay' then 'Gameplay'
   when creative_name = 'AI UGC' then 'AI UGC'
   when creative_name = 'CCB_Matej_UGCAI1' then 'UGC AI 1'
@@ -3751,6 +3783,7 @@ constant: new_singular_creative_name {
   when creative_id = '6528145730122' then 'Man With Horse'
   when creative_id = '6528145730522' then 'YogaWithSloth'
 
+  when length(creative_name) > 30 and creative_name not like '%|%' then 'Unmapped Hash'
   else 'Unmapped'
 
   end
@@ -3760,6 +3793,22 @@ constant: new_singular_creative_name {
 constant: singular_simple_ad_name {
   value: "
   case
+
+    when asset_name like '%ConveyerBelt%' then 'ConveyerBelt'
+    when asset_name like '%WomanCar_UGCAI%' then 'WomanCar_UGCAI'
+    when asset_name like '%WomanWalking_UGCAI%' then 'WomanWalking_UGCAI'
+    when asset_name like '%ManOutside_UGCAI%' then 'ManOutside_UGCAI'
+    when asset_name like '%ChumChumBoost%' then 'ChumChumBoost'
+    when asset_name like '%WomanCouch_UGCAI%' then 'WomanCouch_UGCAI'
+    when asset_name like '%ChumsDoItAll%' then 'ChumsDoItAll'
+    when asset_name like '%custom flat fee%' then 'custom flat fee'
+    when asset_name like '%FullMealFood%' then 'FullMealFood'
+    when asset_name like '%InsidetheMind%' then 'InsidetheMind'
+    when asset_name like '%CCB_Matej_UGCAI_4%' then 'UGC AI 4'
+    when asset_name like '%RelaxingGameplay%' then 'RelaxingGameplay'
+    when asset_name like '%ArrowBlocker%' then 'ArrowBlocker'
+    when asset_name like '%InsidetheMind%' then 'InsidetheMind'
+
     when asset_name = 'gameplay' then 'Gameplay'
     when asset_name = 'AI UGC' then 'AI UGC'
     when asset_name = 'CCB_Matej_UGCAI1' then 'UGC AI 1'
@@ -4278,6 +4327,7 @@ constant: singular_simple_ad_name {
     when singular_creative_id = '6528145730122' then 'Man With Horse'
     when singular_creative_id = '6528145730522' then 'YogaWithSloth'
 
+  when length(asset_name) > 30 and asset_name not like '%|%' then 'Unmapped Hash'
   else 'Unmapped'
 
   end

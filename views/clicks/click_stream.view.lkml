@@ -2,7 +2,7 @@ view: click_stream {
   derived_table: {
     sql:
 
-
+      /*
       select
         rdg_id
         ,country
@@ -31,10 +31,9 @@ view: click_stream {
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
       group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+      */
 
-
-
-      /*
+    /*
 
       -- New SQL For Puzzles Only
       -- 2023-03-28
@@ -484,6 +483,48 @@ view: click_stream {
     date(rdg_date) >= date_add(current_date(), interval -150 day)
   group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
 */
+
+  --------------------------------------------------------------
+  -- FUE/Buttons For Last Level Serial = 3
+  -- Investigating test: $.newGameFUE_20240927
+  --------------------------------------------------------------
+
+    select
+      rdg_id
+      ,country
+      ,install_version
+      ,version
+      ,timestamp
+      ,event_name
+      ,engagement_ticks
+      ,cast(json_extract_scalar(currencies,"$.CURRENCY_02") as numeric) currency_02_balance
+      ,cast(json_extract_scalar(currencies,"$.CURRENCY_03") as numeric) currency_03_balance
+      ,cast(json_extract_scalar(currencies,"$.CURRENCY_04") as numeric) currency_04_balance
+      ,cast(json_extract_scalar(currencies,"$.CURRENCY_05") as numeric) currency_05_balance
+      ,cast(last_level_serial as int64) last_level_serial
+      ,coalesce(
+          json_extract_scalar(extra_json,"$.current_FueStep")
+          , json_extract_scalar(extra_json,"$.button_tag")
+        ) button_tag
+      ,experiments
+      ,extra_json
+      ,last_level_id
+      ,lag(timestamp)
+          over (partition by rdg_id order by timestamp desc) greater_level_completed
+    from `eraser-blast.game_data.events`
+    where
+      1=1
+      and safe_cast(json_extract_scalar(experiments,'$.newGameFUE_20240927') as string) = 'variant_a'
+      -- and event_name in ('FUE', 'ButtonClicked')
+      and event_name in ('ButtonClicked')
+      and DATE(timestamp) >= DATE_ADD(CURRENT_DATE(), INTERVAL -15 DAY)
+      AND DATE(timestamp) <= DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
+      and user_type = 'external'
+      and country != 'ZZ'
+      and coalesce(install_version,'null') <> '-1'
+      and last_level_serial = 3
+    group by
+      1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
 
 
       ;;

@@ -99,10 +99,13 @@ view: player_summary_new {
           , cumulative_ad_view_dollars_current
           , cumulative_ad_views_d1
           , cumulative_ad_views_d2
+          , cumulative_ad_views_d4
           , cumulative_ad_views_d7
+          , cumulative_ad_views_d8
           , cumulative_ad_views_d14
           , cumulative_ad_views_d15
           , cumulative_ad_views_d30
+          , cumulative_ad_views_d31
           , cumulative_ad_views_d60
           , cumulative_ad_views_d90
           , cumulative_ad_views_current
@@ -3083,6 +3086,130 @@ view: player_summary_new {
         case
           when ${TABLE}.max_available_day_number >= 31
           then ${TABLE}.cumulative_mtx_purchase_dollars_d31
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+  }
+
+################################################################
+## Average IAA Views Per Player
+################################################################
+
+  measure: average_iaa_views_per_player_d2 {
+    label: "IAA Views Per Player: D2"
+    group_label: "Average IAA Views Per Player"
+    type: number
+    value_format_name: usd
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.cumulative_ad_views_d2
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 2
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+  }
+
+  measure: average_iaa_views_per_player_d4 {
+    label: "IAA Views Per Player: D4"
+    group_label: "Average IAA Views Per Player"
+    type: number
+    value_format_name: usd
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          then ${TABLE}.cumulative_ad_views_d4
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 4
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+  }
+
+  measure: average_iaa_views_per_player_d8 {
+    label: "IAA Views Per Player: D8"
+    group_label: "Average IAA Views Per Player"
+    type: number
+    value_format_name: usd
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.cumulative_ad_views_d8
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 8
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+  }
+
+  measure: average_iaa_views_per_player_d15 {
+    label: "IAA Views Per Player: D15"
+    group_label: "Average IAA Views Per Player"
+    type: number
+    value_format_name: usd
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          then ${TABLE}.cumulative_ad_views_d15
+          else 0
+          end )
+      ,
+      count( distinct
+        case
+          when ${TABLE}.max_available_day_number >= 15
+          then ${TABLE}.rdg_id
+          else null
+          end )
+    )
+    ;;
+  }
+
+  measure: average_iaa_views_per_player_d31 {
+    label: "IAA Views Per Player: D31"
+    group_label: "Average IAA Views Per Player"
+    type: number
+    value_format_name: usd
+    sql:
+    safe_divide(
+      sum(
+        case
+          when ${TABLE}.max_available_day_number >= 31
+          then ${TABLE}.cumulative_ad_views_d31
           else 0
           end )
       ,

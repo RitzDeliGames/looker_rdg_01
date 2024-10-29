@@ -300,10 +300,13 @@ view: player_summary_staging {
       -- cumulative ad views
       , max( case when day_number <= 1 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d1
       , max( case when day_number <= 2 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d2
+      , max( case when day_number <= 4 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d4
       , max( case when day_number <= 7 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d7
+      , max( case when day_number <= 8 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d8
       , max( case when day_number <= 14 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d14
       , max( case when day_number <= 15 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d15
       , max( case when day_number <= 30 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d30
+      , max( case when day_number <= 31 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d31
       , max( case when day_number <= 60 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d60
       , max( case when day_number <= 90 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d90
       , max(cumulative_ad_views) as cumulative_ad_views_current

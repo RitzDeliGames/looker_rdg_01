@@ -34,7 +34,9 @@ view: stats_by_creative_name {
         where
           singular_total_impressions > 0
           and singular_simple_ad_name <> 'Unmapped'
-          and singular_campaign_name_clean = '20240830 - Android - Meta - USA - 60 Min'
+          -- and singular_campaign_name_clean = '20240830 - Android - Meta - USA - 60 Min'
+          and rdg_date > '2024-05-01'
+          and lower(singular_campaign_name_clean) like '%min%'
         group by
           1
 
@@ -93,7 +95,10 @@ view: stats_by_creative_name {
           -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_summary_new
           ${player_summary_new.SQL_TABLE_NAME}
         where
-          campaign_name = '20240830 - Android - Meta - USA - 60 Min'
+          1=1
+          -- and campaign_name = '20240830 - Android - Meta - USA - 60 Min'
+          and date(created_date) >= '2024-05-01'
+          and lower(campaign_name) like '%min%'
         group by
           1
 
@@ -110,6 +115,9 @@ view: stats_by_creative_name {
         creative_data a
         inner join mapped_player_data b
           on a.ad_name_simple = b.ad_name_simple
+      where
+        partner_installs > 200
+
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (5) + 2 )*( -10 ) minute)) ;;

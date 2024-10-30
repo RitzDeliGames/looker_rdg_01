@@ -171,6 +171,12 @@ base_data as (
     -- moves master tier
     , max( a.moves_master_tier ) as moves_master_tier
 
+    -- active game modes
+    , max( a.is_active_flour_frenzy ) as is_active_flour_frenzy
+    , max( a.is_active_donut_sprint ) as is_active_donut_sprint
+    , max( a.is_active_castle_climb ) as is_active_castle_climb
+    , max( a.is_active_hotdog_contest ) as is_active_hotdog_contest
+
     --------------------------------------------------------------------------
     -- mtx purchase dollars
     --------------------------------------------------------------------------
@@ -331,6 +337,12 @@ base_data as (
 
     -- moves master tier
     , max( a.moves_master_tier ) as moves_master_tier
+
+    -- active game modes
+    , max( a.is_active_flour_frenzy ) as is_active_flour_frenzy
+    , max( a.is_active_donut_sprint ) as is_active_donut_sprint
+    , max( a.is_active_castle_climb ) as is_active_castle_climb
+    , max( a.is_active_hotdog_contest ) as is_active_hotdog_contest
 
     --------------------------------------------------------------------------
     -- ad_view_dollars
@@ -500,6 +512,12 @@ base_data as (
     -- moves master tier
     , max( a.moves_master_tier ) as moves_master_tier
 
+    -- active game modes
+    , max( a.is_active_flour_frenzy ) as is_active_flour_frenzy
+    , max( a.is_active_donut_sprint ) as is_active_donut_sprint
+    , max( a.is_active_castle_climb ) as is_active_castle_climb
+    , max( a.is_active_hotdog_contest ) as is_active_hotdog_contest
+
     --------------------------------------------------------------------------
     -- coin_spend
     --------------------------------------------------------------------------
@@ -667,6 +685,12 @@ base_data as (
 
     -- moves master tier
     , max( a.moves_master_tier ) as moves_master_tier
+
+    -- active game modes
+    , max( a.is_active_flour_frenzy ) as is_active_flour_frenzy
+    , max( a.is_active_donut_sprint ) as is_active_donut_sprint
+    , max( a.is_active_castle_climb ) as is_active_castle_climb
+    , max( a.is_active_hotdog_contest ) as is_active_hotdog_contest
 
     -- Coin Spend
     , max(a.before_round_start_coin_spend) as before_round_start_coin_spend
@@ -1324,6 +1348,30 @@ from
     label: "Puzzle Piece # Mapping by Date"
     type: string
     sql: @{puzzle_piece_number_mapping_by_date} ;;
+  }
+
+  dimension: is_active_flour_frenzy {
+    label: "Is Active: Flour Frenzy"
+    group_label: "Active Features"
+    type: yesno
+  }
+
+  dimension: is_active_donut_sprint {
+    label: "Is Active: Donut Sprint"
+    group_label: "Active Features"
+    type: yesno
+  }
+
+  dimension: is_active_castle_climb {
+    label: "Is Active: Castle Climb"
+    group_label: "Active Features"
+    type: yesno
+  }
+
+  dimension: is_active_hotdog_contest {
+    label: "Is Active: Hotdog Contest"
+    group_label: "Active Features"
+    type: yesno
   }
 
 ################################################################

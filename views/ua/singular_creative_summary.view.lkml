@@ -370,8 +370,9 @@ singular_creative_data as (
   ----------------------------------------------------------------------
 
   select
-    b.* except ( campaign )
+    b.* except ( campaign, campaign_name )
     , @{bfg_campaign_name_mapping} as singular_campaign_name_clean
+    , @{bfg_campaign_name_mapping} as campaign_name
   from
     select_data_from_join b
 
@@ -479,6 +480,12 @@ singular_creative_data as (
     label: "Campaign Name (Clean)"
     type: string
     }
+
+  dimension: install_category {
+    label: "Install Category"
+    type: string
+    sql: @{campaign_install_category}  ;;
+  }
 
 ####################################################################
 ## Measures

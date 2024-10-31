@@ -77,6 +77,23 @@ ads_by_date as (
 )
 
 -----------------------------------------------------------------------
+-- ticket spend by date
+-----------------------------------------------------------------------
+
+, tickets_spend_by_date as (
+
+  select
+    rdg_id
+    , rdg_date
+    , sum( tickets_spend ) as tickets_spend
+  from
+    -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ticket_spend_summary
+    ${player_ticket_spend_summary.SQL_TABLE_NAME}
+  group by
+    1,2
+)
+
+-----------------------------------------------------------------------
 -- player_daily_incremental w/ prior date played
 -----------------------------------------------------------------------
 
@@ -1295,15 +1312,31 @@ ads_by_date as (
 -- fix for cumulative time played minutes
 -----------------------------------------------------------------------
 
-select
-  *
-  , SUM(time_played_minutes) OVER (
-        PARTITION BY rdg_id
-        ORDER BY rdg_date ASC
-        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-        ) cumulative_time_played_minutes
-from
-  cumulative_calculations_step_1
+, fix_for_cumulative_time_played_minutes_table as (
+
+  select
+    *
+    , SUM(time_played_minutes) OVER (
+          PARTITION BY rdg_id
+          ORDER BY rdg_date ASC
+          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+          ) cumulative_time_played_minutes
+  from
+    cumulative_calculations_step_1
+)
+
+-----------------------------------------------------------------------
+-- join tickets data
+-----------------------------------------------------------------------
+
+  select
+    a.*
+    , b.tickets_spend
+  from
+    fix_for_cumulative_time_played_minutes_table a
+    left join tickets_spend_by_date b
+      on a.rdg_id = b.rdg_id
+      and a.rdg_date = b.rdg_date
 
 
 

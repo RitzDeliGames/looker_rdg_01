@@ -55,6 +55,7 @@ view: ab_test_player_daily {
             as variant
         , case
             when {% parameter selected_metric_daily %} = "Average Ticket Spend Per Player" then sum(a.tickets_spend)
+            when {% parameter selected_metric_daily %} = "Average Star Spend Per Player" then sum(a.stars_spend)
 
             when {% parameter selected_metric_daily %} = "Average Gem Quest APS" then sum(a.round_end_events_gemquest)
 
@@ -120,6 +121,7 @@ view: ab_test_player_daily {
         , case
 
         when {% parameter selected_metric_daily %} = "Average Ticket Spend Per Player" then max(1)
+        when {% parameter selected_metric_daily %} = "Average Star Spend Per Player" then max(1)
 
         when {% parameter selected_metric_daily %} = "Average Gem Quest APS" then sum(a.round_win_events_gemquest)
 
@@ -1064,6 +1066,7 @@ view: ab_test_player_daily {
       , "IAA Revenue Per Ads Viewer"
 
       , "Average Ticket Spend Per Player"
+      , "Average Star Spend Per Player"
 
       , "Combined ARPDAU"
       , "Combined Conversion per Day"

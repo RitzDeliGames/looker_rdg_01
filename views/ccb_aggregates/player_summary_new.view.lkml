@@ -1399,6 +1399,10 @@ view: player_summary_new {
       , "60 Minutes"
       , "Ad Viewer"
       , "Total Ad Views"
+      , "Retention D2"
+      , "Retention D7"
+      , "Retention D14"
+      , "Retention D30"
       ]
   }
 
@@ -1409,7 +1413,28 @@ view: player_summary_new {
     value_format_name: usd
     sql:
       safe_divide(
-        sum( ifnull( ${TABLE}.attributed_campaign_cost, 0 ) )
+        sum(
+          case
+            when
+              {% parameter selected_campaign_result %} = "Retention D2"
+              and ${TABLE}.max_available_day_number < 2
+              then 0
+            when
+              {% parameter selected_campaign_result %} = "Retention D7"
+              and ${TABLE}.max_available_day_number < 7
+              then 0
+            when
+              {% parameter selected_campaign_result %} = "Retention D14"
+              and ${TABLE}.max_available_day_number < 14
+              then 0
+            when
+              {% parameter selected_campaign_result %} = "Retention D30"
+              and ${TABLE}.max_available_day_number < 30
+              then 0
+            else
+              ifnull( ${TABLE}.attributed_campaign_cost, 0 )
+            end
+            )
         ,
         sum(
           case
@@ -1444,6 +1469,18 @@ view: player_summary_new {
 
             when {% parameter selected_campaign_result %} = "Total Ad Views"
               then ${TABLE}.cumulative_ad_views_current
+
+            when {% parameter selected_campaign_result %} = "Retention D2"
+              then case when ${TABLE}.max_available_day_number >= 2 then ${TABLE}.retention_d2 else 0 end
+
+            when {% parameter selected_campaign_result %} = "Retention D7"
+              then case when ${TABLE}.max_available_day_number >= 7 then ${TABLE}.retention_d7 else 0 end
+
+            when {% parameter selected_campaign_result %} = "Retention D14"
+              then case when ${TABLE}.max_available_day_number >= 14 then ${TABLE}.retention_d14 else 0 end
+
+            when {% parameter selected_campaign_result %} = "Retention D30"
+              then case when ${TABLE}.max_available_day_number >= 30 then ${TABLE}.retention_d30 else 0 end
 
             else 0
             end
@@ -1494,10 +1531,43 @@ view: player_summary_new {
             when {% parameter selected_campaign_result %} = "Total Ad Views"
               then case when ${TABLE}.cumulative_ad_views_current >= 1 then 1 else 0 end
 
+            when {% parameter selected_campaign_result %} = "Retention D2"
+              then case when ${TABLE}.max_available_day_number >= 2 then ${TABLE}.retention_d2 else 0 end
+
+            when {% parameter selected_campaign_result %} = "Retention D7"
+              then case when ${TABLE}.max_available_day_number >= 7 then ${TABLE}.retention_d7 else 0 end
+
+            when {% parameter selected_campaign_result %} = "Retention D14"
+              then case when ${TABLE}.max_available_day_number >= 14 then ${TABLE}.retention_d14 else 0 end
+
+            when {% parameter selected_campaign_result %} = "Retention D30"
+              then case when ${TABLE}.max_available_day_number >= 30 then ${TABLE}.retention_d30 else 0 end
+
       else 0
       end
       ),
-      sum( 1 )
+      sum(
+          case
+            when
+              {% parameter selected_campaign_result %} = "Retention D2"
+              and ${TABLE}.max_available_day_number < 2
+              then 0
+            when
+              {% parameter selected_campaign_result %} = "Retention D7"
+              and ${TABLE}.max_available_day_number < 7
+              then 0
+            when
+              {% parameter selected_campaign_result %} = "Retention D14"
+              and ${TABLE}.max_available_day_number < 14
+              then 0
+            when
+              {% parameter selected_campaign_result %} = "Retention D30"
+              and ${TABLE}.max_available_day_number < 30
+              then 0
+            else
+              1
+            end
+        )
       )
       ;;
   }

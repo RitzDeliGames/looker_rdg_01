@@ -38,6 +38,11 @@ view: live_ops_calendar {
           , 2 as flour_frenzy_day_length
           , 1 as flour_frenzy_days_off_at_end
 
+          -- Donut Sprint
+          , date('2024-07-03') as donut_sprint_start_date
+          , 2 as donut_sprint_day_length
+          , 1 as donut_sprint_days_off_at_end
+
           -- Moves Master
           , date('2022-10-11') as moves_master_start_date
           , 7 as moves_master_day_length
@@ -105,6 +110,11 @@ view: live_ops_calendar {
               else date_diff(rdg_date,flour_frenzy_start_date,day)
               end as flour_frenzy_day_number
           , case
+              when rdg_date < donut_sprint_start_date
+              then null
+              else date_diff(rdg_date,donut_sprint_start_date,day)
+              end as donut_sprint_day_number
+          , case
               when rdg_date < moves_master_start_date
               then null
               else date_diff(rdg_date,moves_master_start_date,day)
@@ -144,6 +154,7 @@ view: live_ops_calendar {
           , floor(safe_divide( castle_climb_day_number, castle_climb_day_length ))+1 as castle_climb_number
           , floor(safe_divide( hot_dog_day_number, hot_dog_day_length ))+1 as hot_dog_number
           , floor(safe_divide( flour_frenzy_day_number, flour_frenzy_day_length ))+1 as flour_frenzy_number
+          , floor(safe_divide( donut_sprint_day_number, donut_sprint_day_length ))+1 as donut_sprint_number
           , floor(safe_divide( moves_master_day_number, moves_master_day_length ))+1 as moves_master_number
           , floor(safe_divide( puzzle_day_number, puzzle_day_length ))+1 as puzzle_number
           , floor(safe_divide( go_fish_day_number, go_fish_day_length ))+1 as go_fish_number
@@ -166,6 +177,9 @@ view: live_ops_calendar {
           , min(rdg_date) over ( partition by safe_cast(flour_frenzy_number as string) order by rdg_date ) as flour_frenzy_event_start_date
           , row_number() over ( partition by safe_cast(flour_frenzy_number as string) order by rdg_date asc ) as flour_frenzy_event_day_number
           , row_number() over ( partition by safe_cast(flour_frenzy_number as string) order by rdg_date desc ) as flour_frenzy_event_days_remaining
+          , min(rdg_date) over ( partition by safe_cast(donut_sprint_number as string) order by rdg_date ) as donut_sprint_event_start_date
+          , row_number() over ( partition by safe_cast(donut_sprint_number as string) order by rdg_date asc ) as donut_sprint_event_day_number
+          , row_number() over ( partition by safe_cast(donut_sprint_number as string) order by rdg_date desc ) as donut_sprint_event_days_remaining
           , min(rdg_date) over ( partition by safe_cast(moves_master_number as string) order by rdg_date ) as moves_master_event_start_date
           , row_number() over ( partition by safe_cast(moves_master_number as string) order by rdg_date asc ) as moves_master_event_day_number
           , row_number() over ( partition by safe_cast(moves_master_number as string) order by rdg_date desc ) as moves_master_event_days_remaining
@@ -215,6 +229,15 @@ view: live_ops_calendar {
         , max( case when flour_frenzy_day_number is null then null when flour_frenzy_event_days_remaining <= flour_frenzy_days_off_at_end then null else flour_frenzy_event_start_date end ) as flour_frenzy_event_start_date
         , max( case when flour_frenzy_day_number is null then null when flour_frenzy_event_days_remaining <= flour_frenzy_days_off_at_end then null else flour_frenzy_event_day_number end ) as flour_frenzy_event_day_number
         , max( case when flour_frenzy_day_number is null then null else flour_frenzy_event_start_date end ) as flour_frenzy_event_start_date_plus_claim_window
+
+        -- donut_sprint
+        , max( donut_sprint_start_date ) as donut_sprint_start_date
+        , max( donut_sprint_day_length ) as donut_sprint_day_length
+        , max( donut_sprint_day_number ) as donut_sprint_day_number
+        , max( case when donut_sprint_event_days_remaining <= donut_sprint_days_off_at_end then null else donut_sprint_number end ) as donut_sprint_number
+        , max( case when donut_sprint_day_number is null then null when donut_sprint_event_days_remaining <= donut_sprint_days_off_at_end then null else donut_sprint_event_start_date end ) as donut_sprint_event_start_date
+        , max( case when donut_sprint_day_number is null then null when donut_sprint_event_days_remaining <= donut_sprint_days_off_at_end then null else donut_sprint_event_day_number end ) as donut_sprint_event_day_number
+        , max( case when donut_sprint_day_number is null then null else donut_sprint_event_start_date end ) as donut_sprint_event_start_date_plus_claim_window
 
         -- moves_master
         , max( moves_master_start_date ) as moves_master_start_date
@@ -402,8 +425,7 @@ view: live_ops_calendar {
     type: date
   }
 
-############################################################
-
+  ############################################################
   ## Flour Frenzy
   ############################################################
 
@@ -443,6 +465,50 @@ view: live_ops_calendar {
   # flour_frenzy_event_start_date_plus_claim_window
   dimension: flour_frenzy_event_start_date_plus_claim_window {
     group_label: "Flour Frenzy"
+    label: "Event Plus Claim Window Start Date"
+    type: date
+  }
+
+  ############################################################
+  ## Donut Sprint
+  ############################################################
+
+  dimension_group: donut_sprint_start_date {
+
+    group_label: "Donut Sprint"
+    label: "Launch"
+    type: time
+    timeframes: [date, week, month, year]
+    sql: timestamp(${TABLE}.donut_sprint_start_date) ;;
+  }
+
+  dimension: donut_sprint_day_length {
+    group_label: "Donut Sprint"
+    label: "Event Length in Days"
+    type: number
+  }
+
+  dimension: donut_sprint_day_number {
+    group_label: "Donut Sprint"
+    label: "Days Since Launch"
+    type: number
+  }
+
+  dimension: donut_sprint_number {
+    group_label: "Donut Sprint"
+    label: "Event Number"
+    type: number
+  }
+
+  dimension: donut_sprint_event_start_date {
+    group_label: "Donut Sprint"
+    label: "Event Start Date"
+    type: date
+  }
+
+  # donut_sprint_event_start_date_plus_claim_window
+  dimension: donut_sprint_event_start_date_plus_claim_window {
+    group_label: "Donut Sprint"
     label: "Event Plus Claim Window Start Date"
     type: date
   }

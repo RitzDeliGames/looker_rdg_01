@@ -41,6 +41,58 @@ view: game_mode_event_summary {
 
       )
 
+      , castle_climb_daily as (
+
+        select
+          b.castle_climb_event_start_date as event_start_date
+          , a.rdg_id
+          , min(safe_cast(a.version as numeric)) as version_number_at_start_of_event
+          , min(a.day_number) as day_number_at_start_of_event
+          , min(a.lowest_last_level_serial) as lowest_level_at_start_of_event
+          , min(a.experiments) as experiments
+          , sum(a.count_days_played) as count_days_played
+          , max( case when a.feature_participation_castle_climb > 0 then 1 else 0 end ) as game_mode_participation_indicator
+          , max( case when a.feature_participation_castle_climb > 0 then 1 else 0 end ) as game_mode_completion_indicator
+          , sum( case when a.feature_participation_castle_climb > 0 then a.count_days_played else 0 end ) as days_played_game_mode
+          , sum( 0 ) as game_mode_round_end_events
+          , max( case when a.daily_popup_CastleClimb is not null then 1 else 0 end ) as game_mode_popup_indicator
+        from
+          ${player_daily_summary.SQL_TABLE_NAME} a
+          left join ${live_ops_calendar.SQL_TABLE_NAME} b
+            on date(a.rdg_date) = b.rdg_date
+        where
+          b.castle_climb_event_start_date is not null
+        group by
+          1,2
+
+      )
+
+      , hot_dog_daily as (
+
+        select
+          b.hot_dog_event_start_date as event_start_date
+          , a.rdg_id
+          , min(safe_cast(a.version as numeric)) as version_number_at_start_of_event
+          , min(a.day_number) as day_number_at_start_of_event
+          , min(a.lowest_last_level_serial) as lowest_level_at_start_of_event
+          , min(a.experiments) as experiments
+          , sum(a.count_days_played) as count_days_played
+          , max( case when a.feature_participation_hot_dog_contest > 0 then 1 else 0 end ) as game_mode_participation_indicator
+          , max( case when a.feature_participation_hot_dog_contest > 0 then 1 else 0 end ) as game_mode_completion_indicator
+          , sum( case when a.feature_participation_hot_dog_contest > 0 then a.count_days_played else 0 end ) as days_played_game_mode
+          , sum( 0 ) as game_mode_round_end_events
+          , max( case when a.daily_popup_HotdogContest is not null then 1 else 0 end ) as game_mode_popup_indicator
+        from
+          ${player_daily_summary.SQL_TABLE_NAME} a
+          left join ${live_ops_calendar.SQL_TABLE_NAME} b
+            on date(a.rdg_date) = b.rdg_date
+        where
+          b.hot_dog_event_start_date is not null
+        group by
+          1,2
+
+      )
+
       , moves_master_daily as (
 
         select
@@ -320,6 +372,58 @@ view: game_mode_event_summary {
           1,2
       )
 
+      , castle_climb_rounds as (
+
+        select
+          b.castle_climb_event_start_date as event_start_date
+          , a.rdg_id
+          , count( distinct a.level_id ) as count_unique_levels
+          , sum( a.count_rounds ) as count_rounds
+          , sum( a.count_wins ) as count_wins
+          , sum( a.count_rounds_with_moves_added ) as count_rounds_with_moves_added
+          , sum( a.pregame_boost_total ) as pregame_boost_total
+          , sum( a.total_chum_powerups_used ) as total_chum_powerups_used
+          , sum( a.in_round_coin_spend ) as in_round_coin_spend
+          , sum( a.in_round_count_ad_views ) as in_round_count_ad_views
+          , sum( a.in_round_combined_dollars ) as in_round_combined_dollars
+        from
+          ${player_round_summary.SQL_TABLE_NAME} a
+          left join ${live_ops_calendar.SQL_TABLE_NAME} b
+            on date(a.rdg_date) = b.rdg_date
+        where
+          b.castle_climb_event_start_date is not null
+          and a.is_active_castle_climb
+
+        group by
+          1,2
+      )
+
+      , hot_dog_rounds as (
+
+        select
+          b.hot_dog_event_start_date as event_start_date
+          , a.rdg_id
+          , count( distinct a.level_id ) as count_unique_levels
+          , sum( a.count_rounds ) as count_rounds
+          , sum( a.count_wins ) as count_wins
+          , sum( a.count_rounds_with_moves_added ) as count_rounds_with_moves_added
+          , sum( a.pregame_boost_total ) as pregame_boost_total
+          , sum( a.total_chum_powerups_used ) as total_chum_powerups_used
+          , sum( a.in_round_coin_spend ) as in_round_coin_spend
+          , sum( a.in_round_count_ad_views ) as in_round_count_ad_views
+          , sum( a.in_round_combined_dollars ) as in_round_combined_dollars
+        from
+          ${player_round_summary.SQL_TABLE_NAME} a
+          left join ${live_ops_calendar.SQL_TABLE_NAME} b
+            on date(a.rdg_date) = b.rdg_date
+        where
+          b.hot_dog_event_start_date is not null
+          and a.is_active_hotdog_contest
+
+        group by
+          1,2
+      )
+
       select
         timestamp(a.event_start_date) as event_start_date
         , 'movesMaster' as game_mode
@@ -467,6 +571,66 @@ view: game_mode_event_summary {
       from
         flour_frenzy_daily a
         left join flour_frenzy_rounds b
+          on a.event_start_date = b.event_start_date
+          and a.rdg_id = b.rdg_id
+
+      union all
+      select
+        timestamp(a.event_start_date) as event_start_date
+        , 'castleClimb' as game_mode
+        , a.rdg_id
+        , a.version_number_at_start_of_event
+        , a.day_number_at_start_of_event
+        , a.lowest_level_at_start_of_event
+        , a.experiments
+        , a.count_days_played
+        , a.game_mode_participation_indicator
+        , a.game_mode_completion_indicator
+        , a.days_played_game_mode
+        , ifnull( b.count_rounds, 0 ) as game_mode_round_end_events
+        , a.game_mode_popup_indicator
+        , ifnull( b.count_unique_levels, 0 ) as count_unique_levels
+        , ifnull( b.count_rounds, 0 ) as count_rounds
+        , ifnull( b.count_wins, 0 ) as count_wins
+        , ifnull( b.count_rounds_with_moves_added, 0 ) as count_rounds_with_moves_added
+        , ifnull( b.pregame_boost_total, 0 ) as pregame_boost_total
+        , ifnull( b.total_chum_powerups_used, 0 ) as total_chum_powerups_used
+        , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
+        , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
+        , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+      from
+        castle_climb_daily a
+        left join castle_climb_rounds b
+          on a.event_start_date = b.event_start_date
+          and a.rdg_id = b.rdg_id
+
+      union all
+      select
+        timestamp(a.event_start_date) as event_start_date
+        , 'hotdogContest' as game_mode
+        , a.rdg_id
+        , a.version_number_at_start_of_event
+        , a.day_number_at_start_of_event
+        , a.lowest_level_at_start_of_event
+        , a.experiments
+        , a.count_days_played
+        , a.game_mode_participation_indicator
+        , a.game_mode_completion_indicator
+        , a.days_played_game_mode
+        , ifnull( b.count_rounds, 0 ) as game_mode_round_end_events
+        , a.game_mode_popup_indicator
+        , ifnull( b.count_unique_levels, 0 ) as count_unique_levels
+        , ifnull( b.count_rounds, 0 ) as count_rounds
+        , ifnull( b.count_wins, 0 ) as count_wins
+        , ifnull( b.count_rounds_with_moves_added, 0 ) as count_rounds_with_moves_added
+        , ifnull( b.pregame_boost_total, 0 ) as pregame_boost_total
+        , ifnull( b.total_chum_powerups_used, 0 ) as total_chum_powerups_used
+        , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
+        , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
+        , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+      from
+        hot_dog_daily a
+        left join hot_dog_rounds b
           on a.event_start_date = b.event_start_date
           and a.rdg_id = b.rdg_id
 

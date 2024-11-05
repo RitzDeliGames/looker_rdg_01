@@ -146,49 +146,4 @@ view: player_go_fish_summary {
     sql: sum(1) ;;
   }
 
-  measure: player_rank_percentile_10 {
-    group_label: "Player Rank Percentile"
-    label: "10th Percentile"
-    type: percentile
-    percentile: 10
-    value_format_name: decimal_0
-    sql: ${TABLE}.player_rank_number ;;
-  }
-
-  measure: player_rank_percentile_25 {
-    group_label: "Player Rank Percentile"
-    label: "25th Percentile"
-    type: percentile
-    percentile: 25
-    value_format_name: decimal_0
-    sql: ${TABLE}.player_rank_number ;;
-  }
-
-  measure: player_rank_percentile_50 {
-    group_label: "Player Rank Percentile"
-    label: "Median"
-    type: percentile
-    percentile: 50
-    value_format_name: decimal_0
-    sql: ${TABLE}.player_rank_number ;;
-  }
-
-  measure: player_rank_percentile_75 {
-    group_label: "Player Rank Percentile"
-    label: "75th Percentile"
-    type: percentile
-    percentile: 75
-    value_format_name: decimal_0
-    sql: ${TABLE}.player_rank_number ;;
-  }
-
-  measure: player_rank_percentile_95 {
-    group_label: "Player Rank Percentile"
-    label: "95th Percentile"
-    type: percentile
-    percentile: 95
-    value_format_name: decimal_0
-    sql: ${TABLE}.player_rank_number ;;
-  }
-
 }

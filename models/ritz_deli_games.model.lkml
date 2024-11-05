@@ -818,6 +818,24 @@ explore: player_simple_event_summary_flourfrenzy {
 
 ################################################################
 
+## Explore: Go Fish Event
+
+################################################################
+
+explore: player_go_fish_summary {
+  label: "Player Go Fish Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_go_fish_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+################################################################
+
 ## AB Test Explores
 
 ################################################################

@@ -52,6 +52,11 @@ view: player_go_fish_summary {
           , date_diff(date(rdg_date), date(created_at), day) AS days_since_created
           , 1 + date_diff(date(rdg_date), date(created_at), day) AS day_number
           , safe_cast(version as numeric) as version_number
+          , sum(1) over (
+              partition by rdg_id
+              order by timestamp_utc asc
+              rows between unbounded preceding and current row
+              ) count_cumulative_go_fish_events
         from
           my_extra_json_table
 
@@ -116,7 +121,9 @@ view: player_go_fish_summary {
   dimension: rank_up_true_false {type: yesno}
   dimension: rank_up_reward {type: string}
   dimension: player_rank {type: string}
+  dimension: extra_json {type: string}
 
+  dimension: count_cumulative_go_fish_events {type: number}
   dimension: version_number {type: number}
   dimension: win_streak {type: number}
   dimension: last_level_serial {type: number}
@@ -144,6 +151,47 @@ view: player_go_fish_summary {
     label: "Count Instances"
     type: number
     sql: sum(1) ;;
+  }
+
+  measure: count_cumulative_go_fish_events_10 {
+    group_label: "Percentile of Cumulative Go Fish Events"
+    label: "10th Percentile"
+    type: percentile
+    percentile: 10
+    value_format_name: decimal_0
+    sql: ${TABLE}.count_cumulative_go_fish_events ;;
+  }
+  measure: count_cumulative_go_fish_events_25 {
+    group_label: "Percentile of Cumulative Go Fish Events"
+    label: "25th Percentile"
+    type: percentile
+    percentile: 25
+    value_format_name: decimal_0
+    sql: ${TABLE}.count_cumulative_go_fish_events ;;
+  }
+  measure: count_cumulative_go_fish_events_50 {
+    group_label: "Percentile of Cumulative Go Fish Events"
+    label: "Median"
+    type: percentile
+    percentile: 50
+    value_format_name: decimal_0
+    sql: ${TABLE}.count_cumulative_go_fish_events ;;
+  }
+  measure: count_cumulative_go_fish_events_75 {
+    group_label: "Percentile of Cumulative Go Fish Events"
+    label: "75th Percentile"
+    type: percentile
+    percentile: 75
+    value_format_name: decimal_0
+    sql: ${TABLE}.count_cumulative_go_fish_events ;;
+  }
+  measure: count_cumulative_go_fish_events_95 {
+    group_label: "Percentile of Cumulative Go Fish Events"
+    label: "95th Percentile"
+    type: percentile
+    percentile: 95
+    value_format_name: decimal_0
+    sql: ${TABLE}.count_cumulative_go_fish_events ;;
   }
 
 }

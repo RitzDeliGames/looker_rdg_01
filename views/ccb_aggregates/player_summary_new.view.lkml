@@ -662,15 +662,51 @@ view: player_summary_new {
       )
 
       ------------------------------------------------------------------------------------
-      -- Map Simple and Grouped Campaign Names
+      -- Map Simple and Grouped Ad Names
+      ------------------------------------------------------------------------------------
+
+      , map_simple_and_grouped_ad_names_table as (
+
+        select
+          *
+          , @{ad_name_simple} as ad_name_simple
+          , @{ad_name_grouped} as ad_name_grouped
+        from
+          combine_bfg_and_singular_campaign_table
+
+      )
+
+      ------------------------------------------------------------------------------------
+      -- Get Creative Start Date
+      ------------------------------------------------------------------------------------
+
+      , get_creative_start_date_table as (
+
+        select
+          singular_simple_ad_name as ad_name_simple
+          , max(first_creative_date) as first_creative_date
+        from
+          ${singular_creative_summary.SQL_TABLE_NAME}
+        where
+          singular_simple_ad_name is not null
+        group by
+          1
+      )
+
+      ------------------------------------------------------------------------------------
+      -- Add on Creative Start Date and Creative Day Number
       ------------------------------------------------------------------------------------
 
       select
-        *
-        , @{ad_name_simple} as ad_name_simple
-        , @{ad_name_grouped} as ad_name_grouped
+        a.*
+        , b.first_creative_date
+        , 1 + date_diff(date(a.created_date), date(b.first_creative_date), day) as creative_day_number
+
       from
-        combine_bfg_and_singular_campaign_table
+        map_simple_and_grouped_ad_names_table a
+        left join get_creative_start_date_table b
+          on a.ad_name_simple = b.ad_name_simple
+
 
 
 
@@ -950,7 +986,14 @@ view: player_summary_new {
   dimension: cumulative_coins_spend_d90 {group_label:"Cumulative Coin Spend" type: number}
   dimension: cumulative_coins_spend_current {group_label:"Cumulative Coin Spend" type: number}
 
+  dimension_group: first_creative_date {
+    label: "First Creative"
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.first_creative_date ;;
+  }
 
+  dimension: creative_day_number {type:number}
 
   ################################################################################################
   ## sessions per day

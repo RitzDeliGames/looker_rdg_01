@@ -369,16 +369,48 @@ singular_creative_data as (
   -- fix for campaign name
   ----------------------------------------------------------------------
 
+  , fix_for_campaign_name_table as (
+
+    select
+      b.* except ( campaign, campaign_name )
+      , @{bfg_campaign_name_mapping} as singular_campaign_name_clean
+      , @{bfg_campaign_name_mapping} as campaign_name
+    from
+      select_data_from_join b
+
+  )
+
+  ----------------------------------------------------------------------
+  -- get first date for creative day number
+  ----------------------------------------------------------------------
+
+  , get_first_date_for_creative_day_number_table as (
+
+    select
+      singular_simple_ad_name
+      , min(rdg_date) as first_creative_date
+    from
+      fix_for_campaign_name_table
+    where
+      singular_simple_ad_name is not null
+    group by
+      1
+
+  )
+
+  ----------------------------------------------------------------------
+  -- add on creative day number
+  ----------------------------------------------------------------------
+
   select
-    b.* except ( campaign, campaign_name )
-    , @{bfg_campaign_name_mapping} as singular_campaign_name_clean
-    , @{bfg_campaign_name_mapping} as campaign_name
+    a.*
+    , b.first_creative_date
+    , 1 + date_diff(date(a.rdg_date), date(b.first_creative_date), day) as creative_day_number
+
   from
-    select_data_from_join b
-
-
-
-
+    fix_for_campaign_name_table a
+    left join get_first_date_for_creative_day_number_table b
+      on a.singular_simple_ad_name = b.singular_simple_ad_name
 
       ;;
     ## the hardcoded meta data table is scheduled for 1AM UTC
@@ -392,18 +424,6 @@ singular_creative_data as (
 ####################################################################
 ## Primary Key
 ####################################################################
-
-  # timestamp(date) as rdg_date
-  # , asset_name
-  # , country_field
-  # , platform
-  # , adn_campaign_id
-  # , adn_creative_id
-  # , data_connector_source_name
-  # , source
-  # , os
-  # , adn_campaign_name as campaign_name
-  # , creative_type
 
   dimension: primary_key {
     type: string
@@ -435,6 +455,13 @@ singular_creative_data as (
     sql: ${TABLE}.rdg_date ;;
   }
 
+  dimension_group: first_creative_date {
+    label: "First Creative"
+    type: time
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.first_creative_date ;;
+  }
+
 ####################################################################
 ## Other Dimensions
 ####################################################################
@@ -450,6 +477,7 @@ singular_creative_data as (
   dimension: campaign_name {type:string}
   dimension: creative_type {type:string}
   dimension: singular_total_cost {type:number}
+  dimension: creative_day_number {type:number}
   dimension: singular_total_impressions {type:number}
   dimension: singular_total_clicks {type:number}
   dimension: singular_total_installs {type:number}

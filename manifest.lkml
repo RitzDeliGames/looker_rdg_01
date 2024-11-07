@@ -3019,7 +3019,9 @@ constant: ad_name_simple {
   value: "
   case
 
-  when length(ad_name_full) > 30 and ad_name_full not like '%|%' then 'Unmapped Hash'
+    when length(ad_name_full) > 30 and ad_name_full not like '%|%' then 'Unmapped Hash'
+    when left(ad_name_full,4) = 'CCB_' then substring(ad_name_full, 5 , length(ad_name_full)-4)
+
   else ad_name_full
 
   end
@@ -3465,6 +3467,8 @@ constant: new_singular_creative_name {
   when creative_id = '6528145730522' then 'YogaWithSloth'
 
   when length(creative_name) > 30 and creative_name not like '%|%' then 'Unmapped Hash'
+  when left(creative_name,4) = 'CCB_' then substring(creative_name, 5 , length(creative_name)-4)
+
   else creative_name
 
   end
@@ -3828,6 +3832,7 @@ constant: singular_simple_ad_name {
 
   when length(asset_name) > 30 and asset_name not like '%|%' then 'Unmapped Hash'
 
+  when left(asset_name,4) = 'CCB_' then substring(asset_name, 5 , length(asset_name)-4)
   else asset_name
 
   end

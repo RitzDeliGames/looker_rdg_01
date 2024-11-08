@@ -55,6 +55,8 @@ view: ab_test_player_daily {
             as variant
         , case
 
+            when {% parameter selected_metric_daily %} = "Average Daily Coin Balance" then sum(a.ending_coins_balance)
+
             when {% parameter selected_metric_daily %} = "Flour Frenzy Participation Days Per Player" then sum(a.feature_participation_flour_frenzy)
             when {% parameter selected_metric_daily %} = "Hot Dog Competition Participation Days Per Player" then sum(a.feature_participation_hot_dog_contest)
 
@@ -123,6 +125,8 @@ view: ab_test_player_daily {
 
           else sum(1) end as numerator
         , case
+
+        when {% parameter selected_metric_daily %} = "Average Daily Coin Balance" then sum(1)
 
         when {% parameter selected_metric_daily %} = "Flour Frenzy Participation Days Per Player" then max(1)
         when {% parameter selected_metric_daily %} = "Hot Dog Competition Participation Days Per Player" then max(1)
@@ -1098,6 +1102,8 @@ view: ab_test_player_daily {
 
       , "Flour Frenzy Participation Days Per Player"
       , "Hot Dog Competition Participation Days Per Player"
+
+      , "Average Daily Coin Balance"
 
     ]
   }

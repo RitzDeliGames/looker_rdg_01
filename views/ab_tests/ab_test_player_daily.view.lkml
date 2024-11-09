@@ -98,13 +98,13 @@ view: ab_test_player_daily {
             when {% parameter selected_metric_daily %} = "IAP ARPDAU" then sum(a.mtx_purchase_dollars)
             when {% parameter selected_metric_daily %} = "IAP Conversion per Day" then sum(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
             when {% parameter selected_metric_daily %} = "IAP Revenue Per Player" then sum(a.mtx_purchase_dollars)
-            when {% parameter selected_metric_daily %} = "IAP Conversion Per Player" then sum(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "IAP Conversion Per Player" then max(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
             when {% parameter selected_metric_daily %} = "IAP Revenue Per Spender" then sum(a.mtx_purchase_dollars)
 
             when {% parameter selected_metric_daily %} = "IAA ARPDAU" then sum(a.ad_view_dollars)
             when {% parameter selected_metric_daily %} = "IAA Conversion per Day" then sum(case when a.ad_view_dollars > 0 then 1 else 0 end)
             when {% parameter selected_metric_daily %} = "IAA Revenue Per Player" then sum(a.ad_view_dollars)
-            when {% parameter selected_metric_daily %} = "IAA Conversion Per Player" then sum(case when a.ad_view_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "IAA Conversion Per Player" then max(case when a.ad_view_dollars > 0 then 1 else 0 end)
             when {% parameter selected_metric_daily %} = "IAA Revenue Per Ads Viewer" then sum(a.ad_view_dollars)
 
             when {% parameter selected_metric_daily %} = "Combined ARPDAU" then sum(a.combined_dollars)

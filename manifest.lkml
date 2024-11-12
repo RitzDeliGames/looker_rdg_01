@@ -3035,7 +3035,9 @@ constant: ad_name_simple {
     when ad_name_full like '%Elevator%' then 'Elevator'
     when ad_name_full like '%TTC%' then 'TTC'
     when ad_name_full like '%SassyDog%' then 'SassyDog'
-    when ad_name_full like '%AirTrafficTestimonial%' then 'AirTrafficTestimonial'
+    when ad_name_full like '%AirTrafficTestimoial%' then 'AirTrafficTestimonial'
+    when ad_name_full like '%YogaWithSloth%' then 'YogaWithSloth'
+    when ad_name_full like '%ManWithHorse%' then 'Man With Horse'
     when ad_name_full like '%Testimonial%' then 'Testimonial'
     when ad_name_full like '%Chef%' then 'Chef'
     when ad_name_full like '%APVUpdate%' then 'APVUpdate'
@@ -3053,6 +3055,9 @@ constant: ad_name_simple {
     when ad_name_full like '%Multiboard%' then 'Multiboard'
     when ad_name_full like '%DropTheCharacters%' then 'DropTheCharacters'
     when ad_name_full like '%ChumChumPainting%' then 'ChumChumPainting'
+    when ad_name_full like '%ChumChumPainting%' then 'ChumChumPainting'
+    when ad_name_full like '%ChumChumPainting%' then 'ChumChumPainting'
+    when ad_name_full like '%ChumChumsPainting%' then 'ChumChumPainting'
 
     when left(ad_name_full,11) = 'CCB_US_AEO_' then substring(ad_name_full, 12 , length(ad_name_full)-11)
     when left(ad_name_full,4) = 'CCB_' then substring(ad_name_full, 5 , length(ad_name_full)-4)
@@ -3493,7 +3498,7 @@ constant: new_singular_creative_name {
   when creative_id = '6500848734322' then 'YogaWithSloth'
   when creative_id = '6501692039722' then 'Zen'
   when creative_id = '6501685619922' then 'Meet the Chum Chums'
-  when creative_id = '6500851107322' then 'AppStoreTrailer'
+  when creative_id = '6500851107322' then 'APVUpdate'
   when creative_id = '6500850962922' then 'Man With Horse'
   when creative_id = '6501746012122' then 'Chum Chums Painting'
 
@@ -3904,9 +3909,9 @@ constant: singular_simple_ad_name {
     when full_ad_name is null and singular_creative_id = '6500848734322' then 'YogaWithSloth'
     when full_ad_name is null and singular_creative_id = '6501692039722' then 'Zen'
     when full_ad_name is null and singular_creative_id = '6501685619922' then 'Meet the Chum Chums'
-    when full_ad_name is null and singular_creative_id = '6500851107322' then 'App Store Trailer'
+    when full_ad_name is null and singular_creative_id = '6500851107322' then 'APVUpdate'
     when full_ad_name is null and singular_creative_id = '6500850962922' then 'Man With Horse'
-    when full_ad_name is null and singular_creative_id = '6501746012122' then 'Chum Chums Painting'
+    when full_ad_name is null and singular_creative_id = '6501746012122' then 'ChumChumPainting'
     when full_ad_name is null and singular_creative_id = '6527221708322' then 'Spin With Sloth'
     when full_ad_name is null and singular_creative_id = '6527221707522' then 'Tilting Table'
     when full_ad_name is null and singular_creative_id = '6527221709122' then 'Lady Boss'

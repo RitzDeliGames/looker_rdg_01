@@ -815,6 +815,7 @@ constant: campaign_install_category {
             when ${TABLE}.campaign_name like '%60 Min%' then 'Engagement Campaign'
             when ${TABLE}.campaign_name like '%10_Minutes%' then 'Engagement Campaign'
             when ${TABLE}.campaign_name like '%Tutorial Complete%' then 'Engagement Campaign'
+            when ${TABLE}.campaign_name like '%Engagement%' then 'Engagement Campaign'
             when ${TABLE}.campaign_name like '%Install%' then 'Install Campaign'
             when ${TABLE}.campaign_name like '%Creative%' then 'Install Campaign'
             when ${TABLE}.campaign_name like '%MAI%' then 'Install Campaign'

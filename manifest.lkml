@@ -3243,6 +3243,22 @@ constant: new_singular_creative_name {
     when creative_name like '%Punk Grandma%' then 'PunkGrandma'
     when creative_name like '%Spin Girl%' then 'SpinGirl'
     when creative_name like '%Yoga Girl%' then 'YogaGirl'
+    when creative_name like '%ComboVideo%' then 'ComboVideo'
+    when creative_name like '%DesignYourLevel%' then 'DesignYourLevel'
+    when creative_name like '%ImpressiveCascade%' then 'ImpressiveCascade'
+    when creative_name like '%LevelProgression%' then 'LevelProgression'
+    when creative_name like '%MeetNewChumChum%' then 'MeetNewChumChum'
+    when creative_name like '%CutenessOverload%' then 'CutenessOverload'
+    when creative_name like '%8BitChum%' then '8BitChum'
+    when creative_name like '%8BitFoodStart%' then '8BitFoodStart'
+    when creative_name like '%ExcuseMe%' then 'ExcuseMe'
+    when creative_name like '%GiantTV%' then 'GiantTV'
+    when creative_name like '%LongGameplay%' then 'LongGameplay'
+    when creative_name like '%MomtoMom%' then 'MomToMom'
+    when creative_name like '%MultipleGameplay%' then 'MultipleGameplay'
+    when creative_name like '%PostWorkout%' then 'PostWorkout'
+    when creative_name like '%TruthorDare%' then 'TruthorDare'
+    when creative_name like '%WomanToWoman%' then 'WomanToWoman'
 
   else creative_name
 

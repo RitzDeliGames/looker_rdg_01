@@ -31,6 +31,7 @@ view: singular_creative_summary_new {
           , creative_type
           , adn_creative_name as creative_name
           , adn_creative_id as creative_id
+          , asset_id
 
         -- summarized fields
         , sum(ifnull(adn_cost, 0)) as singular_total_cost
@@ -42,7 +43,7 @@ view: singular_creative_summary_new {
       where
         adn_cost is not null
       group by
-        1,2,3,4,5,6,7,8,9,10,11,12,13
+        1,2,3,4,5,6,7,8,9,10,11,12,13,14
       )
 
       ----------------------------------------------------------------------
@@ -130,6 +131,8 @@ view: singular_creative_summary_new {
   dimension: creative_name {type:string}
   dimension: creative_id {type:string}
   dimension: creative_name_mapped {type:string}
+
+  dimension: asset_id {type:string}
 
   dimension: simple_ad_name {
     type:string

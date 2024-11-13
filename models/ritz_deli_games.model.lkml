@@ -986,6 +986,20 @@ explore: adhoc_2024_09_20_check_time_to_join_flour_frenzy {
   }
 }
 
+explore: adhoc_2024_11_13_daily_rewards_per_week {
+  label: "Daily Rewards Per Week - Experiment Check"
+  group_label: "Chum Chum Adhoc"
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${adhoc_2024_11_13_daily_rewards_per_week.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
 ################################################################
 
 ## Other Explores

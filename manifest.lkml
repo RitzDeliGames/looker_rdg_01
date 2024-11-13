@@ -3305,7 +3305,6 @@ constant: new_singular_creative_name {
     when creative_name like '%Paintingmodels%' then 'Paintingmodels'
     when creative_name like '%PostWorkout%' then 'PostWorkout'
     when creative_name like '%PullthePinSalad%' then 'PullthePinSalad'
-
     when creative_name like '%RedditChallenge%' then 'RedditChallenge'
     when creative_name like '%RelaxAndUnlock30Sec%' then 'RelaxAndUnlock30Sec'
     when creative_name like '%RelaxAndUnlock7Sec%' then 'RelaxAndUnlock7Sec'
@@ -3317,6 +3316,13 @@ constant: new_singular_creative_name {
     when creative_name like '%WomanWalking%' then 'WomanWalking'
     when creative_name like '%CrossBridge%' then 'CrossBridge'
     when creative_name like '%chum chums%' then 'ChumChums'
+    when creative_name like '%GameplayPlayable%' then 'GameplayPlayable'
+    when creative_name like '%AppIconSimple%' then 'AppIconSimple'
+    when creative_name like '%Mistplay%' and creative_name like '%ROAS%' then 'MistplayROAS'
+    when creative_name like '%Takeaway%' then 'Takeaway'
+    when creative_name like '%UGCAI_VersionA%' then 'UGCAI_A'
+    when creative_name like '%UGCAI_VersionB%' then 'UGCAI_B'
+    when creative_name like '%WomanWithSheep%' then 'WomanWithSheep'
 
 
   when creative_name like '%Testimonial%' then 'Testimonial'

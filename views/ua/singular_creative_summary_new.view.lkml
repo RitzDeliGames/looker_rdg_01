@@ -87,7 +87,7 @@ view: singular_creative_summary_new {
 
       select
         *
-        , @{new_singular_creative_name} as creative_name_mapped
+        , @{creative_name_mapping} as creative_name_mapped
       from
         singular_creative_data
 

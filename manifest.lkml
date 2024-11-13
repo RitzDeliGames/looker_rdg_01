@@ -3165,7 +3165,7 @@ constant: ad_name_grouped {
   "
 }
 
-constant: new_singular_creative_name {
+constant: creative_name_mapping {
   value: "
   case
 

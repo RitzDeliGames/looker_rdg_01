@@ -115,7 +115,7 @@ view: singular_player_attribution {
 
       select
         *
-        , @{new_singular_creative_name} as creative_name_mapped
+        , @{creative_name_mapping} as creative_name_mapped
         , @{new_singular_campaign_name} as campaign_name_mapped
 
       from

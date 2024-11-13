@@ -41,7 +41,7 @@ view: bfg_player_attribution {
 
       select
       *
-      , @{new_singular_creative_name} as creative_name_mapped
+      , @{creative_name_mapping} as creative_name_mapped
 
       from
       bfg_player_summary

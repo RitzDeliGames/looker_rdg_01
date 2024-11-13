@@ -42,8 +42,43 @@ view: singular_creative_summary_new {
         `eraser-blast.singular.campaign_and_creative`
       where
         adn_cost is not null
+        and date(timestamp(date)) <= '2024-07-17' -- last date for singular data
       group by
         1,2,3,4,5,6,7,8,9,10,11,12,13,14
+
+    union all
+
+    select
+      timestamp(REGISTRATION_DATE) as rdg_date
+      , publisher as asset_name
+      , COUNTRY_CODE as country_field
+      , PLATFORM as platform
+      , '' as singular_campaign_id
+      , publisher_id as adn_creative_id
+      , AFFILIATE_NAME as data_connector_source_name
+      , AFFILIATE_NAME as source
+      , PLATFORM as os
+      , lower(CAMPAIGN_NAME) as campaign_name
+      , '' as creative_type
+      , PUBLISHER as creative_name
+      , publisher_id as creative_id
+      , publisher_id as asset_id
+      , sum(TOTAL_SPEND) as singular_total_cost
+      , sum(PARTNER_IMPRESSIONS) as singular_total_impressions
+      , sum(PARTNER_CLICKS) as singular_total_clicks
+      , sum(PARTNER_INSTALLS) as singular_total_installs
+
+    from
+      eraser-blast.bfg_import.gogame_data
+    where
+      GAME = 'Chum Chum Blast'
+      and date(timestamp(REGISTRATION_DATE)) > '2024-07-17' -- picking up where singular leaves off
+      and PARTNER_IMPRESSIONS is not null -- no nulls!
+      and publisher is not null -- no nulls!
+      and length(publisher) > 2 -- filtering out \N values
+    group by
+      1,2,3,4,5,6,7,8,9,10,11,12,13,14
+
       )
 
       ----------------------------------------------------------------------

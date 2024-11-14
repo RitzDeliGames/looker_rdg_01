@@ -120,15 +120,15 @@ view: singular_creative_summary {
       ----------------------------------------------------------------------
 
       select
-      a.*
-      , b.first_creative_date
-      , 1 + date_diff(date(a.rdg_date), date(b.first_creative_date), day) as creative_day_number
-      , a.campaign_name_mapped as singular_campaign_name_clean
-      , a.creative_name_mapped as singular_simple_ad_name
-      , a.rdg_date as singular_install_date
+        a.*
+        , b.first_creative_date
+        , 1 + date_diff(date(a.rdg_date), date(b.first_creative_date), day) as creative_day_number
+        , a.campaign_name_mapped as singular_campaign_name_clean
+        , a.creative_name_mapped as singular_simple_ad_name
+        , a.rdg_date as singular_install_date
 
       from
-      my_apply_mapping_table a
+        my_apply_mapping_table a
       left join get_first_date_for_creative_day_number_table b
       on a.creative_name_mapped = b.creative_name_mapped
 
@@ -208,7 +208,17 @@ view: singular_creative_summary {
   dimension: creative_name_mapped {type:string}
   dimension: full_ad_name {type:string sql:${TABLE}.creative_name;;}
   dimension: asset_id {type:string}
+  dimension: creative_original_creator {
+    type: string
+    sql:
+      case
+        when lower(${TABLE}.creative_name) like '%matej%' then 'Matej'
+        when date(first_creative_date) between '2024-05-01' and '2024-11-13' then 'BFG'
+        else 'RDG'
+        end
 
+    ;;
+  }
   dimension: simple_ad_name {
     type:string
     sql: ${TABLE}.creative_name_mapped ;;

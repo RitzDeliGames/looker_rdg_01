@@ -880,6 +880,55 @@ constant: campaign_install_category {
   "
 }
 
+constant: campaign_install_category_mapped {
+  value: "
+      case
+      when ${TABLE}.campaign_name_mapped is null then 'Organic'
+      when
+      ${TABLE}.campaign_name_mapped not like '%Google%'
+      and ${TABLE}.campaign_name_mapped not like '%Mistplay%'
+      and ${TABLE}.campaign_name_mapped not like '%Meta%'
+      and ${TABLE}.campaign_name_mapped not like '%Facebook%'
+      and ${TABLE}.campaign_name_mapped not like '%Applovin%'
+      then 'Unmapped Campaign'
+      else
+      case
+      when ${TABLE}.campaign_name_mapped like '%Google%' then 'Google - '
+      when ${TABLE}.campaign_name_mapped like '%Mistplay%' then 'Mistplay - '
+      when ${TABLE}.campaign_name_mapped like '%Meta%' then 'Meta - '
+      when ${TABLE}.campaign_name_mapped like '%Facebook%' then 'Meta - '
+      when ${TABLE}.campaign_name_mapped like '%Applovin%' then 'Applovin - '
+      else ''
+      end
+      ||
+      case
+      when ${TABLE}.campaign_name_mapped is null then 'Organic'
+      when ${TABLE}.campaign_name_mapped like '%Purchase%' then 'Purchase Campaign'
+      when ${TABLE}.campaign_name_mapped like '%Value%' then 'Purchase Campaign'
+      when ${TABLE}.campaign_name_mapped like '%MAE%' then 'Engagement Campaign'
+      when ${TABLE}.campaign_name_mapped like '%5 Min%' then 'Engagement Campaign'
+      when ${TABLE}.campaign_name_mapped like '%15 Min%' then 'Engagement Campaign'
+      when ${TABLE}.campaign_name_mapped like '%30 Min%' then 'Engagement Campaign'
+      when ${TABLE}.campaign_name_mapped like '%60 Min%' then 'Engagement Campaign'
+      when ${TABLE}.campaign_name_mapped like '%10_Minutes%' then 'Engagement Campaign'
+      when ${TABLE}.campaign_name_mapped like '%Tutorial Complete%' then 'Engagement Campaign'
+      when ${TABLE}.campaign_name_mapped like '%Engagement%' then 'Engagement Campaign'
+      when ${TABLE}.campaign_name_mapped like '%Install%' then 'Install Campaign'
+      when ${TABLE}.campaign_name_mapped like '%Creative%' then 'Install Campaign'
+      when ${TABLE}.campaign_name_mapped like '%MAI%' then 'Install Campaign'
+      when ${TABLE}.campaign_name_mapped like '%UAI%' then 'Install Campaign'
+      when ${TABLE}.campaign_name_mapped like '%VAI%' then 'Install Campaign'
+      when ${TABLE}.campaign_name_mapped like '%tCPI%' then 'Install Campaign'
+      when ${TABLE}.campaign_name_mapped like '%No Event%' then 'Install Campaign'
+      when ${TABLE}.campaign_name_mapped like '%Marketability%' then 'Install Campaign'
+      when ${TABLE}.campaign_name_mapped like '%tCPA%' then 'Engagement Campaign'
+      when ${TABLE}.campaign_name_mapped like '%ROAS%' then 'RoAS Campaign'
+      else 'Other Campaign'
+      end
+      end
+  "
+}
+
 constant: bfg_campaign_name_mapping {
   value: "
     case
@@ -3077,16 +3126,14 @@ constant: ad_name_simple {
     when ad_name_full like '%TiltingTableDangerous%' then 'TiltingTableDangerous'
     when ad_name_full like '%TiltingTable%' then 'TiltingTable'
     when ad_name_full like '%SimpleMatch%' then 'SimpleMatch'
+    when ad_name_full like '%Simple Blast%' then 'SimpleBlast'
     when ad_name_full like '%SimpleBlast%' then 'SimpleBlast'
     when ad_name_full like '%Match3%' then 'Match3'
     when ad_name_full like '%ElevatorDangerous%' then 'ElevatorDangerous'
     when ad_name_full like '%Elevator%' then 'Elevator'
     when ad_name_full like '%TTC%' then 'TTC'
     when ad_name_full like '%SassyDog%' then 'SassyDog'
-    when ad_name_full like '%AirTrafficTestimoial%' then 'AirTrafficTestimonial'
-    when ad_name_full like '%YogaWithSloth%' then 'YogaWithSloth'
-    when ad_name_full like '%ManWithHorse%' then 'Man With Horse'
-    when ad_name_full like '%Testimonial%' then 'Testimonial'
+    when ad_name_full like '%AirTrafficTestimonial%' then 'AirTrafficTestimonial'
     when ad_name_full like '%Chef%' then 'Chef'
     when ad_name_full like '%APVUpdate%' then 'APVUpdate'
     when ad_name_full like '%FullBoard_2%' then 'FullBoard'
@@ -3097,35 +3144,139 @@ constant: ad_name_simple {
     when ad_name_full like '%MeetChumChums%' then 'MeetChumChums'
     when ad_name_full like '%MeetChumcChums%' then 'MeetChumChums'
     when ad_name_full like '%MinuteCombo%' then 'MinuteCombo'
-    when ad_name_full like '%ApvUpdate_NewFootage%' then 'ApvUpdate_NewFootage'
-    when ad_name_full like '%ApvUpdate%' then 'ApvUpdate_NewFootage'
+    when ad_name_full like '%ApvUpdate_NewFootage%' then 'ApvUpdate'
+    when ad_name_full like '%ApvUpdate%' then 'ApvUpdate'
     when ad_name_full like '%FillTheOrders%' then 'FillTheOrders'
     when ad_name_full like '%Multiboard%' then 'Multiboard'
     when ad_name_full like '%DropTheCharacters%' then 'DropTheCharacters'
     when ad_name_full like '%ChumChumPainting%' then 'ChumChumPainting'
     when ad_name_full like '%ChumChumPainting%' then 'ChumChumPainting'
     when ad_name_full like '%ChumChumPainting%' then 'ChumChumPainting'
+    when ad_name_full like '%ChumChumPainting%' then 'ChumChumPainting'
     when ad_name_full like '%ChumChumsPainting%' then 'ChumChumPainting'
+    when ad_name_full like '%Smog%' then 'Smog'
+    when ad_name_full like '%Tap by Number%' then 'TapByNumbers'
+    when ad_name_full like '%TapbyNumber%' then 'TapByNumbers'
+    when ad_name_full like '%TapByNumber%' then 'TapByNumbers'
+    when ad_name_full like '%Connect the Dots%' then 'ConnectDots'
+    when ad_name_full like '%ConnectDots%' then 'ConnectDots'
+    when ad_name_full like '%Oil Splatter%' then 'OilSplatter'
+    when ad_name_full like '%OilSplatter%' then 'OilSplatter'
+    when ad_name_full like '%SimulatedGameplay%' then 'SimulatedGameplay'
+    when ad_name_full like '%ChallengeFail%' then 'ChallengeFail'
+    when ad_name_full like '%AppStoreTrailer%' then 'AppStoreTrailer'
+    when ad_name_full like '%App Store Trailer%' then 'AppStoreTrailer'
+    when ad_name_full like '%ASOTrailer%' then 'ASOTrailer'
+    when ad_name_full like '%Level Progression%' then 'LevelProgression'
+    when ad_name_full like '%Bump Off%' then 'BumpOff'
+    when ad_name_full like '%Place of Friends%' then 'PlaceOfFriends'
+    when ad_name_full like '%Simulated Play%' then 'SimulatedPlay'
+    when ad_name_full like '%Grid Erasers%' then 'GridErasers'
+    when ad_name_full like '%Cascading Erasers%' then 'CascadingErasers'
+    when ad_name_full like '%Spiral Win%' then 'SpiralWin'
+    when ad_name_full like '%Paw Play%' then 'PawPlay'
+    when ad_name_full like '%PlayableLead-InVideo%' then 'PlayableLeadInVideo'
+    when ad_name_full like '%PlayableLeadInVideo%' then 'PlayableLeadInVideo'
+    when ad_name_full like '%TiltingTableDangerous%' then 'TiltingTableDangerous'
+    when ad_name_full like '%Tilting Table - Dangerous%' then 'TiltingTableDangerous'
+    when ad_name_full like '%Tilting Table%' then 'TiltingTable'
+    when ad_name_full like '%TiltingTable%' then 'TiltingTable'
+    when ad_name_full like '%Asian Baby%' then 'AsianBaby'
+    when ad_name_full like '%Girl With Cats%' then 'GirlWithCats'
 
-    when left(ad_name_full,11) = 'CCB_US_AEO_' then substring(ad_name_full, 12 , length(ad_name_full)-11)
-    when left(ad_name_full,4) = 'CCB_' then substring(ad_name_full, 5 , length(ad_name_full)-4)
+    when ad_name_full like '%Handsome Man w/Horse%' then 'HandsomeManWithHorse'
+    when ad_name_full like '%Handsome Man%' then 'HandsomeMan'
+    when ad_name_full like '%HandsomeMan%' then 'HandsomeMan'
+    when ad_name_full like '%LadyBossWithCats%' then 'LadyBossWithCats'
+    when ad_name_full like '%LadyBossWithDogs%' then 'LadyBossWithDogs'
+    when ad_name_full like '%Lady Boss%' then 'LadyBoss'
+    when ad_name_full like '%Punk Grandma%' then 'PunkGrandma'
+    when ad_name_full like '%Spin Girl%' then 'SpinGirl'
+    when ad_name_full like '%Yoga Girl%' then 'YogaGirl'
+    when ad_name_full like '%ComboVideo%' then 'ComboVideo'
+    when ad_name_full like '%DesignYourLevel%' then 'DesignYourLevel'
+    when ad_name_full like '%ImpressiveCascade%' then 'ImpressiveCascade'
+    when ad_name_full like '%LevelProgression%' then 'LevelProgression'
+    when ad_name_full like '%MeetNewChumChum%' then 'MeetNewChumChum'
+    when ad_name_full like '%CutenessOverload%' then 'CutenessOverload'
+    when ad_name_full like '%8BitChum%' then '8BitChum'
+    when ad_name_full like '%8BitFoodStart%' then '8BitFoodStart'
+    when ad_name_full like '%ExcuseMe%' then 'ExcuseMe'
+    when ad_name_full like '%GiantTV%' then 'GiantTV'
+    when ad_name_full like '%LongGameplay%' then 'LongGameplay'
+    when ad_name_full like '%MomtoMom%' then 'MomToMom'
+    when ad_name_full like '%MultipleGameplay%' then 'MultipleGameplay'
+    when ad_name_full like '%PostWorkout%' then 'PostWorkout'
+    when ad_name_full like '%TruthorDare%' then 'TruthOrDare'
+    when ad_name_full like '%WomanToWoman%' then 'WomanToWoman'
+    when ad_name_full like '%Altered gameplay%' then 'AlteredGameplay'
+    when ad_name_full like '%CharacterAppeal%' then 'CharacterAppeal'
+    when ad_name_full like '%FlexibleImages%' then 'FlexibleImages'
+    when ad_name_full like '%Interview%' then 'Interview'
+    when ad_name_full like '%Brain_Female1%' then 'BrainFemale1'
+    when ad_name_full like '%Brain_Female2%' then 'BrainFemale2'
+    when ad_name_full like '%FarmCars%' then 'FarmCars'
+    when ad_name_full like '%Makeover%' then 'Makeover'
+    when ad_name_full like '%OutOfMoves%' then 'OutOfMoves'
+    when ad_name_full like '%UGCAI_4%' then 'UGCAI_4'
+    when ad_name_full like '%CCB_Matej_UGCAI_VerA%' then 'UGCAI_VerA'
+    when ad_name_full like '%UGCAI1%' then 'UGCAI_1'
+    when ad_name_full like '%UGCAI2%' then 'UGCAI_2'
+    when ad_name_full like '%UGCAI3%' then 'UGCAI_3'
+    when ad_name_full like '%UGCAI4%' then 'UGCAI_4'
+    when ad_name_full like '%OneMoveLeft%' then 'OneMoveLeft'
+    when ad_name_full like '%ManWithHorse%' then 'ManWithHorse'
+    when ad_name_full like '%YogaWithSloth%' then 'YogaWithSloth'
+    when ad_name_full like '%AllTheEggs%' then 'AllTheEggs'
+    when ad_name_full like '%TheEggs%' then 'TheEggs'
+    when ad_name_full like '%AdoptMe%' then 'AdoptMe'
+    when ad_name_full like '%ArrowBlocker%' then 'ArrowBlocker'
+    when ad_name_full like '%BuildingALevelI%' then 'BuildingALevelI'
+    when ad_name_full like '%BuildtheLogo%' then 'BuildTheLogo'
 
-    when right(ad_name_full, 7) = '_EN.mp4' then substring(ad_name_full, 1 , length(ad_name_full)-7)
-    when right(ad_name_full, 3) = '_EN' then substring(ad_name_full, 1 , length(ad_name_full)-3)
-    when right(ad_name_full, 10) = '_1080_1920' then substring(ad_name_full, 1 , length(ad_name_full)-10)
-    when right(ad_name_full, 9) = '_30s_9x16' then substring(ad_name_full, 1 , length(ad_name_full)-9)
-    when right(ad_name_full, 10) = '_1080_1080' then substring(ad_name_full, 1 , length(ad_name_full)-10)
-    when right(ad_name_full, 8) = '_30s_1x1' then substring(ad_name_full, 1 , length(ad_name_full)-8)
-    when right(ad_name_full, 8) = '_23s_1x1' then substring(ad_name_full, 1 , length(ad_name_full)-8)
-    when right(ad_name_full, 9) = '_25s_9x16' then substring(ad_name_full, 1 , length(ad_name_full)-9)
-    when right(ad_name_full, 9) = '_23s_9x16' then substring(ad_name_full, 1 , length(ad_name_full)-9)
-    when right(ad_name_full, 8) = '_25s_1x1' then substring(ad_name_full, 1 , length(ad_name_full)-8)
-    when right(ad_name_full, 9) = '_30s_16x9' then substring(ad_name_full, 1 , length(ad_name_full)-9)
-    when right(ad_name_full, 10) = '_1920_1080' then substring(ad_name_full, 1 , length(ad_name_full)-10)
-    when right(ad_name_full, 9) = '_23s_16x9' then substring(ad_name_full, 1 , length(ad_name_full)-9)
-    when length(ad_name_full) > 30 and ad_name_full not like '%|%' then 'Unmapped Hash'
+    when ad_name_full like '%ChumChumBoost%' then 'ChumChumBoost'
+    when ad_name_full like '%ChumChumQuiz%' then 'ChumChumQuiz'
+    when ad_name_full like '%ChumChumWorkout%' then 'ChumChumWorkout'
+    when ad_name_full like '%ChumsDoItAll%' then 'ChumsDoItAll'
+    when ad_name_full like '%ConveyerBelt%' then 'ConveyerBelt'
+    when ad_name_full like '%CoupleBet%' then 'CoupleBet'
+    when ad_name_full like '%FeedChumChums%' then 'FeedChumChums'
+    when ad_name_full like '%FeedingChums%' then 'FeedingChums'
+    when ad_name_full like '%FullMealFood%' then 'FullMealFood'
+    when ad_name_full like '%HungryChum%' then 'HungryChum'
+
+    when ad_name_full like '%InsidetheMind%' then 'InsidetheMind'
+    when ad_name_full like '%IntroThenButts%' then 'IntroThenButts'
+    when ad_name_full like '%ManOutside%' then 'ManOutside'
+    when ad_name_full like '%MovesMasterExplanation%' then 'MovesMasterExplanation'
+    when ad_name_full like '%NatureDoc%' then 'NatureDoc'
+    when ad_name_full like '%OneMoveLeft%' then 'OneMoveLeft'
+    when ad_name_full like '%OverTheCliff%' then 'OverTheCliff'
+    when ad_name_full like '%Paintingmodels%' then 'Paintingmodels'
+    when ad_name_full like '%PostWorkout%' then 'PostWorkout'
+    when ad_name_full like '%PullthePinSalad%' then 'PullthePinSalad'
+    when ad_name_full like '%RedditChallenge%' then 'RedditChallenge'
+    when ad_name_full like '%RelaxAndUnlock30Sec%' then 'RelaxAndUnlock30Sec'
+    when ad_name_full like '%RelaxAndUnlock7Sec%' then 'RelaxAndUnlock7Sec'
+    when ad_name_full like '%RelaxingGameplay%' then 'RelaxingGameplay'
+    when ad_name_full like '%TapForNoise%' then 'TapForNoise'
+    when ad_name_full like '%WhatisaChumChum%' then 'WhatIsAChumChum'
+    when ad_name_full like '%WomanCar%' then 'WomanCar'
+    when ad_name_full like '%WomanCouch%' then 'WomanCouch'
+    when ad_name_full like '%WomanWalking%' then 'WomanWalking'
+    when ad_name_full like '%CrossBridge%' then 'CrossBridge'
+    when ad_name_full like '%chum chums%' then 'ChumChums'
+    when ad_name_full like '%GameplayPlayable%' then 'GameplayPlayable'
+    when ad_name_full like '%AppIconSimple%' then 'AppIconSimple'
+    when ad_name_full like '%Mistplay%' and ad_name_full like '%ROAS%' then 'MistplayROAS'
+    when ad_name_full like '%Takeaway%' then 'Takeaway'
+    when ad_name_full like '%UGCAI_VersionA%' then 'UGCAI_A'
+    when ad_name_full like '%UGCAI_VersionB%' then 'UGCAI_B'
+    when ad_name_full like '%WomanWithSheep%' then 'WomanWithSheep'
 
 
+  when ad_name_full like '%Testimonial%' then 'Testimonial'
+  when length(ad_name_full) > 50 and ad_name_full not like '%|%' then 'Unmapped Hash'
   else ad_name_full
 
   end

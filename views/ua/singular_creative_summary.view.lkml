@@ -358,7 +358,7 @@ singular_creative_data as (
       , @{map_3_digit_country_code_to_3_digit_country_code} as country
       , @{singular_grouped_ad_name} as singular_grouped_ad_name
       , @{singular_simple_ad_name} as singular_simple_ad_name
-      , @{campaign_name_clean_update} as campaign
+      , @{campaign_name_mapped} as campaign
 
     from
       my_combined_with_go_game_creative_data_step

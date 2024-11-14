@@ -46,7 +46,7 @@ view: singular_campaign_summary {
         -- constants from manifest
         -----------------------------------------------------------------------
 
-        , @{campaign_name_clean_update} as singular_campaign_name_clean
+        , @{campaign_name_mapped} as singular_campaign_name_clean
 
       from
         singular_campaign_summary
@@ -125,5 +125,6 @@ view: singular_campaign_summary {
     label: "Campaign Name (Clean)"
     type: string
   }
+
 
 }

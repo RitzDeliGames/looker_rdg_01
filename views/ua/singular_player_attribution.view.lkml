@@ -116,7 +116,7 @@ view: singular_player_attribution {
       select
         *
         , @{creative_name_mapping} as creative_name_mapped
-        , @{new_singular_campaign_name} as campaign_name_mapped
+        , @{campaign_name_mapped} as campaign_name_mapped
 
       from
         summary_by_firebase_user_id

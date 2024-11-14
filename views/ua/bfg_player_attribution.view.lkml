@@ -16,7 +16,7 @@ view: bfg_player_attribution {
 
         select
           bfgudid as bfg_uid
-          , max( campaign ) as campaign
+          , max( campaign ) as campaign_name
           , max( timestamp(install_date) ) as install_date
           , max( ad_name ) as creative_name
           , max( ad_id ) as creative_id
@@ -42,6 +42,7 @@ view: bfg_player_attribution {
       select
       *
       , @{creative_name_mapping} as creative_name_mapped
+      , @{campaign_name_mapped} as campaign_name_mapped
 
       from
       bfg_player_summary
@@ -84,7 +85,7 @@ view: bfg_player_attribution {
 ####################################################################
 
 dimension: bfg_uid {type:string}
-dimension: campaign {type:string}
+dimension: campaign_name {type:string}
 dimension: creative_name {type:string}
 dimension: creative_id {type:string}
 dimension: marketing_channel {type:string}
@@ -92,7 +93,7 @@ dimension: marketing_channel_category {type:string}
 dimension: media_source {type:string}
 dimension: cpi {type:number}
 dimension: creative_name_mapped{type:string}
-
+dimension: campaign_name_mapped {type: string}
 
 ####################################################################
 ## Measures

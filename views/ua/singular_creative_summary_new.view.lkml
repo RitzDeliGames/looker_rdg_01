@@ -88,6 +88,7 @@ view: singular_creative_summary_new {
       select
         *
         , @{creative_name_mapping} as creative_name_mapped
+        , @{campaign_name_mapped} as campaign_name_mapped
       from
         singular_creative_data
 
@@ -194,6 +195,7 @@ view: singular_creative_summary_new {
     group_label: "Singular Campaign Info"
     label: "Campaign Name (Clean)"
     type: string
+    sql: ${TABLE}.campaign_name_mapped;;
   }
 
   dimension: install_category {

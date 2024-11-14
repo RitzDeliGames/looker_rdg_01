@@ -90,7 +90,7 @@ view: singular_campaign_detail {
         -----------------------------------------------------------------------
 
         -- , country_region as region
-        , @{campaign_name_clean_update} as singular_campaign_name_clean
+        , @{campaign_name_mapped} as singular_campaign_name_clean
 
       from
         singular_campaign_summary

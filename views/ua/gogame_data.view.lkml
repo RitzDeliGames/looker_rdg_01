@@ -44,6 +44,8 @@ view: gogame_data {
           , lower(CAMPAIGN_NAME) as campaign
           , publisher
           , publisher_Id
+          , publisher as creative_name
+          , publisher_Id as creative_id
 
         FROM
           `eraser-blast.bfg_import.gogame_data`
@@ -52,7 +54,8 @@ view: gogame_data {
 
       select
         *
-        , @{bfg_campaign_name_mapping} as mapped_campaign_name
+        , @{creative_name_mapping} as creative_name_mapped
+        , @{campaign_name_mapped} as mapped_campaign_name
       from
         base_data b
 
@@ -149,6 +152,9 @@ view: gogame_data {
   dimension: UARETENTION_D7 {type: number}
   dimension: publisher {type: string}
   dimension: publisher_Id {type: number}
+  dimension: creative_id {type: string}
+  dimension: creative_name {type: string}
+  dimension: creative_name_mapped {type: string}
 
 
 }

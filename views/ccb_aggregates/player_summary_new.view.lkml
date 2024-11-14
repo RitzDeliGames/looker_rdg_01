@@ -96,8 +96,8 @@ view: player_summary_new {
           , b.creative_id as singular_creative_id
           , b.creative_name as full_ad_name
           , b.creative_name as asset_name
-          , b.creative_name_mapped as creative_name_mapped
-          , b.campaign_name_mapped as campaign_name_mapped
+          , b.creative_name_mapped as singular_creative_name_mapped
+          , b.campaign_name_mapped as singular_campaign_name_mapped
 
         from
           add_on_mtx_percentile_data a
@@ -161,9 +161,7 @@ view: player_summary_new {
         from
           ${bfg_player_attribution.SQL_TABLE_NAME}
         where
-          length(campaign_name) > 2
-          and length(bfg_uid) > 2
-          and bfg_uid is not null
+          bfg_uid is not null
         group by
           1
 
@@ -178,7 +176,8 @@ view: player_summary_new {
       select
         a.*
         , b.campaign as bfg_campaign
-        , @{bfg_campaign_name_mapping} as bfg_campaign_mapped
+        , b.campaign_name_mapped as bfg_campaign_mapped
+        , b.creative_name_mapped as bfg_creative_name_mapped
         , b.ad_name as bfg_ad_name
         , b.ad_id as bfg_ad_id
         , b.marketing_channel as bfg_marketing_channel

@@ -12,7 +12,184 @@ view: player_summary_new {
 
       with
 
-      base_data as (
+      ----------------------------------------------------------------
+      -- staging data
+      -----------------------------------------------------------------------
+
+      staging_data as (
+
+        select * from ${player_summary_staging.SQL_TABLE_NAME}
+
+      )
+
+      -----------------------------------------------------------------------
+      -- calculate spender percentile
+      -----------------------------------------------------------------------
+
+      , percentile_current_cumulative_mtx_purchase_dollars_table AS (
+
+        select
+          rdg_id
+          , floor(100 * cume_dist() over (order by cumulative_mtx_purchase_dollars_current )) cumulative_mtx_purchase_dollars_current_percentile
+        from
+          staging_data
+        where
+          cumulative_mtx_purchase_dollars_current > 0
+      )
+
+      -----------------------------------------------------------------------
+      -- firebase player summary
+      -----------------------------------------------------------------------
+
+      , firebase_player_summary as (
+
+        select
+          firebase_user_id
+          , max(last_played_date) as last_played_date
+          , max(latest_table_update) as latest_table_update
+          , max(firebase_advertising_id) as firebase_advertising_id
+          , max(firebase_platform) as firebase_platform
+          , max(firebase_created_date) as firebase_created_date
+
+        from
+          -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_summary`
+          ${firebase_player_summary.SQL_TABLE_NAME}
+
+        group by
+          1
+
+      )
+
+      -----------------------------------------------------------------------
+      -- singular_player_summary pre aggregate
+      -----------------------------------------------------------------------
+
+      , singular_player_summary_pre_aggregate as (
+
+      select
+      device_id as singular_device_id
+
+      -- campaign_id
+      , first_value(campaign_id) over (
+      partition by  device_id
+      order by event_timestamp ASC
+      rows between unbounded preceding and unbounded following
+      ) singular_campaign_id
+
+      -- singular_partner_name
+      , first_value(singular_partner_name) over (
+      partition by  device_id
+      order by event_timestamp ASC
+      rows between unbounded preceding and unbounded following
+      ) singular_partner_name
+
+      , creative_id
+      , creative_name
+
+      from
+      `eraser-blast.singular.user_level_attributions`
+      where
+      -- date(event_timestamp) between '2022-05-01' and current_date()
+      -- date(etl_record_processing_hour_utc) between '2022-06-01' and current_date()
+      -- campaign_id <> '' -- We want to include Unattibuted
+      (
+      is_reengagement is null
+      or is_reengagement = false )
+
+
+      )
+
+      -----------------------------------------------------------------------
+      -- singular_player_summary
+      -----------------------------------------------------------------------
+
+      , singular_player_summary as (
+
+        select
+          singular_device_id
+          , max(singular_campaign_id) as singular_campaign_id
+          , max(singular_partner_name) as singular_partner_name
+          , max(creative_id) as singular_creative_id
+          , max(creative_name) as full_ad_name
+          , max(creative_name) as asset_name
+        from
+          singular_player_summary_pre_aggregate
+        group by
+          1
+      )
+
+      -----------------------------------------------------------------------
+      -- add on singular data
+      -----------------------------------------------------------------------
+
+      , add_on_mtx_percentile_and_singular_data as (
+
+        select
+          a.*
+          , b.cumulative_mtx_purchase_dollars_current_percentile
+          , c.firebase_advertising_id
+          , d.singular_device_id
+          , d.singular_campaign_id
+          , d.singular_partner_name
+          , d.singular_creative_id
+          , d.full_ad_name
+          , d.asset_name
+
+        from
+          staging_data A
+          left join percentile_current_cumulative_mtx_purchase_dollars_table B
+            on A.rdg_id = B.rdg_id
+          left join firebase_player_summary c
+            on a.user_id = c.firebase_user_id
+          left join singular_player_summary d
+            on c.firebase_advertising_id = d.singular_device_id
+
+      )
+
+      -----------------------------------------------------------------------
+      -- prepare supported_devices table
+      -----------------------------------------------------------------------
+
+      , supported_devices_table as (
+
+        select
+          retail_name || ' ' || model_name as device_model
+          , max(retail_name) as retail_name
+          , max(marketing_name) as marketing_name
+          , max(device_name) as device_name
+          , max(model_name) as model_name
+        from
+          `eraser-blast.game_data.supported_devices`
+        where
+          retail_name != "Retail Branding"
+        group by
+          1
+      )
+
+      -----------------------------------------------------------------------
+      -- add on supported_devices
+      -----------------------------------------------------------------------
+
+      , add_on_supported_devices as (
+
+        select
+          a.*
+          , b.retail_name as supported_devices_retail_name
+          , b.marketing_name as supported_devices_marketing_name
+          , b.device_name as supported_devices_device_name
+          , b.model_name as supported_devices_model_name
+        from
+          add_on_mtx_percentile_and_singular_data a
+          left join supported_devices_table b
+            on a.device_model = b.device_model
+
+      )
+
+      -----------------------------------------------------------------------
+      -- new base data
+      -----------------------------------------------------------------------
+
+      , base_data as (
 
         select
           rdg_id
@@ -263,7 +440,8 @@ view: player_summary_new {
 
         from
           -- eraser-blast.looker_scratch.LR_6YUJU1709664574784_player_summary_staging
-          ${player_summary_staging.SQL_TABLE_NAME}
+          -- ${player_summary_staging.SQL_TABLE_NAME}
+          add_on_supported_devices
         )
 
 

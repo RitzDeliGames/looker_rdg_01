@@ -226,7 +226,7 @@ view: player_summary_new {
           , b.device_name as supported_devices_device_name
           , b.model_name as supported_devices_model_name
         from
-          add_on_singular_data a
+          new_map_on_big_fish_information_table a
           left join supported_devices_table b
             on a.device_model = b.device_model
 
@@ -480,91 +480,6 @@ view: player_summary_new {
       )
 
       ------------------------------------------------------------------------------------
-      -- Big Fish BFG ID One Time Override: Step 1
-      ------------------------------------------------------------------------------------
-
-      , bfg_id_overrides_step_1 as (
-
-        select
-          rdg_id
-          , max( bfgudid ) as bfg_uid
-        from
-          eraser-blast.tal_scratch.2024_06_10_one_time_map_bfg_to_rdg_id_hardcoded
-        group by
-          1
-
-      )
-
-      ------------------------------------------------------------------------------------
-      -- Big Fish BFG ID One Time Override: Step 2
-      ------------------------------------------------------------------------------------
-
-      , bfg_id_overrides_step_2 as (
-
-        select
-          a.* except ( bfg_uid )
-          , coalesce( a.bfg_uid, b.bfg_uid ) as bfg_uid
-
-        from
-          singular_cost_adjustment_table a
-          left join bfg_id_overrides_step_1 b
-            on a.rdg_id = b.rdg_id
-
-      )
-
-      ------------------------------------------------------------------------------------
-      -- Big Fish Attribution Step 1
-      ------------------------------------------------------------------------------------
-
-      , big_fish_attribution_table as (
-
-
-        select
-          bfgudid as bfg_uid
-          , max( campaign ) as campaign
-          , max( install_date ) as install_date
-          , max( ad_name ) as ad_name
-          , max( ad_id ) as ad_id
-          , max( marketing_channel ) as marketing_channel
-          , max( marketing_channel_category ) as marketing_channel_category
-          , max( media_source ) as media_source
-          , max( cpi  ) as cpi
-
-        from
-          eraser-blast.bfg_import.attribution_data
-        where
-          length(campaign) > 2
-          and length(bfgudid) > 2
-        group by
-          1
-
-      )
-
-      ------------------------------------------------------------------------------------
-      -- Map on Big Fish Information
-      ------------------------------------------------------------------------------------
-
-      , map_on_big_fish_information_table as (
-
-      select
-        a.*
-        , b.campaign as bfg_campaign
-        , @{bfg_campaign_name_mapping} as bfg_campaign_mapped
-        , b.ad_name as bfg_ad_name
-        , b.ad_id as bfg_ad_id
-        , b.marketing_channel as bfg_marketing_channel
-        , b.marketing_channel_category as bfg_marketing_channel_category
-        , b.media_source as bfg_media_source
-        , b.media_source as bfg_media_source_mapped -- TEMP: Will Need Mapping
-        , b.cpi as bfg_cpi
-      from
-        bfg_id_overrides_step_2 a
-        left join big_fish_attribution_table b
-          on a.bfg_uid = b.bfg_uid
-
-      )
-
-      ------------------------------------------------------------------------------------
       -- BFG Impressions by Campaign/Date
       ------------------------------------------------------------------------------------
 
@@ -635,7 +550,7 @@ view: player_summary_new {
               , safe_divide( c.partner_impressions, c.total_regs )
               ) as bfg_impressions
         from
-          map_on_big_fish_information_table a
+          singular_cost_adjustment_table a
           left join bfg_impression_by_campaign_date_mapped b
             on a.bfg_campaign_mapped = b.bfg_campaign_mapped
             and date(a.created_date) = date(b.registration_date)

@@ -38,111 +38,71 @@ view: player_summary_new {
       )
 
       -----------------------------------------------------------------------
-      -- firebase player summary
+      -- add on mtx_percentile data
       -----------------------------------------------------------------------
 
-      , firebase_player_summary as (
-
-        select
-          firebase_user_id
-          , max(last_played_date) as last_played_date
-          , max(latest_table_update) as latest_table_update
-          , max(firebase_advertising_id) as firebase_advertising_id
-          , max(firebase_platform) as firebase_platform
-          , max(firebase_created_date) as firebase_created_date
-
-        from
-          -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_firebase_player_summary`
-          ${firebase_player_summary.SQL_TABLE_NAME}
-
-        group by
-          1
-
-      )
-
-      -----------------------------------------------------------------------
-      -- singular_player_summary pre aggregate
-      -----------------------------------------------------------------------
-
-      , singular_player_summary_pre_aggregate as (
-
-      select
-      device_id as singular_device_id
-
-      -- campaign_id
-      , first_value(campaign_id) over (
-      partition by  device_id
-      order by event_timestamp ASC
-      rows between unbounded preceding and unbounded following
-      ) singular_campaign_id
-
-      -- singular_partner_name
-      , first_value(singular_partner_name) over (
-      partition by  device_id
-      order by event_timestamp ASC
-      rows between unbounded preceding and unbounded following
-      ) singular_partner_name
-
-      , creative_id
-      , creative_name
-
-      from
-      `eraser-blast.singular.user_level_attributions`
-      where
-      -- date(event_timestamp) between '2022-05-01' and current_date()
-      -- date(etl_record_processing_hour_utc) between '2022-06-01' and current_date()
-      -- campaign_id <> '' -- We want to include Unattibuted
-      (
-      is_reengagement is null
-      or is_reengagement = false )
-
-
-      )
-
-      -----------------------------------------------------------------------
-      -- singular_player_summary
-      -----------------------------------------------------------------------
-
-      , singular_player_summary as (
-
-        select
-          singular_device_id
-          , max(singular_campaign_id) as singular_campaign_id
-          , max(singular_partner_name) as singular_partner_name
-          , max(creative_id) as singular_creative_id
-          , max(creative_name) as full_ad_name
-          , max(creative_name) as asset_name
-        from
-          singular_player_summary_pre_aggregate
-        group by
-          1
-      )
-
-      -----------------------------------------------------------------------
-      -- add on singular data
-      -----------------------------------------------------------------------
-
-      , add_on_mtx_percentile_and_singular_data as (
+      , add_on_mtx_percentile_data as (
 
         select
           a.*
-          , b.cumulative_mtx_purchase_dollars_current_percentile
-          , c.firebase_advertising_id
-          , d.singular_device_id
-          , d.singular_campaign_id
-          , d.singular_partner_name
-          , d.singular_creative_id
-          , d.full_ad_name
-          , d.asset_name
+         , b.cumulative_mtx_purchase_dollars_current_percentile
 
         from
-          staging_data A
-          left join percentile_current_cumulative_mtx_purchase_dollars_table B
-            on A.rdg_id = B.rdg_id
-          left join firebase_player_summary c
-            on a.user_id = c.firebase_user_id
-          left join singular_player_summary d
-            on c.firebase_advertising_id = d.singular_device_id
+          staging_data a
+          left join percentile_current_cumulative_mtx_purchase_dollars_table b
+            on a.rdg_id = b.rdg_id
+      )
+
+      -----------------------------------------------------------------------
+      -- Singular player attribution
+      -----------------------------------------------------------------------
+
+      , singular_player_attribution_table as (
+
+        select
+          user_id
+          , max(firebase_advertising_id) as firebase_advertising_id
+          , max(singular_device_id) as singular_device_id
+          , max(partner_name) as partner_name
+          , max(campaign_id) as campaign_id
+          , max(campaign_name) as campaign_name
+          , max(creative_id) as creative_id
+          , max(creative_name) as creative_name
+          , max(country) as country
+          , max(rdg_date) as rdg_date
+          , max(creative_name_mapped) as creative_name_mapped
+          , max(campaign_name_mapped) as campaign_name_mapped
+        from
+          ${singular_player_attribution.SQL_TABLE_NAME}
+        where
+          user_id is not null
+        group by
+          1
+
+      )
+
+      -----------------------------------------------------------------------
+      -- add on singular_player_attribution data
+      -----------------------------------------------------------------------
+
+      , add_on_singular_data as (
+
+        select
+          a.*
+          , b.firebase_advertising_id as firebase_advertising_id
+          , b.singular_device_id as singular_device_id
+          , b.campaign_id as singular_campaign_id
+          , b.partner_name as singular_partner_name
+          , b.creative_id as singular_creative_id
+          , b.creative_name as full_ad_name
+          , b.creative_name as asset_name
+          , b.creative_name_mapped as creative_name_mapped
+          , b.campaign_name_mapped as campaign_name_mapped
+
+        from
+          add_on_mtx_percentile_data a
+          left join singular_player_attribution_table b
+            on a.user_id = b.user_id
 
       )
 
@@ -179,7 +139,7 @@ view: player_summary_new {
           , b.device_name as supported_devices_device_name
           , b.model_name as supported_devices_model_name
         from
-          add_on_mtx_percentile_and_singular_data a
+          add_on_singular_data a
           left join supported_devices_table b
             on a.device_model = b.device_model
 

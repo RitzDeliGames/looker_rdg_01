@@ -94,6 +94,8 @@ view: singular_player_attribution {
 
         select
           a.firebase_user_id as user_id
+          , max(a.firebase_advertising_id) as firebase_advertising_id
+          , max(b.device_id) as singular_device_id
           , max(b.partner_name) as partner_name
           , max(b.campaign_id) as campaign_id
           , max(b.campaign_name) as campaign_name

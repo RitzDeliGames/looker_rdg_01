@@ -1085,7 +1085,7 @@ constant: campaign_name_clean_update_backup {
   end"
 }
 
-constant: campaign_name_override {
+constant: singular_campaign_name_override {
   value: "
   case
 

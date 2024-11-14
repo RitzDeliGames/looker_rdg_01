@@ -258,53 +258,20 @@ view: player_summary_new {
           , @{device_platform_mapping} as device_platform_mapping
           , @{device_platform_mapping_os} as device_platform_mapping_os
           , @{device_os_version_mapping} as device_os_version_mapping
-          , @{singular_campaign_id_override} as singular_campaign_id_override
+          , '' as singular_campaign_id_override
+          , @{singular_campaign_name_override} as mapped_singular_campaign_name_clean
           , @{singular_created_date_override} as singular_created_date_override
-          , @{singular_campaign_blended_window_override} as singular_campaign_blended_window_override
-          , @{campaign_with_organics_estimate} as campaign_with_organics_estimate
+          , '' as singular_campaign_blended_window_override
+          , '' as campaign_with_organics_estimate
           , @{singular_full_ad_name} as singular_full_ad_name
           , @{singular_grouped_ad_name} as singular_grouped_ad_name
           , @{singular_simple_ad_name} as singular_simple_ad_name
 
+
         from
-          -- eraser-blast.looker_scratch.LR_6YUJU1709664574784_player_summary_staging
-          -- ${player_summary_staging.SQL_TABLE_NAME}
           add_on_supported_devices
         )
 
-
-        ------------------------------------------------------------------------------------
-        -- Campaign Name Clean (step 1)
-        ------------------------------------------------------------------------------------
-
-        , campaign_name_clean_by_singular_campaign_id_table as (
-
-          select
-            singular_campaign_id
-            , max( singular_campaign_name_clean ) as singular_campaign_name_clean
-          from
-            ${singular_campaign_summary.SQL_TABLE_NAME}
-          where
-            singular_campaign_id is not null
-            and singular_campaign_name_clean is not null
-          group by
-            1
-          )
-
-        ------------------------------------------------------------------------------------
-        -- Campaign Name Clean (step 2)
-        ------------------------------------------------------------------------------------
-
-        , map_campaign_name_to_main_table as (
-
-          select
-            a.*
-            , b.singular_campaign_name_clean as mapped_singular_campaign_name_clean
-          from
-            add_manifest_mapping_data a
-            left join campaign_name_clean_by_singular_campaign_id_table b
-              on a.singular_campaign_id_override = b.singular_campaign_id
-          )
 
         ------------------------------------------------------------------------------------
         -- Singular Total Cost By Campaign
@@ -407,7 +374,7 @@ view: player_summary_new {
                 , c.estimated_impressions_per_install
                 , b.estimated_impressions_per_install) as first_pass_impressions_per_install
           from
-            map_campaign_name_to_main_table a
+            add_manifest_mapping_data a
 
             left join singular_total_cost_by_campaign_table b
               on a.mapped_singular_campaign_name_clean = b.singular_campaign_name_clean
@@ -576,24 +543,10 @@ view: player_summary_new {
                 , 0
                 ) as attributed_campaign_cost
           , coalesce( singular_attributed_campaign_impressions, bfg_impressions ) as attributed_campaign_impressions
-
+          , coalesce( singular_creative_name_mapped, bfg_creative_name_mapped ) as ad_name_simple
+          , '' as ad_name_grouped
 
         from map_on_bfg_impressions
-
-      )
-
-      ------------------------------------------------------------------------------------
-      -- Map Simple and Grouped Ad Names
-      ------------------------------------------------------------------------------------
-
-      , map_simple_and_grouped_ad_names_table as (
-
-        select
-          *
-          , @{ad_name_simple} as ad_name_simple
-          , @{ad_name_grouped} as ad_name_grouped
-        from
-          combine_bfg_and_singular_campaign_table
 
       )
 
@@ -624,7 +577,7 @@ view: player_summary_new {
         , 1 + date_diff(date(a.created_date), date(b.first_creative_date), day) as creative_day_number
 
       from
-        map_simple_and_grouped_ad_names_table a
+        combine_bfg_and_singular_campaign_table a
         left join get_creative_start_date_table b
           on a.ad_name_simple = b.ad_name_simple
 

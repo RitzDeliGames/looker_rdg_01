@@ -3560,7 +3560,7 @@ constant: creative_name_mapping {
     when creative_name like '%Makeover%' then 'Makeover'
     when creative_name like '%OutOfMoves%' then 'OutOfMoves'
     when creative_name like '%UGCAI_4%' then 'UGCAI_4'
-    when creative_name like '%CCB_Matej_UGCAI_VerA%' then 'UGCAI_VerA'
+    when creative_name like '%CCB_Matej_UGCAI_VerA%' then 'UGCAI_A'
     when creative_name like '%UGCAI1%' then 'UGCAI_1'
     when creative_name like '%UGCAI2%' then 'UGCAI_2'
     when creative_name like '%UGCAI3%' then 'UGCAI_3'

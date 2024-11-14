@@ -1085,6 +1085,98 @@ constant: campaign_name_clean_update_backup {
   end"
 }
 
+constant: campaign_name_override {
+  value: "
+  case
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country = 'US'
+  and date(created_date) between '2024-03-04' and '2024-03-27'
+  then '20240307 - Android - Meta - USA - Purchase'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country = 'US'
+  and date(created_date) between '2024-01-03' and '2024-01-24'
+  then '20240103 - Android - Meta - USA - Purchase'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country = 'US'
+  and date(created_date) between '2023-11-10' and '2023-11-14'
+  then '20231110 - Android - Meta - USA - Install'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country = 'US'
+  and date(created_date) between '2023-10-30' and '2023-11-04'
+  then '20231030 - Android - Meta - USA - Tutorial Complete'
+
+  when
+  singular_partner_name is null
+  and country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
+  and platform like '%iOS%'
+  and date(created_date) between '2023-10-19' and '2023-10-24'
+  then '20231019 - Android - Meta - LATAM/ES - 30 Min'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country = 'US'
+  and date(created_date) between '2023-01-30' and '2023-02-14'
+  then '20230131 - Android - Meta - USA - Purchase'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
+  and date(created_date) between '2023-04-11' and '2023-04-13'
+  then 'Meta - AAA - LATAM/ES - 15 Min'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE')
+  and date(created_date) between '2023-04-14' and '2023-04-23'
+  then '20230413 - Android - Meta - LATAM/ES - 15 Min'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country in ('US','CA')
+  and date(created_date) between '2023-04-28' and '2023-05-04'
+  then '6301194225922'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country in ('US','CA')
+  and date(created_date) between '2023-05-24' and '2023-06-05'
+  then '20230427 - Android - Meta - USA - 15 Min'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country in ('US','CA')
+  and date(created_date) between '2023-07-11' and '2023-07-12'
+  then '20230710 - Android - Meta - USA - 30 Min'
+
+  when
+  singular_partner_name = 'Unattributed'
+  and singular_campaign_id = ''
+  and country in ('US','CA')
+  and date(created_date) between '2023-07-21' and '2023-07-25'
+  then '20230721 - Android - Meta - USA - 30 Min'
+
+  else singular_campaign_name_mapped
+  end
+  "
+}
 
 constant: singular_campaign_id_override {
   value: "

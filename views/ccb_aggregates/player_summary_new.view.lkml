@@ -106,6 +106,93 @@ view: player_summary_new {
 
       )
 
+      ------------------------------------------------------------------------------------
+      -- Big Fish BFG ID One Time Override: Step 1
+      ------------------------------------------------------------------------------------
+
+      , new_bfg_id_overrides_step_1 as (
+
+        select
+          rdg_id
+          , max( bfgudid ) as bfg_uid
+        from
+          eraser-blast.tal_scratch.2024_06_10_one_time_map_bfg_to_rdg_id_hardcoded
+        group by
+          1
+
+      )
+
+      ------------------------------------------------------------------------------------
+      -- Big Fish BFG ID One Time Override: Step 2
+      ------------------------------------------------------------------------------------
+
+      , new_bfg_id_overrides_step_2 as (
+
+        select
+          a.* except ( bfg_uid )
+          , coalesce( a.bfg_uid, b.bfg_uid ) as bfg_uid
+
+        from
+          add_on_singular_data a
+          left join new_bfg_id_overrides_step_1 b
+            on a.rdg_id = b.rdg_id
+
+      )
+
+      ------------------------------------------------------------------------------------
+      -- Big Fish Attribution Step 1
+      ------------------------------------------------------------------------------------
+
+      , new_big_fish_attribution_table as (
+
+        select
+          bfg_uid as bfg_uid
+          , max( campaign_name ) as campaign
+          , max( install_date ) as install_date
+          , max( creative_name ) as ad_name
+          , max( creative_id ) as ad_id
+          , max( marketing_channel ) as marketing_channel
+          , max( marketing_channel_category ) as marketing_channel_category
+          , max( media_source ) as media_source
+          , max( cpi  ) as cpi
+          , max( creative_name_mapped ) as creative_name_mapped
+          , max( campaign_name_mapped ) as campaign_name_mapped
+
+        from
+          ${bfg_player_attribution.SQL_TABLE_NAME}
+        where
+          length(campaign_name) > 2
+          and length(bfg_uid) > 2
+          and bfg_uid is not null
+        group by
+          1
+
+      )
+
+      ------------------------------------------------------------------------------------
+      -- Map on Big Fish Information
+      ------------------------------------------------------------------------------------
+
+      , new_map_on_big_fish_information_table as (
+
+      select
+        a.*
+        , b.campaign as bfg_campaign
+        , @{bfg_campaign_name_mapping} as bfg_campaign_mapped
+        , b.ad_name as bfg_ad_name
+        , b.ad_id as bfg_ad_id
+        , b.marketing_channel as bfg_marketing_channel
+        , b.marketing_channel_category as bfg_marketing_channel_category
+        , b.media_source as bfg_media_source
+        , b.media_source as bfg_media_source_mapped -- TEMP: Will Need Mapping
+        , b.cpi as bfg_cpi
+      from
+        new_bfg_id_overrides_step_2 a
+        left join new_big_fish_attribution_table b
+          on a.bfg_uid = b.bfg_uid
+
+      )
+
       -----------------------------------------------------------------------
       -- prepare supported_devices table
       -----------------------------------------------------------------------
@@ -146,10 +233,10 @@ view: player_summary_new {
       )
 
       -----------------------------------------------------------------------
-      -- new base data
+      -- add_manifest_mapping_data
       -----------------------------------------------------------------------
 
-      , base_data as (
+      , add_manifest_mapping_data as (
 
         select
           *
@@ -215,7 +302,7 @@ view: player_summary_new {
             a.*
             , b.singular_campaign_name_clean as mapped_singular_campaign_name_clean
           from
-            base_data a
+            add_manifest_mapping_data a
             left join campaign_name_clean_by_singular_campaign_id_table b
               on a.singular_campaign_id_override = b.singular_campaign_id
           )

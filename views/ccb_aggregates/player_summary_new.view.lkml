@@ -95,7 +95,7 @@ view: player_summary_new {
           , b.partner_name as singular_partner_name
           , b.creative_id as singular_creative_id
           , b.creative_name as full_ad_name
-          , b.creative_name as asset_name
+          , b.creative_name as singular_asset_name
           , b.creative_name_mapped as singular_creative_name_mapped
           , b.campaign_name_mapped as singular_campaign_name_mapped
 
@@ -263,9 +263,9 @@ view: player_summary_new {
           , @{singular_created_date_override} as singular_created_date_override
           , '' as singular_campaign_blended_window_override
           , '' as campaign_with_organics_estimate
-          , @{singular_full_ad_name} as singular_full_ad_name
-          , @{singular_grouped_ad_name} as singular_grouped_ad_name
-          , @{singular_simple_ad_name} as singular_simple_ad_name
+          , singular_asset_name as singular_full_ad_name
+          , '' as singular_grouped_ad_name
+          , singular_creative_name_mapped as singular_simple_ad_name
 
 
         from
@@ -446,41 +446,19 @@ view: player_summary_new {
       )
 
       ------------------------------------------------------------------------------------
-      -- BFG Impressions by Campaign/Date
-      ------------------------------------------------------------------------------------
-
-      , bfg_impression_by_campaign_date as (
-
-        select
-          lower(campaign_name) as campaign
-          , registration_date
-          , sum( total_spend ) as total_spend
-          , sum( partner_impressions ) as partner_impressions
-          , sum( total_regs ) as total_regs
-        from
-          eraser-blast.bfg_import.gogame_data
-        where
-          1=1
-          and length(campaign_name) > 2
-        group by
-          1,2
-
-      )
-
-      ------------------------------------------------------------------------------------
       -- BFG Impressions by Campaign/Date Mapped
       ------------------------------------------------------------------------------------
 
       , bfg_impression_by_campaign_date_mapped as (
 
         select
-          @{bfg_campaign_name_mapping} as bfg_campaign_mapped
-          , date(b.registration_date) as registration_date
+          mapped_campaign_name as bfg_campaign_mapped
+          , date( registration_date ) as registration_date
           , sum( total_spend ) as total_spend
           , sum( partner_impressions ) as partner_impressions
           , sum( total_regs ) as total_regs
         from
-          bfg_impression_by_campaign_date b
+          ${gogame_data.SQL_TABLE_NAME}
         group by
           1,2
 

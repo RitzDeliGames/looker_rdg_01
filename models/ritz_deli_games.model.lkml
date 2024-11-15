@@ -1006,7 +1006,6 @@ explore: adhoc_2024_11_13_daily_rewards_per_week {
 
 ################################################################
 
-explore: stats_by_creative_name {view_label: "Stats by Creative Name" }
 explore: firebase_player_summary {}
 explore: firebase_player_daily_incremental {}
 explore: singular_campaign_summary {}

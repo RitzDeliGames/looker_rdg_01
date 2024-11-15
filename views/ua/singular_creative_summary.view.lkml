@@ -88,10 +88,11 @@ view: singular_creative_summary {
       , my_apply_mapping_table as (
 
       select
-      *
+      * except( campaign_name)
       , @{creative_name_mapping} as creative_name_mapped
       , @{campaign_name_mapped} as campaign_name_mapped
       , @{map_3_digit_country_code_to_3_digit_country_code} as country
+      , @{campaign_name_mapped} as campaign_name
       from
       singular_creative_data
 
@@ -251,7 +252,7 @@ view: singular_creative_summary {
   dimension: install_category {
     label: "Install Category"
     type: string
-    sql: @{campaign_install_category_mapped}  ;;
+    sql: @{campaign_install_category}  ;;
   }
 
 

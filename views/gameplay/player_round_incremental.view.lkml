@@ -4,7 +4,7 @@ view: player_round_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update on '2024-10-29'
+      -- update on '2024-11-15'
 
       -- create or replace table tal_scratch.player_round_incremental as
 
@@ -48,7 +48,7 @@ view: player_round_incremental {
                 date(timestamp) >=
                     case
                         -- select date(current_date())
-                        when date(current_date()) <= '2024-10-29' -- Last Full Update
+                        when date(current_date()) <= '2024-11-15' -- Last Full Update
                         then '2022-06-01'
                         else date_add(current_date(), interval -9 day)
                         end
@@ -222,6 +222,7 @@ view: player_round_incremental {
                 , 1 as count_rounds
                 , round_count
                 , event_name
+                , extra_json
                 , safe_cast(json_extract_scalar( extra_json , "$.lives") as numeric) as lives
                 , ifnull( cast(json_extract_scalar( extra_json , "$.round_length") as numeric) / 60000 , 0 ) as round_length_minutes
                 , safe_cast(json_extract_scalar( extra_json , "$.quest_complete") as boolean) as quest_complete
@@ -341,6 +342,7 @@ view: player_round_incremental {
             , level_serial
             , event_name
             , round_end_timestamp_utc
+            , max(extra_json) as extra_json
             , max(round_start_timestamp_utc) as round_start_timestamp_utc
             , max(round_start_cumulative_minutes) as round_start_cumulative_minutes
             , max(round_end_cumulative_minutes) as round_end_cumulative_minutes

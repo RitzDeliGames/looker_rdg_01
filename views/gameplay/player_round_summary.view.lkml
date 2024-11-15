@@ -22,6 +22,7 @@ base_data as (
     -- All columns from player_round_incremental
     *
     , case when moves_added then 1 else 0 end as count_rounds_with_moves_added
+    , safe_cast(json_extract_scalar( extra_json , "$.moves_made") as numeric) as moves_made
 
     -- Player Age Information
     , timestamp(date(created_at)) as created_date -- Created Date
@@ -102,6 +103,7 @@ base_data as (
     , max(a.count_losses) as count_losses
     , max(a.moves_remaining) as moves_remaining
     , max(a.moves_added) as moves_added
+    , max(a.moves_made) as moves_made
     , max(a.count_rounds_with_moves_added) as count_rounds_with_moves_added
     , max(a.coins_earned) as coins_earned
     , max(a.objective_count_total) as objective_count_total
@@ -262,6 +264,7 @@ base_data as (
     , max(a.count_losses) as count_losses
     , max(a.moves_remaining) as moves_remaining
     , max(a.moves_added) as moves_added
+    , max(a.moves_made) as moves_made
     , max(a.count_rounds_with_moves_added) as count_rounds_with_moves_added
     , max(a.coins_earned) as coins_earned
     , max(a.objective_count_total) as objective_count_total
@@ -429,6 +432,7 @@ base_data as (
     , max(a.count_losses) as count_losses
     , max(a.moves_remaining) as moves_remaining
     , max(a.moves_added) as moves_added
+    , max(a.moves_made) as moves_made
     , max(a.count_rounds_with_moves_added) as count_rounds_with_moves_added
     , max(a.coins_earned) as coins_earned
     , max(a.objective_count_total) as objective_count_total
@@ -603,6 +607,7 @@ base_data as (
     , max(a.count_losses) as count_losses
     , max(a.moves_remaining) as moves_remaining
     , max(a.moves_added) as moves_added
+    , max(a.moves_made) as moves_made
     , max(a.count_rounds_with_moves_added) as count_rounds_with_moves_added
     , max(a.coins_earned) as coins_earned
     , max(a.objective_count_total) as objective_count_total
@@ -1134,6 +1139,7 @@ from
   dimension: count_wins {type:number}
   dimension: count_losses {type:number}
   dimension: moves_remaining {type:number}
+  dimension: moves_made {type:number}
   dimension: count_rounds_with_moves_added {type:number}
   dimension: coins_earned {type:number}
   dimension: objective_count_total {type:number}

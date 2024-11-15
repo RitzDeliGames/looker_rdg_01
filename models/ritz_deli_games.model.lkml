@@ -276,6 +276,15 @@ explore: player_round_summary {
       ;;
   }
 
+  join: adhoc_2024_11_15_player_level_10_moves_made {
+    view_label: "Level 10 Moves Made Buckets"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_round_summary.rdg_id} = ${adhoc_2024_11_15_player_level_10_moves_made.rdg_id}
+      ;;
+  }
+
 }
 
 ################################################################

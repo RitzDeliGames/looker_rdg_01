@@ -1821,6 +1821,16 @@ constant: creative_name_mapping {
   "
 }
 
+constant: creative_original_creator {
+  value: "
+    case
+        when lower(creative_name) like '%matej%' then 'Matej'
+        when date(first_creative_date) between '2024-05-01' and '2024-11-13' then 'BFG'
+        else 'RDG'
+        end
+    "
+}
+
 ###################################################################
 ## Map Alfa 3 (3 Digit) Country Code to 2 Digit Country Code
 ## Mapping table Link:

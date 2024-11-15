@@ -1026,7 +1026,6 @@ explore: gogame_data {}
 
 explore: singular_player_attribution {}
 explore: bfg_player_attribution {}
-explore: singular_creative_summary_new {}
 # explore: player_simple_event_incremental {}
 # explore: player_simple_event_summary_hotdog {}
 # explore: player_simple_event_summary_flourfrenzy {}

@@ -537,6 +537,7 @@ view: player_summary_new {
         select
           singular_simple_ad_name as ad_name_simple
           , max(first_creative_date) as first_creative_date
+          , max(creative_original_creator) as creative_original_creator
         from
           ${singular_creative_summary.SQL_TABLE_NAME}
         where
@@ -553,6 +554,7 @@ view: player_summary_new {
         a.*
         , b.first_creative_date
         , 1 + date_diff(date(a.created_date), date(b.first_creative_date), day) as creative_day_number
+        , b.creative_original_creator
 
       from
         combine_bfg_and_singular_campaign_table a
@@ -592,7 +594,7 @@ view: player_summary_new {
   dimension: device_id {group_label:"Player IDs" type: string}
   dimension: display_name {group_label:"Player IDs" type: string}
   dimension: advertising_id {group_label:"Player IDs" type: string}
-
+  dimension: creative_original_creator {type: string}
   dimension: user_id {
     label: "First User ID"
     group_label:"Player IDs"

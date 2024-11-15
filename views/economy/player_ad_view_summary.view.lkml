@@ -314,7 +314,7 @@ view: player_ad_view_summary {
   dimension: experiments {type:string}
   dimension: win_streak {type:number}
   dimension: count_ad_views {type:number}
-  dimension: source_id {sql: @{ad_placements_clean} ;;}
+  dimension: source_id {type:string}
   dimension: ad_placement {
     type: string
     sql:

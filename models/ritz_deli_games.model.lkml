@@ -1036,6 +1036,7 @@ explore: gogame_data {}
 
 explore: singular_player_attribution {}
 explore: bfg_player_attribution {}
+# explore: player_popup_and_iam_incremental {}
 # explore: player_simple_event_incremental {}
 # explore: player_simple_event_summary_hotdog {}
 # explore: player_simple_event_summary_flourfrenzy {}

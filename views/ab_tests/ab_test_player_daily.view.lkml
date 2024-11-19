@@ -57,6 +57,7 @@ view: ab_test_player_daily {
 
             when {% parameter selected_metric_daily %} = "Average Daily Coin Balance" then sum( case when a.ending_coins_balance >= 300000 then 300000 else a.ending_coins_balance end )
 
+            when {% parameter selected_metric_daily %} = "Food Truck Participation Days Per Player" then sum(a.feature_participation_food_truck)
             when {% parameter selected_metric_daily %} = "Flour Frenzy Participation Days Per Player" then sum(a.feature_participation_flour_frenzy)
             when {% parameter selected_metric_daily %} = "Hot Dog Competition Participation Days Per Player" then sum(a.feature_participation_hot_dog_contest)
 
@@ -128,6 +129,7 @@ view: ab_test_player_daily {
 
         when {% parameter selected_metric_daily %} = "Average Daily Coin Balance" then sum(1)
 
+        when {% parameter selected_metric_daily %} = "Food Truck Participation Days Per Player" then max(1)
         when {% parameter selected_metric_daily %} = "Flour Frenzy Participation Days Per Player" then max(1)
         when {% parameter selected_metric_daily %} = "Hot Dog Competition Participation Days Per Player" then max(1)
 
@@ -1109,6 +1111,7 @@ view: ab_test_player_daily {
 
       , "Flour Frenzy Participation Days Per Player"
       , "Hot Dog Competition Participation Days Per Player"
+      , "Food Truck Participation Days Per Player"
 
       , "Average Daily Coin Balance"
 

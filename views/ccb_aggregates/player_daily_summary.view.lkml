@@ -6324,6 +6324,15 @@ dimension: count_of_daily_popups_shown {
   ;;
 }
 
+  dimension: count_of_daily_popups_and_iams_shown {
+    label: "Count of Daily Popups and IAMs Shown"
+    type: number
+    sql:
+    ${TABLE}.popup_total + ${TABLE}.iam_total
+  ;;
+  }
+
+
 measure: count_daily_popup_BattlePass {
   label: "Count Daily Popups: BattlePass"
   group_label: "Daily Popup"

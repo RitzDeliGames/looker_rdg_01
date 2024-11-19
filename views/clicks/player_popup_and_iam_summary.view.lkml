@@ -82,6 +82,13 @@ view: player_popup_and_iam_summary {
     sql: @{iam_group} ;;
   }
 
+  dimension: iam_type {
+    group_label: "In App Message Detail"
+    label: "In App Message Type"
+    type:  string
+    sql: @{iam_type} ;;
+  }
+
   dimension: iam_conversion {
     group_label: "In App Message Detail"
     label: "In App Message Conversion"

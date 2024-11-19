@@ -7,127 +7,14 @@ view: player_popup_and_iam_summary {
       -- update '2024-09-27' v2
 
 
--- create or replace table tal_scratch.player_popup_and_iam_summary as
--- select * from tal_scratch.player_popup_and_iam_summary limit 1000
-
-with
-
-------------------------------------------------------------------------
--- Select all columns w/ the current date range
-------------------------------------------------------------------------
-
-base_data as (
-
-    select
-        rdg_id
-        , timestamp as timestamp_utc
-        , created_at
-        , version
-        , user_type
-        , session_id
-        , event_name
-        , extra_json
-        , experiments
-        , win_streak
-        , currencies
-        , last_level_serial -- definitely want this to break out the iam MTX offers
-        , engagement_ticks
-    from
-        `eraser-blast.game_data.events`
-    where
-
-        ------------------------------------------------------------------------
-        -- Date selection
-        -- We use this because the FIRST time we run this query we want all the data going back
-        -- but future runs we only want the last 9 days
-        ------------------------------------------------------------------------
-
-        date(timestamp) >=
-            case
-                -- select date(current_date())
-                when date(current_date()) <= '2024-09-27' -- Last Full Update
-                then '2022-06-01'
-                else date_add(current_date(), interval -9 day)
-                end
-        and date(timestamp) <= date_add(current_date(), interval -1 DAY)
-
-        ------------------------------------------------------------------------
-        -- user type selection
-        -- We only want users that are marked as "external"
-        -- This removes any bots or internal QA accounts
-        ------------------------------------------------------------------------
-        and user_type = 'external'
-
-        ------------------------------------------------------------------------
-        -- this event information
-        ------------------------------------------------------------------------
-
-        and event_name = 'ButtonClicked' -- button clicks
-        and json_extract_scalar(extra_json,"$.button_tag") like '%InAppMessaging%' -- in app messages only
-
-    )
-
--- SELECT * FROM base_data
-
-------------------------------------------------------------------------
--- data_from_extra_json
-------------------------------------------------------------------------
-
--- select extra_json from base_data limit 10
-
-, get_data_from_extra_json as (
-
-    select
-        rdg_id
-        , timestamp(date(timestamp_utc)) as rdg_date
-        , timestamp_utc
-        , created_at
-        , version
-        , session_id
-        , experiments
-        , win_streak
-        , last_level_serial
-        , round(safe_cast(engagement_ticks as int64) / 2) cumulative_time_played_minutes
-        , 1 as count_iam_messages
-
-        -- IAM Button Click Information
-        , json_extract_scalar(extra_json,"$.button_tag") as button_tag
-
-    from
-        base_data
-
-)
-
-------------------------------------------------------------------------
--- output for view
-------------------------------------------------------------------------
-
--- select * from get_data_from_extra_json
-
--- select column_name, data_type from `eraser-blast`.tal_scratch.INFORMATION_SCHEMA.COLUMNS where table_name = 'player_popup_and_iam_summary' order by ordinal_position
-
-select
-    rdg_id
-    , rdg_date
-    , timestamp_utc
-    , button_tag
-    , max(created_at) as created_at
-    , max(version) as version
-    , max(session_id) as session_id
-    , max(experiments) as experiments
-    , max(win_streak) as win_streak
-    , max(last_level_serial) as last_level_serial
-    , max(count_iam_messages) as count_iam_messages
-    , max(cumulative_time_played_minutes) as cumulative_time_played_minutes
-
-from
-    get_data_from_extra_json
-group by
-    1,2,3,4
+      select
+        *
+      from
+        ${player_popup_and_iam_incremental.SQL_TABLE_NAME}
 
 
       ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (1) + 2 )*( -10 ) minute)) ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (2) + 2 )*( -10 ) minute)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
     increment_key: "rdg_date"

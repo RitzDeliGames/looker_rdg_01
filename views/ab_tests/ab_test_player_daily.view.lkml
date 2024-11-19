@@ -55,7 +55,7 @@ view: ab_test_player_daily {
             as variant
         , case
 
-            when {% parameter selected_metric_daily %} = "Average Daily Coin Balance" then sum(a.ending_coins_balance)
+            when {% parameter selected_metric_daily %} = "Average Daily Coin Balance" then sum( case when a.ending_coins_balance >= 300000 then 300000 else a.ending_coins_balance end )
 
             when {% parameter selected_metric_daily %} = "Flour Frenzy Participation Days Per Player" then sum(a.feature_participation_flour_frenzy)
             when {% parameter selected_metric_daily %} = "Hot Dog Competition Participation Days Per Player" then sum(a.feature_participation_hot_dog_contest)

@@ -12,6 +12,8 @@ view: player_popup_and_iam_summary {
         , @{iam_group} as iam_group
         , @{iam_type} as iam_type
         , @{iam_conversion} as iam_conversion
+        , date_diff(date(rdg_date), date(created_at), day) as days_since_created -- Days Since Created
+        , 1 + date_diff(date(rdg_date), date(created_at), day) as day_number -- Player Day Number
       from
         ${player_popup_and_iam_incremental.SQL_TABLE_NAME}
 
@@ -48,13 +50,14 @@ view: player_popup_and_iam_summary {
 
   dimension: rdg_id {type:string}
   dimension: version {type:string}
+  dimension: version_number {type:number sql: safe_cast(${TABLE}.version as numeric ) ;;}
   dimension: session_id {type:string}
   dimension: experiments {type:string}
   dimension: win_streak {type:number}
   dimension: last_level_serial {type:number}
   dimension: count_iam_messages {type:number}
   dimension: cumulative_time_played_minutes {type:number}
-
+  dimension: day_number {type: number}
 
 ####################################################################
 ## Date Group
@@ -94,6 +97,24 @@ view: player_popup_and_iam_summary {
     label: "Button Tag"
     type:  string
     sql: ${TABLE}.button_tag ;;
+  }
+
+####################################################################
+## Experiments
+####################################################################
+
+  parameter: selected_experiment {
+    type: string
+    default_value:  "$.No_AB_Test_Split"
+  }
+
+  dimension: experiment_variant {
+    type: string
+    sql:
+    safe_cast(
+        json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
+        as string)
+    ;;
   }
 
 ####################################################################

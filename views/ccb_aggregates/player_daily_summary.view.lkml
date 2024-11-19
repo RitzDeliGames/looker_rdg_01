@@ -60,6 +60,52 @@ ads_by_date as (
 )
 
 -----------------------------------------------------------------------
+-- popups and iams by date
+-----------------------------------------------------------------------
+
+, popups_and_iams_by_date as (
+    select
+        rdg_id
+        , rdg_date
+        , sum( case when iam_type = 'Popup' and iam_group = 'BattlePass' then count_iam_messages else 0 end ) as popup_battlepass
+        , sum( case when iam_type = 'IAM' and iam_group = 'CE' then count_iam_messages else 0 end ) as iam_ce
+        , sum( case when iam_type = 'Popup' and iam_group = 'CastleClimb' then count_iam_messages else 0 end ) as popup_castleclimb
+        , sum( case when iam_type = 'IAM' and iam_group = 'Chameleon' then count_iam_messages else 0 end ) as iam_chameleon
+        , sum( case when iam_type = 'Popup' and iam_group = 'DailyReward' then count_iam_messages else 0 end ) as popup_dailyreward
+        , sum( case when iam_type = 'Popup' and iam_group = 'DonutSprint' then count_iam_messages else 0 end ) as popup_donutsprint
+        , sum( case when iam_type = 'Popup' and iam_group = 'FlourFrenzy' then count_iam_messages else 0 end ) as popup_flourfrenzy
+        , sum( case when iam_type = 'Popup' and iam_group = 'FoodTruck' then count_iam_messages else 0 end ) as popup_foodtruck
+        , sum( case when iam_type = 'Popup' and iam_group = 'GemQuest' then count_iam_messages else 0 end ) as popup_gemquest
+        , sum( case when iam_type = 'IAM' and iam_group = 'Generic' then count_iam_messages else 0 end ) as iam_generic
+        , sum( case when iam_type = 'Popup' and iam_group = 'GoFish' then count_iam_messages else 0 end ) as popup_gofish
+        , sum( case when iam_type = 'Popup' and iam_group = 'HotdogContest' then count_iam_messages else 0 end ) as popup_hotdogcontest
+        , sum( case when iam_type = 'Popup' and iam_group = 'LuckyDice' then count_iam_messages else 0 end ) as popup_luckydice
+        , sum( case when iam_type = 'IAM' and iam_group = 'MTXOffer' then count_iam_messages else 0 end ) as iam_mtxoffer
+        , sum( case when iam_type = 'IAM' and iam_group = 'MTXOffer: Discounted' then count_iam_messages else 0 end ) as iam_mtxoffer_discounted
+        , sum( case when iam_type = 'IAM' and iam_group = 'MTXOffer: Halloween' then count_iam_messages else 0 end ) as iam_mtxoffer_halloween
+        , sum( case when iam_type = 'IAM' and iam_group = 'MTXOffer: Lemonade' then count_iam_messages else 0 end ) as iam_mtxoffer_lemonade
+        , sum( case when iam_type = 'IAM' and iam_group = 'MTXOffer: Spring' then count_iam_messages else 0 end ) as iam_mtxoffer_spring
+        , sum( case when iam_type = 'IAM' and iam_group = 'MTXOffer: StarterOffer' then count_iam_messages else 0 end ) as iam_mtxoffer_starteroffer
+        , sum( case when iam_type = 'Popup' and iam_group = 'MovesMaster' then count_iam_messages else 0 end ) as popup_movesmaster
+        , sum( case when iam_type = 'IAM' and iam_group = 'NameChange' then count_iam_messages else 0 end ) as iam_namechange
+        , sum( case when iam_type = 'IAM' and iam_group = 'Notifications' then count_iam_messages else 0 end ) as iam_notifications
+        , sum( case when iam_type = 'Popup' and iam_group = 'PizzaTime' then count_iam_messages else 0 end ) as popup_pizzatime
+        , sum( case when iam_type = 'Popup' and iam_group = 'Puzzle' then count_iam_messages else 0 end ) as popup_puzzle
+        , sum( case when iam_type = 'IAM' and iam_group = 'RateUs' then count_iam_messages else 0 end ) as iam_rateus
+        , sum( case when iam_type = 'IAM' and iam_group = 'ShowAd' then count_iam_messages else 0 end ) as iam_showad
+        , sum( case when iam_type = 'IAM' and iam_group = 'TOTD' then count_iam_messages else 0 end ) as iam_totd
+        , sum( case when iam_type = 'IAM' and iam_group = 'Toaster' then count_iam_messages else 0 end ) as iam_toaster
+        , sum( case when iam_type = 'Popup' and iam_group = 'TreasureTrove' then count_iam_messages else 0 end ) as popup_treasuretrove
+        , sum( case when iam_type = 'Popup' and iam_group = 'UpdateApp' then count_iam_messages else 0 end ) as popup_updateapp
+    from
+        -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary
+        ${player_popup_and_iam_summary.SQL_TABLE_NAME}
+    group by
+        1,2
+)
+
+
+-----------------------------------------------------------------------
 -- mtx by date
 -----------------------------------------------------------------------
 
@@ -912,6 +958,68 @@ ads_by_date as (
 )
 
 
+-----------------------------------------------------------------------
+-- add on popups and iams
+-----------------------------------------------------------------------
+
+, add_on_popups_and_iams_step as (
+
+  select
+    a.*
+    , ifnull(b.popup_battlepass,0) as popup_battlepass
+    , ifnull(b.iam_ce,0) as iam_ce
+    , ifnull(b.popup_castleclimb,0) as popup_castleclimb
+    , ifnull(b.iam_chameleon,0) as iam_chameleon
+    , ifnull(b.popup_dailyreward,0) as popup_dailyreward
+    , ifnull(b.popup_donutsprint,0) as popup_donutsprint
+    , ifnull(b.popup_flourfrenzy,0) as popup_flourfrenzy
+    , ifnull(b.popup_foodtruck,0) as popup_foodtruck
+    , ifnull(b.popup_gemquest,0) as popup_gemquest
+    , ifnull(b.iam_generic,0) as iam_generic
+    , ifnull(b.popup_gofish,0) as popup_gofish
+    , ifnull(b.popup_hotdogcontest,0) as popup_hotdogcontest
+    , ifnull(b.popup_luckydice,0) as popup_luckydice
+    , ifnull(b.iam_mtxoffer,0) as iam_mtxoffer
+    , ifnull(b.iam_mtxoffer_discounted,0) as iam_mtxoffer_discounted
+    , ifnull(b.iam_mtxoffer_halloween,0) as iam_mtxoffer_halloween
+    , ifnull(b.iam_mtxoffer_lemonade,0) as iam_mtxoffer_lemonade
+    , ifnull(b.iam_mtxoffer_spring,0) as iam_mtxoffer_spring
+    , ifnull(b.iam_mtxoffer_starteroffer,0) as iam_mtxoffer_starteroffer
+    , ifnull(b.popup_movesmaster,0) as popup_movesmaster
+    , ifnull(b.iam_namechange,0) as iam_namechange
+    , ifnull(b.iam_notifications,0) as iam_notifications
+    , ifnull(b.popup_pizzatime,0) as popup_pizzatime
+    , ifnull(b.popup_puzzle,0) as popup_puzzle
+    , ifnull(b.iam_rateus,0) as iam_rateus
+    , ifnull(b.iam_showad,0) as iam_showad
+    , ifnull(b.iam_totd,0) as iam_totd
+    , ifnull(b.iam_toaster,0) as iam_toaster
+    , ifnull(b.popup_treasuretrove,0) as popup_treasuretrove
+    , ifnull(b.popup_updateapp,0) as popup_updateapp
+  from
+    data_with_system_info_updates a
+    left join popups_and_iams_by_date b
+      on a.rdg_id = b.rdg_id
+      and a.rdg_date = b.rdg_date
+
+)
+
+-----------------------------------------------------------------------
+-- join tickets data
+-----------------------------------------------------------------------
+
+, add_on_tickets_step as (
+
+  select
+    a.*
+    , ifnull(b.tickets_spend,0) as tickets_spend
+  from
+    add_on_popups_and_iams_step a
+    left join tickets_spend_by_date b
+      on a.rdg_id = b.rdg_id
+      and a.rdg_date = b.rdg_date
+
+)
 
 -----------------------------------------------------------------------
 -- cumulative calculations
@@ -1299,7 +1407,7 @@ ads_by_date as (
 
 
   FROM
-    data_with_system_info_updates
+    add_on_tickets_step
 
   where
       -- select date_add( current_date(), interval -1 day )
@@ -1326,17 +1434,13 @@ ads_by_date as (
 )
 
 -----------------------------------------------------------------------
--- join tickets data
+-- select *
 -----------------------------------------------------------------------
 
   select
-    a.*
-    , b.tickets_spend
+    *
   from
-    fix_for_cumulative_time_played_minutes_table a
-    left join tickets_spend_by_date b
-      on a.rdg_id = b.rdg_id
-      and a.rdg_date = b.rdg_date
+    fix_for_cumulative_time_played_minutes_table
 
 
 

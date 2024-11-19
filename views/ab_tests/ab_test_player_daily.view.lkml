@@ -260,7 +260,14 @@ view: ab_test_player_daily {
 
         -- country filter
         {% if country._is_filtered %}
-        and b.country = {% parameter country %}
+        and (
+          case
+            when b.country = {% parameter country %} then 1
+            when {% parameter country %} = 'LATAM'
+              and b.country in ('AR','BO','BZ','CL','CO','CR','EC','SV','GT','HN','MX','NI','PA','PY', 'PE', 'UY', 'VE', 'BR') then 1
+            else 0
+            end = 1
+            )
         {% endif %}
 
       group by
@@ -1019,7 +1026,7 @@ view: ab_test_player_daily {
   parameter: country {
     type: string
     default_value: "US"
-    suggestions:  ["US"]
+    suggestions:  ["US", "LATAM"]
   }
 
   parameter: selected_iterations {

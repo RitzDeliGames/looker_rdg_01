@@ -12,6 +12,7 @@ view: player_popup_and_iam_summary {
         , @{iam_group} as iam_group
         , @{iam_type} as iam_type
         , @{iam_conversion} as iam_conversion
+        , @{iam_destination_type} as iam_destination_type
         , date_diff(date(rdg_date), date(created_at), day) as days_since_created -- Days Since Created
         , 1 + date_diff(date(rdg_date), date(created_at), day) as day_number -- Player Day Number
       from
@@ -90,6 +91,13 @@ view: player_popup_and_iam_summary {
     group_label: "In App Message Detail"
     label: "In App Message Conversion"
     type:  number
+  }
+
+  dimension: iam_destination_type {
+    group_label: "In App Message Detail"
+    label: "Destination Type"
+    type:  string
+    sql:  ${TABLE}.iam_destination_type ;;
   }
 
   dimension: button_tag {

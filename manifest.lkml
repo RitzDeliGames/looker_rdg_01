@@ -1008,6 +1008,80 @@ constant: iam_group {
   end"
 }
 
+constant: iam_destination_type {
+  value: "
+  case
+  when button_tag = 'Sheet_InAppMessaging.' then 'Generic'
+  when button_tag = 'Sheet_InAppMessaging.Close' then 'Generic'
+  when button_tag = 'Sheet_InAppMessaging_CE.' then 'Generic'
+  when button_tag = 'Sheet_InAppMessaging_Generic.' then 'Generic'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_NameChange.' then 'PlayerAction'
+  when button_tag = 'Sheet_InAppMessaging_Notifications.' then 'PlayerAction'
+  when button_tag = 'Sheet_InAppMessaging_Notifications.Close' then 'PlayerAction'
+  when button_tag = 'Sheet_InAppMessaging_RateUs.' then 'PlayerAction'
+  when button_tag = 'Sheet_InAppMessaging_RateUs.Close' then 'PlayerAction'
+  when button_tag = 'Sheet_InAppMessaging_RateUs.IAM' then 'PlayerAction'
+  when button_tag = 'Sheet_InAppMessaging_TOTD.' then 'PlayerAction'
+
+  when button_tag = 'Sheet_InAppMessaging_BoostEquip.' then 'PlayerAction'
+  when button_tag = 'Sheet_InAppMessaging_IAP_bundle.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_Toaster.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_Notifications.IAM' then 'PlayerAction'
+  when button_tag = 'Sheet_InAppMessaging_Chameleon.IAM' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_Chameleon.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_Survey.' then 'PlayerAction'
+
+  when button_tag = 'Sheet_InAppMessaging_Ad.ShowAd' then 'AdView'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Halloween.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Halloween.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_StarterOffer.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_StarterOffer.Close' then 'Offer'
+  when button_tag = 'Sheet_PM_BattlePass.Close' then 'Reward'
+  when button_tag = 'Sheet_PM_BattlePass.Continue' then 'Reward'
+  when button_tag = 'Sheet_PM_CastleClimb.Close' then 'GameMode'
+  when button_tag = 'Sheet_PM_CastleClimb.Continue' then 'GameMode'
+  when button_tag = 'Sheet_PM_DailyReward.Close' then 'Reward'
+  when button_tag = 'Sheet_PM_DailyReward.Continue' then 'Reward'
+  when button_tag = 'Sheet_PM_DonutSprint.Close' then 'GameMode'
+  when button_tag = 'Sheet_PM_DonutSprint.Continue' then 'GameMode'
+  when button_tag = 'Sheet_PM_FlourFrenzy.Close' then 'GameMode'
+  when button_tag = 'Sheet_PM_FlourFrenzy.Continue' then 'GameMode'
+  when button_tag = 'Sheet_PM_FoodTruck.Close' then 'GameMode'
+  when button_tag = 'Sheet_PM_FoodTruck.Continue' then 'GameMode'
+  when button_tag = 'Sheet_PM_GemQuest.Close' then 'GameMode'
+  when button_tag = 'Sheet_PM_GemQuest.Continue' then 'GameMode'
+  when button_tag = 'Sheet_PM_GoFish.Close' then 'GameMode'
+  when button_tag = 'Sheet_PM_GoFish.Continue' then 'GameMode'
+  when button_tag = 'Sheet_PM_HotdogContest.Close' then 'GameMode'
+  when button_tag = 'Sheet_PM_HotdogContest.Continue' then 'GameMode'
+  when button_tag = 'Sheet_PM_LuckyDice.Close' then 'Reward'
+  when button_tag = 'Sheet_PM_LuckyDice.Continue' then 'Reward'
+  when button_tag = 'Sheet_PM_MovesMaster.Close' then 'GameMode'
+  when button_tag = 'Sheet_PM_MovesMaster.Continue' then 'GameMode'
+  when button_tag = 'Sheet_PM_PizzaTime.Close' then 'Reward'
+  when button_tag = 'Sheet_PM_PizzaTime.Continue' then 'Reward'
+  when button_tag = 'Sheet_PM_Puzzle.Close' then 'GameMode'
+  when button_tag = 'Sheet_PM_Puzzle.Continue' then 'GameMode'
+  when button_tag = 'Sheet_PM_Puzzles.Close' then 'GameMode'
+  when button_tag = 'Sheet_PM_Puzzles.Continue' then 'GameMode'
+  when button_tag = 'Sheet_PM_TreasureTrove.Close' then 'Reward'
+  when button_tag = 'Sheet_PM_TreasureTrove.Continue' then 'Reward'
+  when button_tag = 'Sheet_PM_UpdateApp.Close' then 'PlayerAction'
+  when button_tag = 'Sheet_PM_UpdateApp.Continue' then 'PlayerAction'
+
+
+  else 'UnMapped'
+  end"
+}
+
 constant: iam_conversion {
   value: "
   case

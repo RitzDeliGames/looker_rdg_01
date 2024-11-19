@@ -927,8 +927,8 @@ constant: iap_id_strings_grouped_new {
 constant: iam_type {
   value: "
   case
-  when ${TABLE}.button_tag like 'Sheet_InAppMessaging%' then 'IAM'
-  when ${TABLE}.button_tag like 'Sheet_PM_%' then 'Popup'
+  when button_tag like 'Sheet_InAppMessaging%' then 'IAM'
+  when button_tag like 'Sheet_PM_%' then 'Popup'
 
   else 'UnMapped'
   end"
@@ -937,71 +937,71 @@ constant: iam_type {
 constant: iam_group {
   value: "
   case
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging.' then 'InAppMessage'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging.Close' then 'InAppMessage'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_CE.' then 'CE'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Generic.' then 'Generic'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer.' then 'MTXOffer'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer.Close' then 'MTXOffer'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_NameChange.' then 'NameChange'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Notifications.' then 'Notifications'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Notifications.Close' then 'Notifications'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.' then 'RateUs'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.Close' then 'RateUs'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.IAM' then 'RateUs'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_TOTD.' then 'TOTD'
+  when button_tag = 'Sheet_InAppMessaging.' then 'InAppMessage'
+  when button_tag = 'Sheet_InAppMessaging.Close' then 'InAppMessage'
+  when button_tag = 'Sheet_InAppMessaging_CE.' then 'CE'
+  when button_tag = 'Sheet_InAppMessaging_Generic.' then 'Generic'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer.' then 'MTXOffer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer.Close' then 'MTXOffer'
+  when button_tag = 'Sheet_InAppMessaging_NameChange.' then 'NameChange'
+  when button_tag = 'Sheet_InAppMessaging_Notifications.' then 'Notifications'
+  when button_tag = 'Sheet_InAppMessaging_Notifications.Close' then 'Notifications'
+  when button_tag = 'Sheet_InAppMessaging_RateUs.' then 'RateUs'
+  when button_tag = 'Sheet_InAppMessaging_RateUs.Close' then 'RateUs'
+  when button_tag = 'Sheet_InAppMessaging_RateUs.IAM' then 'RateUs'
+  when button_tag = 'Sheet_InAppMessaging_TOTD.' then 'TOTD'
 
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_BoostEquip.' then 'Boost Equip'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_IAP_bundle.' then 'IAP Bundle'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Toaster.Close' then 'Toaster'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Notifications.IAM' then 'Notifications'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Chameleon.IAM' then 'Chameleon'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Chameleon.Close' then 'Chameleon'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.' then 'MTXOffer: Spring'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.Close' then 'MTXOffer: Spring'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.' then 'MTXOffer: Lemonade'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.Close' then 'MTXOffer: Lemonade'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Survey.' then 'Survey'
+  when button_tag = 'Sheet_InAppMessaging_BoostEquip.' then 'Boost Equip'
+  when button_tag = 'Sheet_InAppMessaging_IAP_bundle.' then 'IAP Bundle'
+  when button_tag = 'Sheet_InAppMessaging_Toaster.Close' then 'Toaster'
+  when button_tag = 'Sheet_InAppMessaging_Notifications.IAM' then 'Notifications'
+  when button_tag = 'Sheet_InAppMessaging_Chameleon.IAM' then 'Chameleon'
+  when button_tag = 'Sheet_InAppMessaging_Chameleon.Close' then 'Chameleon'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.' then 'MTXOffer: Spring'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.Close' then 'MTXOffer: Spring'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.' then 'MTXOffer: Lemonade'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.Close' then 'MTXOffer: Lemonade'
+  when button_tag = 'Sheet_InAppMessaging_Survey.' then 'Survey'
 
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Ad.ShowAd' then 'ShowAd'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted.' then 'MTXOffer: Discounted'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted.Close' then 'MTXOffer: Discounted'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Halloween.' then 'MTXOffer: Halloween'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Halloween.Close' then 'MTXOffer: Halloween'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_StarterOffer.' then 'MTXOffer: StarterOffer'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_StarterOffer.Close' then 'MTXOffer: StarterOffer'
-    when ${TABLE}.button_tag = 'Sheet_PM_BattlePass.Close' then 'BattlePass'
-    when ${TABLE}.button_tag = 'Sheet_PM_BattlePass.Continue' then 'BattlePass'
-    when ${TABLE}.button_tag = 'Sheet_PM_CastleClimb.Close' then 'CastleClimb'
-    when ${TABLE}.button_tag = 'Sheet_PM_CastleClimb.Continue' then 'CastleClimb'
-    when ${TABLE}.button_tag = 'Sheet_PM_DailyReward.Close' then 'DailyReward'
-    when ${TABLE}.button_tag = 'Sheet_PM_DailyReward.Continue' then 'DailyReward'
-    when ${TABLE}.button_tag = 'Sheet_PM_DonutSprint.Close' then 'DonutSprint'
-    when ${TABLE}.button_tag = 'Sheet_PM_DonutSprint.Continue' then 'DonutSprint'
-    when ${TABLE}.button_tag = 'Sheet_PM_FlourFrenzy.Close' then 'FlourFrenzy'
-    when ${TABLE}.button_tag = 'Sheet_PM_FlourFrenzy.Continue' then 'FlourFrenzy'
-    when ${TABLE}.button_tag = 'Sheet_PM_FoodTruck.Close' then 'FoodTruck'
-    when ${TABLE}.button_tag = 'Sheet_PM_FoodTruck.Continue' then 'FoodTruck'
-    when ${TABLE}.button_tag = 'Sheet_PM_GemQuest.Close' then 'GemQuest'
-    when ${TABLE}.button_tag = 'Sheet_PM_GemQuest.Continue' then 'GemQuest'
-    when ${TABLE}.button_tag = 'Sheet_PM_GoFish.Close' then 'GoFish'
-    when ${TABLE}.button_tag = 'Sheet_PM_GoFish.Continue' then 'GoFish'
-    when ${TABLE}.button_tag = 'Sheet_PM_HotdogContest.Close' then 'HotdogContest'
-    when ${TABLE}.button_tag = 'Sheet_PM_HotdogContest.Continue' then 'HotdogContest'
-    when ${TABLE}.button_tag = 'Sheet_PM_LuckyDice.Close' then 'LuckyDice'
-    when ${TABLE}.button_tag = 'Sheet_PM_LuckyDice.Continue' then 'LuckyDice'
-    when ${TABLE}.button_tag = 'Sheet_PM_MovesMaster.Close' then 'MovesMaster'
-    when ${TABLE}.button_tag = 'Sheet_PM_MovesMaster.Continue' then 'MovesMaster'
-    when ${TABLE}.button_tag = 'Sheet_PM_PizzaTime.Close' then 'PizzaTime'
-    when ${TABLE}.button_tag = 'Sheet_PM_PizzaTime.Continue' then 'PizzaTime'
-    when ${TABLE}.button_tag = 'Sheet_PM_Puzzle.Close' then 'Puzzle'
-    when ${TABLE}.button_tag = 'Sheet_PM_Puzzle.Continue' then 'Puzzle'
-    when ${TABLE}.button_tag = 'Sheet_PM_Puzzles.Close' then 'Puzzle'
-    when ${TABLE}.button_tag = 'Sheet_PM_Puzzles.Continue' then 'Puzzle'
-    when ${TABLE}.button_tag = 'Sheet_PM_TreasureTrove.Close' then 'TreasureTrove'
-    when ${TABLE}.button_tag = 'Sheet_PM_TreasureTrove.Continue' then 'TreasureTrove'
-    when ${TABLE}.button_tag = 'Sheet_PM_UpdateApp.Close' then 'UpdateApp'
-    when ${TABLE}.button_tag = 'Sheet_PM_UpdateApp.Continue' then 'UpdateApp'
+  when button_tag = 'Sheet_InAppMessaging_Ad.ShowAd' then 'ShowAd'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted.' then 'MTXOffer: Discounted'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted.Close' then 'MTXOffer: Discounted'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Halloween.' then 'MTXOffer: Halloween'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Halloween.Close' then 'MTXOffer: Halloween'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_StarterOffer.' then 'MTXOffer: StarterOffer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_StarterOffer.Close' then 'MTXOffer: StarterOffer'
+  when button_tag = 'Sheet_PM_BattlePass.Close' then 'BattlePass'
+  when button_tag = 'Sheet_PM_BattlePass.Continue' then 'BattlePass'
+  when button_tag = 'Sheet_PM_CastleClimb.Close' then 'CastleClimb'
+  when button_tag = 'Sheet_PM_CastleClimb.Continue' then 'CastleClimb'
+  when button_tag = 'Sheet_PM_DailyReward.Close' then 'DailyReward'
+  when button_tag = 'Sheet_PM_DailyReward.Continue' then 'DailyReward'
+  when button_tag = 'Sheet_PM_DonutSprint.Close' then 'DonutSprint'
+  when button_tag = 'Sheet_PM_DonutSprint.Continue' then 'DonutSprint'
+  when button_tag = 'Sheet_PM_FlourFrenzy.Close' then 'FlourFrenzy'
+  when button_tag = 'Sheet_PM_FlourFrenzy.Continue' then 'FlourFrenzy'
+  when button_tag = 'Sheet_PM_FoodTruck.Close' then 'FoodTruck'
+  when button_tag = 'Sheet_PM_FoodTruck.Continue' then 'FoodTruck'
+  when button_tag = 'Sheet_PM_GemQuest.Close' then 'GemQuest'
+  when button_tag = 'Sheet_PM_GemQuest.Continue' then 'GemQuest'
+  when button_tag = 'Sheet_PM_GoFish.Close' then 'GoFish'
+  when button_tag = 'Sheet_PM_GoFish.Continue' then 'GoFish'
+  when button_tag = 'Sheet_PM_HotdogContest.Close' then 'HotdogContest'
+  when button_tag = 'Sheet_PM_HotdogContest.Continue' then 'HotdogContest'
+  when button_tag = 'Sheet_PM_LuckyDice.Close' then 'LuckyDice'
+  when button_tag = 'Sheet_PM_LuckyDice.Continue' then 'LuckyDice'
+  when button_tag = 'Sheet_PM_MovesMaster.Close' then 'MovesMaster'
+  when button_tag = 'Sheet_PM_MovesMaster.Continue' then 'MovesMaster'
+  when button_tag = 'Sheet_PM_PizzaTime.Close' then 'PizzaTime'
+  when button_tag = 'Sheet_PM_PizzaTime.Continue' then 'PizzaTime'
+  when button_tag = 'Sheet_PM_Puzzle.Close' then 'Puzzle'
+  when button_tag = 'Sheet_PM_Puzzle.Continue' then 'Puzzle'
+  when button_tag = 'Sheet_PM_Puzzles.Close' then 'Puzzle'
+  when button_tag = 'Sheet_PM_Puzzles.Continue' then 'Puzzle'
+  when button_tag = 'Sheet_PM_TreasureTrove.Close' then 'TreasureTrove'
+  when button_tag = 'Sheet_PM_TreasureTrove.Continue' then 'TreasureTrove'
+  when button_tag = 'Sheet_PM_UpdateApp.Close' then 'UpdateApp'
+  when button_tag = 'Sheet_PM_UpdateApp.Continue' then 'UpdateApp'
 
 
   else 'UnMapped'
@@ -1011,71 +1011,71 @@ constant: iam_group {
 constant: iam_conversion {
   value: "
   case
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging.' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_CE.' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Generic.' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer.' then 1
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_NameChange.' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Notifications.' then 1
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Notifications.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.' then 1
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_RateUs.IAM' then 1
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_TOTD.' then 0
+  when button_tag = 'Sheet_InAppMessaging.' then 0
+  when button_tag = 'Sheet_InAppMessaging.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_CE.' then 0
+  when button_tag = 'Sheet_InAppMessaging_Generic.' then 0
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer.' then 1
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_NameChange.' then 0
+  when button_tag = 'Sheet_InAppMessaging_Notifications.' then 1
+  when button_tag = 'Sheet_InAppMessaging_Notifications.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_RateUs.' then 1
+  when button_tag = 'Sheet_InAppMessaging_RateUs.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_RateUs.IAM' then 1
+  when button_tag = 'Sheet_InAppMessaging_TOTD.' then 0
 
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_BoostEquip.' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_IAP_bundle.' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Toaster.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Notifications.IAM' then 1
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Chameleon.IAM' then 1
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Chameleon.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.' then 1
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.' then 1
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Survey.' then 0
+  when button_tag = 'Sheet_InAppMessaging_BoostEquip.' then 0
+  when button_tag = 'Sheet_InAppMessaging_IAP_bundle.' then 0
+  when button_tag = 'Sheet_InAppMessaging_Toaster.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_Notifications.IAM' then 1
+  when button_tag = 'Sheet_InAppMessaging_Chameleon.IAM' then 1
+  when button_tag = 'Sheet_InAppMessaging_Chameleon.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.' then 1
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.' then 1
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_Survey.' then 0
 
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Ad.ShowAd' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted.' then 1
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Halloween.' then 1
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Halloween.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_StarterOffer.' then 1
-  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_StarterOffer.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_BattlePass.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_BattlePass.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_CastleClimb.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_CastleClimb.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_DailyReward.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_DailyReward.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_DonutSprint.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_DonutSprint.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_FlourFrenzy.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_FlourFrenzy.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_FoodTruck.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_FoodTruck.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_GemQuest.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_GemQuest.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_GoFish.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_GoFish.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_HotdogContest.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_HotdogContest.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_LuckyDice.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_LuckyDice.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_MovesMaster.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_MovesMaster.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_PizzaTime.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_PizzaTime.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_Puzzle.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_Puzzle.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_Puzzles.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_Puzzles.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_TreasureTrove.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_TreasureTrove.Continue' then 1
-  when ${TABLE}.button_tag = 'Sheet_PM_UpdateApp.Close' then 0
-  when ${TABLE}.button_tag = 'Sheet_PM_UpdateApp.Continue' then 1
+  when button_tag = 'Sheet_InAppMessaging_Ad.ShowAd' then 0
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted.' then 1
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Halloween.' then 1
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Halloween.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_StarterOffer.' then 1
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_StarterOffer.Close' then 0
+  when button_tag = 'Sheet_PM_BattlePass.Close' then 0
+  when button_tag = 'Sheet_PM_BattlePass.Continue' then 1
+  when button_tag = 'Sheet_PM_CastleClimb.Close' then 0
+  when button_tag = 'Sheet_PM_CastleClimb.Continue' then 1
+  when button_tag = 'Sheet_PM_DailyReward.Close' then 0
+  when button_tag = 'Sheet_PM_DailyReward.Continue' then 1
+  when button_tag = 'Sheet_PM_DonutSprint.Close' then 0
+  when button_tag = 'Sheet_PM_DonutSprint.Continue' then 1
+  when button_tag = 'Sheet_PM_FlourFrenzy.Close' then 0
+  when button_tag = 'Sheet_PM_FlourFrenzy.Continue' then 1
+  when button_tag = 'Sheet_PM_FoodTruck.Close' then 0
+  when button_tag = 'Sheet_PM_FoodTruck.Continue' then 1
+  when button_tag = 'Sheet_PM_GemQuest.Close' then 0
+  when button_tag = 'Sheet_PM_GemQuest.Continue' then 1
+  when button_tag = 'Sheet_PM_GoFish.Close' then 0
+  when button_tag = 'Sheet_PM_GoFish.Continue' then 1
+  when button_tag = 'Sheet_PM_HotdogContest.Close' then 0
+  when button_tag = 'Sheet_PM_HotdogContest.Continue' then 1
+  when button_tag = 'Sheet_PM_LuckyDice.Close' then 0
+  when button_tag = 'Sheet_PM_LuckyDice.Continue' then 1
+  when button_tag = 'Sheet_PM_MovesMaster.Close' then 0
+  when button_tag = 'Sheet_PM_MovesMaster.Continue' then 1
+  when button_tag = 'Sheet_PM_PizzaTime.Close' then 0
+  when button_tag = 'Sheet_PM_PizzaTime.Continue' then 1
+  when button_tag = 'Sheet_PM_Puzzle.Close' then 0
+  when button_tag = 'Sheet_PM_Puzzle.Continue' then 1
+  when button_tag = 'Sheet_PM_Puzzles.Close' then 0
+  when button_tag = 'Sheet_PM_Puzzles.Continue' then 1
+  when button_tag = 'Sheet_PM_TreasureTrove.Close' then 0
+  when button_tag = 'Sheet_PM_TreasureTrove.Continue' then 1
+  when button_tag = 'Sheet_PM_UpdateApp.Close' then 0
+  when button_tag = 'Sheet_PM_UpdateApp.Continue' then 1
 
   else 0
   end"

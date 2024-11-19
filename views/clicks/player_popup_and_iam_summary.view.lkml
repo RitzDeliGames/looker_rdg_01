@@ -9,6 +9,9 @@ view: player_popup_and_iam_summary {
 
       select
         *
+        , @{iam_group} as iam_group
+        , @{iam_type} as iam_type
+        , @{iam_conversion} as iam_conversion
       from
         ${player_popup_and_iam_incremental.SQL_TABLE_NAME}
 
@@ -72,21 +75,18 @@ view: player_popup_and_iam_summary {
     group_label: "In App Message Detail"
     label: "In App Message Group"
     type:  string
-    sql: @{iam_group} ;;
   }
 
   dimension: iam_type {
     group_label: "In App Message Detail"
     label: "In App Message Type"
     type:  string
-    sql: @{iam_type} ;;
   }
 
   dimension: iam_conversion {
     group_label: "In App Message Detail"
     label: "In App Message Conversion"
     type:  number
-    sql: @{iam_conversion} ;;
   }
 
   dimension: button_tag {
@@ -152,7 +152,7 @@ view: player_popup_and_iam_summary {
     type: number
     sql:
       safe_divide(
-        sum(ifnull(safe_cast( @{iam_conversion} as int64 ),0) )
+        sum(ifnull(safe_cast( ${TABLE}.iam_conversion as int64 ),0) )
         ,
         sum(${TABLE}.count_iam_messages)
       )

@@ -534,7 +534,7 @@ explore: player_recent_full_event_data {
 
 explore: player_popup_and_iam_summary {
 
-  label: "Player IAM Summary"
+  label: "Player Popup and IAM Summary"
 
   join: player_summary_new {
     view_label: "Player Summary"

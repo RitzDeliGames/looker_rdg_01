@@ -957,10 +957,10 @@ constant: iam_group {
     when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Notifications.IAM' then 'Notifications'
     when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Chameleon.IAM' then 'Chameleon'
     when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Chameleon.Close' then 'Chameleon'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.' then 'MTX Offer: Spring'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.Close' then 'MTX Offer: Spring'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.' then 'MTX Offer: Lemonade'
-    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.Close' then 'MTX Offer: Lemonade'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.' then 'MTXOffer: Spring'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Spring.Close' then 'MTXOffer: Spring'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.' then 'MTXOffer: Lemonade'
+    when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.Close' then 'MTXOffer: Lemonade'
     when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Survey.' then 'Survey'
 
     when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Ad.ShowAd' then 'ShowAd'
@@ -1036,6 +1036,46 @@ constant: iam_conversion {
   when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.' then 1
   when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Lemonade.Close' then 0
   when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Survey.' then 0
+
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_Ad.ShowAd' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted.' then 1
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Halloween.' then 1
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_Halloween.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_StarterOffer.' then 1
+  when ${TABLE}.button_tag = 'Sheet_InAppMessaging_MTXOffer_StarterOffer.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_BattlePass.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_BattlePass.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_CastleClimb.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_CastleClimb.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_DailyReward.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_DailyReward.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_DonutSprint.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_DonutSprint.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_FlourFrenzy.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_FlourFrenzy.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_FoodTruck.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_FoodTruck.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_GemQuest.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_GemQuest.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_GoFish.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_GoFish.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_HotdogContest.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_HotdogContest.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_LuckyDice.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_LuckyDice.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_MovesMaster.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_MovesMaster.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_PizzaTime.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_PizzaTime.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_Puzzle.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_Puzzle.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_Puzzles.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_Puzzles.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_TreasureTrove.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_TreasureTrove.Continue' then 1
+  when ${TABLE}.button_tag = 'Sheet_PM_UpdateApp.Close' then 0
+  when ${TABLE}.button_tag = 'Sheet_PM_UpdateApp.Continue' then 1
 
   else 0
   end"

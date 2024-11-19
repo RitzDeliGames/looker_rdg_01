@@ -57,18 +57,11 @@ view: player_popup_and_iam_summary {
 ## Date Group
 ####################################################################
 
-  # # Define your dimensions and measures here, like this:
   dimension_group: rdg_date_analysis {
-    label: "In App Message Datetime"
+    label: "Activity"
     type: time
-    timeframes: [time, date, week, month, year]
-    sql: ${TABLE}.timestamp_utc ;;
-  }
-
-  ## I believe you need this as a separate field or you will get the
-  ## "build skipped due to error in required child" error when trying to rebuild
-  dimension: rdg_date {
-    type: date
+    timeframes: [date, week, month, year]
+    sql: ${TABLE}.rdg_date ;;
   }
 
 ####################################################################
@@ -101,6 +94,42 @@ view: player_popup_and_iam_summary {
     label: "Button Tag"
     type:  string
     sql: ${TABLE}.button_tag ;;
+  }
+
+####################################################################
+## Level Buckets
+####################################################################
+
+  parameter: dynamic_level_bucket_size {
+    type: number
+  }
+
+  dimension: dynamic_level_bucket {
+    label: "Dynamic Level Bucket"
+    type:string
+    sql:
+    safe_cast(
+      floor( safe_divide(${TABLE}.last_level_serial,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
+      as string
+      )
+    || ' to '
+    ||
+    safe_cast(
+      ceiling(safe_divide(${TABLE}.last_level_serial+1,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}-1
+      as string
+      )
+    ;;
+  }
+
+  dimension: dynamic_level_bucket_order {
+    label: "Dynamic Level Bucket Order"
+    type:number
+    sql:
+    safe_cast(
+      floor( safe_divide(${TABLE}.last_level_serial,{% parameter dynamic_level_bucket_size %}))*{% parameter dynamic_level_bucket_size %}
+      as int64
+      )
+    ;;
   }
 
 ####################################################################

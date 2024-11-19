@@ -12,8 +12,8 @@ view: adhoc_2024_09_18_rate_us_IAM_per_player_per_day {
         , rdg_id
         , sum( 1 ) as count_instances
       from
-        -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_iam_incremental
-        ${player_iam_incremental.SQL_TABLE_NAME}
+        -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_popup_and_iam_summary
+        ${player_popup_and_iam_summary.SQL_TABLE_NAME}
       where
         --date(rdg_date) between '2024-01-01' and '2024-09-17'
         button_tag in (

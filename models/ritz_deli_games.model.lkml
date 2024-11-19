@@ -532,7 +532,7 @@ explore: player_recent_full_event_data {
 
 ################################################################
 
-explore: player_iam_incremental {
+explore: player_popup_and_iam_summary {
 
   label: "Player IAM Summary"
 
@@ -541,7 +541,7 @@ explore: player_iam_incremental {
     type: left_outer
     relationship: many_to_one
     sql_on:
-      ${player_iam_incremental.rdg_id} = ${player_summary_new.rdg_id}
+      ${player_popup_and_iam_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
 }

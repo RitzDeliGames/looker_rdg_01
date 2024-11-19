@@ -1,4 +1,4 @@
-view: player_iam_incremental {
+view: player_popup_and_iam_summary {
   # # You can specify the table name if it's different from the view name:
   derived_table: {
     sql:
@@ -7,8 +7,8 @@ view: player_iam_incremental {
       -- update '2024-09-27' v2
 
 
--- create or replace table tal_scratch.player_iam_incremental as
--- select * from tal_scratch.player_iam_incremental limit 1000
+-- create or replace table tal_scratch.player_popup_and_iam_summary as
+-- select * from tal_scratch.player_popup_and_iam_summary limit 1000
 
 with
 
@@ -104,7 +104,7 @@ base_data as (
 
 -- select * from get_data_from_extra_json
 
--- select column_name, data_type from `eraser-blast`.tal_scratch.INFORMATION_SCHEMA.COLUMNS where table_name = 'player_iam_incremental' order by ordinal_position
+-- select column_name, data_type from `eraser-blast`.tal_scratch.INFORMATION_SCHEMA.COLUMNS where table_name = 'player_popup_and_iam_summary' order by ordinal_position
 
 select
     rdg_id

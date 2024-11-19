@@ -43,8 +43,8 @@ view: adhoc_2024_09_19_notifications_iam_check {
           , min(timestamp_utc) as first_seen_notifications_iam
           , min(cumulative_time_played_minutes) as cumulative_time_played_minutes
         from
-          -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_iam_incremental
-          ${player_iam_incremental.SQL_TABLE_NAME}
+          -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_popup_and_iam_summary
+          ${player_popup_and_iam_summary.SQL_TABLE_NAME}
         where
           date(rdg_date) between '2024-07-01' and '2024-09-17'
           and button_tag in (

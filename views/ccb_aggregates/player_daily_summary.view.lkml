@@ -1007,6 +1007,13 @@ ads_by_date as (
     , ifnull(b.popup_updateapp,0) as popup_updateapp
     , ifnull(b.iam_total,0) as iam_total
     , ifnull(b.popup_total,0) as popup_total
+    , ifnull(b.iam_destination_adview,0) as iam_destination_adview
+    , ifnull(b.popup_destination_gamemode,0) as popup_destination_gamemode
+    , ifnull(b.iam_destination_generic,0) as iam_destination_generic
+    , ifnull(b.iam_destination_offer,0) as iam_destination_offer
+    , ifnull(b.popup_destination_playeraction,0) as popup_destination_playeraction
+    , ifnull(b.iam_destination_playeraction,0) as iam_destination_playeraction
+    , ifnull(b.popup_destination_reward,0) as popup_destination_reward
   from
     data_with_system_info_updates a
     left join popups_and_iams_by_date b
@@ -6452,20 +6459,322 @@ measure: count_daily_popup_BattlePass {
     value_format_name: decimal_0
   }
 
-  measure: popup_iam_per_player_donutsprint {
-    label: "Donut Sprint"
-    group_label: "Daily Popup/IAM per DAU"
-    type: number
-    value_format_name: decimal_1
-    sql: safe_divide( sum( ${TABLE}.popup_donutsprint ) , sum( ${TABLE}.count_days_played ) ;;
-  }
 
-  measure: popup_iam_by_group_per_player_popup_battlepass {
-    label: "Battle Pass"
+  ######################################################################################
+  ## Popups/IAM Per DAU
+  ## https://docs.google.com/spreadsheets/d/1Rchj0WMpqLQKI-1tMo2qFFii7HK0YoUdB-OXb_HIt7A/edit?usp=drive_link
+  ######################################################################################
+
+  measure: popup_iam_per_player_iam_ce {
+    label: "IAM - Ce"
     group_label: "Popup/IAM By Group per DAU"
     type: number
-    value_format_name: decimal_1
-    sql: safe_divide( sum( ${TABLE}.popup_battlepass ) , sum( ${TABLE}.count_days_played ) ;;
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_ce ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_chameleon {
+    label: "IAM - Chameleon"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_chameleon ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_generic {
+    label: "IAM - Generic"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_generic ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_mtxoffer {
+    label: "IAM - Mtxoffer"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_mtxoffer ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_mtxoffer_discounted {
+    label: "IAM - Mtxoffer_Discounted"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_mtxoffer_discounted ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_mtxoffer_halloween {
+    label: "IAM - Mtxoffer_Halloween"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_mtxoffer_halloween ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_mtxoffer_lemonade {
+    label: "IAM - Mtxoffer_Lemonade"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_mtxoffer_lemonade ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_mtxoffer_spring {
+    label: "IAM - Mtxoffer_Spring"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_mtxoffer_spring ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_mtxoffer_starteroffer {
+    label: "IAM - Mtxoffer_Starteroffer"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_mtxoffer_starteroffer ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_namechange {
+    label: "IAM - Namechange"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_namechange ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_notifications {
+    label: "IAM - Notifications"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_notifications ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_rateus {
+    label: "IAM - Rateus"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_rateus ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_showad {
+    label: "IAM - Showad"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_showad ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_toaster {
+    label: "IAM - Toaster"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_toaster ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_totd {
+    label: "IAM - Totd"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_totd ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_battlepass {
+    label: "Popup - Battlepass"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_battlepass ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_castleclimb {
+    label: "Popup - Castleclimb"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_castleclimb ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_dailyreward {
+    label: "Popup - Dailyreward"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_dailyreward ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_donutsprint {
+    label: "Popup - Donutsprint"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_donutsprint ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_flourfrenzy {
+    label: "Popup - Flourfrenzy"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_flourfrenzy ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_foodtruck {
+    label: "Popup - Foodtruck"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_foodtruck ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_gemquest {
+    label: "Popup - Gemquest"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_gemquest ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_gofish {
+    label: "Popup - Gofish"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_gofish ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_hotdogcontest {
+    label: "Popup - Hotdogcontest"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_hotdogcontest ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_luckydice {
+    label: "Popup - Luckydice"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_luckydice ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_movesmaster {
+    label: "Popup - Movesmaster"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_movesmaster ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_pizzatime {
+    label: "Popup - Pizzatime"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_pizzatime ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_puzzle {
+    label: "Popup - Puzzle"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_puzzle ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_treasuretrove {
+    label: "Popup - Treasuretrove"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_treasuretrove ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_updateapp {
+    label: "Popup - Updateapp"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_updateapp ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_total {
+    label: "IAM - Total"
+    group_label: "Popup/IAM Totals per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_total ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_total {
+    label: "Popup - Total"
+    group_label: "Popup/IAM Totals per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_total ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_destination_gamemode {
+    label: "Popup - Gamemode"
+    group_label: "Popup/IAM By Destination per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_destination_gamemode ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_destination_playeraction {
+    label: "Popup - Playeraction"
+    group_label: "Popup/IAM By Destination per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_destination_playeraction ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_popup_destination_reward {
+    label: "Popup - Reward"
+    group_label: "Popup/IAM By Destination per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.popup_destination_reward ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_destination_adview {
+    label: "IAM - Adview"
+    group_label: "Popup/IAM By Destination per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_destination_adview ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_destination_generic {
+    label: "IAM - Generic"
+    group_label: "Popup/IAM By Destination per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_destination_generic ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_destination_offer {
+    label: "IAM - Offer"
+    group_label: "Popup/IAM By Destination per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_destination_offer ) , sum( ${TABLE}.count_days_played ) ) ;;
+  }
+
+  measure: popup_iam_per_player_iam_destination_playeraction {
+    label: "IAM - Playeraction"
+    group_label: "Popup/IAM By Destination per DAU"
+    type: number
+    value_format_name: decimal_2
+    sql: safe_divide( sum( ${TABLE}.iam_destination_playeraction ) , sum( ${TABLE}.count_days_played ) ) ;;
   }
 
 # popup_battlepass

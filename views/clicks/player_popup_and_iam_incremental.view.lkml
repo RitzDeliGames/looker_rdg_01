@@ -4,69 +4,78 @@ view: player_popup_and_iam_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-11-18'
+      -- update '2024-11-20'
+
+      with
 
       ------------------------------------------------------------------------
       -- Select all columns w/ the current date range
       ------------------------------------------------------------------------
 
-      select
-        rdg_id
-        , timestamp(date(timestamp)) as rdg_date
-        , timestamp as timestamp_utc
-        , safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) as button_tag
-        , max( created_at ) as created_at
-        , max( version ) as version
-        , max( user_type ) as user_type
-        , max( session_id ) as session_id
-        , max( event_name ) as event_name
-        , max( extra_json ) as extra_json
-        , max( experiments ) as experiments
-        , max( win_streak ) as win_streak
-        , max( currencies ) as currencies
-        , max( last_level_serial ) as last_level_serial
-        , max( engagement_ticks ) as engagement_ticks
-        , max( round(safe_cast(engagement_ticks as int64) / 2) ) as cumulative_time_played_minutes
-        , max( 1 ) as count_iam_messages
+      base_data as (
 
-      from
-      `eraser-blast.game_data.events`
+        select
+          rdg_id
+          , timestamp(date(timestamp)) as rdg_date
+          , timestamp as timestamp_utc
+          , safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) as button_tag
+          , created_at
+          , version
+          , user_type
+          , session_id
+          , event_name
+          , extra_json
+          , experiments
+          , win_streak
+          , currencies
+          , last_level_serial
+          , engagement_ticks
+          , round(safe_cast(engagement_ticks as int64) / 2) as cumulative_time_played_minutes
+          , 1 as count_iam_messages
 
-      where
+        from
+        `eraser-blast.game_data.events`
+
+        where
+        ------------------------------------------------------------------------
+        -- Date selection
+        -- We use this because the FIRST time we run this query we want all the data going back
+        -- but future runs we only want the last 9 days
+        ------------------------------------------------------------------------
+
+        date(timestamp) >=
+        case
+        -- select date(current_date())
+        when date(current_date()) <= '2024-11-20' -- Last Full Update
+        then '2022-06-01'
+        else date_add(current_date(), interval -9 day)
+        end
+        and date(timestamp) <= date_add(current_date(), interval -1 DAY)
+
+        ------------------------------------------------------------------------
+        -- user type selection
+        -- We only want users that are marked as "external"
+        -- This removes any bots or internal QA accounts
+        ------------------------------------------------------------------------
+        and user_type = 'external'
+
+        ------------------------------------------------------------------------
+        -- this event information
+        ------------------------------------------------------------------------
+
+        and event_name = 'ButtonClicked' -- button clicks
+        and (
+              safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Sheet_PM_%'
+              or safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Sheet_InAppMessaging_%'
+          )
+
+      )
+
       ------------------------------------------------------------------------
-      -- Date selection
-      -- We use this because the FIRST time we run this query we want all the data going back
-      -- but future runs we only want the last 9 days
+      -- Select all columns
       ------------------------------------------------------------------------
 
-      date(timestamp) >=
-      case
-      -- select date(current_date())
-      when date(current_date()) <= '2024-11-18' -- Last Full Update
-      then '2022-06-01'
-      else date_add(current_date(), interval -9 day)
-      end
-      and date(timestamp) <= date_add(current_date(), interval -1 DAY)
-
-      ------------------------------------------------------------------------
-      -- user type selection
-      -- We only want users that are marked as "external"
-      -- This removes any bots or internal QA accounts
-      ------------------------------------------------------------------------
-      and user_type = 'external'
-
-      ------------------------------------------------------------------------
-      -- this event information
-      ------------------------------------------------------------------------
-
-      and event_name = 'ButtonClicked' -- button clicks
-      and (
-            safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Sheet_PM_%'
-            or safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Sheet_InAppMessaging_%'
-        )
-
-    group by
-      1,2,3,4
+      select * from base_data
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (1) + 2 )*( -10 ) minute)) ;;
@@ -81,17 +90,17 @@ view: player_popup_and_iam_incremental {
 ## Primary Key
 ####################################################################
 
-  dimension: primary_key {
-    type: string
-    sql:
-    ${TABLE}.rdg_id
-    || '_' || ${TABLE}.rdg_date
-    || '_' || ${TABLE}.timestamp_utc
-    || '_' || ${TABLE}.button_tag
-      ;;
-    primary_key: yes
-    hidden: yes
-  }
+  # dimension: primary_key {
+  #   type: string
+  #   sql:
+  #   ${TABLE}.rdg_id
+  #   || '_' || ${TABLE}.rdg_date
+  #   || '_' || ${TABLE}.timestamp_utc
+  #   || '_' || ${TABLE}.button_tag
+  #     ;;
+  #   primary_key: yes
+  #   hidden: yes
+  # }
 
   dimension_group: rdg_date_analysis {
     label: "Activity"
@@ -104,9 +113,10 @@ view: player_popup_and_iam_incremental {
 ## Measures
 ####################################################################
 
-  measure: count_distinct_active_users {
-    type: count_distinct
-    sql: ${TABLE}.rdg_id ;;
+  measure: count_rows {
+    type: number
+    value_format_name: decimal_0
+    sql: sum(1) ;;
   }
 
 }

@@ -99,6 +99,13 @@ ads_by_date as (
         , sum( case when iam_type = 'Popup' and iam_group = 'UpdateApp' then count_iam_messages else 0 end ) as popup_updateapp
         , sum( case when iam_type = 'IAM' then count_iam_messages else 0 end ) as iam_total
         , sum( case when iam_type = 'Popup' then count_iam_messages else 0 end ) as popup_total
+        , sum( case when iam_type = 'IAM' and iam_destination_type = 'AdView' then count_iam_messages else 0 end ) as iam_destination_adview
+        , sum( case when iam_type = 'Popup' and iam_destination_type = 'GameMode' then count_iam_messages else 0 end ) as popup_destination_gamemode
+        , sum( case when iam_type = 'IAM' and iam_destination_type = 'Generic' then count_iam_messages else 0 end ) as iam_destination_generic
+        , sum( case when iam_type = 'IAM' and iam_destination_type = 'Offer' then count_iam_messages else 0 end ) as iam_destination_offer
+        , sum( case when iam_type = 'Popup' and iam_destination_type = 'PlayerAction' then count_iam_messages else 0 end ) as popup_destination_playeraction
+        , sum( case when iam_type = 'IAM' and iam_destination_type = 'PlayerAction' then count_iam_messages else 0 end ) as iam_destination_playeraction
+        , sum( case when iam_type = 'Popup' and iam_destination_type = 'Reward' then count_iam_messages else 0 end ) as popup_destination_reward
     from
         -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary
         ${player_popup_and_iam_summary.SQL_TABLE_NAME}
@@ -6445,118 +6452,13 @@ measure: count_daily_popup_BattlePass {
     value_format_name: decimal_0
   }
 
-  # measure: count_daily_popup_BattlePass {
-  #   label: "Count Daily Popups: BattlePass"
-  #   group_label: "Daily Popup"
-  #   type: number
-  #   sql: sum( case when ${TABLE}.daily_popup_BattlePass is not null then 1 else 0 end )   ;;
-  #   value_format_name: decimal_0
-  # }
-
-  # measure: count_daily_popup_DailyReward {
-  #   label: "Count Daily Popups: DailyReward"
-  #   group_label: "Daily Popup"
-  #   type: number
-  #   sql: sum( case when ${TABLE}.daily_popup_DailyReward is not null then 1 else 0 end )   ;;
-  #   value_format_name: decimal_0
-  # }
-
-  # measure: count_daily_popup_FlourFrenzy {
-  #   label: "Count Daily Popups: FlourFrenzy"
-  #   group_label: "Daily Popup"
-  #   type: number
-  #   sql: sum( case when ${TABLE}.daily_popup_FlourFrenzy is not null then 1 else 0 end )   ;;
-  #   value_format_name: decimal_0
-  # }
-
-  # measure: count_daily_popup_GoFish {
-  #   label: "Count Daily Popups: GoFish"
-  #   group_label: "Daily Popup"
-  #   type: number
-  #   sql: sum( case when ${TABLE}.daily_popup_GoFish is not null then 1 else 0 end )   ;;
-  #   value_format_name: decimal_0
-  # }
-
-  # measure: count_daily_popup_HotdogContest {
-  #   label: "Count Daily Popups: HotdogContest"
-  #   group_label: "Daily Popup"
-  #   type: number
-  #   sql: sum( case when ${TABLE}.daily_popup_HotdogContest is not null then 1 else 0 end )   ;;
-  #   value_format_name: decimal_0
-  # }
-
-  # measure: count_daily_popup_LuckyDice {
-  #   label: "Count Daily Popups: LuckyDice"
-  #   group_label: "Daily Popup"
-  #   type: number
-  #   sql: sum( case when ${TABLE}.daily_popup_LuckyDice is not null then 1 else 0 end )   ;;
-  #   value_format_name: decimal_0
-  # }
-
-  # measure: count_daily_popup_MovesMaster {
-  #   label: "Count Daily Popups: MovesMaster"
-  #   group_label: "Daily Popup"
-  #   type: number
-  #   sql: sum( case when ${TABLE}.daily_popup_MovesMaster is not null then 1 else 0 end )   ;;
-  #   value_format_name: decimal_0
-  # }
-
-  # measure: count_daily_popup_PizzaTime {
-  #   label: "Count Daily Popups: PizzaTime"
-  #   group_label: "Daily Popup"
-  #   type: number
-  #   sql: sum( case when ${TABLE}.daily_popup_PizzaTime is not null then 1 else 0 end )   ;;
-  #   value_format_name: decimal_0
-  # }
-
-  # measure: count_daily_popup_Puzzle {
-  #   label: "Count Daily Popups: Puzzle"
-  #   group_label: "Daily Popup"
-  #   type: number
-  #   sql: sum( case when ${TABLE}.daily_popup_Puzzle is not null then 1 else 0 end )   ;;
-  #   value_format_name: decimal_0
-  # }
-
-  # measure: count_daily_popup_TreasureTrove {
-  #   label: "Count Daily Popups: TreasureTrove"
-  #   group_label: "Daily Popup"
-  #   type: number
-  #   sql: sum( case when ${TABLE}.daily_popup_TreasureTrove is not null then 1 else 0 end )   ;;
-  #   value_format_name: decimal_0
-  # }
-
-  # measure: count_daily_popup_UpdateApp {
-  #   label: "Count Daily Popups: UpdateApp"
-  #   group_label: "Daily Popup"
-  #   type: number
-  #   sql: sum( case when ${TABLE}.daily_popup_UpdateApp is not null then 1 else 0 end )   ;;
-  #   value_format_name: decimal_0
-  # }
-
-  # measure: count_daily_popup_CastleClimb {
-  #   label: "Count Daily Popups: CastleClimb"
-  #   group_label: "Daily Popup"
-  #   type: number
-  #   sql: sum( case when ${TABLE}.daily_popup_CastleClimb is not null then 1 else 0 end )   ;;
-  #   value_format_name: decimal_0
-  # }
-
-  # measure: count_daily_popup_GemQuest {
-  #   label: "Count Daily Popups: GemQuest"
-  #   group_label: "Daily Popup"
-  #   type: number
-  #   sql: sum( case when ${TABLE}.daily_popup_GemQuest is not null then 1 else 0 end )   ;;
-  #   value_format_name: decimal_0
-  # }
-
-  # measure: count_daily_popup_DonutSprint {
-  #   label: "Count Daily Popups: DonutSprint"
-  #   group_label: "Daily Popup"
-  #   type: number
-  #   sql: sum( case when ${TABLE}.daily_popup_DonutSprint is not null then 1 else 0 end )   ;;
-  #   value_format_name: decimal_0
-  # }
-
+  measure: popup_iam_per_player_donutsprint {
+    label: "Donut Sprint"
+    group_label: "Daily Popup/IAM per DAU"
+    type: number
+    value_format_name: decimal_1
+    sql: safe_divide( sum( ${TABLE}.popup_donutsprint ) , sum( ${TABLE}.count_days_played ) ;;
+  }
 
 ######################################################################################
 ## Pre Game Boosts

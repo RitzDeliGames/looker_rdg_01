@@ -6460,6 +6460,54 @@ measure: count_daily_popup_BattlePass {
     sql: safe_divide( sum( ${TABLE}.popup_donutsprint ) , sum( ${TABLE}.count_days_played ) ;;
   }
 
+  measure: popup_iam_by_group_per_player_popup_battlepass {
+    label: "Battle Pass"
+    group_label: "Popup/IAM By Group per DAU"
+    type: number
+    value_format_name: decimal_1
+    sql: safe_divide( sum( ${TABLE}.popup_battlepass ) , sum( ${TABLE}.count_days_played ) ;;
+  }
+
+# popup_battlepass
+# iam_ce
+# popup_castleclimb
+# iam_chameleon
+# popup_dailyreward
+# popup_donutsprint
+# popup_flourfrenzy
+# popup_foodtruck
+# popup_gemquest
+# iam_generic
+# popup_gofish
+# popup_hotdogcontest
+# popup_luckydice
+# iam_mtxoffer
+# iam_mtxoffer_discounted
+# iam_mtxoffer_halloween
+# iam_mtxoffer_lemonade
+# iam_mtxoffer_spring
+# iam_mtxoffer_starteroffer
+# popup_movesmaster
+# iam_namechange
+# iam_notifications
+# popup_pizzatime
+# popup_puzzle
+# iam_rateus
+# iam_showad
+# iam_totd
+# iam_toaster
+# popup_treasuretrove
+# popup_updateapp
+# iam_total
+# popup_total
+# iam_destination_adview
+# popup_destination_gamemode
+# iam_destination_generic
+# iam_destination_offer
+# popup_destination_playeraction
+# iam_destination_playeraction
+# popup_destination_reward
+
 ######################################################################################
 ## Pre Game Boosts
 ######################################################################################

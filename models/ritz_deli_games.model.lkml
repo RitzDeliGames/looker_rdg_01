@@ -883,6 +883,7 @@ explore: mbr_scorecard {label: "Chum Chum MBR Scorecard"}
 
 ################################################################
 
+explore: adhoc_2024_11_21_aps_vs_churn_early_moves_buckets {label: "APS vs. Churn Scatter (Early Moves)" group_label: "Chum Chum Adhoc"}
 explore: adhoc_20231213_moves_master_moves_per_week {label: "Moves Master Moves Remaining Per Week" group_label: "Chum Chum Adhoc"}
 explore: adhoc_20240112_aps_vs_churn_scatter {label: "APS vs. Churn Scatter" group_label: "Chum Chum Adhoc"}
 explore: adhoc_20240117_target_churn_rate {label: "Target Churn Rate By Level Bucket" group_label: "Chum Chum Adhoc"}

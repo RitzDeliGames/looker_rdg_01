@@ -116,6 +116,19 @@ view: player_bucket_by_first_10_levels {
     sql: count(distinct ${TABLE}.rdg_id) ;;
   }
 
+  measure: moves_max {
+    label: "Moves Used (Max)"
+    type: number
+    value_format_name: decimal_0
+    sql: max(${TABLE}.moves_made) ;;
+  }
+
+  measure: moves_min {
+    label: "Moves Used (Min)"
+    type: number
+    value_format_name: decimal_0
+    sql: min(${TABLE}.moves_made) ;;
+  }
 
 
 

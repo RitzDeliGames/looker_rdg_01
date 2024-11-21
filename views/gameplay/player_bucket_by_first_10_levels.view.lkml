@@ -22,7 +22,8 @@ view: player_bucket_by_first_10_levels {
         where
           1=1
           -- and date(rdg_date) = '2024-11-14'
-          and date(rdg_date) between '2024-07-23' and '2024-11-14'
+          -- and date(rdg_date) between '2024-07-23' and '2024-11-14'
+          and date(rdg_date) >= '2024-07-23'
           and lower(game_mode) = 'campaign'
           and level_serial between 0 and 10
           and

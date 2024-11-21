@@ -15,6 +15,9 @@ view: player_bucket_by_first_10_levels {
         select
           rdg_id
           , sum(moves_made) as moves_made
+          , min(level_serial) as level_serial_min
+          , max(level_serial) as level_serial_max
+          , count(distinct level_serial) as levels_played
         from
           -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary
           --`eraser-blast.looker_scratch.LR_6YUH51731695813779_player_round_summary`
@@ -41,6 +44,8 @@ view: player_bucket_by_first_10_levels {
           1
         having
           max(level_serial) = 10
+          and min(level_serial) = 0
+          and count(distinct level_serial) = 11
 
       )
 

@@ -1,4 +1,4 @@
-view: adhoc_2024_11_15_player_level_10_moves_made {
+view: player_bucket_by_first_10_levels {
 
 ################################################################
 ## View SQL
@@ -32,7 +32,7 @@ view: adhoc_2024_11_15_player_level_10_moves_made {
                   and safe_cast(json_extract_scalar(experiments,'$.unlosable10_20240710') as string) = 'variant_a'
                 then 1
                 when
-                  date(rdg_date) between '2024-10-01' and '2024-11-14'
+                  date(rdg_date) between '2024-10-01' and date_add(current_date(), interval -1 DAY)
                 then 1
                 else 0
                 end ) = 1
@@ -51,7 +51,7 @@ view: adhoc_2024_11_15_player_level_10_moves_made {
 
       ;;
     publish_as_db_view: yes
-    sql_trigger_value: select extract( year from current_timestamp());;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (5) + 2 )*( -10 ) minute)) ;;
   }
 
 ####################################################################

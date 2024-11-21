@@ -212,6 +212,15 @@ explore: player_daily_summary {
 explore: player_summary_new {
   label: "Player Summary"
 
+  join: player_bucket_by_first_10_levels {
+    view_label: "Level 10 Moves Made Buckets"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_summary_new.rdg_id} = ${player_bucket_by_first_10_levels.rdg_id}
+      ;;
+  }
+
   join: version_summary_at_install {
     view_label:  "Version Summary At Install"
     from:  version_summary
@@ -276,12 +285,12 @@ explore: player_round_summary {
       ;;
   }
 
-  join: adhoc_2024_11_15_player_level_10_moves_made {
+  join: player_bucket_by_first_10_levels {
     view_label: "Level 10 Moves Made Buckets"
     type: left_outer
     relationship: many_to_one
     sql_on:
-      ${player_round_summary.rdg_id} = ${adhoc_2024_11_15_player_level_10_moves_made.rdg_id}
+      ${player_round_summary.rdg_id} = ${player_bucket_by_first_10_levels.rdg_id}
       ;;
   }
 
@@ -882,7 +891,7 @@ explore: adhoc_2024_02_12_battle_pass_player_summary {label: "Battle Pass Player
 explore: adhoc_2024_02_21_aps_vs_churn_spender_non_spender {label: "APS vs. Churn Scatter - Spender vs. Non Spender" group_label: "Chum Chum Adhoc"}
 explore: adhoc_2024_02_26_puzzle_vs_campaign_aps_vs_churn {label: "APS vs. Churn Scatter - Puzzle vs. Campaign" group_label: "Chum Chum Adhoc"}
 explore: adhoc_2024_06_27_castle_climb_reward_funnel {label: "Castle Climb Reward Funnel" group_label: "Chum Chum Adhoc"}
-explore: adhoc_2024_11_15_player_level_10_moves_made {label: "Player Level 10 Moves Made" group_label: "Chum Chum Adhoc"}
+explore: player_bucket_by_first_10_levels {label: "Player Level 10 Moves Made" group_label: "Chum Chum Adhoc"}
 
 explore: adhoc_2024_10_23_treasure_trove_weekly_comparison {
   label: "Treasure Trove Weekly Comparison"

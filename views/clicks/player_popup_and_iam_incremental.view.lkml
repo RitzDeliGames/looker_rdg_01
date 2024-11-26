@@ -4,7 +4,7 @@ view: player_popup_and_iam_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-11-20'
+      -- update '2024-11-26'
 
       with
 
@@ -34,7 +34,7 @@ view: player_popup_and_iam_incremental {
           , 1 as count_iam_messages
 
         from
-        `eraser-blast.game_data.events`
+          `eraser-blast.game_data.events`
 
         where
         ------------------------------------------------------------------------
@@ -46,7 +46,7 @@ view: player_popup_and_iam_incremental {
         date(timestamp) >=
         case
         -- select date(current_date())
-        when date(current_date()) <= '2024-11-20' -- Last Full Update
+        when date(current_date()) <= '2024-11-26' -- Last Full Update
         then '2022-06-01'
         else date_add(current_date(), interval -9 day)
         end
@@ -64,10 +64,7 @@ view: player_popup_and_iam_incremental {
         ------------------------------------------------------------------------
 
         and event_name = 'ButtonClicked' -- button clicks
-        and (
-              safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Sheet_PM_%'
-              or safe_cast(json_extract_scalar( extra_json , "$.button_tag") as string) like 'Sheet_InAppMessaging_%'
-          )
+
 
       )
 
@@ -76,6 +73,9 @@ view: player_popup_and_iam_incremental {
       ------------------------------------------------------------------------
 
       select * from base_data
+      where
+        button_tag like 'Sheet_PM_%'
+        or button_tag like 'Sheet_InAppMessaging_%'
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (1) + 2 )*( -10 ) minute)) ;;
@@ -90,17 +90,17 @@ view: player_popup_and_iam_incremental {
 ## Primary Key
 ####################################################################
 
-  # dimension: primary_key {
-  #   type: string
-  #   sql:
-  #   ${TABLE}.rdg_id
-  #   || '_' || ${TABLE}.rdg_date
-  #   || '_' || ${TABLE}.timestamp_utc
-  #   || '_' || ${TABLE}.button_tag
-  #     ;;
-  #   primary_key: yes
-  #   hidden: yes
-  # }
+  dimension: primary_key {
+    type: string
+    sql:
+    ${TABLE}.rdg_id
+    || '_' || ${TABLE}.rdg_date
+    || '_' || ${TABLE}.timestamp_utc
+    || '_' || ${TABLE}.button_tag
+      ;;
+    primary_key: yes
+    hidden: yes
+  }
 
   dimension_group: rdg_date_analysis {
     label: "Activity"

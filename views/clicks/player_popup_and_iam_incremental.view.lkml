@@ -4,7 +4,7 @@ view: player_popup_and_iam_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-11-26'
+      -- update '2024-12-02'
 
       with
 
@@ -46,7 +46,7 @@ view: player_popup_and_iam_incremental {
         date(timestamp) >=
         case
         -- select date(current_date())
-        when date(current_date()) <= '2024-11-26' -- Last Full Update
+        when date(current_date()) <= '2024-12-02' -- Last Full Update
         then '2022-06-01'
         else date_add(current_date(), interval -9 day)
         end
@@ -78,6 +78,7 @@ view: player_popup_and_iam_incremental {
         or button_tag like 'Sheet_InAppMessaging_%'
 
       ;;
+    ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (1) + 2 )*( -10 ) minute)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
@@ -86,37 +87,43 @@ view: player_popup_and_iam_incremental {
 
   }
 
-####################################################################
-## Primary Key
-####################################################################
+  ####################################################################
+  ## Primary Key
+  ####################################################################
 
   dimension: primary_key {
     type: string
     sql:
-    ${TABLE}.rdg_id
-    || '_' || ${TABLE}.rdg_date
-    || '_' || ${TABLE}.timestamp_utc
-    || '_' || ${TABLE}.button_tag
+      ${TABLE}.rdg_id
+      || '_' || ${TABLE}.rdg_date
+      || '_' || ${TABLE}.timestamp_utc
       ;;
     primary_key: yes
     hidden: yes
   }
 
+  ####################################################################
+  ## Other Dimensions
+  ####################################################################
+
   dimension_group: rdg_date_analysis {
-    label: "Activity"
+    description: "date as defined by rdg_date function"
     type: time
     timeframes: [date, week, month, year]
     sql: ${TABLE}.rdg_date ;;
   }
 
-####################################################################
-## Measures
-####################################################################
-
-  measure: count_rows {
-    type: number
-    value_format_name: decimal_0
-    sql: sum(1) ;;
+  dimension: rdg_date {
+    type: date
   }
 
+  ####################################################################
+  ## Measures
+  ####################################################################
+
+  measure: count_distinct_active_users {
+    description: "Use this for counting lifetime orders across many users"
+    type: count_distinct
+    sql: ${TABLE}.rdg_id ;;
+  }
 }

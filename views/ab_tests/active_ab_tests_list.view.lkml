@@ -12,6 +12,29 @@ view: active_ab_tests_list {
 
       select '$.No_AB_Test_Split' as experiment_name
 
+      union all select '$.boostersByAds_20240910'
+      union all select '$.fakeProfiles2_20240910'
+      union all select '$.altLevelOrderp5_20240911'
+      union all select '$.movesMasterTune_20240611'
+      union all select '$.memThresholdv2_20240923'
+      union all select '$.moreAdsPizzaAndDice_20240924'
+      union all select '$.colorBiasat01_20241021'
+      union all select '$.localPricingLatamV2_20241025'
+      union all select '$.foodTruckTuning_20241031'
+      union all select '$.goFishRanksRebalance_20241031'
+      union all select '$.mixedTreasureTrove_20241101'
+      union all select '$.newGameFUEp2_20241105'
+      union all select '$.adBreakp2_20241105'
+      union all select '$.pizzaTime15DayDuration_20241105'
+      union all select '$.social_20241112'
+      union all select '$.IAMlimits_20241120'
+      union all select '$.starterBucketTuning_20241121'
+      union all select '$.starterBucketTuningp2_20241121_1393'
+      union all select '$.dynamicMovesp2_20241121'
+      union all select '$.colorBiasat01p2_20241121'
+      union all select '$.rewardsReduction_20241121'
+      union all select '$.rewardedGemDoubler_20241126'
+
       union all select '$.newCoinsQPO_20241022'
       union all select '$.seasonPassQPO_20241016'
 

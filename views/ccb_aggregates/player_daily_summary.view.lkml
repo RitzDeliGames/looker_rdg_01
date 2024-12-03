@@ -113,6 +113,24 @@ ads_by_date as (
         1,2
 )
 
+-----------------------------------------------------------------------
+-- social interactions by date
+-----------------------------------------------------------------------
+
+, social_interactions_by_date as (
+    select
+        rdg_id
+        , rdg_date
+        , sum( 1 ) as social_any_interaction_count
+        , sum( case when social_categories = 'ViewGlobalLeaderboard' then 1 else 0 end ) as social_view_global_leaderboard_count
+        , sum( case when social_categories = 'ViewFriendsLeaderboard' then 1 else 0 end ) as social_view_friends_leaderboard_count
+        , sum( case when social_categories = 'ViewWeeklyLeaderboard' then 1 else 0 end ) as social_view_weekly_leaderboard_count
+        , sum( case when social_categories = 'ViewLocalLeaderboard' then 1 else 0 end ) as social_view_local_leaderboard_count
+    from
+        ${player_social_button_clicks_summary.SQL_TABLE_NAME}
+    group by
+        1,2
+)
 
 -----------------------------------------------------------------------
 -- mtx by date
@@ -1022,6 +1040,29 @@ ads_by_date as (
 
 )
 
+
+-----------------------------------------------------------------------
+-- join social data
+-----------------------------------------------------------------------
+
+, add_on_social_step as (
+
+  select
+    a.*
+    , ifnull(b.social_any_interaction_count,0) as social_any_interaction_count
+    , ifnull(b.social_view_global_leaderboard_count,0) as social_view_global_leaderboard_count
+    , ifnull(b.social_view_friends_leaderboard_count,0) as social_view_friends_leaderboard_count
+    , ifnull(b.social_view_weekly_leaderboard_count,0) as social_view_weekly_leaderboard_count
+    , ifnull(b.social_view_local_leaderboard_count,0) as social_view_local_leaderboard_count
+
+  from
+    add_on_popups_and_iams_step a
+    left join social_interactions_by_date b
+      on a.rdg_id = b.rdg_id
+      and a.rdg_date = b.rdg_date
+
+)
+
 -----------------------------------------------------------------------
 -- join tickets data
 -----------------------------------------------------------------------
@@ -1032,12 +1073,14 @@ ads_by_date as (
     a.*
     , ifnull(b.tickets_spend,0) as tickets_spend
   from
-    add_on_popups_and_iams_step a
+    add_on_social_step a
     left join tickets_spend_by_date b
       on a.rdg_id = b.rdg_id
       and a.rdg_date = b.rdg_date
 
 )
+
+
 
 -----------------------------------------------------------------------
 -- cumulative calculations
@@ -2086,6 +2129,79 @@ dimension: primary_key {
     ;;
     value_format_name: percent_0
   }
+
+  measure: percent_players_engaged_social_any {
+    group_label: "Daily Feature Participation"
+    label: "Social - Weekly Leaderboard"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.social_any_interaction_count > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_engaged_social_view_global {
+    group_label: "Daily Feature Participation"
+    label: "Social - Global Leaderboard"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.social_view_global_leaderboard_count > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_engaged_social_view_friends {
+    group_label: "Daily Feature Participation"
+    label: "Social - Friends Leaderboard"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.social_view_friends_leaderboard_count > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_players_engaged_social_view_local {
+    group_label: "Daily Feature Participation"
+    label: "Social - Local Leaderboard"
+    type: number
+    sql:
+      safe_divide(
+        count(distinct case
+          when ${TABLE}.social_view_local_leaderboard_count > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: percent_0
+  }
+
 
   measure: percent_players_engaged_with_battle_pass {
     group_label: "Daily Feature Participation"

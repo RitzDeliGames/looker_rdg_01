@@ -2638,6 +2638,67 @@ constant: puzzle_piece_number_mapping_start_date {
 }
 
 ###################################################################
+# Social - Clicks
+###################################################################
+
+constant: social_categories {
+  value: "
+    case
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.'
+          and json_extract_scalar( extra_json , '$.path' ) like '%AddFriends%'
+          then 'AddFriendsPannel'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.Accept'
+          and json_extract_scalar( extra_json , '$.path' ) like '%FriendRequestBtns%'
+          then 'AddFriends_Accept'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.Decline'
+          and json_extract_scalar( extra_json , '$.path' ) like '%FriendRequestBtns%'
+          then 'AddFriends_Decline'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.'
+          and json_extract_scalar( extra_json , '$.path' ) like '%HeaderAndContent/HeaderImg/Navigation/Tabs/Friends'
+          then 'ViewFriendsPannel'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.'
+          and json_extract_scalar( extra_json , '$.path' ) like '%HeaderAndContent/HeaderImg/Navigation/Tabs/Players'
+          then 'ViewPlayersPannel'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.'
+          and json_extract_scalar( extra_json , '$.path' ) like '%HeaderAndContent/HeaderImg/Navigation/Tabs/Weekly'
+          then 'ViewWeeklyPannel'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.'
+          and json_extract_scalar( extra_json , '$.path' ) like '%HeaderImg/Navigation/PlayersSubTabs/Local'
+          then 'ViewPlayersLocalPannel'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.'
+          and json_extract_scalar( extra_json , '$.path' ) like '%HeaderImg/Navigation/PlayersSubTabs/World'
+          then 'ViewPlayersWorldPannel'
+
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.'
+          and json_extract_scalar( extra_json , '$.path' ) like '%HeaderAndContent/Content/FriendsList/NoFriends/Btn/BtnBlue'
+          then 'FindFriendsButton'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Sheet_RewardReveal_Social.ClaimChestRewards'
+          then 'ViewChestRewards'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Sheet_RewardReveal_Social.'
+          then 'RevealSocial'
+
+
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Social'
+          then 'SocialBasicEngagement'
+
+        else 'Unmapped'
+        end
+  "
+}
+
+
+###################################################################
 # Visualization JS...KEEP AT THE BOTTOM
 ###################################################################
 

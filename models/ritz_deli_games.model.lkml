@@ -854,6 +854,24 @@ explore: player_go_fish_summary {
 
 ################################################################
 
+## Explore: Go Fish Event
+
+################################################################
+
+explore: player_social_button_clicks_summary {
+  label: "Player Social Button Click Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_social_button_clicks_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+################################################################
+
 ## AB Test Explores
 
 ################################################################

@@ -31,7 +31,6 @@ view: player_social_button_clicks_incremental {
           , last_level_serial
           , engagement_ticks
           , round(safe_cast(engagement_ticks as int64) / 2) as cumulative_time_played_minutes
-          , 1 as count_iam_messages
 
         from
           `eraser-blast.game_data.events`

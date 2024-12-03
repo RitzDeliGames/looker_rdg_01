@@ -94,6 +94,8 @@ view: ab_test_player_daily {
 
             when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Player" then sum(a.ad_views_go_fish)
             when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Player" then sum(a.ad_views_moves_master)
+            when {% parameter selected_metric_daily %} = "Average Treasure Trove Ad Views Per Player" then sum(a.ad_views_treasure_trove)
+            when {% parameter selected_metric_daily %} = "Average Pizza Time Ad Views Per Player" then sum(a.ad_views_pizza)
             when {% parameter selected_metric_daily %} = "Average Ad Views Per Player" then sum(a.ad_views)
 
             when {% parameter selected_metric_daily %} = "IAP ARPDAU" then sum(a.mtx_purchase_dollars)
@@ -166,6 +168,8 @@ view: ab_test_player_daily {
 
         when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Player" then max(1)
         when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Player" then max( case when a.round_end_events_movesmaster >= 1 then 1 else 0 end )
+        when {% parameter selected_metric_daily %} = "Average Treasure Trove Ad Views Per Player" then max(1)
+        when {% parameter selected_metric_daily %} = "Average Pizza Time Ad Views Per Player" then max(1)
         when {% parameter selected_metric_daily %} = "Average Ad Views Per Player" then max(1)
 
         when {% parameter selected_metric_daily %} = "IAP ARPDAU" then sum(a.count_days_played)
@@ -1072,6 +1076,8 @@ view: ab_test_player_daily {
       , "Average Go Fish Ad Views Per Player"
       , "Average Moves Master Ad Views Per Player"
       , "Average Ad Views Per Player"
+      , "Average Treasure Trove Ad Views Per Player"
+      , "Average Pizza Time Ad Views Per Player"
 
       , "IAP ARPDAU"
       , "IAP Conversion per Day"

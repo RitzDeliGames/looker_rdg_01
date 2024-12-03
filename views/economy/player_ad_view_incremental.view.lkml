@@ -4,7 +4,7 @@ view: player_ad_view_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-10-28'
+      -- update '2024-12-03'
 
       -- create or replace table tal_scratch.player_ad_view_incremental as
 
@@ -48,7 +48,7 @@ full_base_data as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-10-28' -- Last Full Update
+                when date(current_date()) <= '2024-12-03' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 -- else date_add(current_date(), interval -30 day)
@@ -194,8 +194,14 @@ full_base_data as (
 
         -- Ad Informaion
         , json_extract_scalar(a.extra_json,"$.source_id") as source_id
-        , json_extract_scalar(a.extra_json,"$.ad_source_name") ad_source_name
-        , json_extract_scalar(a.extra_json,"$.ad_network") ad_network
+        , coalesce(
+            safe_cast(json_extract_scalar(a.extra_json,"$.ad_source_name") as string)
+            , safe_cast(json_extract_scalar(a.extra_json,"$.placement") as string)
+            ) ad_source_name
+        , coalesce(
+            safe_cast(json_extract_scalar(a.extra_json,"$.ad_network") as string)
+            , safe_cast(json_extract_scalar(a.extra_json,"$.network_name") as string)
+            ) as ad_network
         , json_extract_scalar(a.extra_json,"$.country") country
         , json_extract_scalar(a.extra_json,"$.current_level_id") current_level_id
         , safe_cast(json_extract_scalar(a.extra_json,"$.current_level_serial") as numeric) current_level_serial
@@ -361,17 +367,6 @@ select * from my_output_for_view
 --   date(a.rdg_date)  >= date_add(current_date(), interval -30 day)
 -- order by
 --   1
-
-
-
-
-
-
-
-
-
-
-
 
       ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

@@ -2650,31 +2650,31 @@ constant: social_categories {
 
         when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.Accept'
           and json_extract_scalar( extra_json , '$.path' ) like '%FriendRequestBtns%'
-          then 'AddFriends_Accept'
+          then 'AddFriendsAccept'
 
         when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.Decline'
           and json_extract_scalar( extra_json , '$.path' ) like '%FriendRequestBtns%'
-          then 'AddFriends_Decline'
+          then 'AddFriendsDecline'
 
         when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.'
           and json_extract_scalar( extra_json , '$.path' ) like '%HeaderAndContent/HeaderImg/Navigation/Tabs/Friends'
-          then 'ViewFriendsPannel'
+          then 'ViewFriendsLeaderboard'
 
         when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.'
           and json_extract_scalar( extra_json , '$.path' ) like '%HeaderAndContent/HeaderImg/Navigation/Tabs/Players'
-          then 'ViewPlayersPannel'
+          then 'ViewGlobalLeaderboard'
 
         when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.'
           and json_extract_scalar( extra_json , '$.path' ) like '%HeaderAndContent/HeaderImg/Navigation/Tabs/Weekly'
-          then 'ViewWeeklyPannel'
+          then 'ViewWeeklyLeaderboard'
 
         when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.'
           and json_extract_scalar( extra_json , '$.path' ) like '%HeaderImg/Navigation/PlayersSubTabs/Local'
-          then 'ViewPlayersLocalPannel'
+          then 'ViewLocalLeaderboard'
 
         when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.'
           and json_extract_scalar( extra_json , '$.path' ) like '%HeaderImg/Navigation/PlayersSubTabs/World'
-          then 'ViewPlayersWorldPannel'
+          then 'ViewGlobalLeaderboard'
 
 
         when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.'
@@ -2682,15 +2682,93 @@ constant: social_categories {
           then 'FindFriendsButton'
 
         when json_extract_scalar( extra_json , '$.button_tag' ) = 'Sheet_RewardReveal_Social.ClaimChestRewards'
-          then 'ViewChestRewards'
+          then 'ClaimChestRewards'
 
         when json_extract_scalar( extra_json , '$.button_tag' ) = 'Sheet_RewardReveal_Social.'
-          then 'RevealSocial'
+          then 'BasicEngagement'
 
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.'
+          and json_extract_scalar( extra_json , '$.path' ) like '%FriendsSubTabs/FriendsList'
+          then 'ViewFriendsLeaderboard'
 
+        when json_extract_scalar( extra_json , '$.button_tag' ) like 'Panel_Social.%'
+          and json_extract_scalar( extra_json , '$.path' ) like '%AddFriends/SuggestedFriends/%'
+          then 'ViewFriendsSuggestions'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) like 'Panel_Social.%'
+          and json_extract_scalar( extra_json , '$.path' ) like '%LocalLeaderboard/Leaderboard/%'
+          then 'ViewLocalLeaderboard'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) like 'Panel_Social.%'
+          and json_extract_scalar( extra_json , '$.path' ) like '%GlobalLeaderboard/Leaderboard/%'
+          then 'ViewGlobalLeaderboard'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) like 'Panel_Social.%'
+          and json_extract_scalar( extra_json , '$.path' ) like '%FriendsList/Leaderboard/%'
+          then 'ViewFriendsLeaderboard'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) like 'Panel_Social.%'
+          and json_extract_scalar( extra_json , '$.path' ) like '%WeeklyContest/Leaderboard/%'
+          then 'ViewWeeklyLeaderboard'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) like 'Panel_Social.%'
+          and json_extract_scalar( extra_json , '$.path' ) like '%Cheats%'
+          then 'Cheats'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Sheet_RewardReveal_Social.PodiumPlayer'
+          and json_extract_scalar( extra_json , '$.path' ) like '%Player/Avatar/Avatar'
+          then 'ViewPodiumPlayerInfo'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.PodiumPlayer'
+          and json_extract_scalar( extra_json , '$.path' ) like '%1st/Avatar'
+          then 'ViewPodiumPlayer1stPlace'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.PodiumPlayer'
+          and json_extract_scalar( extra_json , '$.path' ) like '%2nd/Avatar'
+          then 'ViewPodiumPlayer2ndPlace'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.PodiumPlayer'
+          and json_extract_scalar( extra_json , '$.path' ) like '%3rd/Avatar'
+          then 'ViewPodiumPlayer3rdPlace'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.OpenInfo'
+          and json_extract_scalar( extra_json , '$.path' ) like '%Winners/Podium/InfoButton'
+          then 'ViewPodiumPlayerInfo'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.GotIt'
+          and json_extract_scalar( extra_json , '$.path' ) like '%WeeklyContestInfo/EventRules%'
+          then 'ClickedGotItForWeeklyContest'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.GotIt'
+          and json_extract_scalar( extra_json , '$.path' ) like '%WeeklyContestInfo/EventRules%'
+          then 'ClickedGotItForWeeklyContest'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.Rewards'
+          and json_extract_scalar( extra_json , '$.path' ) like '%WeeklyContest%'
+          and json_extract_scalar( extra_json , '$.path' ) not like '%Chests%'
+          then 'ViewRewardsWeekly'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) = 'Panel_Social.Rewards'
+          and json_extract_scalar( extra_json , '$.path' ) like '%LocalLeaderboard%'
+          then 'ViewRewardsLocal'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) like 'Panel_Social.%'
+          and json_extract_scalar( extra_json , '$.path' ) like '%Chests%'
+          and json_extract_scalar( extra_json , '$.path' ) like '%1st%'
+          then 'ViewWeeklyRewards1stPlace'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) like 'Panel_Social.%'
+          and json_extract_scalar( extra_json , '$.path' ) like '%Chests%'
+          and json_extract_scalar( extra_json , '$.path' ) like '%2nd%'
+          then 'ViewWeeklyRewards2ndPlace'
+
+        when json_extract_scalar( extra_json , '$.button_tag' ) like 'Panel_Social.%'
+          and json_extract_scalar( extra_json , '$.path' ) like '%Chests%'
+          and json_extract_scalar( extra_json , '$.path' ) like '%3rd%'
+          then 'ViewWeeklyRewards3rdPlace'
 
         when json_extract_scalar( extra_json , '$.button_tag' ) = 'Social'
-          then 'SocialBasicEngagement'
+          then 'BasicEngagement'
 
         else 'Unmapped'
         end

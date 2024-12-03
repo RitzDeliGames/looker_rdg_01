@@ -20,27 +20,24 @@ view: player_popup_and_iam_summary {
 
 
       ;;
+    ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (2) + 2 )*( -10 ) minute)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
-    increment_key: "rdg_date"
-    increment_offset: 7
 
   }
 
-####################################################################
-## Primary Key
-####################################################################
+  ####################################################################
+  ## Primary Key
+  ####################################################################
 
   dimension: primary_key {
     type: string
     sql:
-    ${TABLE}.rdg_id
-    || '_' || ${TABLE}.rdg_date
-    || '_' || ${TABLE}.timestamp_utc
-    || '_' || ${TABLE}.button_tag
-
-    ;;
+      ${TABLE}.rdg_id
+      || '_' || ${TABLE}.rdg_date
+      || '_' || ${TABLE}.timestamp_utc
+      ;;
     primary_key: yes
     hidden: yes
   }

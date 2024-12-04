@@ -6462,6 +6462,27 @@ dimension: count_of_daily_popups_shown {
   ;;
   }
 
+  dimension: count_of_daily_popups_and_iams_shown_bin {
+    label: "Count of Daily Popups and IAMs Shown (Bin)"
+    type: string
+    sql:
+      case
+        when ${TABLE}.popup_total + ${TABLE}.iam_total <= 0 then '00'
+        when ${TABLE}.popup_total + ${TABLE}.iam_total = 1 then '01'
+        when ${TABLE}.popup_total + ${TABLE}.iam_total = 2 then '02'
+        when ${TABLE}.popup_total + ${TABLE}.iam_total = 3 then '03'
+        when ${TABLE}.popup_total + ${TABLE}.iam_total = 4 then '04'
+        when ${TABLE}.popup_total + ${TABLE}.iam_total = 5 then '05'
+        when ${TABLE}.popup_total + ${TABLE}.iam_total = 6 then '06'
+        when ${TABLE}.popup_total + ${TABLE}.iam_total = 7 then '07'
+        when ${TABLE}.popup_total + ${TABLE}.iam_total = 8 then '08'
+        when ${TABLE}.popup_total + ${TABLE}.iam_total = 9 then '09'
+        else '10+'
+        end
+  ;;
+  }
+
+
 
 measure: count_daily_popup_BattlePass {
   label: "Count Daily Popups: BattlePass"

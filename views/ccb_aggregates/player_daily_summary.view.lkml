@@ -6508,6 +6508,14 @@ measure: count_daily_popup_BattlePass {
     value_format_name: decimal_0
   }
 
+  measure: count_daily_popup_foodtruck {
+    label: "Count Daily Popups: FoodTruck"
+    group_label: "Daily Popup"
+    type: number
+    sql: sum( ${TABLE}.popup_foodtruck )    ;;
+    value_format_name: decimal_0
+  }
+
   measure: count_daily_popup_GoFish {
     label: "Count Daily Popups: GoFish"
     group_label: "Daily Popup"

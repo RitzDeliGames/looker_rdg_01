@@ -60,6 +60,11 @@ view: ab_test_player_daily {
             when {% parameter selected_metric_daily %} = "Food Truck Participation Days Per Player" then sum(a.feature_participation_food_truck)
             when {% parameter selected_metric_daily %} = "Flour Frenzy Participation Days Per Player" then sum(a.feature_participation_flour_frenzy)
             when {% parameter selected_metric_daily %} = "Hot Dog Competition Participation Days Per Player" then sum(a.feature_participation_hot_dog_contest)
+            when {% parameter selected_metric_daily %} = "Moves Master Participation Days Per Player" then sum( case when a.round_end_events_movesmaster > 0 then 1 else 0 end )
+            when {% parameter selected_metric_daily %} = "Puzzle Participation Days Per Player" then sum( case when a.round_end_events_puzzle > 0 then 1 else 0 end )
+            when {% parameter selected_metric_daily %} = "Go Fish Participation Days Per Player" then sum( case when a.round_end_events_gofish > 0 then 1 else 0 end )
+            when {% parameter selected_metric_daily %} = "Gem Quest Participation Days Per Player" then sum( case when a.round_end_events_gemquest > 0 then 1 else 0 end )
+            when {% parameter selected_metric_daily %} = "Castle Climb Participation Days Per Player" then sum(a.feature_participation_castle_climb)
 
             when {% parameter selected_metric_daily %} = "Average Ticket Spend Per Player" then sum(a.tickets_spend)
             when {% parameter selected_metric_daily %} = "Average Star Spend Per Player" then sum(a.stars_spend)
@@ -134,6 +139,11 @@ view: ab_test_player_daily {
         when {% parameter selected_metric_daily %} = "Food Truck Participation Days Per Player" then max(1)
         when {% parameter selected_metric_daily %} = "Flour Frenzy Participation Days Per Player" then max(1)
         when {% parameter selected_metric_daily %} = "Hot Dog Competition Participation Days Per Player" then max(1)
+        when {% parameter selected_metric_daily %} = "Moves Master Participation Days Per Player" then max(1)
+        when {% parameter selected_metric_daily %} = "Puzzle Participation Days Per Player" then max(1)
+        when {% parameter selected_metric_daily %} = "Go Fish Participation Days Per Player" then max(1)
+        when {% parameter selected_metric_daily %} = "Gem Quest Participation Days Per Player" then max(1)
+        when {% parameter selected_metric_daily %} = "Castle Climb Participation Days Per Player" then max(1)
 
         when {% parameter selected_metric_daily %} = "Average Ticket Spend Per Player" then max(1)
         when {% parameter selected_metric_daily %} = "Average Star Spend Per Player" then max(1)
@@ -1118,6 +1128,11 @@ view: ab_test_player_daily {
       , "Flour Frenzy Participation Days Per Player"
       , "Hot Dog Competition Participation Days Per Player"
       , "Food Truck Participation Days Per Player"
+      , "Moves Master Participation Days Per Player"
+      , "Puzzle Participation Days Per Player"
+      , "Go Fish Participation Days Per Player"
+      , "Gem Quest Participation Days Per Player"
+      , "Castle Climb Participation Days Per Player"
 
       , "Average Daily Coin Balance"
 

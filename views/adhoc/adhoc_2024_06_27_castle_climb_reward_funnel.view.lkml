@@ -23,8 +23,7 @@ view: adhoc_2024_06_27_castle_climb_reward_funnel {
           , sum( case when event_name = 'reward' then 1 else 0 end ) as reward_events
         from
           eraser-blast.game_data.events a
-          -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
-          left join eraser-blast.looker_scratch.LR_6YPRL1719510956268_live_ops_calendar b
+          left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
             on date(a.timestamp) = date(b.rdg_date)
         where
           date(timestamp) between '2024-05-01' and '2024-06-26'

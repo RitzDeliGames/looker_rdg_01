@@ -48,7 +48,7 @@ full_base_data as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-12-03' -- Last Full Update
+                when date(current_date()) <= '2024-12-05' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 -- else date_add(current_date(), interval -30 day)
@@ -255,8 +255,8 @@ full_base_data as (
         , max(ad_reward_source_id) as ad_reward_source_id
         , max(
             coalesce(
-                ad_source_name
-                , ad_network
+                -- ad_source_name
+                ad_network
                 , '' ) ) as ad_network
         , max(country) as country
         , max(last_level_serial) as last_level_serial
@@ -406,6 +406,10 @@ select * from my_output_for_view
 
   dimension: rdg_date {
     type: date
+  }
+
+  dimension: ad_network {
+    type: string
   }
 
   ####################################################################

@@ -3608,7 +3608,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     value_format_name: usd
   }
   measure: sum_ad_view_dollars {
-    label: "Sum IAA Dollars"
+    label: "IAA Dollars"
     group_label: "IAA Dollars"
     type:sum
     value_format: "$#,###"

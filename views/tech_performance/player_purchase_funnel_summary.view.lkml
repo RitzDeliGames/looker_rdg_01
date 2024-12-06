@@ -17,18 +17,7 @@ view: player_purchase_funnel_summary {
           , safe_cast(json_extract_scalar( extra_json , "$.sourceTag") as string) as sourceTag
           , safe_cast(json_extract_scalar( extra_json , "$.store_item_id") as string) as iap_id
           , safe_cast(json_extract_scalar( extra_json , "$.product_id") as string) as product_id
-          , case
-              when
-                event_name = 'purchase_funnel_success'
-                then '2. success'
-              when
-                event_name = 'purchase_funnel_start'
-                then '1. start'
-              when
-                event_name = 'purchase_funnel_failure'
-              then '3. failed: ' || safe_cast(json_extract_scalar( extra_json , "$.details") as string)
-              else 'Unmapped Event'
-              end as details
+          , safe_cast(json_extract_scalar( extra_json , "$.details") as string) as details
 
 
         from

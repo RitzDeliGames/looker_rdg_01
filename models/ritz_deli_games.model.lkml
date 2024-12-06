@@ -854,7 +854,7 @@ explore: player_go_fish_summary {
 
 ################################################################
 
-## Explore: Go Fish Event
+## Explore: Social Button Clicks Summary
 
 ################################################################
 
@@ -866,6 +866,24 @@ explore: player_social_button_clicks_summary {
     relationship: many_to_one
     sql_on:
       ${player_social_button_clicks_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+################################################################
+
+## Explore: Purchase Funnel
+
+################################################################
+
+explore: player_purchase_funnel_summary {
+  label: "Player Purchase Funnel Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_purchase_funnel_summary.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
 }

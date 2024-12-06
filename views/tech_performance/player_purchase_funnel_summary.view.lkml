@@ -50,6 +50,8 @@ view: player_purchase_funnel_summary {
   dimension: last_level_serial {type:number}
   dimension: cumulative_time_played_minutes {type:number}
   dimension: day_number {type: number}
+  dimension: extra_json {type: string}
+  dimension: event_name {type: string}
 
 ####################################################################
 ## Date Group

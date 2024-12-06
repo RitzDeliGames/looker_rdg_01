@@ -146,7 +146,9 @@ constant: device_os_version_mapping {
 constant: device_platform_mapping {
   value: "case
             when platform like '%iOS%' then 'Apple'
+            when platform like '%iPadOS%' then 'Apple'
             when platform like '%Android%' then 'Google'
+            when platform like '%Windows%' then 'Windows'
             else 'Other'
           end"
 }
@@ -154,7 +156,9 @@ constant: device_platform_mapping {
 constant: device_platform_mapping_os {
   value: "case
             when platform like '%iOS%' then 'iOS'
+            when platform like '%iPadOS%' then 'iOS'
             when platform like '%Android%' then 'Android'
+            when platform like '%Windows%' then 'Windows'
             else 'Other'
           end"
 }

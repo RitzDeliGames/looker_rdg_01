@@ -6,13 +6,42 @@ view: player_purchase_funnel_summary {
       -- ccb_aggregate_update_tag
       -- update '2024-12-06'
 
-      select
-      *
-      , date_diff(date(rdg_date), date(created_at), day) as days_since_created -- Days Since Created
-      , 1 + date_diff(date(rdg_date), date(created_at), day) as day_number -- Player Day Number
-      from
-      ${player_purchase_funnel_incremental.SQL_TABLE_NAME}
+      with
 
+      base_data as (
+
+        select
+          *
+          , date_diff(date(rdg_date), date(created_at), day) as days_since_created -- Days Since Created
+          , 1 + date_diff(date(rdg_date), date(created_at), day) as day_number -- Player Day Number
+          , safe_cast(json_extract_scalar( extra_json , "$.sourceTag") as string) as sourceTag
+          , safe_cast(json_extract_scalar( extra_json , "$.store_item_id") as string) as iap_id
+          , safe_cast(json_extract_scalar( extra_json , "$.product_id") as string) as product_id
+          , case
+              when
+                event_name = 'purchase_funnel_success'
+                then '2. success'
+              when
+                event_name = 'purchase_funnel_start'
+                then '1. start'
+              when
+                event_name = 'purchase_funnel_failure'
+              then '3. failed: ' || safe_cast(json_extract_scalar( extra_json , "$.details") as string)
+              else 'Unmapped Event'
+              end as details
+
+
+        from
+          ${player_purchase_funnel_incremental.SQL_TABLE_NAME}
+
+      )
+
+      select
+        *
+        , @{iap_id_strings_new} as iap_id_strings_new
+        , @{iap_id_strings_grouped_new} as iap_id_strings_grouped_new
+      from
+        base_data a
 
       ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
@@ -67,6 +96,31 @@ view: player_purchase_funnel_summary {
 ####################################################################
 ## Custom Dimensions
 ####################################################################
+
+  dimension: sourceTag {
+    label: "Source Tag"
+    type: string
+  }
+  dimension: iap_id {
+    label: "IAP ID"
+    type: string
+  }
+  dimension: product_id {
+    label: "Product ID"
+    type: string
+  }
+  dimension: details {
+    label: "Details"
+    type: string
+  }
+  dimension: iap_id_strings_new {
+    label: "IAP Name"
+    type: string
+  }
+  dimension: iap_id_strings_grouped_new {
+    label: "IAP Group"
+    type: string
+  }
 
 ####################################################################
 ## Experiments

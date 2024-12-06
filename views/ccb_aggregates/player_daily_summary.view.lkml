@@ -3547,12 +3547,26 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
 ################################################################
 
   measure: sum_mtx_purchase_dollars {
-    label: "Sum IAP Dollars"
+    label: "Net IAP Dollars"
     group_label: "IAP Dollars"
     type:sum
     value_format: "$#,###"
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
+
+  measure: sum_mtx_purchase_dollars_gross {
+    label: "Gross IAP Dollars"
+    group_label: "IAP Dollars"
+    type:number
+    value_format: "$#,###"
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars)
+        , 0.70
+      )
+    ;;
+  }
+
   measure: mtx_purchase_dollars_10 {
     label: "10th Percentile"
     group_label: "IAP Dollars"

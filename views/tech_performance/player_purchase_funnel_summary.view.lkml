@@ -8,6 +8,34 @@ view: player_purchase_funnel_summary {
 
       with
 
+      de_duped_base_data as (
+
+      select
+          rdg_id
+          , timestamp_utc
+          , event_name
+          , safe_cast(json_extract_scalar( extra_json , "$.store_item_id") as string) as iap_id_for_grouping
+          , max(rdg_date) as rdg_date
+          , max(extra_json) as extra_json
+          , max(created_at) as created_at
+          , max(version) as version
+          , max(user_type) as user_type
+          , max(session_id) as session_id
+          , max(experiments) as experiments
+          , max(win_streak) as win_streak
+          , max(currencies) as currencies
+          , max(last_level_serial) as last_level_serial
+          , max(engagement_ticks) as engagement_ticks
+          , max(cumulative_time_played_minutes) as cumulative_time_played_minutes
+
+      from
+        ${player_purchase_funnel_incremental.SQL_TABLE_NAME}
+      group by
+        1,2,3,4
+      )
+
+      ,
+
       base_data as (
 
         select
@@ -18,11 +46,8 @@ view: player_purchase_funnel_summary {
           , safe_cast(json_extract_scalar( extra_json , "$.store_item_id") as string) as iap_id
           , safe_cast(json_extract_scalar( extra_json , "$.product_id") as string) as product_id
           , safe_cast(json_extract_scalar( extra_json , "$.details") as string) as details
-
-
         from
-          ${player_purchase_funnel_incremental.SQL_TABLE_NAME}
-
+          de_duped_base_data
       )
 
       select

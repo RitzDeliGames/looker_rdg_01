@@ -127,6 +127,7 @@ view: ab_test_player_daily {
 
             when {% parameter selected_metric_daily %} = "Average Days Played Per Player" then sum(a.count_days_played)
             when {% parameter selected_metric_daily %} = "Average Round End Events Per Player" then sum(a.round_end_events)
+            when {% parameter selected_metric_daily %} = "Average Round End Events Per Day" then sum(a.round_end_events)
             when {% parameter selected_metric_daily %} = "Average Churn Rate Per Player" then max(a.churn_indicator)
 
             when {% parameter selected_metric_daily %} = "Average Daily Feature Participation (Any Event)" then sum(a.feature_participation_any_event)
@@ -206,6 +207,7 @@ view: ab_test_player_daily {
 
         when {% parameter selected_metric_daily %} = "Average Days Played Per Player" then max(1)
         when {% parameter selected_metric_daily %} = "Average Round End Events Per Player" then max(1)
+        when {% parameter selected_metric_daily %} = "Average Round End Events Per Day" then sum(a.count_days_played)
         when {% parameter selected_metric_daily %} = "Average Churn Rate Per Player" then max(1)
 
         when {% parameter selected_metric_daily %} = "Average Daily Feature Participation (Any Event)" then sum(a.count_days_played)
@@ -1119,6 +1121,7 @@ view: ab_test_player_daily {
 
       , "Average Days Played Per Player"
       , "Average Round End Events Per Player"
+      , "Average Round End Events Per Day"
       , "Average Churn Rate Per Player"
 
       , "Average Daily Feature Participation (Any Event)"

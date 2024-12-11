@@ -1082,6 +1082,7 @@ explore: gogame_data {}
 
 explore: singular_player_attribution {}
 explore: bfg_player_attribution {}
+# explore: player_achievement_incremental {}
 # explore: player_purchase_funnel_incremental {}
 # explore: player_social_button_clicks_incremental {}
 # explore: player_popup_and_iam_incremental {}

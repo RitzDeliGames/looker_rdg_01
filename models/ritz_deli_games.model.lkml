@@ -872,6 +872,24 @@ explore: player_social_button_clicks_summary {
 
 ################################################################
 
+## Explore: Player Daily Achievement Summary
+
+################################################################
+
+explore: player_achievement_summary {
+  label: "Player Daily Achievement Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_achievement_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+################################################################
+
 ## Explore: Purchase Funnel
 
 ################################################################

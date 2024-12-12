@@ -4265,184 +4265,184 @@ view: player_summary_new {
     ;;
   }
 
-################################################################
-## Big Fish Retention
-################################################################
+# ################################################################
+# ## Big Fish Retention
+# ################################################################
 
-  measure: big_fish_retention_d1 {
-    group_label: "Big Fish Retention"
-    label: "Big Fish D1"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when ${TABLE}.max_available_day_number >= 2
-          then ${TABLE}.retention_d2
-          else 0
-          end )
-      ,
-      count( distinct
-        case
-          when ${TABLE}.max_available_day_number >= 2
-          then ${TABLE}.rdg_id
-          else null
-          end )
-    )
-    ;;
-    value_format_name: percent_1
-    # drill_fields: [numerator_retention_d120,available_player_count_d120]
-  }
+#   measure: big_fish_retention_d1 {
+#     group_label: "Big Fish Retention"
+#     label: "Big Fish D1"
+#     type: number
+#     sql:
+#     safe_divide(
+#       sum(
+#         case
+#           when ${TABLE}.max_available_day_number >= 2
+#           then ${TABLE}.retention_d2
+#           else 0
+#           end )
+#       ,
+#       count( distinct
+#         case
+#           when ${TABLE}.max_available_day_number >= 2
+#           then ${TABLE}.rdg_id
+#           else null
+#           end )
+#     )
+#     ;;
+#     value_format_name: percent_1
+#     # drill_fields: [numerator_retention_d120,available_player_count_d120]
+#   }
 
-  measure: big_fish_retention_d7 {
-    group_label: "Big Fish Retention"
-    label: "Big Fish D7"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when ${TABLE}.max_available_day_number >= 8
-          then ${TABLE}.retention_d8
-          else 0
-          end )
-      ,
-      count( distinct
-        case
-          when ${TABLE}.max_available_day_number >= 8
-          then ${TABLE}.rdg_id
-          else null
-          end )
-    )
-    ;;
-    value_format_name: percent_1
-    # drill_fields: [numerator_retention_d120,available_player_count_d120]
-  }
+#   measure: big_fish_retention_d7 {
+#     group_label: "Big Fish Retention"
+#     label: "Big Fish D7"
+#     type: number
+#     sql:
+#     safe_divide(
+#       sum(
+#         case
+#           when ${TABLE}.max_available_day_number >= 8
+#           then ${TABLE}.retention_d8
+#           else 0
+#           end )
+#       ,
+#       count( distinct
+#         case
+#           when ${TABLE}.max_available_day_number >= 8
+#           then ${TABLE}.rdg_id
+#           else null
+#           end )
+#     )
+#     ;;
+#     value_format_name: percent_1
+#     # drill_fields: [numerator_retention_d120,available_player_count_d120]
+#   }
 
-  measure: big_fish_retention_d14 {
-    group_label: "Big Fish Retention"
-    label: "Big Fish D14"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when ${TABLE}.max_available_day_number >= 15
-          then ${TABLE}.retention_d15
-          else 0
-          end )
-      ,
-      count( distinct
-        case
-          when ${TABLE}.max_available_day_number >= 15
-          then ${TABLE}.rdg_id
-          else null
-          end )
-    )
-    ;;
-    value_format_name: percent_1
-    # drill_fields: [numerator_retention_d120,available_player_count_d120]
-  }
+#   measure: big_fish_retention_d14 {
+#     group_label: "Big Fish Retention"
+#     label: "Big Fish D14"
+#     type: number
+#     sql:
+#     safe_divide(
+#       sum(
+#         case
+#           when ${TABLE}.max_available_day_number >= 15
+#           then ${TABLE}.retention_d15
+#           else 0
+#           end )
+#       ,
+#       count( distinct
+#         case
+#           when ${TABLE}.max_available_day_number >= 15
+#           then ${TABLE}.rdg_id
+#           else null
+#           end )
+#     )
+#     ;;
+#     value_format_name: percent_1
+#     # drill_fields: [numerator_retention_d120,available_player_count_d120]
+#   }
 
-  measure: big_fish_retention_d30 {
-    group_label: "Big Fish Retention"
-    label: "Big Fish D30"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when ${TABLE}.max_available_day_number >= 31
-          then ${TABLE}.retention_d31
-          else 0
-          end )
-      ,
-      count( distinct
-        case
-          when ${TABLE}.max_available_day_number >= 31
-          then ${TABLE}.rdg_id
-          else null
-          end )
-    )
-    ;;
-    value_format_name: percent_1
-    # drill_fields: [numerator_retention_d120,available_player_count_d120]
-  }
+#   measure: big_fish_retention_d30 {
+#     group_label: "Big Fish Retention"
+#     label: "Big Fish D30"
+#     type: number
+#     sql:
+#     safe_divide(
+#       sum(
+#         case
+#           when ${TABLE}.max_available_day_number >= 31
+#           then ${TABLE}.retention_d31
+#           else 0
+#           end )
+#       ,
+#       count( distinct
+#         case
+#           when ${TABLE}.max_available_day_number >= 31
+#           then ${TABLE}.rdg_id
+#           else null
+#           end )
+#     )
+#     ;;
+#     value_format_name: percent_1
+#     # drill_fields: [numerator_retention_d120,available_player_count_d120]
+#   }
 
-  measure: big_fish_retention_d45 {
-    group_label: "Big Fish Retention"
-    label: "Big Fish D45"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when ${TABLE}.max_available_day_number >= 46
-          then ${TABLE}.retention_d46
-          else 0
-          end )
-      ,
-      count( distinct
-        case
-          when ${TABLE}.max_available_day_number >= 46
-          then ${TABLE}.rdg_id
-          else null
-          end )
-    )
-    ;;
-    value_format_name: percent_1
-    # drill_fields: [numerator_retention_d120,available_player_count_d120]
-  }
+#   measure: big_fish_retention_d45 {
+#     group_label: "Big Fish Retention"
+#     label: "Big Fish D45"
+#     type: number
+#     sql:
+#     safe_divide(
+#       sum(
+#         case
+#           when ${TABLE}.max_available_day_number >= 46
+#           then ${TABLE}.retention_d46
+#           else 0
+#           end )
+#       ,
+#       count( distinct
+#         case
+#           when ${TABLE}.max_available_day_number >= 46
+#           then ${TABLE}.rdg_id
+#           else null
+#           end )
+#     )
+#     ;;
+#     value_format_name: percent_1
+#     # drill_fields: [numerator_retention_d120,available_player_count_d120]
+#   }
 
-  measure: big_fish_retention_d60 {
-    group_label: "Big Fish Retention"
-    label: "Big Fish D60"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when ${TABLE}.max_available_day_number >= 61
-          then ${TABLE}.retention_d61
-          else 0
-          end )
-      ,
-      count( distinct
-        case
-          when ${TABLE}.max_available_day_number >= 61
-          then ${TABLE}.rdg_id
-          else null
-          end )
-    )
-    ;;
-    value_format_name: percent_1
-    # drill_fields: [numerator_retention_d120,available_player_count_d120]
-  }
+#   measure: big_fish_retention_d60 {
+#     group_label: "Big Fish Retention"
+#     label: "Big Fish D60"
+#     type: number
+#     sql:
+#     safe_divide(
+#       sum(
+#         case
+#           when ${TABLE}.max_available_day_number >= 61
+#           then ${TABLE}.retention_d61
+#           else 0
+#           end )
+#       ,
+#       count( distinct
+#         case
+#           when ${TABLE}.max_available_day_number >= 61
+#           then ${TABLE}.rdg_id
+#           else null
+#           end )
+#     )
+#     ;;
+#     value_format_name: percent_1
+#     # drill_fields: [numerator_retention_d120,available_player_count_d120]
+#   }
 
-  measure: big_fish_retention_d90 {
-    group_label: "Big Fish Retention"
-    label: "Big Fish D90"
-    type: number
-    sql:
-    safe_divide(
-      sum(
-        case
-          when ${TABLE}.max_available_day_number >= 91
-          then ${TABLE}.retention_d91
-          else 0
-          end )
-      ,
-      count( distinct
-        case
-          when ${TABLE}.max_available_day_number >= 91
-          then ${TABLE}.rdg_id
-          else null
-          end )
-    )
-    ;;
-    value_format_name: percent_1
-    # drill_fields: [numerator_retention_d120,available_player_count_d120]
-  }
+#   measure: big_fish_retention_d90 {
+#     group_label: "Big Fish Retention"
+#     label: "Big Fish D90"
+#     type: number
+#     sql:
+#     safe_divide(
+#       sum(
+#         case
+#           when ${TABLE}.max_available_day_number >= 91
+#           then ${TABLE}.retention_d91
+#           else 0
+#           end )
+#       ,
+#       count( distinct
+#         case
+#           when ${TABLE}.max_available_day_number >= 91
+#           then ${TABLE}.rdg_id
+#           else null
+#           end )
+#     )
+#     ;;
+#     value_format_name: percent_1
+#     # drill_fields: [numerator_retention_d120,available_player_count_d120]
+#   }
 
 
 ################################################################
@@ -4474,109 +4474,109 @@ view: player_summary_new {
     value_format_name: percent_1
   }
 
-################################################################
-## Big Fish Combined Dollars
-################################################################
+# ################################################################
+# ## Big Fish Combined Dollars
+# ################################################################
 
-  measure: big_fish_net_combined_dollars_d1 {
-    group_label:"Big Fish LTV - Cumulative Net"
-    label: "Big Fish LTV: D1"
-    type: sum
-    value_format_name: usd
-    sql: ${TABLE}.cumulative_combined_dollars_d2;;
-  }
+#   measure: big_fish_net_combined_dollars_d1 {
+#     group_label:"Big Fish LTV - Cumulative Net"
+#     label: "Big Fish LTV: D1"
+#     type: sum
+#     value_format_name: usd
+#     sql: ${TABLE}.cumulative_combined_dollars_d2;;
+#   }
 
-  measure: big_fish_net_combined_dollars_d3 {
-    group_label:"Big Fish LTV - Cumulative Net"
-    label: "Big Fish LTV: D3"
-    type: sum
-    value_format_name: usd
-    sql: ${TABLE}.cumulative_combined_dollars_d4;;
-  }
+#   measure: big_fish_net_combined_dollars_d3 {
+#     group_label:"Big Fish LTV - Cumulative Net"
+#     label: "Big Fish LTV: D3"
+#     type: sum
+#     value_format_name: usd
+#     sql: ${TABLE}.cumulative_combined_dollars_d4;;
+#   }
 
-  measure: big_fish_net_combined_dollars_d7 {
-    group_label:"Big Fish LTV - Cumulative Net"
-    label: "Big Fish LTV: D7"
-    type: sum
-    value_format_name: usd
-    sql: ${TABLE}.cumulative_combined_dollars_d8;;
-  }
+#   measure: big_fish_net_combined_dollars_d7 {
+#     group_label:"Big Fish LTV - Cumulative Net"
+#     label: "Big Fish LTV: D7"
+#     type: sum
+#     value_format_name: usd
+#     sql: ${TABLE}.cumulative_combined_dollars_d8;;
+#   }
 
-  measure: big_fish_net_combined_dollars_d14 {
-    group_label:"Big Fish LTV - Cumulative Net"
-    label: "Big Fish LTV: D14"
-    type: sum
-    value_format_name: usd
-    sql: ${TABLE}.cumulative_combined_dollars_d15;;
-  }
+#   measure: big_fish_net_combined_dollars_d14 {
+#     group_label:"Big Fish LTV - Cumulative Net"
+#     label: "Big Fish LTV: D14"
+#     type: sum
+#     value_format_name: usd
+#     sql: ${TABLE}.cumulative_combined_dollars_d15;;
+#   }
 
-  measure: big_fish_net_combined_dollars_d30 {
-    group_label:"Big Fish LTV - Cumulative Net"
-    label: "Big Fish LTV: D30"
-    type: sum
-    value_format_name: usd
-    sql: ${TABLE}.cumulative_combined_dollars_d31;;
-  }
+#   measure: big_fish_net_combined_dollars_d30 {
+#     group_label:"Big Fish LTV - Cumulative Net"
+#     label: "Big Fish LTV: D30"
+#     type: sum
+#     value_format_name: usd
+#     sql: ${TABLE}.cumulative_combined_dollars_d31;;
+#   }
 
-  measure: big_fish_net_combined_dollars_d45 {
-    group_label:"Big Fish LTV - Cumulative Net"
-    label: "Big Fish LTV: D45"
-    type: sum
-    value_format_name: usd
-    sql: ${TABLE}.cumulative_combined_dollars_d46;;
-  }
+#   measure: big_fish_net_combined_dollars_d45 {
+#     group_label:"Big Fish LTV - Cumulative Net"
+#     label: "Big Fish LTV: D45"
+#     type: sum
+#     value_format_name: usd
+#     sql: ${TABLE}.cumulative_combined_dollars_d46;;
+#   }
 
-  measure: big_fish_net_combined_dollars_d60 {
-    group_label:"Big Fish LTV - Cumulative Net"
-    label: "Big Fish LTV: D60"
-    type: sum
-    value_format_name: usd
-    sql: ${TABLE}.cumulative_combined_dollars_d61;;
-  }
+#   measure: big_fish_net_combined_dollars_d60 {
+#     group_label:"Big Fish LTV - Cumulative Net"
+#     label: "Big Fish LTV: D60"
+#     type: sum
+#     value_format_name: usd
+#     sql: ${TABLE}.cumulative_combined_dollars_d61;;
+#   }
 
-################################################################
-## Big Fish Net Mtx Dollars
-################################################################
+# ################################################################
+# ## Big Fish Net Mtx Dollars
+# ################################################################
 
-  measure: big_fish_net_mtx_dollars_d7 {
-    group_label: "Big Fish Net IAP"
-    label: "Big Fish IAP: D7"
-    type: sum
-    value_format_name: usd
-    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d8;;
-  }
+#   measure: big_fish_net_mtx_dollars_d7 {
+#     group_label: "Big Fish Net IAP"
+#     label: "Big Fish IAP: D7"
+#     type: sum
+#     value_format_name: usd
+#     sql: ${TABLE}.cumulative_mtx_purchase_dollars_d8;;
+#   }
 
-  measure: big_fish_net_mtx_dollars_d14 {
-    group_label: "Big Fish Net IAP"
-    label: "Big Fish IAP: D14"
-    type: sum
-    value_format_name: usd
-    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d15;;
-  }
+#   measure: big_fish_net_mtx_dollars_d14 {
+#     group_label: "Big Fish Net IAP"
+#     label: "Big Fish IAP: D14"
+#     type: sum
+#     value_format_name: usd
+#     sql: ${TABLE}.cumulative_mtx_purchase_dollars_d15;;
+#   }
 
-  measure: big_fish_net_mtx_dollars_d30 {
-    group_label: "Big Fish Net IAP"
-    label: "Big Fish IAP: D30"
-    type: sum
-    value_format_name: usd
-    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d31;;
-  }
+#   measure: big_fish_net_mtx_dollars_d30 {
+#     group_label: "Big Fish Net IAP"
+#     label: "Big Fish IAP: D30"
+#     type: sum
+#     value_format_name: usd
+#     sql: ${TABLE}.cumulative_mtx_purchase_dollars_d31;;
+#   }
 
-  measure: big_fish_net_mtx_dollars_d45 {
-    group_label: "Big Fish Net IAP"
-    label: "Big Fish IAP: D45"
-    type: sum
-    value_format_name: usd
-    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d46;;
-  }
+#   measure: big_fish_net_mtx_dollars_d45 {
+#     group_label: "Big Fish Net IAP"
+#     label: "Big Fish IAP: D45"
+#     type: sum
+#     value_format_name: usd
+#     sql: ${TABLE}.cumulative_mtx_purchase_dollars_d46;;
+#   }
 
-  measure: big_fish_net_mtx_dollars_d60 {
-    group_label: "Big Fish Net IAP"
-    label: "Big Fish IAP: D60"
-    type: sum
-    value_format_name: usd
-    sql: ${TABLE}.cumulative_mtx_purchase_dollars_d61;;
-  }
+#   measure: big_fish_net_mtx_dollars_d60 {
+#     group_label: "Big Fish Net IAP"
+#     label: "Big Fish IAP: D60"
+#     type: sum
+#     value_format_name: usd
+#     sql: ${TABLE}.cumulative_mtx_purchase_dollars_d61;;
+#   }
 
 
 ################################################################

@@ -929,7 +929,7 @@ explore: ab_test_campaign_levels {label: "AB Test: Campaign Levels" group_label:
 
 ################################################################
 
-explore: mbr_scorecard {label: "Chum Chum MBR Scorecard"}
+## explore: mbr_scorecard {label: "Chum Chum MBR Scorecard"}
 
 ################################################################
 

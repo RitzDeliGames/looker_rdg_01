@@ -880,11 +880,11 @@ view: player_summary_new {
     sql: @{campaign_install_category}  ;;
   }
 
-  dimension: campaign_milestone_category {
-    label: "Milestone Category"
-    type: string
-    sql: @{campaign_milestone_category}  ;;
-  }
+  # dimension: campaign_milestone_category {
+  #   label: "Milestone Category"
+  #   type: string
+  #   sql: @{campaign_milestone_category}  ;;
+  # }
 
   ################################################################################################
   ## minutes per day
@@ -1226,18 +1226,18 @@ view: player_summary_new {
 ## BFG Campaign Mapping
 ######################################################################
 
-  dimension: bfg_campaign {
-    group_label: "BFG Campaign Mapping"
-    type: string
-  }
-  dimension: bfg_ad_name {
-    group_label: "BFG Campaign Mapping"
-    type: string
-  }
-  dimension: bfg_media_source {
-    group_label: "BFG Campaign Mapping"
-    type: string
-  }
+  # dimension: bfg_campaign {
+  #   group_label: "BFG Campaign Mapping"
+  #   type: string
+  # }
+  # dimension: bfg_ad_name {
+  #   group_label: "BFG Campaign Mapping"
+  #   type: string
+  # }
+  # dimension: bfg_media_source {
+  #   group_label: "BFG Campaign Mapping"
+  #   type: string
+  # }
 
 
 ######################################################################

@@ -1100,6 +1100,7 @@ explore: gogame_data {}
 
 explore: singular_player_attribution {}
 explore: bfg_player_attribution {}
+explore: applovin_ads_data_summary {}
 # explore: applovin_ads_data_incremental {}
 # explore: player_achievement_incremental {}
 # explore: player_purchase_funnel_incremental {}

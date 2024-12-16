@@ -270,7 +270,7 @@ constant: campaign_name_mapped {
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|aeo|adimpression_20241213' then '20241213 - Android - Meta - LATAM - Ad ROAS'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|aeo|15minutes_20241211' then '20241211 - Android - Meta - LATAM - Tutorial Complete'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|aeo|30minutes_20241211' then '20241211 - Android - Meta - LATAM - Tutorial Complete'
-      when lower(campaign_name) = 'ccb|fb|rdg|android|latam|aeo|30minutes_20241211 Campaign' then '20241211 - Android - Meta - LATAM - Tutorial Complete'
+      when lower(campaign_name) = 'ccb|fb|rdg|android|latam|aeo|30minutes_20241211 campaign' then '20241211 - Android - Meta - LATAM - Tutorial Complete'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|aeo|60minutes_20241209' then '20241209 - Android - Meta - LATAM - 60 Min'
       when lower(campaign_name) = 'ccb|uac|rdg|android|us|tcpa|engagement_threshold_d2_m35|nov24_1539735' then '20241108 - Android - Google - USA - D2_Engagement'
       when lower(campaign_name) = 'ccb|fb|rdg|android|us|aeo|engagement_threshold_d2_m35|nov24_1539487' then '20241108 - Android - Meta - USA - D2_Engagement'

@@ -908,6 +908,24 @@ explore: player_purchase_funnel_summary {
 
 ################################################################
 
+## Explore: player_engagement_threshold_summary
+
+################################################################
+
+explore: player_engagement_threshold_summary {
+  label: "Player Engagement Threshold Summary"
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_engagement_threshold_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+################################################################
+
 ## AB Test Explores
 
 ################################################################

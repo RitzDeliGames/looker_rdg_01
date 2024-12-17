@@ -2,7 +2,7 @@ view: click_stream {
   derived_table: {
     sql:
 
-      /*
+
       select
         rdg_id
         ,country
@@ -31,7 +31,7 @@ view: click_stream {
         and country != 'ZZ'
         and coalesce(install_version,'null') <> '-1'
       group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
-      */
+
 
     /*
 
@@ -484,6 +484,7 @@ view: click_stream {
   group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
 */
 
+/*
   --------------------------------------------------------------
   -- FUE/Buttons For Last Level Serial = 3
   -- Investigating test: $.newGameFUE_20240927
@@ -525,7 +526,7 @@ view: click_stream {
       and last_level_serial = 3
     group by
       1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
-
+*/
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;

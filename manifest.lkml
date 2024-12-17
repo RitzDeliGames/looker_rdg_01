@@ -185,6 +185,7 @@ constant: button_tags {
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRound_Failure.Continue' then 'Mini-Game - EoR - Continue'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_GoFish.Play' then 'Go Fish - Play'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BattlePass.' then 'BattlePass'
+            when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_BattlePass.Reward%' then 'BattlePass - Reward'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Puzzle.Pregame' then 'Puzzle - PreGame'
             when json_extract_scalar(extra_json,'$.button_tag') = 'SheetContainer.OverlayClose' then 'Close Overlay'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_BattlePass.Close' then 'BattlePass - Close'

@@ -20,7 +20,7 @@ view: ab_test_player_summary {
       ---------------------------------------------------------------------------------------
 
       select
-      rdg_id
+      a.rdg_id
       , json_extract_scalar(experiments,{% parameter selected_experiment %}) as variant
       , case
 
@@ -161,7 +161,9 @@ view: ab_test_player_summary {
       , 1 as denominator
 
       from
-      ${player_summary_new.SQL_TABLE_NAME}
+      ${player_summary_new.SQL_TABLE_NAME} a
+      left join ${player_bucket_by_first_10_levels.SQL_TABLE_NAME} b
+        on a.rdg_id = b.rdg_id
 
       where
       1=1
@@ -247,6 +249,17 @@ view: ab_test_player_summary {
       {% if country._is_filtered %}
       and country = {% parameter country %}
       {% endif %}
+
+      -- Moves To Beat First 10 Levels (Min)
+      {% if moves_to_beat_first_10_levels_min._is_filtered %}
+      and b.moves_made >= {% parameter moves_to_beat_first_10_levels_min %}
+      {% endif %}
+
+      -- Moves To Beat First 10 Levels (Max)
+      {% if moves_to_beat_first_10_levels_max._is_filtered %}
+      and b.moves_made <= {% parameter moves_to_beat_first_10_levels_max %}
+      {% endif %}
+
 
       )
 
@@ -693,6 +706,14 @@ view: ab_test_player_summary {
   }
 
   parameter: day_number_max {
+    type: number
+  }
+
+  parameter: moves_to_beat_first_10_levels_min {
+    type: number
+  }
+
+  parameter: moves_to_beat_first_10_levels_max {
     type: number
   }
 

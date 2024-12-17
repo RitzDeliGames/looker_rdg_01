@@ -5096,7 +5096,7 @@ view: player_summary_new {
   }
 
   measure: engagement_milestone_events_60_minutes {
-    label: "30 Minute Event"
+    label: "60 Minute Event"
     group_label: "Engagement Milestone Events"
     type: number
     sql:

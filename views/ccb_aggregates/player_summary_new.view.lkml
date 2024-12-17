@@ -550,6 +550,8 @@ view: player_summary_new {
       -- Add on Creative Start Date and Creative Day Number
       ------------------------------------------------------------------------------------
 
+      , add_on_creative_start_date_table as (
+
       select
         a.*
         , b.first_creative_date
@@ -561,7 +563,38 @@ view: player_summary_new {
         left join get_creative_start_date_table b
           on a.ad_name_simple = b.ad_name_simple
 
+      )
 
+      ------------------------------------------------------------------------------------
+      -- get engagement thresholds
+      ------------------------------------------------------------------------------------
+
+      , get_engagement_thresholds_table as (
+
+        select
+          rdg_id
+          , max(case when minutes_threshold = 5 then 1 else 0 end ) as engagement_threshold_triggered_5_minutes
+          , max(case when minutes_threshold = 15 then 1 else 0 end ) as engagement_threshold_triggered_15_minutes
+          , max(case when minutes_threshold = 30 then 1 else 0 end ) as engagement_threshold_triggered_30_minutes
+          , max(case when minutes_threshold = 60 then 1 else 0 end ) as engagement_threshold_triggered_60_minutes
+
+        from
+          ${player_engagement_threshold_summary.SQL_TABLE_NAME}
+        group by
+          1
+      )
+
+      ------------------------------------------------------------------------------------
+      -- add engagement thresholds
+      ------------------------------------------------------------------------------------
+
+      select
+        a.*
+        , b.* except( rdg_id )
+      from
+        add_on_creative_start_date_table a
+        left join get_engagement_thresholds_table b
+          on a.rdg_id = b.rdg_id
 
 
       ;;
@@ -640,7 +673,6 @@ view: player_summary_new {
   dimension: minutes_played_in_first_14_days {type: number}
   dimension: minutes_played_in_first_21_days {type: number}
   dimension: minutes_played_in_first_30_days {type: number}
-
 
   dimension: gofish_rounds_played_total {
     group_label: "Go Fish Rounds"
@@ -4995,6 +5027,83 @@ view: player_summary_new {
       count( distinct
         case
           when ${TABLE}.cumulative_time_played_minutes >= 360
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+
+  measure: engagement_milestone_events_5_minutes {
+    label: "5 Minute Event"
+    group_label: "Engagement Milestone Events"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.engagement_threshold_triggered_5_minutes = 1
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_events_15_minutes {
+    label: "15 Minute Event"
+    group_label: "Engagement Milestone Events"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.engagement_threshold_triggered_15_minutes = 1
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_events_30_minutes {
+    label: "30 Minute Event"
+    group_label: "Engagement Milestone Events"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.engagement_threshold_triggered_30_minutes = 1
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_events_60_minutes {
+    label: "30 Minute Event"
+    group_label: "Engagement Milestone Events"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.engagement_threshold_triggered_60_minutes = 1
           then ${TABLE}.rdg_id
           else null
           end )

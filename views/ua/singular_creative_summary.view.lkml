@@ -42,7 +42,11 @@ view: singular_creative_summary {
       `eraser-blast.singular.campaign_and_creative`
       where
       adn_cost is not null
-      and date(timestamp(date)) <= '2024-07-17' -- last date for singular data
+      and
+        (
+          date(timestamp(date)) <= '2024-07-17' -- Singular Before BFG
+          or date(timestamp(date)) > '2024-12-07' -- Singular AFTER BFG
+          )
       group by
       1,2,3,4,5,6,7,8,9,10,11,12,13,14
 
@@ -72,7 +76,7 @@ view: singular_creative_summary {
       eraser-blast.bfg_import.gogame_data
       where
       GAME = 'Chum Chum Blast'
-      and date(timestamp(REGISTRATION_DATE)) > '2024-07-17' -- picking up where singular leaves off
+      and date(timestamp(REGISTRATION_DATE)) between '2024-07-17' and '2024-12-07' -- BFG WINDOW
       and PARTNER_IMPRESSIONS is not null -- no nulls!
       and publisher is not null -- no nulls!
       and length(publisher) > 2 -- filtering out \N values

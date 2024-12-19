@@ -55,6 +55,8 @@ view: ab_test_player_daily {
             as variant
         , case
 
+            when {% parameter selected_metric_daily %} = "Average Weekly Daily Reward Completions Per Participating Player" then sum(a.feature_participation_daily_reward_day_7_completed)
+
             when {% parameter selected_metric_daily %} = "Average Daily Coin Balance" then sum( case when a.ending_coins_balance >= 300000 then 300000 else a.ending_coins_balance end )
 
             when {% parameter selected_metric_daily %} = "Food Truck Participation Days Per Player" then sum(a.feature_participation_food_truck)
@@ -134,6 +136,9 @@ view: ab_test_player_daily {
 
           else sum(1) end as numerator
         , case
+
+
+        when {% parameter selected_metric_daily %} = "Average Weekly Daily Reward Completions Per Participating Player" then max( case when a.feature_participation_daily_reward = 1 then 1 else 0 end )
 
         when {% parameter selected_metric_daily %} = "Average Daily Coin Balance" then sum(1)
 
@@ -1125,7 +1130,7 @@ view: ab_test_player_daily {
       , "Average Churn Rate Per Player"
 
       , "Average Daily Feature Participation (Any Event)"
-
+      , "Average Weekly Daily Reward Completions Per Participating Player"
       , "Average Gem Quest APS"
 
       , "Flour Frenzy Participation Days Per Player"

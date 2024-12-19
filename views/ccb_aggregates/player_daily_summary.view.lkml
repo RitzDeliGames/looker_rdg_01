@@ -351,6 +351,7 @@ ads_by_date as (
 
         -- feature participation
         , max( a.feature_participation_daily_reward ) as feature_participation_daily_reward
+        , max( a.feature_participation_daily_reward_day_7_completed ) as feature_participation_daily_reward_day_7_completed
         , max( a.feature_participation_pizza_time ) as feature_participation_pizza_time
         , max( a.feature_participation_flour_frenzy ) as feature_participation_flour_frenzy
         , max( a.feature_participation_lucky_dice ) as feature_participation_lucky_dice
@@ -571,6 +572,7 @@ ads_by_date as (
 
         -- feature participation
         , max( a.feature_participation_daily_reward ) as feature_participation_daily_reward
+        , max( a.feature_participation_daily_reward_day_7_completed ) as feature_participation_daily_reward_day_7_completed
         , max( a.feature_participation_pizza_time ) as feature_participation_pizza_time
         , max( a.feature_participation_flour_frenzy ) as feature_participation_flour_frenzy
         , max( a.feature_participation_lucky_dice ) as feature_participation_lucky_dice
@@ -829,6 +831,7 @@ ads_by_date as (
 
         -- feature participation
         , a.feature_participation_daily_reward
+        , a.feature_participation_daily_reward_day_7_completed
         , a.feature_participation_pizza_time
         , a.feature_participation_flour_frenzy
         , a.feature_participation_lucky_dice
@@ -1665,6 +1668,10 @@ dimension: primary_key {
   dimension: feature_participation_daily_reward {
     group_label: "Daily Feature Participation"
     label: "Daily Reward"
+    type:number}
+  dimension: feature_participation_daily_reward_day_7_completed {
+    group_label: "Daily Feature Participation"
+    label: "Daily Reward Day 7"
     type:number}
   dimension: feature_participation_pizza_time {
     group_label: "Daily Feature Participation"

@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-09-27'
+      -- update '2024-12-19'
 
       -- create or replace table tal_scratch.player_daily_incremental_test as
 
@@ -80,7 +80,7 @@ view: player_daily_incremental {
           date(timestamp) >=
               case
                   -- select date(current_date())
-                  when date(current_date()) <= '2024-09-27' -- Last Full Update
+                  when date(current_date()) <= '2024-12-19' -- Last Full Update
                   then '2022-06-01'
                   else date_add(current_date(), interval -9 day)
                   end
@@ -563,6 +563,15 @@ view: player_daily_incremental {
             then 1
             else 0
             end as int64) as feature_participation_daily_reward
+
+        , safe_cast(case
+            when
+              event_name = 'reward'
+              and safe_cast(json_extract_scalar(extra_json, "$.reward_event") as string) = 'daily_reward'
+              and safe_cast(json_extract_scalar(extra_json, "$.day") as numeric) = 7
+            then 1
+            else 0
+            end as int64) as feature_participation_daily_reward_day_7_completed
 
         , safe_cast(case
             when
@@ -1159,6 +1168,7 @@ view: player_daily_incremental {
 
         -- feature participation
         , max( feature_participation_daily_reward ) as feature_participation_daily_reward
+        , max( feature_participation_daily_reward_day_7_completed ) as feature_participation_daily_reward_day_7_completed
         , max( feature_participation_pizza_time ) as feature_participation_pizza_time
         , max( feature_participation_flour_frenzy ) as feature_participation_flour_frenzy
         , max( feature_participation_lucky_dice ) as feature_participation_lucky_dice
@@ -1305,22 +1315,8 @@ view: player_daily_incremental {
 
     -- select
     --    date(rdg_date) as rdg_date
+    --     , sum( feature_participation_daily_reward_day_7_completed ) as feature_participation_daily_reward_day_7_completed
 
-    --     -- Estimate Ad Placements
-    --     , max( daily_popup_BattlePass ) as daily_popup_BattlePass
-    --     , max( daily_popup_DailyReward ) as daily_popup_DailyReward
-    --     , max( daily_popup_FlourFrenzy ) as daily_popup_FlourFrenzy
-    --     , max( daily_popup_GoFish ) as daily_popup_GoFish
-    --     , max( daily_popup_HotdogContest ) as daily_popup_HotdogContest
-    --     , max( daily_popup_LuckyDice ) as daily_popup_LuckyDice
-    --     , max( daily_popup_MovesMaster ) as daily_popup_MovesMaster
-    --     , max( daily_popup_PizzaTime ) as daily_popup_PizzaTime
-    --     , max( daily_popup_Puzzle ) as daily_popup_Puzzle
-    --     , max( daily_popup_TreasureTrove ) as daily_popup_TreasureTrove
-    --     , max( daily_popup_UpdateApp ) as daily_popup_UpdateApp
-    --     , max( daily_popup_CastleClimb ) as daily_popup_CastleClimb
-    --     , max( daily_popup_GemQuest ) as daily_popup_GemQuest
-    --     , max( daily_popup_DonutSprint ) as daily_popup_DonutSprint
 
     -- from
     --   add_on_histogram_table

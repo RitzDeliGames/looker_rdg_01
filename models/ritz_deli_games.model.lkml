@@ -966,6 +966,9 @@ explore: adhoc_2024_02_26_puzzle_vs_campaign_aps_vs_churn {label: "APS vs. Churn
 explore: adhoc_2024_06_27_castle_climb_reward_funnel {label: "Castle Climb Reward Funnel" group_label: "Chum Chum Adhoc"}
 explore: player_bucket_by_first_10_levels {label: "Player Level 10 Moves Made" group_label: "Chum Chum Adhoc"}
 explore: adhoc_check_applovin_ads_vs_telemetry {label: "Check Applovin vs. Telemetry" group_label: "Chum Chum Adhoc"}
+explore: adhoc_2025_01_06_high_memory_usage {label: "Check High Memory Usage In Later Rounds" group_label: "Chum Chum Adhoc"}
+
+
 
 explore: adhoc_2024_10_23_treasure_trove_weekly_comparison {
   label: "Treasure Trove Weekly Comparison"

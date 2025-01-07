@@ -912,6 +912,12 @@ view: player_summary_new {
     sql: @{campaign_install_category}  ;;
   }
 
+  dimension: campaign_day_number_from_name {
+    label: "Installed on Campaign Day Number"
+    type: number
+    sql: @{campaign_day_number_from_name} ;;
+  }
+
   # dimension: campaign_milestone_category {
   #   label: "Milestone Category"
   #   type: string
@@ -5221,6 +5227,143 @@ view: player_summary_new {
           end )
     ;;
     value_format_name: decimal_0
+  }
+
+################################################################
+## Engagement Milestones: Day 1
+################################################################
+
+  measure: engagement_milestone_5_minutes_day_1 {
+    label: "5+ Min: Day 1"
+    group_label: "Engagement Milestones: Day 1"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.minutes_played_in_first_1_days >= 5
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_10_minutes_day_1 {
+    label: "10+ Min: Day 1"
+    group_label: "Engagement Milestones: Day 1"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.minutes_played_in_first_1_days >= 10
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_15_minutes_day_1 {
+    label: "15+ Min: Day 1"
+    group_label: "Engagement Milestones: Day 1"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.minutes_played_in_first_1_days >= 15
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_20_minutes_day_1 {
+    label: "20+ Min: Day 1"
+    group_label: "Engagement Milestones: Day 1"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.minutes_played_in_first_1_days >= 20
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_30_minutes_day_1 {
+    label: "30+ Min: Day 1"
+    group_label: "Engagement Milestones: Day 1"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.minutes_played_in_first_1_days >= 30
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_45_minutes_day_1 {
+    label: "45+ Min: Day 1"
+    group_label: "Engagement Milestones: Day 1"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.minutes_played_in_first_1_days >= 45
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_60_minutes_day_1 {
+    label: "60+ Min: Day 1"
+    group_label: "Engagement Milestones: Day 1"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.minutes_played_in_first_1_days >= 60
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
   }
 
 ################################################################

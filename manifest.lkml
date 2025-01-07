@@ -474,6 +474,22 @@ constant: campaign_install_category {
   "
 }
 
+constant: campaign_day_number_from_name {
+  value: "
+    greatest(
+      date_diff(
+        date(created_date)
+        , date(
+            ifnull(safe_cast( substring(${TABLE}.campaign_name, 1, 4 ) as int64 ),2023)
+            , least( ifnull(safe_cast( substring(${TABLE}.campaign_name, 5, 2 ) as int64 ),1) , 12 )
+            , least( ifnull(safe_cast( substring(${TABLE}.campaign_name, 7, 2 ) as int64 ),1) , 31)
+          )
+        , day)+1
+      ,1
+    )
+  "
+}
+
 constant: singular_campaign_name_override {
   value: "
   case

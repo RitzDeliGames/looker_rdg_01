@@ -428,6 +428,7 @@ constant: campaign_milestone_category {
 constant: campaign_install_category {
   value: "
       case
+        when ${TABLE}.campaign_name = '' then 'Organic'
         when ${TABLE}.campaign_name is null then 'Organic'
         when
           ${TABLE}.campaign_name not like '%Google%'

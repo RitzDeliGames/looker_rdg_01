@@ -12,6 +12,18 @@ view: active_ab_tests_list {
 
       select '$.No_AB_Test_Split' as experiment_name
 
+      union all select '$.IAMlimits_20241120'
+      union all select '$.starterBucketTuning_20241121'
+      union all select '$.starterBucketTuningp2_20241121_1393'
+      union all select '$.dynamicMovesp2_20241121'
+      union all select '$.colorBiasat01p2_20241121'
+      union all select '$.rewardedGemDoubler_20241126'
+      union all select '$.newOffers20241218'
+      union all select '$.USPriceIncrease_20241218'
+      union all select '$.IAMMultiTrigger'
+      union all select '$.CoinQPOUpdatev2_20241219'
+      union all select '$.dailyRewardReductionV3_20250108'
+
       union all select '$.boostersByAds_20240910'
       union all select '$.fakeProfiles2_20240910'
       union all select '$.altLevelOrderp5_20240911'

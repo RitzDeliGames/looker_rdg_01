@@ -968,7 +968,19 @@ explore: player_bucket_by_first_10_levels {label: "Player Level 10 Moves Made" g
 explore: adhoc_check_applovin_ads_vs_telemetry {label: "Check Applovin vs. Telemetry" group_label: "Chum Chum Adhoc"}
 explore: adhoc_2025_01_06_high_memory_usage {label: "Check High Memory Usage In Later Rounds" group_label: "Chum Chum Adhoc"}
 
+explore: adhoc_2025_01_09_gem_quest_memory_change_over_session {
+  label: "Gem Quest Memory Change Over Session"
+  group_label: "Chum Chum Adhoc"
 
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${adhoc_2025_01_09_gem_quest_memory_change_over_session.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
 
 explore: adhoc_2024_10_23_treasure_trove_weekly_comparison {
   label: "Treasure Trove Weekly Comparison"

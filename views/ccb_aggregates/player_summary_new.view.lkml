@@ -4853,6 +4853,26 @@ view: player_summary_new {
 ## Engagement Milestones
 ################################################################
 
+  measure: engagement_milestone_2_minutes {
+    label: "2+ Min"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.cumulative_time_played_minutes >= 2
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+
   measure: engagement_milestone_5_minutes {
     label: "5+ Min"
     group_label: "Engagement Milestones"
@@ -5232,6 +5252,25 @@ view: player_summary_new {
 ################################################################
 ## Engagement Milestones: Day 1
 ################################################################
+
+  measure: engagement_milestone_2_minutes_day_1 {
+    label: "2+ Min: Day 1"
+    group_label: "Engagement Milestones: Day 1"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.minutes_played_in_first_1_days >= 2
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
 
   measure: engagement_milestone_5_minutes_day_1 {
     label: "5+ Min: Day 1"

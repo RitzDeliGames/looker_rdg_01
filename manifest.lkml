@@ -648,6 +648,7 @@ constant: ad_placements_for_ad_summary {
 
   when lower(source_id) like '%castle_climb%' then 'Castle Climb'
   when lower(source_id) like '%dailyreward' then 'Daily Reward'
+  when lower(source_id) like '%daily_reward%' then 'Daily Reward'
   when lower(source_id) like '%moves_master%' then 'Moves Master'
   when lower(source_id) like '%pizza%' then 'Pizza'
   when lower(source_id) like '%lucky_dice%' then 'Lucky Dice'
@@ -680,6 +681,7 @@ constant: ad_placements_for_tickets_spend {
 
   when lower(source_id) like '%castle_climb%' then 'Castle Climb'
   when lower(source_id) like '%dailyreward' then 'Daily Reward'
+  when lower(source_id) like '%daily_reward%' then 'Daily Reward'
   when lower(source_id) like '%moves_master%' then 'Moves Master'
   when lower(source_id) like '%pizza%' then 'Pizza'
   when lower(source_id) like '%lucky_dice%' then 'Lucky Dice'

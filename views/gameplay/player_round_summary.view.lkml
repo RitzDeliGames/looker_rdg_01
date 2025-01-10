@@ -2512,6 +2512,52 @@ from
   ;;
  }
 
+  measure: percent_of_events_with_frames_below_22_pct_10 {
+    label: "10th Percentile"
+    group_label: "Frames Below 22 Percentiles"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.percent_frames_below_22;;
+    value_format_name: percent_2
+  }
+
+  measure: percent_of_events_with_frames_below_22_pct_25 {
+    label: "25th Percentile"
+    group_label: "Frames Below 22 Percentiles"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.percent_frames_below_22;;
+    value_format_name: percent_2
+  }
+
+  measure: percent_of_events_with_frames_below_22_pct_50 {
+    label: "Median"
+    group_label: "Frames Below 22 Percentiles"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.percent_frames_below_22;;
+    value_format_name: percent_2
+  }
+
+  measure: percent_of_events_with_frames_below_22_pct_75 {
+    label: "75th Percentile"
+    group_label: "Frames Below 22 Percentiles"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.percent_frames_below_22;;
+    value_format_name: percent_2
+  }
+
+  measure: percent_of_events_with_frames_below_22_pct_95 {
+    label: "95th Percentile"
+    group_label: "Frames Below 22 Percentiles"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.percent_frames_below_22;;
+    value_format_name: percent_2
+  }
+
+
 ######################################################################################
 ## Pre Game Boosts
 ######################################################################################

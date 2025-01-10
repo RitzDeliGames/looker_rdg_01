@@ -646,6 +646,7 @@ constant: ad_reward_id_strings {
 constant: ad_placements_for_ad_summary {
   value: "case
 
+  when lower(source_id) like '%castle_climb_keep_progress%' then 'Castle Climb Keep Progress'
   when lower(source_id) like '%castle_climb%' then 'Castle Climb'
   when lower(source_id) like '%dailyreward' then 'Daily Reward'
   when lower(source_id) like '%daily_reward%' then 'Daily Reward'
@@ -679,6 +680,7 @@ constant: ad_placements_for_ad_summary {
 constant: ad_placements_for_tickets_spend {
   value: "case
 
+  when lower(source_id) like '%castle_climb_keep_progress%' then 'Castle Climb Keep Progress'
   when lower(source_id) like '%castle_climb%' then 'Castle Climb'
   when lower(source_id) like '%dailyreward' then 'Daily Reward'
   when lower(source_id) like '%daily_reward%' then 'Daily Reward'

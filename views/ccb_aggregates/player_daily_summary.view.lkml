@@ -37,6 +37,7 @@ ads_by_date as (
         , sum( case when ad_placement_mapping = 'Lives' then count_ad_views else 0 end ) as ad_views_lives
         , sum( case when ad_placement_mapping = 'Magnifiers' then count_ad_views else 0 end ) as ad_views_magnifiers
         , sum( case when ad_placement_mapping = 'Treasure Trove' then count_ad_views else 0 end ) as ad_views_treasure_trove
+        , sum( case when ad_placement_mapping like '%Castle Climb%' then count_ad_views else 0 end ) as ad_views_castle_climb
 
         , sum( case when ad_placement_mapping = 'Daily Reward' then ad_view_dollars else 0 end ) as ad_dollars_daily_rewards
         , sum( case when ad_placement_mapping = 'Moves Master' then ad_view_dollars else 0 end ) as ad_dollars_moves_master
@@ -50,6 +51,7 @@ ads_by_date as (
         , sum( case when ad_placement_mapping = 'Lives' then ad_view_dollars else 0 end ) as ad_dollars_lives
         , sum( case when ad_placement_mapping = 'Magnifiers' then ad_view_dollars else 0 end ) as ad_dollars_magnifiers
         , sum( case when ad_placement_mapping = 'Treasure Trove' then ad_view_dollars else 0 end ) as ad_dollars_treasure_trove
+        , sum( case when ad_placement_mapping like '%Castle Climb%' then ad_view_dollars else 0 end ) as ad_dollars_castle_climb
 
     from
         -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
@@ -282,6 +284,7 @@ ads_by_date as (
         , sum( ifnull(b.ad_views_lives,0) + ifnull(c.ad_views_lives,0)) as ad_views_lives
         , sum( ifnull(b.ad_views_magnifiers,0) + ifnull(c.ad_views_magnifiers,0)) as ad_views_magnifiers
         , sum( ifnull(b.ad_views_treasure_trove,0) + ifnull(c.ad_views_treasure_trove,0)) as ad_views_treasure_trove
+        , sum( ifnull(b.ad_views_castle_climb,0) + ifnull(c.ad_views_castle_climb,0)) as ad_views_castle_climb
 
         , sum( ifnull(b.ad_dollars_daily_rewards,0) + ifnull(c.ad_dollars_daily_rewards,0)) as ad_dollars_daily_rewards
         , sum( ifnull(b.ad_dollars_moves_master,0) + ifnull(c.ad_dollars_moves_master,0)) as ad_dollars_moves_master
@@ -295,6 +298,7 @@ ads_by_date as (
         , sum( ifnull(b.ad_dollars_lives,0) + ifnull(c.ad_dollars_lives,0)) as ad_dollars_lives
         , sum( ifnull(b.ad_dollars_magnifiers,0) + ifnull(c.ad_dollars_magnifiers,0)) as ad_dollars_magnifiers
         , sum( ifnull(b.ad_dollars_treasure_trove,0) + ifnull(c.ad_dollars_treasure_trove,0)) as ad_dollars_treasure_trove
+        , sum( ifnull(b.ad_dollars_castle_climb,0) + ifnull(c.ad_dollars_castle_climb,0)) as ad_dollars_castle_climb
 
         , max(a.count_sessions) as count_sessions
         , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
@@ -503,6 +507,7 @@ ads_by_date as (
         , max(a.ad_views_lives) as ad_views_lives
         , max(a.ad_views_magnifiers) as ad_views_magnifiers
         , max(a.ad_views_treasure_trove) as ad_views_treasure_trove
+        , max(a.ad_views_castle_climb) as ad_views_castle_climb
 
         , max(a.ad_dollars_daily_rewards) as ad_dollars_daily_rewards
         , max(a.ad_dollars_moves_master) as ad_dollars_moves_master
@@ -516,6 +521,7 @@ ads_by_date as (
         , max(a.ad_dollars_lives) as ad_dollars_lives
         , max(a.ad_dollars_magnifiers) as ad_dollars_magnifiers
         , max(a.ad_dollars_treasure_trove) as ad_dollars_treasure_trove
+        , max(a.ad_dollars_castle_climb) as ad_dollars_castle_climb
 
         , max(a.count_sessions) as count_sessions
         , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
@@ -772,6 +778,7 @@ ads_by_date as (
         , a.ad_views_lives
         , a.ad_views_magnifiers
         , a.ad_views_treasure_trove
+        , a.ad_views_castle_climb
 
         , a.ad_dollars_daily_rewards
         , a.ad_dollars_moves_master
@@ -785,6 +792,7 @@ ads_by_date as (
         , a.ad_dollars_lives
         , a.ad_dollars_magnifiers
         , a.ad_dollars_treasure_trove
+        , a.ad_dollars_castle_climb
 
         , a.count_sessions
         , a.cumulative_engagement_ticks
@@ -3471,6 +3479,14 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     value_format_name: decimal_1
     type: number
     sql: safe_divide( sum(${TABLE}.ad_views_treasure_trove), sum(${TABLE}.count_days_played) )  ;;
+  }
+
+  measure: mean_ad_views_castle_climb {
+    group_label: "Mean IAA Views By Placement"
+    label: "IAA Views Per DAU - Castle Climb"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_castle_climb), sum(${TABLE}.count_days_played) )  ;;
   }
 
 ################################################################

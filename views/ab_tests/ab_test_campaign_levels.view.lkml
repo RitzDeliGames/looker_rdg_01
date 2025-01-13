@@ -47,6 +47,9 @@ view: ab_test_campaign_levels {
         ${player_campaign_level_summary.SQL_TABLE_NAME} a
         inner join ${player_summary_new.SQL_TABLE_NAME} b
           on a.rdg_id = b.rdg_id
+        left join ${player_bucket_by_first_10_levels.SQL_TABLE_NAME} c
+          on b.rdg_id = c.rdg_id
+
       where
         1=1
 
@@ -104,6 +107,16 @@ view: ab_test_campaign_levels {
         -- country filter
         {% if country._is_filtered %}
         and b.country = {% parameter country %}
+        {% endif %}
+
+        -- Moves To Beat First 10 Levels (Min)
+        {% if moves_to_beat_first_10_levels_min._is_filtered %}
+        and c.moves_made >= {% parameter moves_to_beat_first_10_levels_min %}
+        {% endif %}
+
+        -- Moves To Beat First 10 Levels (Max)
+        {% if moves_to_beat_first_10_levels_max._is_filtered %}
+        and c.moves_made <= {% parameter moves_to_beat_first_10_levels_max %}
         {% endif %}
 
       group by
@@ -569,6 +582,14 @@ view: ab_test_campaign_levels {
   }
 
   parameter: selected_significance {
+    type: number
+  }
+
+  parameter: moves_to_beat_first_10_levels_min {
+    type: number
+  }
+
+  parameter: moves_to_beat_first_10_levels_max {
     type: number
   }
 

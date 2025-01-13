@@ -25,33 +25,35 @@ ads_by_date as (
         , sum( count_ad_views ) as ad_views
         , sum( ad_view_dollars ) as ad_view_dollars
 
-        , sum( case when ad_placement_mapping = 'Daily Reward' then count_ad_views else 0 end ) as ad_views_daily_rewards
-        , sum( case when ad_placement_mapping = 'Moves Master' then count_ad_views else 0 end ) as ad_views_moves_master
-        , sum( case when ad_placement_mapping = 'Pizza' then count_ad_views else 0 end ) as ad_views_pizza
-        , sum( case when ad_placement_mapping = 'Lucky Dice' then count_ad_views else 0 end ) as ad_views_lucky_dice
-        , sum( case when ad_placement_mapping = 'Ask For Help' then count_ad_views else 0 end ) as ad_views_ask_for_help
-        , sum( case when ad_placement_mapping = 'Battle Pass' then count_ad_views else 0 end ) as ad_views_battle_pass
-        , sum( case when ad_placement_mapping = 'Puzzles' then count_ad_views else 0 end ) as ad_views_puzzles
-        , sum( case when ad_placement_mapping = 'Go Fish' then count_ad_views else 0 end ) as ad_views_go_fish
-        , sum( case when ad_placement_mapping = 'Rocket' then count_ad_views else 0 end ) as ad_views_rocket
-        , sum( case when ad_placement_mapping = 'Lives' then count_ad_views else 0 end ) as ad_views_lives
-        , sum( case when ad_placement_mapping = 'Magnifiers' then count_ad_views else 0 end ) as ad_views_magnifiers
-        , sum( case when ad_placement_mapping = 'Treasure Trove' then count_ad_views else 0 end ) as ad_views_treasure_trove
-        , sum( case when ad_placement_mapping like '%Castle Climb%' then count_ad_views else 0 end ) as ad_views_castle_climb
+        , sum( case when ad_placement = 'Daily Reward' then count_ad_views else 0 end ) as ad_views_daily_rewards
+        , sum( case when ad_placement = 'Moves Master' then count_ad_views else 0 end ) as ad_views_moves_master
+        , sum( case when ad_placement = 'Pizza' then count_ad_views else 0 end ) as ad_views_pizza
+        , sum( case when ad_placement = 'Lucky Dice' then count_ad_views else 0 end ) as ad_views_lucky_dice
+        , sum( case when ad_placement = 'Ask For Help' then count_ad_views else 0 end ) as ad_views_ask_for_help
+        , sum( case when ad_placement = 'Battle Pass' then count_ad_views else 0 end ) as ad_views_battle_pass
+        , sum( case when ad_placement = 'Puzzles' then count_ad_views else 0 end ) as ad_views_puzzles
+        , sum( case when ad_placement = 'Go Fish' then count_ad_views else 0 end ) as ad_views_go_fish
+        , sum( case when ad_placement = 'Rocket' then count_ad_views else 0 end ) as ad_views_rocket
+        , sum( case when ad_placement = 'Lives' then count_ad_views else 0 end ) as ad_views_lives
+        , sum( case when ad_placement = 'Magnifiers' then count_ad_views else 0 end ) as ad_views_magnifiers
+        , sum( case when ad_placement = 'Treasure Trove' then count_ad_views else 0 end ) as ad_views_treasure_trove
+        , sum( case when ad_placement like '%Castle Climb%' then count_ad_views else 0 end ) as ad_views_castle_climb
+        , sum( case when ad_placement = 'Gem Quest' then count_ad_views else 0 end ) as ad_views_gem_quest
 
-        , sum( case when ad_placement_mapping = 'Daily Reward' then ad_view_dollars else 0 end ) as ad_dollars_daily_rewards
-        , sum( case when ad_placement_mapping = 'Moves Master' then ad_view_dollars else 0 end ) as ad_dollars_moves_master
-        , sum( case when ad_placement_mapping = 'Pizza' then ad_view_dollars else 0 end ) as ad_dollars_pizza
-        , sum( case when ad_placement_mapping = 'Lucky Dice' then ad_view_dollars else 0 end ) as ad_dollars_lucky_dice
-        , sum( case when ad_placement_mapping = 'Ask For Help' then ad_view_dollars else 0 end ) as ad_dollars_ask_for_help
-        , sum( case when ad_placement_mapping = 'Battle Pass' then ad_view_dollars else 0 end ) as ad_dollars_battle_pass
-        , sum( case when ad_placement_mapping = 'Puzzles' then ad_view_dollars else 0 end ) as ad_dollars_puzzles
-        , sum( case when ad_placement_mapping = 'Go Fish' then ad_view_dollars else 0 end ) as ad_dollars_go_fish
-        , sum( case when ad_placement_mapping = 'Rocket' then ad_view_dollars else 0 end ) as ad_dollars_rocket
-        , sum( case when ad_placement_mapping = 'Lives' then ad_view_dollars else 0 end ) as ad_dollars_lives
-        , sum( case when ad_placement_mapping = 'Magnifiers' then ad_view_dollars else 0 end ) as ad_dollars_magnifiers
-        , sum( case when ad_placement_mapping = 'Treasure Trove' then ad_view_dollars else 0 end ) as ad_dollars_treasure_trove
-        , sum( case when ad_placement_mapping like '%Castle Climb%' then ad_view_dollars else 0 end ) as ad_dollars_castle_climb
+        , sum( case when ad_placement = 'Daily Reward' then ad_view_dollars else 0 end ) as ad_dollars_daily_rewards
+        , sum( case when ad_placement = 'Moves Master' then ad_view_dollars else 0 end ) as ad_dollars_moves_master
+        , sum( case when ad_placement = 'Pizza' then ad_view_dollars else 0 end ) as ad_dollars_pizza
+        , sum( case when ad_placement = 'Lucky Dice' then ad_view_dollars else 0 end ) as ad_dollars_lucky_dice
+        , sum( case when ad_placement = 'Ask For Help' then ad_view_dollars else 0 end ) as ad_dollars_ask_for_help
+        , sum( case when ad_placement = 'Battle Pass' then ad_view_dollars else 0 end ) as ad_dollars_battle_pass
+        , sum( case when ad_placement = 'Puzzles' then ad_view_dollars else 0 end ) as ad_dollars_puzzles
+        , sum( case when ad_placement = 'Go Fish' then ad_view_dollars else 0 end ) as ad_dollars_go_fish
+        , sum( case when ad_placement = 'Rocket' then ad_view_dollars else 0 end ) as ad_dollars_rocket
+        , sum( case when ad_placement = 'Lives' then ad_view_dollars else 0 end ) as ad_dollars_lives
+        , sum( case when ad_placement = 'Magnifiers' then ad_view_dollars else 0 end ) as ad_dollars_magnifiers
+        , sum( case when ad_placement = 'Treasure Trove' then ad_view_dollars else 0 end ) as ad_dollars_treasure_trove
+        , sum( case when ad_placement like '%Castle Climb%' then ad_view_dollars else 0 end ) as ad_dollars_castle_climb
+        , sum( case when ad_placement = 'Gem Quest' then ad_view_dollars else 0 end ) as ad_dollars_gem_quest
 
     from
         -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary
@@ -285,6 +287,7 @@ ads_by_date as (
         , sum( ifnull(b.ad_views_magnifiers,0) + ifnull(c.ad_views_magnifiers,0)) as ad_views_magnifiers
         , sum( ifnull(b.ad_views_treasure_trove,0) + ifnull(c.ad_views_treasure_trove,0)) as ad_views_treasure_trove
         , sum( ifnull(b.ad_views_castle_climb,0) + ifnull(c.ad_views_castle_climb,0)) as ad_views_castle_climb
+        , sum( ifnull(b.ad_views_gem_quest,0) + ifnull(c.ad_views_gem_quest,0)) as ad_views_gem_quest
 
         , sum( ifnull(b.ad_dollars_daily_rewards,0) + ifnull(c.ad_dollars_daily_rewards,0)) as ad_dollars_daily_rewards
         , sum( ifnull(b.ad_dollars_moves_master,0) + ifnull(c.ad_dollars_moves_master,0)) as ad_dollars_moves_master
@@ -299,6 +302,7 @@ ads_by_date as (
         , sum( ifnull(b.ad_dollars_magnifiers,0) + ifnull(c.ad_dollars_magnifiers,0)) as ad_dollars_magnifiers
         , sum( ifnull(b.ad_dollars_treasure_trove,0) + ifnull(c.ad_dollars_treasure_trove,0)) as ad_dollars_treasure_trove
         , sum( ifnull(b.ad_dollars_castle_climb,0) + ifnull(c.ad_dollars_castle_climb,0)) as ad_dollars_castle_climb
+        , sum( ifnull(b.ad_dollars_gem_quest,0) + ifnull(c.ad_dollars_gem_quest,0)) as ad_dollars_gem_quest
 
         , max(a.count_sessions) as count_sessions
         , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
@@ -508,6 +512,7 @@ ads_by_date as (
         , max(a.ad_views_magnifiers) as ad_views_magnifiers
         , max(a.ad_views_treasure_trove) as ad_views_treasure_trove
         , max(a.ad_views_castle_climb) as ad_views_castle_climb
+        , max(a.ad_views_gem_quest) as ad_views_gem_quest
 
         , max(a.ad_dollars_daily_rewards) as ad_dollars_daily_rewards
         , max(a.ad_dollars_moves_master) as ad_dollars_moves_master
@@ -522,6 +527,7 @@ ads_by_date as (
         , max(a.ad_dollars_magnifiers) as ad_dollars_magnifiers
         , max(a.ad_dollars_treasure_trove) as ad_dollars_treasure_trove
         , max(a.ad_dollars_castle_climb) as ad_dollars_castle_climb
+        , max(a.ad_dollars_gem_quest) as ad_dollars_gem_quest
 
         , max(a.count_sessions) as count_sessions
         , max(a.cumulative_engagement_ticks) as cumulative_engagement_ticks
@@ -779,6 +785,7 @@ ads_by_date as (
         , a.ad_views_magnifiers
         , a.ad_views_treasure_trove
         , a.ad_views_castle_climb
+        , a.ad_views_gem_quest
 
         , a.ad_dollars_daily_rewards
         , a.ad_dollars_moves_master
@@ -793,6 +800,7 @@ ads_by_date as (
         , a.ad_dollars_magnifiers
         , a.ad_dollars_treasure_trove
         , a.ad_dollars_castle_climb
+        , a.ad_dollars_gem_quest
 
         , a.count_sessions
         , a.cumulative_engagement_ticks
@@ -3489,6 +3497,14 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     sql: safe_divide( sum(${TABLE}.ad_views_castle_climb), sum(${TABLE}.count_days_played) )  ;;
   }
 
+  measure: mean_ad_views_gem_quest {
+    group_label: "Mean IAA Views By Placement"
+    label: "IAA Views Per DAU - Gem Quest"
+    value_format_name: decimal_1
+    type: number
+    sql: safe_divide( sum(${TABLE}.ad_views_gem_quest), sum(${TABLE}.count_days_played) )  ;;
+  }
+
 ################################################################
 ## Ad Dollars By Placement
 ################################################################
@@ -3496,74 +3512,88 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
   dimension: ad_dollars_daily_rewards {
     group_label: "IAA Dollars By Placement"
     label: "Daily Rewards IAA Dollars"
-    value_format_name: decimal_4
+    value_format_name: usd
   }
 
   dimension: ad_dollars_moves_master {
     group_label: "IAA Dollars By Placement"
     label: "Moves Master IAA Dollars"
-    value_format_name: decimal_4
+    value_format_name: usd
   }
 
   dimension: ad_dollars_pizza {
     group_label: "IAA Dollars By Placement"
     label: "Pizza IAA Dollars"
-    value_format_name: decimal_4
+    value_format_name: usd
   }
 
   dimension: ad_dollars_lucky_dice {
     group_label: "IAA Dollars By Placement"
     label: "Lucky Dice IAA Dollars"
-    value_format_name: decimal_4
+    value_format_name: usd
   }
 
   dimension: ad_dollars_ask_for_help {
     group_label: "IAA Dollars By Placement"
     label: "Ask For Help IAA Dollars"
-    value_format_name: decimal_4
+    value_format_name: usd
   }
 
   dimension: ad_dollars_battle_pass {
     group_label: "IAA Dollars By Placement"
     label: "Battle Pass IAA Dollars"
-    value_format_name: decimal_4
+    value_format_name: usd
   }
 
   dimension: ad_dollars_puzzles {
     group_label: "IAA Dollars By Placement"
     label: "Puzzles IAA Dollars"
-    value_format_name: decimal_4
+    value_format_name: usd
   }
 
   dimension: ad_dollars_go_fish {
     group_label: "IAA Dollars By Placement"
     label: "Go Fish IAA Dollars"
-    value_format_name: decimal_0
+    value_format_name: usd
   }
 
   dimension: ad_dollars_rocket {
     group_label: "IAA Dollars By Placement"
     label: "Rocket IAA Dollars"
-    value_format_name: decimal_4
+    value_format_name: usd
   }
 
   dimension: ad_dollars_lives {
     group_label: "IAA Dollars By Placement"
     label: "Lives IAA Dollars"
-    value_format_name: decimal_4
+    value_format_name: usd
   }
 
   dimension: ad_dollars_magnifiers {
     group_label: "IAA Dollars By Placement"
     label: "Magnifiers IAA Dollars"
-    value_format_name: decimal_4
+    value_format_name: usd
   }
 
   dimension: ad_dollars_treasure_trove {
     group_label: "IAA Dollars By Placement"
     label: "Treasure Trove IAA Dollars"
-    value_format_name: decimal_4
+    value_format_name: usd
   }
+
+  dimension: ad_dollars_castle_climb {
+    group_label: "IAA Dollars By Placement"
+    label: "Castle Climb IAA Dollars"
+    value_format_name: usd
+  }
+
+  dimension: ad_dollars_gem_quest {
+    group_label: "IAA Dollars By Placement"
+    label: "Gem Quest IAA Dollars"
+    value_format_name: usd
+  }
+
+
 
 ################################################################
 ## Other Sums / Percentiles

@@ -171,6 +171,23 @@ ads_by_date as (
 )
 
 -----------------------------------------------------------------------
+-- player hitches by date
+-----------------------------------------------------------------------
+
+, player_hitches_by_date as (
+
+  select
+    rdg_id
+    , rdg_date
+    , sum( 1 ) as hitch_count
+  from
+    -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_hitch_summary
+    ${player_hitch_summary.SQL_TABLE_NAME}
+  group by
+    1,2
+)
+
+-----------------------------------------------------------------------
 -- player_daily_incremental w/ prior date played
 -----------------------------------------------------------------------
 
@@ -1083,7 +1100,8 @@ ads_by_date as (
 )
 
 -----------------------------------------------------------------------
--- join tickets data
+-- join tickets
+-- join hitches
 -----------------------------------------------------------------------
 
 , add_on_tickets_step as (
@@ -1091,12 +1109,15 @@ ads_by_date as (
   select
     a.*
     , ifnull(b.tickets_spend,0) as tickets_spend
+    , ifnull(c.hitch_count,0) as hitch_count
   from
     add_on_social_step a
     left join tickets_spend_by_date b
       on a.rdg_id = b.rdg_id
       and a.rdg_date = b.rdg_date
-
+    left join player_hitches_by_date c
+      on a.rdg_id = c.rdg_id
+      and a.rdg_date = c.rdg_date
 )
 
 
@@ -2931,6 +2952,73 @@ dimension: primary_key {
       )
     ;;
     value_format_name: usd
+  }
+
+
+######################################################################
+## Hitch Count Distributions
+######################################################################
+
+  measure: average_hitches_per_day {
+    group_label: "Count Hitches"
+    label: "Average Hitches Per DAU"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.hitch_count)
+        , sum(${TABLE}.count_days_played)
+      )
+      ;;
+    value_format_name: decimal_1
+  }
+
+  measure: sum_count_hitches {
+    group_label: "Count Hitches"
+    label: "Total Hitches"
+    type:sum
+    sql: ${TABLE}.hitch_count ;;
+    value_format_name: decimal_0
+  }
+
+  measure: count_hitches_10 {
+    group_label: "Count Hitches"
+    label: "10th Percentile"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.hitch_count ;;
+    value_format_name: decimal_0
+  }
+  measure: count_hitches_25 {
+    group_label: "Count Hitches"
+    label: "25th Percentile"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.hitch_count ;;
+    value_format_name: decimal_0
+  }
+  measure: count_hitches_50 {
+    group_label: "Count Hitches"
+    label: "Median"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.hitch_count ;;
+    value_format_name: decimal_0
+  }
+  measure: count_hitches_75 {
+    group_label: "Count Hitches"
+    label: "75th Percentile"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.hitch_count ;;
+    value_format_name: decimal_0
+  }
+  measure: count_hitches_95 {
+    group_label: "Count Hitches"
+    label: "95th Percentile"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.hitch_count ;;
+    value_format_name: decimal_0
   }
 
 ################################################################

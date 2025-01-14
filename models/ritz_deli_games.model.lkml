@@ -591,6 +591,26 @@ explore: player_profiler_event_recent {
   }
 }
 
+
+
+################################################################
+
+## Explore: Player Hitch Summary
+
+################################################################
+
+explore: player_hitch_summary {
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_hitch_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
 ################################################################
 
 ## Explore: Player Battle Pass Summary

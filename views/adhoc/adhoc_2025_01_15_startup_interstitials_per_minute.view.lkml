@@ -53,7 +53,12 @@ view: adhoc_2025_01_15_startup_interstitials_per_minute {
       )
 
 
-      select * from my_combined_data
+      select
+        *
+        , safe_divide( count_startup_interstitials_viewed , round_length_minutes_after_day_3 ) as interstitial_per_minute_played_after_day_3
+        , safe_divide( count_rounds_after_day_3 , round_length_minutes_after_day_3 ) as interstitial_per_round_played_after_day_3
+      from
+        my_combined_data
 
 
 
@@ -88,77 +93,48 @@ view: adhoc_2025_01_15_startup_interstitials_per_minute {
 ## Measures
 ################################################################
 
-  measure: round_length_minutes_after_day_3_10 {
-    group_label: "Change In Used Memory Bytes"
+  measure: interstitial_per_minute_played_after_day_3_10 {
+    group_label: "Interstitials Per Minute"
     label: "10th Percentile"
     type: percentile
     percentile: 10
-    sql: ${TABLE}.round_length_minutes_after_day_3 ;;
+    sql: ${TABLE}.interstitial_per_minute_played_after_day_3 ;;
+    value_format_name: decimal_3
   }
-  measure: round_length_minutes_after_day_3_25 {
-    group_label: "Change In Used Memory Bytes"
+  measure: interstitial_per_minute_played_after_day_3_25 {
+    group_label: "Interstitials Per Minute"
     label: "25th Percentile"
     type: percentile
     percentile: 25
-    sql: ${TABLE}.round_length_minutes_after_day_3 ;;
+    sql: ${TABLE}.interstitial_per_minute_played_after_day_3 ;;
+    value_format_name: decimal_3
   }
-  measure: round_length_minutes_after_day_3_50 {
-    group_label: "Change In Used Memory Bytes"
+  measure: interstitial_per_minute_played_after_day_3_50 {
+    group_label: "Interstitials Per Minute"
     label: "Median"
     type: percentile
     percentile: 50
-    sql: ${TABLE}.round_length_minutes_after_day_3 ;;
+    sql: ${TABLE}.interstitial_per_minute_played_after_day_3 ;;
+    value_format_name: decimal_3
   }
-  measure: round_length_minutes_after_day_3_75 {
-    group_label: "Change In Used Memory Bytes"
+  measure: interstitial_per_minute_played_after_day_3_75 {
+    group_label: "Interstitials Per Minute"
     label: "75th Percentile"
     type: percentile
     percentile: 75
-    sql: ${TABLE}.round_length_minutes_after_day_3 ;;
+    sql: ${TABLE}.interstitial_per_minute_played_after_day_3 ;;
+    value_format_name: decimal_3
   }
-  measure: round_length_minutes_after_day_3_95 {
-    group_label: "Change In Used Memory Bytes"
+  measure: interstitial_per_minute_played_after_day_3_95 {
+    group_label: "Interstitials Per Minute"
     label: "95th Percentile"
     type: percentile
     percentile: 95
-    sql: ${TABLE}.round_length_minutes_after_day_3 ;;
+    sql: ${TABLE}.interstitial_per_minute_played_after_day_3 ;;
+    value_format_name: decimal_3
   }
 
-  measure: count_rounds_after_day_3_10 {
-    group_label: "Change In Used Memory Bytes"
-    label: "10th Percentile"
-    type: percentile
-    percentile: 10
-    sql: ${TABLE}.count_rounds_after_day_3 ;;
-  }
-  measure: count_rounds_after_day_3_25 {
-    group_label: "Change In Used Memory Bytes"
-    label: "25th Percentile"
-    type: percentile
-    percentile: 25
-    sql: ${TABLE}.count_rounds_after_day_3 ;;
-  }
-  measure: count_rounds_after_day_3_50 {
-    group_label: "Change In Used Memory Bytes"
-    label: "Median"
-    type: percentile
-    percentile: 50
-    sql: ${TABLE}.count_rounds_after_day_3 ;;
-  }
-  measure: count_rounds_after_day_3_75 {
-    group_label: "Change In Used Memory Bytes"
-    label: "75th Percentile"
-    type: percentile
-    percentile: 75
-    sql: ${TABLE}.count_rounds_after_day_3 ;;
-  }
-  measure: count_rounds_after_day_3_95 {
-    group_label: "Change In Used Memory Bytes"
-    label: "95th Percentile"
-    type: percentile
-    percentile: 95
-    sql: ${TABLE}.count_rounds_after_day_3 ;;
-  }
+
 
 
 }

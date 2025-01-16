@@ -1128,6 +1128,20 @@ explore: adhoc_2024_11_13_daily_rewards_per_week {
   }
 }
 
+explore: adhoc_2025_01_15_startup_interstitials_per_minute {
+  label: "Startup Interstitials Per Minute"
+  group_label: "Chum Chum Adhoc"
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${adhoc_2025_01_15_startup_interstitials_per_minute.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
 ################################################################
 
 ## Other Explores

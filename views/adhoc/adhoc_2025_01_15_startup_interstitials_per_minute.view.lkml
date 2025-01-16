@@ -33,7 +33,7 @@ view: adhoc_2025_01_15_startup_interstitials_per_minute {
         from
           eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
         where
-          a.day_number >= 3
+          a.day_number > 3
           and date(a.rdg_date) between '2024-09-01' and '2024-12-30'
           and date(a.created_at) >= '2024-09-01'
         group by

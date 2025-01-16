@@ -1142,6 +1142,20 @@ explore: adhoc_2025_01_15_startup_interstitials_per_minute {
   }
 }
 
+explore: adhoc_2025_01_16_puzzle_iam_rounds_played {
+  label: "Puzzle IAM Rounds Played"
+  group_label: "Chum Chum Adhoc"
+
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${adhoc_2025_01_16_puzzle_iam_rounds_played.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
 ################################################################
 
 ## Other Explores

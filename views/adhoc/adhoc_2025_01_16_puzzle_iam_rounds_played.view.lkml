@@ -18,7 +18,7 @@ view: adhoc_2025_01_16_puzzle_iam_rounds_played {
         select
           rdg_id
           , rdg_date
-          , sum(count_rounds) as count_rounds_puzzle
+          , sum( count_rounds ) as count_rounds_puzzle
         from
           eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary
         where
@@ -67,6 +67,12 @@ view: adhoc_2025_01_16_puzzle_iam_rounds_played {
             when b.count_puzzle_iam is null then 'No Puzzle IAM'
             else 'Other'
             end as puzzle_iam_category
+        , case
+            when b.count_puzzle_conversion = 1 then 3
+            when b.count_puzzle_iam = 1 then 2
+            when b.count_puzzle_iam is null then 1
+            else 4
+            end as puzzle_iam_category_order
       from
         puzzle_round_data a
         left join puzzle_iam_data b
@@ -112,6 +118,7 @@ view: adhoc_2025_01_16_puzzle_iam_rounds_played {
   dimension: count_puzzle_conversion {type: number}
   dimension: count_rounds_puzzle {type: number}
   dimension: puzzle_iam_category {type: string}
+  dimension: puzzle_iam_category_order {type: number}
 
 ################################################################
 ## Measures

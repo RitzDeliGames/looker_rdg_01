@@ -2915,6 +2915,20 @@ dimension: primary_key {
     value_format_name: usd
   }
 
+  measure: average_ad_arpdau_startup_interstitial {
+    label: "IAA ARPDAU - Startup Interstitial"
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.ad_dollars_startup_interstitial)
+        ,
+        sum(${TABLE}.count_days_played)
+      )
+    ;;
+    value_format_name: usd
+  }
+
   measure: average_iaa_ecpm {
     label: "IAA eCPM"
     group_label: "Revenue Metrics"
@@ -3771,6 +3785,15 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     value_format: "$#,###"
     sql: ${TABLE}.ad_view_dollars ;;
   }
+
+  measure: sum_ad_view_dollars_startup_interstitial {
+    label: "IAA Dollars - Startup Interstitial"
+    group_label: "IAA Dollars"
+    type:sum
+    value_format: "$#,###"
+    sql: ${TABLE}.ad_dollars_startup_interstitial ;;
+  }
+
   measure: ad_view_dollars_10 {
     label: "10th Percentile"
     group_label: "IAA Dollars"
@@ -3856,8 +3879,8 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
   }
 
   measure: sum_ad_views_startup_interstitial {
-    label: "Sum IAA Views"
-    group_label: "IAA Views - Startup Interstitial"
+    label: "IAA Views - Startup Interstitial"
+    group_label: "IAA Views"
     type:sum
     sql: ${TABLE}.ad_views_startup_interstitial ;;
   }

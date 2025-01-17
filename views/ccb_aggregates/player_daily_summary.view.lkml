@@ -3855,6 +3855,13 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     sql: ${TABLE}.ad_views ;;
   }
 
+  measure: sum_ad_views_startup_interstitial {
+    label: "Sum IAA Views"
+    group_label: "IAA Views - Startup Interstitial"
+    type:sum
+    sql: ${TABLE}.ad_views_startup_interstitial ;;
+  }
+
   measure: ad_views_per_dau {
     label: "Average % of DAU Viewing Ads"
     group_label: "IAA Views"

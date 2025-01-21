@@ -321,7 +321,25 @@ view: player_ad_view_summary {
       ${TABLE}.ad_placement
     ;;
     }
-  dimension: ad_network {type:string}
+  dimension: ad_network {
+    type:string
+    sql:
+      case
+        when lower(${TABLE}.ad_network) like '%admob%' then 'Google'
+        when lower(${TABLE}.ad_network) like '%admanager%' then 'Google'
+        when lower(${TABLE}.ad_network) like '%applovin%' then 'AppLovin'
+        when lower(${TABLE}.ad_network) like '%facebook%' then 'Meta'
+        when lower(${TABLE}.ad_network) like '%fyber%' then 'Digital Turbine'
+        when lower(${TABLE}.ad_network) like '%dt%' then 'Digital Turbine'
+        when lower(${TABLE}.ad_network) like '%liftoff%' then 'Liftoff'
+        when lower(${TABLE}.ad_network) like '%meta%' then 'Meta'
+        when lower(${TABLE}.ad_network) like '%mintegral%' then 'Mintegral'
+        when lower(${TABLE}.ad_network) like '%ironsource%' then 'Unity/iS'
+        when lower(${TABLE}.ad_network) like '%unity%' then 'Unity/iS'
+        else ${TABLE}.ad_network
+      end
+      ;;
+    }
   dimension: country {type:string}
   dimension: current_level_id {type:string}
 

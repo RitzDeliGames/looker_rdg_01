@@ -438,6 +438,8 @@ ads_by_date as (
         , max( a.ending_balance_shuffle ) as ending_balance_shuffle
         , max( a.ending_balance_chopsticks ) as ending_balance_chopsticks
         , max( a.ending_balance_skillet ) as ending_balance_skillet
+        , max( a.ending_balance_moves ) as ending_balance_moves
+        , max( a.ending_balance_disco ) as ending_balance_disco
 
         -- Chum Skills Used
         , max( a.powerup_hammer ) as powerup_hammer
@@ -664,6 +666,8 @@ ads_by_date as (
         , max( a.ending_balance_shuffle ) as ending_balance_shuffle
         , max( a.ending_balance_chopsticks ) as ending_balance_chopsticks
         , max( a.ending_balance_skillet ) as ending_balance_skillet
+        , max( a.ending_balance_moves ) as ending_balance_moves
+        , max( a.ending_balance_disco ) as ending_balance_disco
 
         -- Chum Skills Used
         , max( a.powerup_hammer ) as powerup_hammer
@@ -973,6 +977,8 @@ ads_by_date as (
         , a.ending_balance_shuffle
         , a.ending_balance_chopsticks
         , a.ending_balance_skillet
+        , a.ending_balance_moves
+        , a.ending_balance_disco
 
         -- Chum Skills Used
         , a.powerup_hammer

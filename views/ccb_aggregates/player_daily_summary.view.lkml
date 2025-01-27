@@ -1906,7 +1906,7 @@ dimension: primary_key {
   dimension: player_day_number_bin {
     type:  tier
     style: integer
-    tiers: [0,1,2,7,30,60]
+    tiers: [0,1,2,7,30,60,90,120,180,365]
     sql: ${TABLE}.day_number ;;
   }
 

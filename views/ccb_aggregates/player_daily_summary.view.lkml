@@ -2170,6 +2170,118 @@ dimension: primary_key {
 ## Other Calculations
 ################################################################
 
+  measure: percent_players_unlocked_disco {
+    group_label: "Chum Unlock %s"
+    label: "Disco"
+    type: number
+    value_format_name: percent_2
+    sql:
+      safe_divide(
+        count(distinct case when ending_balance_disco is not null then rdg_id else null end )
+        ,
+        count(distinct rdg_id)
+      )
+    ;;
+  }
+
+  measure: percent_players_unlocked_clear_cell {
+    group_label: "Chum Unlock %s"
+    label: "Clear Cell"
+    type: number
+    value_format_name: percent_2
+    sql:
+      safe_divide(
+        count(distinct case when ending_balance_clear_cell is not null then rdg_id else null end )
+        ,
+        count(distinct rdg_id)
+      )
+    ;;
+  }
+
+  measure: percent_players_unlocked_clear_horizontal {
+    group_label: "Chum Unlock %s"
+    label: "Clear Horizontal"
+    type: number
+    value_format_name: percent_2
+    sql:
+      safe_divide(
+        count(distinct case when ending_balance_clear_horizontal is not null then rdg_id else null end )
+        ,
+        count(distinct rdg_id)
+      )
+    ;;
+  }
+
+  measure: percent_players_unlocked_clear_vertical {
+    group_label: "Chum Unlock %s"
+    label: "Clear Vertical"
+    type: number
+    value_format_name: percent_2
+    sql:
+      safe_divide(
+        count(distinct case when ending_balance_clear_vertical is not null then rdg_id else null end )
+        ,
+        count(distinct rdg_id)
+      )
+    ;;
+  }
+
+  measure: percent_players_unlocked_shuffle {
+    group_label: "Chum Unlock %s"
+    label: "Shuffle"
+    type: number
+    value_format_name: percent_2
+    sql:
+      safe_divide(
+        count(distinct case when ending_balance_shuffle is not null then rdg_id else null end )
+        ,
+        count(distinct rdg_id)
+      )
+    ;;
+  }
+
+  measure: percent_players_unlocked_chopsticks {
+    group_label: "Chum Unlock %s"
+    label: "Chopsticks"
+    type: number
+    value_format_name: percent_2
+    sql:
+      safe_divide(
+        count(distinct case when ending_balance_chopsticks is not null then rdg_id else null end )
+        ,
+        count(distinct rdg_id)
+      )
+    ;;
+  }
+
+  measure: percent_players_unlocked_skillet {
+    group_label: "Chum Unlock %s"
+    label: "Skillet"
+    type: number
+    value_format_name: percent_2
+    sql:
+      safe_divide(
+        count(distinct case when ending_balance_skillet is not null then rdg_id else null end )
+        ,
+        count(distinct rdg_id)
+      )
+    ;;
+  }
+
+  measure: percent_players_unlocked_moves {
+    group_label: "Chum Unlock %s"
+    label: "Moves Bunny"
+    type: number
+    value_format_name: percent_2
+    sql:
+      safe_divide(
+        count(distinct case when ending_balance_moves is not null then rdg_id else null end )
+        ,
+        count(distinct rdg_id)
+      )
+    ;;
+  }
+
   measure: percent_players_engaged_any_event {
     group_label: "Daily Feature Participation"
     label: "Any Feature"

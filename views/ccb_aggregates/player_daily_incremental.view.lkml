@@ -4,7 +4,7 @@ view: player_daily_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-12-19'
+      -- update '2025-01-27'
 
       -- create or replace table tal_scratch.player_daily_incremental_test as
 
@@ -80,7 +80,7 @@ view: player_daily_incremental {
           date(timestamp) >=
               case
                   -- select date(current_date())
-                  when date(current_date()) <= '2024-12-19' -- Last Full Update
+                  when date(current_date()) <= '2025-01-27' -- Last Full Update
                   then '2022-06-01'
                   else date_add(current_date(), interval -9 day)
                   end
@@ -861,12 +861,16 @@ view: player_daily_incremental {
         , safe_cast(json_extract_scalar(tickets,"$.ROCKET") as numeric) as balance_rocket
         , safe_cast(json_extract_scalar(tickets,"$.BOMB") as numeric) as balance_bomb
         , safe_cast(json_extract_scalar(tickets,"$.COLOR_BALL") as numeric) as balance_color_ball
+
+        -- chums
         , safe_cast(json_extract_scalar(tickets,"$.clear_cell") as numeric) as balance_clear_cell
         , safe_cast(json_extract_scalar(tickets,"$.clear_horizontal") as numeric) as balance_clear_horizontal
         , safe_cast(json_extract_scalar(tickets,"$.clear_vertical") as numeric) as balance_clear_vertical
         , safe_cast(json_extract_scalar(tickets,"$.shuffle") as numeric) as balance_shuffle
         , safe_cast(json_extract_scalar(tickets,"$.chopsticks") as numeric) as balance_chopsticks
         , safe_cast(json_extract_scalar(tickets,"$.skillet") as numeric) as balance_skillet
+        , safe_cast(json_extract_scalar(tickets,"$.moves") as numeric) as balance_moves
+        , safe_cast(json_extract_scalar(tickets,"$.disco") as numeric) as balance_disco
 
         -------------------------------------------------
         -- Chum Skills
@@ -1210,15 +1214,17 @@ view: player_daily_incremental {
         , sum( count_possible_crashes_from_fast_title_screen_awake ) as count_possible_crashes_from_fast_title_screen_awake
 
         -- ending boost balances
-        , round(avg(balance_rocket),0) as ending_balance_rocket
-        , round(avg(balance_bomb),0) as ending_balance_bomb
-        , round(avg(balance_color_ball),0) as ending_balance_color_ball
-        , round(avg(balance_clear_cell),0) as ending_balance_clear_cell
-        , round(avg(balance_clear_horizontal),0) as ending_balance_clear_horizontal
-        , round(avg(balance_clear_vertical),0) as ending_balance_clear_vertical
-        , round(avg(balance_shuffle),0) as ending_balance_shuffle
-        , round(avg(balance_chopsticks),0) as ending_balance_chopsticks
-        , round(avg(balance_skillet),0) as ending_balance_skillet
+        , round(max(balance_rocket),0) as ending_balance_rocket
+        , round(max(balance_bomb),0) as ending_balance_bomb
+        , round(max(balance_color_ball),0) as ending_balance_color_ball
+        , round(max(balance_clear_cell),0) as ending_balance_clear_cell
+        , round(max(balance_clear_horizontal),0) as ending_balance_clear_horizontal
+        , round(max(balance_clear_vertical),0) as ending_balance_clear_vertical
+        , round(max(balance_shuffle),0) as ending_balance_shuffle
+        , round(max(balance_chopsticks),0) as ending_balance_chopsticks
+        , round(max(balance_skillet),0) as ending_balance_skillet
+        , round(max(balance_moves),0) as ending_balance_moves
+        , round(max(balance_disco),0) as ending_balance_disco
 
         -------------------------------------------------
         -- Chum Skills Used

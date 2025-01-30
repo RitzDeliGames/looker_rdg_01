@@ -108,6 +108,7 @@ view: player_coin_efficiency_by_game_mode {
           , rdg_date
           , case
               when reward_event = 'head_2_head' then 'goFish'
+              when reward_event = 'go_fish' then 'goFish'
               when reward_event = 'zone_restore' then 'campaign'
               when reward_event = 'moves_master' then 'movesMaster'
               when reward_event = 'puzzle' then 'puzzle'
@@ -182,6 +183,7 @@ view: player_coin_efficiency_by_game_mode {
             , 'moves_master'
             , 'puzzle'
             , 'gem_quest'
+            , 'go_fish'
             )
 
       )

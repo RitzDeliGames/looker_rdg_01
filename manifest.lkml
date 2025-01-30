@@ -1757,6 +1757,33 @@ constant: coin_source_name {
   value: "
   case
 
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'go_fish' then 'Go Fish'
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_oven_christmas' then 'Christmas Oven'
+      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_123' then 'Coins Pack 1'
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_newyear_factory' then 'New Year Factory'
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'social' then 'Social'
+      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_124' then 'Coins Pack 2'
+      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_126' then 'Coins Pack 4'
+      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_125' then 'Coins Pack 3'
+      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_127' then 'Coins Pack 5'
+      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_128' then 'Coins Pack 6'
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_croissant_table' then 'Croissant Table'
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_donut_table' then 'Donut Table'
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_picnic' then 'Picnic'
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_tea_table' then 'Tea Table'
+      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_123_loc' then 'Coins Pack 1'
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_christmas_tree' then 'Christmas Tree'
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_tree_stump' then 'Tree Stump'
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_menu' then 'Menu'
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_bush' then 'Bush'
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_sign' then 'Sign'
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_hay' then 'Hay'
+      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_newyear_balloon' then 'New Year Balloon'
+      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_126_loc' then 'Coins Pack 4'
+      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_124_loc' then 'Coins Pack 2'
+      when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_125_loc' then 'Coins Pack 3'
+
+
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end' then 'Round End'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'zone_restore' then 'Zone Restore'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'initial_reward' then 'Initial Reward'
@@ -1831,6 +1858,9 @@ constant: coin_source_name {
     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_pumpkin' then 'Pumpkin'
     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'gem_quest' then 'Gem Quest'
     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'head_2_head' then 'Go Fish'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'go_fish' then 'Go Fish'
+
+
     when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_051' then 'Bomb'
     when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_051' then 'Color Ball'
     when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_051' then 'Rocket'
@@ -1877,7 +1907,33 @@ constant: coin_source_name_group {
   value: "
   case
 
-     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end' then 'Round End'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'go_fish' then 'Go Fish'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_oven_christmas' then 'Food Truck'
+    when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_123' then 'Coins'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_newyear_factory' then 'Food Truck'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'social' then 'Social'
+    when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_124' then 'Coins'
+    when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_126' then 'Coins'
+    when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_125' then 'Coins'
+    when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_127' then 'Coins'
+    when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_128' then 'Coins'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_croissant_table' then 'Food Truck'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_donut_table' then 'Food Truck'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_picnic' then 'Food Truck'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_tea_table' then 'Food Truck'
+    when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_123_loc' then 'Coins'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_christmas_tree' then 'Food Truck'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_tree_stump' then 'Food Truck'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_menu' then 'Food Truck'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_bush' then 'Food Truck'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_sign' then 'Food Truck'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_hay' then 'Food Truck'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_newyear_balloon' then 'Food Truck'
+    when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_126_loc' then 'Coins'
+    when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_124_loc' then 'Coins'
+    when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_125_loc' then 'Coins'
+
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'round_end' then 'Round End'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'zone_restore' then 'Zone Restore'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'initial_reward' then 'Initial Reward'
      when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'lucky_dice' then 'Live Ops'
@@ -1948,8 +2004,13 @@ constant: coin_source_name_group {
     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_ice_cream' then 'Food Truck'
     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_oven' then 'Food Truck'
     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'food_truck_pumpkin' then 'Food Truck'
+
+
+
+
     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'gem_quest' then 'Gem Quest'
     when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'head_2_head' then 'Go Fish'
+    when ${TABLE}.coin_source_type = 'reward' and ${TABLE}.coin_source_iap_item = 'go_fish' then 'Go Fish'
     when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_051' then 'Boosts'
     when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_051' then 'Boosts'
     when ${TABLE}.coin_source_type = 'transaction' and ${TABLE}.coin_source_iap_item = 'item_051' then 'Boosts'

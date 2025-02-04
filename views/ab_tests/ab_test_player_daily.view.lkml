@@ -307,6 +307,16 @@ view: ab_test_player_daily {
       and d.moves_made <= {% parameter moves_to_beat_first_10_levels_max %}
       {% endif %}
 
+      -- IAP LTV (Min)
+      {% if iap_ltv_min._is_filtered %}
+      and a.cumulative_mtx_purchase_dollars >= {% parameter iap_ltv_min %}
+      {% endif %}
+
+      -- IAP LTV (Max)
+      {% if iap_ltv_max._is_filtered %}
+      and a.cumulative_mtx_purchase_dollars <= {% parameter iap_ltv_max %}
+      {% endif %}
+
       group by
         1,2
 
@@ -1079,6 +1089,14 @@ view: ab_test_player_daily {
   }
 
   parameter: moves_to_beat_first_10_levels_max {
+    type: number
+  }
+
+  parameter: iap_ltv_min {
+    type: number
+  }
+
+  parameter: iap_ltv_max {
     type: number
   }
 

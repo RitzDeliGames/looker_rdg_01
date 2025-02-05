@@ -676,6 +676,7 @@ constant: ad_placements_for_ad_summary {
   when ad_reward_source_id = 'quick_torches' then 'Gem Quest'
   when ad_reward_source_id = 'quick_boost_bomb' then 'Bomb'
   when ad_reward_source_id = 'quick_boost_color_ball' then 'Color Ball'
+  when ad_reward_source_id = 'IAM_MTX' then 'Ad IAM'
 
   else 'Unmapped'
   end"

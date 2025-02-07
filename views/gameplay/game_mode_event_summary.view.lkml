@@ -493,6 +493,106 @@ view: game_mode_event_summary {
           1,2
       )
 
+      , gem_quest_coin_rewards as (
+
+        select
+          b.gem_quest_event_start_date as event_start_date
+          , a.rdg_id
+          , sum( ifnull( a.in_round_coin_rewards, 0 ) ) as in_round_coin_rewards
+          , sum( ifnull( a.additional_rewards_coins, 0 ) ) as additional_rewards_coins
+          , sum( ifnull( a.additional_rewards_coins, 0 ) + ifnull( a.in_round_coin_rewards, 0 ) ) as coins_sourced
+        from
+          -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
+          -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
+          --   on date(a.rdg_date) = b.rdg_date
+          ${player_coin_efficiency_by_game_mode.SQL_TABLE_NAME} a
+          left join ${live_ops_calendar.SQL_TABLE_NAME} b
+            on date(a.rdg_date) = b.rdg_date
+        where
+          b.gem_quest_event_start_date is not null
+          and a.game_mode = 'gemQuest'
+          --and b.moves_master_event_start_date = '2024-09-03'
+          --and date(a.rdg_date) >= '2024-09-03'
+
+        group by
+          1,2
+      )
+
+      , go_fish_coin_rewards as (
+
+        select
+          b.go_fish_event_start_date as event_start_date
+          , a.rdg_id
+          , sum( ifnull( a.in_round_coin_rewards, 0 ) ) as in_round_coin_rewards
+          , sum( ifnull( a.additional_rewards_coins, 0 ) ) as additional_rewards_coins
+          , sum( ifnull( a.additional_rewards_coins, 0 ) + ifnull( a.in_round_coin_rewards, 0 ) ) as coins_sourced
+        from
+          -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
+          -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
+          --   on date(a.rdg_date) = b.rdg_date
+          ${player_coin_efficiency_by_game_mode.SQL_TABLE_NAME} a
+          left join ${live_ops_calendar.SQL_TABLE_NAME} b
+            on date(a.rdg_date) = b.rdg_date
+        where
+          b.go_fish_event_start_date is not null
+          and a.game_mode = 'goFish'
+          --and b.moves_master_event_start_date = '2024-09-03'
+          --and date(a.rdg_date) >= '2024-09-03'
+
+        group by
+          1,2
+      )
+
+      , moves_master_coin_rewards as (
+
+        select
+          b.moves_master_event_start_date as event_start_date
+          , a.rdg_id
+          , sum( ifnull( a.in_round_coin_rewards, 0 ) ) as in_round_coin_rewards
+          , sum( ifnull( a.additional_rewards_coins, 0 ) ) as additional_rewards_coins
+          , sum( ifnull( a.additional_rewards_coins, 0 ) + ifnull( a.in_round_coin_rewards, 0 ) ) as coins_sourced
+        from
+          -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
+          -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
+          --   on date(a.rdg_date) = b.rdg_date
+          ${player_coin_efficiency_by_game_mode.SQL_TABLE_NAME} a
+          left join ${live_ops_calendar.SQL_TABLE_NAME} b
+            on date(a.rdg_date) = b.rdg_date
+        where
+          b.moves_master_event_start_date is not null
+          and a.game_mode = 'movesMaster'
+          --and b.moves_master_event_start_date = '2024-09-03'
+          --and date(a.rdg_date) >= '2024-09-03'
+
+        group by
+          1,2
+      )
+
+      , puzzle_coin_rewards as (
+
+        select
+          b.puzzle_event_start_date as event_start_date
+          , a.rdg_id
+          , sum( ifnull( a.in_round_coin_rewards, 0 ) ) as in_round_coin_rewards
+          , sum( ifnull( a.additional_rewards_coins, 0 ) ) as additional_rewards_coins
+          , sum( ifnull( a.additional_rewards_coins, 0 ) + ifnull( a.in_round_coin_rewards, 0 ) ) as coins_sourced
+        from
+          -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
+          -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
+          --   on date(a.rdg_date) = b.rdg_date
+          ${player_coin_efficiency_by_game_mode.SQL_TABLE_NAME} a
+          left join ${live_ops_calendar.SQL_TABLE_NAME} b
+            on date(a.rdg_date) = b.rdg_date
+        where
+          b.puzzle_event_start_date is not null
+          and a.game_mode = 'puzzle'
+          --and b.moves_master_event_start_date = '2024-09-03'
+          --and date(a.rdg_date) >= '2024-09-03'
+
+        group by
+          1,2
+      )
+
       select
         timestamp(a.event_start_date) as event_start_date
         , 'movesMaster' as game_mode
@@ -516,12 +616,17 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
-        , 0 as coins_sourced
+        , ifnull( c.in_round_coin_rewards , 0 ) as in_round_coin_rewards
+        , ifnull( c.additional_rewards_coins , 0 ) as additional_rewards_coins
+        , ifnull( c.coins_sourced , 0 ) as coins_sourced
       from
         moves_master_daily a
         left join moves_master_rounds b
           on a.event_start_date = b.event_start_date
           and a.rdg_id = b.rdg_id
+        left join moves_master_coin_rewards c
+          on a.event_start_date = c.event_start_date
+          and a.rdg_id = c.rdg_id
 
       union all
       select
@@ -547,6 +652,8 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as in_round_coin_rewards
+        , 0 as additional_rewards_coins
         , 0 as coins_sourced
       from
         puzzle_daily a
@@ -578,6 +685,8 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as in_round_coin_rewards
+        , 0 as additional_rewards_coins
         , 0 as coins_sourced
       from
         go_fish_daily a
@@ -609,6 +718,8 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as in_round_coin_rewards
+        , 0 as additional_rewards_coins
         , 0 as coins_sourced
       from
         gem_quest_daily a
@@ -641,6 +752,8 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as in_round_coin_rewards
+        , 0 as additional_rewards_coins
         , 0 as coins_sourced
       from
         flour_frenzy_daily a
@@ -672,6 +785,8 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as in_round_coin_rewards
+        , 0 as additional_rewards_coins
         , 0 as coins_sourced
       from
         donut_sprint_daily a
@@ -703,6 +818,8 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as in_round_coin_rewards
+        , 0 as additional_rewards_coins
         , 0 as coins_sourced
       from
         castle_climb_daily a
@@ -734,6 +851,8 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as in_round_coin_rewards
+        , 0 as additional_rewards_coins
         , 0 as coins_sourced
       from
         hot_dog_daily a
@@ -1038,12 +1157,39 @@ measure: percent_dau_in_mode {
   }
 
   measure: average_coins_sourced_per_player {
+    group_label: "Coins Sourced"
     label: "Average Coins Sourced Per Player"
     type: number
     value_format_name: decimal_0
     sql:
     safe_divide(
       sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.coins_sourced else 0 end )
+      , sum(${TABLE}.game_mode_participation_indicator)
+      )
+  ;;
+  }
+
+  measure: average_in_round_coin_rewards_per_player {
+    group_label: "Coins Sourced"
+    label: "Average In Round Coins Sourced Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    safe_divide(
+      sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.in_round_coin_rewards else 0 end )
+      , sum(${TABLE}.game_mode_participation_indicator)
+      )
+  ;;
+  }
+
+  measure: average_additional_rewards_coins_per_player {
+    group_label: "Coins Sourced"
+    label: "Average Additional Coins Sourced Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    safe_divide(
+      sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.additional_rewards_coins else 0 end )
       , sum(${TABLE}.game_mode_participation_indicator)
       )
   ;;

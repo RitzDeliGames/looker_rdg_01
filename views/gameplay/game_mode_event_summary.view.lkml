@@ -652,14 +652,17 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
-        , 0 as in_round_coin_rewards
-        , 0 as additional_rewards_coins
-        , 0 as coins_sourced
+        , ifnull( c.in_round_coin_rewards , 0 ) as in_round_coin_rewards
+        , ifnull( c.additional_rewards_coins , 0 ) as additional_rewards_coins
+        , ifnull( c.coins_sourced , 0 ) as coins_sourced
       from
         puzzle_daily a
         left join puzzle_rounds b
           on a.event_start_date = b.event_start_date
           and a.rdg_id = b.rdg_id
+        left join puzzle_coin_rewards c
+          on a.event_start_date = c.event_start_date
+          and a.rdg_id = c.rdg_id
 
       union all
       select
@@ -685,14 +688,17 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
-        , 0 as in_round_coin_rewards
-        , 0 as additional_rewards_coins
-        , 0 as coins_sourced
+        , ifnull( c.in_round_coin_rewards , 0 ) as in_round_coin_rewards
+        , ifnull( c.additional_rewards_coins , 0 ) as additional_rewards_coins
+        , ifnull( c.coins_sourced , 0 ) as coins_sourced
       from
         go_fish_daily a
         left join go_fish_rounds b
           on a.event_start_date = b.event_start_date
           and a.rdg_id = b.rdg_id
+        left join go_fish_coin_rewards c
+          on a.event_start_date = c.event_start_date
+          and a.rdg_id = c.rdg_id
 
       union all
       select
@@ -718,14 +724,18 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
-        , 0 as in_round_coin_rewards
-        , 0 as additional_rewards_coins
-        , 0 as coins_sourced
+        , ifnull( c.in_round_coin_rewards , 0 ) as in_round_coin_rewards
+        , ifnull( c.additional_rewards_coins , 0 ) as additional_rewards_coins
+        , ifnull( c.coins_sourced , 0 ) as coins_sourced
       from
         gem_quest_daily a
         left join gem_quest_rounds b
           on a.event_start_date = b.event_start_date
           and a.rdg_id = b.rdg_id
+        left join gem_quest_coin_rewards c
+          on a.event_start_date = c.event_start_date
+          and a.rdg_id = c.rdg_id
+
 
 
       union all

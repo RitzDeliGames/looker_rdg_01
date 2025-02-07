@@ -508,6 +508,7 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as coins_sourced
       from
         moves_master_daily a
         left join moves_master_rounds b
@@ -538,6 +539,7 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as coins_sourced
       from
         puzzle_daily a
         left join puzzle_rounds b
@@ -568,6 +570,7 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as coins_sourced
       from
         go_fish_daily a
         left join go_fish_rounds b
@@ -598,6 +601,7 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as coins_sourced
       from
         gem_quest_daily a
         left join gem_quest_rounds b
@@ -629,6 +633,7 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as coins_sourced
       from
         flour_frenzy_daily a
         left join flour_frenzy_rounds b
@@ -659,6 +664,7 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as coins_sourced
       from
         donut_sprint_daily a
         left join donut_sprint_rounds b
@@ -689,6 +695,7 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as coins_sourced
       from
         castle_climb_daily a
         left join castle_climb_rounds b
@@ -719,6 +726,7 @@ view: game_mode_event_summary {
         , ifnull( b.in_round_coin_spend, 0 ) as in_round_coin_spend
         , ifnull( b.in_round_count_ad_views, 0 ) as in_round_count_ad_views
         , ifnull( b.in_round_combined_dollars  , 0 ) as in_round_combined_dollars
+        , 0 as coins_sourced
       from
         hot_dog_daily a
         left join hot_dog_rounds b
@@ -1016,6 +1024,18 @@ measure: percent_dau_in_mode {
     sql:
     safe_divide(
       sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.game_mode_round_end_events else 0 end )
+      , sum(${TABLE}.game_mode_participation_indicator)
+      )
+  ;;
+  }
+
+  measure: average_coins_sourced_per_player {
+    label: "Average Coins Sourced Per Player"
+    type: number
+    value_format_name: decimal_0
+    sql:
+    safe_divide(
+      sum(case when ${TABLE}.game_mode_participation_indicator = 1 then ${TABLE}.coins_sourced else 0 end )
       , sum(${TABLE}.game_mode_participation_indicator)
       )
   ;;

@@ -167,6 +167,7 @@ view: game_mode_event_summary {
           , sum( a.in_round_coin_spend ) as in_round_coin_spend
           , sum( a.in_round_count_ad_views ) as in_round_count_ad_views
           , sum( a.in_round_combined_dollars ) as in_round_combined_dollars
+          , sum( a.in_round_coin_rewards ) as in_round_coin_rewards
         from
           -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
           -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
@@ -229,6 +230,7 @@ view: game_mode_event_summary {
           , sum( a.in_round_coin_spend ) as in_round_coin_spend
           , sum( a.in_round_count_ad_views ) as in_round_count_ad_views
           , sum( a.in_round_combined_dollars ) as in_round_combined_dollars
+          , sum( a.in_round_coin_rewards ) as in_round_coin_rewards
         from
           -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
           -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
@@ -291,6 +293,7 @@ view: game_mode_event_summary {
           , sum( a.in_round_coin_spend ) as in_round_coin_spend
           , sum( a.in_round_count_ad_views ) as in_round_count_ad_views
           , sum( a.in_round_combined_dollars ) as in_round_combined_dollars
+          , sum( a.in_round_coin_rewards ) as in_round_coin_rewards
         from
           -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
           -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
@@ -353,6 +356,7 @@ view: game_mode_event_summary {
           , sum( a.in_round_coin_spend ) as in_round_coin_spend
           , sum( a.in_round_count_ad_views ) as in_round_count_ad_views
           , sum( a.in_round_combined_dollars ) as in_round_combined_dollars
+          , sum( a.in_round_coin_rewards ) as in_round_coin_rewards
         from
           -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
           -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
@@ -384,6 +388,7 @@ view: game_mode_event_summary {
           , sum( a.in_round_coin_spend ) as in_round_coin_spend
           , sum( a.in_round_count_ad_views ) as in_round_count_ad_views
           , sum( a.in_round_combined_dollars ) as in_round_combined_dollars
+          , sum( a.in_round_coin_rewards ) as in_round_coin_rewards
         from
           -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
           -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
@@ -415,6 +420,7 @@ view: game_mode_event_summary {
           , sum( a.in_round_coin_spend ) as in_round_coin_spend
           , sum( a.in_round_count_ad_views ) as in_round_count_ad_views
           , sum( a.in_round_combined_dollars ) as in_round_combined_dollars
+          , sum( a.in_round_coin_rewards ) as in_round_coin_rewards
         from
           -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_round_summary a
           -- left join eraser-blast.looker_scratch.6Y_ritz_deli_games_live_ops_calendar b
@@ -447,6 +453,7 @@ view: game_mode_event_summary {
           , sum( a.in_round_coin_spend ) as in_round_coin_spend
           , sum( a.in_round_count_ad_views ) as in_round_count_ad_views
           , sum( a.in_round_combined_dollars ) as in_round_combined_dollars
+          , sum( a.in_round_coin_rewards ) as in_round_coin_rewards
         from
           ${player_round_summary.SQL_TABLE_NAME} a
           left join ${live_ops_calendar.SQL_TABLE_NAME} b
@@ -473,6 +480,7 @@ view: game_mode_event_summary {
           , sum( a.in_round_coin_spend ) as in_round_coin_spend
           , sum( a.in_round_count_ad_views ) as in_round_count_ad_views
           , sum( a.in_round_combined_dollars ) as in_round_combined_dollars
+          , sum( a.in_round_coin_rewards ) as in_round_coin_rewards
         from
           ${player_round_summary.SQL_TABLE_NAME} a
           left join ${live_ops_calendar.SQL_TABLE_NAME} b

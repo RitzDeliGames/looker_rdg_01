@@ -51,7 +51,7 @@ base_data_full as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-09-27' -- Last Full Update
+                when date(current_date()) <= '2025-02-10' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -160,6 +160,7 @@ base_data_full as (
         , 1 as count_mtx_purchases
         , a.round_count
         , a.platform
+        , a.extra_json
 
         -- MTX Purchase Informaion
         , json_extract_scalar(a.extra_json,"$.source_id") as source_id
@@ -208,6 +209,7 @@ select
     , rdg_date
     , timestamp_utc
     , transaction_id
+    , max(extra_json) as extra_json
     , max(created_at) as created_at
     , max(version) as version
     , max(session_id) as session_id

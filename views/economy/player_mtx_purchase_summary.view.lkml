@@ -12,6 +12,89 @@ view: player_mtx_purchase_summary {
 
       -- create or replace table tal_scratch.player_mtx_purchase_summary as
 
+      with
+
+      base_data as (
+
+        select
+          *
+          , safe_cast(json_extract_scalar(a.extra_json,"$.transaction_purchase_amount") as numeric) as telemetry_transaction_purchase_amount
+
+          , safe_cast(json_extract_scalar(a.extra_json,"$.localized_price_string") as string) as telemetry_localized_price_string
+        from
+          ${player_mtx_purchase_incremental.SQL_TABLE_NAME} a
+
+      )
+
+
+      , my_iap_amount_fix_table as (
+
+        select
+          * except ( mtx_purchase_dollars )
+          , case
+              when version in ( '13663', '13664' )
+              then
+                case
+                  when left( telemetry_localized_price_string , 1 ) = '$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70
+
+                  when left( telemetry_localized_price_string , 3 ) = 'MYR'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.2247
+
+                  when substr(telemetry_localized_price_string , -1) = '€'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 1.03
+
+                  when left( telemetry_localized_price_string , 2 ) = 'R$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.1706
+
+                  when left( telemetry_localized_price_string , 3 ) = 'US$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70
+
+                  else mtx_purchase_dollars
+                  end
+              else
+                mtx_purchase_dollars
+              end as telemetry_mtx_purchase_dollars_fix
+          , case
+              when version in ( '13663', '13664' )
+              then
+                case
+                  when left( telemetry_localized_price_string , 1 ) = '$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70
+
+                  when left( telemetry_localized_price_string , 3 ) = 'MYR'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.2247
+
+                  when substr(telemetry_localized_price_string , -1) = '€'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 1.03
+
+                  when left( telemetry_localized_price_string , 2 ) = 'R$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.1706
+
+                  when left( telemetry_localized_price_string , 3 ) = 'US$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70
+
+                  else mtx_purchase_dollars
+                  end
+              else
+                mtx_purchase_dollars
+              end as mtx_purchase_dollars
+        from
+          base_data
+
+      )
+
+      , my_remove_hacker_table as (
+
+        select
+          *
+        from
+          my_iap_amount_fix_table
+        where
+          rdg_id <> '6a7e54eb-c520-4f61-9323-dc37c0207bcd'
+
+      )
+
       select
 
         -- All columns from player_mtx_purchase_incremental
@@ -40,7 +123,7 @@ view: player_mtx_purchase_summary {
 
       from
         -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_incremental` a
-        ${player_mtx_purchase_incremental.SQL_TABLE_NAME} a
+        my_remove_hacker_table a
 
       ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -2 hour)) ;;
@@ -86,6 +169,25 @@ dimension: primary_key {
         json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
         as string)
     ;;
+  }
+
+  dimension: extra_json {
+    group_label: "Telemetry Check"
+    type: string
+    }
+  dimension: telemetry_transaction_purchase_amount  {
+    group_label: "Telemetry Check"
+    type: number
+    }
+  dimension: telemetry_localized_price_string  {
+    group_label: "Telemetry Check"
+    type: string
+    }
+
+  dimension: telemetry_mtx_purchase_dollars_fix {
+  group_label: "Telemetry Check"
+  type: number
+  value_format_name: usd
   }
 
   # rdg_date for join

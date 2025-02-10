@@ -19,6 +19,15 @@ include: "/**/*.view"
 explore: click_stream {
   from: click_stream
   view_label: "Click Stream"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${click_stream.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
+
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -27,11 +36,20 @@ explore: click_stream {
       ${click_stream.rdg_id} = ${player_summary_new.rdg_id}
       ;;
   }
+
 }
 
 explore: click_sequence {
   view_label: "First in Sequence"
   description: "Identifies the common paths players take after triggering an event "
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${click_sequence.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -174,6 +192,15 @@ explore: click_sequence {
 
 explore: player_daily_summary {
   label: "Player Daily Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_daily_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
+
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -211,6 +238,14 @@ explore: player_daily_summary {
 
 explore: player_summary_new {
   label: "Player Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_summary_new.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_bucket_by_first_10_levels {
     view_label: "Level 10 Moves Made Buckets"
@@ -275,6 +310,14 @@ explore: player_summary_new {
 
 explore: player_round_summary {
   label: "Player Round Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_round_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -304,6 +347,14 @@ explore: player_round_summary {
 
 explore: player_campaign_level_summary {
   label: "Player Campaign Level Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_campaign_level_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -325,6 +376,14 @@ explore: player_campaign_level_summary {
 
 explore: player_mechanics_summary {
   label: "Player Mechanics Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_mechanics_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -345,6 +404,14 @@ explore: player_mechanics_summary {
 
 explore: player_puzzle_level_summary {
   label: "Player Puzzle Level Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_puzzle_level_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -365,6 +432,14 @@ explore: player_puzzle_level_summary {
 
 explore: player_ad_view_summary {
   label: "Player Ad View Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_ad_view_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -381,7 +456,6 @@ explore: player_ad_view_summary {
     type:  left_outer
     relationship:  many_to_one
     sql_on: ${player_ad_view_summary.rdg_date_date} = ${live_ops_calendar.rdg_date_date};;
-
   }
 
 }
@@ -394,6 +468,15 @@ explore: player_ad_view_summary {
 
 explore: player_mtx_purchase_summary {
   label: "Player Mtx Purchase Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_mtx_purchase_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
+
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -412,6 +495,15 @@ explore: player_mtx_purchase_summary {
 
 explore: player_coin_spend_summary {
   label: "Player Coin Spend Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_coin_spend_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
+
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -430,6 +522,15 @@ explore: player_coin_spend_summary {
 
 explore: player_hourly {
   label: "Player Hourly"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_hourly.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
+
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -448,6 +549,14 @@ explore: player_hourly {
 
 explore: player_weekly_summary {
   label: "Player Weekly Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_weekly_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -467,6 +576,14 @@ explore: player_weekly_summary {
 
 explore: player_monthly_summary {
   label: "Player Monthly Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_monthly_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -486,6 +603,14 @@ explore: player_monthly_summary {
 
 explore: player_recent_frame_rate {
   label: "Player Recent Frame Rate"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_recent_frame_rate.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -505,6 +630,14 @@ explore: player_recent_frame_rate {
 
 explore: player_recent_button_clicks {
   label: "Player Recent Button Clicks"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_recent_button_clicks.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -524,6 +657,14 @@ explore: player_recent_button_clicks {
 ################################################################
 
 explore: player_recent_full_event_data {
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_recent_full_event_data.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -544,6 +685,14 @@ explore: player_recent_full_event_data {
 explore: player_popup_and_iam_summary {
 
   label: "Player Popup and IAM Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_popup_and_iam_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -562,6 +711,14 @@ explore: player_popup_and_iam_summary {
 ################################################################
 
 explore: player_coin_source_summary {
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_coin_source_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -580,6 +737,14 @@ explore: player_coin_source_summary {
 ################################################################
 
 explore: player_profiler_event_recent {
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_profiler_event_recent.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -600,6 +765,14 @@ explore: player_profiler_event_recent {
 ################################################################
 
 explore: player_hitch_summary {
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_hitch_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
 
   join: player_summary_new {
     view_label: "Player Summary"
@@ -619,6 +792,15 @@ explore: player_hitch_summary {
 
 explore: player_battle_pass_summary {
   label: "Player Battle Pass Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_battle_pass_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
+
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -637,6 +819,15 @@ explore: player_battle_pass_summary {
 
 explore: player_error_summary {
   label: "Player Error Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_error_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
+
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -649,6 +840,15 @@ explore: player_error_summary {
 
 explore: player_error_by_dau {
   label: "Player Errors by DAU"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_error_by_dau.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
+
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -667,6 +867,14 @@ explore: player_error_by_dau {
 
 explore: player_fue_summary {
   label: "Player FUE Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_fue_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -685,6 +893,15 @@ explore: player_fue_summary {
 
 explore: player_notification_summary {
   label: "Player Notification Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_notification_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
+
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -703,6 +920,14 @@ explore: player_notification_summary {
 
 explore: player_reward_summary {
   label: "Player Reward Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_reward_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -721,6 +946,14 @@ explore: player_reward_summary {
 
 explore: player_coin_efficiency_by_game_mode {
   label: "Player Coin Efficiency"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_coin_efficiency_by_game_mode.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -740,6 +973,14 @@ explore: player_coin_efficiency_by_game_mode {
 
 explore: player_ticket_spend_summary {
   label: "Player Ticket Spend Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_ticket_spend_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -758,6 +999,14 @@ explore: player_ticket_spend_summary {
 
 explore: player_tickets_plus_ads_summary {
   label: "Player Ticket and Ad Views Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_tickets_plus_ads_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -776,6 +1025,14 @@ explore: player_tickets_plus_ads_summary {
 
 explore: player_frame_rate_summary {
   label: "Player Frame Rate Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_frame_rate_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -794,6 +1051,14 @@ explore: player_frame_rate_summary {
 
 explore: moves_master_recap_summary {
   label: "Moves Master Recap Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${moves_master_recap_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -812,6 +1077,14 @@ explore: moves_master_recap_summary {
 
 explore: game_mode_event_summary {
   label: "Game Mode Event Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${game_mode_event_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -831,6 +1104,15 @@ explore: game_mode_event_summary {
 explore: player_simple_event_summary_hotdog {
   group_label: "Chum Chum Simple Event Summaries"
   label: "Hot Dog Simple Event Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_simple_event_summary_hotdog.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
+
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -844,6 +1126,14 @@ explore: player_simple_event_summary_hotdog {
 explore: player_simple_event_summary_flourfrenzy {
   group_label: "Chum Chum Simple Event Summaries"
   label: "Flour Frenzy Simple Event Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_simple_event_summary_flourfrenzy.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -862,6 +1152,14 @@ explore: player_simple_event_summary_flourfrenzy {
 
 explore: player_go_fish_summary {
   label: "Player Go Fish Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_go_fish_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -880,6 +1178,14 @@ explore: player_go_fish_summary {
 
 explore: player_social_button_clicks_summary {
   label: "Player Social Button Click Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_social_button_clicks_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -898,6 +1204,14 @@ explore: player_social_button_clicks_summary {
 
 explore: player_achievement_summary {
   label: "Player Daily Achievement Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_achievement_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -916,6 +1230,14 @@ explore: player_achievement_summary {
 
 explore: player_purchase_funnel_summary {
   label: "Player Purchase Funnel Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_purchase_funnel_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -934,6 +1256,14 @@ explore: player_purchase_funnel_summary {
 
 explore: player_engagement_threshold_summary {
   label: "Player Engagement Threshold Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_engagement_threshold_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
   join: player_summary_new {
     view_label: "Player Summary"
     type: left_outer
@@ -1180,6 +1510,7 @@ explore: gogame_data {}
 # explore: player_frame_rate_incremental {}
 # explore: moves_master_recap_incremental {}
 
+explore: player_block_list {}
 explore: singular_player_attribution {}
 explore: bfg_player_attribution {}
 explore: applovin_ads_data_summary {}

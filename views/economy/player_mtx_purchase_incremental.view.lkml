@@ -5,7 +5,7 @@ view: player_mtx_purchase_incremental {
 
 
       -- ccb_aggregate_update_tag
-      -- update '2024-09-27'
+      -- update '2025-02-13'
 
 
 -- create or replace table tal_scratch.player_mtx_purchase_incremental as
@@ -21,6 +21,7 @@ base_data_full as (
     select
         rdg_id
         , timestamp as timestamp_utc
+        , country
         , created_at
         , version
         , user_type
@@ -51,7 +52,7 @@ base_data_full as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2025-02-10' -- Last Full Update
+                when date(current_date()) <= '2025-02-13' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 end
@@ -150,6 +151,7 @@ base_data_full as (
         a.rdg_id
         , timestamp(date(a.timestamp_utc)) as rdg_date
         , a.timestamp_utc
+        , a.country
         , a.created_at
         , a.version
         , a.session_id
@@ -209,6 +211,7 @@ select
     , rdg_date
     , timestamp_utc
     , transaction_id
+    , max(country) as country
     , max(extra_json) as extra_json
     , max(created_at) as created_at
     , max(version) as version

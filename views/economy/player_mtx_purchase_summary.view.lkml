@@ -32,9 +32,22 @@ view: player_mtx_purchase_summary {
         select
           * except ( mtx_purchase_dollars )
           , case
-              when version in ( '13663', '13664' )
+              when version in ( '13663', '13664', '13665' )
               then
                 case
+
+                  when left( telemetry_localized_price_string , 1 ) = '$' and country = 'CL'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, '.', ','), '[^0-9.]', '') as numeric) * 0.70 * 0.00105
+
+                  when left( telemetry_localized_price_string , 1 ) = '$' and country = 'MX'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.049
+
+                  when left( telemetry_localized_price_string , 1 ) = '$' and country = 'CA'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.70
+
+                  when left( telemetry_localized_price_string , 1 ) = '$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70
+
                   when left( telemetry_localized_price_string , 1 ) = '$'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70
 
@@ -49,6 +62,9 @@ view: player_mtx_purchase_summary {
 
                   when left( telemetry_localized_price_string , 3 ) = 'US$'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70
+
+                  when left( telemetry_localized_price_string , 1 ) = '₹'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.012
 
                   else mtx_purchase_dollars
                   end
@@ -56,9 +72,21 @@ view: player_mtx_purchase_summary {
                 mtx_purchase_dollars
               end as telemetry_mtx_purchase_dollars_fix
           , case
-              when version in ( '13663', '13664' )
+              when version in ( '13663', '13664', '13665' )
               then
                 case
+                  when left( telemetry_localized_price_string , 1 ) = '$' and country = 'CL'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, '.', ','), '[^0-9.]', '') as numeric) * 0.70 * 0.00105
+
+                  when left( telemetry_localized_price_string , 1 ) = '$' and country = 'MX'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.049
+
+                  when left( telemetry_localized_price_string , 1 ) = '$' and country = 'CA'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.70
+
+                  when left( telemetry_localized_price_string , 1 ) = '$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70
+
                   when left( telemetry_localized_price_string , 1 ) = '$'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70
 
@@ -73,6 +101,9 @@ view: player_mtx_purchase_summary {
 
                   when left( telemetry_localized_price_string , 3 ) = 'US$'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70
+
+                  when left( telemetry_localized_price_string , 1 ) = '₹'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.012
 
                   else mtx_purchase_dollars
                   end

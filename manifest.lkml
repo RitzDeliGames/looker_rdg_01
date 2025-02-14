@@ -219,6 +219,7 @@ constant: button_tags {
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_PreGame.Bomb' then 'Mini-Game - Pre-Game - Boost'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_PreGame.Rocket' then 'Mini-Game - Pre-Game - Boost'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_PreGame.ColorBall' then 'Mini-Game - Pre-Game - Boost'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_PreGame.Colorball' then 'Mini-Game - Pre-Game - Boost'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_PreGame.PlayFromQuest' then 'Zone Task List - Play'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_Pause.' then 'Mini-Game - Pause'
             when json_extract_scalar(extra_json,'$.button_tag') = 'EndlessTreasure.' then 'Treasure Trove - Open'

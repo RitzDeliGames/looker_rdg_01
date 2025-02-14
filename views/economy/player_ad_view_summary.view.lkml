@@ -141,6 +141,7 @@ view: player_ad_view_summary {
           , a.count_ad_views
           , a.source_id
           , a.ad_reward_source_id
+          , a.ad_reward_iap_id
           , a.ad_network
           , a.country
           , a.current_level_id
@@ -375,6 +376,11 @@ view: player_ad_view_summary {
   dimension: ad_reward_source_id {
     label: "Ad Reward Source Id"
     sql: ${TABLE}.ad_reward_source_id ;;
+  }
+
+  dimension: ad_reward_iap_id {
+    label: "Ad Reward IAP ID"
+    sql: ${TABLE}.ad_reward_iap_id ;;
   }
 
   dimension: ad_reward_id_strings {

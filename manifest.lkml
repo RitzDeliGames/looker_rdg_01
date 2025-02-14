@@ -643,6 +643,7 @@ constant: ad_reward_id_strings {
   when ${TABLE}.ad_reward_source_id = 'treasure_trove' then 'Treasure Trove'
   when ${TABLE}.ad_reward_source_id = 'quick_boost_bomb' then 'Bomb'
   when ${TABLE}.ad_reward_source_id = 'quick_boost_color_ball' then 'Color Ball'
+  when ${TABLE}.ad_reward_source_id = 'quick_coins' then 'Coins'
   else ${TABLE}.ad_reward_source_id
   end"
 }
@@ -668,6 +669,7 @@ constant: ad_placements_for_ad_summary {
   when lower(source_id) like '%interstitial%' then 'Startup Interstitial'
   when lower(source_id) like '%eor_doubler%' then 'End of Round Doubler'
 
+  when ad_reward_source_id = 'quick_coins' then 'Coins'
   when ad_reward_source_id = 'quick_boost_rocket' then 'Rocket'
   when ad_reward_source_id = 'quick_lives' then 'Lives'
   when ad_reward_source_id = 'quick_magnifiers' then 'Magnifiers'
@@ -706,6 +708,7 @@ constant: ad_placements_for_tickets_spend {
   when lower(source_id) like '%defaultrewardedvideo' then 'Generic Reward'
   when lower(source_id) like '%rewarded' then 'Generic Reward'
 
+  when source_id = 'quick_coins' then 'Coins'
   when source_id = 'quick_boost_rocket' then 'Rocket'
   when source_id = 'quick_lives' then 'Lives'
   when source_id = 'treasure_trove' then 'Treasure Trove'

@@ -4,7 +4,7 @@ view: player_ad_view_incremental {
     sql:
 
       -- ccb_aggregate_update_tag
-      -- update '2024-12-03'
+      -- update '2025-02-14'
 
       -- create or replace table tal_scratch.player_ad_view_incremental as
 
@@ -48,7 +48,7 @@ full_base_data as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2024-12-05' -- Last Full Update
+                when date(current_date()) <= '2025-02-14' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 -- else date_add(current_date(), interval -30 day)
@@ -124,6 +124,10 @@ full_base_data as (
             partition by rdg_id
             order by timestamp_utc asc, event_name asc ) as ad_reward_transaction_purchase_currency
 
+        , lead(json_extract_scalar(extra_json,"$.iap_id")) over (
+            partition by rdg_id
+            order by timestamp_utc asc, event_name asc ) as ad_reward_iap_id_all
+
         , lag(json_extract_scalar(extra_json,"$.source_id")) over (
             partition by rdg_id
             order by timestamp_utc asc, event_name asc ) as lag_ad_reward_source_id_all
@@ -136,6 +140,9 @@ full_base_data as (
             partition by rdg_id
             order by timestamp_utc asc, event_name asc ) as lag_ad_reward_transaction_purchase_currency
 
+        , lag(json_extract_scalar(extra_json,"$.iap_id")) over (
+            partition by rdg_id
+            order by timestamp_utc asc, event_name asc ) as lag_ad_reward_iap_id_all
 
     from
         full_base_data
@@ -165,6 +172,19 @@ full_base_data as (
                 lag_ad_reward_source_id_all
             else null
             end as ad_reward_source_id
+        , case
+            when
+                ad_reward_event_name = 'transaction'
+                and ad_reward_transaction_purchase_currency = 'REWARDED_AD'
+            then
+                ad_reward_iap_id_all
+            when
+                lag_ad_reward_event_name = 'transaction'
+                and lag_ad_reward_transaction_purchase_currency = 'REWARDED_AD'
+            then
+                lag_ad_reward_iap_id_all
+            else null
+            end as ad_reward_iap_id
     from
         full_base_data_with_next_record
     where
@@ -189,6 +209,7 @@ full_base_data as (
         , a.experiments
         , a.win_streak
         , a.ad_reward_source_id
+        , a.ad_reward_iap_id
         , a.last_level_serial
         , 1 as count_ad_views
 
@@ -253,6 +274,7 @@ full_base_data as (
         , max(count_ad_views) as count_ad_views
         , max(source_id) as source_id
         , max(ad_reward_source_id) as ad_reward_source_id
+        , max(ad_reward_iap_id) as ad_reward_iap_id
         , max(
             coalesce(
                 -- ad_source_name

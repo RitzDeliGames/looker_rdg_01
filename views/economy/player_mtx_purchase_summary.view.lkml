@@ -32,9 +32,21 @@ view: player_mtx_purchase_summary {
         select
           * except ( mtx_purchase_dollars )
           , case
-              when version in ( '13663', '13664', '13665' )
+              when version in ( '13663', '13664', '13665' , '13666' , '13671' , '13672' )
               then
                 case
+
+                  when left( telemetry_localized_price_string , 1 ) = '￥'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.0066
+
+                  when right( telemetry_localized_price_string , 3 ) = 'PHP'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.017
+
+                  when left( telemetry_localized_price_string , 1 ) = '₱'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.017
+
+                  when right( telemetry_localized_price_string , 2 ) = 'Ft'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.0026
 
                   when left( telemetry_localized_price_string , 1 ) = '$' and country = 'CL'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, '.', ','), '[^0-9.]', '') as numeric) * 0.70 * 0.00105
@@ -72,9 +84,22 @@ view: player_mtx_purchase_summary {
                 mtx_purchase_dollars
               end as telemetry_mtx_purchase_dollars_fix
           , case
-              when version in ( '13663', '13664', '13665' )
+              when version in ( '13663', '13664', '13665' , '13666' , '13671' , '13672' )
               then
                 case
+
+                  when left( telemetry_localized_price_string , 1 ) = '￥'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.0066
+
+                  when right( telemetry_localized_price_string , 3 ) = 'PHP'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.017
+
+                  when left( telemetry_localized_price_string , 1 ) = '₱'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.017
+
+                  when right( telemetry_localized_price_string , 2 ) = 'Ft'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.0026
+
                   when left( telemetry_localized_price_string , 1 ) = '$' and country = 'CL'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, '.', ','), '[^0-9.]', '') as numeric) * 0.70 * 0.00105
 

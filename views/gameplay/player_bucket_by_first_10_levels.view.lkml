@@ -26,20 +26,23 @@ view: player_bucket_by_first_10_levels {
           1=1
           -- and date(rdg_date) = '2024-11-14'
           -- and date(rdg_date) between '2024-07-23' and '2024-11-14'
-          and date(rdg_date) >= '2024-07-23'
           and lower(game_mode) = 'campaign'
           and level_serial between 0 and 10
-          and
-            ( case
-                when
-                  date(rdg_date) between '2024-07-23' and '2024-09-09'
-                  and safe_cast(json_extract_scalar(experiments,'$.unlosable10_20240710') as string) = 'variant_a'
-                then 1
-                when
-                  date(rdg_date) between '2024-10-01' and date_add(current_date(), interval -1 DAY)
-                then 1
-                else 0
-                end ) = 1
+          and date(rdg_date) >= '2021-01-01'
+          and count_wins = 1
+          and moves_made is not null
+          -- and date(rdg_date) >= '2024-07-23'
+          -- and
+          --   ( case
+          --       when
+          --         date(rdg_date) between '2024-07-23' and '2024-09-09'
+          --         and safe_cast(json_extract_scalar(experiments,'$.unlosable10_20240710') as string) = 'variant_a'
+          --       then 1
+          --       when
+          --         date(rdg_date) between '2024-10-01' and date_add(current_date(), interval -1 DAY)
+          --       then 1
+          --       else 0
+          --       end ) = 1
         group by
           1
         having

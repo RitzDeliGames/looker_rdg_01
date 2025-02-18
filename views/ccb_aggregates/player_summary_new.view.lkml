@@ -1222,6 +1222,18 @@ view: player_summary_new {
     sql: ${TABLE}.campaign_name ;;
   }
 
+  dimension: campaign_month {
+    label: "Campaign Year Month"
+    group_label: "Campaign Mapping"
+    sql:
+      case
+        when left( ${TABLE}.campaign_name , 2 ) = '20'
+        then left( ${TABLE}.campaign_name , 6 )
+        else ''
+        end
+     ;;
+  }
+
   dimension: singular_partner_name {
     group_label: "Campaign Mapping"
     sql: ${TABLE}.partner_name ;;

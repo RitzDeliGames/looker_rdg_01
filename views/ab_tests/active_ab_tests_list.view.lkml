@@ -12,6 +12,21 @@ view: active_ab_tests_list {
 
       select '$.No_AB_Test_Split' as experiment_name
 
+      union all select '$.unlosable15_20250106'
+      union all select '$.reskinToggle_20250107'
+      union all select '$.USPriceIncreaseV2_20250109'
+      union all select '$.nonPayerCoinQPO_20250109'
+      union all select '$.movesMasterAdTweak_20240117'
+      union all select '$.ttNonPayer_20250120'
+      union all select '$.AdOffers_20250124'
+      union all select '$.adBreakV3_20250129'
+      union all select '$.IAMlimitsV2_20250130'
+      union all select '$.inStoreAds_20250131'
+      union all select '$.chumPassRebalanceV2_20250212'
+      union all select '$.unlockLevelPuzzlesV2_20250213'
+      union all select '$.unlockLevelChumsV2_20250213 '
+      union all select '$.prototypePublic_20250214'
+
       union all select '$.IAMlimits_20241120'
       union all select '$.starterBucketTuning_20241121'
       union all select '$.starterBucketTuningp2_20241121_1393'

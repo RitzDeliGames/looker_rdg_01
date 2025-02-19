@@ -21,6 +21,8 @@ view: player_mtx_purchase_summary {
           , safe_cast(json_extract_scalar(a.extra_json,"$.transaction_purchase_amount") as numeric) as telemetry_transaction_purchase_amount
 
           , safe_cast(json_extract_scalar(a.extra_json,"$.localized_price_string") as string) as telemetry_localized_price_string
+
+          , safe_cast(json_extract_scalar( extra_json , "$.country_currency_code") as string) as country_currency_code
         from
           ${player_mtx_purchase_incremental.SQL_TABLE_NAME} a
 
@@ -225,6 +227,11 @@ dimension: primary_key {
         json_extract_scalar(${TABLE}.experiments,{% parameter selected_experiment %})
         as string)
     ;;
+  }
+
+  dimension: country_currency_code {
+    group_label: "Telemetry Check"
+    type: string
   }
 
   dimension: extra_json {

@@ -650,6 +650,76 @@ view: player_campaign_level_summary {
     value_format_name: decimal_1
   }
 
+  measure: attempts_per_success_10 {
+    group_label: "APS Percentiles"
+    label: "80th Percentile"
+    type: percentile
+    percentile: 80
+    sql:
+      safe_divide(
+        safe_cast(${TABLE}.count_rounds as float64)
+        ,
+        safe_cast(${TABLE}.count_wins as float64)
+        );;
+    value_format_name: decimal_0
+  }
+
+  measure: attempts_per_success_25 {
+    group_label: "APS Percentiles"
+    label: "85th Percentile"
+    type: percentile
+    percentile: 85
+    sql:
+    safe_divide(
+    safe_cast(${TABLE}.count_rounds as float64)
+    ,
+    safe_cast(${TABLE}.count_wins as float64)
+    );;
+    value_format_name: decimal_0
+  }
+
+  measure: attempts_per_success_50 {
+    group_label: "APS Percentiles"
+    label: "90th Percentile"
+    type: percentile
+    percentile: 90
+    sql:
+    safe_divide(
+    safe_cast(${TABLE}.count_rounds as float64)
+    ,
+    safe_cast(${TABLE}.count_wins as float64)
+    );;
+    value_format_name: decimal_0
+  }
+
+  measure: attempts_per_success_75 {
+    group_label: "APS Percentiles"
+    label: "95th Percentile"
+    type: percentile
+    percentile: 95
+    sql:
+    safe_divide(
+    safe_cast(${TABLE}.count_rounds as float64)
+    ,
+    safe_cast(${TABLE}.count_wins as float64)
+    );;
+    value_format_name: decimal_0
+  }
+
+  measure: attempts_per_success_95 {
+    group_label: "APS Percentiles"
+    label: "99th Percentile"
+    type: percentile
+    percentile: 99
+    sql:
+    safe_divide(
+    safe_cast(${TABLE}.count_rounds as float64)
+    ,
+    safe_cast(${TABLE}.count_wins as float64)
+    );;
+    value_format_name: decimal_0
+  }
+
   measure: win_rate {
     label: "Win Rate"
     type: number

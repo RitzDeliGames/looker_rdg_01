@@ -44,6 +44,12 @@ view: player_coin_efficiency_by_game_mode {
           -- Coin Reward Equivalents
           , in_round_coin_rewards
 
+          -- Active Modes
+          , is_active_flour_frenzy
+          , is_active_donut_sprint
+          , is_active_castle_climb
+          , is_active_hotdog_contest
+
         from
           ${player_round_summary.SQL_TABLE_NAME}
         where
@@ -94,6 +100,139 @@ view: player_coin_efficiency_by_game_mode {
         group by
           1,2,3
 
+        -- flour frenzy
+        union all
+
+        select
+          rdg_id
+          , rdg_date
+          , 'flourFrenzy' as game_mode
+
+          -- additional fields
+          , max( version ) as version
+          , max( experiments ) as experiments
+          , max( created_date ) as created_date
+          , max( days_since_created ) as days_since_created
+          , max( day_number ) as day_number
+
+          -- Count Rounds
+          , sum(count_rounds) as count_rounds
+
+          -- Coin Spend Equivalents
+          , sum( in_round_coin_spend ) as in_round_coin_spend
+          , sum( coin_equivalent_in_round_mtx_purchase_dollars ) as coin_equivalent_in_round_mtx_purchase_dollars
+          , sum( coin_equivalent_in_round_ad_view_dollars ) as coin_equivalent_in_round_ad_view_dollars
+
+          -- Coin Reward Equivalents
+          , sum( in_round_coin_rewards ) as in_round_coin_rewards
+
+        from
+          round_summary_data
+        where
+          is_active_flour_frenzy
+        group by
+          1,2,3
+
+        -- donut Sprint
+        union all
+
+        select
+          rdg_id
+          , rdg_date
+          , 'donutSprint' as game_mode
+
+          -- additional fields
+          , max( version ) as version
+          , max( experiments ) as experiments
+          , max( created_date ) as created_date
+          , max( days_since_created ) as days_since_created
+          , max( day_number ) as day_number
+
+          -- Count Rounds
+          , sum(count_rounds) as count_rounds
+
+          -- Coin Spend Equivalents
+          , sum( in_round_coin_spend ) as in_round_coin_spend
+          , sum( coin_equivalent_in_round_mtx_purchase_dollars ) as coin_equivalent_in_round_mtx_purchase_dollars
+          , sum( coin_equivalent_in_round_ad_view_dollars ) as coin_equivalent_in_round_ad_view_dollars
+
+          -- Coin Reward Equivalents
+          , sum( in_round_coin_rewards ) as in_round_coin_rewards
+
+        from
+          round_summary_data
+        where
+          is_active_donut_sprint
+          and date(rdg_date) >= '2025-01-01'
+        group by
+          1,2,3
+
+        -- is_active_castle_climb
+        union all
+
+        select
+          rdg_id
+          , rdg_date
+          , 'castleClimb' as game_mode
+
+          -- additional fields
+          , max( version ) as version
+          , max( experiments ) as experiments
+          , max( created_date ) as created_date
+          , max( days_since_created ) as days_since_created
+          , max( day_number ) as day_number
+
+          -- Count Rounds
+          , sum(count_rounds) as count_rounds
+
+          -- Coin Spend Equivalents
+          , sum( in_round_coin_spend ) as in_round_coin_spend
+          , sum( coin_equivalent_in_round_mtx_purchase_dollars ) as coin_equivalent_in_round_mtx_purchase_dollars
+          , sum( coin_equivalent_in_round_ad_view_dollars ) as coin_equivalent_in_round_ad_view_dollars
+
+          -- Coin Reward Equivalents
+          , sum( in_round_coin_rewards ) as in_round_coin_rewards
+
+        from
+          round_summary_data
+        where
+          is_active_castle_climb
+        group by
+          1,2,3
+
+        -- is_active_hotdog_contest
+        union all
+
+        select
+          rdg_id
+          , rdg_date
+          , 'hotdogContest' as game_mode
+
+          -- additional fields
+          , max( version ) as version
+          , max( experiments ) as experiments
+          , max( created_date ) as created_date
+          , max( days_since_created ) as days_since_created
+          , max( day_number ) as day_number
+
+          -- Count Rounds
+          , sum(count_rounds) as count_rounds
+
+          -- Coin Spend Equivalents
+          , sum( in_round_coin_spend ) as in_round_coin_spend
+          , sum( coin_equivalent_in_round_mtx_purchase_dollars ) as coin_equivalent_in_round_mtx_purchase_dollars
+          , sum( coin_equivalent_in_round_ad_view_dollars ) as coin_equivalent_in_round_ad_view_dollars
+
+          -- Coin Reward Equivalents
+          , sum( in_round_coin_rewards ) as in_round_coin_rewards
+
+        from
+          round_summary_data
+        where
+          is_active_hotdog_contest
+        group by
+          1,2,3
+
       )
 
       ---------------------------------------------------------------------------------------------
@@ -113,6 +252,10 @@ view: player_coin_efficiency_by_game_mode {
               when reward_event = 'moves_master' then 'movesMaster'
               when reward_event = 'puzzle' then 'puzzle'
               when reward_event = 'gem_quest' then 'gemQuest'
+              when reward_event =  'castle_climb' then 'castleClimb'
+              when reward_event =  'donut_sprint' then 'donutSprint'
+              when reward_event =  'flour_frenzy' then 'flourFrenzy'
+              when reward_event =  'hotdog_contest' then 'hotdogContest'
 
               else 'Other'
               end as game_mode
@@ -177,6 +320,33 @@ view: player_coin_efficiency_by_game_mode {
         where
           1=1
           --and rdg_date = '2024-04-01'
+          and case
+                when
+                  reward_event in (
+                    'head_2_head'
+                    , 'zone_restore'
+                    , 'moves_master'
+                    , 'puzzle'
+                    , 'gem_quest'
+                    , 'go_fish'
+                  )
+                  then 1
+                when
+                  reward_event in (
+                    'castle_climb'
+                    , 'flour_frenzy'
+                    , 'hotdog_contest'
+                  )
+                  and date(rdg_date) >= '2024-10-05'
+                  then 1
+                when
+                  reward_event in (
+                    'donut_sprint'
+                  )
+                  and date(rdg_date) >= '2025-01-01'
+                  then 1
+                else 0
+                end = 1
           and reward_event in (
             'head_2_head'
             , 'zone_restore'
@@ -184,6 +354,10 @@ view: player_coin_efficiency_by_game_mode {
             , 'puzzle'
             , 'gem_quest'
             , 'go_fish'
+            , 'castle_climb'
+            , 'donut_sprint'
+            , 'flour_frenzy'
+            , 'hotdog_contest'
             )
 
       )

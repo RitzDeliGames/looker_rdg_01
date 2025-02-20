@@ -74,6 +74,9 @@ view: player_mtx_purchase_summary {
                   when left( telemetry_localized_price_string , 2 ) = 'R$'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.1706
 
+                  when left( telemetry_localized_price_string , 3 ) = 'AU$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.64
+
                   when left( telemetry_localized_price_string , 3 ) = 'US$'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70
 
@@ -125,6 +128,9 @@ view: player_mtx_purchase_summary {
 
                   when left( telemetry_localized_price_string , 2 ) = 'R$'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.1706
+
+                  when left( telemetry_localized_price_string , 3 ) = 'AU$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.64
 
                   when left( telemetry_localized_price_string , 3 ) = 'US$'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70

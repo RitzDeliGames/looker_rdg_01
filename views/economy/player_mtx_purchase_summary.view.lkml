@@ -38,6 +38,9 @@ view: player_mtx_purchase_summary {
               then
                 case
 
+                  when left( telemetry_localized_price_string , 1 ) = '₩'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, '.', ','), '[^0-9.]', '') as numeric) * 0.70 * 0.00070
+
                   when left( telemetry_localized_price_string , 1 ) = '￥'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.0066
 
@@ -92,6 +95,9 @@ view: player_mtx_purchase_summary {
               when version in ( '13663', '13664', '13665' , '13666' , '13671' , '13672' )
               then
                 case
+
+                  when left( telemetry_localized_price_string , 1 ) = '₩'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, '.', ','), '[^0-9.]', '') as numeric) * 0.70 * 0.00070
 
                   when left( telemetry_localized_price_string , 1 ) = '￥'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.0066

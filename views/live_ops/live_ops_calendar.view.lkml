@@ -87,6 +87,54 @@ view: live_ops_calendar {
       )
 
       ------------------------------------------------------------
+      -- schedule updates
+      ------------------------------------------------------------
+
+      , my_schedule_updates_table as (
+
+        select
+          rdg_date
+          , calendar_start_date
+          , my_row_number
+          , castle_climb_start_date
+          , castle_climb_day_length
+          , hot_dog_start_date
+          , hot_dog_day_length
+          , flour_frenzy_start_date
+          , case
+              when date(rdg_date) >= '2024-12-13'
+              then date('2024-12-13')
+              else flour_frenzy_start_date
+              end as flour_frenzy_anchor_date
+          , case
+              when date(rdg_date) >= '2024-12-13'
+              then 3
+              else flour_frenzy_day_length
+              end as flour_frenzy_day_length
+          , flour_frenzy_days_off_at_end
+          , donut_sprint_start_date
+          , donut_sprint_day_length
+          , donut_sprint_days_off_at_end
+          , moves_master_start_date
+          , moves_master_day_length
+          , moves_master_days_off_at_end
+          , puzzle_start_date
+          , puzzle_day_length
+          , puzzle_days_off_at_end
+          , go_fish_start_date
+          , go_fish_day_length
+          , go_fish_days_off_at_end
+          , gem_quest_start_date
+          , gem_quest_day_length
+          , gem_quest_days_off_at_end
+          , treasure_trove_start_date
+          , treasure_trove_day_length
+        from
+          my_rdg_date_table
+
+      )
+
+      ------------------------------------------------------------
       -- Live Ops Day Number Table
       ------------------------------------------------------------
 
@@ -139,8 +187,15 @@ view: live_ops_calendar {
               then null
               else date_diff(rdg_date,treasure_trove_start_date,day)
               end as treasure_trove_day_number
+           , case
+              when rdg_date < flour_frenzy_start_date
+              then 0
+              when mod(date_diff(rdg_date,flour_frenzy_anchor_date,day),flour_frenzy_day_length) = 0
+              then 1
+              else 0
+              end as flour_frenzy_new_event_indicator
         from
-          my_rdg_date_table
+          my_schedule_updates_table
       )
 
       ------------------------------------------------------------
@@ -153,7 +208,8 @@ view: live_ops_calendar {
           *
           , floor(safe_divide( castle_climb_day_number, castle_climb_day_length ))+1 as castle_climb_number
           , floor(safe_divide( hot_dog_day_number, hot_dog_day_length ))+1 as hot_dog_number
-          , floor(safe_divide( flour_frenzy_day_number, flour_frenzy_day_length ))+1 as flour_frenzy_number
+          --, floor(safe_divide( flour_frenzy_day_number, flour_frenzy_day_length ))+1 as flour_frenzy_number
+          , sum( flour_frenzy_new_event_indicator ) over ( order by rdg_date rows between unbounded preceding and current row ) as flour_frenzy_number
           , floor(safe_divide( donut_sprint_day_number, donut_sprint_day_length ))+1 as donut_sprint_number
           , floor(safe_divide( moves_master_day_number, moves_master_day_length ))+1 as moves_master_number
           , floor(safe_divide( puzzle_day_number, puzzle_day_length ))+1 as puzzle_number

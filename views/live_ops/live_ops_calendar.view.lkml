@@ -99,7 +99,16 @@ view: live_ops_calendar {
           , castle_climb_start_date
           , castle_climb_day_length
           , hot_dog_start_date
-          , hot_dog_day_length
+          , case
+              when date(rdg_date) >= '2024-12-14'
+              then date('2024-12-14')
+              else hot_dog_start_date
+              end as hot_dog_anchor_date
+          , case
+              when date(rdg_date) >= '2024-12-14'
+              then 3
+              else hot_dog_day_length
+              end as hot_dog_day_length
           , flour_frenzy_start_date
           , case
               when date(rdg_date) >= '2024-12-13'
@@ -113,7 +122,16 @@ view: live_ops_calendar {
               end as flour_frenzy_day_length
           , flour_frenzy_days_off_at_end
           , donut_sprint_start_date
-          , donut_sprint_day_length
+          , case
+              when date(rdg_date) >= '2024-12-15'
+              then date('2024-12-15')
+              else donut_sprint_start_date
+              end as donut_sprint_anchor_date
+          , case
+              when date(rdg_date) >= '2024-12-15'
+              then 3
+              else donut_sprint_day_length
+              end as donut_sprint_day_length
           , donut_sprint_days_off_at_end
           , moves_master_start_date
           , moves_master_day_length
@@ -194,6 +212,20 @@ view: live_ops_calendar {
               then 1
               else 0
               end as flour_frenzy_new_event_indicator
+           , case
+              when rdg_date < donut_sprint_start_date
+              then 0
+              when mod(date_diff(rdg_date,donut_sprint_anchor_date,day),donut_sprint_day_length) = 0
+              then 1
+              else 0
+              end as donut_sprint_new_event_indicator
+           , case
+              when rdg_date < hot_dog_start_date
+              then 0
+              when mod(date_diff(rdg_date,hot_dog_anchor_date,day),hot_dog_day_length) = 0
+              then 1
+              else 0
+              end as hot_dog_new_event_indicator
         from
           my_schedule_updates_table
       )
@@ -207,10 +239,10 @@ view: live_ops_calendar {
         select
           *
           , floor(safe_divide( castle_climb_day_number, castle_climb_day_length ))+1 as castle_climb_number
-          , floor(safe_divide( hot_dog_day_number, hot_dog_day_length ))+1 as hot_dog_number
+          , sum( hot_dog_new_event_indicator ) over ( order by rdg_date rows between unbounded preceding and current row ) as hot_dog_number
           --, floor(safe_divide( flour_frenzy_day_number, flour_frenzy_day_length ))+1 as flour_frenzy_number
           , sum( flour_frenzy_new_event_indicator ) over ( order by rdg_date rows between unbounded preceding and current row ) as flour_frenzy_number
-          , floor(safe_divide( donut_sprint_day_number, donut_sprint_day_length ))+1 as donut_sprint_number
+          , sum( donut_sprint_new_event_indicator ) over ( order by rdg_date rows between unbounded preceding and current row ) as donut_sprint_number
           , floor(safe_divide( moves_master_day_number, moves_master_day_length ))+1 as moves_master_number
           , floor(safe_divide( puzzle_day_number, puzzle_day_length ))+1 as puzzle_number
           , floor(safe_divide( go_fish_day_number, go_fish_day_length ))+1 as go_fish_number

@@ -24,6 +24,13 @@ view: ab_test_player_summary {
       , json_extract_scalar(experiments,{% parameter selected_experiment %}) as variant
       , case
 
+      when 'day_1_conversion_to_5_minutes_plus' = {% parameter selected_metric %} then case when minutes_played_in_first_1_days >= 5 then 1 else 0 end
+      when 'day_1_conversion_to_10_minutes_plus' = {% parameter selected_metric %} then case when minutes_played_in_first_1_days >= 10 then 1 else 0 end
+      when 'day_1_conversion_to_15_minutes_plus' = {% parameter selected_metric %} then case when minutes_played_in_first_1_days >= 15 then 1 else 0 end
+      when 'day_1_conversion_to_30_minutes_plus' = {% parameter selected_metric %} then case when minutes_played_in_first_1_days >= 30 then 1 else 0 end
+      when 'day_1_conversion_to_45_minutes_plus' = {% parameter selected_metric %} then case when minutes_played_in_first_1_days >= 45 then 1 else 0 end
+      when 'day_1_conversion_to_60_minutes_plus' = {% parameter selected_metric %} then case when minutes_played_in_first_1_days >= 60 then 1 else 0 end
+
       when 'retention_on_or_after_d2' = {% parameter selected_metric %} then case when highest_played_day_number >= 2 then 1 else 0 end
       when 'retention_on_or_after_d7' = {% parameter selected_metric %} then case when highest_played_day_number >= 7 then 1 else 0 end
       when 'retention_on_or_after_d14' = {% parameter selected_metric %} then case when highest_played_day_number >= 14 then 1 else 0 end
@@ -806,6 +813,13 @@ view: ab_test_player_summary {
     suggestions:  [
 
       , "None"
+
+      , "day_1_conversion_to_5_minutes_plus"
+      , "day_1_conversion_to_10_minutes_plus"
+      , "day_1_conversion_to_15_minutes_plus"
+      , "day_1_conversion_to_30_minutes_plus"
+      , "day_1_conversion_to_45_minutes_plus"
+      , "day_1_conversion_to_60_minutes_plus"
 
       , "retention_on_or_after_d2"
       , "retention_on_or_after_d7"

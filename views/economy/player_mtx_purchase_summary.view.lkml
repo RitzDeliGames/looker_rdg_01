@@ -38,6 +38,15 @@ view: player_mtx_purchase_summary {
               then
                 case
 
+                  when country_currency_code = 'SEK'
+                  then telemetry_transaction_purchase_amount * 0.70 * 0.094 * 0.01
+
+                  when country_currency_code = 'DKK'
+                  then telemetry_transaction_purchase_amount * 0.70 * 0.14 * 0.01
+
+                  when country_currency_code = 'VND'
+                  then telemetry_transaction_purchase_amount * 0.70 * 0.000039 * 0.01
+
                   when left( telemetry_localized_price_string , 1 ) = '₩'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, '.', ','), '[^0-9.]', '') as numeric) * 0.70 * 0.00070
 
@@ -95,6 +104,15 @@ view: player_mtx_purchase_summary {
               when version in ( '13663', '13664', '13665' , '13666' , '13671' , '13672' )
               then
                 case
+
+                  when country_currency_code = 'SEK'
+                  then telemetry_transaction_purchase_amount * 0.70 * 0.094 * 0.01
+
+                  when country_currency_code = 'DKK'
+                  then telemetry_transaction_purchase_amount * 0.70 * 0.14 * 0.01
+
+                  when country_currency_code = 'VND'
+                  then telemetry_transaction_purchase_amount * 0.70 * 0.000039 * 0.01
 
                   when left( telemetry_localized_price_string , 1 ) = '₩'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, '.', ','), '[^0-9.]', '') as numeric) * 0.70 * 0.00070

@@ -5152,6 +5152,82 @@ view: player_summary_new {
     value_format_name: percent_0
   }
 
+  measure: engagement_milestone_level_10_plus {
+    label: "Level 10+"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.highest_last_level_serial_current >= 10
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_level_40_plus {
+    label: "Level 40+"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.highest_last_level_serial_current >= 40
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_level_100_plus {
+    label: "Level 100+"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.highest_last_level_serial_current >= 100
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_level_200_plus {
+    label: "Level 200+"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.highest_last_level_serial_current >= 200
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
 ################################################################
 ## Engagement Milestones Numerator
 ################################################################

@@ -60,8 +60,11 @@ view: player_summary_staging {
 
       , end_of_content_levels
       , cumulative_round_time_in_minutes_campaign
+      , cumulative_round_end_events_campaign
       , cumulative_round_end_events_puzzle
       , cumulative_round_end_events_gofish
+      , cumulative_round_end_events_movesmaster
+      , cumulative_round_end_events_gemquest
 
       -- device_id
       , last_value(device_id) OVER (
@@ -482,8 +485,12 @@ view: player_summary_staging {
         , max( case when day_number <= 21 then cumulative_round_end_events_puzzle else 0 end ) as puzzle_rounds_played_in_first_21_days
         , max( case when day_number <= 30 then cumulative_round_end_events_puzzle else 0 end ) as puzzle_rounds_played_in_first_30_days
 
-        -- cumulative go fish rounds
+        -- cumulative rounds
         , max( cumulative_round_end_events_gofish ) as gofish_rounds_played_total
+        , max( cumulative_round_end_events_puzzle ) as puzzle_rounds_played_total
+        , max( cumulative_round_end_events_movesmaster ) as movesmaster_rounds_played_total
+        , max( cumulative_round_end_events_gemquest ) as gemquest_rounds_played_total
+        , max( cumulative_round_end_events_campaign ) as campaign_rounds_played_total
 
       from
         pre_aggregate_calculations_from_base_data

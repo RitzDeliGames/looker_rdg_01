@@ -5228,6 +5228,89 @@ view: player_summary_new {
     value_format_name: percent_0
   }
 
+        # -- cumulative rounds
+        # , max( cumulative_round_end_events_gofish ) as gofish_rounds_played_total
+        # , max( cumulative_round_end_events_puzzle ) as puzzle_rounds_played_total
+        # , max( cumulative_round_end_events_movesmaster ) as movesmaster_rounds_played_total
+        # , max( cumulative_round_end_events_gemquest ) as gemquest_rounds_played_total
+        # , max( cumulative_round_end_events_campaign ) as campaign_rounds_played_total
+
+  measure: engagement_milestone_conversion_to_gofish {
+    label: "% Go Fish"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.gofish_rounds_played_total > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_conversion_to_puzzle {
+    label: "% Puzzle"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.puzzle_rounds_played_total > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_conversion_to_movesmaster {
+    label: "% Moves Master"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.movesmaster_rounds_played_total > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
+  measure: engagement_milestone_conversion_to_gemquest {
+    label: "% Gem Quest"
+    group_label: "Engagement Milestones"
+    type: number
+    sql:
+    safe_divide(
+      count( distinct
+        case
+          when ${TABLE}.gemquest_rounds_played_total > 0
+          then ${TABLE}.rdg_id
+          else null
+          end )
+      ,
+      count( distinct ${TABLE}.rdg_id )
+    )
+    ;;
+    value_format_name: percent_0
+  }
+
 ################################################################
 ## Engagement Milestones Numerator
 ################################################################

@@ -1399,6 +1399,13 @@ ads_by_date as (
         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
         ) cumulative_round_end_events_gofish
 
+    -- round_end_events_gemquest
+    , SUM(round_end_events_gemquest) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_round_end_events_gemquest
+
     -- cumulative days played go fish
     , sum( case when gofish_full_matches_completed > 0 then 1 else 0 end ) over (
         PARTITION BY rdg_id

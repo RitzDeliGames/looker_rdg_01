@@ -24,7 +24,7 @@ view: active_ab_tests_list {
       union all select '$.inStoreAds_20250131'
       union all select '$.chumPassRebalanceV2_20250212'
       union all select '$.unlockLevelPuzzlesV2_20250213'
-      union all select '$.unlockLevelChumsV2_20250213 '
+      union all select '$.unlockLevelChumsV2_20250213'
       union all select '$.prototypePublic_20250214'
 
       union all select '$.IAMlimits_20241120'

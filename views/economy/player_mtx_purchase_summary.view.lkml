@@ -14,7 +14,90 @@ view: player_mtx_purchase_summary {
 
       with
 
-      base_data as (
+      my_currency_exhange_data as (
+
+        select
+          timestamp(a.date) as rdg_date
+          , a.currency_exchange as country_currency_code
+          , safe_divide(1, max(a.exchange_rate)) as exchange_rate
+        from
+          eraser-blast.analytics.currency_exchange a
+        where
+          a.currency_exchange is not null
+        group by
+          1,2
+
+        -- overrides
+        union all select timestamp(date('2025-02-01')), 'VND', 0.000039
+        union all select timestamp(date('2025-02-01')), 'CLP', 0.0011
+        union all select timestamp(date('2025-02-01')), 'USD', 1
+
+      )
+
+      , my_currency_exhange_data_with_lag as (
+
+        select
+          a.*
+          , lag(rdg_date) over ( partition by country_currency_code order by rdg_date ) as rdg_date_lag
+          , lead(rdg_date) over ( partition by country_currency_code order by rdg_date ) as rdg_date_lead
+          , max(rdg_date) over ( partition by country_currency_code ) as rdg_date_max
+        from
+          my_currency_exhange_data a
+
+      )
+
+      , my_date_list as (
+
+        select
+          timestamp(rdg_date) as rdg_date
+        from
+          unnest( generate_date_array('2025-02-01', current_date()) ) as rdg_date
+
+      )
+
+      , my_currency_list as (
+
+        select
+          distinct country_currency_code
+        from
+          my_currency_exhange_data
+      )
+
+      , my_date_and_currency_list as (
+
+        select
+          *
+        from
+          my_date_list, my_currency_list
+
+      )
+
+      , my_fixed_currency_list as (
+
+        select
+          a.rdg_date
+          , a.country_currency_code
+          , max( coalesce( b.exchange_rate, c.exchange_rate , d.exchange_rate ) ) as exchange_rate
+        from
+          my_date_and_currency_list a
+          left join my_currency_exhange_data_with_lag b
+            on a.rdg_date = b.rdg_date
+            and a.country_currency_code = b.country_currency_code
+          left join my_currency_exhange_data_with_lag c
+            on a.rdg_date > c.rdg_date
+            and a.rdg_date < c.rdg_date_lead
+            and a.country_currency_code = c.country_currency_code
+          left join my_currency_exhange_data_with_lag d
+            on a.rdg_date > d.rdg_date_max
+            and d.rdg_date = d.rdg_date_max
+            and a.country_currency_code = d.country_currency_code
+        group by
+          1,2
+        order by
+          2,1
+      )
+
+      , base_data as (
 
         select
           *
@@ -28,13 +111,25 @@ view: player_mtx_purchase_summary {
 
       )
 
+      , base_data_with_exchange_rates as (
+
+        select
+          a.*
+          , b.exchange_rate
+        from
+          base_data a
+          left join my_fixed_currency_list b
+            on a.rdg_date = b.rdg_date
+            and a.country_currency_code = b.country_currency_code
+
+      )
 
       , my_iap_amount_fix_table as (
 
         select
           * except ( mtx_purchase_dollars )
           , case
-              when version in ( '13663', '13664', '13665' , '13666' , '13671' , '13672' )
+              when version in ( '13663', '13664', '13665' , '13666' , '13671' )
               then
                 case
 
@@ -94,6 +189,15 @@ view: player_mtx_purchase_summary {
 
                   when left( telemetry_localized_price_string , 1 ) = '₹'
                   then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.70 * 0.012
+
+                  else mtx_purchase_dollars
+                  end
+              when safe_cast(version as numeric) > 13671
+              then
+                case
+
+                  when exchange_rate is not null
+                  then telemetry_transaction_purchase_amount * 0.70 * exchange_rate * 0.01
 
                   else mtx_purchase_dollars
                   end
@@ -101,7 +205,7 @@ view: player_mtx_purchase_summary {
                 mtx_purchase_dollars
               end as telemetry_mtx_purchase_dollars_fix
           , case
-              when version in ( '13663', '13664', '13665' , '13666' , '13671' , '13672' )
+              when version in ( '13663', '13664', '13665' , '13666' , '13671' )
               then
                 case
 
@@ -164,11 +268,20 @@ view: player_mtx_purchase_summary {
 
                   else mtx_purchase_dollars
                   end
+              when safe_cast(version as numeric) > 13671
+              then
+                case
+
+                  when exchange_rate is not null
+                  then telemetry_transaction_purchase_amount * 0.70 * exchange_rate * 0.01
+
+                  else mtx_purchase_dollars
+                  end
               else
                 mtx_purchase_dollars
               end as mtx_purchase_dollars
         from
-          base_data
+          base_data_with_exchange_rates
 
       )
 
@@ -281,6 +394,13 @@ dimension: primary_key {
   group_label: "Telemetry Check"
   type: number
   value_format_name: usd
+  }
+
+  dimension: exchange_rate {
+    group_label: "Telemetry Check"
+    type: number
+    value_format_name: decimal_0
+
   }
 
   # rdg_date for join

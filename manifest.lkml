@@ -270,6 +270,7 @@ constant: reward_types {
 constant: campaign_name_mapped {
   value: "
     case
+      when lower(campaign_name) = 'ccb|unity|rdg|android|us|roas|ads_20250211' then '20250211 - Android - Unity - USA - Ad ROAS'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|aeo|30minutes_20250220' then '20250220 - Android - Meta - LATAM - 30 Min'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|aeo|30minutes_20250218' then '20250218 - Android - Meta - LATAM - 30 Min'
       when lower(campaign_name) = 'ccb|unity|rdg|android|us|mai|install_20250128' then '20250203 - Android - Unity - USA - Install'
@@ -443,6 +444,7 @@ constant: campaign_install_category {
           and ${TABLE}.campaign_name not like '%Meta%'
           and ${TABLE}.campaign_name not like '%Facebook%'
           and ${TABLE}.campaign_name not like '%Applovin%'
+          and ${TABLE}.campaign_name not like '%Unity%'
           then 'Unmapped Campaign'
         else
           case
@@ -451,6 +453,7 @@ constant: campaign_install_category {
             when ${TABLE}.campaign_name like '%Meta%' then 'Meta - '
             when ${TABLE}.campaign_name like '%Facebook%' then 'Meta - '
             when ${TABLE}.campaign_name like '%Applovin%' then 'Applovin - '
+            when ${TABLE}.campaign_name like '%Unity%' then 'Unity - '
           else ''
           end
           ||

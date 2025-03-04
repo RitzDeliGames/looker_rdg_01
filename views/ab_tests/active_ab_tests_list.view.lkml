@@ -12,6 +12,8 @@ view: active_ab_tests_list {
 
       select '$.No_AB_Test_Split' as experiment_name
 
+      union all select '$.prototypeTripleCombo_20250228'
+
       union all select '$.unlosable15_20250106'
       union all select '$.reskinToggle_20250107'
       union all select '$.USPriceIncreaseV2_20250109'

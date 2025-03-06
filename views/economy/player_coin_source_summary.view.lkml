@@ -203,6 +203,18 @@ dimension: primary_key {
     sql: ${TABLE}.rdg_id ;;
   }
 
+  measure: count_distinct_active_users_per_day {
+    label: "Total Unique Days Played"
+    group_label: "Unique Player Counts"
+    type: count_distinct
+    sql:
+      ${TABLE}.rdg_id
+      ||
+      safe_cast(${TABLE}.rdg_date as string)
+
+      ;;
+  }
+
   measure: coin_source_amount {
     label: "Coin Source Amount"
     value_format_name: decimal_0

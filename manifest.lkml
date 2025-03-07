@@ -1565,7 +1565,7 @@ constant: iam_group {
   when button_tag = 'Sheet_PM_TreasureTrove.Continue' then 'TreasureTrove'
   when button_tag = 'Sheet_PM_UpdateApp.Close' then 'UpdateApp'
   when button_tag = 'Sheet_PM_UpdateApp.Continue' then 'UpdateApp'
-
+  when button_tag = 'Sheet_InAppMessaging_AutoClaim.Collect' then 'AutoRewardClaim'
 
   else 'UnMapped'
   end"
@@ -1639,6 +1639,7 @@ constant: iam_destination_type {
   when button_tag = 'Sheet_PM_TreasureTrove.Continue' then 'Reward'
   when button_tag = 'Sheet_PM_UpdateApp.Close' then 'PlayerAction'
   when button_tag = 'Sheet_PM_UpdateApp.Continue' then 'PlayerAction'
+  when button_tag = 'Sheet_InAppMessaging_AutoClaim.Collect' then 'Reward'
 
 
   else 'UnMapped'

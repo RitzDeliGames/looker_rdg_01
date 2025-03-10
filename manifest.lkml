@@ -1567,6 +1567,49 @@ constant: iam_group {
   when button_tag = 'Sheet_PM_UpdateApp.Continue' then 'UpdateApp'
   when button_tag = 'Sheet_InAppMessaging_AutoClaim.Collect' then 'AutoRewardClaim'
 
+  when button_tag = 'Sheet_PM_Social.Continue' then 'Social'
+  when button_tag = 'Sheet_PM_Social.Close' then 'Social'
+  when button_tag = 'Sheet_PM_FoodTruck.Profile' then 'FoodTruck'
+  when button_tag = 'Sheet_InAppMessaging_generic_Vegas.Close' then 'Vegas'
+  when button_tag = 'Sheet_InAppMessaging_generic_Vegas.' then 'Vegas'
+  when button_tag = 'Sheet_InAppMessaging_generic_Surfing.Close' then 'Surfing'
+  when button_tag = 'Sheet_InAppMessaging_generic_Surfing.' then 'Surfing'
+  when button_tag = 'Sheet_InAppMessaging_generic_Pie.Close' then 'Pie'
+  when button_tag = 'Sheet_InAppMessaging_generic_Pie.' then 'Pie'
+  when button_tag = 'Sheet_InAppMessaging_generic_NewYear.Close' then 'NewYear'
+  when button_tag = 'Sheet_InAppMessaging_generic_NewYear.' then 'NewYear'
+  when button_tag = 'Sheet_InAppMessaging_generic_HugeCarrot.Close' then 'HugeCarrot'
+  when button_tag = 'Sheet_InAppMessaging_generic_HugeCarrot.' then 'HugeCarrot'
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping_2.Close' then 'GroceryShopping_2'
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping_2.' then 'GroceryShopping_2'
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping_1.Close' then 'GroceryShopping_1'
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping_1.' then 'GroceryShopping_1'
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping.Close' then 'GroceryShopping'
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping.' then 'GroceryShopping'
+  when button_tag = 'Sheet_InAppMessaging_generic_Farmer.Close' then 'Farmer'
+  when button_tag = 'Sheet_InAppMessaging_generic_Farmer.' then 'Farmer'
+  when button_tag = 'Sheet_InAppMessaging_generic_Camping.Close' then 'Camping'
+  when button_tag = 'Sheet_InAppMessaging_generic_Camping.' then 'Camping'
+  when button_tag = 'Sheet_InAppMessaging_Youtube.IAM' then 'Youtube'
+  when button_tag = 'Sheet_InAppMessaging_ValentinesDay_2.Close' then 'ValentinesDay_2'
+  when button_tag = 'Sheet_InAppMessaging_ValentinesDay_2.' then 'ValentinesDay_2'
+  when button_tag = 'Sheet_InAppMessaging_ValentinesDay_1.Close' then 'ValentinesDay_1'
+  when button_tag = 'Sheet_InAppMessaging_ValentinesDay_1.' then 'ValentinesDay_1'
+  when button_tag = 'Sheet_InAppMessaging_StPatricksDay.Close' then 'StPatricksDay'
+  when button_tag = 'Sheet_InAppMessaging_StPatricksDay.' then 'StPatricksDay'
+  when button_tag = 'Sheet_InAppMessaging_SignIn.IAM' then 'SignIn'
+  when button_tag = 'Sheet_InAppMessaging_SignIn.Close' then 'SignIn'
+  when button_tag = 'Sheet_InAppMessaging_NewYear.Close' then 'NewYear'
+  when button_tag = 'Sheet_InAppMessaging_NewYear.' then 'NewYear'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_LowCurrency.Close' then 'MTXOffer_LowCurrency'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_LowCurrency.' then 'MTXOffer_LowCurrency'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted_BlackFriday.Close' then 'MTXOffer_Discounted_BlackFriday'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted_BlackFriday.' then 'MTXOffer_Discounted_BlackFriday'
+  when button_tag = 'Sheet_InAppMessaging_ChumBurger.Purchase' then 'ChumBurger'
+  when button_tag = 'Sheet_InAppMessaging_ChumBurger.Close' then 'ChumBurger'
+  when button_tag = 'Sheet_InAppMessaging_Christmas_2.Close' then 'Christmas_2'
+  when button_tag = 'Sheet_InAppMessaging_Christmas_2.' then 'Christmas_2'
+
   else 'UnMapped'
   end"
 }
@@ -1641,6 +1684,48 @@ constant: iam_destination_type {
   when button_tag = 'Sheet_PM_UpdateApp.Continue' then 'PlayerAction'
   when button_tag = 'Sheet_InAppMessaging_AutoClaim.Collect' then 'Reward'
 
+  when button_tag = 'Sheet_PM_Social.Continue' then 'PlayerAction'
+  when button_tag = 'Sheet_PM_Social.Close' then 'PlayerAction'
+  when button_tag = 'Sheet_PM_FoodTruck.Profile' then 'GameMode'
+  when button_tag = 'Sheet_InAppMessaging_generic_Vegas.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_Vegas.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_Surfing.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_Surfing.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_Pie.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_Pie.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_NewYear.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_NewYear.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_HugeCarrot.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_HugeCarrot.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping_2.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping_2.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping_1.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping_1.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_Farmer.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_Farmer.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_Camping.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_generic_Camping.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_Youtube.IAM' then 'PlayerAction'
+  when button_tag = 'Sheet_InAppMessaging_ValentinesDay_2.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_ValentinesDay_2.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_ValentinesDay_1.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_ValentinesDay_1.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_StPatricksDay.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_StPatricksDay.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_SignIn.IAM' then 'PlayerAction'
+  when button_tag = 'Sheet_InAppMessaging_SignIn.Close' then 'PlayerAction'
+  when button_tag = 'Sheet_InAppMessaging_NewYear.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_NewYear.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_LowCurrency.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_LowCurrency.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted_BlackFriday.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted_BlackFriday.' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_ChumBurger.Purchase' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_ChumBurger.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_Christmas_2.Close' then 'Offer'
+  when button_tag = 'Sheet_InAppMessaging_Christmas_2.' then 'Offer'
 
   else 'UnMapped'
   end"
@@ -1714,6 +1799,49 @@ constant: iam_conversion {
   when button_tag = 'Sheet_PM_TreasureTrove.Continue' then 1
   when button_tag = 'Sheet_PM_UpdateApp.Close' then 0
   when button_tag = 'Sheet_PM_UpdateApp.Continue' then 1
+
+  when button_tag = 'Sheet_PM_Social.Continue' then 1
+  when button_tag = 'Sheet_PM_Social.Close' then 0
+  when button_tag = 'Sheet_PM_FoodTruck.Profile' then 0
+  when button_tag = 'Sheet_InAppMessaging_generic_Vegas.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_generic_Vegas.' then 1
+  when button_tag = 'Sheet_InAppMessaging_generic_Surfing.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_generic_Surfing.' then 1
+  when button_tag = 'Sheet_InAppMessaging_generic_Pie.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_generic_Pie.' then 1
+  when button_tag = 'Sheet_InAppMessaging_generic_NewYear.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_generic_NewYear.' then 1
+  when button_tag = 'Sheet_InAppMessaging_generic_HugeCarrot.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_generic_HugeCarrot.' then 1
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping_2.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping_2.' then 1
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping_1.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping_1.' then 1
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_generic_GroceryShopping.' then 1
+  when button_tag = 'Sheet_InAppMessaging_generic_Farmer.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_generic_Farmer.' then 1
+  when button_tag = 'Sheet_InAppMessaging_generic_Camping.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_generic_Camping.' then 1
+  when button_tag = 'Sheet_InAppMessaging_Youtube.IAM' then 0
+  when button_tag = 'Sheet_InAppMessaging_ValentinesDay_2.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_ValentinesDay_2.' then 1
+  when button_tag = 'Sheet_InAppMessaging_ValentinesDay_1.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_ValentinesDay_1.' then 1
+  when button_tag = 'Sheet_InAppMessaging_StPatricksDay.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_StPatricksDay.' then 1
+  when button_tag = 'Sheet_InAppMessaging_SignIn.IAM' then 1
+  when button_tag = 'Sheet_InAppMessaging_SignIn.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_NewYear.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_NewYear.' then 1
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_LowCurrency.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_LowCurrency.' then 1
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted_BlackFriday.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_MTXOffer_Discounted_BlackFriday.' then 1
+  when button_tag = 'Sheet_InAppMessaging_ChumBurger.Purchase' then 1
+  when button_tag = 'Sheet_InAppMessaging_ChumBurger.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_Christmas_2.Close' then 0
+  when button_tag = 'Sheet_InAppMessaging_Christmas_2.' then 1
 
   else 0
   end"

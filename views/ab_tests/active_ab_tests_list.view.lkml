@@ -12,6 +12,8 @@ view: active_ab_tests_list {
 
       select '$.No_AB_Test_Split' as experiment_name
 
+      union all select '$.prototypeAutoChumv2_20250307'
+
       union all select '$.rewardsRebalanceV2_20250217'
       union all select '$.coinsMultiplier_20252002'
       union all select '$.gemQuestRewards_20250221'

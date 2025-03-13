@@ -1073,6 +1073,16 @@ from
     default_value:  "$.No_AB_Test_Split"
   }
 
+  parameter: split_type {
+    type: string
+    default_value: "None"
+    suggestions: [
+      "None"
+      , "Experiments"
+      , "Triple Combos"
+    ]
+  }
+
 ################################################################
 ## Dimensions
 ################################################################
@@ -1447,6 +1457,25 @@ from
     ;;
   }
 
+  dimension: selected_split {
+    type: string
+    sql:
+      case
+        when {% parameter split_type %} = 'None'
+        then null
+
+        when {% parameter split_type %} = 'Experiments'
+        then ${experiment_variant}
+
+        when {% parameter split_type %} = 'Triple Combos'
+        then ${triple_combo_comparision_group}
+
+        else null
+        end
+
+    ;;
+
+    }
 ################################################################
 ## Player Counts
 ################################################################

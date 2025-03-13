@@ -1380,6 +1380,21 @@ from
     type: yesno
   }
 
+  dimension: triple_combo_comparision_group {
+    type: string
+    sql:
+    case
+      when safe_cast(json_extract_scalar(${TABLE}.experiments,'$.prototypeAutoChumv2_20250307') as string) = 'variant_a' then 'AutoChums'
+      when
+        safe_cast(${TABLE}.version as numeric) >= 13687
+        or safe_cast(json_extract_scalar(${TABLE}.experiments,'$.prototypeTripleCombo_20250228') as string) = 'variant_a' then 'Triple'
+      else
+        'Standard'
+      end
+
+    ;;
+  }
+
 ################################################################
 ## Level Buckets
 ################################################################

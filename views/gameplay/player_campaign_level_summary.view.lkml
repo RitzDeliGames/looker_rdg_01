@@ -441,6 +441,16 @@ view: player_campaign_level_summary {
     default_value:  "$.No_AB_Test_Split"
   }
 
+  parameter: split_type {
+    type: string
+    default_value: "None"
+    suggestions: [
+      "None"
+      , "Experiments"
+      , "Triple Combos"
+    ]
+  }
+
 
 ################################################################
 ## Dimensions
@@ -582,6 +592,42 @@ view: player_campaign_level_summary {
         as string)
     ;;
   }
+
+  dimension: triple_combo_comparision_group {
+    type: string
+    sql:
+    case
+      when safe_cast(json_extract_scalar(${TABLE}.experiments,'$.prototypeAutoChumv2_20250307') as string) = 'variant_a' then 'AutoChums'
+      when
+        safe_cast(${TABLE}.min_version as numeric) >= 13687
+        or safe_cast(json_extract_scalar(${TABLE}.experiments,'$.prototypeTripleCombo_20250228') as string) = 'variant_a' then 'Triple'
+      else
+        'Standard'
+      end
+
+    ;;
+  }
+
+  dimension: selected_split {
+    type: string
+    sql:
+      case
+        when {% parameter split_type %} = 'None'
+        then null
+
+        when {% parameter split_type %} = 'Experiments'
+        then ${experiment_variant}
+
+        when {% parameter split_type %} = 'Triple Combos'
+        then ${triple_combo_comparision_group}
+
+        else null
+        end
+
+    ;;
+
+  }
+
 
 ################################################################
 ## Measures

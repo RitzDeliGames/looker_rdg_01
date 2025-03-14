@@ -1514,6 +1514,7 @@ explore: player_block_list {}
 explore: singular_player_attribution {}
 explore: bfg_player_attribution {}
 explore: applovin_ads_data_summary {}
+# explore:player_fb_log_in_events_incremental {}
 # explore: player_hitch_incremental {}
 # explore: player_engagement_threshold_incremental {}
 # explore: applovin_ads_data_incremental {}

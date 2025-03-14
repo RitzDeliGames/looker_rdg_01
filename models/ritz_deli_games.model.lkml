@@ -1198,6 +1198,32 @@ explore: player_social_button_clicks_summary {
 
 ################################################################
 
+## Explore: FB Log In Events Summary
+
+################################################################
+
+explore: player_fb_log_in_events_summary {
+  label: "Player Meta Log In Events Summary"
+  sql_always_where: ${player_block_list.rdg_id} is null ;;
+
+  join: player_block_list {
+    view_label: "Block List"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${player_fb_log_in_events_summary.rdg_id} = ${player_block_list.rdg_id} ;;
+  }
+  join: player_summary_new {
+    view_label: "Player Summary"
+    type: left_outer
+    relationship: many_to_one
+    sql_on:
+      ${player_fb_log_in_events_summary.rdg_id} = ${player_summary_new.rdg_id}
+      ;;
+  }
+}
+
+################################################################
+
 ## Explore: Player Daily Achievement Summary
 
 ################################################################

@@ -1322,6 +1322,23 @@ view: player_summary_new {
     group_label: "Singular Campaign Mapping"
     label: "Campaign with Organics (Estimate)"
     type: string
+    sql:
+      case
+        when
+          ${TABLE}.campaign_name is not null
+          then ${TABLE}.campaign_name
+
+        when
+          date(${TABLE}.created_date) between '2025-01-29' and '2025-02-13'
+          and ${TABLE}.country = 'US'
+          then '20250129 - Android - Meta - USA - Purchase'
+
+
+        else
+          'None'
+        end
+
+    ;;
   }
 
 ######################################################################

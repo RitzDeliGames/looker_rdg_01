@@ -3123,6 +3123,48 @@ dimension: primary_key {
     value_format_name: decimal_0
   }
 
+  measure: average_daily_iap_revenue {
+    label: "Average Daily IAP Revenue"
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars)
+        ,
+        count(distinct ${TABLE}.rdg_date)
+      )
+    ;;
+    value_format_name: usd_0
+  }
+
+
+  measure: average_revenue_per_iap_purchase {
+    label: "Average Revenue Per IAP Purchase"
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars)
+        ,
+        sum(${TABLE}.count_mtx_purchases)
+      )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: average_iap_purchases_per_day {
+    label: "Average IAP Purchases Per Day"
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.count_mtx_purchases)
+        ,
+        count(distinct ${TABLE}.rdg_date)
+      )
+    ;;
+    value_format_name: decimal_0
+  }
 
 ######################################################################
 ## Hitch Count Distributions

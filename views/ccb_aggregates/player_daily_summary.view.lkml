@@ -3109,6 +3109,20 @@ dimension: primary_key {
     value_format_name: usd
   }
 
+  measure: average_daily_iap_spenders {
+    label: "Average Daily IAP Spenders"
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.daily_mtx_spend_indicator)
+        ,
+        count(distinct ${TABLE}.rdg_date)
+      )
+    ;;
+    value_format_name: decimal_0
+  }
+
 
 ######################################################################
 ## Hitch Count Distributions

@@ -23,6 +23,7 @@ base_data as (
     *
     , case when moves_added then 1 else 0 end as count_rounds_with_moves_added
     , safe_cast(json_extract_scalar( extra_json , "$.moves_made") as numeric) as moves_made
+    , safe_cast(json_extract_scalar( extra_json , "$.core_game_mechanic") as string) as core_game_mechanic
 
     -- Player Age Information
     , timestamp(date(created_at)) as created_date -- Created Date
@@ -86,6 +87,7 @@ base_data as (
     , a.round_start_timestamp_utc
     , a.round_end_timestamp_utc
     , a.event_name
+    , max(a.core_game_mechanic) as core_game_mechanic
     , max(a.round_start_cumulative_minutes) as round_start_cumulative_minutes
     , max(a.round_end_cumulative_minutes) as round_end_cumulative_minutes
     , max(a.created_at) as created_at
@@ -247,6 +249,7 @@ base_data as (
     , a.round_start_timestamp_utc
     , a.round_end_timestamp_utc
     , a.event_name
+    , max(a.core_game_mechanic) as core_game_mechanic
     , max(a.round_start_cumulative_minutes) as round_start_cumulative_minutes
     , max(a.round_end_cumulative_minutes) as round_end_cumulative_minutes
     , max(a.created_at) as created_at
@@ -415,6 +418,7 @@ base_data as (
     , a.round_start_timestamp_utc
     , a.round_end_timestamp_utc
     , a.event_name
+    , max(a.core_game_mechanic) as core_game_mechanic
     , max(a.round_start_cumulative_minutes) as round_start_cumulative_minutes
     , max(a.round_end_cumulative_minutes) as round_end_cumulative_minutes
     , max(a.created_at) as created_at
@@ -590,6 +594,7 @@ base_data as (
     , a.round_start_timestamp_utc
     , a.round_end_timestamp_utc
     , a.event_name
+    , max(a.core_game_mechanic) as core_game_mechanic
     , max(a.round_start_cumulative_minutes) as round_start_cumulative_minutes
     , max(a.round_end_cumulative_minutes) as round_end_cumulative_minutes
     , max(a.created_at) as created_at
@@ -1403,6 +1408,16 @@ from
       end
 
     ;;
+  }
+
+  dimension: core_game_mechanic {
+    type: string
+    sql:
+      case
+        when ${TABLE}.core_game_mechanic is null then 'blast'
+        else ${TABLE}.core_game_mechanic
+        end
+        ;;
   }
 
 ################################################################

@@ -270,6 +270,7 @@ constant: reward_types {
 constant: campaign_name_mapped {
   value: "
     case
+      when lower(campaign_name) = 'ccb|fb|rdg|android|latam|mai|install_20250410' then '20250410 - Android - Meta - LATAM - MAI'
       when lower(campaign_name) = 'ccb|fb|rdg|android|philippines|aeo|tutorialcomplete_20250311' then '20250311 - Android - Meta - PHL - Tutorial Complete'
       when lower(campaign_name) = 'ccb|unity|rdg|android|us|roas|ads_20250211' then '20250211 - Android - Unity - USA - Ad ROAS'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|aeo|30minutes_20250220' then '20250220 - Android - Meta - LATAM - 30 Min'

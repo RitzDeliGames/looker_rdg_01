@@ -1712,7 +1712,12 @@ from
         sum(
           case
             when ${TABLE}.count_wins = 0
-            then ${TABLE}.proximity_to_completion
+            then
+              case
+                when ${TABLE}.core_game_mechanic = 'sort'
+                then safe_divide( ${TABLE}.matches_made , ${TABLE}.matches_to_complete_level )
+                else ${TABLE}.proximity_to_completion
+                end
             else 0
           end
           )

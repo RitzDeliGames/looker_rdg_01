@@ -24,6 +24,14 @@ base_data as (
     , case when moves_added then 1 else 0 end as count_rounds_with_moves_added
     , safe_cast(json_extract_scalar( extra_json , "$.moves_made") as numeric) as moves_made
     , safe_cast(json_extract_scalar( extra_json , "$.core_game_mechanic") as string) as core_game_mechanic
+    , safe_cast(json_extract_scalar( extra_json , "$.starting_seconds") as int64) as starting_seconds
+    , safe_cast(json_extract_scalar( extra_json , "$.seconds_used") as int64) as seconds_used
+    , safe_cast(json_extract_scalar( extra_json , "$.seconds_remaining") as int64) as seconds_remaining
+    , safe_cast(json_extract_scalar( extra_json , "$.seconds_added") as int64) as seconds_added
+    , safe_cast(json_extract_scalar( extra_json , "$.matches_to_complete_level") as int64) as matches_to_complete_level
+    , safe_cast(json_extract_scalar( extra_json , "$.matches_made") as int64) as matches_made
+    , safe_cast(json_extract_scalar( extra_json , "$.shelf_space") as int64) as shelf_space
+    , safe_cast(json_extract_scalar( extra_json , "$.fail_reason") as string) as fail_reason
 
     -- Player Age Information
     , timestamp(date(created_at)) as created_date -- Created Date
@@ -88,6 +96,14 @@ base_data as (
     , a.round_end_timestamp_utc
     , a.event_name
     , max(a.core_game_mechanic) as core_game_mechanic
+    , max(a.starting_seconds) as starting_seconds
+    , max(a.seconds_used) as seconds_used
+    , max(a.seconds_remaining) as seconds_remaining
+    , max(a.seconds_added) as seconds_added
+    , max(a.matches_to_complete_level) as matches_to_complete_level
+    , max(a.matches_made) as matches_made
+    , max(a.shelf_space) as shelf_space
+    , max(a.fail_reason) as fail_reason
     , max(a.round_start_cumulative_minutes) as round_start_cumulative_minutes
     , max(a.round_end_cumulative_minutes) as round_end_cumulative_minutes
     , max(a.created_at) as created_at
@@ -250,6 +266,14 @@ base_data as (
     , a.round_end_timestamp_utc
     , a.event_name
     , max(a.core_game_mechanic) as core_game_mechanic
+    , max(a.starting_seconds) as starting_seconds
+    , max(a.seconds_used) as seconds_used
+    , max(a.seconds_remaining) as seconds_remaining
+    , max(a.seconds_added) as seconds_added
+    , max(a.matches_to_complete_level) as matches_to_complete_level
+    , max(a.matches_made) as matches_made
+    , max(a.shelf_space) as shelf_space
+    , max(a.fail_reason) as fail_reason
     , max(a.round_start_cumulative_minutes) as round_start_cumulative_minutes
     , max(a.round_end_cumulative_minutes) as round_end_cumulative_minutes
     , max(a.created_at) as created_at
@@ -419,6 +443,14 @@ base_data as (
     , a.round_end_timestamp_utc
     , a.event_name
     , max(a.core_game_mechanic) as core_game_mechanic
+    , max(a.starting_seconds) as starting_seconds
+    , max(a.seconds_used) as seconds_used
+    , max(a.seconds_remaining) as seconds_remaining
+    , max(a.seconds_added) as seconds_added
+    , max(a.matches_to_complete_level) as matches_to_complete_level
+    , max(a.matches_made) as matches_made
+    , max(a.shelf_space) as shelf_space
+    , max(a.fail_reason) as fail_reason
     , max(a.round_start_cumulative_minutes) as round_start_cumulative_minutes
     , max(a.round_end_cumulative_minutes) as round_end_cumulative_minutes
     , max(a.created_at) as created_at
@@ -595,6 +627,14 @@ base_data as (
     , a.round_end_timestamp_utc
     , a.event_name
     , max(a.core_game_mechanic) as core_game_mechanic
+    , max(a.starting_seconds) as starting_seconds
+    , max(a.seconds_used) as seconds_used
+    , max(a.seconds_remaining) as seconds_remaining
+    , max(a.seconds_added) as seconds_added
+    , max(a.matches_to_complete_level) as matches_to_complete_level
+    , max(a.matches_made) as matches_made
+    , max(a.shelf_space) as shelf_space
+    , max(a.fail_reason) as fail_reason
     , max(a.round_start_cumulative_minutes) as round_start_cumulative_minutes
     , max(a.round_end_cumulative_minutes) as round_end_cumulative_minutes
     , max(a.created_at) as created_at
@@ -1419,6 +1459,15 @@ from
         end
         ;;
   }
+
+  dimension: starting_seconds {type: number}
+  dimension: seconds_used {type: number}
+  dimension: seconds_remaining {type: number}
+  dimension: seconds_added {type: number}
+  dimension: matches_to_complete_level {type: number}
+  dimension: matches_made {type: number}
+  dimension: shelf_space {type: number}
+  dimension: fail_reason {type: string}
 
 ################################################################
 ## Level Buckets
@@ -2721,5 +2770,17 @@ from
       ) ;;
   }
 
+
+######################################################################################
+## Sort Specific Measures
+######################################################################################
+
+  measure: average_starting_seconds {group_label: "Sort Specific Measures" type: average value_format_name: decimal_0  }
+  measure: average_seconds_used {group_label: "Sort Specific Measures"type: average value_format_name: decimal_0  }
+  measure: average_seconds_remaining {group_label: "Sort Specific Measures" type: average value_format_name: decimal_0  }
+  measure: average_seconds_added {group_label: "Sort Specific Measures" type: average value_format_name: decimal_0  }
+  measure: average_matches_to_complete_level {group_label: "Sort Specific Measures" type: average value_format_name: decimal_0  }
+  measure: average_matches_made {group_label: "Sort Specific Measures" type: average value_format_name: decimal_0  }
+  measure: average_shelf_space {group_label: "Sort Specific Measures" type: average value_format_name: decimal_0  }
 
 }

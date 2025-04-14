@@ -1460,14 +1460,42 @@ from
         ;;
   }
 
-  dimension: starting_seconds {type: number}
-  dimension: seconds_used {type: number}
-  dimension: seconds_remaining {type: number}
-  dimension: seconds_added {type: number}
-  dimension: matches_to_complete_level {type: number}
-  dimension: matches_made {type: number}
-  dimension: shelf_space {type: number}
-  dimension: fail_reason {type: string}
+######################################################################################
+## Sort Specific Dimensions
+######################################################################################
+
+
+  dimension: starting_seconds {
+    group_label: "Sort Specific Dimensions"
+    type: number}
+
+  dimension: seconds_used {
+    group_label: "Sort Specific Dimensions"
+    type: number}
+
+  dimension: seconds_remaining {
+    group_label: "Sort Specific Dimensions"
+    }
+
+  dimension: seconds_added {
+    group_label: "Sort Specific Dimensions"
+    type: number}
+
+  dimension: matches_to_complete_level {
+    group_label: "Sort Specific Dimensions"
+    type: number}
+
+  dimension: matches_made {
+    group_label: "Sort Specific Dimensions"
+    type: number}
+
+  dimension: shelf_space {
+    group_label: "Sort Specific Dimensions"
+    type: number}
+
+  dimension: fail_reason {
+    group_label: "Sort Specific Dimensions"
+    type: string}
 
 ################################################################
 ## Level Buckets
@@ -2775,12 +2803,47 @@ from
 ## Sort Specific Measures
 ######################################################################################
 
-  measure: average_starting_seconds {group_label: "Sort Specific Measures" type: average value_format_name: decimal_0  }
-  measure: average_seconds_used {group_label: "Sort Specific Measures"type: average value_format_name: decimal_0  }
-  measure: average_seconds_remaining {group_label: "Sort Specific Measures" type: average value_format_name: decimal_0  }
-  measure: average_seconds_added {group_label: "Sort Specific Measures" type: average value_format_name: decimal_0  }
-  measure: average_matches_to_complete_level {group_label: "Sort Specific Measures" type: average value_format_name: decimal_0  }
-  measure: average_matches_made {group_label: "Sort Specific Measures" type: average value_format_name: decimal_0  }
-  measure: average_shelf_space {group_label: "Sort Specific Measures" type: average value_format_name: decimal_0  }
+  measure: average_starting_seconds {
+    group_label: "Sort Specific Measures"
+    type: average
+    value_format_name: decimal_0
+    sql: ${TABLE}.starting_seconds ;;
+    }
+
+  measure: average_seconds_used {
+    group_label: "Sort Specific Measures"
+    type: average
+    value_format_name: decimal_0
+    sql: ${TABLE}.seconds_used ;; }
+
+  measure: average_seconds_remaining {
+    group_label: "Sort Specific Measures"
+    type: average
+    value_format_name: decimal_0
+    sql: ${TABLE}.seconds_remaining ;; }
+
+  measure: average_seconds_added {
+    group_label: "Sort Specific Measures"
+    type: average
+    value_format_name: decimal_0
+    sql: ${TABLE}.seconds_added ;; }
+
+  measure: average_matches_to_complete_level {
+    group_label: "Sort Specific Measures"
+    type: average
+    value_format_name: decimal_0
+    sql: ${TABLE}.matches_to_complete_level ;; }
+
+  measure: average_matches_made {
+    group_label: "Sort Specific Measures"
+    type: average
+    value_format_name: decimal_0
+    sql: ${TABLE}.matches_made ;; }
+
+  measure: average_shelf_space {
+    group_label: "Sort Specific Measures"
+    type: average
+    value_format_name: decimal_0
+    sql: ${TABLE}.shelf_space ;; }
 
 }

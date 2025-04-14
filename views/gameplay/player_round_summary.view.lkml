@@ -1918,6 +1918,19 @@ from
     value_format_name: decimal_0
   }
 
+  measure: median_sort_matches_remaining_on_loss {
+    group_label: "Sort Specific Measures"
+    type: percentile
+    percentile: 50
+    sql:
+      case
+          when ${TABLE}.count_wins = 0 and ${TABLE}.core_game_mechanic = 'sort'
+          then ${TABLE}.matches_to_complete_level - ${TABLE}.matches_made
+          else null
+        end
+    ;;
+    value_format_name: decimal_0
+  }
 
   measure: attempt_number_at_win_10 {
     group_label: "Attempt Number At Win"
@@ -2008,7 +2021,13 @@ from
     type: number
     sql:
       safe_divide(
-        sum(${TABLE}.count_rounds_with_moves_added)
+        sum(
+          case
+            when ${TABLE}.core_game_mechanic = 'sort' and ${TABLE}.seconds_added > 0
+            then 1
+            else ${TABLE}.count_rounds_with_moves_added
+            end
+          )
         ,
         sum(${TABLE}.count_rounds)
       )

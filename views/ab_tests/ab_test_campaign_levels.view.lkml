@@ -52,6 +52,7 @@ view: ab_test_campaign_levels {
 
       where
         1=1
+        and a.core_game_mechanic = 'blast'
 
         -- Date Filters
         and date(a.first_played_rdg_date) >= date({% parameter start_date %})

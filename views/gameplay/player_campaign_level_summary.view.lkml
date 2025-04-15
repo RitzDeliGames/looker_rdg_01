@@ -21,7 +21,10 @@ view: player_campaign_level_summary {
       select
       rdg_id
       , level_serial
-
+      , case
+          when core_game_mechanic is null then 'blast'
+          else core_game_mechanic
+        end as core_game_mechanic
       -- Player Age Information
       , timestamp(date(min(created_at))) as created_date -- Created Date
       , date_diff(date(min(rdg_date)), date(min(created_at)), day) as days_since_created -- Days Since Created
@@ -76,7 +79,7 @@ view: player_campaign_level_summary {
       game_mode = 'campaign'
       -- and date(rdg_date) = '2024-01-01'
       group by
-      1,2
+      1,2,3
 
       )
 
@@ -89,6 +92,7 @@ view: player_campaign_level_summary {
       select
       rdg_id
       , last_level_serial as level_serial
+      , 'blast' as core_game_mechanic
       , timestamp(date(min(created_at))) as created_date -- Created Date
       , date_diff(date(min(rdg_date)), date(min(created_at)), day) as days_since_created -- Days Since Created
       , 1 + date_diff(date(min(rdg_date)), date(min(created_at)), day) as day_number -- Player Day Number
@@ -112,7 +116,7 @@ view: player_campaign_level_summary {
       -- where
       -- date(rdg_date) = '2024-01-01'
       group by
-      1,2
+      1,2,3
 
       )
 
@@ -125,6 +129,7 @@ view: player_campaign_level_summary {
         select
           rdg_id
           , last_level_serial as level_serial
+          , 'blast' as core_game_mechanic
           , timestamp(date(min(created_at))) as created_date -- Created Date
           , date_diff(date(min(rdg_date)), date(min(created_at)), day) as days_since_created -- Days Since Created
           , 1 + date_diff(date(min(rdg_date)), date(min(created_at)), day) as day_number -- Player Day Number
@@ -140,7 +145,7 @@ view: player_campaign_level_summary {
         -- where
          -- date(rdg_date) = '2024-10-01'
         group by
-          1,2
+          1,2,3
 
       )
 
@@ -153,7 +158,9 @@ view: player_campaign_level_summary {
       select
       rdg_id
       , last_level_serial as level_serial
+      , 'blast' as core_game_mechanic
       -- Player Age Information
+
       , timestamp(date(min(created_at))) as created_date -- Created Date
       , date_diff(date(min(rdg_date)), date(min(created_at)), day) as days_since_created -- Days Since Created
       , 1 + date_diff(date(min(rdg_date)), date(min(created_at)), day) as day_number -- Player Day Number
@@ -172,7 +179,7 @@ view: player_campaign_level_summary {
       -- where
       -- date(rdg_date) = '2024-01-01'
       group by
-      1,2
+      1,2,3
 
       )
 
@@ -185,6 +192,7 @@ view: player_campaign_level_summary {
       select
       rdg_id
       , last_level_serial as level_serial
+      , 'blast' as core_game_mechanic
       , timestamp(date(min(created_at))) as created_date -- Created Date
       , date_diff(date(min(rdg_date)), date(min(created_at)), day) as days_since_created -- Days Since Created
       , 1 + date_diff(date(min(rdg_date)), date(min(created_at)), day) as day_number -- Player Day Number
@@ -216,7 +224,7 @@ view: player_campaign_level_summary {
       -- where
       -- date(rdg_date) = '2024-01-01'
       group by
-      1,2
+      1,2,3
 
       )
 
@@ -229,6 +237,7 @@ view: player_campaign_level_summary {
       select
       rdg_id
       , level_serial
+      , core_game_mechanic
       , min(created_date) as created_date
       , min(days_since_created) as days_since_created
       , min(day_number) as day_number
@@ -242,6 +251,7 @@ view: player_campaign_level_summary {
       select
       rdg_id
       , level_serial
+      , core_game_mechanic
       , min(created_date) as created_date
       , min(days_since_created) as days_since_created
       , min(day_number) as day_number
@@ -252,12 +262,13 @@ view: player_campaign_level_summary {
       , min(experiments) as experiments
       from
       campaign_levels
-      group by 1,2
+      group by 1,2,3
 
       union all
       select
       rdg_id
       , level_serial
+      , core_game_mechanic
       , min(created_date) as created_date
       , min(days_since_created) as days_since_created
       , min(day_number) as day_number
@@ -268,12 +279,13 @@ view: player_campaign_level_summary {
       , min(experiments) as experiments
       from
       mtx_purchases
-      group by 1,2
+      group by 1,2,3
 
       union all
       select
       rdg_id
       , level_serial
+      , core_game_mechanic
       , min(created_date) as created_date
       , min(days_since_created) as days_since_created
       , min(day_number) as day_number
@@ -284,12 +296,13 @@ view: player_campaign_level_summary {
       , min(experiments) as experiments
       from
       ad_views
-      group by 1,2
+      group by 1,2,3
 
       union all
       select
       rdg_id
       , level_serial
+      , core_game_mechanic
       , min(created_date) as created_date
       , min(days_since_created) as days_since_created
       , min(day_number) as day_number
@@ -300,12 +313,13 @@ view: player_campaign_level_summary {
       , min(experiments) as experiments
       from
       coin_spend_table
-      group by 1,2
+      group by 1,2,3
 
       union all
       select
       rdg_id
       , level_serial
+      , core_game_mechanic
       , min(created_date) as created_date
       , min(days_since_created) as days_since_created
       , min(day_number) as day_number
@@ -316,11 +330,10 @@ view: player_campaign_level_summary {
       , min(experiments) as experiments
       from
       tickets_spend_table
-      group by 1,2
+      group by 1,2,3
 
       ) a
-      group by
-      1,2
+       group by 1,2,3
       )
 
       ----------------------------------------------------------------
@@ -332,6 +345,7 @@ view: player_campaign_level_summary {
       , b.* except (
       rdg_id
       , level_serial
+      , core_game_mechanic
       , created_date
       , days_since_created
       , day_number
@@ -343,6 +357,7 @@ view: player_campaign_level_summary {
       , c.* except (
       rdg_id
       , level_serial
+      , core_game_mechanic
       , created_date
       , days_since_created
       , day_number
@@ -354,6 +369,7 @@ view: player_campaign_level_summary {
       , d.* except (
       rdg_id
       , level_serial
+      , core_game_mechanic
       , created_date
       , days_since_created
       , day_number
@@ -365,6 +381,7 @@ view: player_campaign_level_summary {
       , e.* except (
       rdg_id
       , level_serial
+      , core_game_mechanic
       , created_date
       , days_since_created
       , day_number
@@ -376,6 +393,7 @@ view: player_campaign_level_summary {
       , f.* except (
       rdg_id
       , level_serial
+      , core_game_mechanic
       , created_date
       , days_since_created
       , day_number
@@ -389,18 +407,23 @@ view: player_campaign_level_summary {
         left join campaign_levels b
           on a.rdg_id = b.rdg_id
           and a.level_serial = b.level_serial
+          and a.core_game_mechanic = b.core_game_mechanic
         left join mtx_purchases c
           on a.rdg_id = c.rdg_id
           and a.level_serial = c.level_serial
+          and a.core_game_mechanic = b.core_game_mechanic
         left join ad_views d
           on a.rdg_id = d.rdg_id
           and a.level_serial = d.level_serial
+          and a.core_game_mechanic = b.core_game_mechanic
         left join coin_spend_table e
           on a.rdg_id = e.rdg_id
           and a.level_serial = e.level_serial
+          and a.core_game_mechanic = b.core_game_mechanic
         left join tickets_spend_table f
           on a.rdg_id = f.rdg_id
           and a.level_serial = f.level_serial
+          and a.core_game_mechanic = b.core_game_mechanic
 
       ;;
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (5) + 2 )*( -10 ) minute)) ;;
@@ -457,6 +480,9 @@ view: player_campaign_level_summary {
 ################################################################
 
   dimension: rdg_id { type:string }
+
+  dimension: core_game_mechanic { type: string }
+
   dimension: level_difficuly {
     label: "Level Difficulty Label"
     type: string

@@ -48,7 +48,7 @@ full_base_data as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2025-02-14' -- Last Full Update
+                when date(current_date()) <= '2025-04-16' -- Last Full Update
                 then '2022-06-01'
                 else date_add(current_date(), interval -9 day)
                 -- else date_add(current_date(), interval -30 day)
@@ -211,6 +211,7 @@ full_base_data as (
         , a.ad_reward_source_id
         , a.ad_reward_iap_id
         , a.last_level_serial
+        , a.extra_json
         , 1 as count_ad_views
 
         -- Ad Informaion
@@ -269,6 +270,7 @@ full_base_data as (
         , max(created_at) as created_at
         , max(version) as version
         , max(session_id) as session_id
+        , max(extra_json) as extra_json
         , max(experiments) as experiments
         , max(win_streak) as win_streak
         , max(count_ad_views) as count_ad_views

@@ -147,7 +147,7 @@ view: player_ad_view_summary {
           , a.current_level_id
           , a.current_level_serial
           , a.last_level_serial
-          , ifnulL( b.estimated_ad_view_dollars_per_view, a.ad_view_dollars ) as ad_view_dollars
+          , ifnull( b.estimated_ad_view_dollars_per_view, a.ad_view_dollars ) as ad_view_dollars
           , a.coins_balance
           , a.lives_balance
           , a.stars_balance
@@ -158,6 +158,7 @@ view: player_ad_view_summary {
           , a.round_start_timestamp_utc
           , a.round_end_timestamp_utc
           , a.round_purchase_type
+          , ifnull(safe_cast(json_extract_scalar(a.extra_json,"$.ad_type") as string),'incentivized_video') ad_type
 
         from
           -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental` a
@@ -168,7 +169,6 @@ view: player_ad_view_summary {
             and a.rdg_date >= '2023-02-23'
             and a.rdg_date = b.rdg_date
             and a.country = b.country
-
 
       )
 
@@ -386,6 +386,11 @@ view: player_ad_view_summary {
   dimension: ad_reward_id_strings {
     label: "Ad Reward Source Id (Clean)"
     sql: @{ad_reward_id_strings} ;;
+  }
+
+  dimension: ad_type {
+    type: string
+    label: "Ad Type"
   }
 
   # Numbers

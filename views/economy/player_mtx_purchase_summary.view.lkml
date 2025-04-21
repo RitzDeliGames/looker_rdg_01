@@ -199,6 +199,9 @@ view: player_mtx_purchase_summary {
                   when exchange_rate is not null
                   then telemetry_transaction_purchase_amount * 0.70 * exchange_rate * 0.01
 
+                  when country_currency_code = 'PYG'
+                  then telemetry_transaction_purchase_amount * 0.70 * 0.000125 * 0.01
+
                   else mtx_purchase_dollars
                   end
               else
@@ -274,6 +277,9 @@ view: player_mtx_purchase_summary {
 
                   when exchange_rate is not null
                   then telemetry_transaction_purchase_amount * 0.70 * exchange_rate * 0.01
+
+                  when country_currency_code = 'PYG'
+                  then telemetry_transaction_purchase_amount * 0.70 * 0.000125 * 0.01
 
                   else mtx_purchase_dollars
                   end

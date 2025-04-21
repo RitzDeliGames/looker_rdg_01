@@ -27,6 +27,10 @@ view: player_bucket_by_first_10_levels {
           -- and date(rdg_date) = '2024-11-14'
           -- and date(rdg_date) between '2024-07-23' and '2024-11-14'
           and lower(game_mode) = 'campaign'
+          and case
+            when core_game_mechanic is null then 'blast'
+            else core_game_mechanic
+            end = 'blast'
           and level_serial between 0 and 10
           and date(rdg_date) >= '2021-01-01'
           and count_wins = 1

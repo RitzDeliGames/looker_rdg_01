@@ -45,8 +45,7 @@ view: player_popup_and_iam_incremental {
 
         date(timestamp) >=
         case
-        -- select date(current_date())
-        when date(current_date()) <= '2025-03-10' -- Last Full Update
+        when date(current_date()) <= '2025-04-23' -- Last Full Update
         then '2022-06-01'
         else date_add(current_date(), interval -9 day)
         end

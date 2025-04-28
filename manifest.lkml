@@ -684,7 +684,7 @@ constant: ad_placements_for_ad_summary {
   when lower(source_id) like '%treasuretrove%' then 'Treasure Trove'
   when lower(source_id) like '%treasure_trove%' then 'Treasure Trove'
   when lower(source_id) like '%interstitial%' then 'Startup Interstitial'
-  when lower(source_id) like '%eor_doubler%' then 'End of Round Doubler'
+  when lower(source_id) like '%eor_doubler%' then 'End of Round - Doubler'
 
   when ad_reward_iap_id = 'item_160' then 'In Store: Color Ball'
   when ad_reward_iap_id = 'item_161' then 'In Store: Bomb'

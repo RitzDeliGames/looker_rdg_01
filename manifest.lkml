@@ -662,6 +662,7 @@ constant: ad_reward_id_strings {
 constant: ad_placements_for_ad_summary {
   value: "case
 
+  when lower(source_id) like '%end_of_round_sort_interstitial' then 'End of Round - Interstitial'
   when lower(source_id) like '%end_of_round_sort_time' then 'End of Round - Time'
   when lower(source_id) like '%end_of_round_sort_space' then 'End of Round - Space'
 

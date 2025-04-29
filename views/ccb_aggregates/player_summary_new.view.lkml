@@ -5920,7 +5920,8 @@ view: player_summary_new {
   }
 
   measure: attributed_cost_per_install {
-    label: "CPI"
+    label: "aCPI"
+    description: "Attributed Cost per Install based on total cost divided attributed or mapped player count (probably will not match Singular and/or the ad networks)"
     group_label: "Campaign Analysis Stats"
     type: number
     value_format_name: usd
@@ -5933,6 +5934,20 @@ view: player_summary_new {
     ;;
   }
 
+  measure: reported_cost_per_install {
+    label: "rCPI"
+    description: "Reported Cost per Install based on total cost divided total player count (should match Singular and the ad networks)"
+    group_label: "Campaign Analysis Stats"
+    type: number
+    value_format_name: usd
+    sql:
+      safe_divide(
+        sum( coalesce(${TABLE}.first_pass_cost_per_install, ${TABLE}.bfg_cpi, 0 ) )
+        ,
+        count(distinct ${TABLE}.rdg_id )
+      )
+    ;;
+  }
 
   measure: attributed_installs_per_1000_impressions {
     label: "IPM"

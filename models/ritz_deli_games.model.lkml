@@ -1521,7 +1521,7 @@ explore: big_query_jobs {}
 # explore: player_daily_incremental {}
 # explore: player_ad_view_incremental {}
 explore: revenue_model{}
-# explore: player_summary_staging {}
+explore: player_summary_staging {}
 # explore: ab_test_t_test{}
 explore: live_ops_calendar {}
 explore: gogame_data {}

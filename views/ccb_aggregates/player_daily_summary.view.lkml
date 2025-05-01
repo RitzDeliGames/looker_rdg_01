@@ -1656,8 +1656,14 @@ dimension: primary_key {
   }
 
   # strings
-  dimension: rdg_id {type:string}
-  dimension: new_player_rdg_id {type:string}
+  dimension: rdg_id {
+    group_label: "Player Ids"
+    type:string
+  }
+  dimension: new_player_rdg_id {
+    group_label: "Player Ids"
+    type:string
+  }
   dimension: lifetime_mtx_spender_rdg_id {
     label: "Lifetime IAP Spender Rdg Id"
     type: string

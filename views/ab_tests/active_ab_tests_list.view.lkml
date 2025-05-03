@@ -12,6 +12,10 @@ view: active_ab_tests_list {
 
       select '$.No_AB_Test_Split' as experiment_name
 
+      union all select '$.sortUnlockFeatures'
+      union all select '$.sortInterstitialUnlockV2_20250501'
+      union all select '$.sortBannerUnlock_20250501'
+
       union all select '$.sortInterstitialDayUnlock_20250423'
       union all select '$.moreMovesAdPlacement_20250313'
 

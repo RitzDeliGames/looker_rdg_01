@@ -158,7 +158,7 @@ view: player_ad_view_summary {
           , a.round_start_timestamp_utc
           , a.round_end_timestamp_utc
           , a.round_purchase_type
-          , ifnull(safe_cast(json_extract_scalar(a.extra_json,"$.ad_type") as string),'incentivized_video') ad_type
+          , json_extract_scalar(a.extra_json,"$.ad_format") as ad_format
 
         from
           -- `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_incremental` a
@@ -388,9 +388,17 @@ view: player_ad_view_summary {
     sql: @{ad_reward_id_strings} ;;
   }
 
-  dimension: ad_type {
+  dimension: ad_format {
     type: string
-    label: "Ad Type"
+    label: "Ad Format"
+    sql: case
+          when lower(${TABLE}.ad_format) like '%banner%' then 'Banner'
+          when lower(${TABLE}.ad_format) like '%leader%' then 'Banner'
+          when lower(${TABLE}.ad_format) like '%inter%' then 'Interstitial'
+          when lower(${TABLE}.ad_format) like '%rewarded%' then 'Rewarded'
+          else 'Unmapped'
+        end
+    ;;
   }
 
   # Numbers

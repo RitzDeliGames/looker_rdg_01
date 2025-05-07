@@ -3297,6 +3297,16 @@ constant: social_categories {
   "
 }
 
+constant: ad_format {
+    value: "case
+              when lower(ad_format) like '%banner%' then 'Banner'
+              when lower(ad_format) like '%leader%' then 'Banner'
+              when lower(ad_format) like '%inter%' then 'Interstitial'
+              when lower(ad_format) like '%rewarded%' then 'Rewarded'
+              else 'Unmapped'
+            end"
+}
+
 
 ###################################################################
 # Visualization JS...KEEP AT THE BOTTOM

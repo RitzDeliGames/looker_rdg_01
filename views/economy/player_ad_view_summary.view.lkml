@@ -239,6 +239,7 @@ view: player_ad_view_summary {
       select
         *
         , @{ad_placements_for_ad_summary} as ad_placement
+        , @{ad_format} as ad_format_mapped
       from add_cumulative_caluclations
 
 
@@ -388,17 +389,9 @@ view: player_ad_view_summary {
     sql: @{ad_reward_id_strings} ;;
   }
 
-  dimension: ad_format {
+  dimension: ad_format_mapped {
     type: string
     label: "Ad Format"
-    sql: case
-          when lower(${TABLE}.ad_format) like '%banner%' then 'Banner'
-          when lower(${TABLE}.ad_format) like '%leader%' then 'Banner'
-          when lower(${TABLE}.ad_format) like '%inter%' then 'Interstitial'
-          when lower(${TABLE}.ad_format) like '%rewarded%' then 'Rewarded'
-          else 'Unmapped'
-        end
-    ;;
   }
 
   # Numbers

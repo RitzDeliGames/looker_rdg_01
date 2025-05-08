@@ -1261,6 +1261,13 @@ ads_by_date as (
         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
         ) cumulative_ad_view_dollars
 
+    -- cumulative_ad_view_dollars
+    , SUM(IFNULL(ad_dollars_non_banner,0)) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_ad_dollars_non_banner
+
     -- combined_dollars
     -- Includes adjustment for App Store %
     , ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0) AS combined_dollars
@@ -1725,6 +1732,11 @@ dimension: primary_key {
     type: number
     }
 
+  dimension: ad_dollars_non_banner {
+    label: "IAA Dollars - Non-Banner"
+    type: number
+  }
+
   dimension: mtx_ltv_from_data {
     label: "IAP LTV (From Data)"
     type: number
@@ -1855,6 +1867,11 @@ dimension: primary_key {
     label: "Cumulative IAA Dollars"
     type:number
     }
+
+  dimension: cumulative_ad_dollars_non_banner {
+    label: "Cumulative IAA Dollars - Non-Banner"
+    type:number
+  }
 
   dimension: combined_dollars {type:number}
   dimension: cumulative_combined_dollars {type:number}
@@ -3032,11 +3049,29 @@ dimension: primary_key {
           end )
       )
     ;;
-    value_format_name: usd
+    value_format: "$0.0000"
+  }
+
+  measure: average_daily_ad_revenue_per_ad_viewer_non_banner {
+    label: "IAA Revenue Per Ad Viewer - Non-Banner"
+    group_label: "Revenue Metrics - Non-Banner"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.ad_dollars_non_banner)
+        ,
+         sum( case
+          when ${TABLE}.ad_views_non_banner > 0
+          then 1
+          else 0
+          end )
+      )
+    ;;
+    value_format: "$0.0000"
   }
 
   measure: average_ad_revenue_per_player{
-    label: "Average IAP Per Player"
+    label: "Average IAA Per Player"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -3046,7 +3081,21 @@ dimension: primary_key {
         count(distinct ${TABLE}.rdg_id)
       )
     ;;
-    value_format_name: usd
+    value_format: "$0.0000"
+  }
+
+  measure: average_ad_revenue_per_player_non_banner{
+    label: "Average IAA Per Player - Non-Banner"
+    group_label: "Revenue Metrics - Non-Banner"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.ad_dollars_non_banner)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format: "$0.0000"
   }
 
   measure: average_ad_arpdau {
@@ -3060,7 +3109,21 @@ dimension: primary_key {
         sum(${TABLE}.count_days_played)
       )
     ;;
-    value_format_name: usd
+    value_format: "$0.0000"
+  }
+
+  measure: average_ad_arpdau_non_banner {
+    label: "IAA ARPDAU - Non-Banner"
+    group_label: "Revenue Metrics - Non-Banner"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.ad_dollars_non_banner)
+        ,
+        sum(${TABLE}.count_days_played)
+      )
+    ;;
+    value_format: "$0.0000"
   }
 
   measure: average_ad_arpdau_startup_interstitial {
@@ -3090,7 +3153,23 @@ dimension: primary_key {
         sum(${TABLE}.ad_views)
       )
     ;;
-    value_format_name: usd
+    value_format: "$0.0000"
+  }
+
+  measure: average_iaa_ecpm_non_banner {
+    label: "IAA eCPM - Non-Banner"
+    group_label: "Revenue Metrics - Non-Banner"
+    type: number
+    sql:
+      1000
+      *
+      safe_divide(
+        sum(${TABLE}.ad_dollars_non_banner)
+        ,
+        sum(${TABLE}.ad_views_non_banner)
+      )
+    ;;
+    value_format: "$0.0000"
   }
 
   measure: average_daily_ads_conversion {
@@ -3101,6 +3180,24 @@ dimension: primary_key {
       safe_divide(
         sum( case
           when ${TABLE}.ad_views > 0
+          then 1
+          else 0
+          end )
+        ,
+        sum(${TABLE}.count_days_played)
+      )
+    ;;
+    value_format_name: percent_1
+  }
+
+  measure: average_daily_ads_conversion_non_banner {
+    label: "Daily IAA Conversion - Non-Banner"
+    group_label: "Revenue Metrics - Non-Banner"
+    type: number
+    sql:
+      safe_divide(
+        sum( case
+          when ${TABLE}.ad_views_non_banner > 0
           then 1
           else 0
           end )
@@ -3998,20 +4095,20 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     sql: ${TABLE}.ad_view_dollars ;;
   }
 
+  measure: sum_ad_dollars_non_banner {
+    label: "IAA Dollars - Non-Banner"
+    group_label: "IAA Dollars - Non-Banner"
+    type:sum
+    value_format: "$#,###"
+    sql: ${TABLE}.ad_dollars_non_banner ;;
+  }
+
   measure: sum_ad_view_dollars_startup_interstitial {
     label: "IAA Dollars - Startup Interstitial"
     group_label: "IAA Dollars"
     type:sum
     value_format: "$#,###"
     sql: ${TABLE}.ad_dollars_startup_interstitial ;;
-  }
-
-  measure: sum_ad_view_dollars_non_banner {
-    label: "IAA Dollars - Non-Banner"
-    group_label: "IAA Dollars"
-    type:sum
-    value_format: "$#,###"
-    sql: ${TABLE}.ad_dollars_non_banner ;;
   }
 
   measure: ad_view_dollars_10 {
@@ -4092,10 +4189,17 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
   }
 
   measure: sum_ad_views {
-    label: "Sum IAA Views"
+    label: "IAA Views"
     group_label: "IAA Views"
     type:sum
     sql: ${TABLE}.ad_views ;;
+  }
+
+  measure: sum_ad_views_non_banner {
+    label: "IAA Views - Non-Banner"
+    group_label: "IAA Views - Non-Banner"
+    type:sum
+    sql: ${TABLE}.ad_views_non_banner ;;
   }
 
   measure: sum_ad_views_startup_interstitial {
@@ -4103,13 +4207,6 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     group_label: "IAA Views"
     type:sum
     sql: ${TABLE}.ad_views_startup_interstitial ;;
-  }
-
-  measure: sum_ad_views_non_banner {
-    label: "IAA Views - Non-Banner"
-    group_label: "IAA Views"
-    type:sum
-    sql: ${TABLE}.ad_views_non_banner ;;
   }
 
   measure: ad_views_per_dau {
@@ -4120,6 +4217,20 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     sql:
       safe_divide(
         sum( case when ${TABLE}.ad_views > 0 then 1 else 0 end )
+        ,
+        sum( ${TABLE}.count_days_played)
+        )
+      ;;
+  }
+
+  measure: ad_views_per_dau_non_banner {
+    label: "Average % of DAU Viewing Ads - Non-Banner"
+    group_label: "IAA Views - Non-Banner"
+    type: number
+    value_format_name: percent_0
+    sql:
+      safe_divide(
+        sum( case when ${TABLE}.ad_views_non_banner > 0 then 1 else 0 end )
         ,
         sum( ${TABLE}.count_days_played)
         )
@@ -4140,6 +4251,20 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
       ;;
   }
 
+  measure: ad_views_per_viewing_dau_non_banner {
+    label: "Average IAA Views Per Viewing DAU - Non-Banner"
+    group_label: "IAA Views - Non-Banner"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum( ${TABLE}.ad_views_non_banner )
+        ,
+        sum( case when ${TABLE}.ad_views > 0 then 1 else 0 end )
+        )
+      ;;
+  }
+
   measure: ad_views_per_dau_actual {
     label: "Average IAA Views Per DAU"
     group_label: "IAA Views"
@@ -4154,6 +4279,19 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
       ;;
   }
 
+  measure: ad_views_per_dau_actual_non_banner {
+    label: "Average IAA Views Per DAU - Non-Banner"
+    group_label: "IAA Views - Non-Banner"
+    type: number
+    value_format_name: decimal_1
+    sql:
+      safe_divide(
+        sum( ${TABLE}.ad_views_non_banner )
+        ,
+        sum( ${TABLE}.count_days_played)
+        )
+      ;;
+  }
 
   measure: ad_views_10 {
     label: "10th Percentile"
@@ -4175,6 +4313,13 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     type: percentile
     percentile: 50
     sql: ${TABLE}.ad_views ;;
+  }
+  measure: ad_views_50_non_banner {
+    label: "Median - Non-Banner"
+    group_label: "IAA Views - Non-Banner"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.ad_views_non_banner ;;
   }
   measure: ad_views_75 {
     label: "75th Percentile"

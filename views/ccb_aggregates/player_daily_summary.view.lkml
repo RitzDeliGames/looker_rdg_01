@@ -1261,7 +1261,7 @@ ads_by_date as (
         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
         ) cumulative_ad_view_dollars
 
-    -- cumulative_ad_view_dollars
+    -- cumulative_ad_view_dollars_non_banner
     , SUM(IFNULL(ad_dollars_non_banner,0)) OVER (
         PARTITION BY rdg_id
         ORDER BY rdg_date ASC
@@ -1343,6 +1343,21 @@ ads_by_date as (
         THEN 1
         ELSE 0
         END AS first_ad_view_indicator
+
+
+    -- first_ad_view_indicator_non_banner
+    , CASE
+        WHEN IFNULL(ad_views_non_banner,0) > 0
+        AND
+          ifnull( SUM(ad_views_non_banner) OVER (
+          PARTITION BY rdg_id
+          ORDER BY rdg_date ASC
+          ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING ),0)
+          = 0
+        THEN 1
+        ELSE 0
+        END AS first_ad_view_indicator_non_banner
+
 
     -- Calculate engagement ticks
     -- uses prior row cumulative_engagement_ticks
@@ -1895,6 +1910,11 @@ dimension: primary_key {
     label: "First IAA Indicator"
     type:number
     }
+
+  dimension: first_ad_view_indicator_non_banner {
+    label: "First IAA Indicator - Non-Banner"
+    type:number
+  }
 
   dimension: lifetime_mtx_spend_indicator {
     label: "Lifetime IAP Spender Indicator"

@@ -1762,6 +1762,11 @@ dimension: primary_key {
     type: number
     }
 
+  dimension: ad_views_non_banner {
+    label: "Count of IAA Views - Non-Banner"
+    type: number
+  }
+
   dimension: count_sessions {type:number}
   dimension: cumulative_session_count {type:number}
   dimension: cumulative_engagement_ticks {type:number}

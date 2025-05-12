@@ -5895,6 +5895,18 @@ view: player_summary_new {
     ;;
   }
 
+  measure: reported_cost {
+    label: "Reported Cost"
+    description: "Reported campaign cost (should match Singular and the ad networks)"
+    group_label: "Campaign Analysis Stats"
+    type: number
+    value_format_name: usd_0
+    sql:
+      sum( coalesce(${TABLE}.first_pass_cost_per_install, ${TABLE}.bfg_cpi, 0 ) )
+    ;;
+  }
+
+
   measure: attributed_campaign_impressions {
     label: "Attributed Impressions"
     group_label: "Campaign Analysis Stats"

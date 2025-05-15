@@ -80,9 +80,9 @@ view: player_daily_incremental {
           date(timestamp) >=
               case
                   -- select date(current_date())
-                  when date(current_date()) <= '2025-04-30' -- Last Full Update
+                  when date(current_date()) <= '2025-05-15' -- Last Full Update
                   then '2022-06-01'
-                  else date_add(current_date(), interval -9 day)
+                  else date_add(current_date(), interval -14 day)
                   end
           and date(timestamp) <= date_add(current_date(), interval -1 DAY)
 

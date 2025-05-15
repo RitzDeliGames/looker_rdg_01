@@ -223,6 +223,9 @@ view: player_ad_view_summary {
           when ad_reward_source_id = 'quick_lives' then 'Lives'
           when ad_reward_source_id = 'quick_magnifiers' then 'Magnifiers'
           when ad_reward_source_id = 'treasure_trove' then 'Treasure Trove'
+          when ad_reward_source_id = 'quick_boost_star_sort' then 'Sort - Stars'
+          when ad_reward_source_id = 'quick_boost_clock_sort' then 'Sort - Time'
+          when ad_reward_source_id = 'quick_boost_hammer_sort' then 'Sort - Hammer'
 
           else 'Unmapped'
           end as ad_placement_mapping

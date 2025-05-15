@@ -659,6 +659,9 @@ constant: ad_reward_id_strings {
   when ${TABLE}.ad_reward_source_id = 'quick_boost_bomb' then 'Bomb'
   when ${TABLE}.ad_reward_source_id = 'quick_boost_color_ball' then 'Color Ball'
   when ${TABLE}.ad_reward_source_id = 'quick_coins' then 'Coins'
+  when ${TABLE}.ad_reward_source_id = 'quick_boost_star_sort' then 'Sort - Stars'
+  when ${TABLE}.ad_reward_source_id = 'quick_boost_clock_sort' then 'Sort - Time'
+  when ${TABLE}.ad_reward_source_id = 'quick_boost_hammer_sort' then 'Sort - Hammer'
   else ${TABLE}.ad_reward_source_id
   end"
 }
@@ -666,9 +669,11 @@ constant: ad_reward_id_strings {
 constant: ad_placements_for_ad_summary {
   value: "case
 
-  when lower(source_id) like '%end_of_round_sort_interstitial' then 'End of Round - Interstitial'
-  when lower(source_id) like '%end_of_round_sort_time' then 'End of Round - Time'
-  when lower(source_id) like '%end_of_round_sort_space' then 'End of Round - Space'
+  when lower(source_id) = 'end_of_round_sort_interstitial' then 'Sort - EoR Interstitial'
+  when lower(source_id) = 'end_of_round_sort_time' then 'Sort - EoR Time'
+  when lower(source_id) = 'end_of_round_sort_space' then 'Sort - EoR Space'
+  when lower(source_id) = 'minigame_sort_banner' then 'Sort - Mini-Game Banner'
+  when lower(source_id) = 'minigame_sort_chained_rewarded' then 'Sort - Mini-Game Chains'
 
   when lower(source_id) like '%end_of_round_rewarded' then 'End of Round - Moves'
 

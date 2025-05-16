@@ -226,6 +226,7 @@ view: player_ad_view_summary {
           when ad_reward_source_id = 'quick_boost_star_sort' then 'Sort - Stars'
           when ad_reward_source_id = 'quick_boost_clock_sort' then 'Sort - Time'
           when ad_reward_source_id = 'quick_boost_hammer_sort' then 'Sort - Hammer'
+          when ad_reward_source_id = 'pregame_gift_rewarded' then 'Sort - Pre-Game Boosts'
 
           else 'Unmapped'
           end as ad_placement_mapping

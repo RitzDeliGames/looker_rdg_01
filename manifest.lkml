@@ -674,6 +674,10 @@ constant: ad_placements_for_ad_summary {
   when lower(source_id) = 'end_of_round_sort_space' then 'Sort - EoR Space'
   when lower(source_id) = 'minigame_sort_banner' then 'Sort - Mini-Game Banner'
   when lower(source_id) = 'minigame_sort_chained_rewarded' then 'Sort - Mini-Game Chains'
+  when lower(source_id) = 'quick_boost_star_sort' then 'Sort - Pre-Game Doubler'
+  when lower(source_id) = 'quick_boost_clock_sort' then 'Sort - Pre-Game Time'
+  when lower(source_id) = 'quick_boost_hammer_sort' then 'Sort - Pre-Game Hammer'
+  when lower(source_id) = 'pregame_gift_rewarded' then 'Sort - Pre-Game Boosts'
 
   when lower(source_id) like '%end_of_round_rewarded' then 'End of Round - Moves'
 

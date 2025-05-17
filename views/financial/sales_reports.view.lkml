@@ -120,7 +120,7 @@ view: sales_reports {
     label: "Gross Revenue"
     description: "Item price, before taxes and before app store fees"
     type: sum
-    value_format_name: usd
+    value_format_name: usd_0
     sql: ${item_price} ;;
   }
 }

@@ -116,11 +116,11 @@ view: sales_reports {
     type: count
   }
 
-  measure: gross_revenue {
+  measure: charged_amount_sum {
     label: "Gross Revenue"
     description: "Item price, before taxes and before app store fees"
     type: sum
     value_format_name: usd_0
-    sql: ${item_price} ;;
+    sql: ${charged_amount} ;;
   }
 }

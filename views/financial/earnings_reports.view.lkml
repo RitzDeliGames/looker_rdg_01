@@ -112,11 +112,20 @@ view: earnings_reports {
     type: count
   }
 
-  measure: amount_merchant_currency_sum {
-    description: "Transaction revenue, before taxes and before app store fees"
-    label: "Gross Revenue"
+  measure: gross_revenue {
+    description: "Gross transaction revenue, before platform fees, refunds and taxes"
+    label: "Gross Revenue - Android"
+    type: sum
+    value_format_name: usd_0
+    sql: if(${TABLE}.transaction_type = "Charge", ${TABLE}.amount_merchant_currency,0) ;;
+  }
+
+  measure: net_revenue {
+    description: "Net transaction revenue, after platform fees, refunds and taxes"
+    label: "Net Revenue - Android"
     type: sum
     value_format_name: usd_0
     sql: ${TABLE}.amount_merchant_currency ;;
   }
+
 }

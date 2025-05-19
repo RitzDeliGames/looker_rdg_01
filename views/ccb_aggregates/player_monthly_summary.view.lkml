@@ -88,6 +88,7 @@ my_pre_aggregate_calculations as (
 
     , ad_view_dollars
     , mtx_purchase_dollars
+    , mtx_purchase_dollars_15
     , ad_views
     , case when ad_views > 0 then 1 else 0 end as daily_ad_view_indicator
     , count_sessions
@@ -235,6 +236,12 @@ my_pre_aggregate_calculations as (
       order by rdg_date asc
       rows between unbounded preceding and unbounded following
       ) cumulative_mtx_purchase_dollars
+
+    , last_value(cumulative_mtx_purchase_dollars_15) over (
+      partition by rdg_id, helper_functions.get_rdg_month(rdg_date)
+      order by rdg_date asc
+      rows between unbounded preceding and unbounded following
+      ) cumulative_mtx_purchase_dollars_15
 
     , last_value(cumulative_ad_view_dollars) over (
       partition by rdg_id, helper_functions.get_rdg_month(rdg_date)
@@ -393,6 +400,7 @@ my_pre_aggregate_calculations as (
     , max(a.install_version) as install_version
 
     , sum(a.mtx_purchase_dollars) as mtx_purchase_dollars
+    , sum(a.mtx_purchase_dollars_15) as mtx_purchase_dollars_15
     , sum(a.ad_view_dollars) as ad_view_dollars
     , sum(a.combined_dollars) as combined_dollars
 
@@ -442,6 +450,7 @@ my_pre_aggregate_calculations as (
     , max(a.churn_indicator) as churn_indicator
     , max(a.churn_rdg_id) as churn_rdg_id
     , max(a.cumulative_mtx_purchase_dollars) as cumulative_mtx_purchase_dollars
+    , max(a.cumulative_mtx_purchase_dollars_15) as cumulative_mtx_purchase_dollars_15
     , max(a.cumulative_ad_view_dollars) as cumulative_ad_view_dollars
 
     , max(a.cumulative_combined_dollars) as cumulative_combined_dollars
@@ -616,7 +625,10 @@ where
   dimension: version {type:string}
   dimension: install_version {type:string}
   dimension: mtx_purchase_dollars {
-    label: "IAP Dollars"
+    label: "IAP Dollars - 30%"
+    type:number}
+  dimension: mtx_purchase_dollars_15 {
+    label: "IAP Dollars - 15%"
     type:number}
   dimension: ad_view_dollars {
     label: "IAA Dollars"
@@ -679,7 +691,11 @@ where
   dimension: churn_indicator {type:number}
   dimension: churn_rdg_id {type:string}
   dimension: cumulative_mtx_purchase_dollars {
-    label: "Cumulative IAP Dollars"
+    label: "Cumulative IAP Dollars - 30%"
+    value_format:"$#.00"
+    type:number}
+  dimension: cumulative_mtx_purchase_dollars_15 {
+    label: "Cumulative IAP Dollars - 15%"
     value_format:"$#.00"
     type:number}
   dimension: cumulative_ad_view_dollars {
@@ -936,7 +952,7 @@ where
 ################################################################
 
   measure: average_mtx_purchase_revenue_per_player{
-    label: "Average IAP Dollars Per Player"
+    label: "Average IAP Dollars Per Player - 30%"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -950,7 +966,7 @@ where
   }
 
   measure: average_mtx_purchase_revenue_per_player_per_day{
-    label: "Average IAP ARPDAU"
+    label: "Average IAP ARPDAU - 30%"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -1047,12 +1063,21 @@ where
   }
 
   measure: sum_mtx_purchase_dollars {
-    label: "Sum IAP Dollars"
+    label: "Sum IAP Dollars - 30%"
     group_label: "Revenue Metrics"
     type:sum
     value_format: "$#,###"
     sql: ${TABLE}.mtx_purchase_dollars ;;
   }
+
+  measure: sum_mtx_purchase_dollars_15 {
+    label: "Sum IAP Dollars - 15%"
+    group_label: "Revenue Metrics"
+    type:sum
+    value_format: "$#,###"
+    sql: ${TABLE}.mtx_purchase_dollars_15 ;;
+  }
+
   measure: sum_ad_view_dollars {
     label: "Sum IAA Dollars"
     group_label: "Revenue Metrics"

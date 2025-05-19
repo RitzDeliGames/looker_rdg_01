@@ -232,6 +232,23 @@ view: player_daily_incremental {
               else 0
               end as numeric) AS mtx_purchase_dollars
 
+          , safe_cast(case
+              when event_name = 'transaction'
+              and json_extract_scalar(extra_json,"$.transaction_purchase_currency") = 'CURRENCY_01' -- real dollars
+              and (
+                (
+                    platform like '%Android%'
+                    and json_extract_scalar(extra_json,"$.rvs_id") LIKE '%GPA%' -- check for valid transactions on Google Play
+                  )
+                OR (
+                    platform like '%iOS%'
+                    and length(json_extract_scalar(extra_json,"$.rvs_id")) > 2 -- check for valid transactions on Apple
+                  )
+                )
+              then ifnull(safe_cast(json_extract_scalar(extra_json,"$.transaction_purchase_amount") AS numeric) * 0.01 * 0.85 ,0) -- purchase amount + app store cut
+              else 0
+              end as numeric) AS mtx_purchase_dollars_15
+
           -- ad view dollars
           , safe_cast(case
               when event_name = 'ad'
@@ -1115,6 +1132,7 @@ view: player_daily_incremental {
         , max(version) as version
         , max(install_version) as install_version
         , sum(mtx_purchase_dollars) as mtx_purchase_dollars
+        , sum(mtx_purchase_dollars_15) as mtx_purchase_dollars_15
         , sum(ad_view_dollars) as ad_view_dollars
         , max(safe_cast( ( mtx_ltv_from_data_in_cents * 0.01 * 0.70 ) as numeric)) as mtx_ltv_from_data -- Includes app store adjustment
         , sum(ad_view_indicator) as ad_views

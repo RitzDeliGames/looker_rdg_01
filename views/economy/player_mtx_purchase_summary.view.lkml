@@ -127,7 +127,7 @@ view: player_mtx_purchase_summary {
       , my_iap_amount_fix_table as (
 
         select
-          * except ( mtx_purchase_dollars )
+          * except ( mtx_purchase_dollars, mtx_purchase_dollars_15 )
           , case
               when version in ( '13663', '13664', '13665' , '13666' , '13671' )
               then
@@ -286,6 +286,164 @@ view: player_mtx_purchase_summary {
               else
                 mtx_purchase_dollars
               end as mtx_purchase_dollars
+          , case
+              when version in ( '13663', '13664', '13665' , '13666' , '13671' )
+              then
+                case
+
+                  when country_currency_code = 'SEK'
+                  then telemetry_transaction_purchase_amount * 0.85 * 0.094 * 0.01
+
+                  when country_currency_code = 'DKK'
+                  then telemetry_transaction_purchase_amount * 0.85 * 0.14 * 0.01
+
+                  when country_currency_code = 'VND'
+                  then telemetry_transaction_purchase_amount * 0.85 * 0.000039 * 0.01
+
+                  when left( telemetry_localized_price_string , 1 ) = '₩'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, '.', ','), '[^0-9.]', '') as numeric) * 0.85 * 0.00070
+
+                  when left( telemetry_localized_price_string , 1 ) = '￥'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.0066
+
+                  when right( telemetry_localized_price_string , 3 ) = 'PHP'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.017
+
+                  when left( telemetry_localized_price_string , 1 ) = '₱'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.017
+
+                  when right( telemetry_localized_price_string , 2 ) = 'Ft'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.0026
+
+                  when left( telemetry_localized_price_string , 1 ) = '$' and country = 'CL'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, '.', ','), '[^0-9.]', '') as numeric) * 0.85 * 0.00105
+
+                  when left( telemetry_localized_price_string , 1 ) = '$' and country = 'MX'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.049
+
+                  when left( telemetry_localized_price_string , 1 ) = '$' and country = 'CA'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.70
+
+                  when left( telemetry_localized_price_string , 1 ) = '$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85
+
+                  when left( telemetry_localized_price_string , 1 ) = '$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85
+
+                  when left( telemetry_localized_price_string , 3 ) = 'MYR'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.2247
+
+                  when substr(telemetry_localized_price_string , -1) = '€'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 1.03
+
+                  when left( telemetry_localized_price_string , 2 ) = 'R$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.1706
+
+                  when left( telemetry_localized_price_string , 3 ) = 'AU$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.64
+
+                  when left( telemetry_localized_price_string , 3 ) = 'US$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85
+
+                  when left( telemetry_localized_price_string , 1 ) = '₹'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.012
+
+                  else mtx_purchase_dollars_15
+                  end
+              when safe_cast(version as numeric) > 13671
+              then
+                case
+
+                  when exchange_rate is not null
+                  then telemetry_transaction_purchase_amount * 0.85 * exchange_rate * 0.01
+
+                  when country_currency_code = 'PYG'
+                  then telemetry_transaction_purchase_amount * 0.85 * 0.000125 * 0.01
+
+                  else mtx_purchase_dollars_15
+                  end
+              else
+                mtx_purchase_dollars_15
+              end as telemetry_mtx_purchase_dollars_fix_15
+          , case
+              when version in ( '13663', '13664', '13665' , '13666' , '13671' )
+              then
+                case
+
+                  when country_currency_code = 'SEK'
+                  then telemetry_transaction_purchase_amount * 0.85 * 0.094 * 0.01
+
+                  when country_currency_code = 'DKK'
+                  then telemetry_transaction_purchase_amount * 0.85 * 0.14 * 0.01
+
+                  when country_currency_code = 'VND'
+                  then telemetry_transaction_purchase_amount * 0.85 * 0.000039 * 0.01
+
+                  when left( telemetry_localized_price_string , 1 ) = '₩'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, '.', ','), '[^0-9.]', '') as numeric) * 0.85 * 0.00070
+
+                  when left( telemetry_localized_price_string , 1 ) = '￥'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.0066
+
+                  when right( telemetry_localized_price_string , 3 ) = 'PHP'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.017
+
+                  when left( telemetry_localized_price_string , 1 ) = '₱'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.017
+
+                  when right( telemetry_localized_price_string , 2 ) = 'Ft'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.0026
+
+                  when left( telemetry_localized_price_string , 1 ) = '$' and country = 'CL'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, '.', ','), '[^0-9.]', '') as numeric) * 0.85 * 0.00105
+
+                  when left( telemetry_localized_price_string , 1 ) = '$' and country = 'MX'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.049
+
+                  when left( telemetry_localized_price_string , 1 ) = '$' and country = 'CA'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.70
+
+                  when left( telemetry_localized_price_string , 1 ) = '$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85
+
+                  when left( telemetry_localized_price_string , 1 ) = '$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85
+
+                  when left( telemetry_localized_price_string , 3 ) = 'MYR'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.2247
+
+                  when substr(telemetry_localized_price_string , -1) = '€'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 1.03
+
+                  when left( telemetry_localized_price_string , 2 ) = 'R$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.1706
+
+                  when left( telemetry_localized_price_string , 3 ) = 'AU$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.64
+
+                  when left( telemetry_localized_price_string , 3 ) = 'US$'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85
+
+                  when left( telemetry_localized_price_string , 1 ) = '₹'
+                  then safe_cast(regexp_replace(replace(telemetry_localized_price_string, ',', '.'), '[^0-9.]', '') as numeric) * 0.85 * 0.012
+
+                  else mtx_purchase_dollars_15
+                  end
+              when safe_cast(version as numeric) > 13671
+              then
+                case
+
+                  when exchange_rate is not null
+                  then telemetry_transaction_purchase_amount * 0.85 * exchange_rate * 0.01
+
+                  when country_currency_code = 'PYG'
+                  then telemetry_transaction_purchase_amount * 0.85 * 0.000125 * 0.01
+
+                  else mtx_purchase_dollars_15
+                  end
+              else
+                mtx_purchase_dollars_15
+              end as mtx_purchase_dollars_15
         from
           base_data_with_exchange_rates
 
@@ -318,6 +476,12 @@ view: player_mtx_purchase_summary {
             order by timestamp_utc asc
             rows between unbounded preceding and current row
             ) cumulative_mtx_purchase_dollars
+
+        , sum(ifnull(mtx_purchase_dollars_15,0)) over (
+            partition by rdg_id
+            order by timestamp_utc asc
+            rows between unbounded preceding and current row
+            ) cumulative_mtx_purchase_dollars_15
 
         , sum(ifnull(count_mtx_purchases,0)) over (
             partition by rdg_id
@@ -397,9 +561,15 @@ dimension: primary_key {
     }
 
   dimension: telemetry_mtx_purchase_dollars_fix {
-  group_label: "Telemetry Check"
+  group_label: "Telemetry Check - 30%"
   type: number
   value_format_name: usd
+  }
+
+  dimension: telemetry_mtx_purchase_dollars_fix_15 {
+    group_label: "Telemetry Check - 15%"
+    type: number
+    value_format_name: usd
   }
 
   dimension: exchange_rate {
@@ -505,7 +675,15 @@ dimension: primary_key {
   dimension: last_level_serial {type:number}
   dimension: count_mtx_purchases {type:number}
 
-  dimension: mtx_purchase_dollars {type:number label: "IAP Dollars"}
+  dimension: mtx_purchase_dollars {
+    type:number
+    label: "IAP Dollars - 30%"
+  }
+
+  dimension: mtx_purchase_dollars_15 {
+    type:number
+    label: "IAP Dollars - 15%"
+  }
   dimension: coins_balance {type:number}
   dimension: lives_balance {type:number}
   dimension: stars_balance {type:number}
@@ -513,7 +691,12 @@ dimension: primary_key {
   dimension: days_since_created {type:number}
   dimension: day_number {type:number}
   dimension: cumulative_mtx_purchase_dollars {
-    label: "LTV - IAP"
+    label: "LTV - IAP - 30%"
+    type: number
+    value_format_name: usd
+  }
+  dimension: cumulative_mtx_purchase_dollars_15 {
+    label: "LTV - IAP - 15%"
     type: number
     value_format_name: usd
   }
@@ -542,7 +725,7 @@ dimension: primary_key {
 
   measure: mean_cost_per_purchase {
     group_label: "Calculated Fields"
-    label: "Average Selling Price (ASP)"
+    label: "Average Selling Price (ASP) - 30%"
     type: number
     sql:
       safe_divide(
@@ -554,13 +737,41 @@ dimension: primary_key {
     value_format_name: usd
   }
 
+  measure: mean_cost_per_purchase_15 {
+    group_label: "Calculated Fields"
+    label: "Average Selling Price (ASP) - 15%"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars_15)
+        ,
+        sum(${TABLE}.count_mtx_purchases)
+        )
+    ;;
+    value_format_name: usd
+  }
+
   measure: mtx_dollars_per_spender {
     group_label: "Calculated Fields"
-    label: "IAP Dollars Per Spender"
+    label: "IAP Dollars Per Spender - 30%"
     type: number
     sql:
       safe_divide(
         sum(${TABLE}.mtx_purchase_dollars)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+        )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: mtx_dollars_per_spender_15 {
+    group_label: "Calculated Fields"
+    label: "IAP Dollars Per Spender - 15%"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars_15)
         ,
         count(distinct ${TABLE}.rdg_id)
         )
@@ -583,11 +794,24 @@ dimension: primary_key {
   }
   measure: mtx_dollars_per_unique_day {
     group_label: "Calculated Fields"
-    label: "IAP Dollars Per Day"
+    label: "IAP Dollars Per Day - 30%"
     type: number
     sql:
       safe_divide(
         sum(${TABLE}.mtx_purchase_dollars)
+        ,
+        count(distinct ${TABLE}.rdg_date)
+        )
+    ;;
+    value_format_name: usd_0
+  }
+  measure: mtx_dollars_per_unique_day_15 {
+    group_label: "Calculated Fields"
+    label: "IAP Dollars Per Day - 15%"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars_15)
         ,
         count(distinct ${TABLE}.rdg_date)
         )
@@ -635,19 +859,35 @@ dimension: primary_key {
     type:sum
     sql: ${TABLE}.count_mtx_purchases ;;
   }
+
   measure: sum_mtx_purchase_dollars {
-    label: "Sum IAP Dollars"
+    label: "Sum IAP Dollars - 30%"
     type:sum
     value_format: "$#.00"
     sql: ${TABLE}.mtx_purchase_dollars ;;
     drill_fields: [timestamp_utc_time,rdg_id,iap_id,iap_id_strings,mtx_purchase_dollars]
   }
+
+  measure: sum_mtx_purchase_dollars_15 {
+    label: "Sum IAP Dollars - 15%"
+    type:sum
+    value_format: "$#.00"
+    sql: ${TABLE}.mtx_purchase_dollars ;;
+    drill_fields: [timestamp_utc_time,rdg_id,iap_id,iap_id_strings,mtx_purchase_dollars]
+  }
+
   measure: sum_cumulative_mtx_purchase_dollars {
-    label: "Sum LTV - IAP"
+    label: "Sum LTV - IAP - 30%"
     type:sum
     value_format: "$#.00"
     sql: ${TABLE}.cumulative_mtx_purchase_dollars ;;
   }
 
+  measure: sum_cumulative_mtx_purchase_dollars_15 {
+    label: "Sum LTV - IAP - 15%"
+    type:sum
+    value_format: "$#.00"
+    sql: ${TABLE}.cumulative_mtx_purchase_dollars_15 ;;
+  }
 
 }

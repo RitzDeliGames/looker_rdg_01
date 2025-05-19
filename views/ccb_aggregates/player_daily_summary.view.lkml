@@ -153,6 +153,7 @@ ads_by_date as (
         , rdg_date
         , sum( count_mtx_purchases ) as count_mtx_purchases
         , sum( mtx_purchase_dollars ) as mtx_purchase_dollars
+        , sum( mtx_purchase_dollars_15 ) as mtx_purchase_dollars_15
     from
         -- eraser-blast.looker_scratch.6Y_ritz_deli_games_player_mtx_purchase_summary
         ${player_mtx_purchase_summary.SQL_TABLE_NAME}
@@ -527,6 +528,7 @@ ads_by_date as (
         , max(a.install_version) as install_version
         , max(a.ad_view_dollars) as ad_view_dollars
         , sum( ifnull(b.mtx_purchase_dollars,0) + ifnull(c.mtx_purchase_dollars,0)) as mtx_purchase_dollars
+        , sum( ifnull(b.mtx_purchase_dollars_15,0) + ifnull(c.mtx_purchase_dollars_15,0)) as mtx_purchase_dollars_15
         , sum( ifnull(b.count_mtx_purchases,0) + ifnull(c.count_mtx_purchases,0)) as count_mtx_purchases
         , max(a.mtx_ltv_from_data) as mtx_ltv_from_data
         , max(a.ad_views) as ad_views
@@ -808,6 +810,7 @@ ads_by_date as (
         , a.install_version
         , a.ad_view_dollars
         , a.mtx_purchase_dollars
+        , a.mtx_purchase_dollars_15
         , a.count_mtx_purchases
         , a.mtx_ltv_from_data
         , a.ad_views
@@ -1247,6 +1250,12 @@ ads_by_date as (
         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
         ) cumulative_mtx_purchase_dollars
 
+    , SUM( ifnull( mtx_purchase_dollars_15, 0 ) ) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_mtx_purchase_dollars_15
+
     -- cumulative_count_mtx_purchases
     , SUM( ifnull( count_mtx_purchases, 0 ) ) OVER (
         PARTITION BY rdg_id
@@ -1271,6 +1280,7 @@ ads_by_date as (
     -- combined_dollars
     -- Includes adjustment for App Store %
     , ifnull( mtx_purchase_dollars, 0 ) + IFNULL(ad_view_dollars,0) AS combined_dollars
+    , ifnull( mtx_purchase_dollars_15, 0 ) + IFNULL(ad_view_dollars,0) AS combined_dollars_15
 
     -- cumulative_combined_dollars
     -- Includes adjustment for App Store %
@@ -1279,6 +1289,12 @@ ads_by_date as (
         ORDER BY rdg_date ASC
         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
         ) cumulative_combined_dollars
+
+    , SUM(ifnull( mtx_purchase_dollars_15, 0 ) + IFNULL(ad_view_dollars,0)) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_combined_dollars_15
 
     -- daily_mtx_spend_indicator
     , CASE WHEN IFNULL(mtx_purchase_dollars,0) > 0 THEN 1 ELSE 0 END AS daily_mtx_spend_indicator
@@ -1728,9 +1744,14 @@ dimension: primary_key {
 
   # numbers
   dimension: mtx_purchase_dollars {
-    label: "IAP Dollars"
+    label: "IAP Dollars - 30%"
     type: number
     }
+
+  dimension: mtx_purchase_dollars_15 {
+    label: "IAP Dollars - 15%"
+    type: number
+  }
 
   dimension: count_mtx_purchases {
     label: "Count of IAP"
@@ -1879,9 +1900,14 @@ dimension: primary_key {
   dimension: days_until_next_played {type:number}
 
   dimension: cumulative_mtx_purchase_dollars {
-    label: "Cumulative IAP Dollars"
+    label: "Cumulative IAP Dollars - 30%"
     type:number
     }
+
+  dimension: cumulative_mtx_purchase_dollars_15 {
+    label: "Cumulative IAP Dollars - 15%"
+    type:number
+  }
 
   dimension: cumulative_ad_view_dollars {
     label: "Cumulative IAA Dollars"
@@ -3003,7 +3029,7 @@ dimension: primary_key {
 ################################################################
 
   measure: average_mtx_purchase_revenue_per_player{
-    label: "Average IAP Per Player"
+    label: "Average IAP Per Player - 30%"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -3016,13 +3042,41 @@ dimension: primary_key {
     value_format_name: usd
   }
 
+  measure: average_mtx_purchase_revenue_per_player_15{
+    label: "Average IAP Per Player - 15%"
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars_15)
+        ,
+        count(distinct ${TABLE}.rdg_id)
+      )
+    ;;
+    value_format_name: usd
+  }
+
   measure: average_mtx_arpdau {
-    label: "IAP ARPDAU"
+    label: "IAP ARPDAU - 30%"
     group_label: "Revenue Metrics"
     type: number
     sql:
       safe_divide(
         sum(${TABLE}.mtx_purchase_dollars)
+        ,
+        sum(${TABLE}.count_days_played)
+      )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: average_mtx_arpdau_15 {
+    label: "IAP ARPDAU - 15%"
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars_15)
         ,
         sum(${TABLE}.count_days_played)
       )
@@ -3046,12 +3100,26 @@ dimension: primary_key {
   }
 
   measure: average_daily_mtx_revenue_per_spender {
-    label: "IAP ARPS"
+    label: "IAP ARPS - 30%"
     group_label: "Revenue Metrics"
     type: number
     sql:
       safe_divide(
         sum(${TABLE}.mtx_purchase_dollars)
+        ,
+        sum(${TABLE}.daily_mtx_spend_indicator)
+      )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: average_daily_mtx_revenue_per_spender_15 {
+    label: "IAP ARPS - 15%"
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars_15)
         ,
         sum(${TABLE}.daily_mtx_spend_indicator)
       )
@@ -3261,7 +3329,7 @@ dimension: primary_key {
   }
 
   measure: average_daily_iap_revenue {
-    label: "Average Daily IAP Revenue"
+    label: "Average Daily IAP Revenue - 30%"
     group_label: "Revenue Metrics"
     type: number
     sql:
@@ -3274,14 +3342,41 @@ dimension: primary_key {
     value_format_name: usd_0
   }
 
+  measure: average_daily_iap_revenue_15 {
+    label: "Average Daily IAP Revenue - 15%"
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars_15)
+        ,
+        count(distinct ${TABLE}.rdg_date)
+      )
+    ;;
+    value_format_name: usd_0
+  }
 
   measure: average_revenue_per_iap_purchase {
-    label: "Average Revenue Per IAP Purchase"
+    label: "Average Revenue Per IAP Purchase - 30%"
     group_label: "Revenue Metrics"
     type: number
     sql:
       safe_divide(
         sum(${TABLE}.mtx_purchase_dollars)
+        ,
+        sum(${TABLE}.count_mtx_purchases)
+      )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: average_revenue_per_iap_purchase_15 {
+    label: "Average Revenue Per IAP Purchase - 15%"
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      safe_divide(
+        sum(${TABLE}.mtx_purchase_dollars_15)
         ,
         sum(${TABLE}.count_mtx_purchases)
       )
@@ -4052,11 +4147,20 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
 ################################################################
 
   measure: sum_mtx_purchase_dollars {
-    label: "Net IAP Dollars"
+    label: "Net IAP Dollars - 30%"
     group_label: "IAP Dollars"
     type:sum
     value_format: "$#,###"
     sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
+
+
+  measure: sum_mtx_purchase_dollars_15 {
+    label: "Net IAP Dollars - 15%"
+    group_label: "IAP Dollars"
+    type:sum
+    value_format: "$#,###"
+    sql: ${TABLE}.mtx_purchase_dollars_15 ;;
   }
 
   measure: sum_mtx_purchase_dollars_gross {

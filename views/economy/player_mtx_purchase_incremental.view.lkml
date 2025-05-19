@@ -52,9 +52,9 @@ base_data_full as (
         date(timestamp) >=
             case
                 -- select date(current_date())
-                when date(current_date()) <= '2025-02-13' -- Last Full Update
+                when date(current_date()) <= '2025-05-19' -- Last Full Update
                 then '2022-06-01'
-                else date_add(current_date(), interval -9 day)
+                else date_add(current_date(), interval -14 day)
                 end
         and date(timestamp) <= date_add(current_date(), interval -1 DAY)
 
@@ -174,6 +174,7 @@ base_data_full as (
 
         -- purchase amount + app store cut
           , ifnull(safe_cast(json_extract_scalar(a.extra_json,"$.transaction_purchase_amount") as numeric) * 0.01 * 0.70 ,0) mtx_purchase_dollars
+          , ifnull(safe_cast(json_extract_scalar(a.extra_json,"$.transaction_purchase_amount") as numeric) * 0.01 * 0.85 ,0) mtx_purchase_dollars_15
 
         -- currency balances
         , safe_cast(json_extract_scalar(a.currencies,"$.CURRENCY_03") as numeric) currency_03_balance
@@ -226,6 +227,7 @@ select
     , max(iap_purchase_qty) as iap_purchase_qty
     , max(iap_id) as iap_id
     , max(mtx_purchase_dollars) as mtx_purchase_dollars
+    , max(mtx_purchase_dollars_15) as mtx_purchase_dollars_15
     , max(currency_03_balance) as coins_balance
     , max(currency_04_balance) as lives_balance
     , max(currency_07_balance) as stars_balance
@@ -301,9 +303,17 @@ group by
     type: count_distinct
     sql: ${TABLE}.rdg_id ;;
   }
+
   measure: mtx_purchase_dollars {
+    label: "Net Revenue - 30%"
     type: sum
     sql: ${TABLE}.mtx_purchase_dollars ;;
+  }
+
+ measure: mtx_purchase_dollars_15 {
+    label: "Net Revenue - 15%"
+    type: sum
+    sql: ${TABLE}.mtx_purchase_dollars_15 ;;
   }
 
 }

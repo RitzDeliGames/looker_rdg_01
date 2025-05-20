@@ -616,6 +616,11 @@ dimension: primary_key {
   dimension: transaction_id {type:string}
   dimension: version {type:string}
   dimension: session_id {type:string}
+  dimension: order_id {
+    label: "Google Play Order Id"
+    description: "The id provided by the app store (e.g., Google Play Order ID starting with GPA.) for a validated transaction."
+    type:string
+  }
   dimension: experiments {type:string}
   dimension: win_streak {type:number}
   dimension: store_session_id {type:string}

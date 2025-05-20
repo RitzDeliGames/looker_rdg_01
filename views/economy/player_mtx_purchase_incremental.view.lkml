@@ -172,9 +172,15 @@ base_data_full as (
         , json_extract_scalar(a.extra_json,"$.transaction_id") transaction_id
         , json_extract_scalar(a.extra_json,'$.iap_id') iap_id
 
+        --extracting platform transaction ids...should eventually move to sub-total and joined back in--
+        ,json_extract_scalar(extra_json,'$.rvs_id') rvs_id_payload
+        ,json_extract_scalar(json_extract_scalar(extra_json,'$.rvs_id'),'$.Payload') extracted_payload
+        ,json_extract_scalar(json_extract_scalar(json_extract_scalar(extra_json,'$.rvs_id'),'$.Payload'),'$.json') extracted_json
+        ,json_extract_scalar(json_extract_scalar(json_extract_scalar(json_extract_scalar(extra_json,'$.rvs_id'),'$.Payload'),'$.json'),'$.orderId') order_id --this is the only field that needs to be pulled through (for Google Play transactions)
+
         -- purchase amount + app store cut
-          , ifnull(safe_cast(json_extract_scalar(a.extra_json,"$.transaction_purchase_amount") as numeric) * 0.01 * 0.70 ,0) mtx_purchase_dollars
-          , ifnull(safe_cast(json_extract_scalar(a.extra_json,"$.transaction_purchase_amount") as numeric) * 0.01 * 0.85 ,0) mtx_purchase_dollars_15
+        , ifnull(safe_cast(json_extract_scalar(a.extra_json,"$.transaction_purchase_amount") as numeric) * 0.01 * 0.70 ,0) mtx_purchase_dollars
+        , ifnull(safe_cast(json_extract_scalar(a.extra_json,"$.transaction_purchase_amount") as numeric) * 0.01 * 0.85 ,0) mtx_purchase_dollars_15
 
         -- currency balances
         , safe_cast(json_extract_scalar(a.currencies,"$.CURRENCY_03") as numeric) currency_03_balance
@@ -222,6 +228,7 @@ select
     , max(last_level_serial) as last_level_serial
     , max(count_mtx_purchases) as count_mtx_purchases
     , max(source_id) as source_id
+    , max(order_id) as order_id
     , max(store_session_id) as store_session_id
     , max(iap_purchase_item) as iap_purchase_item
     , max(iap_purchase_qty) as iap_purchase_qty

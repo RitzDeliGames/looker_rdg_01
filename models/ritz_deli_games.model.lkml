@@ -1511,8 +1511,23 @@ explore: adhoc_2025_01_16_puzzle_iam_rounds_played {
 
 ################################################################
 
-explore: sales_reports {}
-explore: earnings_reports {}
+explore: sales_reports {
+  group_label: "Platform Data"
+  label: "Google Play Daily Revenue"
+
+  join: player_mtx_purchase_summary {
+    view_label: "Player MTX Summary"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sales_reports.order_number} = ${player_mtx_purchase_summary.order_id} ;;
+  }
+}
+
+explore: earnings_reports {
+  group_label: "Platform Data"
+  label: "Google Play Monthly Earnings"
+  description: "Monthly payment from Google. Includes revenue, fees, chargebacks and taxes."
+}
 
 ################################################################
 

@@ -872,7 +872,7 @@ dimension: primary_key {
     label: "Sum IAP Dollars - 15%"
     type:sum
     value_format: "$#.00"
-    sql: ${TABLE}.mtx_purchase_dollars ;;
+    sql: ${TABLE}.mtx_purchase_dollars_15 ;;
     drill_fields: [timestamp_utc_time,rdg_id,iap_id,iap_id_strings,mtx_purchase_dollars]
   }
 

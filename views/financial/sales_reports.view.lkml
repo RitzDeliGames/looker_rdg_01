@@ -123,4 +123,20 @@ view: sales_reports {
     value_format_name: usd_0
     sql: ${charged_amount} ;;
   }
+
+  measure: charged_amount_sum_net {
+    label: "Estimate Net Revenue - 30%"
+    description: "Estimated Net Revenue based on 30% commission"
+    type: sum
+    value_format_name: usd_0
+    sql: ${charged_amount} * 0.70;;
+  }
+
+  measure: charged_amount_sum_net_15 {
+    label: "Estimate Net Revenue - 15%"
+    description: "Estimated Net Revenue based on 30% commission"
+    type: sum
+    value_format_name: usd_0
+    sql: ${charged_amount} * 0.85;;
+  }
 }

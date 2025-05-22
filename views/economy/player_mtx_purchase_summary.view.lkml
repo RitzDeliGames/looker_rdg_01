@@ -126,6 +126,7 @@ view: player_mtx_purchase_summary {
 
       , my_iap_amount_fix_table as (
 
+--the code below was a band-aid until Oscar built the daily FX pull; it only applies to the five versions below---
         select
           * except ( mtx_purchase_dollars, mtx_purchase_dollars_15 )
           , case
@@ -429,6 +430,7 @@ view: player_mtx_purchase_summary {
 
                   else mtx_purchase_dollars_15
                   end
+--see comment above---
               when safe_cast(version as numeric) > 13671
               then
                 case

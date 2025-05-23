@@ -164,7 +164,7 @@ view: sales_reports {
     label: "Gross Revenue"
     description: "Item price, before taxes and before app store fees"
     type: sum
-    value_format: "$#.00"
+    value_format:"$#,###"
     sql: ${charged_amount_usd} ;;
   }
 
@@ -172,7 +172,7 @@ view: sales_reports {
     label: "Estimate Net Revenue - 30%"
     description: "Estimated Net Revenue based on 30% commission"
     type: sum
-   value_format: "$#.00"
+    value_format:"$#,###"
     sql: ${charged_amount_usd} * 0.70;;
   }
 
@@ -180,7 +180,7 @@ view: sales_reports {
     label: "Estimate Net Revenue - 15%"
     description: "Estimated Net Revenue based on 30% commission"
     type: sum
-    value_format: "$#.00"
+    value_format:"$#,###"
     sql: ${charged_amount_usd} * 0.85;;
   }
 }

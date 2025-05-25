@@ -275,6 +275,8 @@ constant: campaign_name_mapped {
       when lower(campaign_name) = 'ccb|unity|rdg|android|latam|mai|install_20250509' then '20250509 - CCS - Android - Unity - LATAM - MAI'
       when lower(campaign_name) = 'ccb|unity|rdg|android|latam|mai|install_20250502' then '20250502 - CCS - Android - Unity - LATAM - MAI'
       when lower(campaign_name) = 'ccb|unity|rdg|android|latam|mai|install_20250421' then '20250421 - CCS - Android - Unity - LATAM - MAI'
+      when lower(campaign_name) = 'ccb|fb|rdg|android|latam|mai|tutorialcomplete_20250523' then '20250523 - CCS - Android - Meta - LATAM - Tutorial Complete'
+      when lower(campaign_name) = 'ccb|fb|rdg|android|latam|mai|install_20250523' then '20250523 - CCS - Android - Meta - LATAM - MAI'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|mai|install_20250516' then '20250516 - CCS - Android - Meta - LATAM - MAI'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|mai|install_20250509' then '20250509 - CCS - Android - Meta - LATAM - MAI'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|mai|install_20250502' then '20250502 - CCS - Android - Meta - LATAM - MAI'

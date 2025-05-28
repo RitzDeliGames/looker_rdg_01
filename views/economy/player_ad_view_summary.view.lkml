@@ -240,13 +240,23 @@ view: player_ad_view_summary {
       -- select results
       ------------------------------------------------------------------
 
-      select
+      , ad_placement_table as
+      (select
         *
         , @{ad_placements_for_ad_summary} as ad_placement
         , @{ad_format} as ad_format_mapped
-      from add_cumulative_caluclations
+      from add_cumulative_caluclations)
 
-
+      select
+        *
+        , case when ad_format_mapped != 'Banner' then ad_view_dollars else 0 end as ad_view_dollars_non_banner
+        , case when ad_format_mapped != 'Banner' then count_ad_views else 0 end as count_ad_views_non_banner
+        , sum(ifnull(count_ad_views,0)) over (
+            partition by rdg_id, rdg_date, ad_format_mapped
+            order by timestamp_utc asc
+            rows between unbounded preceding and current row
+            ) cumulative_count_ad_views_this_day_by_ad_format
+      from ad_placement_table
 
 
 
@@ -401,6 +411,7 @@ view: player_ad_view_summary {
   # Numbers
   dimension: current_level_serial {type:number}
   dimension: ad_view_dollars {type:number label: "IAA Dollars"}
+  dimension: ad_view_dollars_non_banner {type:number label: "IAA Dollars (Non-Banner"}
   dimension: coins_balance {type:number}
   dimension: lives_balance {type:number}
   dimension: stars_balance {type:number}
@@ -409,48 +420,50 @@ view: player_ad_view_summary {
   dimension: cumulative_ad_view_dollars {type:number label: "LTV - IAA"}
   dimension: cumulative_count_ad_views {type:number label: "Cumulative IAA Views"}
   dimension: cumulative_count_ad_views_this_day {type:number label: "Cumulative IAA Views This Date"}
+  dimension: cumulative_count_ad_views_this_day_by_ad_format {type:number label: "Cumulative IAA Views This Date by Ad Format"}
+
 
 ################################################################
 ## eCPM Ratio from Ad View 1 to Ad View X
 ################################################################
 
-measure: ecpm_ratio_ad_view_1_to_ad_view_1 {
-  group_label: "eCPM Decline by Day"
-  label: "Daily IAA View 1 Ratio"
-  type: number
-  value_format_name: percent_0
-  sql:
-    safe_divide(
+  measure: ecpm_ratio_ad_view_1_to_ad_view_1 {
+    group_label: "eCPM Decline by Day"
+    label: "Daily IAA View 1 Ratio"
+    type: number
+    value_format_name: percent_0
+    sql:
       safe_divide(
-        sum(
-        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
-        then ${TABLE}.ad_view_dollars
-        else 0
-        end )
+        safe_divide(
+          sum(
+          case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+          then ${TABLE}.ad_view_dollars
+          else 0
+          end )
+          ,
+          sum(
+          case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+          then ${TABLE}.count_ad_views
+          else 0
+          end )
+        )
         ,
-        sum(
-        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
-        then ${TABLE}.count_ad_views
-        else 0
-        end )
+        safe_divide(
+          sum(
+          case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+          then ${TABLE}.ad_view_dollars
+          else 0
+          end )
+          ,
+          sum(
+          case when ${TABLE}.cumulative_count_ad_views_this_day = 1
+          then ${TABLE}.count_ad_views
+          else 0
+          end )
+        )
       )
-      ,
-      safe_divide(
-        sum(
-        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
-        then ${TABLE}.ad_view_dollars
-        else 0
-        end )
-        ,
-        sum(
-        case when ${TABLE}.cumulative_count_ad_views_this_day = 1
-        then ${TABLE}.count_ad_views
-        else 0
-        end )
-      )
-    )
-  ;;
-}
+    ;;
+  }
 
   measure: ecpm_ratio_ad_view_1_to_ad_view_2 {
     group_label: "eCPM Decline by Day"
@@ -668,6 +681,22 @@ measure: ecpm_ratio_ad_view_1_to_ad_view_1 {
         sum(${TABLE}.ad_view_dollars)
         ,
         sum(${TABLE}.count_ad_views)
+      )
+    ;;
+    value_format_name: usd
+  }
+
+  measure: average_iaa_ecpm_non_banner {
+    label: "IAA eCPM (Non-Banner)"
+    group_label: "Revenue Metrics"
+    type: number
+    sql:
+      1000
+      *
+      safe_divide(
+        sum(${TABLE}.ad_view_dollars_non_banner)
+        ,
+        sum(${TABLE}.count_ad_views_non_banner)
       )
     ;;
     value_format_name: usd

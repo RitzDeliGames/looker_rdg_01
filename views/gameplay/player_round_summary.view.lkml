@@ -2870,4 +2870,10 @@ from
     value_format_name: decimal_0
     sql: ${TABLE}.shelf_space ;; }
 
+  measure: total_count_ad_views_sum {
+    group_label: "IAA Measures"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.total_count_ad_views ;; }
+
 }

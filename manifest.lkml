@@ -271,10 +271,17 @@ constant: campaign_name_mapped {
   value: "
     case
       when lower(campaign_name) = 'ccs|tiktok|rdg|android|latam|mai|install_20250521' then '20250521 - CCS - Android - TikTok - LATAM - MAI'
+
+      when lower(campaign_name) = 'ccb|unity|rdg|android|latam|vo|adroas_20250530' then '20250530 - CCS - Android - Unity - LATAM - AdRoAS'
+      when lower(campaign_name) = 'ccb|unity|rdg|android|latam|mai|install_20250530' then '20250530 - CCS - Android - Unity - LATAM - MAI'
       when lower(campaign_name) = 'ccb|unity|rdg|android|latam|mai|install_20250516' then '20250516 - CCS - Android - Unity - LATAM - MAI'
       when lower(campaign_name) = 'ccb|unity|rdg|android|latam|mai|install_20250509' then '20250509 - CCS - Android - Unity - LATAM - MAI'
       when lower(campaign_name) = 'ccb|unity|rdg|android|latam|mai|install_20250502' then '20250502 - CCS - Android - Unity - LATAM - MAI'
       when lower(campaign_name) = 'ccb|unity|rdg|android|latam|mai|install_20250421' then '20250421 - CCS - Android - Unity - LATAM - MAI'
+      when lower(campaign_name) = 'ccb|unity|rdg|android|us|roas|ads_20250211' then '20250211 - Android - Unity - USA - Ad ROAS'
+
+      when lower(campaign_name) = 'ccb|fb|rdg|android|latam|vo|adroas_20250530' then '20250530 - CCS - Android - Meta - LATAM - AdRoAS'
+      when lower(campaign_name) = 'ccb|fb|rdg|android|latam|mai|install_20250530' then '20250530 - CCS - Android - Meta - LATAM - MAI'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|aeo|tutorialcomplete_20250523' then '20250523 - CCS - Android - Meta - LATAM - Tutorial Complete'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|mai|install_20250523' then '20250523 - CCS - Android - Meta - LATAM - MAI'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|mai|install_20250516' then '20250516 - CCS - Android - Meta - LATAM - MAI'
@@ -284,7 +291,6 @@ constant: campaign_name_mapped {
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|mai|install_20250418' then '20250418 - CCS - Android - Meta - LATAM - MAI'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|mai|install_20250410' then '20250410 - CCS - Android - Meta - LATAM - MAI'
       when lower(campaign_name) = 'ccb|fb|rdg|android|philippines|aeo|tutorialcomplete_20250311' then '20250311 - Android - Meta - PHL - Tutorial Complete'
-      when lower(campaign_name) = 'ccb|unity|rdg|android|us|roas|ads_20250211' then '20250211 - Android - Unity - USA - Ad ROAS'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|aeo|30minutes_20250220' then '20250220 - Android - Meta - LATAM - 30 Min'
       when lower(campaign_name) = 'ccb|fb|rdg|android|latam|aeo|30minutes_20250218' then '20250218 - Android - Meta - LATAM - 30 Min'
       when lower(campaign_name) = 'ccb|unity|rdg|android|us|mai|install_20250128' then '20250203 - Android - Unity - USA - Install'

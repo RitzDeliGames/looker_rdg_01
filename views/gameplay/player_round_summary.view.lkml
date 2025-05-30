@@ -2872,6 +2872,14 @@ from
 
   measure: total_count_ad_views_sum {
     group_label: "IAA Measures"
+    label: "Total Ad Views"
+    type: sum
+    value_format_name: decimal_0
+    sql: ${TABLE}.total_count_ad_views ;; }
+
+  measure: total_count_ad_views_sum_non_banner {
+    group_label: "IAA Measures"
+    label: "Total Ad Views (Non-Banner)"
     type: sum
     value_format_name: decimal_0
     sql: ${TABLE}.total_count_ad_views ;; }

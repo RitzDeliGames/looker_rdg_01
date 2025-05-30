@@ -416,8 +416,8 @@ base_data as (
 
     , sum( ifnull(
         case
-          when c.ad_format_mapped != 'Banner'
-          then c.count_ad_views
+          when lower(c.ad_format_mapped) like '%reward%' then c.count_ad_views
+          when lower(c.ad_format_mapped) like '%inter%' then c.count_ad_views
           else 0 end
           ,0) ) as total_count_ad_views_non_banner
 
@@ -2895,6 +2895,6 @@ from
     label: "Total Ad Views (Non-Banner)"
     type: sum
     value_format_name: decimal_0
-    sql: ${TABLE}.total_count_ad_views ;; }
+    sql: ${TABLE}.total_count_ad_views_non_banner ;; }
 
 }

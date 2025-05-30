@@ -45,17 +45,16 @@ full_base_data as (
         -- but future runs we only want the last 9 days
         ------------------------------------------------------------------------
 
-        date(timestamp) >=
-            case
-                -- select date(current_date())
-                when date(current_date()) <= '2025-05-29' -- Last Full Update
-                then '2022-06-01'
-                else date_add(current_date(), interval -3 day)
-                -- else date_add(current_date(), interval -30 day
-                end
-        and date(timestamp) <= date_add(current_date(), interval -1 DAY)
+          date(timestamp) >= '2022-06-01'
+          --    case
+          --        -- select date(current_date())
+          --        when date(current_date()) <= '2025-05-19' -- Last Full Update
+          --        then '2022-06-01'
+          --        else date_add(current_date(), interval -14 day)
+          --        end
+          --and date(timestamp) <= date_add(current_date(), interval -1 DAY)
 
-        ------------------------------------------------------------------------
+          ------------------------------------------------------------------------
         -- user type selection
         -- We only want users that are marked as "external"
         -- This removes any bots or internal QA accounts

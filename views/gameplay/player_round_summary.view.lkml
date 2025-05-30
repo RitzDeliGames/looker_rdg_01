@@ -414,6 +414,13 @@ base_data as (
 
     , sum( ifnull(c.count_ad_views,0) ) as total_count_ad_views
 
+    , sum( ifnull(
+        case
+          when c.ad_format_mapped != 'Banner'
+          then c.count_ad_views
+          else 0 end
+          ,0) ) as total_count_ad_views_non_banner
+
   from
     join_on_mtx_spend a
     -- left join `eraser-blast.looker_scratch.6Y_ritz_deli_games_player_ad_view_summary` c
@@ -548,6 +555,7 @@ base_data as (
     , max(a.before_round_start_count_ad_views) as before_round_start_count_ad_views
     , max(a.in_round_count_ad_views) as in_round_count_ad_views
     , max(a.total_count_ad_views) as total_count_ad_views
+    , max(a.total_count_ad_views_non_banner) as total_count_ad_views_non_banner
 
     -- moves master tier
     , max( a.moves_master_tier ) as moves_master_tier
@@ -732,6 +740,7 @@ base_data as (
     , max(a.before_round_start_count_ad_views) as before_round_start_count_ad_views
     , max(a.in_round_count_ad_views) as in_round_count_ad_views
     , max(a.total_count_ad_views) as total_count_ad_views
+    , max(a.total_count_ad_views_non_banner) as total_count_ad_views_non_banner
 
     -- moves master tier
     , max( a.moves_master_tier ) as moves_master_tier
@@ -1292,6 +1301,10 @@ from
     type:number
     }
 
+  dimension: total_count_ad_views_non_banner {
+    label: "Total Count of IAA Views (Non-Banner)"
+    type:number
+  }
   dimension: before_round_start_coin_spend {type:number}
   dimension: in_round_coin_spend {type:number}
   dimension: total_coin_spend {type:number}

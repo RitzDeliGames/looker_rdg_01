@@ -395,8 +395,8 @@ select * from my_output_for_view
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (1) + 2 )*( -10 ) minute)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
-    increment_key: "rdg_date"
-    increment_offset: 3
+    #increment_key: "rdg_date"
+    #increment_offset: 3
 
   }
 

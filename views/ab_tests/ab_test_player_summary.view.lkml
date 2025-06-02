@@ -56,14 +56,14 @@ view: ab_test_player_summary {
       when 'cumulative_ad_views_d90' = {% parameter selected_metric %} then cumulative_ad_views_d90
       when 'cumulative_ad_views_current' = {% parameter selected_metric %} then cumulative_ad_views_current
 
-      when 'cumulative_ad_views_d1_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner
-      when 'cumulative_ad_views_d2_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner
-      when 'cumulative_ad_views_d7_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner
-      when 'cumulative_ad_views_d14_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner
-      when 'cumulative_ad_views_d30_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner
-      when 'cumulative_ad_views_d60_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner
-      when 'cumulative_ad_views_d90_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner
-      when 'cumulative_ad_views_current_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner
+      when 'cumulative_ad_views_d1_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner_d1
+      when 'cumulative_ad_views_d2_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner_d2
+      when 'cumulative_ad_views_d7_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner_d7
+      when 'cumulative_ad_views_d14_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner_d14
+      when 'cumulative_ad_views_d30_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner_d30
+      when 'cumulative_ad_views_d60_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner_d60
+      when 'cumulative_ad_views_d90_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner_d90
+      when 'cumulative_ad_views_current_non_banner' = {% parameter selected_metric %} then cumulative_ad_views_non_banner_current
 
       when 'retention_d2' = {% parameter selected_metric %} then retention_d2
       when 'retention_d7' = {% parameter selected_metric %} then retention_d7
@@ -106,16 +106,6 @@ view: ab_test_player_summary {
       when 'cumulative_ad_view_dollars_d60' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d60
       when 'cumulative_ad_view_dollars_d90' = {% parameter selected_metric %} then cumulative_ad_view_dollars_d90
       when 'cumulative_ad_view_dollars_current' = {% parameter selected_metric %} then cumulative_ad_view_dollars_current
-
-      when 'cumulative_ad_dollars_d1_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner
-      when 'cumulative_ad_dollars_d2_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner
-      when 'cumulative_ad_dollars_d7_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner
-      when 'cumulative_ad_dollars_d14_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner
-      when 'cumulative_ad_dollars_d30_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner
-      when 'cumulative_ad_dollars_d60_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner
-      when 'cumulative_ad_dollars_d90_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner
-      when 'cumulative_ad_dollars_current_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner
-
       when 'cumulative_combined_dollars_d1' = {% parameter selected_metric %} then cumulative_combined_dollars_d1
       when 'cumulative_combined_dollars_d2' = {% parameter selected_metric %} then cumulative_combined_dollars_d2
       when 'cumulative_combined_dollars_d7' = {% parameter selected_metric %} then cumulative_combined_dollars_d7
@@ -872,15 +862,6 @@ view: ab_test_player_summary {
       , "cumulative_ad_views_d60_non_banner"
       , "cumulative_ad_views_d90_non_banner"
       , "cumulative_ad_views_current_non_banner"
-
-      , "cumulative_ad_dollars_d1_non_banner"
-      , "cumulative_ad_dollars_d2_non_banner"
-      , "cumulative_ad_dollars_d7_non_banner"
-      , "cumulative_ad_dollars_d14_non_banner"
-      , "cumulative_ad_dollars_d30_non_banner"
-      , "cumulative_ad_dollars_d60_non_banner"
-      , "cumulative_ad_dollars_d90_non_banner"
-      , "cumulative_ad_dollars_current_non_banner"
 
       , "retention_d2"
       , "retention_d7"

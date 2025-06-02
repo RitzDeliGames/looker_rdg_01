@@ -1346,6 +1346,12 @@ ads_by_date as (
         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
         ) cumulative_ad_views
 
+    -- cumulative_ad_views_non_banner
+    , SUM(ad_views_non_banner) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_ad_views_non_banner
 
     -- first_ad_view_indicator
     , CASE

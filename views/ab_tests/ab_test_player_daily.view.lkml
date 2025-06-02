@@ -98,6 +98,7 @@ view: ab_test_player_daily {
             when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Day" then sum(a.ad_views_go_fish)
             when {% parameter selected_metric_daily %} = "Average Moves Master Ad Views Per Day" then sum(a.ad_views_moves_master)
             when {% parameter selected_metric_daily %} = "Average Ad Views Per Day" then sum(a.ad_views)
+            when {% parameter selected_metric_daily %} = "Average Ad Views Per Day (Non-Banner)" then sum(a.ad_views_non_banner)
 
             when {% parameter selected_metric_daily %} = "Average Go Fish Ad Views Per Player" then sum(a.ad_views_go_fish)
             when {% parameter selected_metric_daily %} = "Average Gem Quest Ad Views Per Player" then sum(a.ad_views_gem_quest)
@@ -105,6 +106,7 @@ view: ab_test_player_daily {
             when {% parameter selected_metric_daily %} = "Average Treasure Trove Ad Views Per Player" then sum(a.ad_views_treasure_trove)
             when {% parameter selected_metric_daily %} = "Average Pizza Time Ad Views Per Player" then sum(a.ad_views_pizza)
             when {% parameter selected_metric_daily %} = "Average Ad Views Per Player" then sum(a.ad_views)
+            when {% parameter selected_metric_daily %} = "Average Ad Views Per Player (Non-Banner)" then sum(a.ad_views_non_banner)
 
             when {% parameter selected_metric_daily %} = "IAP ARPDAU" then sum(a.mtx_purchase_dollars)
             when {% parameter selected_metric_daily %} = "IAP Conversion per Day" then sum(case when a.mtx_purchase_dollars > 0 then 1 else 0 end)
@@ -113,10 +115,15 @@ view: ab_test_player_daily {
             when {% parameter selected_metric_daily %} = "IAP Revenue Per Spender" then sum(a.mtx_purchase_dollars)
 
             when {% parameter selected_metric_daily %} = "IAA ARPDAU" then sum(a.ad_view_dollars)
+            when {% parameter selected_metric_daily %} = "IAA ARPDAU (Non-Banner)" then sum(a.ad_dollars_non_banner)
             when {% parameter selected_metric_daily %} = "IAA Conversion per Day" then sum(case when a.ad_view_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "IAA Conversion per Day (Non-Banner)" then sum(case when a.ad_dollars_non_banner > 0 then 1 else 0 end)
             when {% parameter selected_metric_daily %} = "IAA Revenue Per Player" then sum(a.ad_view_dollars)
+            when {% parameter selected_metric_daily %} = "IAA Revenue Per Player (Non-Banner)" then sum(a.ad_dollars_non_banner)
             when {% parameter selected_metric_daily %} = "IAA Conversion Per Player" then max(case when a.ad_view_dollars > 0 then 1 else 0 end)
+            when {% parameter selected_metric_daily %} = "IAA Conversion Per Player (Non-Banner)" then max(case when a.ad_dollars_non_banner > 0 then 1 else 0 end)
             when {% parameter selected_metric_daily %} = "IAA Revenue Per Ads Viewer" then sum(a.ad_view_dollars)
+            when {% parameter selected_metric_daily %} = "IAA Revenue Per Ads Viewer (Non-Banner)" then sum(a.ad_dollars_non_banner)
 
             when {% parameter selected_metric_daily %} = "Combined ARPDAU" then sum(a.combined_dollars)
             when {% parameter selected_metric_daily %} = "Combined Conversion per Day" then sum(case when a.combined_dollars > 0 then 1 else 0 end)
@@ -1129,6 +1136,7 @@ view: ab_test_player_daily {
       , "Average Go Fish Ad Views Per Day"
       , "Average Moves Master Ad Views Per Day"
       , "Average Ad Views Per Day"
+      , "Average Ad Views Per Day (Non-Banner)"
 
       , "Average Go Fish Ad Views Per Player"
       , "Average Gem Quest Ad Views Per Player"
@@ -1136,6 +1144,7 @@ view: ab_test_player_daily {
       , "Average Ad Views Per Player"
       , "Average Treasure Trove Ad Views Per Player"
       , "Average Pizza Time Ad Views Per Player"
+      , "Average Ad Views Per Player (Non-Banner)"
 
       , "IAP ARPDAU"
       , "IAP Conversion per Day"
@@ -1144,10 +1153,15 @@ view: ab_test_player_daily {
       , "IAP Revenue Per Spender"
 
       , "IAA ARPDAU"
+      , "IAA ARPDAU (Non-Banner)"
       , "IAA Conversion per Day"
+      , "IAA Conversion per Day (Non-Banner)"
       , "IAA Revenue Per Player"
+      , "IAA Revenue Per Player (Non-Banner)"
       , "IAA Conversion Per Player"
+      , "IAA Conversion Per Player (Non-Banner)"
       , "IAA Revenue Per Ads Viewer"
+      , "IAA Revenue Per Ads Viewer (Non-Banner)"
 
       , "Average Ticket Spend Per Player"
       , "Average Star Spend Per Player"
@@ -1204,6 +1218,15 @@ view: ab_test_player_daily {
       , "cumulative_ad_views_d90"
       , "cumulative_ad_views_current"
 
+      , "cumulative_ad_views_d1_non_banner"
+      , "cumulative_ad_views_d2_non_banner"
+      , "cumulative_ad_views_d7_non_banner"
+      , "cumulative_ad_views_d14_non_banner"
+      , "cumulative_ad_views_d30_non_banner"
+      , "cumulative_ad_views_d60_non_banner"
+      , "cumulative_ad_views_d90_non_banner"
+      , "cumulative_ad_views_current_non_banner"
+
       , "retention_d2"
       , "retention_d7"
       , "retention_d8"
@@ -1243,6 +1266,16 @@ view: ab_test_player_daily {
       , "cumulative_ad_view_dollars_d60"
       , "cumulative_ad_view_dollars_d90"
       , "cumulative_ad_view_dollars_current"
+
+      , "cumulative_ad_dollars_d1_non_banner"
+      , "cumulative_ad_dollars_d2_non_banner"
+      , "cumulative_ad_dollars_d7_non_banner"
+      , "cumulative_ad_dollars_d14_non_banner"
+      , "cumulative_ad_dollars_d30_non_banner"
+      , "cumulative_ad_dollars_d60_non_banner"
+      , "cumulative_ad_dollars_d90_non_banner"
+      , "cumulative_ad_dollars_current_non_banner"
+
       , "cumulative_combined_dollars_d1"
       , "cumulative_combined_dollars_d2"
       , "cumulative_combined_dollars_d7"
@@ -1253,6 +1286,7 @@ view: ab_test_player_daily {
       , "cumulative_combined_dollars_d90"
       , "cumulative_combined_dollars_d120"
       , "cumulative_combined_dollars_current"
+
       , "highest_last_level_serial_d1"
       , "highest_last_level_serial_d2"
       , "highest_last_level_serial_d7"

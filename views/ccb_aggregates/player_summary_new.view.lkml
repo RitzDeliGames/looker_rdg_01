@@ -863,6 +863,8 @@ view: player_summary_new {
   dimension: cumulative_ad_views_d90 {label: "Cumulative IAA Views: D90" group_label:"Cumulative IAA Views" type: number}
   dimension: cumulative_ad_views_current {label: "Cumulative IAA Views: Current" group_label:"Cumulative IAA Views" type: number}
 
+  dimension: cumulative_ad_views_d1_non_banner {label: "Cumulative IAA Views: D1 (Non-Banner)" group_label:"Cumulative IAA Views" type: number}
+
   dimension: cumulative_coins_spend_d1 {group_label:"Cumulative Coin Spend" type: number}
   dimension: cumulative_coins_spend_d2 {group_label:"Cumulative Coin Spend" type: number}
   dimension: cumulative_coins_spend_d7 {group_label:"Cumulative Coin Spend" type: number}

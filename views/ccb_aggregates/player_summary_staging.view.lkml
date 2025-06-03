@@ -49,6 +49,7 @@ view: player_summary_staging {
       , cumulative_ad_view_dollars
       , cumulative_combined_dollars
       , cumulative_ad_views
+      , cumulative_ad_views_non_banner
       , mtx_ltv_from_data
       , highest_last_level_serial
       , cumulative_star_spend
@@ -300,6 +301,16 @@ view: player_summary_staging {
         , max( case when day_number <= 360 then cumulative_ad_view_dollars else 0 end ) as cumulative_ad_view_dollars_d360
         , max( cumulative_ad_view_dollars ) as cumulative_ad_view_dollars_current
 
+        -- ad view dollars non-banner
+      -- , max( case when day_number <= 1 then cumulative_ad_dollars_non_banner else 0 end ) as cumulative_ad_dollars_non_banner_d1_non_banner
+      -- , max( case when day_number <= 2 then cumulative_ad_dollars_non_banner else 0 end ) as cumulative_ad_dollars_non_banner_d2_non_banner
+      -- , max( case when day_number <= 7 then cumulative_ad_dollars_non_banner else 0 end ) as cumulative_ad_dollars_non_banner_d7_non_banner
+      -- , max( case when day_number <= 14 then cumulative_ad_dollars_non_banner else 0 end ) as cumulative_ad_dollars_non_banner_d14_non_banner
+      -- , max( case when day_number <= 30 then cumulative_ad_dollars_non_banner else 0 end ) as cumulative_ad_dollars_non_banner_d30_non_banner
+      -- , max( case when day_number <= 60 then cumulative_ad_dollars_non_banner else 0 end ) as cumulative_ad_dollars_non_banner_d60_non_banner
+      -- , max( case when day_number <= 90 then cumulative_ad_dollars_non_banner else 0 end ) as cumulative_ad_dollars_non_banner_d90_non_banner
+      -- , max( cumulative_ad_dollars_non_banner ) as cumulative_ad_dollars_non_banner
+
         -- cumulative ad views
         , max( case when day_number <= 1 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d1
         , max( case when day_number <= 2 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d2
@@ -313,6 +324,16 @@ view: player_summary_staging {
         , max( case when day_number <= 60 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d60
         , max( case when day_number <= 90 then cumulative_ad_views else 0 end ) as cumulative_ad_views_d90
         , max(cumulative_ad_views) as cumulative_ad_views_current
+
+        -- cumulative ad views non-banner
+        , max( case when day_number <= 1 then cumulative_ad_views_non_banner else 0 end ) as cumulative_ad_views_d1_non_banner
+        , max( case when day_number <= 2 then cumulative_ad_views_non_banner else 0 end ) as cumulative_ad_views_d2_non_banner
+        , max( case when day_number <= 7 then cumulative_ad_views_non_banner else 0 end ) as cumulative_ad_views_d7_non_banner
+        , max( case when day_number <= 14 then cumulative_ad_views_non_banner else 0 end ) as cumulative_ad_views_d14_non_banner
+        , max( case when day_number <= 30 then cumulative_ad_views_non_banner else 0 end ) as cumulative_ad_views_d30_non_banner
+        , max( case when day_number <= 60 then cumulative_ad_views_non_banner else 0 end ) as cumulative_ad_views_d60_non_banner
+        , max( case when day_number <= 90 then cumulative_ad_views_non_banner else 0 end ) as cumulative_ad_views_d90_non_banner
+        , max(cumulative_ad_views_non_banner) as cumulative_ad_views_current_non_banner
 
         -- combined dollars
         , max( case when day_number <= 1 then cumulative_combined_dollars else 0 end ) as cumulative_combined_dollars_d1

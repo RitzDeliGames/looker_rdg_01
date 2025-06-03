@@ -1346,6 +1346,12 @@ ads_by_date as (
         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
         ) cumulative_ad_views
 
+    , SUM(ad_views_non_banner) OVER (
+        PARTITION BY rdg_id
+        ORDER BY rdg_date ASC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) cumulative_ad_views_non_banner
+
 
     -- first_ad_view_indicator
     , CASE
@@ -1769,7 +1775,7 @@ dimension: primary_key {
     }
 
   dimension: ad_dollars_non_banner {
-    label: "IAA Dollars - Non-Banner"
+    label: "IAA Dollars (Non-Banner)"
     type: number
   }
 
@@ -1915,7 +1921,7 @@ dimension: primary_key {
     }
 
   dimension: cumulative_ad_dollars_non_banner {
-    label: "Cumulative IAA Dollars - Non-Banner"
+    label: "Cumulative IAA Dollars (Non-Banner)"
     type:number
   }
 
@@ -1956,6 +1962,11 @@ dimension: primary_key {
     label: "Cumulative IAA Views"
     type: number
     }
+
+  dimension: cumulative_ad_views_non_banner {
+    label: "Cumulative IAA Views (Non-Banner)"
+    type: number
+  }
 
   dimension: engagement_ticks {type:number}
   dimension: time_played_minutes {type:number}
@@ -3146,8 +3157,8 @@ dimension: primary_key {
   }
 
   measure: average_daily_ad_revenue_per_ad_viewer_non_banner {
-    label: "IAA Revenue Per Ad Viewer - Non-Banner"
-    group_label: "Revenue Metrics - Non-Banner"
+    label: "IAA Revenue Per Ad Viewer (Non-Banner)"
+    group_label: "Revenue Metrics (Non-Banner)"
     type: number
     sql:
       safe_divide(
@@ -3178,8 +3189,8 @@ dimension: primary_key {
   }
 
   measure: average_ad_revenue_per_player_non_banner{
-    label: "Average IAA Per Player - Non-Banner"
-    group_label: "Revenue Metrics - Non-Banner"
+    label: "Average IAA Per Player (Non-Banner)"
+    group_label: "Revenue Metrics (Non-Banner)"
     type: number
     sql:
       safe_divide(
@@ -3206,8 +3217,8 @@ dimension: primary_key {
   }
 
   measure: average_ad_arpdau_non_banner {
-    label: "IAA ARPDAU - Non-Banner"
-    group_label: "Revenue Metrics - Non-Banner"
+    label: "IAA ARPDAU (Non-Banner)"
+    group_label: "Revenue Metrics (Non-Banner)"
     type: number
     sql:
       safe_divide(
@@ -3250,8 +3261,8 @@ dimension: primary_key {
   }
 
   measure: average_iaa_ecpm_non_banner {
-    label: "IAA eCPM - Non-Banner"
-    group_label: "Revenue Metrics - Non-Banner"
+    label: "IAA eCPM (Non-Banner)"
+    group_label: "Revenue Metrics (Non-Banner)"
     type: number
     sql:
       1000
@@ -4225,8 +4236,8 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
   }
 
   measure: sum_ad_dollars_non_banner {
-    label: "IAA Dollars - Non-Banner"
-    group_label: "IAA Dollars - Non-Banner"
+    label: "IAA Dollars (Non-Banner)"
+    group_label: "IAA Dollars (Non-Banner)"
     type:sum
     value_format: "$#,###"
     sql: ${TABLE}.ad_dollars_non_banner ;;
@@ -5557,6 +5568,49 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     percentile: 95
     sql: ${TABLE}.cumulative_ad_views ;;
   }
+
+  measure: sum_cumulative_ad_views_non_banner {
+    label: "Sum Cumulative IAA Views (Non-Banner)"
+    group_label: "Cumulative IAA Views (Non-Banner)"
+    type:sum
+    sql: ${TABLE}.cumulative_ad_views_non_banner ;;
+  }
+  measure: cumulative_ad_views_10_non_banner {
+    label: "10th Percentile (Non-Banner)"
+   group_label: "Cumulative IAA Views (Non-Banner)"
+    type: percentile
+    percentile: 10
+    sql: ${TABLE}.cumulative_ad_views_non_banner ;;
+  }
+  measure: cumulative_ad_views_25_non_banner {
+    label: "25th Percentile (Non-Banner)"
+    group_label: "Cumulative IAA Views (Non-Banner)"
+    type: percentile
+    percentile: 25
+    sql: ${TABLE}.cumulative_ad_views_non_banner ;;
+  }
+  measure: cumulative_ad_views_50_non_banner {
+    label: "Median (Non-Banner)"
+    group_label: "Cumulative IAA Views (Non-Banner)"
+    type: percentile
+    percentile: 50
+    sql: ${TABLE}.cumulative_ad_views_non_banner ;;
+  }
+  measure: cumulative_ad_views_75_non_banner {
+    label: "75th Percentile (Non-Banner)"
+    group_label: "Cumulative IAA Views (Non-Banner)"
+    type: percentile
+    percentile: 75
+    sql: ${TABLE}.cumulative_ad_views_non_banner ;;
+  }
+  measure: cumulative_ad_views_95_non_banner {
+    label: "95th Percentile (Non-Banner)"
+    group_label: "Cumulative IAA Views (Non-Banner)"
+    type: percentile
+    percentile: 95
+    sql: ${TABLE}.cumulative_ad_views_non_banner ;;
+  }
+
   measure: sum_engagement_ticks {
     group_label: "Engagement Ticks"
     type:sum

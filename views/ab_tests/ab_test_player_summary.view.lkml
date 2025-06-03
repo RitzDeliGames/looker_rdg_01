@@ -96,23 +96,14 @@ view: ab_test_player_summary {
       when 'cumulative_count_mtx_purchases_d60' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_d60
       when 'cumulative_count_mtx_purchases_current' = {% parameter selected_metric %} then cumulative_count_mtx_purchases_current
 
-      --when 'cumulative_ad_dollars_non_banner_d1' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner_d1
-      --when 'cumulative_ad_dollars_non_banner_d2' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner_d2
-      --when 'cumulative_ad_dollars_non_banner_d7' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner_d7
-      --when 'cumulative_ad_dollars_non_banner_d14' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner_d14
-      --when 'cumulative_ad_dollars_non_banner_d30' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner_d30
-      --when 'cumulative_ad_dollars_non_banner_d60' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner_d60
-      --when 'cumulative_ad_dollars_non_banner_d90' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner_d90
-      --when 'cumulative_ad_dollars_non_banner_current' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner_current
-
-      --when 'cumulative_ad_view_dollars_d1_non_banner' = {% parameter selected_metric %} then --cumulative_ad_view_dollars_d1_non_banner
-      --when 'cumulative_ad_view_dollars_d2_non_banner' = {% parameter selected_metric %} then --cumulative_ad_view_dollars_d2_non_banner
-      --when 'cumulative_ad_view_dollars_d7_non_banner' = {% parameter selected_metric %} then --cumulative_ad_view_dollars_d7_non_banner
-      --when 'cumulative_ad_view_dollars_d14_non_banner' = {% parameter selected_metric %} then --cumulative_ad_view_dollars_d14_non_banner
-      --when 'cumulative_ad_view_dollars_d30_non_banner' = {% parameter selected_metric %} then --cumulative_ad_view_dollars_d30_non_banner
-      --when 'cumulative_ad_view_dollars_d60_non_banner' = {% parameter selected_metric %} then --cumulative_ad_view_dollars_d60_non_banner
-      --when 'cumulative_ad_view_dollars_d90_non_banner' = {% parameter selected_metric %} then --cumulative_ad_view_dollars_d90_non_banner
-      --when 'cumulative_ad_view_dollars_current_non_banner' = {% parameter selected_metric %} then cumulative_ad_view_dollars_current_non_banner
+      when 'cumulative_ad_dollars_d1_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_d1_non_banner
+      when 'cumulative_ad_dollars_d2_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_d2_non_banner
+      when 'cumulative_ad_dollars_d7_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_d7_non_banner
+      when 'cumulative_ad_dollars_d14_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_d14_non_banner
+      when 'cumulative_ad_dollars_d30_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_d30_non_banner
+      when 'cumulative_ad_dollars_d60_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_d60_non_banner
+      when 'cumulative_ad_dollars_d90_non_banner' = {% parameter selected_metric %} then cumulative_ad_dollars_d90_non_banner
+      when 'cumulative_ad_dollars_non_banner_current' = {% parameter selected_metric %} then cumulative_ad_dollars_non_banner_current
 
       when 'cumulative_combined_dollars_d1' = {% parameter selected_metric %} then cumulative_combined_dollars_d1
       when 'cumulative_combined_dollars_d2' = {% parameter selected_metric %} then cumulative_combined_dollars_d2
@@ -902,23 +893,23 @@ view: ab_test_player_summary {
       , "cumulative_count_mtx_purchases_d60"
       , "cumulative_count_mtx_purchases_current"
 
-      , "cumulative_ad_view_dollars_d1"
-      , "cumulative_ad_view_dollars_d2"
-      , "cumulative_ad_view_dollars_d7"
-      , "cumulative_ad_view_dollars_d14"
-      , "cumulative_ad_view_dollars_d30"
-      , "cumulative_ad_view_dollars_d60"
-      , "cumulative_ad_view_dollars_d90"
-      , "cumulative_ad_view_dollars_current"
+      , "cumulative_ad_dollars_d1"
+      , "cumulative_ad_dollars_d2"
+      , "cumulative_ad_dollars_d7"
+      , "cumulative_ad_dollars_d14"
+      , "cumulative_ad_dollars_d30"
+      , "cumulative_ad_dollars_d60"
+      , "cumulative_ad_dollars_d90"
+      , "cumulative_ad_dollars_current"
 
-      , "cumulative_ad_view_dollars_d1_non_banner"
-      , "cumulative_ad_view_dollars_d2_non_banner"
-      , "cumulative_ad_view_dollars_d7_non_banner"
-      , "cumulative_ad_view_dollars_d14_non_banner"
-      , "cumulative_ad_view_dollars_d30_non_banner"
-      , "cumulative_ad_view_dollars_d60_non_banner"
-      , "cumulative_ad_view_dollars_d90_non_banner"
-      , "cumulative_ad_view_dollars_current_non_banner"
+      , "cumulative_ad_dollars_d1_non_banner"
+      , "cumulative_ad_dollars_d2_non_banner"
+      , "cumulative_ad_dollars_d7_non_banner"
+      , "cumulative_ad_dollars_d14_non_banner"
+      , "cumulative_ad_dollars_d30_non_banner"
+      , "cumulative_ad_dollars_d60_non_banner"
+      , "cumulative_ad_dollars_d90_non_banner"
+      , "cumulative_ad_dollars_current_non_banner"
 
       , "cumulative_combined_dollars_d1"
       , "cumulative_combined_dollars_d2"

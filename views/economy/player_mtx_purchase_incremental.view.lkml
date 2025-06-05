@@ -49,14 +49,14 @@ base_data_full as (
         -- but future runs we only want the last 9 days
         ------------------------------------------------------------------------
 
-          date(timestamp) >= --'2022-06-01'
-              case
-                  -- select date(current_date())
-                  when date(current_date()) <= '2025-06-04' -- Last Full Update
-                  then '2022-06-01'
-                  else date_add(current_date(), interval -3 day)
-                  end
-          and date(timestamp) <= date_add(current_date(), interval -1 DAY)
+          date(timestamp) >= '2022-06-01'
+          --    case
+          --        -- select date(current_date())
+          --        when date(current_date()) <= '2025-06-04' -- Last Full Update
+          --        then '2022-06-01'
+          --        else date_add(current_date(), interval -3 day)
+          --        end
+          --and date(timestamp) <= date_add(current_date(), interval -1 DAY)
 
           ------------------------------------------------------------------------
         -- user type selection
@@ -265,8 +265,8 @@ group by
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (1) + 2 )*( -10 ) minute)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
-    increment_key: "rdg_date"
-    increment_offset: 3
+    #increment_key: "rdg_date"
+    #increment_offset: 3
 
   }
 

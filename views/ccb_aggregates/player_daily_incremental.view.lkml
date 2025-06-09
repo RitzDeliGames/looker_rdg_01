@@ -77,14 +77,14 @@ view: player_daily_incremental {
           -- but future runs we only want the last 9 days
           ------------------------------------------------------------------------
 
-          date(timestamp) >= '2022-06-01'
-          --    case
-          --        -- select date(current_date())
-          --        when date(current_date()) <= '2025-05-19' -- Last Full Update
-          --        then '2022-06-01'
-          --        else date_add(current_date(), interval -14 day)
-          --        end
-          --and date(timestamp) <= date_add(current_date(), interval -1 DAY)
+          date(timestamp) >= --'2022-06-01'
+              case
+                  -- select date(current_date())
+                  when date(current_date()) <= '2025-06-10' -- Last Full Update
+                  then '2022-06-01'
+                  else date_add(current_date(), interval -3 day)
+              end
+          and date(timestamp) <= date_add(current_date(), interval -1 DAY)
 
           ------------------------------------------------------------------------
           -- user type selection
@@ -1355,8 +1355,8 @@ view: player_daily_incremental {
 
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
-    #increment_key: "rdg_date"
-    #increment_offset: 7
+    increment_key: "rdg_date"
+    increment_offset: 3
 
   }
 

@@ -49,7 +49,7 @@ base_data_full as (
         -- but future runs we only want the last 9 days
         ------------------------------------------------------------------------
 
-          date(timestamp) >= '2022-06-01'
+          date(timestamp) >= --'2022-06-01'
               case
                   -- select date(current_date())
                   when date(current_date()) <= '2025-06-10' -- Last Full Update

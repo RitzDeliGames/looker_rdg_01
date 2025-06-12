@@ -52,9 +52,9 @@ base_data_full as (
           date(timestamp) >= --'2022-06-01'
               case
                   -- select date(current_date())
-                  when date(current_date()) <= '2025-06-11' -- Last Full Update
+                  when date(current_date()) <= '2025-06-12' -- Last Full Update
                   then '2022-06-01'
-                  else date_add(current_date(), interval -14 day)
+                  else date_add(current_date(), interval -7 day)
                   end
           and date(timestamp) <= date_add(current_date(), interval -1 DAY)
 

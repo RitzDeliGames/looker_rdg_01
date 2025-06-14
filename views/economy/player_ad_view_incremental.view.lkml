@@ -48,7 +48,7 @@ full_base_data as (
           date(timestamp) >= --'2022-06-01'
               case
                   -- select date(current_date())
-                  when date(current_date()) <= '2025-06-13' -- Last Full Update
+                  when date(current_date()) <= '2025-06-14' -- Last Full Update
                   then '2022-06-01'
                   else date_add(current_date(), interval -7 day)
                   end
@@ -392,7 +392,7 @@ select * from my_output_for_view
 
       ;;
     ## sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -1 hour)) ;;
-    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval ( (1) + 2 )*( -10 ) minute)) ;;
+    sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -180 minute)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
     increment_key: "rdg_date"

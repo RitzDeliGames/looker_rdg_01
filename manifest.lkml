@@ -179,6 +179,9 @@ constant: country_region {
 
 constant: button_tags {
   value: "case
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_PreGame_Sort.Play' then 'Sort Mini-Game - Pre-Game - Play'
+            when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_EndOfRound_Success_Sort.Collect' then 'Sort Mini-Game - EoR - Collect'
+
             when json_extract_scalar(extra_json,'$.button_tag') like 'Sheet_InAppMessaging_%' then 'IAM'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_LuckyDice.Roll' then 'Luck Dice - Roll'
             when json_extract_scalar(extra_json,'$.button_tag') = 'Sheet_LuckyDice.Close' then 'Luck Dice - Close'

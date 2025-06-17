@@ -49,14 +49,14 @@ base_data_full as (
         -- but future runs we only want the last 9 days
         ------------------------------------------------------------------------
 
-          date(timestamp) >= --'2022-06-01'
-              case
-                  -- select date(current_date())
-                  when date(current_date()) <= '2025-06-16' -- Last Full Update
-                  then '2022-06-01'
-                  else date_add(current_date(), interval -9 day)
-                  end
-          and date(timestamp) <= date_add(current_date(), interval -1 DAY)
+          date(timestamp) >= '2022-06-01'
+              --case
+              --    -- select date(current_date())
+              --    when date(current_date()) <= '2025-06-16' -- Last Full Update
+              --    then '2022-06-01'
+              --    else date_add(current_date(), interval -9 day)
+              --    end
+          --and date(timestamp) <= date_add(current_date(), interval -1 DAY)
 
           ------------------------------------------------------------------------
         -- user type selection

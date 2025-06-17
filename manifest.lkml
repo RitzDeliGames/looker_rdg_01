@@ -275,6 +275,7 @@ constant: campaign_name_mapped {
     case
       when lower(campaign_name) = 'ccs|tiktok|rdg|android|latam|mai|install_20250521' then '20250521 - CCS - Android - TikTok - LATAM - MAI'
 
+      when lower(campaign_name) = 'ccb|unity|rdg|android|us|mai|install_20250616' then '20250616 - CCS - Android - Unity - US - MAI'
       when lower(campaign_name) = 'ccb|unity|rdg|android|us|mai|install_20250613' then '20250613 - CCS - Android - Unity - US - MAI'
       when lower(campaign_name) = 'ccb|unity|rdg|android|us|mai|install_20250606' then '20250606 - CCS - Android - Unity - US - MAI'
       when lower(campaign_name) = 'ccb|unity|rdg|android|latam|vo|adroas_20250530' then '20250530 - CCS - Android - Unity - LATAM - AdRoAS'

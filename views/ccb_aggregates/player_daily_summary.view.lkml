@@ -1802,8 +1802,6 @@ dimension: primary_key {
   dimension: lowest_last_level_serial {type:number}
   dimension: highest_last_level_serial {type:number}
 
-
-
   # feature participation
   dimension: feature_participation_daily_reward {
     group_label: "Daily Feature Participation"

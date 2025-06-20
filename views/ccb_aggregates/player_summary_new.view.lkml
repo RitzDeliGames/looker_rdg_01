@@ -829,6 +829,12 @@ view: player_summary_new {
   dimension: highest_last_level_serial_d60 {group_label:"Highest Level" type: number}
   dimension: highest_last_level_serial_d90 {group_label:"Highest Level" type: number}
   dimension: highest_last_level_serial_current {group_label:"Highest Level" label:"Highest Level" type: number}
+  dimension: highest_last_level_serial_bin {
+    group_label:"Highest Level"
+    type: bin
+    bins: [0,500,1000,1500,2000,2500,3000]
+    sql: ${highest_last_level_serial_current} ;;
+  }
 
   dimension: retention_d2 {group_label:"Retention" type: number}
   dimension: retention_d7 {group_label:"Retention" type: number}

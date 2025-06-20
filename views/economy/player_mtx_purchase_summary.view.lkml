@@ -680,6 +680,11 @@ dimension: primary_key {
 
   # Numbers
   dimension: last_level_serial {type:number}
+  dimension: last_level_serial_bin {
+    type:bin
+    bins: [0,500,1000,1500,2000,2500,3000]
+    sql: ${last_level_serial} ;;
+    }
   dimension: count_mtx_purchases {type:number}
 
   dimension: mtx_purchase_dollars {

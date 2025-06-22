@@ -52,7 +52,7 @@ full_base_data as (
               --    then '2022-06-01'
               --    else date_add(current_date(), interval -9 day)
               --    end
-          and date(timestamp) <= date_add(current_date(), interval -1 DAY)
+          --and date(timestamp) <= date_add(current_date(), interval -1 DAY)
 
           ------------------------------------------------------------------------
         -- user type selection

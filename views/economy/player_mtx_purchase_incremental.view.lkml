@@ -265,8 +265,8 @@ group by
     sql_trigger_value: select date(timestamp_add(current_timestamp(),interval -180 minute)) ;;
     publish_as_db_view: yes
     partition_keys: ["rdg_date"]
-    increment_key: "rdg_date"
-    increment_offset: 7
+    #increment_key: "rdg_date"
+    #increment_offset: 7
 
   }
 

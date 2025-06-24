@@ -631,6 +631,9 @@ dimension: primary_key {
   dimension: round_game_mode {
     group_label: "Round Info"
     type: string}
+  dimension: core_game_mechanic {
+    group_label: "Round Info"
+    type: string}
   dimension: round_purchase_type {
     group_label: "Round Info"
     type: string}

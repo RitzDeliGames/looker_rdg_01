@@ -155,6 +155,7 @@ view: player_ad_view_summary {
           -- round_information
           , a.round_count
           , a.round_game_mode
+          , a.core_game_mechanic
           , a.round_start_timestamp_utc
           , a.round_end_timestamp_utc
           , a.round_purchase_type
@@ -361,6 +362,9 @@ view: player_ad_view_summary {
 
   # Round Info
   dimension: round_game_mode {
+    group_label: "Round Info"
+    type: string}
+  dimension: core_game_mechanic {
     group_label: "Round Info"
     type: string}
   dimension: round_purchase_type {

@@ -93,6 +93,7 @@ full_base_data as (
         , round_count
         , max(timestamp_utc) as round_end_timestamp_utc
         , max(safe_cast(json_extract_scalar( extra_json , "$.game_mode") as string)) as game_mode
+        , max(safe_cast(json_extract_scalar( extra_json , "$.core_game_mechanic") as string)) as core_game_mechanic
     from
         full_base_data
     where
@@ -242,6 +243,7 @@ full_base_data as (
         , b.round_start_timestamp_utc
         , c.round_end_timestamp_utc
         , c.game_mode
+        , c.core_game_mechanic
 
     from
         base_data a
@@ -298,6 +300,7 @@ full_base_data as (
         -- round_information
         , max(round_count) as round_count
         , max(game_mode) as round_game_mode
+        , max(core_game_mechanic) as core_game_mechanic
         , max(round_start_timestamp_utc) as round_start_timestamp_utc
         , max(round_end_timestamp_utc) as round_end_timestamp_utc
         , max(case

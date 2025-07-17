@@ -4161,6 +4161,7 @@ measure: percent_of_players_with_possible_crashes_from_fast_title_screen_awake {
     type:sum
     value_format: "$#,###"
     sql: ${TABLE}.mtx_purchase_dollars ;;
+    drill_fields: [mtx_purchase_dollars,rdg_id]
   }
 
 

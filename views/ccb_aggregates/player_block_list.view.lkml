@@ -17,6 +17,7 @@ view: player_block_list {
       union all select '604531b8-e07e-4173-acfa-66a5f8575454'
       union all select 'b46e876c-e30a-4ac7-bd5e-0c79e7d07546'
       union all select '2a983566-2bd1-473f-9fda-0ab60b419279'
+      union all select '7ad2271d-a229-499e-88e7-5cf7976182a4'
 
       ;;
     sql_trigger_value: select extract( year from current_timestamp());;
